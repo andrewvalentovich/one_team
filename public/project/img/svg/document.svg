@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2019 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="49px" height="57px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 4.11 4.78"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:0.34;stroke-miterlimit:22.9256}
+    .str1 {stroke:#2B2A29;stroke-width:0.17;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <polygon class="fil0 str0" points="3.52,0.59 3.52,4.61 0.17,4.61 0.17,0.59 "/>
+  <line class="fil0 str1" x1="2.43" y1="1.43" x2="1.26" y2= "1.43" />
+  <line class="fil0 str1" x1="2.93" y1="1.93" x2="0.75" y2= "1.93" />
+  <line class="fil0 str1" x1="2.93" y1="2.35" x2="0.75" y2= "2.35" />
+  <line class="fil0 str1" x1="2.93" y1="2.77" x2="0.75" y2= "2.77" />
+  <line class="fil0 str1" x1="1.26" y1="3.27" x2="0.75" y2= "3.27" />
+  <circle class="fil0 str1" cx="2.6" cy="3.77" r="0.34"/>
+  <polyline class="fil0 str1" points="0.67,0.08 4.02,0.08 4.02,4.61 "/>
+ </g>
+</svg>

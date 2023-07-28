@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2019 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="74px" height="58px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 2.96 2.32"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:0.16;stroke-miterlimit:22.9256}
+    .str1 {stroke:#2B2A29;stroke-width:0.08;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <polygon class="fil0 str0" points="2.48,0.64 2.48,2.24 0.08,2.24 0.08,0.64 "/>
+  <polyline class="fil0 str1" points="0.32,0.4 2.72,0.4 2.72,2 "/>
+  <path class="fil0 str1" d="M1.84 0.84l0 -0.84m-1.12 0.84l0 -0.84"/>
+  <line class="fil0 str1" x1="2" y1="1.19" x2="0.56" y2= "1.19" />
+  <line class="fil0 str1" x1="0.72" y1="1.43" x2="0.56" y2= "1.43" />
+  <line class="fil0 str1" x1="1.04" y1="1.43" x2="0.88" y2= "1.43" />
+  <line class="fil0 str1" x1="1.36" y1="1.43" x2="1.2" y2= "1.43" />
+  <line class="fil0 str1" x1="1.68" y1="1.43" x2="1.52" y2= "1.43" />
+  <line class="fil0 str1" x1="2" y1="1.43" x2="1.84" y2= "1.43" />
+  <line class="fil0 str1" x1="0.72" y1="1.63" x2="0.56" y2= "1.63" />
+  <line class="fil0 str1" x1="1.04" y1="1.63" x2="0.88" y2= "1.63" />
+  <line class="fil0 str1" x1="1.36" y1="1.63" x2="1.2" y2= "1.63" />
+  <line class="fil0 str1" x1="1.68" y1="1.63" x2="1.52" y2= "1.63" />
+  <line class="fil0 str1" x1="2" y1="1.63" x2="1.84" y2= "1.63" />
+  <line class="fil0 str1" x1="0.72" y1="1.83" x2="0.56" y2= "1.83" />
+  <line class="fil0 str1" x1="1.04" y1="1.83" x2="0.88" y2= "1.83" />
+  <line class="fil0 str1" x1="1.36" y1="1.83" x2="1.2" y2= "1.83" />
+  <line class="fil0 str1" x1="1.68" y1="1.83" x2="1.52" y2= "1.83" />
+  <line class="fil0 str1" x1="2" y1="1.83" x2="1.84" y2= "1.83" />
+  <polyline class="fil0 str1" points="0.52,0.2 2.92,0.2 2.92,1.8 "/>
+ </g>
+</svg>

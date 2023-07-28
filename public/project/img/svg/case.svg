@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2019 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="69px" height="55px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 4.77 3.8"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#2B2A29;stroke-width:0.28;stroke-miterlimit:22.9256}
+    .str1 {stroke:#2B2A29;stroke-width:0.14;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <polygon class="fil0 str0" points="4.28,0.9 4.28,3.66 0.14,3.66 0.14,0.9 "/>
+  <polyline class="fil0 str1" points="0.55,0.48 4.7,0.48 4.7,3.25 "/>
+  <path class="fil0 str0" d="M4.28 1.84l-1.71 0.46m-0.72 0l-1.71 -0.46"/>
+  <polygon class="fil0 str0" points="2.57,2.12 2.57,2.67 1.85,2.67 1.85,2.12 "/>
+  <polyline class="fil0 str0" points="1.5,0.9 1.5,0.14 2.92,0.14 2.92,0.9 "/>
+ </g>
+</svg>
