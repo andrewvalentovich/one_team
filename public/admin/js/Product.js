@@ -75,10 +75,11 @@ $(document).ready(function () {
 
 
 // Если выбран комплекс, то добавляем модуль "добавления квартир/объектов"
-$('#objects_module_select').on('change', function () {
+$('.objects_module_select').on('change', function () {
     var selectedValue = $(this).val();
-    if (selectedValue === 'Да'){
+    if (selectedValue == 'Да'){
         $('#objects_module').show();
+        console.log(selectedValue);
     }else{
         $('#objects_module').hide();
         ObjectsJSONArray = [];
@@ -94,6 +95,7 @@ function getAccordion(id) {
         "<p class='btn btn-link' data-toggle='collapse' data-target='#collapse" + id + "' aria-expanded='true' aria-controls='collapse" + id + "'>"+
         "Объект #" + id +
         "</p>"+
+        "<input name='add_id"+id+"' type='hidden' value='"+id+"'>"+
         "</h5>"+
         "</div>"+
         "<div id='collapse" + id + "' class='collapse show' aria-labelledby='heading" + id + "' data-parent='#accordion" + id + "'>"+
@@ -281,11 +283,11 @@ $('#create_product').on('submit',function(e) {
         let objects_count = document.querySelectorAll('.accordion').length;
         formData.append('objects_count', objects_count);
 
-        console.log("----- formdata -----");
-        for (let [key, value] of formData) {
-            console.log(`${key} - ${value}`)
-        }
-        console.log("--- end formdata ---");
+        // console.log("----- formdata -----");
+        // for (let [key, value] of formData) {
+        //     console.log(`${key} - ${value}`)
+        // }
+        // console.log("--- end formdata ---");
 
 
         var token = $('meta[name="_token"]').attr('content');
@@ -296,8 +298,8 @@ $('#create_product').on('submit',function(e) {
             }
         });
 
-        // $('.submit_button').hide();
-        // $('.lds-ellipsis').show();
+        $('.submit_button').hide();
+        $('.lds-ellipsis').show();
 
         $.ajax({
             url:  $(this).attr('action'),
@@ -308,7 +310,7 @@ $('#create_product').on('submit',function(e) {
             success: function(response) {
                 console.log('ress--------------',response)
                 alert('Добавления успешно завершено');
-                // window.location.replace(response.url);
+                window.location.replace(response.url);
             },
             error: function(xhr, status, error) {
                 $('.lds-ellipsis').hide();
@@ -328,9 +330,12 @@ $('#update_product').on('submit',function(e) {
     let filteredArray = DataArray.filter(item => item !== undefined);
     let allLenght = filteredArray.length;
 
-        filteredArray.forEach(function(value, index) {
-            formData.append('photo[]', value);
-        });
+    filteredArray.forEach(function(value, index) {
+        formData.append('photo[]', value);
+    });
+
+    let objects_count = document.querySelectorAll('.accordion').length;
+    formData.append('objects_count', objects_count);
 
     let OtherDataArrayOtherDataArray = OtherDataArray.filter(item => item !== undefined);
 
@@ -347,8 +352,10 @@ $('#update_product').on('submit',function(e) {
             'X-CSRF-TOKEN': token
         }
     });
+
     $('.submit_button').hide();
     $('.lds-ellipsis').show();
+
     $.ajax({
         url:  $(this).attr('action'),
         type: 'POST',
@@ -364,8 +371,6 @@ $('#update_product').on('submit',function(e) {
             $('.lds-ellipsis').hide();
             $('.submit_button').show();
             alert('Что то пошло не так свяжитесь с разработчиком')
-
-
         }
     });
 });

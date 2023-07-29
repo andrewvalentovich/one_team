@@ -205,13 +205,11 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Страна</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select data_url="{{route('get_city')}}" class="form-control country_select"  name="country_id" style="color: #e2e8f0">
+                                    <select data_url="{{ route('get_city') }}" class="form-control country_select" name="country_id" style="color: #e2e8f0">
                                         @foreach($country as $countr)
                                         <option  value="{{$countr->id}}">{{$countr->name}}</option>
                                             @endforeach
@@ -248,7 +246,7 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Комплекс</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select  class="form-control" id="objects_module_select" name="complex_or_not" style="color: #e2e8f0">
+                                    <select  class="form-control objects_module_select" name="complex_or_not" style="color: #e2e8f0">
                                         <option class="close_other_photo_button" value="Нет">Нет</option>
                                         <option class="open_other_photo_button" value="Да">Да</option>
                                     </select>
@@ -461,15 +459,21 @@
                     accordions[i].childNodes[0].childNodes[0].id = "heading"+i;
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = "collapse"+i; // ?
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+i;
 
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = "add_id"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "add_id"+i;
+
                     // accordions[i].childNodes[0].childNodes[1] нашли .collapse
                     // console.log(accordions[i].childNodes[0].childNodes[1]);
                     accordions[i].childNodes[0].childNodes[1].id = "collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = "heading"+i; // ?
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = "heading"+i;
                     accordions[i].childNodes[0].childNodes[1].dataset.parent = "#accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion

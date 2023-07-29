@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Models\Peculiarities;
@@ -51,7 +52,24 @@ class ProductController extends Controller
 
     public function create_product(Request $request) {
 
-        return var_dump($request->objects_count);
+        $objects = [];
+
+        for($i = 0; $i < $request->objects_count; $i++) {
+            $objects[$i]['id'] = $request['add_id'.$i];
+            $objects[$i]['building'] = $request['add_building'.$i];
+            $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['size'] = $request['add_size'.$i];
+            $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
+            $objects[$i]['floor'] = $request['add_floor'.$i];
+
+            // Добавление фотографий
+            if (isset($request['add_apartment_layout_image'.$i])){
+                $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' .$request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
+                $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
+                $objects[$i]['apartment_layout_image'] = $fileName;
+            }
+        }
+
         $create =  Product::create([
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
@@ -75,7 +93,8 @@ class ProductController extends Controller
             'grajandstvo' => $request->grajandstvo,
             'commissions' => $request->commissions,
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat)
+            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat),
+            'objects' => json_encode($objects),
         ]);
 
         if (isset($request->osobenosti)){
@@ -88,16 +107,6 @@ class ProductController extends Controller
                 ]);
             }
         }
-
-        // Добавление фотографий объектов
-//        $time = time();
-//        if (isset($request->objectsApartmentLayoutImages)){
-//            $object_photo = $request->objectsApartmentLayoutImages;
-//            foreach ($object_photo as $item) {
-//                $fileName = $time++.'.'.$item->getClientOriginalExtension();
-//                $filePath = $item->move('uploads', $fileName);
-//            }
-//        }
 
         // Добавление фотографий
         $time = time();
@@ -177,8 +186,30 @@ class ProductController extends Controller
 
     public function update_product(Request $request){
 
+        $objects = [];
 
-        $create =  Product::where('id', $request->product_id)->update([
+        $product = Product::find($request->product_id);
+        $json_objects = json_decode($product->objects);
+
+        for($i = 0; $i < $request->objects_count; $i++) {
+            $objects[$i]['id'] = $request['add_id'.$i];
+            $objects[$i]['building'] = $request['add_building'.$i];
+            $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['size'] = $request['add_size'.$i];
+            $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
+            $objects[$i]['floor'] = $request['add_floor'.$i];
+
+            // Добавление фотографий
+            if (isset($request['add_apartment_layout_image'.$i])){
+                $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' .$request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
+                $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
+                $objects[$i]['apartment_layout_image'] = $fileName;
+            } else {
+                $objects[$i]['apartment_layout_image'] = $json_objects[$i]->apartment_layout_image;
+            }
+        }
+
+        $create =  $product->update([
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -202,7 +233,7 @@ class ProductController extends Controller
             'commissions' => $request->commissions,
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
-
+            'objects' => json_encode($objects),
         ]);
 
 

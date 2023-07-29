@@ -282,7 +282,7 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Город</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select  class="form-control"  name="city_id" style="color: #e2e8f0">
+                                    <select class="form-control" name="city_id" style="color: #e2e8f0">
                                         @foreach($city as $ct)
                                             <option @if($ct->id == $get->city_id) selected  @endif  value="{{$ct->id}}">{{$ct->name}}</option>
                                             @endforeach
@@ -312,13 +312,13 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Комплекс</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    @if($get->complex_or_not == 'Нет')
-                                    <select  class="form-control other_photo_select"   name="complex_or_not" style="color: #e2e8f0">
+                                    @if($get->complex_or_not == 'Нет' || is_null($get->complex_or_not))
+                                    <select class="form-control objects_module_select" name="complex_or_not" style="color: #e2e8f0">
                                         <option class="close_other_photo_button" value="Нет">Нет</option>
                                         <option class="open_other_photo_button" value="Да">Да</option>
                                     </select>
                                         @else
-                                        <select  class="form-control other_photo_select"   name="complex_or_not" style="color: #e2e8f0">
+                                        <select class="form-control objects_module_select" name="complex_or_not" style="color: #e2e8f0">
                                             <option class="open_other_photo_button" value="Да">Да</option>
                                             <option class="close_other_photo_button" value="Нет">Нет</option>
                                         </select>
@@ -327,29 +327,90 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group other_photo" bis_skin_checked="1" @if($get->complex_or_not == 'Нет') style="display: none;" @endif>
-                            <label class="btn btn-outline-warning" for="other_photo_file">Фотографии чертежа</label>
-                            <input style="display: none"  type="file" name="other_photo[]" id="other_photo_file" accept="image/*" multiple  >
-                            <div id="imagePreview3">
-                                <div id="newDivqwe3">
-
-                                    @foreach($get->Drawing as $dr)
-                                        <div class="PhotoDiv" style="overflow: visible;position: relative; width: 150px; height: 150px" bis_skin_checked="1">
-                                            <a  href="{{route('delete_drawing', $dr->id)}}" class="ixsButton2" data-id="0" style="
-                                    outline: none;
-                                    border: none;
-                                position: relative;
-                                background-color: transparent;
-                                cursor: pointer;
-                                " onclick="return confirm('Вы уверены, что хотите удалить это фото?');"></a>
-                                            <img class="sendPhoto" style="width: 150px; height: 150px" src="{{asset("uploads/$dr->photo")}}">
-                                        </div>
+                        <div class="form-group" bis_skin_checked="1" id="objects_module" style="display:{{ ($get->complex_or_not == "Да") ? "block" : "none"}};">
+                            <div class="card">
+                                <div class="card-header" id="objects_module_field">
+                                    <!-- Начало аккардеона -->
+                                    @if(isset($get->objects))
+                                        @foreach(json_decode($get->objects) as $object)
+                                            <div class='accordion' data-identificator='{{ $object->id }}' id='accordion{{ $object->id }}'>
+                                                <div class="card">
+                                                    <div class="card-header" id='heading{{ $object->id }}'>
+                                                        <h5 class='mb-0'>
+                                                            <p class='btn btn-link' data-toggle='collapse' data-target='#collapse{{ $object->id }}' aria-expanded='true' aria-controls='collapse{{ $object->id }}'>
+                                                                Объект #{{ $object->id }}
+                                                            </p>
+                                                            <input name='add_id{{ $object->id }}' type='hidden' value='{{ $object->id }}'>
+                                                        </h5>
+                                                    </div>
+                                                    <div id='collapse{{ $object->id }}' class='collapse show' aria-labelledby='heading{{ $object->id }}' data-parent='#accordion{{ $object->id }}'>
+                                                        <div class='card-body'>
+                                                            <div class='form-group' bis_skin_checked='1' style='display: block;'>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <label for='add_building{{ $object->id }}'>Копрус</label>
+                                                                    <input name='add_building{{ $object->id }}' type='text' class='form-control' value="{{ $object->building }}" id='add_building{{ $object->id }}' placeholder='А'>
+                                                                </div>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <label for='add_price{{ $object->id }}'>Цена в € </label>
+                                                                    <input name='add_price{{ $object->id }}' type='number' class='form-control' value="{{ $object->price }}" id='add_price{{ $object->id }}' placeholder='249'>
+                                                                </div>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <label for='add_size{{ $object->id }}'>Общая площадь (кв.м)</label>
+                                                                    <input name='add_size{{ $object->id }}' type='text' class='form-control' value="{{ $object->size }}" id='add_size{{ $object->id }}' placeholder='40'>
+                                                                </div>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <label for='add_apartment_layout{{ $object->id }}'>Планировка</label>
+                                                                    <input name='add_apartment_layout{{ $object->id }}' type='text' class='form-control' value="{{ $object->apartment_layout }}" id='add_apartment_layout{{ $object->id }}' placeholder='1+1'>
+                                                                </div>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <label for='add_floor{{ $object->id }}'>Этаж</label>
+                                                                    <input name='add_floor{{ $object->id }}' type='text' class='form-control' value="{{ $object->floor }}" id='add_floor{{ $object->id }}' placeholder='5'>
+                                                                </div>
+                                                                <div class='form-group' bis_skin_checked='1'>
+                                                                    <div class="form-main__label" for="add_apartment_layout_image">Прикрепить фотографию планировки</div>
+                                                                        <label class="input-file">
+                                                                            <span class="input-file-text form-control files_text" type="text">{{ $object->apartment_layout_image }}</span>
+                                                                            <input class="add_apartment_layout_image" type="file" value="" name="add_apartment_layout_image{{ $object->id }}">
+                                                                        </label>
+                                                                    </div>
+                                                                <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $object->id }}'>Удалить квартиру</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endforeach
-
+                                    @endif
+                                    <!-- Конец аккардеона -->
+                                </div>
+                                <div class="card-body">
+                                    <p class="btn btn-outline-primary" id="object_module_add">Добавить объект</p>
                                 </div>
                             </div>
                         </div>
+
+{{--                        <div class="form-group other_photo" bis_skin_checked="1" @if($get->complex_or_not == 'Нет') style="display: none;" @endif>--}}
+{{--                            <label class="btn btn-outline-warning" for="other_photo_file">Фотографии чертежа</label>--}}
+{{--                            <input style="display: none"  type="file" name="other_photo[]" id="other_photo_file" accept="image/*" multiple  >--}}
+{{--                            <div id="imagePreview3">--}}
+{{--                                <div id="newDivqwe3">--}}
+
+{{--                                    @foreach($get->Drawing as $dr)--}}
+{{--                                        <div class="PhotoDiv" style="overflow: visible;position: relative; width: 150px; height: 150px" bis_skin_checked="1">--}}
+{{--                                            <a  href="{{route('delete_drawing', $dr->id)}}" class="ixsButton2" data-id="0" style="--}}
+{{--                                    outline: none;--}}
+{{--                                    border: none;--}}
+{{--                                position: relative;--}}
+{{--                                background-color: transparent;--}}
+{{--                                cursor: pointer;--}}
+{{--                                " onclick="return confirm('Вы уверены, что хотите удалить это фото?');"></a>--}}
+{{--                                            <img class="sendPhoto" style="width: 150px; height: 150px" src="{{asset("uploads/$dr->photo")}}">--}}
+{{--                                        </div>--}}
+{{--                                        @endforeach--}}
+
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
 
                         <div class="form-group" bis_skin_checked="1">
@@ -420,7 +481,6 @@
                             <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком" required>{{$get->description_tr}}</textarea>
                         </div>
 
-
                         <div class="form-group" bis_skin_checked="1">
                             <label class="btn btn-outline-warning" for="file">Выберете фотографии</label>
                             <input style="display: none"  type="file" name="image[]" id="file" accept="image/*" multiple  >
@@ -448,7 +508,7 @@
                         <div style="display: none" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                         <div style="display: flex; justify-content: space-between;">
                         <button  type="submit" class="submit_button btn btn-inverse-success btn-fw">Сохранить</button>
-                        <a href="{{route('delete_product', $get->id)}}" class="btn btn-inverse-danger btn-fw">Удалить</a>
+                        <a href="{{ route('delete_product', $get->id) }}" class="btn btn-inverse-danger btn-fw">Удалить</a>
                         </div>
                     </form>
                 </div>
@@ -456,4 +516,125 @@
         </div>
     </div>
 
+@endsection
+@section('scripts')
+    <style>
+        .input-file {
+            position: relative;
+            display: flex;
+        }
+        .input-file-text {
+            height: 34px;
+            display: block;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        .input-file input[type=file] {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+    </style>
+    <script>
+        // Delete Accordion
+        function deleteAccordion(el) {
+            if (confirm("Вы уверены, что хотите удалить карточку? Если да, то нажимите ОК")) {
+                document.getElementById('accordion'+el.dataset.identificator).remove();
+                checkAccordions();
+            }
+        }
+
+        // Check Accordions count
+        function checkAccordions() {
+            let accordions = document.querySelectorAll('.accordion');
+            let accordionsCount = accordions.length;
+
+            console.log("==== checkAccordions start ====");
+            // console.log("accordionsCount = "+accordionsCount);
+
+            // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
+            // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
+            for(let i = 0; i < accordionsCount; i++) {
+                // console.log('ident = '+accordions[i].dataset.identificator);
+                // console.log('i = '+i);
+                if (i != Number(accordions[i].dataset.identificator)) {
+                    // console.log('- Не совпало -');
+
+                    // accordions[i] нашли .accordion
+                    // console.log(accordions[i]);
+                    accordions[i].dataset.identificator = i;
+                    accordions[i].id = "accordion"+i;
+
+                    // accordions[i].childNodes[1].childNodes[1] нашли .card-header
+                    // console.log(accordions[i].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[1].childNodes[1].id = "heading"+i;
+
+                    // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1] нашли .btn
+                    console.log(accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].dataset.target = "#collapse"+i;
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].ariaControls = "collapse"+i; // ?
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].textContent  = "Объект #"+i;
+
+                    // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "add_id"+i;
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value = i;
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_id"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3] нашли .collapse
+                    console.log(accordions[i].childNodes[1].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].id = "collapse"+i;
+                    accordions[i].childNodes[1].childNodes[3].ariaLabelledby = "heading"+i;
+                    accordions[i].childNodes[1].childNodes[3].dataset.parent = "#accordion"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13] нашли .delete_accordion
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13].dataset.identificator = i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3] нашли add_building
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[1].for = "add_building"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_building"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "add_building"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3] нашли add_price
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].for = "add_price"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].id = "add_price"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].name = "add_price"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3] нашли add_size
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[1].for = "add_size"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].id = "add_size"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].name = "add_size"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3] нашли add_apartment_layout
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[1].for = "add_apartment_layout"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].id = "add_apartment_layout"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].name = "add_apartment_layout"+i;
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3] нашли add_floor
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[1].for = "add_floor"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].id = "add_floor"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].name = "add_floor"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1] нашли add_apartment_layout_image
+                    // console.log(accordions[i].childNodes[1].childNodes[3].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1]);
+                    $('#accordion'+i+' input.add_apartment_layout_image').attr('name', 'add_apartment_layout_image'+i);
+                    console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1].for = "add_apartment_layout_image"+;
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].id = "add_apartment_layout_image"+i;
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].name = "add_apartment_layout_image"+i;
+                }
+            }
+
+            console.log("==== checkAccordions end ====");
+        }
+    </script>
 @endsection

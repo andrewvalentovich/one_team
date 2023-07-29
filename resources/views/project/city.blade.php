@@ -50,15 +50,17 @@
 
             <div class="map_city__btn-changer">
 
-                <svg class="map_city__btn-changer-img" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
-                     width="24px" height="24px" version="1.1"
-
-                     style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
-                     viewBox="0 0 0.6 0.6"
-
-                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                <svg
+                    class="map_city__btn-changer-img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xml:space="preserve"
+                    width="24px"
+                    height="24px"
+                    version="1.1"
+                    style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                    viewBox="0 0 0.6 0.6"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
 
 								<g id="Слой_x0020_1">
 
@@ -1499,56 +1501,29 @@
                                                            </div>
 
                                                        </div>
-                                                    @if($product->complex_or_not == 'Нет' || $product->complex_or_not ==null)
+                                                    @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
                                                        <div class="object__rooms">
-
                                                            <div class="object__rooms-content">
-
                                                                <div class="object__rooms-item">
-
                                                                    <div class="object__rooms-subtitle">
-
                                                                        {{__('Общая площадь')}}
-
-
                                                                    </div>
-
                                                                    <div class="object__rooms-value">
-
                                                                       {{$product->size}} {{__('кв.м')}}
-
                                                                    </div>
-
                                                                </div>
-
                                                                <div class="object__rooms-item">
-
                                                                    <div class="object__rooms-subtitle">
-
                                                                        {{__('Спален')}}
-
-
                                                                    </div>
-
                                                                    <div class="object__rooms-value">
-
                                                                    <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
-
                                                                          {{str_replace('+','',$spalni->category->name)}}
-
-
-
                                                                    </div>
-
                                                                </div>
-
                                                                <div class="object__rooms-item">
-
                                                                    <div class="object__rooms-subtitle">
-
                                                                        {{__('Гостиные')}}
-
-
                                                                    </div>
 
                                                                    <div class="object__rooms-value">
@@ -1665,208 +1640,217 @@
                                                                    Планировки квартир
                                                                </div>
                                                                <div class="kompleks__layout-list" bis_skin_checked="1">
-                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                               A
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                               $65 000
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                               $954 / кв.м
-                                                                           </div>
-                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                               60 кв.м  <span>|</span>  1+1 loft
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                               $645 / мес.
-                                                                           </div>
-                                                                       </div>
-                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">
-                                                                               <img src="./img/scheme-1.png" alt="scheme">
-                                                                           </div>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                               B
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                               $95 000
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                               $1254 / кв.м
-                                                                           </div>
-                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                               100 кв.м  <span>|</span>  2+1
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                               $936 / мес.
-                                                                           </div>
-                                                                       </div>
-                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">
-                                                                               <img src="./img/scheme-2.png" alt="scheme">
-                                                                           </div>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                               C
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                               $120 000
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                               $1857 / кв.м
-                                                                           </div>
-                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                               156 кв.м  <span>|</span>  3+1
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                               $1 176 / мес.
-                                                                           </div>
-                                                                       </div>
-                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">
-                                                                               <img src="./img/scheme-3.png" alt="scheme">
-                                                                           </div>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                               D
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                               $120 000
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                               $1857 / кв.м
-                                                                           </div>
-                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                               156 кв.м  <span>|</span>  4+2 penthouse
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                               $1 276 / мес.
-                                                                           </div>
-                                                                       </div>
-                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">
-                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">
-                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-da3a6813d6c6e79a" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">
-                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-4.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           1 этаж
-                                                                                       </div>
-                                                                                   </div>
-                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-5.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           2 этаж
-                                                                                       </div>
-                                                                                   </div>
-                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-1.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           3 этаж
-                                                                                       </div>
-                                                                                   </div>
+                                                                   @if(!is_null(json_decode($product->objects)))
+                                                                       @foreach(json_decode($product->objects) as $object)
+                                                                       <div class="kompleks__layout-item" bis_skin_checked="1">
+                                                                           <div class="kompleks__layout-info" bis_skin_checked="1">
+                                                                               <div class="kompleks__layout-option" bis_skin_checked="1">
+                                                                                   {{ $object->building }}
                                                                                </div>
-                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="true" bis_skin_checked="1">
-                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">
-															<g id="Слой_x0020_1">
-                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>
-                                                            </g>
-														</svg>
+                                                                               <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                                                   ${{ $object->price }}
                                                                                </div>
-                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="false" bis_skin_checked="1">
-                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">
-														<g id="Слой_x0020_1">
-                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>
-                                                        </g>
-													</svg>
+                                                                               <div class="kompleks__layout-price-meter" bis_skin_checked="1">
+                                                                                   ${{ intval($object->price/$object->size) }} / кв.м
                                                                                </div>
-                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                               E
+                                                                               <div class="kompleks__layout-square" bis_skin_checked="1">
+                                                                                   {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
+
+                                                                               </div>
+                                                                               <div class="kompleks__layout-price-month" bis_skin_checked="1">
+                                                                                   $645 / мес.
+                                                                               </div>
                                                                            </div>
-                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                               $178 000
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                               $2257 / кв.м
-                                                                           </div>
-                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                               170 кв.м  <span>|</span>  5+2 penthouse
-                                                                           </div>
-                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                               $1 642 / мес.
+                                                                           <div class="kompleks__layout-scheme" bis_skin_checked="1">
+                                                                               <div class="kompleks__layout-img" bis_skin_checked="1">
+                                                                                   @if(isset($object->apartment_layout_image))
+                                                                                       <img style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
+                                                                                   @else
+                                                                                       <img style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
+                                                                                   @endif
+                                                                               </div>
                                                                            </div>
                                                                        </div>
-                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">
-                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">
-                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-6eef4dd6ab635e4c" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">
-                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-6.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           1 этаж
-                                                                                       </div>
-                                                                                   </div>
-                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-5.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           2 этаж
-                                                                                       </div>
-                                                                                   </div>
-                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">
-                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">
-                                                                                           <img src="./img/scheme-1.png" alt="scheme">
-                                                                                       </div>
-                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">
-                                                                                           3 этаж
-                                                                                       </div>
-                                                                                   </div>
-                                                                               </div>
-                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="true" bis_skin_checked="1">
-                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">
-															<g id="Слой_x0020_1">
-                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>
-                                                            </g>
-														</svg>
-                                                                               </div>
-                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="false" bis_skin_checked="1">
-                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">
-														<g id="Слой_x0020_1">
-                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>
-                                                        </g>
-													</svg>
-                                                                               </div>
-                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-                                                                       </div>
-                                                                   </div>
+                                                                       @endforeach
+                                                                   @endif
+{{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
+{{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
+{{--                                                                               B--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
+{{--                                                                               $95 000--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
+{{--                                                                               $1254 / кв.м--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
+{{--                                                                               100 кв.м  <span>|</span>  2+1--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
+{{--                                                                               $936 / мес.--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
+{{--                                                                               <img src="./img/scheme-2.png" alt="scheme">--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                   </div>--}}
+{{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
+{{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
+{{--                                                                               C--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
+{{--                                                                               $120 000--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
+{{--                                                                               $1857 / кв.м--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
+{{--                                                                               156 кв.м  <span>|</span>  3+1--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
+{{--                                                                               $1 176 / мес.--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
+{{--                                                                               <img src="./img/scheme-3.png" alt="scheme">--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                   </div>--}}
+{{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
+{{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
+{{--                                                                               D--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
+{{--                                                                               $120 000--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
+{{--                                                                               $1857 / кв.м--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
+{{--                                                                               156 кв.м  <span>|</span>  4+2 penthouse--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
+{{--                                                                               $1 276 / мес.--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
+{{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
+{{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-da3a6813d6c6e79a" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-4.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           1 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           2 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           3 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="true" bis_skin_checked="1">--}}
+{{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+{{--															<g id="Слой_x0020_1">--}}
+{{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
+{{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
+{{--                                                            </g>--}}
+{{--														</svg>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="false" bis_skin_checked="1">--}}
+{{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+{{--														<g id="Слой_x0020_1">--}}
+{{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
+{{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
+{{--                                                        </g>--}}
+{{--													</svg>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                   </div>--}}
+{{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
+{{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
+{{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
+{{--                                                                               E--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
+{{--                                                                               $178 000--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
+{{--                                                                               $2257 / кв.м--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
+{{--                                                                               170 кв.м  <span>|</span>  5+2 penthouse--}}
+{{--                                                                           </div>--}}
+{{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
+{{--                                                                               $1 642 / мес.--}}
+{{--                                                                           </div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
+{{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
+{{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-6eef4dd6ab635e4c" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-6.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           1 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           2 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
+{{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
+{{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
+{{--                                                                                           3 этаж--}}
+{{--                                                                                       </div>--}}
+{{--                                                                                   </div>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="true" bis_skin_checked="1">--}}
+{{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+{{--															<g id="Слой_x0020_1">--}}
+{{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
+{{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
+{{--                                                            </g>--}}
+{{--														</svg>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="false" bis_skin_checked="1">--}}
+{{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
+{{--														<g id="Слой_x0020_1">--}}
+{{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
+{{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
+{{--                                                        </g>--}}
+{{--													</svg>--}}
+{{--                                                                               </div>--}}
+{{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
+{{--                                                                       </div>--}}
+{{--                                                                   </div>--}}
                                                                </div>
                                                            </div>
                                                        </div>
@@ -2023,7 +2007,7 @@
 
                                                                        <div class="place__btns-call-item">
 
-                                                                           <?xml version = "1.0" ?>
+                                                                           <xml version="1.0">
 
                                                                            <svg viewBox="0 0 64 64"
 
@@ -2048,29 +2032,17 @@
                                                                                        }</style>
 
                                                                                    <linearGradient
-
-                                                                                           gradientUnits="userSpaceOnUse"
-
-                                                                                           id="linear-gradient" x1="32"
-
-                                                                                           x2="32" y1="4" y2="64.81">
-
+                                                                                       gradientUnits="userSpaceOnUse"
+                                                                                       id="linear-gradient" x1="32"
+                                                                                       x2="32" y1="4" y2="64.81">
                                                                                        <stop offset="0"
-
                                                                                              stop-color="#1df47c"/>
-
                                                                                        <stop offset="0.31"
-
                                                                                              stop-color="#12df63"/>
-
                                                                                        <stop offset="0.75"
-
                                                                                              stop-color="#05c443"/>
-
                                                                                        <stop offset="1"
-
                                                                                              stop-color="#00ba37"/>
-
                                                                                    </linearGradient>
 
                                                                                </defs>
@@ -2354,7 +2326,7 @@
 
                                    <div class="place-popup-collage__list">
                                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
-                                           
+
 
                                         <div class="place-popup-collage__item">
 
@@ -3119,8 +3091,8 @@
 
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
 
-            }), 
-            
+            }),
+
             new Swiper(".place__swiper", {
 
                 slidesPerView: 2,
@@ -3223,7 +3195,7 @@
                     btn.addEventListener('click', function() {
 
                         const placeW = this.closest('.place-w')
-                        
+
                         placeW.classList.remove('active')
 
                     })
@@ -3243,7 +3215,7 @@
                 function getImagesFromCollage(container) {
 
                     let collageImg = container.querySelectorAll('.place__collage-item_clickable')
-                    
+
                     for(let i = 0; i < collageImg.length; i++) {
 
                         collageImg[i].onclick = function(e) {
@@ -3261,7 +3233,7 @@
                 }
 
                 function addNewImagesToSwiper(itemClick, index) {
-                    
+
                     console.log(index)
 
                     const imagesContainer = itemClick.closest('.place__content')
@@ -3635,7 +3607,7 @@
                 }
 
                 }))
-            
+
             }
 
 
