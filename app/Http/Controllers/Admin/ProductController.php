@@ -26,6 +26,7 @@ class ProductController extends Controller
 
         return view('admin.Product.all',compact('category','product'));
     }
+
     public function rent_product($id){
         $category = Peculiarities::where('id', $id)->first();
 
@@ -48,15 +49,14 @@ class ProductController extends Controller
         return view('admin.Product.create', compact('category','categorys','country'));
     }
 
-    public function create_product(Request $request){
+    public function create_product(Request $request) {
 
-
-
+        return var_dump($request->objects_count);
         $create =  Product::create([
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
-             'country_id' => $request->country_id,
+            'country_id' => $request->country_id,
             'name' => $request->name,
             'price'=> $request->price,
             'size' => $request->size,
@@ -75,13 +75,12 @@ class ProductController extends Controller
             'grajandstvo' => $request->grajandstvo,
             'commissions' => $request->commissions,
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
-
+            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat)
         ]);
 
         if (isset($request->osobenosti)){
             foreach ($request->osobenosti as $item) {
-                $get_category =    Peculiarities::where('id', $item)->first();
+                $get_category = Peculiarities::where('id', $item)->first();
                 ProductCategory::create([
                     'product_id' => $create->id,
                     'peculiarities_id' => $item,
@@ -90,6 +89,17 @@ class ProductController extends Controller
             }
         }
 
+        // Добавление фотографий объектов
+//        $time = time();
+//        if (isset($request->objectsApartmentLayoutImages)){
+//            $object_photo = $request->objectsApartmentLayoutImages;
+//            foreach ($object_photo as $item) {
+//                $fileName = $time++.'.'.$item->getClientOriginalExtension();
+//                $filePath = $item->move('uploads', $fileName);
+//            }
+//        }
+
+        // Добавление фотографий
         $time = time();
         if (isset($request->other_photo_two)){
             $other_photo = $request->other_photo_two;

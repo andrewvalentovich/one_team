@@ -15,7 +15,6 @@ class CompanySelectController extends Controller
             return redirect()->back();
         }
 
-
         if (app()->getLocale() == 'en'){
             $get->content = $get->content_en;
         }
@@ -37,7 +36,7 @@ class CompanySelectController extends Controller
         return view('admin.Pages.company.create');
     }
 
-    
+
     public function all_company_select_page_create(Request $request){
         CompanySelect::create([
             'status' => $request->status,

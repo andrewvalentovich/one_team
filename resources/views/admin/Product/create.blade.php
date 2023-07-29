@@ -45,7 +45,7 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Особенности</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select class="form-control" multiple name="osobenosti[]" style="color: #e2e8f0" required>
+                                    <select class="form-control" multiple name="osobenosti[]" style="color: #e2e8f0">
                                         @foreach($categorys->where('type', 'Особенности') as $osobenosti)
                                         <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                             @endforeach
@@ -239,7 +239,6 @@
                                     <select  class="form-control"  name="sale_or_rent" style="color: #e2e8f0">
                                             <option value="sale">Продажа</option>
                                             <option value="rent">Аренда</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -249,7 +248,7 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Комплекс</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select  class="form-control other_photo_select"   name="complex_or_not" style="color: #e2e8f0">
+                                    <select  class="form-control" id="objects_module_select" name="complex_or_not" style="color: #e2e8f0">
                                         <option class="close_other_photo_button" value="Нет">Нет</option>
                                         <option class="open_other_photo_button" value="Да">Да</option>
                                     </select>
@@ -258,15 +257,72 @@
                         </div>
 
 
-                        <div class="form-group other_photo" bis_skin_checked="1" style="display: none;">
-                            <label class="btn btn-outline-warning" for="other_photo_file">Фотографии чертежа</label>
-                            <input style="display: none"  type="file" name="other_photo[]" id="other_photo_file" accept="image/*" multiple  >
-                            <div id="imagePreview3">
-                                <div id="newDivqwe3"></div>
+{{--                        <div class="form-group other_photo" bis_skin_checked="1" style="display: none;">--}}
+{{--                            <label class="btn btn-outline-warning" for="other_photo_file">Фотографии чертежа</label>--}}
+{{--                            <input style="display: none"  type="file" name="other_photo[]" id="other_photo_file" accept="image/*" multiple  >--}}
+{{--                            <div id="imagePreview3">--}}
+{{--                                <div id="newDivqwe3"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+                        <div class="form-group" bis_skin_checked="1" id="objects_module" style="display: none;">
+                            <div class="card">
+                                <div class="card-header" id="objects_module_field">
+                                    <!-- Начало аккардеона -->
+{{--                                    <div id="accordion1">--}}
+{{--                                        <div class="card">--}}
+{{--                                            <div class="card-header" id="heading1">--}}
+{{--                                                <h5 class="mb-0">--}}
+{{--                                                    <p class="btn btn-link" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">--}}
+{{--                                                        Объект #0--}}
+{{--                                                    </p>--}}
+{{--                                                </h5>--}}
+{{--                                            </div>--}}
+{{--                                            <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordion1">--}}
+{{--                                                <div class="card-body">--}}
+{{--                                                    <div class="form-group" bis_skin_checked="1" style="display: block;">--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label for="add_building">Копрус</label>--}}
+{{--                                                            <input name="add_building" type="text" class="form-control" id="add_building" placeholder="А">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label for="add_price">Цена в € </label>--}}
+{{--                                                            <input name="add_price" type="number" class="form-control" id="add_price" placeholder="249">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label for="add_size">Общая площадь (кв.м)</label>--}}
+{{--                                                            <input name="add_size" type="text" class="form-control" id="add_size" placeholder="40">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label for="add_floor_plan">Планировка</label>--}}
+{{--                                                            <input name="add_floor_plan" type="text" class="form-control" id="add_floor_plan" placeholder="1+1">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label for="add_floor">Этаж</label>--}}
+{{--                                                            <input name="add_floor" type="text" class="form-control" id="add_floor" placeholder="5">--}}
+{{--                                                        </div>--}}
+{{--                                                        <div class="form-group" bis_skin_checked="1">--}}
+{{--                                                            <label class="btn btn-outline-warning" for="other_photo_file">Фотография планировки</label>--}}
+{{--                                                            <input style="display: none" type="file" name="other_photo" id="other_photo_file" accept="image/*">--}}
+{{--                                                            <div id="imagePreview3">--}}
+{{--                                                                <div id="newDivqwe3"></div>--}}
+{{--                                                            </div>--}}
+{{--                                                        </div>--}}
+{{--                                                        <p class="btn btn-outline-danger" onclick="document.getElementById('accordion1').remove()">Удалить квартиру</p>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+                                    <!-- Конец аккардеона -->
+                                </div>
+                                <div class="card-body">
+                                    <p class="btn btn-outline-primary" id="object_module_add">Добавить объект</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="form-group" bis_skin_checked="1">
+                        <div class="form-group pt-3" bis_skin_checked="1">
                             <label for="">Адрес</label>
                             <input name="address" type="text" class="form-control" id="" placeholder="Адрес" required >
                         </div>
@@ -279,7 +335,6 @@
                             <label for="">Цена в € </label>
                             <input name="price" type="number" class="form-control" id="" placeholder="Цена в €" required >
                         </div>
-
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Общая площадь (кв.м)</label>
@@ -351,5 +406,117 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <style>
+        .input-file {
+            position: relative;
+            display: flex;
+        }
+        .input-file-text {
+            height: 34px;
+            display: block;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+        .input-file input[type=file] {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+    </style>
+    <script>
+        // Delete Accordion
+        function deleteAccordion(el) {
+            document.getElementById('accordion'+el.dataset.identificator).remove();
+            checkAccordions();
+        }
 
+        // Check Accordions count
+        function checkAccordions() {
+            let accordions = document.querySelectorAll('.accordion');
+            let accordionsCount = accordions.length;
+
+            console.log("==== checkAccordions start ====");
+            // console.log("accordionsCount = "+accordionsCount);
+
+            // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
+            // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
+            for(let i = 0; i < accordionsCount; i++) {
+                // console.log('ident = '+accordions[i].dataset.identificator);
+                // console.log('i = '+i);
+                if (i != Number(accordions[i].dataset.identificator)) {
+                    // console.log('- Не совпало -');
+
+                    // accordions[i] нашли .accordion
+                    // console.log(accordions[i]);
+                    accordions[i].dataset.identificator = i;
+                    accordions[i].id = "accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0] нашли .card-header
+                    // console.log(accordions[i].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].id = "heading"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#collapse"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = "collapse"+i; // ?
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
+                    // console.log(accordions[i].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].id = "collapse"+i;
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = "heading"+i; // ?
+                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
+                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6].dataset.identificator = i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли add_building
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = "add_building"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "add_building"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = "add_building"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли add_price
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = "add_price"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = "add_price"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = "add_price"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1] нашли add_size
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[0].for = "add_size"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].id = "add_size"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].name = "add_size"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1] нашли add_apartment_layout
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[0].for = "add_apartment_layout"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].id = "add_apartment_layout"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].name = "add_apartment_layout"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1] нашли add_floor
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[0].for = "add_floor"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].id = "add_floor"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].name = "add_floor"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1] нашли add_apartment_layout_image
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1]);
+                    $('#accordion'+i+' input.add_apartment_layout_image').attr('name', 'add_apartment_layout_image'+i);
+                    console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1].for = "add_apartment_layout_image"+;
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].id = "add_apartment_layout_image"+i;
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].name = "add_apartment_layout_image"+i;
+                }
+            }
+
+            console.log("==== checkAccordions end ====");
+        }
+    </script>
 @endsection

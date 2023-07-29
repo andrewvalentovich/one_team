@@ -214,7 +214,7 @@
                                 @foreach($category as $cat)
                                     <li class="nav-item"> <a class="nav-link" href="{{route('rent_product',$cat->id)}}">{{$cat->name}}</a></li>
                                 @endforeach
-                                {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
+                                {{-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
                             </ul>
                         </div>
                     </li>
@@ -402,6 +402,8 @@
         <script type="text/javascript" src="{{asset('admin/dist/image-uploader.min.js')}} "></script>
 
         <script src="{{asset('admin/js/Product.js')}}"></script>
+        @yield('scripts')
+
 
 </body>
 </html>

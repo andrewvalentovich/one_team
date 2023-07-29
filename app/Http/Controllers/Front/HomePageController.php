@@ -9,9 +9,7 @@ use App\Models\CountryAndCity;
 class HomePageController extends Controller
 {
     public function home_page(){
-
-
-        $all_country = CountryAndCity::where('parent_id',  null)->withCount('product_country')
+        $all_country = CountryAndCity::where('parent_id', null)->withCount('product_country')
             ->orderBy('product_country_count', 'desc')->limit(15)->get();
         $citizenship_div = CountryAndCity::where('name', 'Турция')->first();
         if (app()->getLocale() == 'en'){
@@ -24,10 +22,9 @@ class HomePageController extends Controller
     }
 
 
-    public function city_from_map(Request $request,$id = null){
+    public function city_from_map(Request $request, $id = null){
         if ($id == null){
             $get_turkey = CountryAndCity::where('name', 'Турция')->first();
-
 
             $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->get();
 
