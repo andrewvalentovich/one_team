@@ -1871,6 +1871,8 @@
                                                            </div>
                                                        </div>
 
+
+
                                                        <div class="object__peculiarities">
 
                                                            <div class="object__peculiarities-title place__title">
