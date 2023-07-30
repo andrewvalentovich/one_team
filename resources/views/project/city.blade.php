@@ -1199,7 +1199,7 @@
 
                                                        <div class="place__square">
 
-                                                           {{$product->price / $product->size}}  €  / кв.м
+                                                           {{intval($product->price / ($product->size ?: 1))}}  €  / кв.м
 
                                                        </div>
 
