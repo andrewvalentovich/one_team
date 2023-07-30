@@ -369,7 +369,7 @@
                                                                 <div class='form-group' bis_skin_checked='1'>
                                                                     <div class="form-main__label" for="add_apartment_layout_image">Прикрепить фотографию планировки</div>
                                                                         <label class="input-file">
-                                                                            <span class="input-file-text form-control files_text" type="text">{{ $object->apartment_layout_image }}</span>
+                                                                            <span class="input-file-text form-control files_text" type="text">{{ isset($object->apartment_layout_image) ? $object->apartment_layout_image : '' }}</span>
                                                                             <input class="add_apartment_layout_image" type="file" value="" name="add_apartment_layout_image{{ $object->id }}">
                                                                         </label>
                                                                     </div>
