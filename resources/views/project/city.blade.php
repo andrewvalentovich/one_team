@@ -1651,7 +1651,7 @@
                                                                                    ${{ $object->price }}
                                                                                </div>
                                                                                <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                                   ${{ intval($object->price/$object->size) }} / кв.м
+                                                                                   ${{ intval($object->price/($object->size  ?: 1)) }} / кв.м
                                                                                </div>
                                                                                <div class="kompleks__layout-square" bis_skin_checked="1">
                                                                                    {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}

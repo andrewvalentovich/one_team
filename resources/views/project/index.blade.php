@@ -358,31 +358,20 @@
 
 
         async function getData() {
-
             await fetch('https://dev.one-team.pro/city_from_map')
-
+            // await fetch('http://localhost:8879/city_from_map')
                 .then(response => response.json())
-
                 .then(data => {
-
                     if (data.status) {
-
                         data.data.forEach(city => {
-
                             locations.push({
-
                                 coordinates: city.coordinate.split(',').map(parseFloat),
-
                                 balloonContent: `${city.name}, ${city.count} ${obect}`,
-
                                 city_id: city.id
-
                             });
-
                         });
-
                     }
-
+                    console.log(locations);
                 })
 
                 .catch(error => {
@@ -1171,188 +1160,106 @@
                 var script;
 
                 function init(ymaps) {
-                
+
                     mapCountry = new ymaps.Map("map-country", {
-
                             center: [39.475851, 30.815585],
-
                             zoom: 6,
-
                             controls: [],
-
                             behaviors: ["default", "scrollZoom"]
-
                         }, {
-
                             searchControlProvider: "yandex#search"
-
                         }),
 
                         t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-
                             build: function () {
-
                                 this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-
                             },
-
                             clear: function () {
-
                                 this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-
                             },
-
                             onSublayoutSizeChange: function () {
-
                                 t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-
                             },
-
                             applyElementOffset: function () {
-
                                 this._$element.css({
-
                                     left: -this._$element[0].offsetWidth / 2,
-
                                     top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-
                                 })
-
                             },
-
                             onCloseClick: function (e) {
-
                                 e.preventDefault(), this.events.fire("userclose")
-
                             },
-
                             getShape: function () {
-
                                 if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-
                                 var e = this._$element.position();
-
                                 return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-
                                     [e.left, e.top],
-
                                     [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-
                                 ]))
-
                             },
 
                             _isElement: function (e) {
-
                                 return e && e[0] && e.find(".arrow")[0]
-
                             }
 
                         }),
 
                         o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-
                             build: function () {
-
                                 o.superclass.build.call(this);
-
                                 var e = this.getParentElement().getElementsByClassName("placemark")[0],
-
                                     t = this.isActive ? 60 : 34,
-
                                     c = {
-
                                         type: "Circle",
-
                                         coordinates: [0, 0],
-
                                         radius: t / 2
-
                                     },
 
                                     l = {
-
                                         type: "Circle",
-
                                         coordinates: [0, -30],
-
                                         radius: t / 2
-
                                     };
 
                                 this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-
                                     var o = document.querySelectorAll(".placemark");
-
                                     if (e.classList.contains("active")) e.classList.remove("active");
-
                                     else {
-
                                         for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
                                         e.classList.add("active")
-
                                     }
-
                                 }), this))
-
                             }
 
                         }),
 
                         c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="https://dev.one-team.pro/city/city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
-
                         s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-
                             balloonContent: ["Турция, Анталия123123123123, 236 объектов"].join("")
-
                         }, {
-
                             balloonPanelMaxMapArea: 431520,
-
                             balloonShadow: !1,
-
                             balloonLayout: t,
-
                             iconLayout: o,
-
                             balloonContentLayout: c,
-
                             hideIconOnBalloonOpen: !1,
-
                             balloonOffset: [-110, -50]
-
                         });
-
-
 
                     locations.forEach(function (Location) {
-
-
-
                         var placemark = new ymaps.Placemark(Location.coordinates, {
-
                             balloonContent: Location.balloonContent,
-
                             city_id: Location.city_id
-
                         }, {
-
                             balloonPanelMaxMapArea: 431520,
-
                             balloonShadow: !1,
-
                             balloonLayout: t,
-
                             iconLayout: o,
-
                             balloonContentLayout: c,
-
                             hideIconOnBalloonOpen: !1,
-
                             balloonOffset: [-110, -50]
-
                         });
+
                         mapCountry.behaviors.disable("scrollZoom"),
                         mapCountry.geoObjects.add(placemark);
 
@@ -1385,7 +1292,7 @@
 
                 let mapLang = "<?php echo app()->getLocale() ?>";
                 changeLangMap(mapLang)
-                
+
             }))
         })();
 
@@ -1470,8 +1377,8 @@
                 })
         }
 
-            
-        // добавление выбранного кода странцы 
+
+        // добавление выбранного кода странцы
         if(document.querySelectorAll('.contact__phone-list').length) {
             const contactPhoneList = document.querySelectorAll('.contact__phone-list')
 

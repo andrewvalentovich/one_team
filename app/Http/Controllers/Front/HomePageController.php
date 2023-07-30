@@ -24,8 +24,10 @@ class HomePageController extends Controller
 
     public function city_from_map(Request $request, $id = null){
         if ($id == null){
+            // Получаем Страну Турция
             $get_turkey = CountryAndCity::where('name', 'Турция')->first();
 
+            // Получаем города Турции
             $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->get();
 
             $data = array();
@@ -36,6 +38,7 @@ class HomePageController extends Controller
                 if (app()->getLocale() == 'tr'){
                     $city->name = $city->name_tr;
                 }
+                // Получаем id, координаты, название города Турции и количество объектов которые ему принадлежат
                 $data[] =
                     [
                         'id' => $city->id,
@@ -44,9 +47,8 @@ class HomePageController extends Controller
                         'count' => $city->product_city->count()
                     ];
             }
-        }else{
+        } else {
             $get_turkey = CountryAndCity::where('id', $id)->first();
-
 
             $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->get();
 
@@ -67,7 +69,6 @@ class HomePageController extends Controller
                     ];
             }
         }
-
 
 
         return response()->json([
