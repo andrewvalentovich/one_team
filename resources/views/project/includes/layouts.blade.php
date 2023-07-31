@@ -122,7 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 {{--<script src="{{asset('project/js/app.min.js')}} "></script>--}}
-{{--<script src="{{asset('project/js/app.js')}} "></script>--}}
+<script src="{{asset('project/js/app.js')}} "></script>
 @yield('scripts')
 <script>
     $('.place__buy-btn, .place__order-btn, .place__btns-item').click(function () {

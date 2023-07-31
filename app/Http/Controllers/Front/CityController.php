@@ -12,13 +12,9 @@ use App\Models\Peculiarities;
 class CityController extends Controller
 {
     public function city($id, Request $request){
-
-        $get = Product::query();;
+        $get = Product::query();
         $get_kurs  = Kurs::first();
 
-        if (isset($request->city_id)){
-            $id = $request->city_id;
-        }
 //        dd($request);
 
         if (isset($request->osobenost)){

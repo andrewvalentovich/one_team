@@ -1569,6 +1569,22 @@ body {
   display: block;
 }
 
+.header__nav-rent.active {
+  color: #508cfa;
+}
+
+.header__rent-dropdown {
+  position: absolute;
+  top: 25px;
+  left: 0px;
+  padding: 27px 0px 28px 29px;
+  width: 242px;
+}
+
+.header__rent-list-item {
+  display: block;
+}
+
 .header__dropdown-list {
   display: flex;
   flex-direction: column;
@@ -6397,7 +6413,7 @@ body.scroll_fixed {
 
 .popup {
   display: none;
-  
+
 }
 .popup .field {
   margin-bottom: 24px;

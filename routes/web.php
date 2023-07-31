@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\RealEstateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\CountryAndCityController;
@@ -48,11 +49,14 @@ Route::get('setLocale/{local}', [SetLocaleController::class,'setLocale'])->name(
 
 
 //Route::prefix(app()->getLocale())->group(function () {
-    Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
+Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
 Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
 Route::get('all_location',[AllLocationController::class, 'all_location'])->name('all_location');
 Route::get('country/country_id={id}',[CounrtryController::class,'country'])->name('country');
 Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
+
+Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
+
 Route::post('product_from_map/{id}',[CityController::class,'product_from_map'])->name('product_from_map');
 Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
 Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');

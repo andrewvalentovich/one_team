@@ -157,19 +157,29 @@
                     </a>
                     <div class="header__nav-item-dropdown header__buy-dropdown">
                         <div class="header__buy-list header__dropdown-list">
-                            <a href="#" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('real_estate.index', ['sale_or_rent' => 'sale']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="#" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('real_estate.index', ['sale_or_rent' => 'sale']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="header__nav-item">
-                    <a href="#" class="header__nav-title">
+                    <a href="#" class="header__nav-title header__nav-rent ">
                         {{__('Снять')}}
                     </a>
+                    <div class="header__nav-item-dropdown header__rent-dropdown">
+                        <div class="header__rent-list header__dropdown-list">
+                            <a href="{{ route('real_estate.index', ['sale_or_rent' => 'rent']) }}" class="header__list-item header__rent-list-item">
+                                {{__('Жилая')}}
+                            </a>
+                            <a href="{{ route('real_estate.index', ['sale_or_rent' => 'rent']) }}" class="header__list-item header__rent-list-item">
+                                {{__('Коммерческая')}}
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="header__nav-item">
                     <a href="{{route('investments')}}" class="header__nav-title">

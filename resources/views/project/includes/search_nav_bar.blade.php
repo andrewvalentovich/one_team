@@ -64,7 +64,7 @@
 
 <div class="search-nav-w">
 
-    <form action="{{route('city',$id)}}" class="header_search" method="get">
+    <form action="{{ route('real_estate.index') }}" class="header_search" method="get">
 
         @if(isset($_GET['ot_zastroishika']))
 
@@ -82,8 +82,7 @@
 
         <div class="search-nav__list">
 
-                <?php $get_citys = \App\Models\CountryAndCity::where('id', $id)->first() ;
-
+                <?php $get_citys = \App\Models\CountryAndCity::find(17);
                 $get_city = \App\Models\CountryAndCity::where('parent_id', $get_citys->parent_id)->get();
 
             ?>
@@ -588,7 +587,7 @@
 
     </svg>
 
-    <form action="{{route('city',$id)}}" class="header_search_two" method="get"/>
+    <form action="{{ route('real_estate.index') }}" class="header_search_two" method="get"/>
 
     @if(isset($_GET['ot_zastroishika']))
 

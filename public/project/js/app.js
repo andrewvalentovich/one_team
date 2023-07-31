@@ -77,8 +77,12 @@ async function getData() {
         document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
 
     }, document.querySelector(".header__nav-buy").onclick = function () {
-
+        document.querySelector(".header__rent-dropdown").classList.remove("active")
         this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
+
+    }, document.querySelector(".header__nav-rent").onclick = function () {
+        document.querySelector(".header__buy-dropdown").classList.remove("active")
+        this.classList.toggle("active"), document.querySelector(".header__rent-dropdown").classList.toggle("active")
 
     }, document.querySelector(".header__nav-about").onclick = function () {
 
@@ -1103,7 +1107,7 @@ function changerActive(list) {
     list = 0
 }
 
-// список номеров телефонов 
+// список номеров телефонов
 if(document.querySelectorAll('.field-phone').length) {
     const fieldPhone = document.querySelectorAll('.field-phone')
     let phonesBtn
@@ -1139,7 +1143,7 @@ if(document.querySelectorAll('.field-phone').length) {
 //     });
 // }
 
-//Popup close 
+//Popup close
 document.addEventListener("click", function(event) {
     event = event || window.event;
     let target = event.target
@@ -1159,7 +1163,7 @@ document.addEventListener("click", function(event) {
     }
 
 
-    //закрытие блоков close-out по клику вне 
+    //закрытие блоков close-out по клику вне
     if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
       let closeOutBlock = document.querySelectorAll('.close-out')
       changerActive(closeOutBlock)
@@ -1182,7 +1186,7 @@ for(let i=0 ; i < popupClose.length ; i++) {
     })
 }
 
-// добавление выбранного кода странцы 
+// добавление выбранного кода странцы
 if(document.querySelectorAll('.contact__phone-list').length) {
     const contactPhoneList = document.querySelectorAll('.contact__phone-list')
 
