@@ -145,7 +145,9 @@
 
                 <?php $get_count = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->count() ?>
                 <div class="header__top-favorites-value"  @if($get_count == 0) style="display: none" @endif>
-                    {{$get_count}}
+                    <span>
+                        {{$get_count}}
+                    </span>
                 </div>
             </div>
         </div>

@@ -1499,14 +1499,25 @@ body {
 }
 
 .header__top-favorites-value {
-  position: absolute;
-  top: -10px;
-  left: -11px;
-  background: #fa0064;
-  border-radius: 25px;
-  padding: 4.8px;
-  color: #ffffff;
-  font-size: 11px;
+    position: absolute;
+    top: -10px;
+    left: -11px;
+    background: #fa0064;
+    border-radius: 50%;
+    padding: 4.8px;
+    color: #ffffff;
+    font-size: 11px;
+    width: 17px;
+    height: 17px;
+}
+
+
+.header__top-favorites-value span{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header__nav {
@@ -3109,6 +3120,7 @@ body.scroll_fixed {
   padding-top: 25px;
   border-bottom: 1px solid #e3e9f6;
   justify-content: space-between;
+  padding-bottom: 25px;
 }
 
 .kompleks__layout-option {
@@ -3155,7 +3167,6 @@ body.scroll_fixed {
   padding-top: 5px;
   flex: 1;
   text-align: center;
-  margin-bottom: 29px;
 }
 
 .scheme__swiper {
