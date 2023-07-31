@@ -1063,9 +1063,7 @@
                                                            </div>
 
                                                            <div class="place__currency">
-
                                                                <div class="place__currency-preview">
-
                                                                    <div class="place__currency-preview-item">
 
                                                                        {{__('Валюта')}}
@@ -1085,17 +1083,17 @@
 
                                                                             xmlns:xlink="http://www.w3.org/1999/xlink">
 
-                                               <g id="Слой_x0020_1">
+                                                                           <g id="Слой_x0020_1">
 
-                                                   <metadata id="CorelCorpID_0Corel-Layer"/>
+                                                                               <metadata id="CorelCorpID_0Corel-Layer"/>
 
-                                                   <polyline class="fil0 str0"
+                                                                               <polyline class="fil0 str0"
 
-                                                             points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
+                                                                                         points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
 
-                                               </g>
+                                                                           </g>
 
-                                           </svg>
+                                                                       </svg>
 
                                                                    </div>
 
@@ -2552,60 +2550,30 @@
 
 
 
-            let queryParams = <?php echo json_encode(request()->all()) ?>;
+        let queryParams = <?php echo json_encode(request()->all()) ?>;
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
 
         async function getData() {
-
-            await fetch(`/product_from_map/${ids}`, {
-
-                method: 'POST',
-
-                headers: {
-
-                    'Content-Type': 'application/json',
-
-                    'X-CSRF-TOKEN': csrfToken
-
-                },
-
-                body: JSON.stringify(queryParams)
-
-            })
-
+            await fetch(`https://dev.one-team.pro/city_from_map`)
                 .then(response => response.json())
-
                 .then(data => {
-
                     if (data.status) {
-
                         data.data.forEach(city => {
-
                             locationsCity.push({
-
                                 coordinates: city.coordinate.split(',').map(parseFloat),
-
                                 balloonContent: `<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${city.photo}"></div></div>`,
-
                                 city_id: city.id
-
                             });
-
                         });
-
                     }
-
+                    console.log(locationsCity);
                 })
-
                 .catch(error => {
-
                     console.error('Error:', error);
-
                 });
-
         }
 
 
@@ -2615,183 +2583,100 @@
 
 
         (async () => {
-
             await getData();
-
             "use strict";
 
-
-
             function e(e) {
-
                 for (let t = 0; t < e.length; t++) e[t].classList.remove("active");
-
                 e = 0
-
             }
 
-
-
             window.addEventListener("resize", (function (e) {
-
                 window.innerWidth > 1199 && (document.querySelector(".header-m").classList.remove("active"), document.querySelector("#nav-icon").classList.remove("open"), document.querySelector(".header-w").classList.remove("fixed")), document.querySelectorAll(".search-nav-w").length && (window.innerWidth > 899 && !document.querySelector(".search-nav__more-dropdown").classList.contains("active") && (document.querySelector(".search-w").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active")), window.innerWidth <= 899 && (document.querySelector(".search-nav__more-dropdown").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active"), document.querySelector(".search-nav__price-dropdown").classList.remove("active"), document.querySelector(".search-nav__price").classList.remove("active"), document.querySelector(".search-nav__types-dropdown").classList.remove("active"), document.querySelector(".search-nav__types").classList.remove("active")), window.innerWidth <= 1199 && (document.querySelector(".search-nav__rooms-dropdown").classList.remove("active"), document.querySelector(".search-nav__rooms").classList.remove("active"))), document.querySelectorAll(".place-w").length && (window.innerWidth <= 1023 && document.querySelector(".place-w").classList.contains("active") && document.querySelector(".header-w").classList.add("fixed"), window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.innerWidth > 540 && (document.querySelector(".place__currency-preview-item").textContent = "Валюта"))
-
             })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
-
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
-
             })), document.querySelector(".header__top-lang").onclick = function () {
-
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
-
             }, document.querySelector(".header__nav-buy").onclick = function () {
-
                 this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
-
             }, document.querySelector(".header__nav-about").onclick = function () {
-
                 this.classList.toggle("active"), document.querySelector(".header__about-dropdown").classList.toggle("active")
-
             }, document.querySelector(".header__top-phone-menu").onclick = function () {
-
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
-
             }, document.querySelector(".header-m__aboute").onclick = function () {
-
                 this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
-
             }, document.querySelector(".header-m__buy").onclick = function () {
-
                 this.classList.toggle("active")
-
             };
 
             let t = document.querySelectorAll(".header-m__langs-item");
-
             for (let o = 0; o < t.length; o++) t[o].addEventListener("click", (function (c) {
-
                 e(t), t[o].classList.add("active")
-
             }));
 
             let o = document.querySelectorAll(".index-map__button");
-
             for (let t = 0; t < o.length; t++) o[t].addEventListener("click", (function (c) {
-
                 e(o), o[t].classList.add("active")
-
             }));
 
             let c, l = document.querySelectorAll(".contact__top-item");
-
             for (let t = 0; t < l.length; t++) l[t].addEventListener("click", (function (o) {
-
                 e(l), l[t].classList.add("active")
-
             }));
 
             document.querySelectorAll(".contact__form-phone-country").length && (document.querySelector(".contact__form-phone-country").onclick = function () {
-
                 this.classList.toggle("active"), document.querySelector(".contact__phone-dropdown").classList.toggle("active")
-
             }), new Swiper(".objects__swiper", {
-
                 slidesPerView: 4,
-
                 spaceBetween: 20,
-
                 pagination: {
-
                     el: ".objects__pagination",
-
                     clickable: !0
-
                 },
-
                 navigation: {
-
                     nextEl: ".objects__prev",
-
                     prevEl: ".objects__next"
-
                 },
-
                 breakpoints: {
-
                     0: {
-
                         slidesPerView: 1,
-
                         spaceBetween: 20
-
                     },
-
                     640: {
-
                         slidesPerView: 2,
-
                         spaceBetween: 20
-
                     },
-
                     900: {
-
                         slidesPerView: 3,
-
                         spaceBetween: 20
-
                     },
-
                     1199: {
-
                         slidesPerView: 4,
-
                         spaceBetween: 20
-
                     }
-
                 }
-
             }), new Swiper(".city__swiper", {
-
                 slidesPerView: 1,
-
                 scrollbar: {
-
                     el: ".city__scrollbar",
-
                     hide: !0
-
                 }
-
             }), document.querySelectorAll(".search-nav__rooms-title").length && (document.querySelector(".search-nav__rooms-title").onclick = function () {
-
                 document.querySelector(".search-nav__rooms").classList.toggle("active"), document.querySelector(".search-nav__rooms-dropdown").classList.toggle("active")
-
             }), document.querySelectorAll(".search-nav__more-title").length && (document.querySelector(".search-nav__more-title").onclick = function () {
-
                 window.innerWidth > 899 && (document.querySelector(".search-nav__more").classList.toggle("active"), document.querySelector(".search-nav__more-dropdown").classList.toggle("active")), window.innerWidth <= 899 && document.querySelector(".search-w").classList.toggle("active")
-
             }), document.querySelectorAll(".search-w__close").length && (document.querySelector(".search-w__close").onclick = function () {
-
                 window.innerWidth <= 899 && document.querySelector(".search-w").classList.remove("active")
-
             });
 
             let n = document.querySelectorAll(".search-nav__rooms-dropdown-bedrooms-button");
-
             for (let t = 0; t < n.length; t++) n[t].addEventListener("click", (function (o) {
-
                 e(n), n[t].classList.add("active")
-
             }));
 
             let i = document.querySelectorAll(".search-nav__rooms-dropdown-bathrooms-button");
-
             for (let t = 0; t < i.length; t++) i[t].addEventListener("click", (function (o) {
-
                 e(i), i[t].classList.add("active")
-
             }));
 
             let a = document.querySelectorAll(".search-nav__view-button");
@@ -3172,217 +3057,124 @@
                 changeLangMap(mapLang)
                 function init(ymaps) {
                     mapCountry = new ymaps.Map("map_city", {
-
                         center: [<?php echo $country->lat . ',' . $country->long?>],
-
                         zoom: 6,
-
                         controls: [],
-
                         behaviors: ["default", "scrollZoom"]
-
                         }, {
-
                         searchControlProvider: "yandex#search"
-
                     });
 
-
                     var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-
                             build: function () {
-
                                 this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-
                             },
 
                             clear: function () {
-
                                 this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-
                             },
 
                             onSublayoutSizeChange: function () {
-
                                 t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-
                             },
 
                             applyElementOffset: function () {
-
                                 this._$element.css({
-
                                     left: -this._$element[0].offsetWidth / 2,
-
                                     top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-
                                 })
-
                             },
 
                             onCloseClick: function (e) {
-
                                 e.preventDefault(), this.events.fire("userclose")
-
                             },
 
                             getShape: function () {
-
                                 if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-
                                 var e = this._$element.position();
-
                                 return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-
                                     [e.left, e.top],
-
                                     [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-
                                 ]))
-
                             },
 
                             _isElement: function (e) {
-
                                 return e && e[0] && e.find(".arrow")[0]
-
                             }
-
                         }),
 
                         o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-
                             build: function () {
-
                                 o.superclass.build.call(this);
-
                                 var e = this.getParentElement().getElementsByClassName("placemark")[0],
-
                                     t = this.isActive ? 60 : 34,
-
                                     c = {
-
                                         type: "Circle",
-
                                         coordinates: [0, 0],
-
                                         radius: t / 2
-
                                     },
 
                                     l = {
-
                                         type: "Circle",
-
                                         coordinates: [0, -30],
-
                                         radius: t / 2
-
                                     };
 
                                 this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-
                                     if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-
                                         var t = document.querySelectorAll(".placemark");
-
                                         for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-
                                     }
-
                                 })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-
                                     var o = document.querySelectorAll(".placemark");
-
                                     if (e.classList.contains("active")) e.classList.remove("active");
-
                                     else {
-
                                         for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
                                         e.classList.add("active")
-
                                     }
-
                                 }), this))
-
                             }
-
                         }),
 
                         c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>'),
-
                         a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-
                             balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal}, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                         }, {
-
                             balloonPanelMaxMapArea: e,
-
                             balloonShadow: !1,
-
                             balloonLayout: t,
-
                             iconLayout: o,
-
                             balloonContentLayout: c,
-
                             hideIconOnBalloonOpen: !1,
-
                             balloonOffset: [-100, -80]
-
                         }),
 
                         s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-
                             balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal} спал, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                         }, {
-
                             balloonPanelMaxMapArea: e,
-
                             balloonShadow: !1,
-
                             balloonLayout: t,
-
                             iconLayout: o,
-
                             balloonContentLayout: c,
-
                             hideIconOnBalloonOpen: !1,
-
                             balloonOffset: [-100, -80]
-
                         });
 
                     // цикл для динамического массива locationsCity
 
                     locationsCity.forEach(function (location) {
-
                         var placemark = new ymaps.Placemark(location.coordinates, {
-
                             balloonContent: location.balloonContent
-
                         }, {
-
                             balloonPanelMaxMapArea: 431520,
-
                             balloonShadow: false,
-
                             balloonLayout: t,
-
                             iconLayout: o,
-
                             balloonContentLayout: c,
-
                             hideIconOnBalloonOpen: false,
-
                             balloonOffset: [-110, -50]
-
                         });
-
-
 
                         mapCountry.geoObjects.add(placemark);
 
@@ -3526,23 +3318,14 @@
                                 };
 
                             this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-
                                 var o = document.querySelectorAll(".placemark");
-
                                 if (e.classList.contains("active")) e.classList.remove("active");
-
                                 else {
-
                                     for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
                                     e.classList.add("active")
-
                                 }
-
                             }), this))
-
                         }
-
                     }),
 
                     c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content">$[properties.balloonContent]</div>'),

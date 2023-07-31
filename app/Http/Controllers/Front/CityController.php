@@ -119,7 +119,6 @@ class CityController extends Controller
             $id = $request->city_id;
         }
 
-
         if (isset($request->osobenost)){
             $keys = array_keys($request->osobenost);
             $type = ProductCategory::wherein('peculiarities_id', $keys)->get('product_id')->pluck('product_id')->toarray();

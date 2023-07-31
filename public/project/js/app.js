@@ -7,43 +7,22 @@ let locations = [];
 async function getData() {
 
     await fetch('https://dev.one-team.pro/city_from_map')
-
         .then(response => response.json())
-
         .then(data => {
-
             if (data.status) {
-
                 data.data.forEach(city => {
-
                     locations.push({
-
                         coordinates: city.coordinate.split(',').map(parseFloat),
-
                         balloonContent: `${city.name}, ${city.count} объектов`,
-
                         city_id: city.id
-
                     });
-
                 });
-
             }
-
         })
-
         .catch(error => {
-
             console.error('Error:', error);
-
         });
-
 }
-
-
-
-
-
 
 
 (async () => {
@@ -77,11 +56,13 @@ async function getData() {
         document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
 
     }, document.querySelector(".header__nav-buy").onclick = function () {
-        document.querySelector(".header__rent-dropdown").classList.remove("active")
+        document.querySelector(".header__rent-dropdown").classList.remove("active"),
+        document.querySelector(".header__nav-rent").classList.remove("active"),
         this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
 
     }, document.querySelector(".header__nav-rent").onclick = function () {
-        document.querySelector(".header__buy-dropdown").classList.remove("active")
+        document.querySelector(".header__buy-dropdown").classList.remove("active"),
+        document.querySelector(".header__nav-buy").classList.remove("active"),
         this.classList.toggle("active"), document.querySelector(".header__rent-dropdown").classList.toggle("active")
 
     }, document.querySelector(".header__nav-about").onclick = function () {
@@ -95,10 +76,6 @@ async function getData() {
     }, document.querySelector(".header-m__aboute").onclick = function () {
 
         this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
-
-    }, document.querySelector(".header-m__buy").onclick = function () {
-
-        this.classList.toggle("active")
 
     };
 
@@ -539,257 +516,145 @@ async function getData() {
 
 
     function P(e) {
-
         document.querySelectorAll("#map_city").length && ymaps.ready((function () {
 
             C = new ymaps.Map("map_city", {
-
                 center: [39.475851, 30.815585],
-
                 zoom: 6,
-
                 controls: [],
-
                 behaviors: ["default", "scrollZoom"]
-
             }, {
-
                 searchControlProvider: "yandex#search"
-
             });
 
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-
                     build: function () {
-
                         this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-
                     },
 
                     clear: function () {
-
                         this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-
                     },
 
                     onSublayoutSizeChange: function () {
-
                         t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-
                     },
 
                     applyElementOffset: function () {
-
                         this._$element.css({
-
                             left: -this._$element[0].offsetWidth / 2,
-
                             top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-
                         })
-
                     },
 
                     onCloseClick: function (e) {
-
                         e.preventDefault(), this.events.fire("userclose")
-
                     },
 
                     getShape: function () {
-
                         if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-
                         var e = this._$element.position();
-
                         return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-
                             [e.left, e.top],
-
                             [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-
                         ]))
-
                     },
 
                     _isElement: function (e) {
-
                         return e && e[0] && e.find(".arrow")[0]
-
                     }
-
                 }),
 
                 o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-
                     build: function () {
-
                         o.superclass.build.call(this);
-
                         var e = this.getParentElement().getElementsByClassName("placemark")[0],
-
                             t = this.isActive ? 60 : 34,
-
                             c = {
-
                                 type: "Circle",
-
                                 coordinates: [0, 0],
-
                                 radius: t / 2
-
                             },
-
                             l = {
-
                                 type: "Circle",
-
                                 coordinates: [0, -30],
-
                                 radius: t / 2
-
                             };
-
                         this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-
                             if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-
                                 var t = document.querySelectorAll(".placemark");
-
                                 for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-
                             }
-
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-
                             var o = document.querySelectorAll(".placemark");
-
                             if (e.classList.contains("active")) e.classList.remove("active");
-
                             else {
-
                                 for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
                                 e.classList.add("active")
-
                             }
-
                         }), this))
-
                     }
-
                 }),
 
                 c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>'),
-
                 l = window.myPlacemark = new ymaps.Placemark([40.93824, 29.26059], {
-
                     balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                 }, {
-
                     balloonPanelMaxMapArea: e,
-
                     balloonShadow: !1,
-
                     balloonLayout: t,
-
                     iconLayout: o,
-
                     balloonContentLayout: c,
-
                     hideIconOnBalloonOpen: !1,
-
                     balloonOffset: [-100, -80]
-
                 }),
 
                 n = window.myPlacemark = new ymaps.Placemark([38.227547, 27.22873], {
-
                     balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                 }, {
-
                     balloonPanelMaxMapArea: e,
-
                     balloonShadow: !1,
-
                     balloonLayout: t,
-
                     iconLayout: o,
-
                     balloonContentLayout: c,
-
                     hideIconOnBalloonOpen: !1,
-
                     balloonOffset: [-100, -80]
-
                 }),
 
                 i = window.myPlacemark = new ymaps.Placemark([37.256168, 28.286126], {
-
                     balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                 }, {
-
                     balloonPanelMaxMapArea: e,
-
                     balloonShadow: !1,
-
                     balloonLayout: t,
-
                     iconLayout: o,
-
                     balloonContentLayout: c,
-
                     hideIconOnBalloonOpen: !1,
-
                     balloonOffset: [-100, -80]
-
                 }),
 
                 a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-
                     balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                 }, {
-
                     balloonPanelMaxMapArea: e,
-
                     balloonShadow: !1,
-
                     balloonLayout: t,
-
                     iconLayout: o,
-
                     balloonContentLayout: c,
-
                     hideIconOnBalloonOpen: !1,
-
                     balloonOffset: [-100, -80]
-
                 }),
 
                 s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-
                     balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-
                 }, {
-
                     balloonPanelMaxMapArea: e,
-
                     balloonShadow: !1,
-
                     balloonLayout: t,
-
                     iconLayout: o,
-
                     balloonContentLayout: c,
-
                     hideIconOnBalloonOpen: !1,
-
                     balloonOffset: [-100, -80]
-
                 });
 
             C.geoObjects.events, C.behaviors.disable("scrollZoom"), C.geoObjects.add(l).add(n).add(i).add(a).add(s)
@@ -1061,43 +926,24 @@ async function getData() {
 
 
         locations.forEach(function (Location) {
-
-
-
             var placemark = new ymaps.Placemark(Location.coordinates, {
-
                 balloonContent: Location.balloonContent,
-
                 city_id: Location.city_id
-
             }, {
-
                 balloonPanelMaxMapArea: 431520,
-
                 balloonShadow: !1,
-
                 balloonLayout: t,
-
                 iconLayout: o,
-
                 balloonContentLayout: c,
-
                 hideIconOnBalloonOpen: !1,
-
                 balloonOffset: [-110, -50]
-
             });
             e.behaviors.disable("scrollZoom"),
             e.geoObjects.add(placemark);
-
         })
 
-
-
         // e.behaviors.disable("scrollZoom"), e.geoObjects.add(l).add(n).add(i).add(a).add(s)
-
     }))
-
 })();
 
 function changerActive(list) {
