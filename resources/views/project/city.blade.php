@@ -972,58 +972,31 @@
                                                                 width="35px" height="60px" version="1.1"
                                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                                                                 viewBox="0 0 0.5 0.86"
-
                                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-
-                                   <g id="Слой_x0020_1">
-
-                                       <metadata id="CorelCorpID_0Corel-Layer"/>
-
-                                       <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-
-                                   </g>
-
-                               </svg>
-
+                                                               <g id="Слой_x0020_1">
+                                                                   <metadata id="CorelCorpID_0Corel-Layer"/>
+                                                                   <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
+                                                               </g>
+                                                           </svg>
                                                        </div>
-
                                                        <div class="place__next place__slider-btn">
-
                                                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
                                                                 width="35px" height="60px" version="1.1"
-
                                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                                                 viewBox="0 0 0.5 0.86"
-
                                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-
-                               <g id="Слой_x0020_1">
-
-                                   <metadata id="CorelCorpID_0Corel-Layer"/>
-
-                                   <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-
-                               </g>
-
-                           </svg>
-
+                                                               <g id="Слой_x0020_1">
+                                                                   <metadata id="CorelCorpID_0Corel-Layer"/>
+                                                                   <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
+                                                               </g>
+                                                           </svg>
                                                        </div>
-
                                                        <div class="place__pagination">
-
                                                            <div class="test">
-
                                                                {{__('из')}}
-
-
                                                            </div>
-
                                                        </div>
-
                                                    </div>
-
                                                </div>
 
                                            </div>
@@ -1633,11 +1606,11 @@
                                                                                </div>
                                                                            </div>
                                                                            <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                                               <div class="kompleks__layout-img" bis_skin_checked="1">
+                                                                               <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
                                                                                    @if(isset($object->apartment_layout_image))
-                                                                                       <img style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
+                                                                                       <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
                                                                                    @else
-                                                                                       <img style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
+                                                                                       <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
                                                                                    @endif
                                                                                </div>
                                                                            </div>
@@ -2126,35 +2099,20 @@
                                            </div>
 
                                        </div>
-
                                    </section>
 
                                    <div class="place__exit">
-
                                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-
                                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                             viewBox="0 0 0.37 0.37"
-
                                             xmlns:xlink="http://www.w3.org/1999/xlink">
-
-
-
-               <g id="Слой_x0020_1">
-
-                   <metadata id="CorelCorpID_0Corel-Layer"/>
-
-                   <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
-
-                   <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
-
-               </g>
-
-           </svg>
-
+                                           <g id="Слой_x0020_1">
+                                               <metadata id="CorelCorpID_0Corel-Layer"/>
+                                               <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
+                                               <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
+                                           </g>
+                                       </svg>
                                    </div>
-
                                </div>
 
                            </div>
@@ -2450,21 +2408,117 @@
             </div>
 
         </div>
-
+        </div>
     </section>
 
+    <style>
+        .object__photo {
+            position: fixed;
+            display: none;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 200;
+        }
+        .object__photo.active {
+            display: block;
+        }
+        .object__photo:before {
+            content: "";
+            background: #000;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            z-index: 199;
+        }
+        .object__photo-popup {
+            padding: 0 50px;
+            margin: 0 auto;
+            max-width: 1348px;
+            display: flex;
+            justift-content: center;
+            align-items: center;
+            height: 100%;
+            position: relative;
+            z-index: 200;
+        }
+        .object__photo-popup-block {
+            width: 100%;
+            position: relative;
+            display: flex;
+            justift-content: center;
+            align-items: center;
+            z-index: 201;
+            opacity: 1;
+        }
+        .object__photo-popup img {
+            position: relative;
+            max-width: 1348px;
+            margin: 0 auto;
+            z-index: 202;
+            opacity: 1;
+        }
+        .object__photo-popup-close {
+            position: absolute;
+            top: 20px;
+            right: 5px;
+            width: 26px;
+            height: 26px;
+            z-index: 203;
+            cursor: pointer;
+            color: #fff;
+        }
+        .object__photo-popup-close svg{
+            z-index: 204;
+        }
+    </style>
+    <section class="object__photo">
+        <div class="object__photo-popup">
+            <div class="object__photo-popup-block">
+                <img src="" alt="Картинка">
+            </div>
+            <div class="object__photo-popup-close">
+                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
+                     style="shape-rendering:geometricPrecision;stroke:#fff; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                     viewBox="0 0 0.37 0.37"
+                     xmlns:xlink="http://www.w3.org/1999/xlink">
+                     <g id="Слой_x0020_1">
+                         <metadata id="CorelCorpID_0Corel-Layer"/>
+                         <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
+                         <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
+                     </g>
+                </svg>
+            </div>
+        </div>
+    </section>
 
 
 @endsection
 
 
 @section('scripts')
-
-
-
-
-
     <script>
+
+        let g = document.querySelectorAll(".kompleks__layout-img"),
+            b = document.querySelectorAll(".object__photo");
+
+        g.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                b[0].classList.add("active");
+                console.log(item.dataset.productid);
+                console.log(b[0]);
+                b[0].childNodes[1].childNodes[1].childNodes[1].src = item.childNodes[1].src;
+            })
+        })
+
+        document.querySelector('.object__photo-popup-close').addEventListener('click', () => {
+            document.querySelector('.object__photo').classList.remove("active");
+        })
+
 
         let spal =  "<?php echo __('спал') ?>";
         let van =  "<?php echo __('ван') ?>";
