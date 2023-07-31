@@ -222,32 +222,21 @@
                         @if(isset($country->cities[4]))
 
                         <div class="realty__item realty__item_s" >
-
                             <div class="realty__img_s">
-
-                                <a href="{{route('city',$country->cities[4]->id)}}">    <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}"> </a>
-
+                                <a href="{{ route('city',$country->cities[4]->id)}}">
+                                    <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}">
+                                </a>
                             </div>
-
                             <div class="realty__item-text">
-
                                 <div class="realty__item-text-title">
-
-                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
-
+                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
                                 </div>
-
                                 <div class="realty__item-text-subtitle">
-
                                     <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{$country->cities[4]->product_city->count()}} {{__('объявлений')}} </a>
-
                                 </div>
-
                             </div>
-
                         </div>
-
-                            @endif
+                        @endif
 
                     </div>
 
@@ -1463,7 +1452,7 @@
                 this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 
             })), document.querySelectorAll("#map-country").length && ymaps.ready((function() {
-                
+
                 var mapCountry;
                 var script;
 

@@ -950,7 +950,7 @@ body {
 }
 
 .realty__left-col_2-top .realty__item:last-child {
-  display: none;
+  display: block;
 }
 
 .favorites {
@@ -6270,6 +6270,7 @@ body.scroll_fixed {
   }
 }
 .realty__img_s {
+    height: 100%;
   overflow: hidden;
   padding-bottom: 65%;
   position: relative;
