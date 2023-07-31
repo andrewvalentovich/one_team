@@ -3713,14 +3713,14 @@
                                 $('.header__top-favorites-value').css('display', 'none');
                             } else {
                                 $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'block');
+                                $('.header__top-favorites-value').css('display', 'flex');
                             }
                         }else {
                             if (response.counts == 0) {
                                 $('.header__top-favorites-value').css('display', 'none');
                             } else {
                                 $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'block');
+                                $('.header__top-favorites-value').css('display', 'flex');
                             }
                             thiss.find('.fil0').attr('fill', 'none');
 
