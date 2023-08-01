@@ -1042,17 +1042,70 @@ if(document.querySelectorAll('.contact__phone-list').length) {
             const parentBlock = target.closest('.selection-phone')
             const phoneFlag = parentBlock.querySelector('.contact__form-country-item-img').querySelector('img')
             const input = parentBlock.querySelector('.contact__phone-input')
+            const contactCountry = parentBlock.querySelector('.contact__form-phone-country')
+            const dropdown = parentBlock.querySelector('.contact__phone-dropdown')
 
             if(target.classList.contains('contact__phone-list-item') || target.closest('.contact__phone-list-item')) {
 
                 const selectedPhoneBlock = target.closest('.contact__phone-list-item')
                 const img = selectedPhoneBlock.querySelector('.contact__phone-img').querySelector('img').getAttribute('src')
-                const code = selectedPhoneBlock.querySelector('.contact__phone-title').querySelector('span').innerHTML
+                mask = selectedPhoneBlock.getAttribute('mask')
+                // const code = selectedPhoneBlock.querySelector('.contact__phone-title').querySelector('span').innerHTML
                 phoneFlag.setAttribute('src', img)
-                input.value = code
+                input.setAttribute('data-phone-pattern', mask)
+                input.value = ''
+                contactCountry.classList.remove('active')
+                dropdown.classList.remove('active')
             }
         })
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var eventCalllback = function (e) {
+            var el = e.target,
+            clearVal = el.dataset.phoneClear,
+            pattern = el.dataset.phonePattern,
+            matrix_def = "+7(___) ___-__-__",
+            matrix = pattern ? pattern : matrix_def,
+            i = 0,
+            def = matrix.replace(/\D/g, ""),
+            val = e.target.value.replace(/\D/g, "");
+            if (clearVal !== 'false' && e.type === 'blur') {
+                if (val.length < matrix.match(/([\_\d])/g).length) {
+                    e.target.value = '';
+                    return;
+                }
+            }
+            if (def.length >= val.length) val = def;
+            e.target.value = matrix.replace(/./g, function (a) {
+                return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? "" : a
+            });
+        }
+        var phone_inputs = document.querySelectorAll('[data-phone-pattern]');
+        for (let elem of phone_inputs) {
+            for (let ev of ['input', '', 'focus']) {
+                elem.addEventListener(ev, eventCalllback);
+            }
+        }
+    });
+
+    if(document.querySelectorAll('.field-phone').length) {
+        const fieldPhone = document.querySelectorAll('.field-phone')
+        let phonesBtn
+        fieldPhone.forEach(element => {
+            phonesBtn = element.querySelectorAll('.contact__form-phone-country')
+    
+        });
+        phonesBtn.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const paranetField = btn.closest('.field-phone')
+                const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
+    
+                this.classList.toggle('active')
+                dropdownList.classList.toggle('active')
+            })
+        });
+    }
 }
 
 getData();
