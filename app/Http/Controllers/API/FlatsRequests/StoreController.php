@@ -31,7 +31,7 @@ class StoreController extends Controller
           "utm_content" => $str,
         ];
 
-        FlatsRequest::createOrFail($data);
+        FlatsRequest::create($data);
 
         return response(['success' => 'FlatsRequest created successfully'], 200);
     }
