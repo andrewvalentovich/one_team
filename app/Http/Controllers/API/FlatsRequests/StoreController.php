@@ -36,7 +36,7 @@ class StoreController extends Controller
         if(isset($request['budget'])) {
             $str .= "Бюджет: {$request['budget']}";
         }
-        var_dump($request);
+        var_dump($str);
         return response(['success' => 'FlatsRequest created successfully'], 200);
 
 //
