@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\FlatsRequests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\FlatsRequests\StoreRequest;
 use App\Models\FlatsRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
@@ -14,18 +15,18 @@ class StoreController extends Controller
      * @param StoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
-        $str = "";
-//        $validated = $request->validated();
-        var_dump($request);
-        return response(['success' => 'FlatsRequest created successfully', 'data' => $request], 200);
-
-//        foreach($validated as $key=>$value) {
-//            if($key != "name" && $key != "phone" && isset($value)) {
-//                $str .= $key.": ".$value."\n";
+//        $str = "Тип недвижимости: {$request['type']}\nПланируемая дата покупки: {$request['date-to-buy']}\nИнтересующие вопросы:";
+//        if(isset($request['questions'])) {
+//            foreach ($request['questions'] as $key => $value) {
+//                $str .= $key.". ".$value."\n";
 //            }
 //        }
+//        $str = "Вопрос клиента: {$request['myQuestion']}\nБюджет: {$request['budget']}";
+        var_dump($request);
+        return response(['success' => 'FlatsRequest created successfully'], 200);
+
 //
 //        $data = [
 //          "phone" => $validated['phone'],
