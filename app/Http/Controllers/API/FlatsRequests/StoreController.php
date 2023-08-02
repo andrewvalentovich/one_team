@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\FlatsRequests;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\FlatsRequests\StoreRequest;
 use App\Models\FlatsRequest;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
@@ -18,7 +18,6 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $str = "";
-
         $str = "Тип недвижимости: {$request['type']}\nПланируемая дата покупки: {$request['date-to-buy']}\nИнтересующие вопросы:";
         if(isset($request['questions'])) {
             foreach ($request['questions'] as $key => $value) {
