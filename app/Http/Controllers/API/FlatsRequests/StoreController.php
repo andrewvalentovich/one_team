@@ -17,9 +17,9 @@ class StoreController extends Controller
     public function store(StoreRequest $request)
     {
         $str = "";
-        $validated = $request->validated();
-        var_dump($validated);
-        return response(['success' => 'FlatsRequest created successfully', 'data' => $validated], 200);
+//        $validated = $request->validated();
+        var_dump($request);
+        return response(['success' => 'FlatsRequest created successfully', 'data' => $request], 200);
 
 //        foreach($validated as $key=>$value) {
 //            if($key != "name" && $key != "phone" && isset($value)) {
