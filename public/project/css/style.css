@@ -3095,7 +3095,7 @@ body.scroll_fixed {
   transform: translate(-50%, 0);
   width: auto;
   max-height: 35px;
-  bottom: 4px;
+  bottom: 10px;
 }
 
 .kompleks__layout {
@@ -3335,6 +3335,7 @@ body.scroll_fixed {
   transform: translate(-50%, -50%);
   z-index: 163;
   text-align: center;
+  height: 100%;
 }
 
 .place__slider_p-img img {
@@ -3357,11 +3358,11 @@ body.scroll_fixed {
 .place-popup-collage::after {
   content: "";
   position: fixed;
-  left: 0;
-  top: 0;
+  left: 20px;
+  top: 20px;
   background: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 70px;
+  width: 26px;
+  height: 26px;
 }
 
 .place-popup-collage.active {
@@ -6591,4 +6592,22 @@ body.scroll_fixed {
 
 .field-phone .contact__form-phone-country.active::after {
   transform: translate(0, -50%) rotate(0deg);
+}
+.kompleks__layout-img img {
+  cursor: pointer;
+}
+
+.place__slider_p-img img {
+  width: 100%;
+  max-width: 962px;
+  height: calc(100% - 20px);
+  object-fit: cover;
+}
+
+.place__slider_p-img {
+  padding: 10px 0 0 0;
+}
+
+.place__slider_p-wrapper {
+  height: 100% !important;
 }
