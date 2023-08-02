@@ -18,21 +18,23 @@ class StoreController extends Controller
     {
         $str = "";
         $validated = $request->validated();
+        var_dump($validated);
+        return response(['success' => 'FlatsRequest created successfully', 'data' => $validated], 200);
 
-        foreach($validated as $key=>$value) {
-            if($key != "name" && $key != "phone" && isset($value)) {
-                $str .= $key.": ".$value."\n";
-            }
-        }
-
-        $data = [
-          "phone" => $validated['phone'],
-          "first_name" => $validated['name'],
-          "utm_content" => $str,
-        ];
-
-        FlatsRequest::create($data);
-
-        return response(['success' => 'FlatsRequest created successfully'], 200);
+//        foreach($validated as $key=>$value) {
+//            if($key != "name" && $key != "phone" && isset($value)) {
+//                $str .= $key.": ".$value."\n";
+//            }
+//        }
+//
+//        $data = [
+//          "phone" => $validated['phone'],
+//          "first_name" => $validated['name'],
+//          "utm_content" => $str,
+//        ];
+//
+//        FlatsRequest::create($data);
+//
+//        return response(['success' => 'FlatsRequest created successfully'], 200);
     }
 }
