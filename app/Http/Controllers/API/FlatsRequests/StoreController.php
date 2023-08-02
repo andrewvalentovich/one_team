@@ -26,12 +26,12 @@ class StoreController extends Controller
         }
 
         $data = [
-          "phone" => null,
+          "phone" => $validated['phone'],
           "first_name" => $validated['name'],
           "utm_content" => $str,
         ];
 
-        FlatsRequest::create($data);
+        FlatsRequest::createOrFail($data);
 
         return response(['success' => 'FlatsRequest created successfully'], 200);
     }
