@@ -17,16 +17,15 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $str = "";
-        $str = "Тип недвижимости: {$request['type']}\nПланируемая дата покупки: {$request['date-to-buy']}\nИнтересующие вопросы:";
-        if(isset($request['questions'])) {
-            foreach ($request['questions'] as $key => $value) {
-                $str .= $key.". ".$value."\n";
-            }
-        }
-        $str = "Вопрос клиента: {$request['myQuestion']}\nБюджет: {$request['budget']}";
-        var_dump($str);
-        return response(['success' => 'FlatsRequest created successfully', 'data' => $str], 200);
+//        $str = "Тип недвижимости: {$request['type']}\nПланируемая дата покупки: {$request['date-to-buy']}\nИнтересующие вопросы:";
+//        if(isset($request['questions'])) {
+//            foreach ($request['questions'] as $key => $value) {
+//                $str .= $key.". ".$value."\n";
+//            }
+//        }
+//        $str = "Вопрос клиента: {$request['myQuestion']}\nБюджет: {$request['budget']}";
+        var_dump($request);
+        return response(['success' => 'FlatsRequest created successfully'], 200);
 
 //
 //        $data = [
