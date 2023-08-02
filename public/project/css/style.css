@@ -6611,3 +6611,22 @@ body.scroll_fixed {
 .place__slider_p-wrapper {
   height: 100% !important;
 }
+
+.favorites__item-img {
+  overflow: hidden;
+  padding-bottom: 57%;
+  position: relative;
+}
+.favorites__item-img img{
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+}
