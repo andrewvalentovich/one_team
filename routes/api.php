@@ -19,4 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/export', [\App\Http\Controllers\API\ExportController::class, '__invoke'])->name('api.export');
+Route::get('/export', [\App\Http\Controllers\API\ExportController::class, 'request_export'])->name('api.export');
+
+Route::post('/flats_requests', [App\Http\Controllers\API\FlatsRequests\StoreController::class, 'store'])->name('api.flats_requests.store');
+Route::get('/flats_requests/export', [\App\Http\Controllers\API\ExportController::class, 'flats_request_export'])->name('api.flats_requests.export');
