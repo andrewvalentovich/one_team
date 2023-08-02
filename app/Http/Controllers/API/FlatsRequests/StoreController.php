@@ -17,13 +17,25 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-//        $str = "Тип недвижимости: {$request['type']}\nПланируемая дата покупки: {$request['date-to-buy']}\nИнтересующие вопросы:";
-//        if(isset($request['questions'])) {
-//            foreach ($request['questions'] as $key => $value) {
-//                $str .= $key.". ".$value."\n";
-//            }
-//        }
-//        $str = "Вопрос клиента: {$request['myQuestion']}\nБюджет: {$request['budget']}";
+        $str = "";
+        if (isset($request['type'])) {
+            $str .= "Тип недвижимости: {$request['type']}\n";
+        }
+        if (isset($request['date-to-buy'])) {
+            $str .= "Планируемая дата покупки: {$request['date-to-buy']}\n";
+        }
+        if(isset($request['questions'])) {
+            $str .= "Интересующие вопросы:";
+            foreach ($request['questions'] as $key => $value) {
+                $str .= $key.". ".$value."\n";
+            }
+        }
+        if(isset($request['myQuestion'])) {
+            $str .= "Вопрос клиента: {$request['myQuestion']}\n";
+        }
+        if(isset($request['budget'])) {
+            $str .= "Бюджет: {$request['budget']}";
+        }
         var_dump($request);
         return response(['success' => 'FlatsRequest created successfully'], 200);
 
