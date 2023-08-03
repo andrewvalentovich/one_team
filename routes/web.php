@@ -117,6 +117,11 @@ Route::prefix('admin')->group(function () {
         Route::get('delete_select_page/select_id={id}', [CompanySelectController::class,'delete_select_page'])->name('delete_select_page');
 
             Route::get('value_page', [KursController::class,'value_page'])->name('value_page');
+
+        Route::group(['as' => 'admin.'], function() {
+            Route::resource('/exchange_rates', \App\Http\Controllers\Admin\ExchangeRateController::class); // CRUD model ExchangeRate
+        });
+
             Route::post('update_value', [KursController::class,'update_value'])->name('update_value');
 
         Route::get('HomePage', [AdminLoginController::class,'HomePage'])->name('HomePage');

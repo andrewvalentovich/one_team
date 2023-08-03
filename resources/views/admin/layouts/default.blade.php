@@ -115,7 +115,7 @@
 
 
                     <li class="nav-item menu-items">
-                        <a class="nav-link" href="{{route('value_page')}}">
+                        <a class="nav-link" href="{{route('admin.exchange_rates.index')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-table-large"></i>
               </span>
