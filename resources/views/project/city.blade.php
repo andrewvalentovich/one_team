@@ -2695,7 +2695,7 @@
 
             }), document.querySelectorAll(".place__currency-preview").length && (document.querySelector(".place__currency-preview").onclick = function () {
 
-                document.querySelector(".place__currency").classList.toggle("active")
+
 
             }), window.innerWidth > 1003 && document.querySelectorAll(".city").length && document.body.classList.add("scroll_fixed"), window.addEventListener("resize", (function (e) {
 

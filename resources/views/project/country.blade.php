@@ -623,7 +623,7 @@
     </section>
     
     @endif
-<section class="test">
+<section class="popuuups">
 @foreach($citizenship_product as $product)
 <div class="place-w" data_id="{{$product->id}}">
 
