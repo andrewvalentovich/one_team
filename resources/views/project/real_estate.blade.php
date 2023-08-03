@@ -500,7 +500,7 @@
 
                                    <div class="city-col__item-price">
 
-                                       ${{$product->price}}
+                                       {{$product->price}}€
 
                                    </div>
 
