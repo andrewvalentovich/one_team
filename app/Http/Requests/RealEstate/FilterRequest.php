@@ -25,6 +25,8 @@ class FilterRequest extends FormRequest
     {
         return [
             'sale_or_rent' => 'nullable|string',
+            'order_by' => 'nullable|string',
+            'ot_zastroishika' => 'nullable|string',
         ];
     }
 }

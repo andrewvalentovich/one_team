@@ -64,11 +64,17 @@
 
 <div class="search-nav-w">
 
-    <form action="{{ route('real_estate.index') }}" class="header_search" method="get">
+    <form action="{{ route('city', $id) }}" class="header_search" method="get">
 
         @if(isset($_GET['ot_zastroishika']))
 
             <input type="hidden" name="ot_zastroishika" value="{{$_GET['ot_zastroishika']}}">
+
+            @endif
+
+            @if(isset($_GET['sale_or_rent']))
+
+                <input type="hidden" name="type" value="{{$_GET['sale_or_rent']}}">
 
             @endif
 
@@ -89,14 +95,13 @@
 
 
 
-            <input type="hidden" name="country_id" value="{{17}}"> <!-- Захардкодили Турцию на первое время -->
+            <input type="hidden" name="city_id" value="{{$get_citys->id}}">
 
             <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
 
                 <div class="search-nav__list-item-title dropdown__title">
-{{--                    @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif--}}
-{{--                    {{$get_citys->name}}--}}
-                    {{ __("Турция") }}
+                    @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif
+                    {{$get_citys->name}}
 
                 </div>
 
@@ -108,19 +113,18 @@
 
                     <div class="search-nav__types-list">
 
-                        {{ __("Турция") }}
-{{--                        @foreach($get_city as $city )--}}
+                        @foreach($get_city as $city )
 
-{{--                        <div data_id="{{$city->id}}" class="city search-nav__types-item dropdown__selector other-element">--}}
+                        <div data_id="{{$city->id}}" class="city search-nav__types-item dropdown__selector other-element">
 
 
-{{--                            @if(app()->getLocale() == 'en') <?php $city->name = $city->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $city->name = $city->name_tr ?> @endif--}}
+                            @if(app()->getLocale() == 'en') <?php $city->name = $city->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $city->name = $city->name_tr ?> @endif
 
-{{--                            {{ $city->name}}--}}
+                            {{ $city->name}}
 
-{{--                        </div>--}}
+                        </div>
 
-{{--                            @endforeach--}}
+                            @endforeach
 
                     </div>
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">

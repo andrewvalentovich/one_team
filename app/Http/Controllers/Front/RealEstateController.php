@@ -24,6 +24,6 @@ class RealEstateController extends Controller
         $country = CountryAndCity::where('id', 17)->first();
         $count = $real_estates->count();
 
-        return view('project.city', compact('get_product', 'count', 'country'));
+        return view('project.real_estate', compact('get_product', 'count', 'country'));
     }
 }

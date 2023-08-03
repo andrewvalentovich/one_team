@@ -3,9 +3,7 @@
 
 
 @section('header')
-
     @include('project.includes.header')
-
 @endsection
 
 
@@ -21,7 +19,7 @@
 
 
 
-    @include('project.includes.search_city_nav_bar')
+    @include('project.includes.search_nav_bar')
 
 
 
@@ -101,540 +99,273 @@
 
 
                         <div class="city-cil__filter-title">
-
-
-
-                            @if(isset($_GET['orderby']))
-
-                                    @if($_GET['orderby'] == 'price_asc')
-
+                            @if(isset($_GET['order_by']))
+                                    @if($_GET['order_by'] == 'price-asc')
                                         {{__('Сначала дешевые')}}
-
-
-                                        @elseif($_GET['orderby'] == 'price_desc')
-
+                                        @elseif($_GET['order_by'] == 'price-desc')
                                         {{__('Сначала дорогие')}}
-
-
-                                        @elseif($_GET['orderby'] == 'new')
-
+                                        @elseif($_GET['order_by'] == 'created_at-asc')
                                         {{__('Сначала новые')}}
-
-
+                                        @endif
+                                @else
+                                {{__('Сначала дешевые')}}
+                            @endif
+                        </div>
+                        <div class="city-col__filter-list">
+                            <div class="city-col__filter-item">
+                                <form action="{{ route('real_estate.index') }}" method="get">
+                                    <input type="hidden" name="order_by" value="price-asc">
+                                    @if(isset($_GET['sale_or_rent']))
+                                        <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
+                                    @endif
+                                    @if(isset($_GET['type']))
+                                        <input type="hidden" name="type" value="{{$_GET['type']}}">
+                                    @endif
+                                    @if(isset($_GET['ot_zastroishika']))
+                                    <input type="hidden" name="ot_zastroishika" value="{{$_GET['ot_zastroishika']}}">
+                                    @endif
+                                    <button style="background: transparent;">
+                                        {{__('Сначала дешевые')}}
+                                        @if(isset($_GET['min_price']))
+                                            <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
+                                        @endif
+                                        @if(isset($_GET['max_price']))
+                                            <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
+                                        @endif
+                                        @if(isset($_GET['currency_type']))
+                                            <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
                                         @endif
 
-                                @else
+                                        <?php $ch= 0 ?>
+                                        @foreach($filter->where('type', 'Особенности') as $osobenosti)
+                                            <div class="more-dropdown__peculiarities-item" style="display: none;">
+                                                <label class="more-dropdown__peculiarities">
+                                                    <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
+                                                           @if(isset($_GET['osobenost']))
+                                                           @foreach($_GET['osobenost'] as $key => $value)
+                                                           @if($key == $osobenosti->id)
+                                                           checked
+                                                            @endif
+                                                            @endforeach
+                                                            @endif
+                                                    >
+                                                    <div class="more-dropdown-custom-checkbox"></div>
+                                                    <div class="more-dropdown-checkbox-text">
+                                                        {{$osobenosti->name}}
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endforeach
 
-                                {{__('Сначала дешевые')}}
-
-
-                            @endif
-
-                        </div>
-
-
-
-                        <div class="city-col__filter-list">
-
-
+                                        @if(isset($_GET['vid_id']))
+                                            <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
+                                        @endif
+                                        @if(isset($_GET['vannie_id']))
+                                            <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                        @if(isset($_GET['spalni_id']))
+                                            <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                    </button>
+                                </form>
+                            </div>
 
                             <div class="city-col__filter-item">
-
-                                <form action="{{ route('city', $id) }}" method="get">
-
-                                    <input type="hidden" name="orderby" value="price_asc">
-
+                                <form action="{{ route('real_estate.index') }}" method="get">
+                                    <input type="hidden" name="order_by" value="price-desc">
                                     @if(isset($_GET['sale_or_rent']))
-
-                                        <input type="hidden" name="type" value="{{$_GET['sale_or_rent']}}">
-
+                                        <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
                                     @endif
-
                                     @if(isset($_GET['type']))
-
                                         <input type="hidden" name="type" value="{{$_GET['type']}}">
-
                                     @endif
-
                                     @if(isset($_GET['ot_zastroishika']))
-
-                                    <input type="hidden" name="ot_zastroishika" value="{{$_GET['ot_zastroishika']}}">
-
-                                    @endif
-
-                                <button style="background: transparent;">
-
-                                    {{__('Сначала дешевые')}}
-
-
-                                    @if(isset($_GET['min_price']))
-
-                                        <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['max_price']))
-
-                                        <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['currency_type']))
-
-                                        <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
-                                    @endif
-
-
-
-
-
-                                    <?php $ch= 0 ?>
-
-                                    @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
-                                        <div class="more-dropdown__peculiarities-item" style="display: none;">
-
-                                            <label class="more-dropdown__peculiarities">
-
-                                                <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                                       @if(isset($_GET['osobenost']))
-
-                                                       @foreach($_GET['osobenost'] as $key => $value)
-
-                                                       @if($key == $osobenosti->id)
-
-                                                       checked
-
-                                                        @endif
-
-                                                        @endforeach
-
-                                                        @endif
-
-                                                >
-
-                                                <div class="more-dropdown-custom-checkbox"></div>
-
-                                                <div class="more-dropdown-checkbox-text">
-
-                                                    {{$osobenosti->name}}
-
-                                                </div>
-
-                                            </label>
-
-                                        </div>
-
-                                    @endforeach
-
-
-
-                                    @if(isset($_GET['vid_id']))
-
-                                        <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['vannie_id']))
-
-                                        <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['spalni_id']))
-
-                                        <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                </button>
-
-                                </form>
-
-                            </div>
-
-
-
-                            <div class="city-col__filter-item">
-
-                                <form action="{{ route('city', $id) }}" method="get">
-
-                                    <input type="hidden" name="orderby" value="price_desc">
-
-                                    @if(isset($_GET['type']))
-
-                                        <input type="hidden" name="type" value="{{$_GET['type']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['ot_zastroishika']))
-
-
-
                                         <input type="hidden" name="ot_zastroishika" value="{{$_GET['ot_zastroishika']}}">
-
                                     @endif
+                                    <button style="background: transparent;">
+                                        {{__('Сначала дорогие')}}
 
+                                        @if(isset($_GET['min_price']))
+                                            <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
+                                        @endif
+                                        @if(isset($_GET['max_price']))
+                                            <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
+                                        @endif
+                                        @if(isset($_GET['currency_type']))
+                                            <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
+                                        @endif
 
+                                        <?php $ch= 0 ?>
+                                        @foreach($filter->where('type', 'Особенности') as $osobenosti)
+                                            <div class="more-dropdown__peculiarities-item" style="display: none;">
+                                                <label class="more-dropdown__peculiarities">
+                                                    <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
+                                                           @if(isset($_GET['osobenost']))
+                                                           @foreach($_GET['osobenost'] as $key => $value)
+                                                           @if($key == $osobenosti->id)
+                                                           checked
+                                                            @endif
+                                                            @endforeach
+                                                            @endif
+                                                    >
+                                                    <div class="more-dropdown-custom-checkbox"></div>
+                                                    <div class="more-dropdown-checkbox-text">
+                                                        {{__($osobenosti->name)}}
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endforeach
 
-
-
-                                <button style="background: transparent;">
-
-
-                                    {{__('Сначала дорогие')}}
-
-                                    @if(isset($_GET['min_price']))
-
-                                        <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['max_price']))
-
-                                        <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['currency_type']))
-
-                                        <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
-                                    @endif
-
-
-
-
-
-                                    <?php $ch= 0 ?>
-
-                                    @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
-                                        <div class="more-dropdown__peculiarities-item" style="display: none;">
-
-                                            <label class="more-dropdown__peculiarities">
-
-                                                <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                                       @if(isset($_GET['osobenost']))
-
-                                                       @foreach($_GET['osobenost'] as $key => $value)
-
-                                                       @if($key == $osobenosti->id)
-
-                                                       checked
-
-                                                        @endif
-
-                                                        @endforeach
-
-                                                        @endif
-
-                                                >
-
-                                                <div class="more-dropdown-custom-checkbox"></div>
-
-                                                <div class="more-dropdown-checkbox-text">
-
-
-                                                    {{__($osobenosti->name)}}
-
-                                                </div>
-
-                                            </label>
-
-                                        </div>
-
-                                    @endforeach
-
-
-
-                                    @if(isset($_GET['vid_id']))
-
-                                        <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['vannie_id']))
-
-                                        <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['spalni_id']))
-
-                                        <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                </button>
-
+                                        @if(isset($_GET['vid_id']))
+                                            <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
+                                        @endif
+                                        @if(isset($_GET['vannie_id']))
+                                            <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                        @if(isset($_GET['spalni_id']))
+                                            <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                    </button>
                                 </form>
-
                             </div>
 
                             <div class="city-col__filter-item">
-
-                                <form action="{{ route('city', $id) }}" method="get">
-
-                                    <input type="hidden" name="orderby" value="new">
-
+                                <form action="{{ route('real_estate.index') }}" method="get">
+                                    <input type="hidden" name="order_by" value="created_at-asc">
+                                    @if(isset($_GET['sale_or_rent']))
+                                        <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
+                                    @endif
                                     @if(isset($_GET['type']))
-
                                         <input type="hidden" name="type" value="{{$_GET['type']}}">
-
                                     @endif
-
                                     @if(isset($_GET['ot_zastroishika']))
-
                                         <input type="hidden" name="ot_zastroishika" value="{{$_GET['ot_zastroishika']}}">
-
                                     @endif
+                                    <button style="background: transparent;">
+                                        {{__('Сначала новые')}}
 
-                                <button>
+                                        @if(isset($_GET['min_price']))
+                                            <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
+                                        @endif
+                                        @if(isset($_GET['max_price']))
+                                            <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
+                                        @endif
+                                        @if(isset($_GET['currency_type']))
+                                            <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
+                                        @endif
 
-                                    {{__('Сначала новые')}}
+                                        <?php $ch= 0 ?>
+                                        @foreach($filter->where('type', 'Особенности') as $osobenosti)
+                                            <div class="more-dropdown__peculiarities-item" style="display: none;">
+                                                <label class="more-dropdown__peculiarities">
+                                                    <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
+                                                           @if(isset($_GET['osobenost']))
+                                                           @foreach($_GET['osobenost'] as $key => $value)
+                                                           @if($key == $osobenosti->id)
+                                                           checked
+                                                            @endif
+                                                            @endforeach
+                                                            @endif
+                                                    >
+                                                    <div class="more-dropdown-custom-checkbox"></div>
+                                                    <div class="more-dropdown-checkbox-text">
+                                                        {{__($osobenosti->name)}}
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        @endforeach
 
-
-                                    @if(isset($_GET['min_price']))
-
-                                        <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['max_price']))
-
-                                        <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['currency_type']))
-
-                                        <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
-                                    @endif
-
-
-
-
-
-                                    <?php $ch= 0 ?>
-
-                                    @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
-                                        <div class="more-dropdown__peculiarities-item" style="display: none;">
-
-                                            <label class="more-dropdown__peculiarities">
-
-                                                <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                                       @if(isset($_GET['osobenost']))
-
-                                                       @foreach($_GET['osobenost'] as $key => $value)
-
-                                                       @if($key == $osobenosti->id)
-
-                                                       checked
-
-                                                        @endif
-
-                                                        @endforeach
-
-                                                        @endif
-
-                                                >
-
-                                                <div class="more-dropdown-custom-checkbox"></div>
-
-                                                <div class="more-dropdown-checkbox-text">
-
-                                                    {{__($osobenosti->name)}}
-
-                                                </div>
-
-                                            </label>
-
-                                        </div>
-
-                                    @endforeach
-
-
-
-                                    @if(isset($_GET['vid_id']))
-
-                                        <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['vannie_id']))
-
-                                        <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['spalni_id']))
-
-                                        <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
-
-                                    @endif
-
-                                    @if(isset($_GET['do_more_id']))
-
-                                        <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                    @endif
-
-                                </button>
-
+                                        @if(isset($_GET['vid_id']))
+                                            <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
+                                        @endif
+                                        @if(isset($_GET['vannie_id']))
+                                            <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                        @if(isset($_GET['spalni_id']))
+                                            <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
+                                        @endif
+                                        @if(isset($_GET['do_more_id']))
+                                            <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                        @endif
+                                    </button>
                                 </form>
-
                             </div>
+
 
                         </div>
-
                     </div>
-
                     <div class="city-col__subtitle">
 
                         {{$count}} {{__('объявлений')}}
 
                     </div>
 
-
-
                     <div class="city-col__btns">
-
-                        <form action="{{ route('city', $id) }}" method="get">
-
+                        <form action="{{ route('real_estate.index') }}" method="get">
                             <button style="width: 100%; background: transparent;">
-
-                        @if(isset($_GET['ot_zastroishika'] ))
-
-                       <div class="city-col__btn city-col__all " >
-
-                            @else
-
-
-
-                               <div class="city-col__btn city-col__all active">
-
+                                @if(isset($_GET['ot_zastroishika']))
+                                <div class="city-col__btn city-col__all">
+                                @else
+                                <div class="city-col__btn city-col__all active">
                                 @endif
-
-                                        @if(isset($_GET['type']))
-
-                                       <input type="hidden" name="type" value="{{$_GET['type']}}">
-
-                                            @endif
-
-                                        @if(isset($_GET['orderby']))
-
-                                           <input type="hidden" name="orderby" value="{{$_GET['orderby']}}">
-
-                                       @endif
-
-
-                                   {{__('Все')}}
-
-
-
-                       </div>
-
+                                @if(isset($_GET['type']))
+                                    <input type="hidden" name="type" value="{{$_GET['type']}}">
+                                @endif
+                                @if(isset($_GET['sale_or_rent']))
+                                    <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
+                                @endif
+                                @if(isset($_GET['order_by']))
+                                    <input type="hidden" name="order_by" value="{{$_GET['order_by']}}">
+                                @endif
+                                {{__('Все')}}
+                                </div>
                             </button>
 
                             @if(isset($_GET['min_price']))
-
                                 <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
-
                             @endif
-
                             @if(isset($_GET['max_price']))
-
                                 <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
-
                             @endif
-
                             @if(isset($_GET['currency_type']))
-
                                 <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
                             @endif
-
-
-
-
 
                             <?php $ch= 0 ?>
-
                             @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
                                 <div class="more-dropdown__peculiarities-item" style="display: none;">
-
                                     <label class="more-dropdown__peculiarities">
-
                                         <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                               @if(isset($_GET['osobenost']))
-
-                                               @foreach($_GET['osobenost'] as $key => $value)
-
-                                               @if($key == $osobenosti->id)
-
-                                               checked
-
-                                                @endif
-
+                                            @if(isset($_GET['osobenost']))
+                                                @foreach($_GET['osobenost'] as $key => $value)
+                                                    @if($key == $osobenosti->id)
+                                                    checked
+                                                    @endif
                                                 @endforeach
-
-                                                @endif
-
+                                            @endif
                                         >
-
                                         <div class="more-dropdown-custom-checkbox"></div>
-
                                         <div class="more-dropdown-checkbox-text">
-
                                             {{$osobenosti->name}}
-
                                         </div>
-
                                     </label>
-
                                 </div>
-
                             @endforeach
-
 
                             @if(isset($_GET['vid_id']))
                                 <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
@@ -652,118 +383,75 @@
                                 <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
                             @endif
                         </form>
+
                        @if(isset($_GET['ot_zastroishika'] ) && $_GET['ot_zastroishika']  == true)
                        <div class="city-col__btn city-col__builder  active" >
                            @else
                                <div class="city-col__btn city-col__builder" >
                                @endif
-                           <form action="{{ route('city', $id) }}" method="get">
+                           <form action="{{ route('real_estate.index') }}" method="get">
                                <input type="hidden" name="ot_zastroishika" value="true">
                                @if(isset($_GET['ot_zastroishika'] ) && $_GET['ot_zastroishika']  == true)
                            <button style="background: transparent;     color: #508cfa;">{{__('От застройщика')}}</button>
-                                   @else
-                                   @if(isset($_GET['type']))
-                                       <input type="hidden" name="type" value="{{$_GET['type']}}">
-                                   @endif
-                                   @if(isset($_GET['orderby']))
-                                       <input type="hidden" name="orderby" value="{{$_GET['orderby']}}">
-                                   @endif
-                                       @if(isset($_GET['min_price']))
-                                           <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
-                                       @endif
-                                       @if(isset($_GET['max_price']))
-                                           <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
-                                       @endif
-                                   @if(isset($_GET['currency_type']))
-                                           <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-                                       @endif
-                                       <?php $ch= 0 ?>
-
-                                       @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
-                                           <div class="more-dropdown__peculiarities-item" style="display: none;">
-
-                                               <label class="more-dropdown__peculiarities">
-
-                                                   <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                                          @if(isset($_GET['osobenost']))
-
-                                                          @foreach($_GET['osobenost'] as $key => $value)
-
-                                                          @if($key == $osobenosti->id)
-
-                                                          checked
-
-                                                           @endif
-
-                                                           @endforeach
-
-                                                           @endif
-
-                                                   >
-
-                                                   <div class="more-dropdown-custom-checkbox"></div>
-
-                                                   <div class="more-dropdown-checkbox-text">
-
-                                                       {{$osobenosti->name}}
-
-                                                   </div>
-
-                                               </label>
-
-                                           </div>
-
-                                       @endforeach
-
-
-
-                                       @if(isset($_GET['vid_id']))
-
-                                           <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
-
-                                       @endif
-
-                                       @if(isset($_GET['vannie_id']))
-
-                                           <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
-
-                                       @endif
-
-                                       @if(isset($_GET['do_more_id']))
-
-                                           <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                       @endif
-
-                                       @if(isset($_GET['spalni_id']))
-
-                                           <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
-
-                                       @endif
-
-                                       @if(isset($_GET['do_more_id']))
-
-                                           <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
-
-                                       @endif
-
-                                   <button style="width: 100%; background: transparent; color: white">
-                                       {{__('От застройщика')}}
-
-                                   </button>
-
+                               @else
+                               @if(isset($_GET['type']))
+                                   <input type="hidden" name="type" value="{{$_GET['type']}}">
                                @endif
-
+                               @if(isset($_GET['sale_or_rent']))
+                                   <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
+                               @endif
+                               @if(isset($_GET['order_by']))
+                                   <input type="hidden" name="order_by" value="{{$_GET['order_by']}}">
+                               @endif
+                                   @if(isset($_GET['min_price']))
+                                       <input type="hidden" name="min_price" value="{{$_GET['min_price']}}">
+                                   @endif
+                                   @if(isset($_GET['max_price']))
+                                       <input type="hidden" name="max_price" value="{{$_GET['max_price']}}">
+                                   @endif
+                                    @if(isset($_GET['currency_type']))
+                                       <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
+                                    @endif
+                                   <?php $ch= 0 ?>
+                                   @foreach($filter->where('type', 'Особенности') as $osobenosti)
+                                       <div class="more-dropdown__peculiarities-item" style="display: none;">
+                                           <label class="more-dropdown__peculiarities">
+                                               <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
+                                                    @if(isset($_GET['osobenost']))
+                                                        @foreach($_GET['osobenost'] as $key => $value)
+                                                            @if($key == $osobenosti->id)
+                                                                checked
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                               >
+                                               <div class="more-dropdown-custom-checkbox"></div>
+                                               <div class="more-dropdown-checkbox-text">
+                                                   {{$osobenosti->name}}
+                                               </div>
+                                           </label>
+                                       </div>
+                                   @endforeach
+                                   @if(isset($_GET['vid_id']))
+                                       <input type="hidden" name="vid_id" value="{{$_GET['vid_id']}}">
+                                   @endif
+                                   @if(isset($_GET['vannie_id']))
+                                       <input type="hidden" name="vannie_id" value="{{$_GET['vannie_id']}}">
+                                   @endif
+                                   @if(isset($_GET['do_more_id']))
+                                       <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                   @endif
+                                   @if(isset($_GET['spalni_id']))
+                                       <input type="hidden" name="spalni_id" value="{{$_GET['spalni_id']}}">
+                                   @endif
+                                   @if(isset($_GET['do_more_id']))
+                                       <input type="hidden" name="do_more_id" value="{{$_GET['do_more_id']}}">
+                                   @endif
+                               <button style="width: 100%; background: transparent; color: white">
+                                   {{__('От застройщика')}}
+                               </button>
+                               @endif
                            </form>
-
-
-
-
-
-
-
                        </div>
 
                    </div>

@@ -92,6 +92,9 @@ class CityController extends Controller
         if (isset($request->ot_zastroishika)){
             $get->where('owner', 'Застройщик');
         }
+        if (isset($request->sale_or_rent)){
+            $get->where('sale_or_rent', $request->sale_or_rent);
+        }
         if (isset($request->orderby)){
             if ($request->orderby == 'price_asc'){
                 $get->orderby('price', 'asc');
@@ -107,7 +110,7 @@ class CityController extends Controller
         $count = $get->where('city_id', $id)->count();
         $get_product = $get->where('city_id', $id)->orderby('price','asc')->paginate(10);
 
-        return view('project.city', compact('get_product', 'country','count'));
+        return view('project.city', compact('get_product', 'country', 'count', 'id'));
     }
 
     public function product_from_map($id, Request $request){
