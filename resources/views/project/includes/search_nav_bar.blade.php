@@ -93,9 +93,8 @@
                     <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
 
                 <div class="search-nav__list-item-title dropdown__title">
-{{--                    @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif--}}
-{{--                    {{$get_citys->name}}--}}
-                    {{ __("Турция") }}
+                    @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif
+                    {{$get_citys->name}}
 
                 </div>
 
@@ -107,19 +106,18 @@
 
                     <div class="search-nav__types-list">
 
-                        {{ __("Турция") }}
-{{--                        @foreach($get_city as $city )--}}
+                        @foreach($get_city as $city )
 
-{{--                        <div data_id="{{$city->id}}" class="city search-nav__types-item dropdown__selector other-element">--}}
+                        <div data_id="{{$city->id}}" class="city search-nav__types-item dropdown__selector other-element">
 
 
-{{--                            @if(app()->getLocale() == 'en') <?php $city->name = $city->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $city->name = $city->name_tr ?> @endif--}}
+                            @if(app()->getLocale() == 'en') <?php $city->name = $city->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $city->name = $city->name_tr ?> @endif
 
-{{--                            {{ $city->name}}--}}
+                            {{ $city->name}}
 
-{{--                        </div>--}}
+                        </div>
 
-{{--                            @endforeach--}}
+                            @endforeach
 
                     </div>
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -168,7 +166,6 @@
                         </div>
 
                             @endforeach
-
                     </div>
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Слой_x0020_1">
@@ -180,15 +177,10 @@
                 </div>
 
             </div>
-
             <div class="search-nav__list-item search-nav__price search-nav__list-item_b search-nav__list-item_arrow " data_id="price">
-
                 <div class="search-nav__list-item-title search-nav__price-title">
-
                     {{__('Цена')}}
-
                 </div>
-
                 <div class="search-nav__item-dropdown search-nav__price-dropdown">
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Слой_x0020_1">
@@ -202,91 +194,48 @@
                         {{__('Цена')}}
 
                     </div>
-
                     <div class="search-nav__price-filter">
-
                         <div class="search-nav__price-filter-price">
-
                             <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="{{__('от')}}" name="min_price" @if(isset($_GET['min_price'])) value="{{$_GET['min_price']}}"  @endif>
-
                             <div class="search-nav__price-beetwen">
-
                                 -
-
                             </div>
-
                             <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="{{__('до')}}" name="max_price" @if(isset($_GET['max_price'])) value="{{$_GET['max_price']}}" @endif>
-
                         </div>
 
-
-
-                        @if(isset( $_GET['currency_type']) && $_GET['currency_type'] == '')
-
+                        @if(isset( $_GET['currency_type']) && $_GET['currency_type'] != '')
                             <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
                         @endif
-
                         <div class="search-nav__price-filter-currency">
-
                             @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'euro' || $_GET['currency_type'] == '')
-
                             <div class="search-nav__price-currency-item active currency_type" currency_type="euro">
-
                                 @else
-
                                     <div class="search-nav__price-currency-item currency_type" currency_type="euro">
-
                                     @endif
-
                                 €
-
                             </div>
-
-                                    @if(isset($_GET['currency_type']) &&$_GET['currency_type'] == 'rub')
-
+                                    @if(isset($_GET['currency_type']) && $_GET['currency_type'] == 'rub')
                             <div class="search-nav__price-currency-item currency_type active" currency_type="rub">
-
                                 @else
-
                                     <div class="search-nav__price-currency-item currency_type" currency_type="rub">
-
                                     @endif
-
                                 ₽
-
                             </div>
-
                             @if(isset($_GET['currency_type']) &&  $_GET['currency_type'] == 'lira')
-
                             <div class="search-nav__price-currency-item currency_type active" currency_type="lira">
-
                                 @else
-
                                     <div class="search-nav__price-currency-item currency_type" currency_type="lira">
-
                                     @endif
-
                                 ₤
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="search-nav__list-item search-nav__rooms search-nav__list-item_b search-nav__list-item_arrow" data_id="spalni">
-
                 <div class="search-nav__list-item-title search-nav__rooms-title">
-
                    {{__('Спальни')}}, {{__('Ванные')}}
-
                 </div>
-
                 <div class="search-nav__item-dropdown search-nav__rooms-dropdown">
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Слой_x0020_1">
@@ -296,84 +245,44 @@
                         </g>
                     </svg>
                     <div class="search-nav__dropdown-content search-nav__rooms-dropdown-content">
-
                         <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-
                             <div class="search-nav__rooms-dropdown-title">
-
                                 {{__('Спальни')}}
-
                             </div>
-
                             <input type="hidden" name="spalni_id" value="@if(isset($_GET['spalni_id'])) {{$_GET['spalni_id'] }} @endif">
-
                             <div class="search-nav__rooms-dropdown-bedrooms-buttons">
-
                                 <?php $i = 0 ?>
-
                                 @foreach($filter->where('type','Спальни') as $spalni)
-
                                     <?php $i++ ?>
-
                                 <div data_id="{{$spalni->id}}" class="spalni search-nav__rooms-dropdown-bedrooms-button @if(!isset($_GET['spalni_id']) && $i == 1 || isset($_GET['spalni_id']) && $_GET['spalni_id'] == $spalni->id )   active @endif" >
-
                                  {{__($spalni->name) }}
-
                                 </div>
-
                                 @endforeach
-
-
-
                             </div>
-
                         </div>
-
                         <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-
                             <div class="search-nav__rooms-dropdown-title">
-
                                 {{__('Ванные')}}
 {{--                                Ванные--}}
-
                             </div>
-
                             <input type="hidden" name="vannie_id" value="@if(isset($_GET['vannie_id'])) {{$_GET['vannie_id']}} @endif" >
-
                             <div class="search-nav__rooms-dropdown-bathrooms-buttons">
-
                                 <?php $a =0; ?>
-
                                 @foreach($filter->where('type','Ванные') as $vannie)
-
                                     <?php $a++ ?>
-
                                 <div data_id="{{$vannie->id}}" class="vannie search-nav__rooms-dropdown-bathrooms-button @if(!isset($_GET['vannie_id']) && $a == 1 || isset($_GET['vannie_id']) && $_GET['vannie_id'] == $vannie->id ) active @endif">
-
                                    {{__($vannie->name) }}
-
                                 </div>
-
                                 @endforeach
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="search-nav__list-item search-nav__more search-nav__list-item_b " data_id="more">
                 <div class="search-nav__list-item-title search-nav__more-title">
-
-
                     {{__('Еще')}}
-
                 </div>
-
                 <div class="search-nav__item-dropdown search-nav__more-dropdown ">
                     <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Слой_x0020_1">
@@ -383,187 +292,94 @@
                         </g>
                     </svg>
                     <div class="search-nav__dropdown-item">
-
                         <div class="more-dropdown__title">
-
                           {{__('Особенности')}}
-
                         </div>
-
                         <div class="more-dropdown__peculiarities-list">
-
                             <?php $ch= 0 ?>
-
                             @foreach($filter->where('type', 'Особенности') as $osobenosti)
-
                             <div class="more-dropdown__peculiarities-item">
-
                                 <label class="more-dropdown__peculiarities">
-
                                     <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-
-                                   @if(isset($_GET['osobenost']))
-
-                                    @foreach($_GET['osobenost'] as $key => $value)
-
+                                    @if(isset($_GET['osobenost']))
+                                        @foreach($_GET['osobenost'] as $key => $value)
                                             @if($key == $osobenosti->id)
-
                                                 checked
-
                                            @endif
-
                                         @endforeach
-
-                                            @endif
-
+                                    @endif
                                     >
-
                                     <div class="more-dropdown-custom-checkbox"></div>
-
                                     <div class="more-dropdown-checkbox-text">
-
                                         {{__($osobenosti->name)}}
-
                                     </div>
-
                                 </label>
-
                             </div>
-
                             @endforeach
-
                         </div>
-
                     </div>
-
                     <div class="search-nav__dropdown-item more-dropdown__view">
-
                         <div class="more-dropdown__title">
-
                         {{__('Вид')}}
-
                         </div>
-
                         <div class="more-dropdown__view-item">
-
-
-
                             <input type="hidden" name="vid_id" value="@if(isset($_GET['vid_id'])) {{$_GET['vid_id']}} @endif">
-
                             @foreach($filter->where('type','Вид') as $vid)
-
                                 @if(isset($_GET['vid_id']) && $_GET['vid_id'] == $vid->id)
-
                             <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button active">
-
                                 @else
-
                                     <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button">
-
                                     @endif
-
                                {{__($vid->name)}}
-
                             </div>
-
                             @endforeach
-
                         </div>
-
                     </div>
-
                     <div class="search-nav__dropdown-item more-dropdown__sea">
-
                         <div class="more-dropdown__title">
-
                           {{__('До моря')}}
-
                         </div>
-
                         <div class="more-dropdown__sea-item">
-
                             <input type="hidden" name="do_more_id" value="@if(isset($_GET['do_more_id'])){{$_GET['do_more_id']}}@endif">
-
                             @foreach($filter->where('type','До моря') as $do_more)
-
                                 @if(isset($_GET['do_more_id']) && $_GET['do_more_id'] == $do_more->id)
-
                             <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button active">
-
                                 @else
-
                                     <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button">
-
                                     @endif
-
                               {{__($do_more->name)}}
-
                             </div>
-
                             @endforeach
-
-
-
                         </div>
-
                     </div>
-
                     <div class="search-nav__dropdown-item more-dropdown__square">
-
                         <div class="more-dropdown__title">
-
                            {{__('Площади (кв.м)')}}
-
                         </div>
-
                         <div class="more-dropdown__square-item">
-
                             <input placeholder="{{__('Общая')}}" name="all_size" value="@if(isset($_GET['all_size'])){{trim($_GET['all_size'], ' ') }}@endif">
-
                             <input placeholder="{{__('Дом')}}" name="home_size" value="@if(isset($_GET['home_size'])){{trim($_GET['home_size'], ' ')}}@endif">
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
             <div class="search-nav__list-item search-nav__find search-nav__list-item_b form_button">
-
                 <div class="search-nav__list-item-title search-nav__find-title">
-
                     {{__('Найти')}}
-
                 </div>
-
                 <svg class="search-nav__icon"  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="59px" height="59px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                      viewBox="0 0 1.61 1.61"
-
                      xmlns:xlink="http://www.w3.org/1999/xlink">
-
                         <g id="Слой_x0020_1">
-
                             <metadata id="CorelCorpID_0Corel-Layer"/>
-
                             <circle class="fil0 str0" cx="0.67" cy="0.67" r="0.6"/>
-
                             <line class="fil0 str0" x1="1.09" y1="1.09" x2="1.56" y2= "1.56" />
-
                         </g>
-
                 </svg>
-
             </div>
-
         </div>
-
     </div>
-
     </form>
-
 </div>
 
 
@@ -669,71 +485,38 @@
 
 
 
-                        @if(isset( $_GET['currency_type']) && $_GET['currency_type'] == '')
-
-                            <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
-
-                        @endif
-
+                            @if(isset( $_GET['currency_type']) && $_GET['currency_type'] == '')
+                                <input type="hidden" name="currency_type" value="{{$_GET['currency_type']}}">
+                            @endif
                         <div class="search-nav__price-filter-currency">
-
                             @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'euro' || $_GET['currency_type'] == '')
-
                                 <div class="search-nav__price-currency-item active currency_type" currency_type="euro">
-
-                                    @else
-
-                                        <div class="search-nav__price-currency-item currency_type" currency_type="euro">
-
-                                            @endif
-
-                                            €
-
-                                        </div>
-
-                                        @if(isset($_GET['currency_type']) &&$_GET['currency_type'] == 'rub')
-
-                                            <div class="search-nav__price-currency-item currency_type active" currency_type="rub">
-
-                                                @else
-
-                                                    <div class="search-nav__price-currency-item currency_type" currency_type="rub">
-
-                                                        @endif
-
-                                                        ₽
-
-                                                    </div>
-
-                                                    @if(isset($_GET['currency_type']) &&  $_GET['currency_type'] == 'lira')
-
-                                                        <div class="search-nav__price-currency-item currency_type active" currency_type="lira">
-
-                                                            @else
-
-                                                                <div class="search-nav__price-currency-item currency_type" currency_type="lira">
-
-                                                                    @endif
-
+                            @else
+                                <div class="search-nav__price-currency-item currency_type" currency_type="euro">
+                            @endif
+                                €
+                                </div>
+                            @if(isset($_GET['currency_type']) &&$_GET['currency_type'] == 'rub')
+                                <div class="search-nav__price-currency-item currency_type active" currency_type="rub">
+                            @else
+                                <div class="search-nav__price-currency-item currency_type" currency_type="rub">
+                            @endif
+                                ₽
+                                </div>
+                            @if(isset($_GET['currency_type']) &&  $_GET['currency_type'] == 'lira')
+                                <div class="search-nav__price-currency-item currency_type active" currency_type="lira">
+                            @else
+                                <div class="search-nav__price-currency-item currency_type" currency_type="lira">
+                            @endif
                                 ₤
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="search__filter-item search__filter-rooms">
-
                     <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-
                         <div class="search-nav__rooms-dropdown-title">
-
                             {{__('Спальни')}}
-
-
                         </div>
 
                         <div class="search-nav__rooms-dropdown-bedrooms-buttons">

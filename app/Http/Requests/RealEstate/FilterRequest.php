@@ -27,6 +27,17 @@ class FilterRequest extends FormRequest
             'sale_or_rent' => 'nullable|string',
             'order_by' => 'nullable|string',
             'ot_zastroishika' => 'nullable|string',
+            'min_price' => 'nullable|string',
+            'max_price' => 'nullable|string',
+            'vannie_id' => 'nullable|int',
+            'spalni_id' => 'nullable|int',
+            'osobenost' => 'nullable|array',
+            'vid_id' => 'nullable|string',
+            'do_more_id' => 'nullable|string',
+            'all_size' => 'nullable|string',
+            'home_size' => 'nullable|string',
+            'type' => 'nullable|string',
+            'currency_type' => 'nullable|string',
         ];
     }
 }
