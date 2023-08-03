@@ -2459,7 +2459,7 @@
         }
         .object__photo-popup img {
             position: relative;
-            max-width: 1348px;
+            max-width: 620px;
             margin: 0 auto;
             z-index: 202;
             opacity: 1;
