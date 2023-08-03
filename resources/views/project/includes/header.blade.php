@@ -143,7 +143,7 @@
                     <a href="{{route('my_favorites')}}"><img src="{{asset('project/img/svg/favorites-2.svg')}}" alt="favorites"></a>
                 </div>
 
-                <?php $get_count = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->count() ?>
+                <?php $get_count = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count() ?>
                 <div class="header__top-favorites-value"  @if($get_count == 0) style="display: none" @endif>
                     {{$get_count}}
                 </div>
