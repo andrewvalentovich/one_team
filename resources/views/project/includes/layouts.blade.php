@@ -125,7 +125,7 @@
 <script src="{{asset('project/js/app.js')}} "></script>
 @yield('scripts')
 <script>
-    $('.place__buy-btn, .place__order-btn, .place__btns-item').click(function () {
+    $('.place__buy-btn, .place__order-btn, .place__btns-item, .citizenship-investments__footer-button').click(function () {
         $('.popup-modal').addClass('active');
         $("input[name='product_id']").val($(this).attr('data_id'));
     });

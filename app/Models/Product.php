@@ -16,6 +16,11 @@ class Product extends Model
         return $this->hasMany(ProductCategory::class,'product_id');
     }
 
+    public function city()
+    {
+        return $this->belongsTo(CountryAndCity::class, 'city_id', 'id');
+    }
+
     public function photo() {
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
     }

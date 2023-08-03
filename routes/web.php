@@ -51,6 +51,7 @@ Route::get('setLocale/{local}', [SetLocaleController::class,'setLocale'])->name(
 //Route::prefix(app()->getLocale())->group(function () {
 Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
 Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
+Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
 Route::get('all_location',[AllLocationController::class, 'all_location'])->name('all_location');
 Route::get('country/country_id={id}',[CounrtryController::class,'country'])->name('country');
 Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');

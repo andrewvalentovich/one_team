@@ -90,8 +90,7 @@
 
 
             <input type="hidden" name="country_id" value="{{17}}"> <!-- Захардкодили Турцию на первое время -->
-
-            <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
+                    <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
 
                 <div class="search-nav__list-item-title dropdown__title">
 {{--                    @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif--}}
