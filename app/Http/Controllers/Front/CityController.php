@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExchangeRate;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\CountryAndCity;
@@ -110,7 +111,14 @@ class CityController extends Controller
         $count = $get->where('city_id', $id)->count();
         $get_product = $get->where('city_id', $id)->orderby('price','asc')->paginate(10);
 
-        return view('project.city', compact('get_product', 'country', 'count', 'id'));
+        $exchange_rates = ExchangeRate::where('direct_val', 'EUR')->get();
+        $exchanges = [];
+
+        foreach ($exchange_rates as $exchange_rate) {
+            $exchanges[$exchange_rate->relative_val] = $exchange_rate->sell_val;
+        }
+
+        return view('project.city', compact('get_product', 'country', 'count', 'id', 'exchanges'));
     }
 
     public function product_from_map($id, Request $request){

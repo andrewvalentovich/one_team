@@ -47,11 +47,9 @@
                                 <label class="col-sm-3 col-form-label">Прямая</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
                                     <select class="form-control" name="direct_val" style="color: #e2e8f0">
-                                        <option value="{{$exchange_rate->direct_val}}">{{$exchange_rate->direct_val}}</option>
+{{--                                        <option value="{{$exchange_rate->direct_val}}">{{$exchange_rate->direct_val}}</option>--}}
                                         @foreach($exchange_names as $name)
-                                            @if($name != $exchange_rate->direct_val)
-                                                <option value="{{$name}}">{{$name}}</option>
-                                            @endif
+                                            <option {{ ($exchange_rate->direct_val == $name) ? "selected" : "" }} value="{{$name}}">{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -66,11 +64,9 @@
                                 <label class="col-sm-3 col-form-label">Относительная</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
                                     <select class="form-control"  name="relative_val" style="color: #e2e8f0">
-                                        <option value="{{$exchange_rate->relative_val}}">{{$exchange_rate->relative_val}}</option>
+{{--                                        <option value="{{$exchange_rate->relative_val}}">{{$exchange_rate->relative_val}}</option>--}}
                                         @foreach($exchange_names as $name)
-                                            @if($name != $exchange_rate->relative_val)
-                                                <option value="{{$name}}">{{$name}}</option>
-                                            @endif
+                                            <option {{ ($exchange_rate->relative_val == $name) ? "selected" : "" }} value="{{$name}}">{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
