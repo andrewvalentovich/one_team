@@ -2234,12 +2234,7 @@
         let locationsCity = [];
 
 
-
-
-
-        let ids = <?php echo $id  ;?>
-
-
+        let ids = {{ $id }};
 
         let queryParams = <?php echo json_encode(request()->all()) ?>;
 

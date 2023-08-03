@@ -2401,22 +2401,10 @@
 
                 @endif
 
-
-
-
-
-
-
-
-
         let locationsCity = [];
 
 
-
-
-
-        let ids = <?php echo $id  ;?>
-
+        let ids = {{ $id }};
 
 
         let queryParams = <?php echo json_encode(request()->all()) ?>;
@@ -2429,6 +2417,7 @@
             await fetch(`https://dev.one-team.pro/city_from_map`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     if (data.status) {
                         data.data.forEach(city => {
                             locationsCity.push({
