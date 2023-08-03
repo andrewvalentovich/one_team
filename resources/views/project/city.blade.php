@@ -1061,12 +1061,11 @@
                                                    <div class="place__info">
 
                                                        <div class="place__price">
-
                                                            <div class="place__price-value">
-                                                               <div><span>{{ $product->price }}</span><b>€</b></div>
-                                                               <div style="display: none;"><span>{{ intval($product->price * $exchanges['USD']) }}</span><b>$</b></div>
-                                                               <div style="display: none;"><span>{{ intval($product->price * $exchanges['RUB']) }}</span><b>₽</b></div>
-                                                               <div style="display: none;"><span>{{ intval($product->price * $exchanges['TRY']) }}</span><b>₺</b></div>
+                                                               <div class="place__exchange-EUR"><span>{{ $product->price }}</span><b>€</b></div>
+                                                               <div class="place__exchange-USD" style="display: none;"><span>{{ intval($product->price * $exchanges['USD']) }}</span><b>$</b></div>
+                                                               <div class="place__exchange-RUB" style="display: none;"><span>{{ intval($product->price * $exchanges['RUB']) }}</span><b>₽</b></div>
+                                                               <div class="place__exchange-TRY" style="display: none;"><span>{{ intval($product->price * $exchanges['TRY']) }}</span><b>₺</b></div>
                                                            </div>
 
                                                            <div class="place__currency">
@@ -1089,16 +1088,16 @@
                                                                    </div>
                                                                </div>
                                                                <div class="place__currency-list">
-                                                                   <div class="place__currency-item">
+                                                                   <div class="place__currency-item" data-exchange="EUR">
                                                                        €
                                                                    </div>
-                                                                   <div class="place__currency-item">
+                                                                   <div class="place__currency-item" data-exchange="USD">
                                                                        $
                                                                    </div>
-                                                                   <div class="place__currency-item">
+                                                                   <div class="place__currency-item" data-exchange="RUB">
                                                                        ₽
                                                                    </div>
-                                                                   <div class="place__currency-item">
+                                                                   <div class="place__currency-item" data-exchange="TRY">
                                                                        ₺
                                                                    </div>
                                                                </div>
@@ -1112,7 +1111,10 @@
 {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                                                        </div>
                                                        <div class="place__square">
-                                                           {{intval((int)$product->price / ((int)$product->size ?: 1))}}  €  / кв.м
+                                                           <div class="place__square-EUR"><span>{{ intval((int)$product->price / ((int)$product->size ?: 1)) }}  €  / кв.м</span></div>
+                                                           <div class="place__square-USD" style="display: none;">{{ intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)) }}  $  / кв.м</div>
+                                                           <div class="place__square-RUB" style="display: none;">{{ intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)) }}  ₽  / кв.м</div>
+                                                           <div class="place__square-TRY" style="display: none;">{{ intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)) }}  ₺  / кв.м</div>
                                                        </div>
                                                    </div>
                                                    <div class="place__buy">

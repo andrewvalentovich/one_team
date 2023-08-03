@@ -6,12 +6,9 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\RealEstateFilter;
 use App\Http\Requests\RealEstate\FilterRequest;
-use Illuminate\Http\Request;
+use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\CountryAndCity;
-use App\Models\ProductCategory;
-use App\Models\Kurs;
-use App\Models\Peculiarities;
 
 class RealEstateController extends Controller
 {
@@ -24,6 +21,12 @@ class RealEstateController extends Controller
         $country = CountryAndCity::where('id', 17)->first();
         $count = $real_estates->count();
 
-        return view('project.real_estate', compact('get_product', 'count', 'country'));
+        $exchange_rates = ExchangeRate::where('direct_val', 'EUR')->get();
+        $exchanges = [];
+
+        foreach ($exchange_rates as $exchange_rate) {
+            $exchanges[$exchange_rate->relative_val] = $exchange_rate->sell_val;
+        }
+        return view('project.real_estate', compact('get_product', 'count', 'country', 'exchanges'));
     }
 }

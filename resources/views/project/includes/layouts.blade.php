@@ -125,6 +125,19 @@
 <script src="{{asset('project/js/app.js')}} "></script>
 @yield('scripts')
 <script>
+    $('.place__currency-item').bind('click', function () {
+        $('.place__price-value div').css('display', 'none');
+        $('.place__exchange-'+$(this).data('exchange')).css('display', 'block');
+        $('.place__square div').css('display', 'none');
+        $('.place__square-'+$(this).data('exchange')).css('display', 'block');
+        $('.place__currency').removeClass('active');
+    });
+
+    $(".place__currency-preview").bind('click', function () {
+        $(".place__currency").toggleClass("active");
+    });
+
+
     $('.place__buy-btn, .place__order-btn, .place__btns-item, .citizenship-investments__footer-button').click(function () {
         $('.popup-modal').addClass('active');
         $("input[name='product_id']").val($(this).attr('data_id'));

@@ -346,7 +346,6 @@ async function getData() {
         this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
 
     }), document.querySelectorAll(".place__currency-preview").length && (document.querySelector(".place__currency-preview").onclick = function () {
-
         document.querySelector(".place__currency").classList.toggle("active")
 
     }), window.innerWidth > 1003 && document.querySelectorAll(".city").length && document.body.classList.add("scroll_fixed"), window.addEventListener("resize", (function (e) {
@@ -1094,13 +1093,13 @@ if(document.querySelectorAll('.contact__phone-list').length) {
         let phonesBtn
         fieldPhone.forEach(element => {
             phonesBtn = element.querySelectorAll('.contact__form-phone-country')
-    
+
         });
         phonesBtn.forEach(btn => {
             btn.addEventListener('click', function() {
                 const paranetField = btn.closest('.field-phone')
                 const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-    
+
                 this.classList.toggle('active')
                 dropdownList.classList.toggle('active')
             })
