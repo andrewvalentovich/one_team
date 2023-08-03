@@ -104,7 +104,7 @@
                                         {{__('Сначала дешевые')}}
                                         @elseif($_GET['order_by'] == 'price-desc')
                                         {{__('Сначала дорогие')}}
-                                        @elseif($_GET['order_by'] == 'created_at-asc')
+                                        @elseif($_GET['order_by'] == 'created_at-desc')
                                         {{__('Сначала новые')}}
                                         @endif
                                 @else
@@ -243,7 +243,7 @@
 
                             <div class="city-col__filter-item">
                                 <form action="{{ route('real_estate.index') }}" method="get">
-                                    <input type="hidden" name="order_by" value="created_at-asc">
+                                    <input type="hidden" name="order_by" value="created_at-desc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
                                     @endif

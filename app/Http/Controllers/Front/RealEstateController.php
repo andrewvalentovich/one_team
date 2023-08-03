@@ -100,14 +100,14 @@ class RealEstateController extends Controller
         if (isset($request->sale_or_rent)){
             $get->where('sale_or_rent', $request->sale_or_rent);
         }
-        if (isset($request->orderby)){
-            if ($request->orderby == 'price_asc'){
+        if (isset($request->order_by)){
+            if ($request->order_by == 'price-asc'){
                 $get->orderby('price', 'asc');
             }
-            if ($request->orderby == 'price_desc'){
+            if ($request->order_by == 'price-desc'){
                 $get->orderby('price', 'desc');
             }
-            if ($request->orderby == 'created_at-desc'){
+            if ($request->order_by == 'created_at-desc'){
                 $get->orderby('created_at', 'desc');
             }
         }
