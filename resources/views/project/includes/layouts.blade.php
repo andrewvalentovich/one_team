@@ -130,11 +130,12 @@
         $('.place__exchange-'+$(this).data('exchange')).css('display', 'block');
         $('.place__square div').css('display', 'none');
         $('.place__square-'+$(this).data('exchange')).css('display', 'block');
-        $('.place__currency').removeClass('active');
+        $('.place__currency').removeClass('open');
     });
 
     $(".place__currency-preview").bind('click', function () {
-        $(".place__currency").toggleClass("active");
+        console.log($(".place__currency"))
+        $(".place__currency").toggleClass("open");
     });
 
 

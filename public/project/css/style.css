@@ -2657,11 +2657,11 @@ body.scroll_fixed {
   position: relative;
 }
 
-.place__currency.active .place__currency-preview-arrow svg {
+.place__currency.open .place__currency-preview-arrow svg {
   transform: rotate(90deg);
 }
 
-.place__currency.active .place__currency-list {
+.place__currency.open .place__currency-list {
   display: block;
 }
 
@@ -6629,4 +6629,7 @@ body.scroll_fixed {
     top: 0;
     width: 100%;
     border-radius: 5px 5px 0px 0px;
+}
+.place-popup-collage__top img {
+  width: 100%;
 }
