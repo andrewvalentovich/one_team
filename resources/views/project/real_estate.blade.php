@@ -2216,15 +2216,15 @@
 
 
         async function getData() {
-            await fetch(`http://localhost:8879/products_from_map`)
+            await fetch(`https://dev.one-team.pro/products_from_map`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status) {
-                        console.log(data.data);
+                        let site_url = `{{config('app.url')}}`;
                         data.data.forEach(city => {
                             locationsCity.push({
                                 coordinates: city.coordinate.split(',').map(parseFloat),
-                                balloonContent: `<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${city.image}"></div></div>`,
+                                balloonContent: `<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${site_url+city.image}"></div></div>`,
                                 city_id: city.id
                             });
                         });

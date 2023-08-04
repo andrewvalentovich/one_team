@@ -68,7 +68,7 @@ class HomePageController extends Controller
                         'vannie' => $vanie,
                         'kv' => $product->size,
                         'address' => $product->name,
-                        'image' => '../uploads/'.$product->photo[0]->photo,
+                        'image' => 'uploads/'.$product->photo[0]->photo,
                     ];
             }
         } else {
@@ -147,7 +147,7 @@ class HomePageController extends Controller
                     'vannie' => $vanie,
                     'kv' => $product->size,
                     'address' => $product->name,
-                    'image' => '../uploads/' . $product->photo[0]->photo,
+                    'image' => 'uploads/' . $product->photo[0]->photo,
                 ];
         }
 
