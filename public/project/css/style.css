@@ -6635,7 +6635,6 @@ body.scroll_fixed {
 .realty__content {
   /* временно */
   padding-bottom: 130px;
-  display: none;
 }
 .place__slider_p-slide.swiper-slide {
   height: 100%;
