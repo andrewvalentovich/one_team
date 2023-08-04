@@ -6296,7 +6296,7 @@ body.scroll_fixed {
 
 .realty__left-col {
   display: flex;
-  flex: 0 0 calc(75% - 10px);
+  flex: 1 0 calc(75% - 10px);
   gap: 20px;
 }
 
@@ -6347,7 +6347,7 @@ body.scroll_fixed {
 }
 
 .realty__item_s {
-  flex: 0 0 calc(50% - 10px)
+  flex: 1 0 calc(50% - 10px)
 }
 
 .realty__right-col .realty__item {
@@ -6364,6 +6364,7 @@ body.scroll_fixed {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex: 1;
 }
 @media (max-width: 639px) {
   .realty__left-col_2-top {
@@ -6404,11 +6405,6 @@ body.scroll_fixed {
   }
 }
 
-@media (max-width: 899px) {
-  .realty__right-col .realty__item:first-child {
-      display: none;
-  }
-}
 
 .city__swiper {
   border-radius: 5px 5px 0px 0px;
@@ -6632,4 +6628,10 @@ body.scroll_fixed {
 }
 .place-popup-collage__top img {
   width: 100%;
+}
+
+.realty__content {
+  /* временно */
+  padding-bottom: 130px;
+  display: none;
 }
