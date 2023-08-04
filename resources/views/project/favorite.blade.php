@@ -19,7 +19,7 @@
         </div>
         <div class="favorites__subtitle">
 
-       <span class="count">   {{\App\Models\favorite::where('user_id', $_COOKIE['user_id'])->count()}}</span>      {{__('Объявления')}}
+       <span class="count">   {{\App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count()}}</span>      {{__('Объявления')}}
         </div>
         <div class="favorites__content">
             @if(isset($get_product->product))
@@ -334,7 +334,7 @@
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <g id="Слой_x0020_1">
-        <?php  $get_product = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->where('product_id', $product->product->id)->first() ?>
+        <?php  $get_product = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->product->id)->first() ?>
         <metadata id="CorelCorpID_0Corel-Layer"/>
 
         <path  @if($get_product == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
@@ -2094,7 +2094,7 @@
 
         });
     }
-    //открытие галереи обхекта со слайдером 
+    //открытие галереи обхекта со слайдером
     if(document.querySelectorAll('.place__collage-item_clickable').length) {
         let collageContainer = document.querySelectorAll('.place__content')
         for(let i = 0; i < collageContainer.length; i++) {
@@ -2157,7 +2157,7 @@
             })
         }
     }
-    //закрытие place-w в мобилке по клику на стрелочку 
+    //закрытие place-w в мобилке по клику на стрелочку
     if(document.querySelectorAll(".place__header-exit").length) {
         const placeExitBtn = document.querySelectorAll(".place__header-exit")
         placeExitBtn.forEach(btn => {
@@ -2190,7 +2190,7 @@
         const images = wrapperSlides.querySelectorAll('img')
 
         images.forEach((image,index) => {
-            //создаем блок для фото 
+            //создаем блок для фото
             const collageItem = document.createElement('div')
             collageItem.classList.add('place-popup-collage__item')
 
@@ -2201,7 +2201,7 @@
             if(index === 0) {
                 const topItem = collage.querySelector('.place-popup-collage__top')
                 topItem.innerHTML = ''
-                //создаем блок для фото 
+                //создаем блок для фото
                 const collageItemTop = document.createElement('div')
                 collageItemTop.classList.add('place_popup__top-item')
                 //создаем само фото

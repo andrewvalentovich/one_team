@@ -908,7 +908,7 @@
                             </div>
 
                         </div>
-                        <?php $fav = App\Models\favorite::where('user_id', $_COOKIE["user_id"])->where('product_id', $product->id)->first() ?>
+                        <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
                         @if($fav == null)
                         <div class="objects__slide-favorites "  data_id="{{$product->id}}" >
                         @else
@@ -942,7 +942,7 @@
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
                                     let data_id = $(this).attr('data_id');
 
-                                    let user_id = "<?php echo $_COOKIE['user_id'];  ?>";
+                                    let user_id = "<?php echo isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>";
                                     $.ajaxSetup({
                                         headers: {
                                             'X-CSRF-TOKEN': csrfToken
@@ -1199,7 +1199,7 @@
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <g id="Слой_x0020_1">
-        <?php  $get = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->where('product_id', $product->id)->first() ?>
+        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
         <metadata id="CorelCorpID_0Corel-Layer"/>
 
         <path  @if($get == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
