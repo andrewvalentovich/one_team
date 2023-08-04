@@ -365,8 +365,8 @@ async function getData() {
     }));
 
     document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
+        document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"),                 $('.header-w').removeClass('fixed');
 
-        document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
 
     }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
 
