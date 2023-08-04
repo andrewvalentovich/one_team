@@ -6193,7 +6193,7 @@ body.scroll_fixed {
 }
 
 .city-col__item {
-  max-width: calc(50% - 10px);
+  width: calc(50% - 10px);
   border-radius: 5px;
   margin-bottom: 20px;
   display: flex;
@@ -6204,14 +6204,14 @@ body.scroll_fixed {
 
 @media (max-width: 1279px) {
   .city-col__item {
-    max-width: 100%;
+    width: 100%;
   }
 }
 
 
 @media (max-width: 1003px) {
   .city-col__item {
-    max-width: calc(33.333333% - 13.4px);
+    width: calc(33.333333% - 13.4px);
   }
 }
 
@@ -6219,14 +6219,14 @@ body.scroll_fixed {
 
 @media (max-width: 899px) {
   .city-col__item {
-    max-width: calc(50% - 10px);
+    width: calc(50% - 10px);
   }
 }
 
 
 @media (max-width: 639px) {
   .city-col__item {
-    max-width: 100%;
+    width: 100%;
     margin-bottom: 11px;
   }
 }
