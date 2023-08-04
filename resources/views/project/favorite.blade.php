@@ -72,7 +72,7 @@
             <div class="favorites__list">
                 @foreach($get_product as $product)
                     @if(isset($product->product->photo[0]->photo))
-                <div class="favorites__list-item">
+                <div class="favorites__list-item open-place-popup" data_id="{{$product->product->id}}">
                     <div class="favorites__item-img">
                         <img src="{{asset('uploads/'.$product->product->photo[0]->photo)}}" alt="place">
                     </div>
@@ -166,10 +166,7 @@
             </div>
         </div>
     </section>
-
-@endsection
-
-<section class="popuuups">
+    <section class="popuuups">
 @foreach($get_product as $product)
 <div class="place-w" data_id="{{$product->product->id}}">
 
@@ -1493,6 +1490,8 @@
         </div>
     </div>
 </section>
+@endsection
+
 @section('footer')
 
     @include('project.includes.footer')
@@ -1984,39 +1983,7 @@
             if (S.length)
 
                 for (let e = 0; e < S.length; e++) S[e].addEventListener("click", (function(t) {
-
-                    c = new Swiper(".place__slider_p-swiper", {
-
-                        slidesPerView: 1,
-
-                        autoHeight: !0,
-
-                        initialSlide: e,
-
-                        navigation: {
-
-                            nextEl: ".place__slider_p-prev",
-
-                            prevEl: ".place__slider_p-next"
-
-                        },
-
-                        pagination: {
-
-                            el: ".place__slider_p-pagination",
-
-                            type: "custom",
-
-                            renderCustom: function(e, t, o) {
-
-                                return t + " из " + o
-
-                            }
-
-                        }
-
-                    }), q.classList.add("active")
-
+                     q.classList.add("active")
                 }));
 
             if (L.length)
@@ -2101,7 +2068,156 @@
         getData();
 
     </script>
+<script>
+    //открытие модалки объекта
+    if(document.querySelectorAll('.open-place-popup').length) {
+        const openPlacePopupBtn = document.querySelectorAll('.open-place-popup')
+        const header = document.querySelector('.header-w')
+        //открытие модалки
+        openPlacePopupBtn.forEach(blockBtn => {
+            blockBtn.addEventListener('click', function() {
+                openPlacePopup(this)
+                if(window.innerWidth < 1023)
+                header.classList.add('fixed')
+            })
+        });
+        //функция для открытия модалки
+        function openPlacePopup(block) {
+            const id = block.getAttribute('data_id')
+            const placePopup = document.querySelector('.place-w[data_id="' + id + '"]');
+            placePopup.classList.add('active')
+        }
+        //закрытие модалки по крестику
+        $('.place__exit').click(function() {
 
+            $(this).closest('.place-w').removeClass('active');
+
+        });
+    }
+    //открытие галереи обхекта со слайдером 
+    if(document.querySelectorAll('.place__collage-item_clickable').length) {
+        let collageContainer = document.querySelectorAll('.place__content')
+        for(let i = 0; i < collageContainer.length; i++) {
+            getImagesFromCollage(collageContainer[i])
+        }
+        function getImagesFromCollage(container) {
+            let collageImg = container.querySelectorAll('.place__collage-item_clickable')
+            for(let i = 0; i < collageImg.length; i++) {
+                collageImg[i].onclick = function(e) {
+                    addNewImagesToSwiper(e.target, i)
+                    const placeSliderP = document.querySelector(".place__slider_p")
+                    placeSliderP.classList.add('active')
+                }
+            }
+        }
+
+        function addNewImagesToSwiper(itemClick, index) {
+            const imagesContainer = itemClick.closest('.place__content')
+            const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
+            const swiper = document.querySelector('.place__slider_p-swiper')
+            const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
+
+            // Удаление всех дочерних элементов swiperWrapper
+            while (swiperWrapper.firstChild) {
+                swiperWrapper.removeChild(swiperWrapper.firstChild);
+            }
+
+            for (let i = 0; i < images.length; i++) {
+                const slide = document.createElement('div');
+                slide.classList.add('place__slider_p-slide', 'swiper-slide');
+
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('place__slider_p-img');
+
+                const img = document.createElement('img');
+                img.src = images[i].querySelector('img').getAttribute('src');
+                img.alt = 'house';
+
+                imgContainer.appendChild(img);
+                slide.appendChild(imgContainer);
+                swiperWrapper.appendChild(slide);
+            }
+
+            const swiperPlaces = new Swiper(".place__slider_p-swiper", {
+                slidesPerView: 1,
+                autoHeight: !0,
+                initialSlide: index,
+                navigation: {
+                    nextEl: ".place__slider_p-next",
+                    prevEl: ".place__slider_p-prev"
+                },
+
+                pagination: {
+                    el: ".place__slider_p-pagination",
+                    type: "custom",
+                    renderCustom: function(e, t, o) {
+                        return t + " из " + o
+                    }
+                }
+            })
+        }
+    }
+    //закрытие place-w в мобилке по клику на стрелочку 
+    if(document.querySelectorAll(".place__header-exit").length) {
+        const placeExitBtn = document.querySelectorAll(".place__header-exit")
+        placeExitBtn.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const placeW = this.closest('.place-w')
+                placeW.classList.remove('active')
+            })
+        });
+    }
+    if(document.querySelectorAll(".open-collage").length) {
+    //слушатель клика на фотки
+    const openCollage = document.querySelectorAll('.open-collage')
+    openCollage.forEach(openCollageBtn => {
+        openCollageBtn.addEventListener('click', function() {
+            setCollageListImages(openCollageBtn)
+        })
+    });
+
+
+    function setCollageListImages(imageBtn) {
+        //сам блок коллаж
+        const collage = document.querySelector('.place-popup-collage')
+        //сюда добавляем фотки
+        const listImg = collage.querySelector('.place-popup-collage__list')
+
+        listImg.innerHTML = ''
+        //здесь берем фотки
+        const wrapperSlides = imageBtn.closest('.place__wrapper')
+        //сами фотки
+        const images = wrapperSlides.querySelectorAll('img')
+
+        images.forEach((image,index) => {
+            //создаем блок для фото 
+            const collageItem = document.createElement('div')
+            collageItem.classList.add('place-popup-collage__item')
+
+            //создаем само фото
+            const img = document.createElement('img')
+            img.setAttribute('src', image.currentSrc)
+
+            if(index === 0) {
+                const topItem = collage.querySelector('.place-popup-collage__top')
+                topItem.innerHTML = ''
+                //создаем блок для фото 
+                const collageItemTop = document.createElement('div')
+                collageItemTop.classList.add('place_popup__top-item')
+                //создаем само фото
+                const img = document.createElement('img')
+                img.setAttribute('src', image.currentSrc)
+                topItem.appendChild(img)
+                collageItemTop.appendChild(collageItem)
+                return
+            }
+            //добавляем блоки с фото в коллаж
+            collageItem.appendChild(img)
+            listImg.appendChild(collageItem)
+        });
+    }
+}
+</script>
     {{--    <script src="{{asset('project/js/app.js')}} "></script>--}}
 
 @endsection
