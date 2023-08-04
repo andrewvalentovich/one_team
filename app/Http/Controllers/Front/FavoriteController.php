@@ -44,13 +44,8 @@ class FavoriteController extends Controller
                 $gets->orderby('product_id', 'desc');
             }
         }
-            $get_product = $gets->paginate(9);
+        $get_product = $gets->paginate(9);
         $count =  favorite::where('user_id',  $_COOKIE["user_id"])->count();
-
-
-
-
-
         return view('project.favorite', compact('get_product', 'count'));
     }
 

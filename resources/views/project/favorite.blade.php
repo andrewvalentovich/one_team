@@ -22,7 +22,7 @@
        <span class="count">   {{\App\Models\favorite::where('user_id', $_COOKIE['user_id'])->count()}}</span>      {{__('Объявления')}}
         </div>
         <div class="favorites__content">
-            @if(!$get_product ->isEMpty())
+            @if(isset($get_product->product))
             <div class="favorites__content-top container">
                 <div class="favorites__top-buttons">
                     <div class="favorites__top-filter">
@@ -171,7 +171,7 @@
 
 <section class="popuuups">
 @foreach($get_product as $product)
-<div class="place-w" data_id="{{$product->id}}">
+<div class="place-w" data_id="{{$product->product->id}}">
 
     <div class="place-popup">
 
@@ -251,11 +251,11 @@
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+                                <img src="{{asset('uploads/'.$product->product->photo[0]->photo)}}" alt="object">
                             </div>
                         </div>
                         <div class="place__left-collage">
-                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
+                            @foreach($product->product->photo->where('id','!=',$product->product->photo[0]->id) as $photo)
                             <div class="place__collage-item place__collage-item_clickable">
                                 <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
                             </div>
@@ -265,7 +265,7 @@
                     <div class="place__slider">
                         <div class="place__swiper swiper">
                             <div class="place__wrapper swiper-wrapper">
-                                @foreach($product->photo as $photo)
+                                @foreach($product->product->photo as $photo)
                                 <div class="place__slide swiper-slide place__slide_clickable open-collage">
                                     <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
                                 </div>
@@ -315,7 +315,7 @@
 
                         </a>
 
-                        <div class="place__top-favorites" data_id=" {{$product->id}}">
+                        <div class="place__top-favorites" data_id=" {{$product->product->id}}">
 
                             <div class="place__top-favorites-text">
 
@@ -337,7 +337,7 @@
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <g id="Слой_x0020_1">
-        <?php  $get_product = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->where('product_id', $product->id)->first() ?>
+        <?php  $get_product = \App\Models\favorite::where('user_id', $_COOKIE['user_id'])->where('product_id', $product->product->id)->first() ?>
         <metadata id="CorelCorpID_0Corel-Layer"/>
 
         <path  @if($get_product == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
@@ -359,10 +359,10 @@
                         <div class="place__info">
 
                             <div class="place__price">
-                                
+
                                 <div class="place__price-value">
 
-                                    {{$product->price}} €
+                                    {{$product->product->price}} €
 
                                 </div>
 
@@ -424,13 +424,13 @@
 
                             <div class="object__id">
 
-                                ID: {{$product->id}}
+                                ID: {{$product->product->id}}
 
                             </div>
 
                             <div class="place__address">
 
-                                {{$product->address}}
+                                {{$product->product->address}}
 
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
 
@@ -438,7 +438,7 @@
 
                             <div class="place__square">
 
-                                {{intval((int)$product->price / ((int)$product->size ?: 1))}}  €  / кв.м
+                                {{intval((int)$product->product->price / ((int)$product->product->size ?: 1))}}  €  / кв.м
 
                             </div>
 
@@ -446,7 +446,7 @@
 
                         <div class="place__buy">
 
-                            <div class="place__buy-btn" data_id="{{$product->id}}">
+                            <div class="place__buy-btn" data_id="{{$product->product->id}}">
 
                                 <div class="place__buy-text">
 
@@ -511,7 +511,7 @@
 
                             <div class="place__advantages">
 
-                                @if($product->vnj == 'Да')
+                                @if($product->product->vnj == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -572,7 +572,7 @@
 
                                 @endif
 
-                                    @if($product->cryptocurrency == 'Да')
+                                    @if($product->product->cryptocurrency == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -625,7 +625,7 @@
 
                                     @endif
 
-                                    @if($product->commissions == 'Да')
+                                    @if($product->product->commissions == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -660,7 +660,7 @@
 
                                     @endif
 
-                                    @if($product->parking == 'Да')
+                                    @if($product->product->parking == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -740,7 +740,7 @@
                                 </div>
 
                             </div>
-                        @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
+                        @if($product->product->complex_or_not == 'Нет' || $product->product->complex_or_not == null)
                             <div class="object__rooms">
                                 <div class="object__rooms-content">
                                     <div class="object__rooms-item">
@@ -748,7 +748,7 @@
                                             {{__('Общая площадь')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                        {{$product->size}} {{__('кв.м')}}
+                                        {{$product->product->size}} {{__('кв.м')}}
                                         </div>
                                     </div>
                                     <div class="object__rooms-item">
@@ -756,7 +756,7 @@
                                             {{__('Спален')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                        <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
+                                        <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->product->id)->first(); ?>
                                             {{str_replace('+','',$spalni->category->name)}}
                                         </div>
                                     </div>
@@ -767,7 +767,7 @@
 
                                         <div class="object__rooms-value">
 
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->id)->first(); ?>
+                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->product->id)->first(); ?>
 
                                             {{str_replace('+','',__($spalni->category->name))}}
 
@@ -786,7 +786,7 @@
 
                                         <div class="object__rooms-value">
 
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->id)->first(); ?>
+                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->product->id)->first(); ?>
 
                                             {{str_replace('+','', __($spalni->category->name))}}
 
@@ -810,8 +810,8 @@
 
                                 <div class="place__location-info">
 
-                                    @if(app()->getLocale() == 'en') <?php $product->disposition = $product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->disposition = $product->disposition_tr ?>  @endif
-                            {{$product->disposition}}
+                                    @if(app()->getLocale() == 'en') <?php $product->product->disposition = $product->product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->product->disposition = $product->product->disposition_tr ?>  @endif
+                            {{$product->product->disposition}}
 
                                 </div>
 
@@ -829,7 +829,7 @@
 
                                         <script>
 
-                                            product_id_is = <?php echo $product->id?>
+                                            product_id_is = <?php echo $product->product->id?>
 
 
 
@@ -854,11 +854,11 @@
 
                                             }
 
-                                            createYandexMap(<?php echo $product->lat.','.$product->long?>);
+                                            createYandexMap(<?php echo $product->product->lat.','.$product->product->long?>);
 
                                         </script>
 
-                                        <div id="place-map{{$product->id}}" style="width: 100%; height: 165px;"></div>
+                                        <div id="place-map{{$product->product->id}}" style="width: 100%; height: 165px;"></div>
 
                                     </div>
 
@@ -879,8 +879,8 @@
                                         Планировки квартир
                                     </div>
                                     <div class="kompleks__layout-list" bis_skin_checked="1">
-                                        @if(!is_null(json_decode($product->objects)))
-                                            @foreach(json_decode($product->objects) as $object)
+                                        @if(!is_null(json_decode($product->product->objects)))
+                                            @foreach(json_decode($product->product->objects) as $object)
                                             <div class="kompleks__layout-item" bis_skin_checked="1">
                                                 <div class="kompleks__layout-info" bis_skin_checked="1">
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
@@ -901,7 +901,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                    <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
+                                                    <div class="kompleks__layout-img" data-productid="{{ $product->product->id }}" bis_skin_checked="1">
                                                         @if(isset($object->apartment_layout_image))
                                                             <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
                                                         @else
@@ -1106,7 +1106,7 @@
                                 </div>
 
                                 <div class="object__peculiarities-content">
-                                    <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->id)->get() ?>
+                                    <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->product->id)->get() ?>
                                     @foreach($osobenosty as $osob)
                                     <div class="object__peculiarities-item">
                                 {{__($osob->category->name)}}
@@ -1126,8 +1126,8 @@
 
                                 <div class="object__description-text">
 
-                                    @if(app()->getLocale() == 'en') <?php $product->description = $product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->description = $product->description_tr ?> @endif
-                                    {{$product->description}}
+                                    @if(app()->getLocale() == 'en') <?php $product->product->description = $product->product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->product->description = $product->product->description_tr ?> @endif
+                                    {{$product->product->description}}
 
                                 </div>
 
@@ -1474,7 +1474,7 @@
             </div>
             <div class="place-popup-collage__list">
                 <div class="place-popup-collage__item">
-                    
+
                 </div>
             </div>
             <div class="place-popup-collage__exit">
@@ -1506,7 +1506,7 @@
 
     <script>
 
-        let product_count = "<?php echo $get->count() ?>";
+        let product_count = "<?php echo $get_product->count() ?>";
 
         let locations = [
 
