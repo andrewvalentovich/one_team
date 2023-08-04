@@ -6598,10 +6598,12 @@ body.scroll_fixed {
   max-width: 962px;
   height: calc(100% - 20px);
   object-fit: cover;
+  height: 100%;
 }
 
 .place__slider_p-img {
   padding: 10px 0 0 0;
+  height: calc(100% - 10px);
 }
 
 .place__slider_p-wrapper {
@@ -6634,4 +6636,7 @@ body.scroll_fixed {
   /* временно */
   padding-bottom: 130px;
   display: none;
+}
+.place__slider_p-slide.swiper-slide {
+  height: 100%;
 }

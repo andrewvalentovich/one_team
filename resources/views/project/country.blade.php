@@ -1534,7 +1534,7 @@
                                     {{$product->price}} €
 
                                 </div>
-
+                                
                                 <div class="place__currency">
                                     <div class="place__currency-preview">
                                         <div class="place__currency-preview-item">
