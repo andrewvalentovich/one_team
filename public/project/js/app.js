@@ -468,37 +468,39 @@ async function getData() {
 
         for (let e = 0; e < S.length; e++) S[e].addEventListener("click", (function (t) {
 
-            c = new Swiper(".place__slider_p-swiper", {
+            // c = new Swiper(".place__slider_p-swiper", {
 
-                slidesPerView: 1,
+            //     slidesPerView: 1,
 
-                autoHeight: !0,
+            //     autoHeight: !0,
 
-                initialSlide: e,
+            //     initialSlide: e,
 
-                navigation: {
+            //     navigation: {
 
-                    nextEl: ".place__slider_p-prev",
+            //         nextEl: ".place__slider_p-next",
 
-                    prevEl: ".place__slider_p-next"
+            //         prevEl: ".place__slider_p-prev"
 
-                },
+            //     },
 
-                pagination: {
+            //     pagination: {
 
-                    el: ".place__slider_p-pagination",
+            //         el: ".place__slider_p-pagination",
 
-                    type: "custom",
+            //         type: "custom",
 
-                    renderCustom: function (e, t, o) {
+            //         renderCustom: function (e, t, o) {
 
-                        return t + " из " + o
+            //             return t + " из " + o
 
-                    }
+            //         }
 
-                }
+            //     }
 
-            }), q.classList.add("active")
+            // }), 
+            
+            q.classList.add("active")
 
         }));
 

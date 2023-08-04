@@ -813,7 +813,7 @@
                         <div class="place__info">
 
                             <div class="place__price">
-
+                                
                                 <div class="place__price-value">
 
                                     {{$product->price}} €
@@ -858,25 +858,18 @@
                                     </div>
 
                                     <div class="place__currency-list">
-
-                                        <div class="place__currency-item">
-
+                                        <div class="place__currency-item" data-exchange="EUR">
+                                            €
+                                        </div>
+                                        <div class="place__currency-item" data-exchange="USD">
+                                            $
+                                        </div>
+                                        <div class="place__currency-item" data-exchange="RUB">
                                             ₽
-
                                         </div>
-
-    {{--                                                                    <div class="place__currency-item">--}}
-
-    {{--                                                                        €--}}
-
-    {{--                                                                    </div>--}}
-
-                                        <div class="place__currency-item">
-
-                                            £
-
+                                        <div class="place__currency-item" data-exchange="TRY">
+                                            ₺
                                         </div>
-
                                     </div>
 
                                 </div>
@@ -2456,39 +2449,7 @@
             if (S.length)
 
                 for (let e = 0; e < S.length; e++) S[e].addEventListener("click", (function(t) {
-
-                    c = new Swiper(".place__slider_p-swiper", {
-
-                        slidesPerView: 1,
-
-                        autoHeight: !0,
-
-                        initialSlide: e,
-
-                        navigation: {
-
-                            nextEl: ".place__slider_p-prev",
-
-                            prevEl: ".place__slider_p-next"
-
-                        },
-
-                        pagination: {
-
-                            el: ".place__slider_p-pagination",
-
-                            type: "custom",
-
-                            renderCustom: function(e, t, o) {
-
-                                return t + " из " + o
-
-                            }
-
-                        }
-
-                    }), q.classList.add("active")
-
+                     q.classList.add("active")
                 }));
 
             if (L.length)
