@@ -2728,6 +2728,7 @@
             }));
 
             document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
+                console.log('test')
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
@@ -3321,7 +3322,7 @@
             $('.place__exit').click(function() {
 
                 $(this).closest('.place-w').removeClass('active');
-
+                $('.header-w').removeClass('fixed');
             });
 
 

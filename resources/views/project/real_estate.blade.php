@@ -3121,6 +3121,7 @@
             $('.place__exit').click(function() {
 
                 $(this).closest('.place-w').removeClass('active');
+                $('.header-w').removeClass('fixed');
 
             });
 
