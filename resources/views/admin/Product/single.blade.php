@@ -444,12 +444,12 @@
                         @endforeach">
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Долгота </label>
-                            <input value="{{$get->long}}"  name="long" type="text" class="form-control" id="" placeholder="Долгота" required>
+                            <input value="{{$get->long}}"  name="long" type="text" class="form-control" id="" placeholder="Долгота">
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Широта</label>
-                            <input value="{{$get->lat}}"  name="lat" type="text" class="form-control" id="" placeholder="Широта" required>
+                            <input value="{{$get->lat}}"  name="lat" type="text" class="form-control" id="" placeholder="Широта">
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположения на Русском</label>

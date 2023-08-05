@@ -3350,6 +3350,9 @@
                         user_id: user_id,
                         product_id: data_id
                     },
+                    beforeSend: function (data){
+                        console.log(data);
+                    },
                     success: function(response) {
                         if(response.message == 'created'){
                             thiss.find('.fil0').attr('fill', '#508cfa');

@@ -347,12 +347,12 @@
                         <input type="hidden" name="category_id" value="{{$category->id}}">
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Долгота </label>
-                            <input name="long" type="text" class="form-control" id="" placeholder="Долгота" required>
+                            <input name="long" type="text" class="form-control" id="" placeholder="Долгота">
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Широта</label>
-                            <input name="lat" type="text" class="form-control" id="" placeholder="Широта" required>
+                            <input name="lat" type="text" class="form-control" id="" placeholder="Широта">
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположения на Русском</label>
