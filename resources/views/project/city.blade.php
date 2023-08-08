@@ -9,14 +9,6 @@
 @endsection
 
 
-
-<style>
-
-
-</style>
-
-
-
 @section('content')
 
 
