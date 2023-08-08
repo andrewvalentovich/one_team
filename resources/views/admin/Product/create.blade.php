@@ -345,16 +345,19 @@
                         </div>
 
                         <input type="hidden" name="category_id" value="{{$category->id}}">
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Долгота </label>
-                            <input name="long" type="text" class="form-control" id="" placeholder="Долгота">
-                        </div>
+                        <input name="long" type="hidden" class="form-control" id="long" placeholder="Долгота">
+                        <input name="lat" type="hidden" class="form-control" id="lat" placeholder="Широта">
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Широта</label>
-                            <input name="lat" type="text" class="form-control" id="" placeholder="Широта">
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
+                        <style>
+                            #set_placemark_map {
+                                width: 100%;
+                                height: 400px;
+                            }
+                        </style>
+                        <label for="set_placemark_map">Выберите координаты объекта</label>
+                        <div id="set_placemark_map"></div>
+
+                        <div class="form-group pt-3" bis_skin_checked="1">
                             <label for="">Расположения на Русском</label>
                             <textarea name="disposition"  class="form-control" id="" placeholder="Расположения" required></textarea>
                         </div>
@@ -406,6 +409,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+    <script src="{{ asset('admin/js/ymapSetPlaceMark.js') }}"></script>
     <style>
         .input-file {
             position: relative;

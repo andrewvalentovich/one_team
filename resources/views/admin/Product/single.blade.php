@@ -442,16 +442,19 @@
                         <input type="hidden" name="category_id" value="@foreach($product_category as $title)
                         {{$title->peculiarities_id}}
                         @endforeach">
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Долгота </label>
-                            <input value="{{$get->long}}"  name="long" type="text" class="form-control" id="" placeholder="Долгота">
-                        </div>
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Широта</label>
-                            <input value="{{$get->lat}}"  name="lat" type="text" class="form-control" id="" placeholder="Широта">
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
+                        <input value="{{$get->long}}"  name="long" type="hidden" class="form-control" id="long" placeholder="Долгота">
+                        <input value="{{$get->lat}}"  name="lat" type="hidden" class="form-control" id="lat" placeholder="Широта">
+
+                        <style>
+                            #set_placemark_map {
+                                width: 100%;
+                                height: 400px;
+                            }
+                        </style>
+                        <div id="set_placemark_map"></div>
+
+                        <div class="form-group pt-4" bis_skin_checked="1">
                             <label for="">Расположения на Русском</label>
                             <textarea  name="disposition"  class="form-control" id="" placeholder="Расположения" required>{{$get->disposition}}</textarea>
                         </div>
@@ -518,6 +521,8 @@
 
 @endsection
 @section('scripts')
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+    <script src="{{ asset('admin/js/ymapGetSetPlaceMark.js') }}"></script>
     <style>
         .input-file {
             position: relative;
