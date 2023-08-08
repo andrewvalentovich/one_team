@@ -3135,7 +3135,8 @@
                 let data_id = $(this).attr('data_id');
 
 
-                let site_url = "<?php echo env('APP_URL') ?>";
+                let site_url = `{{ config('app.url') }}`;
+                console.log(site_url);
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 let thiss =  $(this);
                 $.ajaxSetup({

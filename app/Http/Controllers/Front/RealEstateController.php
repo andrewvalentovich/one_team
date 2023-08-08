@@ -47,6 +47,9 @@ class RealEstateController extends Controller
             $type = ProductCategory::where('peculiarities_id', $request->do_more_id)->get('product_id')->pluck('product_id')->toarray();
             $get->wherein('id', $type);
         }
+        if (isset($request->country_id)){
+            $get->where('country_id', $request->country_id);
+        }
         if (isset($request->spalni_id)){
 //            dd($request->spalni_id);
             $type = ProductCategory::where('peculiarities_id', $request->spalni_id)->get('product_id')->pluck('product_id')->toarray();

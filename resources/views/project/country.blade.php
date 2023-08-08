@@ -194,14 +194,14 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{ route('real_estate.index', ['country_id' => $country->id]) }}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{ route('real_estate.index', ['country_id' => $country->id]) }}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -321,14 +321,14 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -435,14 +435,14 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -536,14 +536,14 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -622,14 +622,14 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -695,14 +695,14 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -751,14 +751,14 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -789,14 +789,14 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                         </div>
                     </div>
                 </div>
@@ -810,14 +810,14 @@
                 <div class="realty__left-col_1">
                     <div class="realty__item realty__item_b" >
                         <div class="realty__img_b">
-                            <a href="{{route('country',$country->id)}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('country',$country->id)}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
+                                <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('country',$country->id)}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
                             </div>
                         </div>
                     </div>
