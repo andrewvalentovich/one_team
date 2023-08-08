@@ -136,7 +136,7 @@
                 </div>
             </div>
             <a href="{{route('home_page')}}" class="header__top-logo">
-                <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
             </a>
             <div class="header__top-favorites">
                 <div class="header__top-favorites-img">
