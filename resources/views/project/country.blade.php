@@ -65,7 +65,7 @@
 
         <div class="realty__subtitle">
 
-          {{__('Всего')}}  {{$country->product_country->count()}} {{__('объявлений')}}
+          {{__('Всего')}}  {{numbers_graduation($country->product_country->count())}}
 
         </div>
 
@@ -83,7 +83,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                     <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                                     <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {{$country->cities[3]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                     <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{$country->cities[4]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                                 <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{$country->cities[5]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                             <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}}  @endif </a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{$country->cities[6]->product_city->count()}}  {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                             <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">  @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">  {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">  {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                             <a href="{{ route('real_estate.index', ['country_id' => $country->id]) }}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{ route('real_estate.index', ['country_id' => $country->id]) }}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{ route('real_estate.index', ['country_id' => $country->id]) }}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +250,7 @@
                                     <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -267,7 +267,7 @@
                                     <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {{$country->cities[3]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -282,7 +282,7 @@
                                     <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{$country->cities[4]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                                 <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{$country->cities[5]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -315,7 +315,7 @@
                             <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}}  @endif </a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{$country->cities[6]->product_city->count()}}  {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                         </div>
                     </div>
                 </div>
@@ -328,7 +328,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -350,7 +350,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -364,7 +364,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -377,7 +377,7 @@
                                     <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -396,7 +396,7 @@
                                     <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{$country->cities[4]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -413,7 +413,7 @@
                                 <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{$country->cities[5]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[5]->id)}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -429,7 +429,7 @@
                             <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}}  @endif </a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{$country->cities[6]->product_city->count()}}  {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[6]->id)}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                         </div>
                     </div>
                 </div>
@@ -442,7 +442,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                         </div>
                     </div>
                 </div>
@@ -457,14 +457,14 @@
                 <div class="realty__left-col_1">
                     <div class="realty__item realty__item_b" >
                         <div class="realty__img_b">
-                            <a href="{{route('city',$country->cities[0]->id)}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                            <a href="{{route('city',$country->cities[0]->id)}}"><img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -478,7 +478,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -497,7 +497,7 @@
                                     <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -514,7 +514,7 @@
                                 <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">      {{$country->cities[3]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">      {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -530,7 +530,7 @@
                             <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}}  @endif </a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{$country->cities[4]->product_city->count()}}  {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[4]->id)}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}}  </a>
                         </div>
                     </div>
                 </div>
@@ -543,7 +543,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -565,7 +565,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -583,7 +583,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -600,7 +600,7 @@
                                 <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">      {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -616,7 +616,7 @@
                             <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}}  @endif </a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {{$country->cities[3]->product_city->count()}}  {{__('объявлений')}} </a>
+                            <a href="{{route('city',$country->cities[3]->id)}}" style="color: white">   {numbers_graduation({$country->cities[3]->product_city->count())}}  </a>
                         </div>
                     </div>
                 </div>
@@ -629,7 +629,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -651,7 +651,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -669,7 +669,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -686,7 +686,7 @@
                                 <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">      {{$country->cities[2]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[2]->id)}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -702,7 +702,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -723,7 +723,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -741,7 +741,7 @@
                                     <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}}  @endif </a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{$country->cities[1]->product_city->count()}} {{__('объявлений')}} </a>
+                                    <a href="{{route('city',$country->cities[1]->id)}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}}</a>
                                 </div>
                             </div>
                         </div>
@@ -758,7 +758,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                         </div>
                     </div>
                 </div>
@@ -780,7 +780,7 @@
                                 <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{$country->cities[0]->product_city->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('city',$country->cities[0]->id)}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}}</a>
                             </div>
                         </div>
                     </div>
@@ -796,7 +796,7 @@
                             <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                            <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                         </div>
                     </div>
                 </div>
@@ -817,7 +817,7 @@
                                 <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}}  @endif</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{$country->product_country->count()}} {{__('объявлений')}} </a>
+                                <a href="{{route('real_estate.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                             </div>
                         </div>
                     </div>
