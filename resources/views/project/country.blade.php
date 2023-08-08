@@ -1276,7 +1276,9 @@
                                             ₽
                                         </div>
                                         <div class="place__currency-item" data-exchange="TRY">
-                                            ₺
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="13px" height="13px" viewBox="0 0 24 24" fill="none">
+                                                <path d="M19 13C19 17.4183 14.5228 21 9 21V3M15 10L5 12M15 6L5 8" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
                                         </div>
                                     </div>
 

@@ -267,11 +267,11 @@ body {
 
 .city-col__all {
   margin-right: 6px;
-  padding: 7px 27px;
+  padding: 10px 27px;
 }
 
 .city-col__builder {
-  padding: 7px 21px;
+  padding: 9px 21px;
 }
 
 .city-col__content {
@@ -914,6 +914,10 @@ body {
   position: absolute;
   text-align: center;
   left: 0;
+  display: flex;
+  gap: 5px;
+  margin: 0;
+  justify-content: center;
 }
 
 .objects__pagination .swiper-pagination-bullet {
@@ -946,7 +950,7 @@ body {
 
 .objects__pagination > .swiper-pagination-bullets .swiper-pagination-bullet:not(:last-child),
 .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet:not(:last-child) {
-  margin-right: 26px;
+  /* margin-right: 26px; */
 }
 
 .realty__left-col_2-top .realty__item:last-child {
@@ -1552,7 +1556,7 @@ body {
 
 .header__nav-title.active {
   color: #508cfa;
-}
+}.city-col__all
 
 .header__nav-title:hover {
   color: #508cfa;
@@ -2650,7 +2654,7 @@ body.scroll_fixed {
   line-height: 32px;
   margin-right: 14px;
   font-weight: 700;
-    font-family: Source Sans Pro;
+    /* font-family: Source Sans Pro; */
 }
 
 .place__currency {
@@ -3369,6 +3373,7 @@ body.scroll_fixed {
   background: rgba(0, 0, 0, 0.5);
   width: 26px;
   height: 26px;
+  display: none;
 }
 
 .place-popup-collage.active {
@@ -3407,6 +3412,22 @@ body.scroll_fixed {
   top: 20px;
   cursor: pointer;
   left: 20px;
+  padding: 4px;
+}
+
+.place-popup-collage__exit svg {
+  z-index: 2;
+  position: relative;
+}
+
+.place-popup-collage__exit::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
 }
 
 .place-popup-collage__exit svg .str0 {
@@ -5270,7 +5291,7 @@ body.scroll_fixed {
 
 @media (max-width: 639px) {
   .wrapper {
-    padding-top: 68.39px;
+    padding-top: 74.39px;
   }
 
   .city__content.city_map {
@@ -5299,12 +5320,13 @@ body.scroll_fixed {
   }
 
   .city-col__all {
-    padding: 7px 44px;
+    padding: 10px 44px;
   }
 
   .city-col__builder {
-    padding: 7px 9px;
+    padding: 10px 9px;
   }
+  
 
   .city-col__content {
     margin: 15px auto 0;
@@ -6067,7 +6089,7 @@ body.scroll_fixed {
   }
 
   .city-col__builder {
-    padding: 7px 4px;
+    padding: 9px 4px;
     flex: 1;
   }
 
@@ -6638,10 +6660,22 @@ body.scroll_fixed {
   width: 100%;
 }
 
-.realty__content {
-  /* временно */
-  padding-bottom: 130px;
-}
 .place__slider_p-slide.swiper-slide {
   height: 100%;
+}
+
+.city-col__builder button{
+  color: #fff !important;
+  background: transparent;
+}
+
+
+.city-col__builder.active button{
+  color: #508cfa !important;
+  background: transparent;
+}
+
+
+.lira {
+  font-family: Source Sans Pro;
 }
