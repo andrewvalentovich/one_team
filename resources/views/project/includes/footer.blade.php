@@ -2,7 +2,7 @@
     <footer class="footer footer_full container">
         <div class="footer__top">
             <a href="{{route('home_page')}}" class="footer__logo">
-                <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
             </a>
         </div>
         <?php $company_pages = \App\Models\CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get(); ?>
