@@ -498,8 +498,8 @@ async function getData() {
 
             //     }
 
-            // }), 
-            
+            // }),
+
             q.classList.add("active")
 
         }));

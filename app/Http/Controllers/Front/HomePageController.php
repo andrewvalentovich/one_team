@@ -76,7 +76,7 @@ class HomePageController extends Controller
             $get_turkey = CountryAndCity::where('name', 'Турция')->first();
 
             // Получаем города Турции
-            $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->get();
+            $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->has('product_city')->get();
 
             $data = array();
             foreach ($get_turkey_city as $city){
