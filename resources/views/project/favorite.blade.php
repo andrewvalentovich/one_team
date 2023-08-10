@@ -78,7 +78,7 @@
                     </div>
                     <div class="favorites__item-text">
                         <div class="favorites__item-price">
-                            €  {{$product->product->price}}
+                            €  {{ number_format($product->product->price, 0, '.', ' ')}}
                         </div>
                         <div class="favorites__item-rooms">
                             2 010  {{__('кв.м')}}  <span>|</span>  2 {{__('спальни')}} <span>|</span>  1 {{__('Ванна')}}
@@ -359,7 +359,7 @@
 
                                 <div class="place__price-value">
 
-                                    {{$product->product->price}} €
+                                    {{ number_format($product->product->price, 0, '.', ' ') }} €
 
                                 </div>
 
@@ -435,7 +435,7 @@
 
                             <div class="place__square">
 
-                                {{intval((int)$product->product->price / ((int)$product->product->size ?: 1))}}  €  / кв.м
+                                {{ number_format(intval((int)$product->product->price / ((int)$product->product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м
 
                             </div>
 
@@ -884,10 +884,10 @@
                                                         {{ $object->building }}
                                                     </div>
                                                     <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                        ${{ $object->price }}
+                                                        $ {{ number_format($object->price, 0, '.', ' ') }}
                                                     </div>
                                                     <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                        ${{ intval((int) $object->price / ((int) $object->size  ?: 1)) }} / кв.м
+                                                        $ {{ number_format(intval((int) $object->price / ((int) $object->size  ?: 1)), 0, '.', ' ') }} / кв.м
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}

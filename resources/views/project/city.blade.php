@@ -804,7 +804,7 @@
 
                                    <div class="city-col__item-price">
 
-                                       {{$product->price}}€
+                                       {{ number_format($product->price, 0, '.', ' ')}} €
 
                                    </div>
 
@@ -834,7 +834,7 @@
                                    </div>
 
                                </div>
-                               
+
                                <div class="objects__slide-favorites" data_id="{{$product->id}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Слой_x0020_1">
@@ -1062,10 +1062,10 @@
 
                                                        <div class="place__price">
                                                            <div class="place__price-value">
-                                                               <div class="place__exchange-EUR" style="display: block;"><span>{{ $product->price }}</span><b>€</b></div>
-                                                               <div class="place__exchange-USD" style="display: none;"><span>{{ intval($product->price * $exchanges['USD']) }}</span><b>$</b></div>
-                                                               <div class="place__exchange-RUB" style="display: none;"><span>{{ intval($product->price * $exchanges['RUB']) }}</span><b>₽</b></div>
-                                                               <div class="place__exchange-TRY" style="display: none;"><span>{{ intval($product->price * $exchanges['TRY']) }}</span class="lira"><b class="lira">₺</b></div>
+                                                               <div class="place__exchange-EUR" style="display: block;"><span>{{ number_format($product->price, 0, '.', ' ') }}</span><b> €</b></div>
+                                                               <div class="place__exchange-USD" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['USD']), 0, '.', ' ') }}</span><b> $</b></div>
+                                                               <div class="place__exchange-RUB" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['RUB']), 0, '.', ' ') }}</span><b> ₽</b></div>
+                                                               <div class="place__exchange-TRY" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['TRY']), 0, '.', ' ') }}</span class="lira"><b class="lira"> ₺</b></div>
                                                            </div>
 
                                                            <div class="place__currency">
@@ -1113,10 +1113,10 @@
 {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                                                        </div>
                                                        <div class="place__square">
-                                                           <div class="place__square-EUR" style="display: block;">{{ intval((int)$product->price / ((int)$product->size ?: 1)) }}  €  / кв.м</div>
-                                                           <div class="place__square-USD" style="display: none;">{{ intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)) }}  $  / кв.м</div>
-                                                           <div class="place__square-RUB" style="display: none;">{{ intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)) }}  ₽  / кв.м</div>
-                                                           <div class="place__square-TRY" style="display: none;">{{ intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)) }}  <span class="lira">₺</span>  / кв.м</div>
+                                                           <div class="place__square-EUR" style="display: block;">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
+                                                           <div class="place__square-USD" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  $  / кв.м</div>
+                                                           <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽  / кв.м</div>
+                                                           <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira">₺</span>  / кв.м</div>
                                                        </div>
                                                    </div>
                                                    <div class="place__buy">
@@ -1466,10 +1466,10 @@
                                                                                    {{ $object->building }}
                                                                                </div>
                                                                                <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                                   ${{ $object->price }}
+                                                                                   $ {{ number_format($object->price, 0, '.', ' ') }}
                                                                                </div>
                                                                                <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                                   ${{ intval((int) $object->price / ((int) $object->size  ?: 1)) }} / кв.м
+                                                                                   $ {{ number_format(intval((int) $object->price / ((int) $object->size  ?: 1)), 0, '.', ' ') }} / кв.м
                                                                                </div>
                                                                                <div class="kompleks__layout-square" bis_skin_checked="1">
                                                                                    {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
