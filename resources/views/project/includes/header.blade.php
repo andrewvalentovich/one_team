@@ -87,7 +87,7 @@
     </div>
     <header class ="header header_1200">
         <div class="header__top">
-            <div class="header__top-lang">
+            <!-- <div class="header__top-lang">
                 <div class="header__top-lang-item">
 
                     {{ strtoupper(app()->getLocale())}}
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="header__top-phone-menu">
                 <div id="nav-icon">
                     <span></span>
@@ -149,7 +149,10 @@
                 </div>
             </div>
         </div>
-        <div class="header__nav">
+        <div class="header__nav container">
+            <a href="{{route('home_page')}}" class="header__top-logo">
+                <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+             </a>
             <div class="header__nav-list">
                 <div class="header__nav-item">
                     <a href="#" class="header__nav-title header__nav-buy ">
@@ -218,5 +221,59 @@
                     </d>
                 </div>
             </div>
+            <div class="header__nav-action">
+                <div class="header__top-lang">
+                    <div class="header__top-lang-item">
+
+                        {{ strtoupper(app()->getLocale())}}
+                    </div>
+                    <div class="header__lang-list-dropdown">
+                        <div class="header__lang-list">
+                            <div class="header__lang-list-item">
+                                <a style="display: flex;" href="{{route('setLocale','en')}}">
+                                    <div class="header__lang-text">
+                                    EN
+                                </div>
+
+                                <div class="header__lang-img">
+                                    <img src="{{asset('project/img/countries/us.png')}}" alt="us">
+                                </div>
+                                </a>
+                            </div>
+                            <div class="header__lang-list-item">
+                                <a style="display: flex;" href="{{route('setLocale','ru')}}">
+                                <div class="header__lang-text">
+                                    RU
+                                </div>
+                                <div class="header__lang-img">
+                                    <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
+                                </div>
+                                </a>
+                            </div>
+                            <div class="header__lang-list-item">
+                                <a style="display: flex;" href="{{route('setLocale','tr')}}">
+                                <div class="header__lang-text">
+                                    TR
+                                </div>
+                                <div class="header__lang-img">
+                                    <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
+                                </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header__top-favorites">
+                    <div class="header__top-favorites-img">
+                        <a href="{{route('my_favorites')}}"><img src="{{asset('project/img/svg/favorites-2.svg')}}" alt="favorites"></a>
+                    </div>
+
+                    <?php $get_count = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count() ?>
+                    <div class="header__top-favorites-value"  @if($get_count == 0) style="display: none" @endif>
+                        {{ isset($get_count) ? $get_count : "" }}
+                    </div>
+                </div>
+            </div>
     </header>
 </div>
+

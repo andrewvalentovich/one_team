@@ -759,7 +759,7 @@
                                                                <div class="place__exchange-EUR"><span>{{ number_format($product->price, 0, '.', ' ') }}</span><b> €</b></div>
                                                                <div class="place__exchange-USD" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['USD']), 0, '.', ' ') }}</span><b> $</b></div>
                                                                <div class="place__exchange-RUB" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['RUB']), 0, '.', ' ') }}</span><b> ₽</b></div>
-                                                               <div class="place__exchange-TRY" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['TRY']), 0, '.', ' ') }}</span><b> ₺</b></div>
+                                                               <div class="place__exchange-TRY" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['TRY']), 0, '.', ' ') }}</span><b class="lira"> ₺</b></div>
                                                            </div>
 
                                                            <div class="place__currency">
@@ -792,7 +792,9 @@
                                                                        ₽
                                                                    </div>
                                                                    <div class="place__currency-item" data-exchange="TRY">
-                                                                       ₺
+                                                                        <span class="lira">
+                                                                            ₺
+                                                                        </span>
                                                                    </div>
                                                                </div>
                                                            </div>
@@ -816,7 +818,7 @@
                                                            <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
                                                            <div class="place__square-USD" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  $  / кв.м</div>
                                                            <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽  / кв.м</div>
-                                                           <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₺  / кв.м</div>
+                                                           <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira"> ₺ </span>  / кв.м</div>
                                                        </div>
 
                                                    </div>
@@ -2479,7 +2481,7 @@
             let f = document.querySelectorAll(".objects__slide-favorites");
 
             for (let e = 0; e < f.length; e++) f[e].addEventListener("click", (function (t) {
-
+                t.stopPropagation();
                 f[e].classList.toggle("active")
 
             }));
@@ -3192,5 +3194,7 @@
 
         });
     </script>
+    <script>
 
+    </script>
 @endsection

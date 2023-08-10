@@ -2674,7 +2674,7 @@
             let f = document.querySelectorAll(".objects__slide-favorites");
 
             for (let e = 0; e < f.length; e++) f[e].addEventListener("click", (function (t) {
-
+                t.stopPropagation();
                 f[e].classList.toggle("active")
 
             }));

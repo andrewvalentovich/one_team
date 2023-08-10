@@ -1411,10 +1411,16 @@ body {
 
 .header__top {
   padding: 33px 40px 0px;
-  display: flex;
   justify-content: space-between;
   margin: 0 auto;
   align-items: center;
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  .header__top {
+    display: flex;
+  }
 }
 
 .header__top-lang {
@@ -1522,14 +1528,20 @@ body {
 .header__nav {
   padding-top: 40px;
   padding-bottom: 33px;
-  max-width: 1107px;
-  margin: 0 auto;
+  /* max-width: 1412px; */
+  /* margin: 0 auto; */
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .header__nav-list {
   display: flex;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .header__nav-item {
@@ -1894,10 +1906,17 @@ body {
 }
 
 .popular-locations__item-text {
-  font-size: 16px;
+  font-size: 22px;
   transition: 0.2s;
   cursor: pointer;
   white-space: nowrap;
+}
+
+
+@media (max-width: 539px) {
+  .popular-locations__item-text {
+    font-size: 18px;
+  }
 }
 
 .popular-locations__item-text:hover {
@@ -3412,8 +3431,8 @@ body.scroll_fixed {
   position: fixed;
   top: 20px;
   cursor: pointer;
-  left: 20px;
-  padding: 4px;
+  right: 20px;
+  padding: 4px 4px 3px 4px;
 }
 
 .place-popup-collage__exit svg {
@@ -6686,4 +6705,10 @@ body.scroll_fixed {
 .field.name {
   display: block;
   cursor: text;
+}
+
+.header__nav-action {
+  display: flex;
+  gap: 30px;
+  align-items: center;
 }

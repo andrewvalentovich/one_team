@@ -1110,3 +1110,28 @@ if(document.querySelectorAll('.contact__phone-list').length) {
 }
 
 getData();
+
+
+if(document.querySelectorAll('.place-w').length) {
+    const placeW = document.querySelectorAll('.place-w')
+    placeW.forEach(placeBlock => {
+        placeBlock.addEventListener('click', function(e) {
+            const target = e.target
+            if(target.classList.contains('place-w')) {
+                placeBlock.classList.remove('active')
+            }
+        })
+    });
+}
+if(document.querySelectorAll('.place__slider_p').length) {
+    const placeSlider = document.querySelectorAll('.place__slider_p')
+    placeSlider.forEach(placeSlider => {
+        placeSlider.addEventListener('click', function(e) {
+            const target = e.target
+            console.log(target)
+            if(target.classList.contains('place__slider_p-img')) {
+                placeSlider.classList.remove('active')
+            }
+        })
+    });
+}
