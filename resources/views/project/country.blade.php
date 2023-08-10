@@ -3469,7 +3469,9 @@
                 slidesPerView: 1,
                 autoHeight: !0,
                 initialSlide: index,
-                // allowTouchMove: false,
+                keyboard: {
+                    enabled: true, // Включить поддержку клавиатуры
+                },
                 navigation: {
                     nextEl: ".place__slider_p-next",
                     prevEl: ".place__slider_p-prev"

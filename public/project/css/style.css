@@ -852,6 +852,7 @@ body {
   position: absolute;
   top: 11px;
   right: 9px;
+  z-index: 5;
 }
 
 .objects__wrapper {
@@ -6192,7 +6193,7 @@ body.scroll_fixed {
 }
 .city-col__item-img {
   overflow: hidden;
-  padding-bottom: 74%;
+  padding-bottom: 50%;
   position: relative;
 }
 .city__wrapper {
@@ -6678,4 +6679,11 @@ body.scroll_fixed {
 
 .lira {
   font-family: Source Sans Pro;
+}
+.ymaps-2-1-79-balloon_layout_panel {
+}
+
+.field.name {
+  display: block;
+  cursor: text;
 }

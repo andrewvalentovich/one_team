@@ -34,9 +34,9 @@
                 <div class="popup__subtitle" bis_skin_checked="1">
                     ФИО
                 </div>
-                <div class="field name" bis_skin_checked="1">
+                <label class="field name" bis_skin_checked="1">
                     <input type="text" value="" placeholder="" name="fio">
-                </div>
+                </label>
                 <div class="popup__subtitle" bis_skin_checked="1">
                     Номер телефона
                 </div>
