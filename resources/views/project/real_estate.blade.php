@@ -1117,7 +1117,7 @@
                                                            </div>
 
                                                        </div>
-                                                    @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
+                                                    @if($product->complex_or_not == 'Нет' || !is_null($product->complex_or_not))
                                                        <div class="object__rooms">
                                                            <div class="object__rooms-content">
                                                                <div class="object__rooms-item">
@@ -1134,7 +1134,7 @@
                                                                    </div>
                                                                    <div class="object__rooms-value">
                                                                    <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
-                                                                         {{str_replace('+','',$spalni->category->name)}}
+                                                                         {{ str_replace('+','',$spalni->category->name)}}
                                                                    </div>
                                                                </div>
                                                                <div class="object__rooms-item">
