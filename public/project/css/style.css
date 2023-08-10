@@ -6554,7 +6554,7 @@ body.scroll_fixed {
 }
 @media (max-width: 539px) {
   .popup__content {
-    padding: 20px 20px 38px;
+    padding: 35px 20px 38px;
  }
 }
 .popup__body {
@@ -6711,4 +6711,97 @@ body.scroll_fixed {
   display: flex;
   gap: 30px;
   align-items: center;
+}
+
+
+
+.input-wrapper {
+  position: relative;
+  -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  padding: 25px 20px 10px 20px;
+}
+
+.input-wrapper .text{
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translate(0,-50%);
+  transition: .3s;
+  font-size: 14px;
+  -webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  background: transparent !important;
+  color: #000 !important;
+  pointer-events: none;
+}
+
+.input-wrapper input {
+  transition: .2s;
+}
+
+.input-wrapper input::placeholder {
+  opacity: 0;
+  font-size: 15px;
+}
+
+.input-wrapper.border {
+  border: 1px solid red;
+}
+
+.input-wrapper.active {
+  border: 1px solid red;
+}
+
+.input-wrapper.active.confirm {
+  background: #ecf1f7;
+  border: 1px solid transparent;
+}
+
+.input-wrapper.active.confirm::after{
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0,-50%);
+  background: url(../img/svg/confirm-svgrepo.svg) 0 0 no-repeat;
+  background-size: cover;
+  width: 15px;
+  height: 15px;
+}
+
+.input-wrapper.active .text{
+  top: 20%;
+  font-size: 10px;
+  font-size: 12px;
+}
+.input-wrapper.active input::placeholder{
+  opacity: 1;
+}
+
+
+.selection-phone.input-wrapper {
+  padding: 0px;
+}
+
+.contact__form-phone.input-wrapper {
+  padding: 0px;
+}
+
+.contact__form-phone.input-wrapper .text{
+  left: 90px;
+}
+
+
+.selection-phone.input-wrapper .text{
+  left: 90px;
+}
+[data-phone-pattern] {
+  background: transparent;
 }

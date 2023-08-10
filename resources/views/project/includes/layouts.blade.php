@@ -31,16 +31,19 @@
     <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
         <div class="popup__body" bis_skin_checked="1">
             <form class="popup__content" id="city_form">
-                <div class="popup__subtitle" bis_skin_checked="1">
+                <!-- <div class="popup__subtitle" bis_skin_checked="1">
                     ФИО
-                </div>
-                <label class="field name" bis_skin_checked="1">
-                    <input type="text" value="" placeholder="" name="fio">
+                </div> -->
+                <label class="field name input-wrapper" bis_skin_checked="1">
+                    <span class="text">
+                        ФИО
+                    </span>
+                    <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
                 </label>
-                <div class="popup__subtitle" bis_skin_checked="1">
+                <!-- <div class="popup__subtitle" bis_skin_checked="1">
                     Номер телефона
-                </div>
-                <div class="field field-phone selection-phone" bis_skin_checked="1">
+                </div> -->
+                <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
                     <div class="contact__form-phone-country " bis_skin_checked="1">
                         <div class="contact__form-country-item" bis_skin_checked="1">
                             <div class="contact__form-country-item-img" bis_skin_checked="1">
@@ -100,7 +103,10 @@
                             </div>
                         </div>
                     </div>
-                    <input data-phone-pattern="" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
+                    <span class="text">
+                        Номер телефона
+                    </span>
+                    <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
                 </div>
                 <button type="submit" class="btn">
                     Перезвонить мне
@@ -161,17 +167,22 @@
         event.preventDefault()
         let name =  $("input[name='fio']").val();
         let phone =   $("input[name='phone']").val()
+        let phoneInput =   $("input[name='phone']")
         let name_valid = false;
         if (name.length == 0){
-            $('.name').css('border' , '2px solid red')
+            $('.name').closest('.input-wrapper').addClass('border');
         }else{
             name_valid = true;
         }
 
         let phone_valid = false
-        if(phone.length == 0){
-            $('.field-phone').css('border' , '2px solid red');
-        }else {
+
+        const lengthPhone = phoneInput.data('phone-pattern').length;
+        if(lengthPhone !== phone.length) {
+        console.log(lengthPhone)
+            $('.field-phone').closest('.input-wrapper').addClass('border');
+        }
+        else {
             phone_valid = true;
         }
         if (phone_valid == true && name_valid == true){
@@ -211,6 +222,77 @@
             });
         }
     })
+
+</script>
+<script>
+const inputWrappers = document.querySelectorAll('.input-wrapper');
+
+function toggleInput(input) {
+    const parentWrapper = input.parentElement.closest('.input-wrapper');
+    if (input === document.activeElement || parentWrapper.classList.contains('active')) {
+        parentWrapper.classList.add('active');
+    } else if (input.value !== '') {
+        parentWrapper.classList.remove('active');
+    }
+}
+
+inputWrappers.forEach(function(wrapper) {
+    const input = wrapper.querySelector('input');
+    toggleInput(input);
+    input.addEventListener('input', function() {
+        toggleInput(input);
+    });
+});
+
+inputWrappers.forEach(function(wrapper) {
+    const input = wrapper.querySelector('input');
+    input.addEventListener('focus', function() {
+        inputWrappers.forEach(function(label) {
+            const labelInput = label.querySelector('input');
+            if (!labelInput.value) {
+                label.classList.remove('active');
+                label.classList.remove('confirm');
+            }
+        });
+        wrapper.classList.add('active');
+    });
+});
+
+inputWrappers.forEach(function(wrapper) {
+    const input = wrapper.querySelector('input');
+    input.addEventListener('click', function() {
+        wrapper.classList.add('active');
+    });
+});
+
+inputWrappers.forEach(function(wrapper) {
+    const input = wrapper.querySelector('input');
+    input.addEventListener('blur', function() {
+        if(input.value) {
+            if(input.getAttribute('name') === 'phone') {
+                const lengthPhone = input.getAttribute('data-phone-pattern').length
+                if(lengthPhone !== input.value.length) {
+                    wrapper.classList.remove('confirm');
+                    return
+                }
+            }
+            wrapper.classList.add('confirm');
+        } else {
+            wrapper.classList.add('border');
+        }
+    });
+});
+
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.input-wrapper')) {
+        inputWrappers.forEach(function(wrapper) {
+            const input = wrapper.querySelector('input');
+            if (!input.value) {
+                wrapper.classList.remove('active');
+            }
+        });
+    }
+});
 
 </script>
 </body>

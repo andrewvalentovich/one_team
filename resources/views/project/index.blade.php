@@ -93,7 +93,7 @@
 
                 <input type="hidden" name="contact_type" value="WhatsApp">
 
-                <div class="contact__form-phone">
+                <div class="contact__form-phone input-wrapper">
                     <div class="contact__form-phone-country">
                         <div class="contact__form-country-item">
                             <div class="contact__form-country-item-img">
@@ -101,7 +101,10 @@
                             </div>
                         </div>
                     </div>
-                    <input data-phone-pattern class="contact__form-phone-input contact__phone-input"
+                    <span class="text">
+                        Номер телефона
+                    </span>
+                    <input data-phone-pattern="+7 (___) ___-__-__" class="contact__form-phone-input contact__phone-input"
                            placeholder="{{__('Ваш телефон')}} {{__('в')}} whatsApp" name="phone">
 
                     <div class="contact__phone-dropdown ">
