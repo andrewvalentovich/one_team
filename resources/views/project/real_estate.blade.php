@@ -734,7 +734,6 @@
                                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
 
                                 <g id="Слой_x0020_1">
-                                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
                                     <metadata id="CorelCorpID_0Corel-Layer"/>
 
                                     <path class="white"
@@ -3130,60 +3129,6 @@
                 $('.header-w').removeClass('fixed');
 
             });
-
-
-
-
-            <?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
-            let user_id = "<?php echo $user_id;  ?>";
-
-            $('.place__top-favorites').click(function () {
-                let data_id = $(this).attr('data_id');
-
-
-                let site_url = `{{ config('app.url') }}`;
-                console.log(site_url);
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                let thiss =  $(this);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                });
-                $.ajax({
-                    url:  site_url+'add_or_delete_in_favorite',
-                    type: 'POST',
-                    data: {
-                        user_id: user_id,
-                        product_id: data_id
-                    },
-                    success: function(response) {
-                        if(response.message == 'created'){
-                            thiss.find('.fil0').attr('fill', '#508cfa');
-                            if (response.counts == 0) {
-                                $('.header__top-favorites-value').css('display', 'none');
-                            } else {
-                                $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'flex');
-                            }
-                        }else {
-                            if (response.counts == 0) {
-                                $('.header__top-favorites-value').css('display', 'none');
-                            } else {
-                                $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'flex');
-                            }
-                            thiss.find('.fil0').attr('fill', 'none');
-
-                        }
-                    },
-                });
-
-
-            });
-
-
-
 
 
         });

@@ -909,12 +909,8 @@
 
                         </div>
                         <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                        @if($fav == null)
-                        <div class="objects__slide-favorites "  data_id="{{$product->id}}" >
-                        @else
-                                <div data_id="{{$product->id}}"  class="objects__slide-favorites  active" >
-                            @endif
-                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                        <div class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}"  data_id="{{$product->id}}" >
+                            <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 
                                  viewBox="0 0 2.33 2.04"
 
@@ -935,50 +931,6 @@
                     </div>
 
                     @endforeach
-
-                            <script>
-                                $('.objects__slide-favorites').click(function () {
-                                    let site_url = "<?php echo env('APP_URL') ?>";
-                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                    let data_id = $(this).attr('data_id');
-
-                                    let user_id = "<?php echo isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>";
-                                    $.ajaxSetup({
-                                        headers: {
-                                            'X-CSRF-TOKEN': csrfToken
-                                        }
-                                    });
-
-                                    $.ajax({
-                                        url:  site_url+'add_or_delete_in_favorite',
-                                        type: 'POST',
-                                        data: {
-                                            user_id: user_id,
-                                            product_id: data_id
-                                        },
-                                        success: function(response) {
-                                            if(response.message == 'created'){
-                                                if (response.counts == 0) {
-                                                    $('.header__top-favorites-value').css('display', 'none');
-                                                } else {
-                                                    $('.header__top-favorites-value').html(response.counts);
-                                                    $('.header__top-favorites-value').css('display', 'block');
-                                                }
-                                            }else {
-                                                if (response.counts == 0) {
-                                                    $('.header__top-favorites-value').css('display', 'none');
-                                                } else {
-                                                    $('.header__top-favorites-value').html(response.counts);
-                                                    $('.header__top-favorites-value').css('display', 'block');
-                                                }
-
-                                            }
-                                        },
-                                    });
-
-
-                                })
-                            </script>
 
                 </div>
 
@@ -1066,8 +1018,8 @@
     </svg>
 
                     </div>
-
-                    <div class="place__header-favorite">
+                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                    <div class="place__header-favorite check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
 
                         <div class="place__header-favorites-text">
 
@@ -1078,7 +1030,7 @@
 
                         <div class="place__header-favorites-logo">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                            <svg class="white-to-blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                 version="1.1"
 
@@ -1092,7 +1044,7 @@
 
     <metadata id="CorelCorpID_0Corel-Layer"/>
 
-    <path class="fil0 str0"
+    <path
 
         d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
@@ -1176,8 +1128,8 @@
                             <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
 
                         </a>
-
-                        <div class="place__top-favorites" data_id=" {{$product->id}}">
+                        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                        <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
 
                             <div class="place__top-favorites-text">
 
@@ -1188,7 +1140,7 @@
 
                             <div class="place__top-favorites-logo">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                                <svg class="white" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                     version="1.1"
 
@@ -1202,7 +1154,7 @@
         <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
         <metadata id="CorelCorpID_0Corel-Layer"/>
 
-        <path  @if($get == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
+        <path
 
             d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
