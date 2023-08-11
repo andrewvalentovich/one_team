@@ -1797,8 +1797,10 @@
                 })
                     .then(response => response.json())
                     .then(res => {
-                        if (res.status == true) {
-                            document.querySelector('.count').innerHTML = res.counts
+                        if (res.status) {
+                            document.querySelector('.count').innerHTML = res.counts;
+                            document.querySelectorAll('.header__top-favorites-value')[0].innerHTML = res.counts;
+                            document.querySelectorAll('.header__top-favorites-value')[1].innerHTML = res.counts;
                         }
                         product_count = product_count - 1
                         if(product_count == 0){

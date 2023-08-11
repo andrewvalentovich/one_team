@@ -909,7 +909,7 @@
 
                         </div>
                         <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                        <div class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}"  data_id="{{$product->id}}" >
+                        <div class="objects__slide-favorites check-favorites {{ is_null($fav) ? '' : 'active' }}"  data_id="{{$product->id}}" >
                             <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 
                                  viewBox="0 0 2.33 2.04"

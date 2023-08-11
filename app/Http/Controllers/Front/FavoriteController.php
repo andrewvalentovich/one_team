@@ -11,10 +11,10 @@ class FavoriteController extends Controller
 
     public function deleteFavorite(Request $request){
         favorite::where('user_id',  $_COOKIE["user_id"])->where('product_id', $request->product_id)->delete();
-         $count =favorite::where('user_id',  $_COOKIE["user_id"])->count();
+        $count =favorite::where('user_id',  $_COOKIE["user_id"])->count();
         return response()->json([
-           'status' => true,
-           'message' => 'deleted',
+            'status' => true,
+            'message' => 'deleted',
             'counts' => $count
         ],200);
     }
