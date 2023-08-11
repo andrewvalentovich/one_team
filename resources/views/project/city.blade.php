@@ -3026,7 +3026,8 @@
                     locationsCity.forEach(function (location) {
                         var placemark = new ymaps.Placemark(location.coordinates, {
                             balloonContent: location.balloonContent
-                        }, {
+                        },
+                        {
                             balloonPanelMaxMapArea: 250000,
                             balloonShadow: false,
                             balloonLayout: t,
@@ -3038,7 +3039,29 @@
 
                         mapCountry.geoObjects.add(placemark);
 
+                        
+                        // Добавляем обработчики событий на метку
+                        placemark.events.add('mouseenter', function (e) {
+                            placemark.balloon.open(); // Открываем балун при наведении мыши
+                            setTimeout(function () {
+                                var balloonContentElement = document.querySelector('.ballon-city__content');
+                                console.log(balloonContentElement)
+                                if (balloonContentElement) {
+                                    var mouseLeaveListener = function () {
+                                        placemark.balloon.close();
+                                        balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                                    };
+                                    balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                                }
+                            }, 0); // Задержка в 200 миллисекунд (подберите подходящее значение)
                     });
+
+                        // placemark.events.add('mouseleave', function (e) {
+                        //     placemark.balloon.close(); // Закрываем балун при уходе мыши
+                        // });
+                    });
+
+
 
                     mapCountry.geoObjects.events,
                     mapCountry.behaviors.disable("scrollZoom"),
