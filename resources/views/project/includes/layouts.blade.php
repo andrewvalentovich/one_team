@@ -225,6 +225,7 @@
 
 </script>
 <script>
+//анимация инпутов
 const inputWrappers = document.querySelectorAll('.input-wrapper');
 
 function toggleInput(input) {
@@ -295,5 +296,58 @@ document.addEventListener('click', function(event) {
 });
 
 </script>
+<script>
+//добавление удаление из избранного
+<?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
+let user_id = "<?php echo $user_id;  ?>";
+
+$('.check-favorites').click(function (e) {
+    e.stopPropagation();
+    let data_id = $(this).attr('data_id');
+    let site_url = `{{ config('app.url') }}`;
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    let thiss =  $(this);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    });
+    $.ajax({
+        url:  site_url+'add_or_delete_in_favorite',
+        type: 'POST',
+        data: {
+            user_id: user_id,
+            product_id: data_id
+        },
+        beforeSend: function (data){
+            console.log(data);
+        },
+        success: function(response) {
+            if(response.message == 'created'){
+                $('.check-favorites[data_id="' + data_id + '"]').addClass('active');
+                if (response.counts == 0) {
+                    $('.header__top-favorites-value').css('display', 'none');
+                } else {
+                    $('.header__top-favorites-value').html(response.counts);
+                    $('.header__top-favorites-value').css('display', 'flex');
+                }
+            }else {
+                if (response.counts == 0) {
+                    $('.header__top-favorites-value').css('display', 'none');
+                } else {
+                    $('.header__top-favorites-value').html(response.counts);
+                    $('.header__top-favorites-value').css('display', 'flex');
+                }
+                $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
+            }
+        },
+    });
+
+
+});
+
+</script>
 </body>
 </html>
+
+

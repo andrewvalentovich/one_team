@@ -291,11 +291,6 @@ async function getData() {
 
         y = document.querySelectorAll(".favorites__item-exit");
 
-    for (let e = 0; e < y.length; e++) y[e].addEventListener("click", (function (t) {
-
-        _[e].style.display = "none"
-
-    }));
 
     let v = document.querySelectorAll(".favorites__pages-item");
 
@@ -1135,3 +1130,4 @@ if(document.querySelectorAll('.place__slider_p').length) {
         })
     });
 }
+

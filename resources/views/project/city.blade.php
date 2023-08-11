@@ -834,12 +834,13 @@
                                    </div>
 
                                </div>
-
-                               <div class="objects__slide-favorites" data_id="{{$product->id}}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
+                               <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                               <div class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}"
+                               >
+                                    <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <g id="Слой_x0020_1">
                                             <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                            <path class="fil0 str0" d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
+                                            <path d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
                                         </g>
                                     </svg>
                                 </div>
@@ -906,8 +907,8 @@
                        </svg>
 
                                                </div>
-
-                                               <div class="place__header-favorite">
+                                               <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                                               <div class="place__header-favorite check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
 
                                                    <div class="place__header-favorites-text">
 
@@ -918,7 +919,7 @@
 
                                                    <div class="place__header-favorites-logo">
 
-                                                       <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                                                       <svg class="white-to-blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                                             version="1.1"
 
@@ -932,7 +933,7 @@
 
                                 <metadata id="CorelCorpID_0Corel-Layer"/>
 
-                                <path class="fil0 str0"
+                                <path
 
                                       d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
@@ -1016,10 +1017,10 @@
                                                        <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
 
                                                    </a>
-
-                                                   <div class="place__top-favorites" data_id=" {{$product->id}}">
-
-                                                       <div class="place__top-favorites-text">
+                                                   <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                                                   <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
+                                                       
+                                                        <div class="place__top-favorites-text">
 
                                                            {{__('В избранное')}}
 
@@ -1028,7 +1029,7 @@
 
                                                        <div class="place__top-favorites-logo">
 
-                                                           <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                                                           <svg class="white" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                                                 version="1.1"
 
@@ -1039,10 +1040,9 @@
                                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
 
                                 <g id="Слой_x0020_1">
-                                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
                                     <metadata id="CorelCorpID_0Corel-Layer"/>
 
-                                    <path  @if($get == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
+                                    <path
 
                                           d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
@@ -2673,11 +2673,7 @@
 
             let f = document.querySelectorAll(".objects__slide-favorites");
 
-            for (let e = 0; e < f.length; e++) f[e].addEventListener("click", (function (t) {
-                t.stopPropagation();
-                f[e].classList.toggle("active")
 
-            }));
 
             let w = document.querySelectorAll(".city-col__bottom-number");
 
@@ -2730,7 +2726,6 @@
             }));
 
             document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
-                console.log('test')
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
@@ -3332,55 +3327,7 @@
 
 
 
-            <?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
-            let user_id = "<?php echo $user_id;  ?>";
 
-            $('.place__top-favorites').click(function () {
-                let data_id = $(this).attr('data_id');
-
-
-                let site_url = `{{ config('app.url') }}`;
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                let thiss =  $(this);
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    }
-                });
-                $.ajax({
-                    url:  site_url+'add_or_delete_in_favorite',
-                    type: 'POST',
-                    data: {
-                        user_id: user_id,
-                        product_id: data_id
-                    },
-                    beforeSend: function (data){
-                        console.log(data);
-                    },
-                    success: function(response) {
-                        if(response.message == 'created'){
-                            thiss.find('.fil0').attr('fill', '#508cfa');
-                            if (response.counts == 0) {
-                                $('.header__top-favorites-value').css('display', 'none');
-                            } else {
-                                $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'flex');
-                            }
-                        }else {
-                            if (response.counts == 0) {
-                                $('.header__top-favorites-value').css('display', 'none');
-                            } else {
-                                $('.header__top-favorites-value').html(response.counts);
-                                $('.header__top-favorites-value').css('display', 'flex');
-                            }
-                            thiss.find('.fil0').attr('fill', 'none');
-
-                        }
-                    },
-                });
-
-
-            });
 
 
 

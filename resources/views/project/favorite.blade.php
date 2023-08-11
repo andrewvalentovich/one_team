@@ -312,7 +312,8 @@
 
                         </a>
 
-                        <div class="place__top-favorites" data_id=" {{$product->product->id}}">
+                        <?php  $get_product = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->product->id)->first() ?>
+                        <div class="place__top-favorites check-favorites {{ $get_product == null ? '' : 'active' }}" data_id="{{$product->product->id}}">
 
                             <div class="place__top-favorites-text">
 
@@ -323,7 +324,7 @@
 
                             <div class="place__top-favorites-logo">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                                <svg class="white" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                     version="1.1"
 
@@ -334,10 +335,8 @@
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <g id="Слой_x0020_1">
-        <?php  $get_product = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->product->id)->first() ?>
         <metadata id="CorelCorpID_0Corel-Layer"/>
-
-        <path  @if($get_product == null) fill="none"; @else fill="#508cfa"; @endif class="fil0 str0"
+        <path
 
             d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
@@ -1507,7 +1506,7 @@
 
         let product_count = "<?php echo $get_product->count() ?>";
 
-        let locations = [
+        let locationsFavorites = [
 
         ];
 
@@ -1785,6 +1784,7 @@
                 y = document.querySelectorAll(".favorites__item-exit");
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             for (let e = 0; e < y.length; e++) y[e].addEventListener("click", (function(t) {
+                t.stopPropagation();
                 _[e].style.display = "none";
 
                 fetch('/deleteFavorite', {
