@@ -2843,8 +2843,23 @@
 
                         mapCountry.geoObjects.add(placemark);
 
-                    });
+                        // Добавляем обработчики событий на метку
+                        placemark.events.add('mouseenter', function (e) {
+                            placemark.balloon.open(); // Открываем балун при наведении мыши
+                            setTimeout(function () {
+                                var balloonContentElement = document.querySelector('.ballon-city__content');
+                                console.log(balloonContentElement)
+                                if (balloonContentElement) {
+                                    var mouseLeaveListener = function () {
+                                        placemark.balloon.close();
+                                        balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                                    };
+                                    balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                                }
+                            }, 0);
+                        });
 
+                    });
                     mapCountry.geoObjects.events,
                     mapCountry.behaviors.disable("scrollZoom"),
                     mapCountry.geoObjects.add(l).add(n).add(i).add(a).add(s)

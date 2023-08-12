@@ -3053,8 +3053,8 @@
                                     };
                                     balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
                                 }
-                            }, 0); // Задержка в 200 миллисекунд (подберите подходящее значение)
-                    });
+                            }, 0);
+                        });
 
                         // placemark.events.add('mouseleave', function (e) {
                         //     placemark.balloon.close(); // Закрываем балун при уходе мыши
