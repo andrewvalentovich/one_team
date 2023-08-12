@@ -768,7 +768,7 @@
 
                        @foreach($get_product as $product)
 
-                           <div class="city-col__item" data_id="{{$product->id}}">
+                           <div class="city-col__item" id="card_object-{{ $product->id }}" data_id="{{$product->id}}">
 
                                <div class="city-col__slider">
 
@@ -1019,7 +1019,7 @@
                                                    </a>
                                                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
                                                    <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
-                                                       
+
                                                         <div class="place__top-favorites-text">
 
                                                            {{__('В избранное')}}
@@ -2427,7 +2427,7 @@
                             console.log(city);
                             locationsCity.push({
                                 coordinates: city.coordinate.split(',').map(parseFloat),
-                                balloonContent: `<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${site_url+city.image}"></div></div>`,
+                                balloonContent: `<div class="balloon-city" id="${city.id}"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${site_url+city.image}"></div></div>`,
                                 city_id: city.id
                             });
                         });
@@ -3039,13 +3039,20 @@
 
                         mapCountry.geoObjects.add(placemark);
 
-                        
+
                         // Добавляем обработчики событий на метку
                         placemark.events.add('mouseenter', function (e) {
                             placemark.balloon.open(); // Открываем балун при наведении мыши
                             setTimeout(function () {
                                 var balloonContentElement = document.querySelector('.ballon-city__content');
-                                console.log(balloonContentElement)
+                                console.log(balloonContentElement);
+
+                                document.querySelector('.ballon-city__content').addEventListener('click', function() {
+                                    var city_id = document.querySelector('.balloon-city').id;
+                                    console.log(city_id);
+                                    document.getElementById(`card_object-${city_id}`).scrollIntoView();
+                                });
+
                                 if (balloonContentElement) {
                                     var mouseLeaveListener = function () {
                                         placemark.balloon.close();
@@ -3346,16 +3353,6 @@
                 $(this).closest('.place-w').removeClass('active');
                 $('.header-w').removeClass('fixed');
             });
-
-
-
-
-
-
-
-
-
-
         });
     </script>
 
