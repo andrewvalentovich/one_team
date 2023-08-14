@@ -5,19 +5,19 @@ function init() {
     var long_el = document.getElementById('long');
     var lat_el = document.getElementById('lat');
     if (!lat_el.value || !long_el.value) {
-        long_el.value = 39.0379845041245;
-        lat_el.value = 32.78392826713207;
+        lat_el.value = 39.0379845041245;
+        long_el.value = 32.78392826713207;
     }
 
     var myPlacemark,
         myMap = new ymaps.Map('set_placemark_map', {
-            center: [long_el.value, lat_el.value],
+            center: [lat_el.value, long_el.value],
             zoom: 6
         }, {
             searchControlProvider: 'yandex#search'
         });
 
-    var coordinates = [Number(long_el.value), Number(lat_el.value)];
+    var coordinates = [Number(lat_el.value), Number(long_el.value)];
     myPlacemark = createPlacemark(coordinates);
     myMap.geoObjects.add(myPlacemark);
     // Слушаем событие окончания перетаскивания на метке.
@@ -29,8 +29,8 @@ function init() {
     myMap.events.add('click', function (e) {
         var coords = e.get('coords');
         console.log(coords);
-        document.getElementById('long').setAttribute("value", coords[0]);
-        document.getElementById('lat').setAttribute("value", coords[1]);
+        document.getElementById('long').setAttribute("value", coords[1]);
+        document.getElementById('lat').setAttribute("value", coords[0]);
         // Если метка уже создана – просто передвигаем ее.
         if (myPlacemark) {
             myPlacemark.geometry.setCoordinates(coords);

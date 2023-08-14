@@ -767,7 +767,6 @@
                    <div class="city-col__list">
 
                        @foreach($get_product as $product)
-
                            <div class="city-col__item" id="card_object-{{ $product->id }}" data_id="{{$product->id}}">
 
                                <div class="city-col__slider">
@@ -873,7 +872,6 @@
                                </svg>
 
                            </div>
-
                            <div class="place-w" data_id="{{$product->id}}">
 
                                <div class="place-popup">
@@ -1990,7 +1988,6 @@
                                </div>
 
                            </div>
-
                            <div class="place__slider_p">
                                <div class="place__slider_p-swiper swiper">
                                    <div class="place__slider_p-wrapper swiper-wrapper">
@@ -2418,7 +2415,7 @@
 
 
         async function getData() {
-            await fetch(`https://dev.one-team.pro/city_from_map/${ids}`)
+            await fetch(`{{ config('app.url') }}city_from_map/${ids}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status) {
