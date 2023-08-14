@@ -2843,7 +2843,37 @@
 
                         mapCountry.geoObjects.add(placemark);
 
+                        // Добавляем обработчики событий на метку
+                        placemark.events.add('mouseenter', function (e) {
+                            placemark.balloon.open(); // Открываем балун при наведении мыши
+                            setTimeout(function () {
+                                var balloonContentElement = document.querySelector('.ballon-city__content');
+                                console.log(balloonContentElement)
+                                if (balloonContentElement) {
+                                    var mouseLeaveListener = function () {
+                                        placemark.balloon.close();
+                                        balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                                    };
+                                    balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                                }
+                            }, 0);
+                        });
+
                     });
+
+                    mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                        let newBounds = event.get('newBounds');
+                        
+                        let topLeft = newBounds[0];
+                        let bottomRight = newBounds[1];
+                        
+                        console.log('Top left:', topLeft);
+                        console.log('Bottom right:', bottomRight);
+                        
+                        // Отправить данные на сервер для фильтрации меток
+                        // Выполнить AJAX-запрос или использовать другие методы передачи данных
+                    });
+
 
                     mapCountry.geoObjects.events,
                     mapCountry.behaviors.disable("scrollZoom"),
