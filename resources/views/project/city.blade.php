@@ -2996,30 +2996,7 @@
                             }
                         }),
 
-                        c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>'),
-                        a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-                            balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal}, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                        }, {
-                            balloonPanelMaxMapArea: e,
-                            balloonShadow: !1,
-                            balloonLayout: t,
-                            iconLayout: o,
-                            balloonContentLayout: c,
-                            hideIconOnBalloonOpen: !1,
-                            balloonOffset: [-100, -80]
-                        }),
-
-                        s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-                            balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal} спал, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                        }, {
-                            balloonPanelMaxMapArea: e,
-                            balloonShadow: !1,
-                            balloonLayout: t,
-                            iconLayout: o,
-                            balloonContentLayout: c,
-                            hideIconOnBalloonOpen: !1,
-                            balloonOffset: [-100, -80]
-                        });
+                        c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>')
 
                     // цикл для динамического массива locationsCity
 
@@ -3069,10 +3046,23 @@
                     });
 
 
+                    mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                        let newBounds = event.get('newBounds');
+                        
+                        let topLeft = newBounds[0];
+                        let bottomRight = newBounds[1];
+                        
+                        console.log('Top left:', topLeft);
+                        console.log('Bottom right:', bottomRight);
+                        
+                        // Отправить данные на сервер для фильтрации меток
+                        // Выполнить AJAX-запрос или использовать другие методы передачи данных
+                    });
+
 
                     mapCountry.geoObjects.events,
                     mapCountry.behaviors.disable("scrollZoom"),
-                    mapCountry.geoObjects.add(l).add(n).add(i).add(a).add(s)
+                    mapCountry.geoObjects.add(l).add(n).add(i)
                 }
 
                 }))

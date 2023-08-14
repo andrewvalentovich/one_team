@@ -2860,6 +2860,21 @@
                         });
 
                     });
+
+                    mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                        let newBounds = event.get('newBounds');
+                        
+                        let topLeft = newBounds[0];
+                        let bottomRight = newBounds[1];
+                        
+                        console.log('Top left:', topLeft);
+                        console.log('Bottom right:', bottomRight);
+                        
+                        // Отправить данные на сервер для фильтрации меток
+                        // Выполнить AJAX-запрос или использовать другие методы передачи данных
+                    });
+
+
                     mapCountry.geoObjects.events,
                     mapCountry.behaviors.disable("scrollZoom"),
                     mapCountry.geoObjects.add(l).add(n).add(i).add(a).add(s)
