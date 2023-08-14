@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\HousesController;
 use App\Http\Controllers\Front\RealEstateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminLoginController;

@@ -14,7 +14,8 @@ use App\Models\ProductCategory;
 
 class HousesController extends Controller
 {
-    public function index(FilterRequest $request){
+    public function index(FilterRequest $request)
+    {
 
         $data = $request->validated();
 //        $filter = app()->make(RealEstateFilter::class, ['queryParams' => $data]);
