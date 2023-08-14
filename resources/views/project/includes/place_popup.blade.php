@@ -41,15 +41,13 @@
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+
                             </div>
                         </div>
                         <div class="place__left-collage">
-                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
                             <div class="place__collage-item place__collage-item_clickable">
-                                <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
+                                
                             </div>
-                            @endforeach
                         </div>
                     </div>
                     <div class="place__slider">

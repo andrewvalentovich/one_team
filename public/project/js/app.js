@@ -512,7 +512,7 @@ async function getData() {
 
 
     function P(e) {
-        document.querySelectorAll("#map_city").length && ymaps.ready((function () {
+        document.querySelectorAll("#map_city1").length && ymaps.ready((function () {
 
             C = new ymaps.Map("map_city", {
                 center: [39.475851, 30.815585],
@@ -1130,4 +1130,5 @@ if(document.querySelectorAll('.place__slider_p').length) {
         })
     });
 }
+
 

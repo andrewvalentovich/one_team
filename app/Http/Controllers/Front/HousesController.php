@@ -27,7 +27,7 @@ class HousesController extends Controller
 
         $get_product = Product::orderby('price','desc')->paginate(10);
         $country = CountryAndCity::where('id', 17)->first();
-        $get_city = \App\Models\CountryAndCity::where('parent_id', $get_citys->parent_id)->get();
+        $get_city = \App\Models\CountryAndCity::where('parent_id', 17)->get();
         $count = $get_product->count();
         return view('project.houses', compact('get_product', 'count', 'country', 'exchanges'));
     }
