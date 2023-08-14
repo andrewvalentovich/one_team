@@ -2744,7 +2744,7 @@ function P(e) {
             console.log('Top left:', top_left);
             console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
-            
+
         });
 
     }
