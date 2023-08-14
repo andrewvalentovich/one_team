@@ -90,7 +90,7 @@
                         </div>
                         <div class="city-col__filter-list">
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="price-asc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -159,7 +159,7 @@
                             </div>
 
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="price-desc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -230,7 +230,7 @@
                             </div>
 
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="created_at-desc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -309,7 +309,7 @@
                     </div>
 
                     <div class="city-col__btns">
-                        <form action="{{ route('real_estate.index') }}" method="get">
+                        <form action="{{ route('houses.index') }}" method="get">
                             <button style="width: 100%; background: transparent;">
                                 @if(isset($_GET['ot_zastroishika']))
                                     <div class="city-col__btn city-col__all">
@@ -385,7 +385,7 @@
                                 @else
                                     <div class="city-col__btn city-col__builder">
                                         @endif
-                                        <form action="{{ route('real_estate.index') }}" method="get">
+                                        <form action="{{ route('houses.index') }}" method="get">
                                             <input type="hidden" name="ot_zastroishika" value="true">
                                             @if(isset($_GET['ot_zastroishika'] ) && $_GET['ot_zastroishika']  == true)
                                                 <button
@@ -2658,7 +2658,7 @@ function P(e) {
             console.log('Top left:', top_left);
             console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
-            
+
         });
 
 
