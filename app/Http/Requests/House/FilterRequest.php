@@ -24,6 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
+            'top_left' => 'nullable|array',
+            'bottom_right' => 'nullable|array',
             'page' => 'filled|numeric|min:1',
             'sale_or_rent' => 'nullable|string',
             'order_by' => 'nullable|string',

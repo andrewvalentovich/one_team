@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Builder;
 
 class HousesFilter extends AbstractFilter
 {
+    // Имена переменных присваиваем константам
     const SALE_OR_RENT = 'sale_or_rent';
     const ORDER_BY = 'order_by';
+    const TOP_LEFT = 'top_left';
+    const BOTTOM_RIGHT = 'bottom_right';
 
     protected function getCallbacks(): array
     {
+        // Прописываем переменные ($this) и методы в 'метод'
         return [
             self::SALE_OR_RENT => [$this, 'sale_or_rent'],
-            self::ORDER_BY => [$this, 'order_by']
+            self::ORDER_BY => [$this, 'order_by'],
+            self::TOP_LEFT => [$this, 'top_left'],
+            self::BOTTOM_RIGHT => [$this, 'bottom_right'],
         ];
     }
 
@@ -29,5 +35,17 @@ class HousesFilter extends AbstractFilter
         // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
         $val_arr = explode('-', $value);
         $builder->orderBy($val_arr[0], $val_arr[1]);
+    }
+
+    protected function top_left(Builder $builder, $value)
+    {
+        $builder->where('lat', '>', $value["lat"]);
+        $builder->where('long', '>', $value["long"]);
+    }
+
+    protected function bottom_right(Builder $builder, $value)
+    {
+        $builder->where('lat', '<', $value["lat"]);
+        $builder->where('long', '<', $value["long"]);
     }
 }
