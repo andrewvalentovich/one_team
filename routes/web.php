@@ -58,6 +58,8 @@ Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
 
 Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
 
+Route::get('/houses', [HousesController::class, 'index'])->name('houses.index'); // Новая карта
+
 Route::post('product_from_map/{id}',[CityController::class,'product_from_map'])->name('product_from_map');
 Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
 Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
