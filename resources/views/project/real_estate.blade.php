@@ -1789,7 +1789,6 @@
                                </div>
 
                            </div>
-
                            <div class="place__slider_p">
                                <div class="place__slider_p-swiper swiper">
                                    <div class="place__slider_p-wrapper swiper-wrapper">
@@ -2864,15 +2863,20 @@
                     mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                         let newBounds = event.get('newBounds');
                         
-                        let topLeft = newBounds[0];
-                        let bottomRight = newBounds[1];
+                        let topLeft = {
+                            lat: newBounds[0][0],
+                            lng: newBounds[0][1]
+                        };
+                        
+                        let bottomRight = {
+                            lat: newBounds[1][0],
+                            lng: newBounds[1][1]
+                        };
                         
                         console.log('Top left:', topLeft);
                         console.log('Bottom right:', bottomRight);
-                        
-                        // Отправить данные на сервер для фильтрации меток
-                        // Выполнить AJAX-запрос или использовать другие методы передачи данных
                     });
+
 
 
                     mapCountry.geoObjects.events,
