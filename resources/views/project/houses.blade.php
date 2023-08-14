@@ -90,7 +90,7 @@
                         </div>
                         <div class="city-col__filter-list">
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="price-asc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -159,7 +159,7 @@
                             </div>
 
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="price-desc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -230,7 +230,7 @@
                             </div>
 
                             <div class="city-col__filter-item">
-                                <form action="{{ route('real_estate.index') }}" method="get">
+                                <form action="{{ route('houses.index') }}" method="get">
                                     <input type="hidden" name="order_by" value="created_at-desc">
                                     @if(isset($_GET['sale_or_rent']))
                                         <input type="hidden" name="sale_or_rent" value="{{$_GET['sale_or_rent']}}">
@@ -309,7 +309,7 @@
                     </div>
 
                     <div class="city-col__btns">
-                        <form action="{{ route('real_estate.index') }}" method="get">
+                        <form action="{{ route('houses.index') }}" method="get">
                             <button style="width: 100%; background: transparent;">
                                 @if(isset($_GET['ot_zastroishika']))
                                     <div class="city-col__btn city-col__all">
@@ -385,7 +385,7 @@
                                 @else
                                     <div class="city-col__btn city-col__builder">
                                         @endif
-                                        <form action="{{ route('real_estate.index') }}" method="get">
+                                        <form action="{{ route('houses.index') }}" method="get">
                                             <input type="hidden" name="ot_zastroishika" value="true">
                                             @if(isset($_GET['ot_zastroishika'] ) && $_GET['ot_zastroishika']  == true)
                                                 <button
@@ -2463,9 +2463,95 @@ function P(e) {
                     });
                 });
                 setBallons();
+                setCityItem(data.data);
             },
             error: function (error) {
                 console.error('Error:', error);
+            }
+        });
+    }
+
+    let previousSwiperInstance = null;
+    function setCityItem(data) {
+        console.log(data)
+        const cityList = document.querySelector('.city-col__list')
+        cityList.innerHTML = ''
+
+        // Удаление предыдущего экземпляра Swiper, если он есть
+        if (previousSwiperInstance) {
+            previousSwiperInstance.destroy();
+            previousSwiperInstance = null;
+        }
+
+        data.forEach(cityElement => {
+            const cityItem = document.createElement('div');
+            cityItem.classList.add('city-col__item');
+            cityItem.setAttribute('id', `card_object-${cityElement.id}`);
+            cityItem.setAttribute('data_id', cityElement.id);
+
+            const sliderDiv = document.createElement('div');
+            sliderDiv.classList.add('city-col__slider');
+
+            const swiperDiv = document.createElement('div');
+            swiperDiv.classList.add('city__swiper', 'swiper');
+
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.classList.add('city__wrapper', 'swiper-wrapper');
+            swiperDiv.appendChild(wrapperDiv);
+
+            [1,2,3,4,5].forEach(photo => {
+                const slideDiv = document.createElement('div');
+                slideDiv.classList.add('city__slide', 'swiper-slide');
+
+                const imgDiv = document.createElement('div');
+                imgDiv.classList.add('city-col__item-img');
+
+                const img = document.createElement('img');
+                img.setAttribute('src', `http://127.0.0.1:8000/uploads/1686318614.png`);
+                img.setAttribute('alt', 'place');
+                imgDiv.appendChild(img);
+
+                slideDiv.appendChild(imgDiv);
+                wrapperDiv.appendChild(slideDiv);
+            });
+
+            const scrollbarDiv = document.createElement('div');
+            scrollbarDiv.classList.add('city__scrollbar');
+            swiperDiv.appendChild(scrollbarDiv);
+            sliderDiv.appendChild(swiperDiv);
+            cityItem.appendChild(sliderDiv);
+
+            // Создание текстовой части
+            const textDiv = document.createElement('div');
+            textDiv.classList.add('city-col__item-text');
+
+            // const priceDiv = document.createElement('div');
+            // priceDiv.classList.add('city-col__item-price');
+            // priceDiv.textContent = `${numberFormat(product.price, 0, '.', ' ')} €`;
+            // textDiv.appendChild(priceDiv);
+
+            const roomsDiv = document.createElement('div');
+            roomsDiv.classList.add('city-col__item-rooms');
+            // roomsDiv.innerHTML = `${product.size} ${__('кв.м')}
+            //     <span>|</span> ${getCategories(product.ProductCategory, 'Спальни')} ${__('спальни')}
+            //     <span>|</span> ${getCategories(product.ProductCategory, 'Ванные')} ${__('ванна')}`;
+            textDiv.appendChild(roomsDiv);
+
+            const addressDiv = document.createElement('div');
+            addressDiv.classList.add('city-col__item-address');
+            addressDiv.textContent = cityElement.address;
+            textDiv.appendChild(addressDiv);
+
+            cityItem.appendChild(textDiv);
+
+            // Добавление элемента в контейнер
+            cityList.appendChild(cityItem);
+        });
+        previousSwiperInstance = new Swiper(".city__swiper", {
+            slidesPerView: 1,
+            scrollbar: {
+                el: ".city__scrollbar",
+                hide: true
             }
         });
     }
@@ -2660,7 +2746,6 @@ function P(e) {
             getData(top_left, bottom_right);
             
         });
-
 
     }
 }

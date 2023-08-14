@@ -3015,27 +3015,27 @@
 
 
                         // Добавляем обработчики событий на метку
-                        // placemark.events.add('mouseenter', function (e) {
-                        //     placemark.balloon.open(); // Открываем балун при наведении мыши
-                        //     setTimeout(function () {
-                        //         var balloonContentElement = document.querySelector('.ballon-city__content');
-                        //         console.log(balloonContentElement);
+                        placemark.events.add('mouseenter', function (e) {
+                            placemark.balloon.open(); // Открываем балун при наведении мыши
+                            setTimeout(function () {
+                                var balloonContentElement = document.querySelector('.ballon-city__content');
+                                console.log(balloonContentElement);
 
-                        //         document.querySelector('.ballon-city__content').addEventListener('click', function() {
-                        //             var city_id = document.querySelector('.balloon-city').id;
-                        //             console.log(city_id);
-                        //             document.getElementById(`card_object-${city_id}`).scrollIntoView();
-                        //         });
+                                document.querySelector('.ballon-city__content').addEventListener('click', function() {
+                                    var city_id = document.querySelector('.balloon-city').id;
+                                    console.log(city_id);
+                                    document.getElementById(`card_object-${city_id}`).scrollIntoView();
+                                });
 
-                        //         if (balloonContentElement) {
-                        //             var mouseLeaveListener = function () {
-                        //                 placemark.balloon.close();
-                        //                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
-                        //             };
-                        //             balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
-                        //         }
-                        //     }, 0);
-                        // });
+                                if (balloonContentElement) {
+                                    var mouseLeaveListener = function () {
+                                        placemark.balloon.close();
+                                        balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                                    };
+                                    balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                                }
+                            }, 0);
+                        });
 
                         // placemark.events.add('mouseleave', function (e) {
                         //     placemark.balloon.close(); // Закрываем балун при уходе мыши
@@ -3043,18 +3043,18 @@
                     });
 
 
-                    // mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
-                    //     let newBounds = event.get('newBounds');
+                    mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                        let newBounds = event.get('newBounds');
                         
-                    //     let topLeft = newBounds[0];
-                    //     let bottomRight = newBounds[1];
+                        let topLeft = newBounds[0];
+                        let bottomRight = newBounds[1];
                         
-                    //     console.log('Top left:', topLeft);
-                    //     console.log('Bottom right:', bottomRight);
+                        console.log('Top left:', topLeft);
+                        console.log('Bottom right:', bottomRight);
                         
-                    //     // Отправить данные на сервер для фильтрации меток
-                    //     // Выполнить AJAX-запрос или использовать другие методы передачи данных
-                    // });
+                        // Отправить данные на сервер для фильтрации меток
+                        // Выполнить AJAX-запрос или использовать другие методы передачи данных
+                    });
 
 
                     mapCountry.geoObjects.events,
