@@ -514,35 +514,6 @@
                                         </svg>
                                     </div>
                                 </div> -->
-                                <div class="place-popup-collage" data_id="{{$product->id}}">
-                                    <div class="place-popup-collage__content">
-                                        <div class="place-popup-collage__top">
-                                            <div class="place_popup__top-item">
-                                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
-                                            </div>
-                                        </div>
-                                        <div class="place-popup-collage__list">
-                                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
-                                                <div class="place-popup-collage__item">
-                                                    <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="place-popup-collage__exit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
-                                                 height="26px" version="1.1"
-                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                                 viewBox="0 0 0.37 0.37"
-                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-                                           <g id="Слой_x0020_1">
-                                               <metadata id="CorelCorpID_0Corel-Layer"/>
-                                               <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
-                                               <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
-                                           </g>
-                                       </svg>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </div>
                         <div class="place-w">
@@ -1204,6 +1175,30 @@
                             </svg>
                             </div>
                         </div>
+                        <div class="place-popup-collage">
+                            <div class="place-popup-collage__content">
+                                <div class="place-popup-collage__top">
+                                    <div class="place_popup__top-item">
+                                    </div>
+                                </div>
+                                <div class="place-popup-collage__list">
+
+                                </div>
+                                <div class="place-popup-collage__exit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
+                                            height="26px" version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 0.37 0.37"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g id="Слой_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
+                                        <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
+                                    </g>
+                                </svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="city-col__bottom">
                         <div class="city-col__bottom-btns">
@@ -1794,15 +1789,15 @@
 
 
 
-            if (L.length)
-                for (let e = 0; e < L.length; e++) L[e].addEventListener("click", (function (event) {
-                    const target = event.target
-                    const placeW = target.closest('.place-w')
-                    const id = placeW.getAttribute('data_id')
-                    const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
-                    console.log(placeCollage)
-                    placeCollage.classList.add("active")
-                }));
+            // if (L.length)
+            //     for (let e = 0; e < L.length; e++) L[e].addEventListener("click", (function (event) {
+            //         const target = event.target
+            //         const placeW = target.closest('.place-w')
+            //         const id = placeW.getAttribute('data_id')
+            //         const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
+            //         console.log(placeCollage)
+            //         placeCollage.classList.add("active")
+            //     }));
 
             if (document.querySelectorAll('.place-popup-collage__exit').length) {
                 const placeCollageExitBtn = document.querySelectorAll('.place-popup-collage__exit')
@@ -1865,7 +1860,6 @@ function P(e) {
 
     let previousSwiperInstance = null;
     function setCityItem(data) {
-        console.log(data)
         const cityList = document.querySelector('.city-col__list')
         cityList.innerHTML = ''
 
@@ -1952,19 +1946,17 @@ function P(e) {
         houseItem.forEach(houseCard => {
             houseCard.addEventListener('click', function(e) {
                 const id = houseCard.getAttribute('data_id')
-                setNewPopapHouseData(id)
+                setNewPopupHouseData(id)
             })
         });
     }
 
-    function setNewPopapHouseData(id) {
+    function setNewPopupHouseData(id) {
         id = parseInt(id)
         const placeW = document.querySelector('.place-w')
         placeW.classList.add('active')
 
         let currentHouse = houseData.data.find(obj => obj.id == id);
-
-        console.log(currentHouse)
 
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
         topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
@@ -1984,10 +1976,14 @@ function P(e) {
             leftCollage.appendChild(div)
         });
         setListenersToOpenCollage()
+        addNewImagesToPlaceSwiper(currentHouse)
+        setListenersToOpenCollageBySlide()
+        addNewImagesToCollage(currentHouse)
     }
 
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
+
 
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
@@ -2048,10 +2044,70 @@ function P(e) {
         })
     }
 
-    function setImgsPlaceSlider() {
-        
+    function addNewImagesToCollage(house) {
+        const collage = document.querySelector('.place-popup-collage')
+
+        const topPic = collage.querySelector('.place_popup__top-item')
+        topPic.innerHTML = ''
+        const img = document.createElement('img')
+        img.setAttribute('src', `${site_url}uploads/${house.photo[0].photo}`)
+
+        topPic.appendChild(img)
+
+        const collageList = collage.querySelector('.place-popup-collage__list')
+        collageList.innerHTML = ''
+        house.photo.forEach((element,index) => {
+            if(index === 0 ) return
+            const collageListItem = collage.querySelector('.place-popup-collage__item')
+
+            const div = document.createElement('div')
+            div.classList.add('place-popup-collage__item')
+
+            const img = document.createElement('img')
+            img.setAttribute('src', `${site_url}uploads/${element.photo}`)
+
+            div.appendChild(img)
+
+            collageList.appendChild(div)
+        });
+
     }
 
+    function addNewImagesToPlaceSwiper(house) {
+        const swiper = document.querySelector('.place__swiper')
+        const swiperWrapper = swiper.querySelector('.place__wrapper')
+
+        // Удаление всех дочерних элементов swiperWrapper
+        while (swiperWrapper.firstChild) {
+            swiperWrapper.removeChild(swiperWrapper.firstChild);
+        }
+
+        const images = house.photo
+        for (let i = 0; i < images.length; i++) {
+            const slide = document.createElement('div');
+            slide.classList.add('place__slide', 'swiper-slide', 'place__slide_clickable');
+
+            const img = document.createElement('img')
+            img.setAttribute('src', `${site_url}uploads/${images[i].photo}`)
+
+            slide.appendChild(img);
+            swiperWrapper.appendChild(slide);
+        }
+
+    }
+
+    function setListenersToOpenCollageBySlide() {
+        const collagePic = document.querySelectorAll('.place__slide_clickable')
+
+        for (let i = 0; i < collagePic.length; i++) {
+            collagePic[i].onclick = function (e) {
+                const placeCollage = document.querySelector(".place-popup-collage")
+                placeCollage.classList.add('active')
+            }
+        }
+
+    }
+    
     function setBallons() {
         mapCountry.geoObjects.removeAll();
         var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
@@ -2237,8 +2293,6 @@ function P(e) {
                 long: newBounds[1][1]
             };
 
-            console.log('Top left:', top_left);
-            console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
             
         });
