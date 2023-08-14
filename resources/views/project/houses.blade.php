@@ -468,118 +468,62 @@
                     </div>
 
                     <div class="city-col__content">
-
                         <div class="city-col__list">
-
                             @foreach($get_product as $product)
-
                                 <div class="city-col__item" data_id="{{$product->id}}">
-
                                     <div class="city-col__slider">
-
                                         <div class="city__swiper swiper">
-
                                             <div class="city__wrapper swiper-wrapper">
-
                                                 @foreach($product->photo as $photo)
-
                                                     <div class="city__slide swiper-slide">
-
                                                         <div class="city-col__item-img">
-
                                                             <img src="{{asset("uploads/".$photo->photo)}}" alt="place">
-
                                                         </div>
-
                                                     </div>
-
                                                 @endforeach
-
-
                                             </div>
-
                                             <div class="city__scrollbar"></div>
-
                                         </div>
-
                                     </div>
-
                                     <div class="city-col__item-text">
-
                                         <div class="city-col__item-price">
-
                                             {{ number_format($product->price, 0, '.', ' ') }} €
-
                                         </div>
-
                                         <div class="city-col__item-rooms">
-
-
                                             {{$product->size}} {{__('кв.м')}}
-
                                             <span>|</span> @foreach($product->ProductCategory->where('type', 'Спальни') as $spalni)  {{str_replace('+','',$spalni->category->name) }}  @endforeach
-
                                             {{__('спальни')}}
-
-
                                             <span>|</span> @foreach($product->ProductCategory->where('type', 'Ванные') as $spalni)  {{str_replace('+','',$spalni->category->name) }} @endforeach
                                             {{__('ванна')}}
-
-
                                         </div>
-
                                         <div class="city-col__item-address">
-
                                             {{$product->address}}
-
-
                                         </div>
-
                                     </div>
                                     <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                                    <div
-                                        class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}"
-                                        data_id="{{$product->id}}">
+                                    <div class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
                                         <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-                                             width="73px" height="64px" version="1.1"
-                                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                             viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                        <g id="Слой_x0020_1">
+                                            width="73px" height="64px" version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <g id="Слой_x0020_1">
                                             <metadata id="CorelCorpID_0Corel-Layer"></metadata>
                                             <path class="fil0 str0"
-                                                  d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
-                                        </g>
-                                    </svg>
+                                            d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
+                                            </g>
+                                        </svg>
                                     </div>
-
-                                    <svg class="favorite-item-btn" xmlns="http://www.w3.org/2000/svg"
-                                         xml:space="preserve"
-
-                                         width="73px" height="64px" version="1.1"
-
-                                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
-                                         viewBox="0 0 2.33 2.04"
-
-                                         xmlns:xlink="http://www.w3.org/1999/xlink">
-
-                                <defs>
-
-                                </defs>
-
-                                        <g id="Слой_x0020_1">
-
-                                            <metadata id="CorelCorpID_0Corel-Layer"/>
-
-                                            <path class="fil0 str0"
-
-                                                  d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"/>
-
-                                        </g>
-
-                               </svg>
-
                                 </div>
+
+
+
+
+
+
+
+
+
+
 
                                 <div class="place-w" data_id="{{$product->id}}">
 
@@ -2047,7 +1991,6 @@
             @endif
 
 
-        let locationsCity = [];
 
 
         let ids = {{ $id }};
@@ -2057,34 +2000,8 @@
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
-        async function getData() {
-            await fetch(`https://dev.one-team.pro/products_from_map`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status) {
-                        let site_url = `{{config('app.url')}}`;
-                        data.data.forEach(city => {
-                            locationsCity.push({
-                                coordinates: city.coordinate.split(',').map(parseFloat),
-                                balloonContent: `<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">€ ${city.price}</div><div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div><div class="balloon-city__rooms_m">${city.kv} ${kvm}}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div><div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">${city.kv} ${kvm}</div></div><div class="balloon-city__img"> <img src="${site_url + city.image}"></div></div>`,
-                                city_id: city.id
-                            });
-                        });
-                    }
-                    console.log(locationsCity);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-
-        // getData();
-
 
         (async () => {
-            await getData();
-            "use strict";
 
             function e(e) {
                 for (let t = 0; t < e.length; t++) e[t].classList.remove("active");
@@ -2513,175 +2430,240 @@
 
 // динамический массив для заполнения точек на карте map_city
 
+function P(e) {
+    let locationsCity = [];
 
-            function P(e) {
-
-                document.querySelectorAll("#map_city").length && ymaps.ready((function () {
-
-                    var mapCountry;
-                    var script;
-                    var head = document.getElementsByTagName('head')[0];
-
-                    function changeLangMap(lang) {
-                        // Получим значение выбранного языка.
-                        // var language = 'en'
-                        var language = lang
-                        // Если карта уже была создана, то удалим её.
-                        if (mapCountry) {
-                            mapCountry.destroy();
-                        }
-                        // Создадим элемент 'script'.
-                        script = document.createElement('script');
-                        script.type = 'text/javascript';
-                        script.charset = 'utf-8';
-                        // Запишем ссылку на JS API Яндекс.Карт с выбранным языком в атрибут 'src'.
-                        script.src = 'https://api-maps.yandex.ru/2.1/?onload=init_' + language + '&lang=' + language +
-                            '_RU&ns=ymaps_' + language;
-                        // Добавим элемент 'script' на страницу.
-                        head.appendChild(script);
-                        // Использование пространства имен позволяет избежать пересечения названий функций
-                        // и прочих программных компонентов.
-                        window['init_' + language] = function () {
-                            init(window['ymaps_' + language]);
-                        }
-                    }
-
-                    let mapLang = "<?php echo app()->getLocale() ?>";
-                    changeLangMap(mapLang)
-
-                    function init(ymaps) {
-                        mapCountry = new ymaps.Map("map_city", {
-                            center: [<?php echo $country->lat . ',' . $country->long?>],
-                            zoom: 6,
-                            controls: [],
-                            behaviors: ["default", "scrollZoom"]
-                        }, {
-                            searchControlProvider: "yandex#search"
-                        });
-
-                        var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-                                build: function () {
-                                    this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-                                },
-
-                                clear: function () {
-                                    this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-                                },
-
-                                onSublayoutSizeChange: function () {
-                                    t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-                                },
-
-                                applyElementOffset: function () {
-                                    this._$element.css({
-                                        left: -this._$element[0].offsetWidth / 2,
-                                        top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-                                    })
-                                },
-
-                                onCloseClick: function (e) {
-                                    e.preventDefault(), this.events.fire("userclose")
-                                },
-
-                                getShape: function () {
-                                    if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-                                    var e = this._$element.position();
-                                    return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-                                        [e.left, e.top],
-                                        [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-                                    ]))
-                                },
-
-                                _isElement: function (e) {
-                                    return e && e[0] && e.find(".arrow")[0]
-                                }
-                            }),
-
-                            o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-                                build: function () {
-                                    o.superclass.build.call(this);
-                                    var e = this.getParentElement().getElementsByClassName("placemark")[0],
-                                        t = this.isActive ? 60 : 34,
-                                        c = {
-                                            type: "Circle",
-                                            coordinates: [0, 0],
-                                            radius: t / 2
-                                        },
-
-                                        l = {
-                                            type: "Circle",
-                                            coordinates: [0, -30],
-                                            radius: t / 2
-                                        };
-
-                                    this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-                                        if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-                                            var t = document.querySelectorAll(".placemark");
-                                            for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-                                        }
-                                    })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-                                        var o = document.querySelectorAll(".placemark");
-                                        if (e.classList.contains("active")) e.classList.remove("active");
-                                        else {
-                                            for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-                                            e.classList.add("active")
-                                        }
-                                    }), this))
-                                }
-                            }),
-
-                            c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>'),
-                            a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-                                balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal}, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                            }, {
-                                balloonPanelMaxMapArea: e,
-                                balloonShadow: !1,
-                                balloonLayout: t,
-                                iconLayout: o,
-                                balloonContentLayout: c,
-                                hideIconOnBalloonOpen: !1,
-                                balloonOffset: [-100, -80]
-                            }),
-
-                            s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-                                balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 ${spal} спал, 1 ${van}</div><div class="balloon-city__rooms_m">2 010 ${kvm}  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 ${kvm}</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                            }, {
-                                balloonPanelMaxMapArea: e,
-                                balloonShadow: !1,
-                                balloonLayout: t,
-                                iconLayout: o,
-                                balloonContentLayout: c,
-                                hideIconOnBalloonOpen: !1,
-                                balloonOffset: [-100, -80]
-                            });
-
-                        // цикл для динамического массива locationsCity
-
-                        locationsCity.forEach(function (location) {
-                            var placemark = new ymaps.Placemark(location.coordinates, {
-                                balloonContent: location.balloonContent
-                            }, {
-                                balloonPanelMaxMapArea: 250000,
-                                balloonShadow: false,
-                                balloonLayout: t,
-                                iconLayout: o,
-                                balloonContentLayout: c,
-                                hideIconOnBalloonOpen: false,
-                                balloonOffset: [-110, -50]
-                            });
-
-                            mapCountry.geoObjects.add(placemark);
-
-                        });
-
-                        mapCountry.geoObjects.events,
-                            mapCountry.behaviors.disable("scrollZoom"),
-                            mapCountry.geoObjects.add(l).add(n).add(i).add(a).add(s)
-                    }
-
-                }))
-
+    async function getData(topLeft, bottomRight) {
+        $.ajax({
+            url: `/api/houses/by_coordinates/with_filter`,
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                top_left: topLeft,
+                bottom_right: bottomRight
+            },
+            success: function (data) {
+                console.log(data);
+                locationsCity.length = 0;
+                let site_url = `{{config('app.url')}}`;
+                data.data.forEach(city => {
+                    locationsCity.push({
+                        coordinates: [city.lat, city.long],
+                        balloonContent: `<div class="balloon-city" id="${city.id}">
+                            <div class="balloon-city__text">
+                                <div class="balloon-city__price">€ ${city.price}</div>
+                                <div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div>
+                                <div class="balloon-city__rooms_m">${city.kv} ${kvm}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div>
+                                <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
+                                <div class="balloon-city__square">${city.kv} ${kvm}</div>
+                            </div>
+                            <div class="balloon-city__img"> <img src="${site_url + city.image}"></div>
+                        </div>`,
+                        city_id: city.id
+                    });
+                });
+                setBallons();
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
+        });
+    }
+
+    function setBallons() {
+        mapCountry.geoObjects.removeAll();
+        var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
+            build: function () {
+                this.constructor.superclass.build.call(this);
+                this._$element = $(".popover", this.getParentElement());
+                this.applyElementOffset();
+                this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this));
+            },
+            clear: function () {
+                this._$element.find(".close").off("click");
+                this.constructor.superclass.clear.call(this);
+            },
+            onSublayoutSizeChange: function () {
+                t.superclass.onSublayoutSizeChange.apply(this, arguments);
+                if (this._isElement(this._$element)) {
+                    this.applyElementOffset();
+                    this.events.fire("shapechange");
+                }
+            },
+            applyElementOffset: function () {
+                this._$element.css({
+                    left: -this._$element[0].offsetWidth / 2,
+                    top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
+                });
+            },
+            onCloseClick: function (e) {
+                e.preventDefault();
+                this.events.fire("userclose");
+            },
+            getShape: function () {
+                if (!this._isElement(this._$element)) {
+                    return t.superclass.getShape.call(this);
+                }
+                var e = this._$element.position();
+                return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
+                    [e.left, e.top],
+                    [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
+                ]));
+            },
+            _isElement: function (e) {
+                return e && e[0] && e.find(".arrow")[0];
+            }
+        });
+
+        var o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
+            build: function () {
+                o.superclass.build.call(this);
+                var e = this.getParentElement().getElementsByClassName("placemark")[0];
+                var t = this.isActive ? 60 : 34;
+                var c = {
+                    type: "Circle",
+                    coordinates: [0, 0],
+                    radius: t / 2
+                };
+                var l = {
+                    type: "Circle",
+                    coordinates: [0, -30],
+                    radius: t / 2
+                };
+
+                this.getData().options.set("shape", this.isActive ? l : c);
+                document.addEventListener("click", function (e) {
+                    if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                        var t = document.querySelectorAll(".placemark");
+                        for (var i = 0; i < t.length; i++) {
+                            t[i].classList.remove("active");
+                        }
+                    }
+                });
+                if (!this.inited) {
+                    this.inited = true;
+                    this.isActive = false;
+                    this.getData().geoObject.events.add("click", function (t) {
+                        var o = document.querySelectorAll(".placemark");
+                        if (e.classList.contains("active")) {
+                            e.classList.remove("active");
+                        } else {
+                            for (var i = 0; i < o.length; i++) {
+                                o[i].classList.remove("active");
+                            }
+                            e.classList.add("active");
+                        }
+                    }, this);
+                }
+            }
+        });
+
+        var c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>');
+
+        locationsCity.forEach(function (location) {
+            var placemark = new ymaps.Placemark(location.coordinates, {
+                balloonContent: location.balloonContent
+            }, {
+                balloonPanelMaxMapArea: 250000,
+                balloonShadow: false,
+                balloonLayout: t,
+                iconLayout: o,
+                balloonContentLayout: c,
+                hideIconOnBalloonOpen: false,
+                balloonOffset: [-110, -50]
+            });
+
+            mapCountry.geoObjects.add(placemark);
+            placemark.events.add('mouseenter', function (e) {
+                placemark.balloon.open(); // Открываем балун при наведении мыши
+                setTimeout(function () {
+                    var balloonContentElement = document.querySelector('.ballon-city__content');
+                    console.log(balloonContentElement);
+
+                    document.querySelector('.ballon-city__content').addEventListener('click', function() {
+                        var city_id = document.querySelector('.balloon-city').id;
+                        console.log(city_id);
+                        document.getElementById(`card_object-${city_id}`).scrollIntoView();
+                    });
+
+                    if (balloonContentElement) {
+                        var mouseLeaveListener = function () {
+                            placemark.balloon.close();
+                            balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                        };
+                        balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                    }
+                }, 0);
+            });
+        });
+    }
+
+    var mapCountry;
+    var script;
+    var head = document.getElementsByTagName('head')[0];
+
+    function changeLangMap(lang) {
+        var language = lang;
+        if (mapCountry) {
+            mapCountry.destroy();
+        }
+        script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.src = 'https://api-maps.yandex.ru/2.1/?onload=init_' + language + '&lang=' + language + '_RU&ns=ymaps_' + language;
+        head.appendChild(script);
+        window['init_' + language] = function () {
+            init(window['ymaps_' + language]);
+        };
+    }
+
+    let mapLang = "<?php echo app()->getLocale() ?>";
+    changeLangMap(mapLang);
+
+    function init(ymaps) {
+        mapCountry = new ymaps.Map("map_city", {
+            center: [<?php echo $country->lat . ',' . $country->long ?>],
+            zoom: 6,
+            controls: [],
+            behaviors: ["default", "scrollZoom"]
+        }, {
+            searchControlProvider: "yandex#search"
+        });
+
+        let startBounds = mapCountry.getBounds();
+        let top_left = {
+            lat: startBounds[0][0],
+            long: startBounds[0][1]
+        };
+
+        let bottom_right = {
+            lat: startBounds[1][0],
+            long: startBounds[1][1]
+        };
+
+        getData(top_left, bottom_right);
+
+        mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+            let newBounds = event.get('newBounds');
+            let top_left = {
+                lat: newBounds[0][0],
+                long: newBounds[0][1]
+            };
+
+            let bottom_right = {
+                lat: newBounds[1][0],
+                long: newBounds[1][1]
+            };
+
+            console.log('Top left:', top_left);
+            console.log('Bottom right:', bottom_right);
+            getData(top_left, bottom_right);
+            
+        });
+
+
+    }
+}
 
 
             L.length && (k.onclick = function () {
@@ -2958,8 +2940,5 @@
 
 
         });
-    </script>
-    <script>
-
     </script>
 @endsection
