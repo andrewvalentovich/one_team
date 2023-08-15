@@ -9,4 +9,8 @@ class Peculiarities extends Model
 {
     use HasFactory;
     protected $guarded =[];
+
+    public function product() {
+        return $this->belongsToMany(Product::class, 'product_categories', 'peculiarities_id', 'product_id');
+    }
 }

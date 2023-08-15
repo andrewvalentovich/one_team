@@ -16,6 +16,10 @@ class Product extends Model
         return $this->hasMany(ProductCategory::class,'product_id');
     }
 
+    public function peculiarities() {
+        return $this->belongsToMany(Peculiarities::class, 'product_categories', 'product_id', 'peculiarities_id');
+    }
+
     public function city()
     {
         return $this->belongsTo(CountryAndCity::class, 'city_id', 'id');

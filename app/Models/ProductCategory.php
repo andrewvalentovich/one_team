@@ -10,6 +10,6 @@ class ProductCategory extends Model
     use HasFactory;
     protected $guarded = [];
     public function category() {
-        return $this->belongsto(Peculiarities::class,'peculiarities_id');
+        return $this->belongsto(Peculiarities::class, 'peculiarities_id');
     }
 }
