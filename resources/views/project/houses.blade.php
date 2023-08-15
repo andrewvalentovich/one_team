@@ -1802,14 +1802,18 @@
 
 // динамический массив для заполнения точек на карте map_city
 function P(e) {
-    console.log('test')
+
+    let mapCountry;
+    var script;
+    var head = document.getElementsByTagName('head')[0];
+
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
     let houseData = {}
     let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
 
     async function getData(topLeft, bottomRight) {
-        $.ajax({
+        await $.ajax({
             url: `/api/houses/by_coordinates/with_filter`,
             method: 'GET',
             dataType: 'json',
@@ -1825,23 +1829,7 @@ function P(e) {
                 houseData = { ...data }
                 checkFavorites(data.data)
                 let site_url = `{{config('app.url')}}`;
-                data.data.forEach(city => {
-                    locationsCity.push({
-                        coordinates: [city.lat, city.long],
-                        balloonContent: `<div class="balloon-city" id="${city.id}">
-                            <div class="balloon-city__text">
-                                <div class="balloon-city__price">€ ${city.price}</div>
-                                <div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div>
-                                <div class="balloon-city__rooms_m">${city.kv} ${kvm}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div>
-                                <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
-                                <div class="balloon-city__square">${city.kv} ${kvm}</div>
-                            </div>
-                            <div class="balloon-city__img"> <img src="${site_url}uploads/${city.photo[0].photo}"></div>
-                        </div>`,
-                        city_id: city.id
-                    });
-                });
-                setBallons();
+                setBallons(data.data);
                 setCityItem(data.data);
                 setListenersToOpenPopup();
                 setListenersToAddfavorites()
@@ -2216,7 +2204,7 @@ function P(e) {
         console.log(favotires_house_id)
     }
 
-    function setBallons() {
+    function setBallons(houses) {
         var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
             build: function () {
                 this.constructor.superclass.build.call(this);
@@ -2304,8 +2292,25 @@ function P(e) {
         });
 
         var c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>');
-
+        console.log(houses)
+        houses.forEach(city => {
+            locationsCity.push({
+                coordinates: [city.lat, city.long],
+                balloonContent: `<div class="balloon-city" id="${city.id}">
+                    <div class="balloon-city__text">
+                        <div class="balloon-city__price">€ ${city.price}</div>
+                        <div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div>
+                        <div class="balloon-city__rooms_m">${city.kv} ${kvm}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div>
+                        <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
+                        <div class="balloon-city__square">${city.kv} ${kvm}</div>
+                    </div>
+                    <div class="balloon-city__img"> <img src="${site_url}uploads/${city.photo[0].photo}"></div>
+                </div>`,
+                city_id: city.id
+            });
+        });
         locationsCity.forEach(function (location) {
+        console.log('test')
             var placemark = new ymaps.Placemark(location.coordinates, {
                 balloonContent: location.balloonContent
             }, {
@@ -2343,10 +2348,6 @@ function P(e) {
             });
         });
     }
-
-    let mapCountry;
-    var script;
-    var head = document.getElementsByTagName('head')[0];
 
     function changeLangMap(lang) {
         var language = lang;
@@ -2393,21 +2394,6 @@ function P(e) {
         };
 
         getData(top_left, bottom_right);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
