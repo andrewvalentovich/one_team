@@ -1961,7 +1961,7 @@ function P(e) {
         topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
-        
+
         leftCollage.innerHTML = ''
         currentHouse.photo.forEach((photo, index) => {
             if(index === 0) return
