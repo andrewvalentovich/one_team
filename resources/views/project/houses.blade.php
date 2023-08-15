@@ -1887,9 +1887,22 @@ function P(e) {
             //комнаты в карточке превью
             const roomsDiv = document.createElement('div');
             roomsDiv.classList.add('city-col__item-rooms');
+
+            const spalni = cityElement.peculiarities.filter(item => item.type === "Спальни");
+            const vannie = cityElement.peculiarities.filter(item => item.type === "Ванные");
+
+            
+            console.log('spalni',spalni)
             roomsDiv.innerHTML = `${cityElement.size} кв.м`
-                // <span>|</span> ${getCategories(product.ProductCategory, 'Спальни')} ${__('спальни')}
-                // <span>|</span> ${getCategories(product.ProductCategory, 'Ванные')} ${__('ванна')}`;
+            roomsDiv.innerHTML = `${cityElement.size} кв.м`;
+            if (spalni && spalni.length > 0) {
+                roomsDiv.innerHTML += `<span>|</span> ${spalni[0].name.replace('+', '')} Спальни`;
+            }
+
+            if (vannie && vannie.length > 0) {
+                roomsDiv.innerHTML += `<span>|</span> ${vannie[0].name.replace('+', '')} Ванные`;
+            }
+
             textDiv.appendChild(roomsDiv);
 
             const addressDiv = document.createElement('div');
@@ -1989,8 +2002,12 @@ function P(e) {
         });
 
         //комнаты
-        // const objectRooms = document.querySelector('.object__rooms-content')
-        // objectRooms.innerHTML = ''
+        const objectRooms = document.querySelector('.object__rooms-content')
+        objectRooms.innerHTML = ''
+        if(currentHouse.complex_or_not === 'Нет' || currentHouse.complex_or_not === null) {
+            
+        }
+
 
         //карта
         const currentMap = document.querySelector('.current-map')
