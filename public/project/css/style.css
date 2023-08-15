@@ -2573,7 +2573,7 @@ body.scroll_fixed {
 }
 
 .place__left-col {
-  flex: 0 0 59.7%;
+  flex: 1 0 59.7%;
   background: #ffffff;
 }
 
@@ -4633,7 +4633,7 @@ body.scroll_fixed {
   }
 
   .place__left-col {
-    flex: 0 0 50.9%;
+    flex: 1 0 50.9%;
   }
 
   .place__right-col {
@@ -5109,7 +5109,7 @@ body.scroll_fixed {
   }
 
   .place__left-col {
-    flex: 0 0 44.2%;
+    flex: 1 0 44.2%;
   }
 
   .place__left-collage {

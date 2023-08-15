@@ -514,93 +514,6 @@
                                         </svg>
                                     </div>
                                 </div> -->
-
-                                <div class="place__slider_p">
-                                    <div class="place__slider_p-swiper swiper">
-                                        <div class="place__slider_p-wrapper swiper-wrapper">
-                                            <div class="place__slider_p-slide swiper-slide">
-                                                <div class="place__slider_p-img">
-                                                    <img src="{{asset('uploads/'.$product->photo[0]->photo)}}">
-                                                </div>
-                                            </div>
-                                            @foreach($product->photo->where('id', '!=', $product->photo[0]->id) as $photos)
-                                                <div class="place__slider_p-slide swiper-slide">
-                                                    <div class="place__slider_p-img">
-                                                        <img src="{{asset('uploads/'.$photos->photo)}}">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="place__slider_p-prev place__slider_p-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px"
-                                                 height="60px" version="1.1"
-                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                                 viewBox="0 0 0.5 0.86"
-                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-                                           <g id="Слой_x0020_1">
-                                               <metadata id="CorelCorpID_0Corel-Layer"/>
-                                               <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-                                           </g>
-                                       </svg>
-                                        </div>
-                                        <div class="place__slider_p-next place__slider_p-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px"
-                                                 height="60px" version="1.1"
-                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                                 viewBox="0 0 0.5 0.86"
-                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-                                           <g id="Слой_x0020_1">
-                                               <metadata id="CorelCorpID_0Corel-Layer"/>
-                                               <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-                                           </g>
-                                       </svg>
-                                        </div>
-                                        <div class="place__slider_p-pagination"></div>
-                                    </div>
-
-                                    <div class="place__slider_p-exit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
-                                             height="26px" version="1.1"
-                                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                             viewBox="0 0 0.37 0.37"
-                                             xmlns:xlink="http://www.w3.org/1999/xlink">
-                                       <g id="Слой_x0020_1">
-                                           <metadata id="CorelCorpID_0Corel-Layer"/>
-                                           <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
-                                           <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
-                                       </g>
-                                   </svg>
-                                    </div>
-                                </div>
-                                <div class="place-popup-collage" data_id="{{$product->id}}">
-                                    <div class="place-popup-collage__content">
-                                        <div class="place-popup-collage__top">
-                                            <div class="place_popup__top-item">
-                                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
-                                            </div>
-                                        </div>
-                                        <div class="place-popup-collage__list">
-                                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
-                                                <div class="place-popup-collage__item">
-                                                    <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="place-popup-collage__exit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
-                                                 height="26px" version="1.1"
-                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                                 viewBox="0 0 0.37 0.37"
-                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-                                           <g id="Слой_x0020_1">
-                                               <metadata id="CorelCorpID_0Corel-Layer"/>
-                                               <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
-                                               <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
-                                           </g>
-                                       </svg>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </div>
                         <div class="place-w">
@@ -646,25 +559,21 @@
                                             <div class="place__left-content">
                                                 <div class="place__left-top">
                                                     <div class="place__top-img place__collage-item_clickable">
-                                                        <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+                                                        <img src="" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="place__left-collage">
-                                                    @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
                                                     <div class="place__collage-item place__collage-item_clickable">
-                                                        <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
+
                                                     </div>
-                                                    @endforeach
                                                 </div>
                                             </div>
                                             <div class="place__slider">
                                                 <div class="place__swiper swiper">
                                                     <div class="place__wrapper swiper-wrapper">
-                                                        @foreach($product->photo as $photo)
                                                         <div class="place__slide swiper-slide place__slide_clickable">
-                                                            <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
+
                                                         </div>
-                                                        @endforeach
                                                     </div>
                                                     <div class="place__prev place__slider-btn">
                                                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
@@ -1208,6 +1117,85 @@
                                         <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
                                         </g>
                                     </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="place__slider_p">
+                            <div class="place__slider_p-swiper swiper">
+                                <div class="place__slider_p-wrapper swiper-wrapper">
+                                    <div class="place__slider_p-slide swiper-slide">
+                                        <div class="place__slider_p-img">
+                                            <img src="{{asset('uploads/'.$product->photo[0]->photo)}}">
+                                        </div>
+                                    </div>
+                                        <div class="place__slider_p-slide swiper-slide">
+                                            <div class="place__slider_p-img">
+
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="place__slider_p-prev place__slider_p-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px"
+                                            height="60px" version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 0.5 0.86"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g id="Слой_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
+                                    </g>
+                                </svg>
+                                </div>
+                                <div class="place__slider_p-next place__slider_p-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px"
+                                            height="60px" version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 0.5 0.86"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g id="Слой_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
+                                    </g>
+                                </svg>
+                                </div>
+                                <div class="place__slider_p-pagination"></div>
+                            </div>
+
+                            <div class="place__slider_p-exit">
+                                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
+                                        height="26px" version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 0.37 0.37"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="Слой_x0020_1">
+                                    <metadata id="CorelCorpID_0Corel-Layer"/>
+                                    <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
+                                    <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
+                                </g>
+                            </svg>
+                            </div>
+                        </div>
+                        <div class="place-popup-collage">
+                            <div class="place-popup-collage__content">
+                                <div class="place-popup-collage__top">
+                                    <div class="place_popup__top-item">
+                                    </div>
+                                </div>
+                                <div class="place-popup-collage__list">
+
+                                </div>
+                                <div class="place-popup-collage__exit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
+                                            height="26px" version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 0.37 0.37"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <g id="Слой_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"/>
+                                        <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"/>
+                                    </g>
+                                </svg>
                                 </div>
                             </div>
                         </div>
@@ -1762,30 +1750,7 @@
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }),
-
-                new Swiper(".place__swiper", {
-                    slidesPerView: 2,
-                    spaceBetween: 4,
-                    navigation: {
-                        nextEl: ".place__prev",
-                        prevEl: ".place__next"
-                    },
-                    pagination: {
-                        el: ".place__pagination",
-                        type: "custom",
-                        renderCustom: function (e, t, o) {
-                            return t + " из " + o
-                        }
-                    },
-                    breakpoints: {
-                        0: {
-                            slidesPerView: 1
-                        },
-                        540: {
-                            slidesPerView: 2
-                        }
-                    }
-                }), new Swiper(".scheme__swiper", {
+            new Swiper(".scheme__swiper", {
                 slidesPerView: 1,
                 navigation: {
                     nextEl: ".scheme__prev",
@@ -1821,83 +1786,17 @@
                 });
             }
 
-            if (document.querySelectorAll('.place__collage-item_clickable').length) {
-                let collageContainer = document.querySelectorAll('.place__content')
-                for (let i = 0; i < collageContainer.length; i++) {
-                    getImagesFromCollage(collageContainer[i])
-                }
 
-                function getImagesFromCollage(container) {
-                    let collageImg = container.querySelectorAll('.place__collage-item_clickable')
-                    for (let i = 0; i < collageImg.length; i++) {
-                        collageImg[i].onclick = function (e) {
-                            addNewImagesToSwiper(e.target, i)
-                            const placeSliderP = document.querySelector(".place__slider_p")
-                            placeSliderP.classList.add('active')
-                        }
-                    }
-                }
 
-                function addNewImagesToSwiper(itemClick, index) {
-                    console.log(index)
-                    const imagesContainer = itemClick.closest('.place__content')
-                    const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
-                    const swiper = document.querySelector('.place__slider_p-swiper')
-                    const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
-
-                    // Удаление всех дочерних элементов swiperWrapper
-                    while (swiperWrapper.firstChild) {
-                        swiperWrapper.removeChild(swiperWrapper.firstChild);
-                    }
-
-                    for (let i = 0; i < images.length; i++) {
-                        const slide = document.createElement('div');
-                        slide.classList.add('place__slider_p-slide', 'swiper-slide');
-
-                        const imgContainer = document.createElement('div');
-                        imgContainer.classList.add('place__slider_p-img');
-
-                        const img = document.createElement('img');
-                        img.src = images[i].querySelector('img').getAttribute('src');
-                        img.alt = 'house';
-
-                        imgContainer.appendChild(img);
-                        slide.appendChild(imgContainer);
-                        swiperWrapper.appendChild(slide);
-                    }
-
-                    const swiperPlaces = new Swiper(".place__slider_p-swiper", {
-                        slidesPerView: 1,
-                        autoHeight: !0,
-                        initialSlide: index,
-                        keyboard: {
-                            enabled: true, // Включить поддержку клавиатуры
-                        },
-                        navigation: {
-                            nextEl: ".place__slider_p-next",
-                            prevEl: ".place__slider_p-prev"
-                        },
-
-                        pagination: {
-                            el: ".place__slider_p-pagination",
-                            type: "custom",
-                            renderCustom: function (e, t, o) {
-                                return t + " из " + o
-                            }
-                        }
-                    })
-                }
-            }
-
-            if (L.length)
-                for (let e = 0; e < L.length; e++) L[e].addEventListener("click", (function (event) {
-                    const target = event.target
-                    const placeW = target.closest('.place-w')
-                    const id = placeW.getAttribute('data_id')
-                    const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
-                    console.log(placeCollage)
-                    placeCollage.classList.add("active")
-                }));
+            // if (L.length)
+            //     for (let e = 0; e < L.length; e++) L[e].addEventListener("click", (function (event) {
+            //         const target = event.target
+            //         const placeW = target.closest('.place-w')
+            //         const id = placeW.getAttribute('data_id')
+            //         const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
+            //         console.log(placeCollage)
+            //         placeCollage.classList.add("active")
+            //     }));
 
             if (document.querySelectorAll('.place-popup-collage__exit').length) {
                 const placeCollageExitBtn = document.querySelectorAll('.place-popup-collage__exit')
@@ -1960,7 +1859,6 @@ function P(e) {
 
     let previousSwiperInstance = null;
     function setCityItem(data) {
-        console.log(data)
         const cityList = document.querySelector('.city-col__list')
         cityList.innerHTML = ''
 
@@ -2047,29 +1945,167 @@ function P(e) {
         houseItem.forEach(houseCard => {
             houseCard.addEventListener('click', function(e) {
                 const id = houseCard.getAttribute('data_id')
-                setNewPopapHouseData(id)
+                setNewPopupHouseData(id)
             })
         });
     }
 
-    function setNewPopapHouseData(id) {
+    function setNewPopupHouseData(id) {
         id = parseInt(id)
         const placeW = document.querySelector('.place-w')
         placeW.classList.add('active')
 
         let currentHouse = houseData.data.find(obj => obj.id == id);
 
-        console.log(currentHouse)
-
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
         topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
+        
+        leftCollage.innerHTML = ''
+        currentHouse.photo.forEach((photo, index) => {
+            if(index === 0) return
+
+            let div = document.createElement('div')
+            div.classList.add('place__collage-item', 'place__collage-item_clickable')
+
+            let img = document.createElement('img')
+            img.setAttribute('src', `${site_url}uploads/${photo.photo}`)
+
+            div.appendChild(img)
+            leftCollage.appendChild(div)
+        });
+        setListenersToOpenCollage()
+        addNewImagesToPlaceSwiper(currentHouse)
+        setListenersToOpenCollageBySlide()
+        addNewImagesToCollage(currentHouse)
+    }
+
+    function setListenersToOpenCollage() {
+        const collageImg = document.querySelectorAll('.place__collage-item_clickable')
 
 
+        for (let i = 0; i < collageImg.length; i++) {
+            collageImg[i].onclick = function (e) {
+                addNewImagesToSwiper(e.target, i)
+                const placeSliderP = document.querySelector(".place__slider_p")
+                placeSliderP.classList.add('active')
+            }
+        }
+    }
+
+    function addNewImagesToSwiper(itemClick, index) {
+        const imagesContainer = itemClick.closest('.place__content')
+        const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
+        const swiper = document.querySelector('.place__slider_p-swiper')
+        const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
+
+        // Удаление всех дочерних элементов swiperWrapper
+        while (swiperWrapper.firstChild) {
+            swiperWrapper.removeChild(swiperWrapper.firstChild);
+        }
+
+        for (let i = 0; i < images.length; i++) {
+            const slide = document.createElement('div');
+            slide.classList.add('place__slider_p-slide', 'swiper-slide');
+
+            const imgContainer = document.createElement('div');
+            imgContainer.classList.add('place__slider_p-img');
+
+            const img = document.createElement('img');
+            img.src = images[i].querySelector('img').getAttribute('src');
+            img.alt = 'house';
+
+            imgContainer.appendChild(img);
+            slide.appendChild(imgContainer);
+            swiperWrapper.appendChild(slide);
+        }
+
+        const swiperPlaces = new Swiper(".place__slider_p-swiper", {
+            slidesPerView: 1,
+            autoHeight: !0,
+            initialSlide: index,
+            keyboard: {
+                enabled: true, // Включить поддержку клавиатуры
+            },
+            navigation: {
+                nextEl: ".place__slider_p-next",
+                prevEl: ".place__slider_p-prev"
+            },
+
+            pagination: {
+                el: ".place__slider_p-pagination",
+                type: "custom",
+                renderCustom: function (e, t, o) {
+                    return t + " из " + o
+                }
+            }
+        })
+    }
+
+    function addNewImagesToCollage(house) {
+        const collage = document.querySelector('.place-popup-collage')
+
+        const topPic = collage.querySelector('.place_popup__top-item')
+        topPic.innerHTML = ''
+        const img = document.createElement('img')
+        img.setAttribute('src', `${site_url}uploads/${house.photo[0].photo}`)
+
+        topPic.appendChild(img)
+
+        const collageList = collage.querySelector('.place-popup-collage__list')
+        collageList.innerHTML = ''
+        house.photo.forEach((element,index) => {
+            if(index === 0 ) return
+            const collageListItem = collage.querySelector('.place-popup-collage__item')
+
+            const div = document.createElement('div')
+            div.classList.add('place-popup-collage__item')
+
+            const img = document.createElement('img')
+            img.setAttribute('src', `${site_url}uploads/${element.photo}`)
+
+            div.appendChild(img)
+
+            collageList.appendChild(div)
+        });
 
     }
 
+    function addNewImagesToPlaceSwiper(house) {
+        const swiper = document.querySelector('.place__swiper')
+        const swiperWrapper = swiper.querySelector('.place__wrapper')
+
+        // Удаление всех дочерних элементов swiperWrapper
+        while (swiperWrapper.firstChild) {
+            swiperWrapper.removeChild(swiperWrapper.firstChild);
+        }
+
+        const images = house.photo
+        for (let i = 0; i < images.length; i++) {
+            const slide = document.createElement('div');
+            slide.classList.add('place__slide', 'swiper-slide', 'place__slide_clickable');
+
+            const img = document.createElement('img')
+            img.setAttribute('src', `${site_url}uploads/${images[i].photo}`)
+
+            slide.appendChild(img);
+            swiperWrapper.appendChild(slide);
+        }
+
+    }
+
+    function setListenersToOpenCollageBySlide() {
+        const collagePic = document.querySelectorAll('.place__slide_clickable')
+
+        for (let i = 0; i < collagePic.length; i++) {
+            collagePic[i].onclick = function (e) {
+                const placeCollage = document.querySelector(".place-popup-collage")
+                placeCollage.classList.add('active')
+            }
+        }
+
+    }
 
     function setBallons() {
         mapCountry.geoObjects.removeAll();
@@ -2256,8 +2292,6 @@ function P(e) {
                 long: newBounds[1][1]
             };
 
-            console.log('Top left:', top_left);
-            console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
 
         });
