@@ -1910,8 +1910,12 @@ function P(e) {
             const textDiv = document.createElement('div');
             textDiv.classList.add('city-col__item-text');
 
+            // favorite
             const favoriteDiv = document.createElement('div');
             favoriteDiv.classList.add('objects__slide-favorites','check-favorites');
+            if(cityElement.hasOwnProperty('favorite')) {
+                favoriteDiv.classList.add('active');
+            }
             favoriteDiv.setAttribute('data_id', cityElement.id)
             favoriteDiv.innerHTML =
             `<svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -1921,7 +1925,10 @@ function P(e) {
                 </g>
             </svg>`
             cityItem.appendChild(favoriteDiv);
-
+            // favoriteDiv.addEventListener('click', function(e) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            // })
 
             // const priceDiv = document.createElement('div');
             // priceDiv.classList.add('city-col__item-price');
@@ -1993,6 +2000,7 @@ function P(e) {
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
+        // setListenersToAddfavorites()
     }
 
     function setListenersToOpenCollage() {
