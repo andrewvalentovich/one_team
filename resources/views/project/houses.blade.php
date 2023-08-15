@@ -533,8 +533,7 @@
                                                     </g>
                                                 </svg>
                                             </div>
-                                            <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
-                                            <div class="place__header-favorite check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
+                                            <div class="place__header-favorite check-favorites">
                                                 <div class="place__header-favorites-text">
                                                     {{__('В избранное')}}
                                                 </div>
@@ -1723,7 +1722,7 @@
 
             document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
 
-                C.destroy(), P(1 / 0), C.container.fitToViewport(), this.classList.remove("active"), document.querySelector(".city-col").classList.remove("active"), document.querySelector(".map_city__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.add("map_city_active"), document.querySelector(".city__content").classList.add("city_map")
+                 P(1 / 0), C.container.fitToViewport(), this.classList.remove("active"), document.querySelector(".city-col").classList.remove("active"), document.querySelector(".map_city__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.add("map_city_active"), document.querySelector(".city__content").classList.add("city_map")
 
             }), document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
 
@@ -1816,6 +1815,7 @@ function P(e) {
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
     let houseData = {}
+    let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null }}
     async function getData(topLeft, bottomRight) {
         $.ajax({
             url: `/api/houses/by_coordinates/with_filter`,
@@ -1823,7 +1823,8 @@ function P(e) {
             dataType: 'json',
             data: {
                 top_left: topLeft,
-                bottom_right: bottomRight
+                bottom_right: bottomRight,
+                user_id: user_id
             },
             success: function (data) {
                 console.log(data);
@@ -1908,6 +1909,19 @@ function P(e) {
             // Создание текстовой части
             const textDiv = document.createElement('div');
             textDiv.classList.add('city-col__item-text');
+
+            const favoriteDiv = document.createElement('div');
+            favoriteDiv.classList.add('objects__slide-favorites','check-favorites');
+            favoriteDiv.setAttribute('data_id', cityElement.id)
+            favoriteDiv.innerHTML =
+            `<svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g id="Слой_x0020_1">
+                    <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                    <path class="fil0 str0" d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
+                </g>
+            </svg>`
+            cityItem.appendChild(favoriteDiv);
+
 
             // const priceDiv = document.createElement('div');
             // priceDiv.classList.add('city-col__item-price');
@@ -2093,6 +2107,29 @@ function P(e) {
             swiperWrapper.appendChild(slide);
         }
 
+        const swiperPlaces = new Swiper(".place__swiper", {
+            slidesPerView: 2,
+            spaceBetween: 4,
+            navigation: {
+                nextEl: ".place__next",
+                prevEl: ".place__prev"
+            },
+            pagination: {
+                el: ".place__pagination",
+                type: "custom",
+                renderCustom: function (e, t, o) {
+                    return t + " из " + o
+                }
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1
+                },
+                540: {
+                    slidesPerView: 2
+                }
+            }
+        })
     }
 
     function setListenersToOpenCollageBySlide() {
@@ -2302,7 +2339,7 @@ function P(e) {
 
             L.length && (k.onclick = function () {
 
-                q.classList.remove("active"), c.destroy(!0, !0)
+                q.classList.remove("active")
 
             }), L.length && (A.onclick = function () {
 
@@ -2314,7 +2351,7 @@ function P(e) {
 
             })), P(E = window.innerWidth > 1003 ? 0 : 1 / 0), window.addEventListener("resize", (function (e) {
 
-                this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
+                this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && ( P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && ( P(1 / 0), E = 0))
 
             })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
 
