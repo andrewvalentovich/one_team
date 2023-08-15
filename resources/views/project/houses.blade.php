@@ -611,8 +611,7 @@
                                                 <a href="{{route('home_page')}}" class="place__top-logo">
                                                     <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
                                                 </a>
-                                                <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() )->where('product_id', $product->id)->first() ?>
-                                                <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
+                                                <div class="place__top-favorites check-favorites">
                                                     <div class="place__top-favorites-text">
                                                         {{__('В избранное')}}
                                                     </div>
@@ -1810,7 +1809,6 @@
 
 
 // динамический массив для заполнения точек на карте map_city
-
 function P(e) {
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
@@ -1831,6 +1829,7 @@ function P(e) {
                 locationsCity.length = 0;
                 houseData.length = 0;
                 houseData = { ...data }
+                checkFavorites(data.data)
                 let site_url = `{{config('app.url')}}`;
                 data.data.forEach(city => {
                     locationsCity.push({
@@ -1851,6 +1850,7 @@ function P(e) {
                 setBallons();
                 setCityItem(data.data);
                 setListenersToOpenPopup();
+                setListenersToAddfavorites()
             },
             error: function (error) {
                 console.error('Error:', error);
@@ -1913,7 +1913,7 @@ function P(e) {
             // favorite
             const favoriteDiv = document.createElement('div');
             favoriteDiv.classList.add('objects__slide-favorites','check-favorites');
-            if(cityElement.hasOwnProperty('favorite')) {
+            if(cityElement.favorite.length) {
                 favoriteDiv.classList.add('active');
             }
             favoriteDiv.setAttribute('data_id', cityElement.id)
@@ -1925,10 +1925,11 @@ function P(e) {
                 </g>
             </svg>`
             cityItem.appendChild(favoriteDiv);
-            // favoriteDiv.addEventListener('click', function(e) {
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            // })
+
+            favoriteDiv.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
 
             // const priceDiv = document.createElement('div');
             // priceDiv.classList.add('city-col__item-price');
@@ -1996,16 +1997,30 @@ function P(e) {
             div.appendChild(img)
             leftCollage.appendChild(div)
         });
+
+
+        const placeTopFavorites = document.querySelector('.place__top-favorites')
+        const placeHeaderFavorites = document.querySelector('.place__header-favorite')
+
+        placeTopFavorites.setAttribute('data_id', id)
+        placeHeaderFavorites.setAttribute('data_id', id)
+        if(favotires_house_id.hasOwnProperty(id)) {
+            placeTopFavorites.classList.add('active')
+            placeHeaderFavorites.classList.add('active')
+        } else {
+            placeTopFavorites.classList.remove('active')
+            placeHeaderFavorites.classList.remove('active')
+        }
+
+
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
-        // setListenersToAddfavorites()
     }
 
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
-
 
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
@@ -2150,6 +2165,16 @@ function P(e) {
             }
         }
 
+    }
+
+    function checkFavorites(data) {
+        favotires_house_id = Object.assign({}, favotires_house_id)
+        data.forEach(element => {
+            if(element.favorite.length) {
+                favotires_house_id[element.id] = true
+            }
+        });
+        console.log(favotires_house_id)
     }
 
     function setBallons() {

@@ -301,7 +301,7 @@ document.addEventListener('click', function(event) {
 <?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
 let user_id = "<?php echo $user_id;  ?>";
 function setListenersToAddfavorites() {
-    $('.check-favorites').click(function (e) {
+    $('.check-favorites').off('click').click(function (e) {
         e.stopPropagation();
         let data_id = $(this).attr('data_id');
         let site_url = `{{ config('app.url') }}`;
@@ -325,6 +325,7 @@ function setListenersToAddfavorites() {
             success: function(response) {
                 if(response.message == 'created'){
                     $('.check-favorites[data_id="' + data_id + '"]').addClass('active');
+                    favotires_house_id[data_id] = true
                     if (response.counts == 0) {
                         $('.header__top-favorites-value').css('display', 'none');
                     } else {
@@ -339,7 +340,11 @@ function setListenersToAddfavorites() {
                         $('.header__top-favorites-value').css('display', 'flex');
                     }
                     $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
+                    console.log('test')
+                    delete favotires_house_id[data_id]
+                    
                 }
+                console.log(favotires_house_id)
             },
         });
     });

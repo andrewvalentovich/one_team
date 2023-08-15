@@ -1132,3 +1132,4 @@ if(document.querySelectorAll('.place__slider_p').length) {
 }
 
 
+let favotires_house_id = {}
