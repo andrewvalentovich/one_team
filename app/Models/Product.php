@@ -25,6 +25,10 @@ class Product extends Model
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
     }
 
+    public function favorite() {
+        return $this->hasMany(favorite::class);
+    }
+
     public function Drawing() {
         return $this->hasMany(ProductDrawing::class,'product_id');
     }

@@ -9,7 +9,8 @@ class favorite extends Model
 {
     use HasFactory;
     protected $guarded =[];
+
     public function product() {
-        return $this->belongsto(Product::class,'product_id');
+        return $this->belongsto(Product::class,'product_id', 'id');
     }
 }

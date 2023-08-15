@@ -15,7 +15,7 @@ class HousesController extends Controller
     {
         $data = $request->validated();
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
-        $houses = Product::filter($filter)->with('photo')->paginate(10);
+        $houses = Product::filter($filter)->with('photo')->with('favorite')->paginate(10);
 //            ->transform(function ($row) {
 //                return [
 //                    'id' => (int) $row->id,
