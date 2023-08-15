@@ -68,6 +68,7 @@ class HousesController extends Controller
                 "lat" => $row->lat,
                 "long" => $row->long,
                 "citizenship" => $row->citizenship,
+                "photo" => $row->photo,
                 "status" => $row->status,
                 "disposition" => $row->disposition,
                 "disposition_en" => $row->disposition_en,
