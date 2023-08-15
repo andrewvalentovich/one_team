@@ -32,7 +32,24 @@ class HousesController extends Controller
         $houses = Product::filter($filter)->with('photo')->with('peculiarities')->with(['favorite' => function ($query) use ($data) {
             $query->where('user_id', $data['user_id']);
         }])->paginate(10)->transform(function ($row) {
-            $living_room = $row->peculiarities->whereIn('type', "Гостиные")->first();
+            $objects = [];
+            if (isset($row->objects)) {
+                foreach (json_decode($row->objects) as $object) {
+                    // Формируем новое поле price_size
+                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size);
+
+                    // Меняем цену
+                    $price = $object->price;
+                    $object->price = $this->getCurrencyPrice($price);
+                    unset($price);
+
+                    // Присваиваем объект временной переменой
+                    $objects[] = $object;
+                }
+
+                $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
+                unset($objects);
+            }
 
             return [
                 "id" => $row->id,
