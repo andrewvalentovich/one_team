@@ -33,18 +33,15 @@
         <div class ="search-nav container">
             <div class="search-nav__list">
                     <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
-                    <div class="search-nav__list-item-title dropdown__title">
-                        {{--Вывод страны название--}}
-                        Country
-                    </div>
-                    <div class="search-nav__item-dropdown  " style="   padding: 26px 20px 29px 29px;
+                    <div class="search-nav__list-item-title country_select dropdown__title">{{--Вывод страны название--}}Страны</div>
+                    <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
 
             width: 250px;
 
             border-radius: 0px 5px 5px 5px;">
-                        <div class="search-nav__types-list">
+                        <div class="search-nav__countries-list">
                             {{--foreach--}}
-                                <div data_id="{{--id--}}" class="city search-nav__types-item dropdown__selector other-element">
+                                <div data_id="{{--id--}}" class="country search-nav__types-item dropdown__selector other-element">
                                 {{--Вывод стран для выбора--}}
                                 </div>
                             {{--endforeach--}}
@@ -58,11 +55,8 @@
                         </svg>
                     </div>
                 </div>
-                <div class="search-nav__list-item search-nav__types search-nav__list-item_b search-nav__list-item_arrow" data_id="type" >
-                    <div class="search-nav__list-item-title search-nav__types-title type_select">
-                      {{--Вывод типов--}}
-                        Types
-                    </div>
+                <div class="search-nav__list-item search-nav__types search-nav__list-item_b search-nav__list-item_arrow" data_id="type">
+                    <div class="search-nav__list-item-title search-nav__types-title type_select">Тип объекта{{--Вывод типов--}}</div>
                     <div class="search-nav__item-dropdown search-nav__types-dropdown closert_div_parent">
                         <div class="search-nav__types-list">
                             {{--foreach--}}
@@ -337,19 +331,63 @@
     $.ajax({
         url: '{{config('app.url')}}api/houses/filter_params',       /* Куда отправить запрос */
         method: 'get',                                              /* Метод запроса (post или get) */
-        success: function(data){                                    /* функция которая будет выполнена после успешного запроса.  */
-            console.log(data.currency);
+        success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
+            console.log(data);
+            // Выводим валюту в dropdown
             $.each(data.currency, function (index, value) {
-                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+ (($.query.get('currency_type').toString() === index.toString()) ? 'active' : '') +' currency_type" currency_type="'+index+'">'+value+'</div>');
+                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+(($.query.get('currency_type').toString() === index.toString()) ? 'active' : '')+' currency_type" currency_type="' + index + '">' + value + '</div>');
             });
 
-
-            $(".search-nav__price-currency-item").each(function(index) {
-                $(this).on("click", function() {
+            // Вешаем событие на добавленные элементы в dropdown
+            $(".search-nav__price-currency-item").each(function (index) {
+                $(this).on("click", function () {
                     $(".search-nav__price-currency-item").removeClass("active");
                     $(this).addClass("active");
                 });
             });
+
+            // Выводим название типа при загрузке страницы
+            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? $.query.get('type').toString() : "Тип объекта");
+
+            // Выводим типы в dropdown
+            $.each(data.types, function (index, value) {
+                $('.search-nav__types-list').append('<div data_id="'+value.id+'" class="search-nav__types-item type closert_div">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.type').click(function(){
+                var id = $(this).attr('data_id');
+                type = [];
+                type.push(id)
+                $(this).closest('.search-nav__types-dropdown').removeClass('active');
+                $(this).closest('.search-nav__list-item').removeClass('active');
+
+                var html = $(this).html();
+                $('.type_select').html(html);
+            });
+
+            // Выводим название страны при загрузке страницы
+            $(".country_select").text(($.query.get('countries').toString() && $.query.get('countries').toString() != "true") ? $.query.get('countries').toString() : "Страны");
+
+            // Выводим страны в dropdown
+            $.each(data.countries, function (index, value) {
+                $('.search-nav__countries-list').append('<div data_id="'+value.id+'" class="country search-nav__types-item dropdown__selector other-element">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.country').click(function(){
+                var id = $(this).attr('data_id');
+                type = [];
+                type.push(id)
+                $(this).closest('.search-nav__countries-dropdown').removeClass('active');
+                $(this).closest('.search-nav__list-item').removeClass('active');
+
+                var html = $(this).html();
+                $('.country_select').html(html);
+            });
+
+
+
         }
     });
 
@@ -491,99 +529,83 @@
         }
     }
 
-    <?php  if(isset($_GET['type'])){
-        $type_select = $_GET['type'];
-        }else{$type_select = null;} ?>
-        let type =[<?php echo $type_select ?>];
+    let currency_type = [];
+    $('.currency_type').click(function(){
+        var currency_type_value = $(this).attr('currency_type');
+        currency_type = [];
+        currency_type.push(currency_type_value)
+    });
 
-        $('.type').click(function(){
-            var id = $(this).attr('data_id');
-            type = [];
-            type.push(id)
-            $(this).closest('.search-nav__types-dropdown').removeClass('active');
-            $(this).closest('.search-nav__list-item').removeClass('active');
+    $('.spalni').click(function () {
+        var spalni_id = $(this).attr('data_id');
+        $('input[name="spalni_id"]').val(spalni_id);
+    })
 
-            var html = $(this).html();
-            $('.type_select').html(html);
+    $('.vannie').click(function () {
+        var vannie_id = $(this).attr('data_id');
+        $('input[name="vannie_id"]').val(vannie_id);
+    })
+
+    $('.vid').click(function () {
+        var vid = $(this).attr('data_id');
+        $('input[name="vid_id"]').val(vid);
+    });
+
+    $('.do_more').click(function () {
+        var do_more = $(this).attr('data_id');
+        $('input[name="do_more_id"]').val(do_more);
+    });
+
+    $('.country').click(function () {
+        var country = $(this).attr('data_id');
+        $('input[name="country_id"]').val(country);
+    });
+
+    $('.city').click(function () {
+        var city = $(this).attr('data_id');
+        $('input[name="city_id"]').val(' ')
+        $('input[name="city_id"]').val(city);
+    });
+
+    $('.form_button').click(function () {
+        var hiddenInput = $('<input>').attr({
+            type: 'hidden',
+            name: 'type',
+            value: type.join(',')
         });
 
-        let currency_type = [];
-        $('.currency_type').click(function(){
-            var currency_type_value = $(this).attr('currency_type');
-            currency_type = [];
-            currency_type.push(currency_type_value)
+        var hiddenInput2 = $('<input>').attr({
+            type: 'hidden',
+            name: 'currency_type',
+            value: currency_type.join(',')
         });
 
-        $('.spalni').click(function () {
-            var spalni_id = $(this).attr('data_id');
-            $('input[name="spalni_id"]').val(spalni_id);
-        })
+        $('.header_search').append(hiddenInput);
+        $('.header_search2').append(hiddenInput);
+        $('.header_search').append(hiddenInput2);
+        $('.header_search2').append(hiddenInput2);
+        $(this).closest('form').submit();
+    })
 
-        $('.vannie').click(function () {
-            var vannie_id = $(this).attr('data_id');
-            $('input[name="vannie_id"]').val(vannie_id);
-        })
-
-        $('.vid').click(function () {
-            var vid = $(this).attr('data_id');
-            $('input[name="vid_id"]').val(vid);
+    $('.form_button').click(function () {
+        var hiddenInput = $('<input>').attr({
+            type: 'hidden',
+            name: 'type',
+            value: type.join(',')
         });
 
-        $('.do_more').click(function () {
-            var do_more = $(this).attr('data_id');
-            $('input[name="do_more_id"]').val(do_more);
+        var hiddenInput2 = $('<input>').attr({
+            type: 'hidden',
+            name: 'currency_type',
+            value: currency_type.join(',')
         });
 
-        $('.country').click(function () {
-            var country = $(this).attr('data_id');
-            $('input[name="country_id"]').val(country);
-        });
-
-        $('.city').click(function () {
-            var city = $(this).attr('data_id');
-            $('input[name="city_id"]').val(' ')
-            $('input[name="city_id"]').val(city);
-        });
-
-        $('.form_button').click(function () {
-            var hiddenInput = $('<input>').attr({
-                type: 'hidden',
-                name: 'type',
-                value: type.join(',')
-            });
-
-            var hiddenInput2 = $('<input>').attr({
-                type: 'hidden',
-                name: 'currency_type',
-                value: currency_type.join(',')
-            });
-
-            $('.header_search').append(hiddenInput);
-            $('.header_search2').append(hiddenInput);
-            $('.header_search').append(hiddenInput2);
-            $('.header_search2').append(hiddenInput2);
-            $(this).closest('form').submit();
-        })
-
-        $('.form_button').click(function () {
-            var hiddenInput = $('<input>').attr({
-                type: 'hidden',
-                name: 'type',
-                value: type.join(',')
-            });
-
-            var hiddenInput2 = $('<input>').attr({
-                type: 'hidden',
-                name: 'currency_type',
-                value: currency_type.join(',')
-            });
-
-            $('.header_search').append(hiddenInput);
-            $('.header_search2').append(hiddenInput);
-            $('.header_search').append(hiddenInput2);
-            $('.header_search2').append(hiddenInput2);
-            $(this).closest('form').submit();
-        })
+        $('.header_search').append(hiddenInput);
+        $('.header_search2').append(hiddenInput);
+        $('.header_search').append(hiddenInput2);
+        $('.header_search2').append(hiddenInput2);
+        $(this).closest('form').submit();
+    })
 
     $(document).ready(function() {
         $(".search__filter-types-item").on("click", function() {

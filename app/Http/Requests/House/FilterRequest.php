@@ -24,6 +24,7 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'filled|numeric|min:1',
             'top_left' => 'nullable|array',
             'bottom_right' => 'nullable|array',
             'page' => 'filled|numeric|min:1',

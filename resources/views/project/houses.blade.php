@@ -611,7 +611,7 @@
                                                 <a href="{{route('home_page')}}" class="place__top-logo">
                                                     <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
                                                 </a>
-                                                <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
+                                                <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() )->where('product_id', $product->id)->first() ?>
                                                 <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
                                                     <div class="place__top-favorites-text">
                                                         {{__('В избранное')}}
@@ -1815,7 +1815,7 @@ function P(e) {
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
     let houseData = {}
-    let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null }}
+    let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
     async function getData(topLeft, bottomRight) {
         $.ajax({
             url: `/api/houses/by_coordinates/with_filter`,
@@ -1982,7 +1982,7 @@ function P(e) {
         topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
-        
+
         leftCollage.innerHTML = ''
         currentHouse.photo.forEach((photo, index) => {
             if(index === 0) return
