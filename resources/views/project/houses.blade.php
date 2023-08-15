@@ -1459,7 +1459,6 @@
 
 @section('scripts')
     <script>
-
         let g = document.querySelectorAll(".kompleks__layout-img"),
             b = document.querySelectorAll(".object__photo");
 
@@ -2066,8 +2065,8 @@ function P(e) {
         topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
-        
-        
+
+
 
     }
 
@@ -2260,7 +2259,7 @@ function P(e) {
             console.log('Top left:', top_left);
             console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
-            
+
         });
 
     }

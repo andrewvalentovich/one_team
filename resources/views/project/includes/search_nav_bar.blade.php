@@ -32,13 +32,10 @@
     <form action="{{ route('houses.index') }}" class="header_search" method="get">
         <div class ="search-nav container">
             <div class="search-nav__list">
-                    <?php $get_citys = \App\Models\CountryAndCity::find(17);
-                    $get_city = \App\Models\CountryAndCity::where('parent_id', $get_citys->parent_id)->get();
-                ?>
                     <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
                     <div class="search-nav__list-item-title dropdown__title">
-                        @if(app()->getLocale() == 'en') <?php $get_citys->name = $get_citys->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $get_citys->name = $get_citys->name_tr ?> @endif
-                        {{$get_citys->name}}
+                        {{--Вывод страны название--}}
+                        Country
                     </div>
                     <div class="search-nav__item-dropdown  " style="   padding: 26px 20px 29px 29px;
 
@@ -46,12 +43,11 @@
 
             border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__types-list">
-                            @foreach($get_city as $city )
-                            <div data_id="{{$city->id}}" class="city search-nav__types-item dropdown__selector other-element">
-                                @if(app()->getLocale() == 'en') <?php $city->name = $city->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $city->name = $city->name_tr ?> @endif
-                                {{ $city->name}}
-                            </div>
-                            @endforeach
+                            {{--foreach--}}
+                                <div data_id="{{--id--}}" class="city search-nav__types-item dropdown__selector other-element">
+                                {{--Вывод стран для выбора--}}
+                                </div>
+                            {{--endforeach--}}
                         </div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -64,20 +60,16 @@
                 </div>
                 <div class="search-nav__list-item search-nav__types search-nav__list-item_b search-nav__list-item_arrow" data_id="type" >
                     <div class="search-nav__list-item-title search-nav__types-title type_select">
-
-                        @if(isset($_GET['type']) && $_GET['type'] != '')
-                            {{\App\Models\Peculiarities::where('id', $_GET['type'])->first()->name}}
-                            @else
-                            {{__('Все типы')}}
-                        @endif
+                      {{--Вывод типов--}}
+                        Types
                     </div>
                     <div class="search-nav__item-dropdown search-nav__types-dropdown closert_div_parent">
                         <div class="search-nav__types-list">
-                            @foreach($filter->where('type', 'Типы') as $type)
-                            <div data_id="{{$type->id}}"  class="search-nav__types-item type closert_div">
-                             {{__($type->name)}}
+                            {{--foreach--}}
+                            <div data_id="{{--id типа--}}"  class="search-nav__types-item type closert_div">
+                                {{--название типа--}}
                             </div>
-                            @endforeach
+                            {{--endforeach--}}
                         </div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -89,9 +81,7 @@
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__price search-nav__list-item_b search-nav__list-item_arrow " data_id="price">
-                    <div class="search-nav__list-item-title search-nav__price-title">
-                        {{__('Цена')}}
-                    </div>
+                    <div class="search-nav__list-item-title search-nav__price-title">Цена</div>
                     <div class="search-nav__item-dropdown search-nav__price-dropdown">
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -100,55 +90,22 @@
                                 <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"></line>
                             </g>
                         </svg>
-                        <div class="search-nav__price-dropdown-title">
-                            {{__('Цена')}}
-                        </div>
+                        <div class="search-nav__price-dropdown-title">Цена</div>
                         <div class="search-nav__price-filter">
                             <div class="search-nav__price-filter-price">
-                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="{{__('от')}}" name="min_price" @if(isset($_GET['min_price'])) value="{{$_GET['min_price']}}"  @endif>
+                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="от" name="min_price[price]" @if(isset($_GET['min_price'])) value="{{$_GET['min_price']}}"  @endif>
                                 <div class="search-nav__price-beetwen">
                                     -
                                 </div>
-                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="{{__('до')}}" name="max_price" @if(isset($_GET['max_price'])) value="{{$_GET['max_price']}}" @endif>
+                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="до" name="max_price[price]" @if(isset($_GET['max_price'])) value="{{$_GET['max_price']}}" @endif>
                             </div>
 
-                            <div class="search-nav__price-filter-currency">
-                                @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'EUR' || $_GET['currency_type'] == '')
-                                    <div class="search-nav__price-currency-item active currency_type" currency_type="EUR">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="EUR">
-                                @endif
-                                    €
-                                </div>
-                                @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'USD' || $_GET['currency_type'] == '')
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="USD">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="USD">
-                                @endif
-                                    $
-                                </div>
-                                @if(isset($_GET['currency_type']) && $_GET['currency_type'] == 'RUB')
-                                    <div class="search-nav__price-currency-item currency_type active" currency_type="RUB">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="RUB">
-                                @endif
-                                    ₽
-                                </div>
-                                @if(isset($_GET['currency_type']) &&  $_GET['currency_type'] == 'TRY')
-                                <div class="search-nav__price-currency-item currency_type active" currency_type="TRY">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="TRY">
-                                @endif
-                                    ₤
-                                </div>
-                            </div>
+                            <div class="search-nav__price-filter-currency"></div>
                         </div>
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__rooms search-nav__list-item_b search-nav__list-item_arrow" data_id="spalni">
-                    <div class="search-nav__list-item-title search-nav__rooms-title">
-                       {{__('Спальни')}}, {{__('Ванные')}}
-                    </div>
+                    <div class="search-nav__list-item-title search-nav__rooms-title">Спальни, Ванные</div>
                     <div class="search-nav__item-dropdown search-nav__rooms-dropdown">
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -159,41 +116,30 @@
                         </svg>
                         <div class="search-nav__dropdown-content search-nav__rooms-dropdown-content">
                             <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-                                <div class="search-nav__rooms-dropdown-title">
-                                    {{__('Спальни')}}
-                                </div>
+                                <div class="search-nav__rooms-dropdown-title">Спальни</div>
                                 <div class="search-nav__rooms-dropdown-bedrooms-buttons">
-                                    <?php $i = 0 ?>
-                                    @foreach($filter->where('type','Спальни') as $spalni)
-                                        <?php $i++ ?>
-                                    <div data_id="{{$spalni->id}}" class="spalni search-nav__rooms-dropdown-bedrooms-button @if(!isset($_GET['spalni_id']) && $i == 1 || isset($_GET['spalni_id']) && $_GET['spalni_id'] == $spalni->id )   active @endif" >
-                                     {{__($spalni->name) }}
+                                    {{--foreach--}}
+                                    <div data_id="{{--id спальни--}}" class="spalni search-nav__rooms-dropdown-bedrooms-button @if(!isset($_GET['spalni_id']) || isset($_GET['spalni_id']) && $_GET['spalni_id'] == $spalni->id ) active @endif">
+                                    {{--название--}}
                                     </div>
-                                    @endforeach
+                                    {{--endforeach--}}
                                 </div>
                             </div>
                             <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-                                <div class="search-nav__rooms-dropdown-title">
-                                    {{__('Ванные')}}
-    {{--                                Ванные--}}
-                                </div>
+                                <div class="search-nav__rooms-dropdown-title">Ванные</div>
                                 <div class="search-nav__rooms-dropdown-bathrooms-buttons">
-                                    <?php $a =0; ?>
-                                    @foreach($filter->where('type','Ванные') as $vannie)
-                                        <?php $a++ ?>
-                                    <div data_id="{{$vannie->id}}" class="vannie search-nav__rooms-dropdown-bathrooms-button @if(!isset($_GET['vannie_id']) && $a == 1 || isset($_GET['vannie_id']) && $_GET['vannie_id'] == $vannie->id ) active @endif">
-                                       {{__($vannie->name) }}
+                                    {{--foreach--}}
+                                    <div data_id="{{--id ванной--}}" class="vannie search-nav__rooms-dropdown-bathrooms-button @if(!isset($_GET['vannie_id']) || isset($_GET['vannie_id']) && $_GET['vannie_id'] == $vannie->id ) active @endif">
+                                        {{--название ванной--}}
                                     </div>
-                                    @endforeach
+                                    {{--endforeach--}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__more search-nav__list-item_b " data_id="more">
-                    <div class="search-nav__list-item-title search-nav__more-title">
-                        {{__('Еще')}}
-                    </div>
+                    <div class="search-nav__list-item-title search-nav__more-title">Еще</div>
                     <div class="search-nav__item-dropdown search-nav__more-dropdown ">
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -203,79 +149,52 @@
                             </g>
                         </svg>
                         <div class="search-nav__dropdown-item">
-                            <div class="more-dropdown__title">
-                              {{__('Особенности')}}
-                            </div>
+                            <div class="more-dropdown__title">Особенности</div>
                             <div class="more-dropdown__peculiarities-list">
-                                <?php $ch= 0 ?>
-                                @foreach($filter->where('type', 'Особенности') as $osobenosti)
+                                {{--foreach--}}
                                 <div class="more-dropdown__peculiarities-item">
                                     <label class="more-dropdown__peculiarities">
-                                        <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-                                        @if(isset($_GET['osobenost']))
-                                            @foreach($_GET['osobenost'] as $key => $value)
-                                                @if($key == $osobenosti->id)
-                                                    checked
-                                               @endif
-                                            @endforeach
-                                        @endif
-                                        >
+                                        <input name="osobenost[{{--id особенности--}}]" data_id="{{--id особенности--}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" {{--условие для checked--}}>
                                         <div class="more-dropdown-custom-checkbox"></div>
                                         <div class="more-dropdown-checkbox-text">
-                                            {{__($osobenosti->name)}}
+                                            {{--название особенности--}}
                                         </div>
                                     </label>
                                 </div>
-                                @endforeach
+                                {{--endforeach--}}
                             </div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__view">
-                            <div class="more-dropdown__title">
-                            {{__('Вид')}}
-                            </div>
+                            <div class="more-dropdown__title">Вид</div>
                             <div class="more-dropdown__view-item">
-                                @foreach($filter->where('type','Вид') as $vid)
-                                    @if(isset($_GET['vid_id']) && $_GET['vid_id'] == $vid->id)
-                                <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button active">
-                                    @else
-                                        <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button">
-                                        @endif
-                                   {{__($vid->name)}}
+                                {{--foreach--}}
+                                <div data_id="{{--id вида--}}" class="vid search-nav__dropdown-button search-nav__view-button {{--условие для active--}}">
+                                    {{--Название вида--}}
                                 </div>
-                                @endforeach
+                                {{--endforeach--}}
                             </div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__sea">
-                            <div class="more-dropdown__title">
-                              {{__('До моря')}}
-                            </div>
+                            <div class="more-dropdown__title">До моря</div>
                             <div class="more-dropdown__sea-item">
-                                @foreach($filter->where('type','До моря') as $do_more)
-                                    @if(isset($_GET['do_more_id']) && $_GET['do_more_id'] == $do_more->id)
-                                <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button active">
-                                    @else
-                                        <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button">
-                                        @endif
-                                  {{__($do_more->name)}}
+                                {{--foreach--}}
+                                <div data_id="{{--id моря--}}" class="do_more search-nav__dropdown-button search-nav__sea-button {{--условие для active--}}">
+                                    {{--До моря название--}}
                                 </div>
-                                @endforeach
+                                {{--endforeach--}}
                             </div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__square">
-                            <div class="more-dropdown__title">
-                               {{__('Площади (кв.м)')}}
-                            </div>
+                            <div class="more-dropdown__title">Площади (кв.м)</div>
                             <div class="more-dropdown__square-item">
-                                <input placeholder="{{__('Общая')}}" name="all_size" value="@if(isset($_GET['all_size'])){{trim($_GET['all_size'], ' ') }}@endif">
-                                <input placeholder="{{__('Дом')}}" name="home_size" value="@if(isset($_GET['home_size'])){{trim($_GET['home_size'], ' ')}}@endif">
+                                <input placeholder="Общая" name="all_size" value="@if(isset($_GET['all_size'])){{trim($_GET['all_size'], ' ') }}@endif">
+                                <input placeholder="Дом" name="home_size" value="@if(isset($_GET['home_size'])){{trim($_GET['home_size'], ' ')}}@endif">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__find search-nav__list-item_b form_button">
-                    <div class="search-nav__list-item-title search-nav__find-title">
-                        {{__('Найти')}}
-                    </div>
+                    <div class="search-nav__list-item-title search-nav__find-title">Найти</div>
                     <svg class="search-nav__icon"  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="59px" height="59px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                          viewBox="0 0 1.61 1.61"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -308,159 +227,94 @@
             <div class="search__content">
                 <div class="search__filter">
                     <div class="search__filter-item search__filter-types">
-                        <div class="search__filter-title">
-                            {{__('Тип недвижимости')}}
-                        </div>
+                        <div class="search__filter-title">Тип недвижимости</div>
                         <div class="search__filter-types-list">
-                            @foreach($filter->where('type', 'Типы') as $type)
-                                @if(isset($_GET['type']) && $_GET['type'] == $type->id)
-                                    <div data_id="{{$type->id}}" class="search__filter-types-item type" style="background: #508cfa; color: white;">
-                                @else
-                                    <div data_id="{{$type->id}}" class="search__filter-types-item type">
-                                @endif
-                                        {{__($type->name)}}
+                            {{--foreach--}}
+                                    <div data_id="{{--id типа--}}" class="search__filter-types-item type" {{--условие для style="background: #508cfa; color: white;"--}}>
+                                        {{--Название типа--}}
                                     </div>
-                            @endforeach
+                            {{--endforeach--}}
                         </div>
                     </div>
                     <div class="search__filter-item search__filter-price">
-                        <div class="search-nav__price-dropdown-title">
-                            {{__('Цена')}}
-                        </div>
+                        <div class="search-nav__price-dropdown-title">Цена</div>
                         <div class="search-nav__price-filter">
                             <div class="search-nav__price-filter-price">
-                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="{{__('от')}}" name="min_price" @if(isset($_GET['min_price'])) value="{{$_GET['min_price']}}" @endif>
+                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="от" name="min_price" value="{{isset($_GET['min_price']) ? $_GET['min_price'] : ""}}">
                                 <div class="search-nav__price-beetwen">
                                     -
                                 </div>
-                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="{{__('до')}}" name="max_price" @if(isset($_GET['max_price'])) value="{{$_GET['max_price']}}" @endif>
+                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="до" name="max_price" value="{{isset($_GET['max_price']) ? $_GET['max_price'] : ""}}">
                             </div>
-                            <div class="search-nav__price-filter-currency">
-                                @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'EUR' || $_GET['currency_type'] == '')
-                                    <div class="search-nav__price-currency-item active currency_type" currency_type="EUR">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="EUR">
-                                @endif
-                                    €
-                                    </div>
-                                @if(!isset($_GET['currency_type']) || $_GET['currency_type'] == 'USD' || $_GET['currency_type'] == '')
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="USD">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="USD">
-                                @endif
-                                    $
-                                    </div>
-                                @if(isset($_GET['currency_type']) &&$_GET['currency_type'] == 'RUB')
-                                    <div class="search-nav__price-currency-item currency_type active" currency_type="RUB">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="RUB">
-                                @endif
-                                    ₽
-                                    </div>
-                                @if(isset($_GET['currency_type']) &&  $_GET['currency_type'] == 'TRY')
-                                    <div class="search-nav__price-currency-item currency_type active" currency_type="TRY">
-                                @else
-                                    <div class="search-nav__price-currency-item currency_type" currency_type="TRY">
-                                @endif
-                                    ₤
-                                </div>
-                            </div>
+                            <div class="search-nav__price-filter-currency"></div>
                         </div>
                     </div>
                     <div class="search__filter-item search__filter-rooms">
                         <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-                            <div class="search-nav__rooms-dropdown-title">
-                                {{__('Спальни')}}
-                            </div>
+                            <div class="search-nav__rooms-dropdown-title">Спальни</div>
                             <div class="search-nav__rooms-dropdown-bedrooms-buttons">
-                                @foreach($filter->where('type','Спальни') as $spalni)
-                                    <div data_id="{{$spalni->id}}" class="search-nav__rooms-dropdown-bedrooms-button @if($loop->index == 1) active @endif " >
-                                        {{__($spalni->name)}}
+                                {{--foreach--}}
+                                    <div data_id="{{--id спальни--}}" class="search-nav__rooms-dropdown-bedrooms-button {{--условие для active--}}">
+                                        {{--Название спальни--}}
                                     </div>
-                                @endforeach
+                                {{--endforeach--}}
                             </div>
                         </div>
 
                         <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
-                            <div class="search-nav__rooms-dropdown-title">
-                                {{__('Ванные')}}
-                            </div>
+                            <div class="search-nav__rooms-dropdown-title">Ванные</div>
                             <div class="search-nav__rooms-dropdown-bathrooms-buttons">
-                                @foreach($filter->where('type','Ванные') as $vannie)
-                                    <div data_id="{{$vannie->id}}" class="vannie search-nav__rooms-dropdown-bathrooms-button @if(!isset($_GET['vannie_id']) && $loop->index == 1 || isset($_GET['vannie_id']) && $_GET['vannie_id'] == $vannie->id ) active @endif">
-                                        {{__($vannie->name)}}
+                                {{--foreach--}}
+                                    <div data_id="{{--id ванной--}}" class="vannie search-nav__rooms-dropdown-bathrooms-button {{-- Условие для ? "active" : ""--}}">
+                                        {{--Название ванной--}}
                                     </div>
-                                @endforeach
+                                {{--endforeach--}}
                             </div>
                         </div>
                     </div>
                     <div class="search__filter-item search__filter-more">
-                        <div class="more-dropdown__title">
-                            {{__('Особенности')}}
-                        </div>
+                        <div class="more-dropdown__title">Особенности</div>
                         <div class="more-dropdown__peculiarities-list">
-                            @foreach($filter->where('type','Особенности') as $osobenosti)
+                            {{--foreach--}}
                                 <div class="more-dropdown__peculiarities-item">
                                     <label class="more-dropdown__peculiarities">
-                                        <input name="osobenost[{{$osobenosti->id}}]" data_id="{{$osobenosti->id}}"  class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox"
-                                            @if(isset($_GET['osobenost']))
-                                                @foreach($_GET['osobenost'] as $key => $value)
-                                                   @if($key == $osobenosti->id)
-                                                       checked
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        >
+                                        <input name="osobenost[{{--id особенности--}}]" data_id="{{--id особенности--}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" {{--условие для checked--}}>
                                         <div class="more-dropdown-custom-checkbox"></div>
                                         <div class="more-dropdown-checkbox-text">
-                                            {{__($osobenosti->name)}}
+                                            {{--Название особенности--}}
                                         </div>
                                     </label>
                                 </div>
-                            @endforeach
+                            {{--endforeach--}}
                         </div>
                     </div>
                     <div class="search__filter-item search__filter-view">
-                        <div class="more-dropdown__title">
-                            {{__('Вид')}}
-                        </div>
+                        <div class="more-dropdown__title">Вид</div>
                         <div class="more-dropdown__view-item">
-                            @foreach($filter->where('type','Вид') as $vid)
-                                @if(isset($_GET['vid_id'] )&& $_GET['vid_id'] == $vid->id)
-                                    <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button active">
-                                @else
-                                    <div data_id="{{$vid->id}}" class="vid search-nav__dropdown-button search-nav__view-button">
-                                @endif
-                                {{__($vid->name)}}
-                            </div>
-                            @endforeach
+                            {{--foreach--}}
+                                    <div data_id="{{--id вида--}}" class="vid search-nav__dropdown-button search-nav__view-button {{--Условие для active--}}">
+                                {{--Название вида--}}
+                                </div>
+                            {{--endforeach--}}
                         </div>
                     </div>
                     <div class="search__filter-item search__filter-sea">
-                        <div class="more-dropdown__title">
-                            {{__('До моря')}}
-                        </div>
+                        <div class="more-dropdown__title">До моря</div>
                         <div class="more-dropdown__sea-item">
-                            @foreach($filter->where('type','До моря') as $do_more)
-                                @if(isset($_GET['do_more_id']) && $_GET['do_more_id'] == $do_more->id)
-                                    <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button active">
-                                @else
-                                    <div data_id="{{$do_more->id}}" class="do_more search-nav__dropdown-button search-nav__sea-button">
-                                @endif
-                                {{__($do_more->name)}}
+                            {{--foreach--}}
+                                    <div data_id="{{--id до моря--}}" class="do_more search-nav__dropdown-button search-nav__sea-button {{--Условие для active--}}">
+                                {{--До моря название--}}
                                     </div>
-                            @endforeach
+                            {{--endforeach--}}
                         </div>
                     </div>
                     <div class="search__filter-item">
                         <div class="search__filter-square">
                             <div class="search__filter-square-content">
-                                <div class="search__filter-square-title">
-                                    {{__('Площади (кв.м)')}}
-                                </div>
+                                <div class="search__filter-square-title">Площади (кв.м)</div>
                                 <div class="search__filter-square-item">
-                                    <input class="search__filter-square-general" placeholder="{{__('Общая')}}" name="all_size" value="@if(isset($_GET['all_size'])){{$_GET['all_size']}}@endif">
-                                    <input class="search__filter-square-plot" placeholder="{{__('Дом')}}" name="home_size" value="@if(isset($_GET['home_size'])){{$_GET['home_size']}}@endif">
+                                    <input class="search__filter-square-general" placeholder="Общая" name="all_size" value="{{isset($_GET['all_size']) ? $_GET['all_size'] : ""}}">
+                                    <input class="search__filter-square-plot" placeholder="Дом" name="home_size" value="{{isset($_GET['home_size']) ? $_GET['home_size'] : ""}}">
                                 </div>
                             </div>
                         </div>
@@ -470,15 +324,35 @@
             </div>
 
             <div class="search__filter-bottom form_button">
-                <div class="search__filter-bottom-btn">
-                    {{__('Найти')}}
-                </div>
+                <div class="search__filter-bottom-btn">Найти</div>
             </div>
         </div>
     </form>
 </div>
-
+<script src="{{ asset('project/js/url-query-object.js') }}"></script>
 <script>
+    // var set_query = $.query.SET('order_by', "created_at-desc"); // создание url
+    // history.pushState(null,null, set_query); // подстановка параметров
+
+    $.ajax({
+        url: '{{config('app.url')}}api/houses/filter_params',       /* Куда отправить запрос */
+        method: 'get',                                              /* Метод запроса (post или get) */
+        success: function(data){                                    /* функция которая будет выполнена после успешного запроса.  */
+            console.log(data.currency);
+            $.each(data.currency, function (index, value) {
+                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+ (($.query.get('currency_type').toString() === index.toString()) ? 'active' : '') +' currency_type" currency_type="'+index+'">'+value+'</div>');
+            });
+
+
+            $(".search-nav__price-currency-item").each(function(index) {
+                $(this).on("click", function() {
+                    $(".search-nav__price-currency-item").removeClass("active");
+                    $(this).addClass("active");
+                });
+            });
+        }
+    });
+
     $('.search-w__close').click(function () {
         $('.search-nav__list-item_b').removeClass('active');
         $('.search-nav__more-dropdown').removeClass('active');
@@ -616,13 +490,6 @@
             }
         }
     }
-
-    $(".search-nav__price-currency-item").each(function(index) {
-        $(this).on("click", function() {
-            $(".search-nav__price-currency-item").removeClass("active");
-            $(this).addClass("active");
-        });
-    });
 
     <?php  if(isset($_GET['type'])){
         $type_select = $_GET['type'];
