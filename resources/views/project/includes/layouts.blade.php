@@ -300,52 +300,56 @@ document.addEventListener('click', function(event) {
 //добавление удаление из избранного
 <?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
 let user_id = "<?php echo $user_id;  ?>";
-
-$('.check-favorites').click(function (e) {
-    e.stopPropagation();
-    let data_id = $(this).attr('data_id');
-    let site_url = `{{ config('app.url') }}`;
-    var csrfToken = $('meta[name="csrf-token"]').attr('content');
-    let thiss =  $(this);
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': csrfToken
-        }
-    });
-    $.ajax({
-        url:  site_url+'add_or_delete_in_favorite',
-        type: 'POST',
-        data: {
-            user_id: user_id,
-            product_id: data_id
-        },
-        beforeSend: function (data){
-            console.log(data);
-        },
-        success: function(response) {
-            if(response.message == 'created'){
-                $('.check-favorites[data_id="' + data_id + '"]').addClass('active');
-                if (response.counts == 0) {
-                    $('.header__top-favorites-value').css('display', 'none');
-                } else {
-                    $('.header__top-favorites-value').html(response.counts);
-                    $('.header__top-favorites-value').css('display', 'flex');
-                }
-            }else {
-                if (response.counts == 0) {
-                    $('.header__top-favorites-value').css('display', 'none');
-                } else {
-                    $('.header__top-favorites-value').html(response.counts);
-                    $('.header__top-favorites-value').css('display', 'flex');
-                }
-                $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
+function setListenersToAddfavorites() {
+    $('.check-favorites').off('click').click(function (e) {
+        e.stopPropagation();
+        let data_id = $(this).attr('data_id');
+        let site_url = `{{ config('app.url') }}`;
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        let thiss =  $(this);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
             }
-        },
+        });
+        $.ajax({
+            url:  site_url+'add_or_delete_in_favorite',
+            type: 'POST',
+            data: {
+                user_id: user_id,
+                product_id: data_id
+            },
+            beforeSend: function (data){
+                console.log(data);
+            },
+            success: function(response) {
+                if(response.message == 'created'){
+                    $('.check-favorites[data_id="' + data_id + '"]').addClass('active');
+                    favotires_house_id[data_id] = true
+                    if (response.counts == 0) {
+                        $('.header__top-favorites-value').css('display', 'none');
+                    } else {
+                        $('.header__top-favorites-value').html(response.counts);
+                        $('.header__top-favorites-value').css('display', 'flex');
+                    }
+                }else {
+                    if (response.counts == 0) {
+                        $('.header__top-favorites-value').css('display', 'none');
+                    } else {
+                        $('.header__top-favorites-value').html(response.counts);
+                        $('.header__top-favorites-value').css('display', 'flex');
+                    }
+                    $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
+                    console.log('test')
+                    delete favotires_house_id[data_id]
+                    
+                }
+                console.log(favotires_house_id)
+            },
+        });
     });
-
-
-});
-
+}
+setListenersToAddfavorites()
 </script>
 </body>
 </html>
