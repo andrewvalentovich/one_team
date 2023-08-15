@@ -41,9 +41,9 @@
             border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__countries-list">
                             {{--foreach--}}
-                                <div data_id="{{--id--}}" class="country search-nav__types-item dropdown__selector other-element">
+{{--                                <div data_id="--}}{{--id--}}{{--" class="country search-nav__types-item dropdown__selector other-element">--}}
                                 {{--Вывод стран для выбора--}}
-                                </div>
+{{--                                </div>--}}
                             {{--endforeach--}}
                         </div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -58,13 +58,7 @@
                 <div class="search-nav__list-item search-nav__types search-nav__list-item_b search-nav__list-item_arrow" data_id="type">
                     <div class="search-nav__list-item-title search-nav__types-title type_select">Тип объекта{{--Вывод типов--}}</div>
                     <div class="search-nav__item-dropdown search-nav__types-dropdown closert_div_parent">
-                        <div class="search-nav__types-list">
-                            {{--foreach--}}
-                            <div data_id="{{--id типа--}}"  class="search-nav__types-item type closert_div">
-                                {{--название типа--}}
-                            </div>
-                            {{--endforeach--}}
-                        </div>
+                        <div class="search-nav__types-list"></div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
                                 <metadata id="CorelCorpID_0Corel-Layer"></metadata>
@@ -111,23 +105,11 @@
                         <div class="search-nav__dropdown-content search-nav__rooms-dropdown-content">
                             <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
                                 <div class="search-nav__rooms-dropdown-title">Спальни</div>
-                                <div class="search-nav__rooms-dropdown-bedrooms-buttons">
-                                    {{--foreach--}}
-                                    <div data_id="{{--id спальни--}}" class="spalni search-nav__rooms-dropdown-bedrooms-button @if(!isset($_GET['spalni_id']) || isset($_GET['spalni_id']) && $_GET['spalni_id'] == $spalni->id ) active @endif">
-                                    {{--название--}}
-                                    </div>
-                                    {{--endforeach--}}
-                                </div>
+                                <div class="search-nav__rooms-dropdown-bedrooms-buttons"></div>
                             </div>
                             <div class="search-nav__dropdown-item search-nav__rooms-dropdown-bedrooms">
                                 <div class="search-nav__rooms-dropdown-title">Ванные</div>
-                                <div class="search-nav__rooms-dropdown-bathrooms-buttons">
-                                    {{--foreach--}}
-                                    <div data_id="{{--id ванной--}}" class="vannie search-nav__rooms-dropdown-bathrooms-button @if(!isset($_GET['vannie_id']) || isset($_GET['vannie_id']) && $_GET['vannie_id'] == $vannie->id ) active @endif">
-                                        {{--название ванной--}}
-                                    </div>
-                                    {{--endforeach--}}
-                                </div>
+                                <div class="search-nav__rooms-dropdown-bathrooms-buttons"></div>
                             </div>
                         </div>
                     </div>
@@ -144,39 +126,15 @@
                         </svg>
                         <div class="search-nav__dropdown-item">
                             <div class="more-dropdown__title">Особенности</div>
-                            <div class="more-dropdown__peculiarities-list">
-                                {{--foreach--}}
-                                <div class="more-dropdown__peculiarities-item">
-                                    <label class="more-dropdown__peculiarities">
-                                        <input name="osobenost[{{--id особенности--}}]" data_id="{{--id особенности--}}" class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" {{--условие для checked--}}>
-                                        <div class="more-dropdown-custom-checkbox"></div>
-                                        <div class="more-dropdown-checkbox-text">
-                                            {{--название особенности--}}
-                                        </div>
-                                    </label>
-                                </div>
-                                {{--endforeach--}}
-                            </div>
+                            <div class="more-dropdown__peculiarities-list"></div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__view">
                             <div class="more-dropdown__title">Вид</div>
-                            <div class="more-dropdown__view-item">
-                                {{--foreach--}}
-                                <div data_id="{{--id вида--}}" class="vid search-nav__dropdown-button search-nav__view-button {{--условие для active--}}">
-                                    {{--Название вида--}}
-                                </div>
-                                {{--endforeach--}}
-                            </div>
+                            <div class="more-dropdown__view-item"></div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__sea">
                             <div class="more-dropdown__title">До моря</div>
-                            <div class="more-dropdown__sea-item">
-                                {{--foreach--}}
-                                <div data_id="{{--id моря--}}" class="do_more search-nav__dropdown-button search-nav__sea-button {{--условие для active--}}">
-                                    {{--До моря название--}}
-                                </div>
-                                {{--endforeach--}}
-                            </div>
+                            <div class="more-dropdown__sea-item"></div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__square">
                             <div class="more-dropdown__title">Площади (кв.м)</div>
@@ -361,6 +319,7 @@
                 type.push(id)
                 $(this).closest('.search-nav__types-dropdown').removeClass('active');
                 $(this).closest('.search-nav__list-item').removeClass('active');
+                $(this).addClass('active');
 
                 var html = $(this).html();
                 $('.type_select').html(html);
@@ -381,11 +340,91 @@
                 type.push(id)
                 $(this).closest('.search-nav__countries-dropdown').removeClass('active');
                 $(this).closest('.search-nav__list-item').removeClass('active');
+                $(this).addClass('active');
 
                 var html = $(this).html();
                 $('.country_select').html(html);
             });
 
+            // Выводим спальни в dropdown
+            $.each(data.bedrooms, function (index, value) {
+                $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+value.id+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(($.query.get('bedrooms').toString() === index.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.bedrooms').click(function () {
+                var bedrooms_id = $(this).attr('data_id');
+                console.log('bedrooms_id = '+bedrooms_id);
+                $('input[name="bedrooms_id"]').val(bedrooms_id);
+                $(this).closest('.search-nav__rooms-dropdown-bedrooms-button').removeClass('active');
+                $(this).addClass('active');
+                // =========================================================== Нужно добавить формы ====================================
+            })
+
+            // Выводим ванные в dropdown
+            $.each(data.bathrooms, function (index, value) {
+                $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+value.id+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(($.query.get('bathrooms').toString() === index.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.bathrooms').click(function () {
+                var bathrooms_id = $(this).attr('data_id');
+                console.log('bathrooms_id = '+bathrooms_id);
+                $('input[name="bathrooms_id"]').val(bathrooms_id);
+                $(this).closest('.search-nav__rooms-dropdown-bathrooms-button').removeClass('active');
+                $(this).addClass('active');
+                // =========================================================== Нужно добавить формы ====================================
+            })
+
+            // Выводим особенности в dropdown
+            $.each(data.peculiarities, function (index, value) {
+                $('.more-dropdown__peculiarities-list').append('<div class="more-dropdown__peculiarities-item">'+
+                    '<label class="more-dropdown__peculiarities peculiarities">'+
+                        '<input name="peculiarities['+value.id+']" data_id="'+value.id+'" '+
+                        'class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" '+
+                        (($.query.get('peculiarities['+value.id+']').toString() === index.toString()) ? 'checked' : '')+'>'+
+                        '<div class="more-dropdown-custom-checkbox"></div>'+
+                        '<div class="more-dropdown-checkbox-text">'+value.name+'</div>'+
+                    '</label>'+
+                '</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.peculiarities').click(function () {
+                $(this).closest('input').attr('checked', true);
+                console.log(111111111111111);
+                // =========================================================== Нужно добавить формы ====================================
+            })
+
+            // Выводим виды в dropdown
+            $.each(data.views, function (index, value) {
+                $('.more-dropdown__view-item').append('<div data_id="'+value.id+'" class="view search-nav__dropdown-button search-nav__view-button '+(($.query.get('views').toString() === index.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.view').click(function () {
+                var view_id = $(this).attr('data_id');
+                console.log('view_id = '+view_id);
+                $('input[name="views_id"]').val(view_id);
+                $(this).closest('.more-dropdown__view-item').removeClass('active');
+                $(this).addClass('active');
+                // =========================================================== Нужно добавить формы ====================================
+            })
+
+            // Выводим виды в dropdown
+            $.each(data.to_sea, function (index, value) {
+                $('.more-dropdown__sea-item').append('<div data_id="'+value.name+'" class="to_sea search-nav__dropdown-button search-nav__sea-button '+(($.query.get('to_sea').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+            });
+
+            // Вешаем событие на добавленные элементы в dropdown
+            $('.to_sea').click(function () {
+                var to_sea = $(this).attr('data_id');
+                console.log('to_sea = '+to_sea);
+                $('input[name="to_sea"]').val(to_sea);
+                $(this).closest('.more-dropdown__sea-item').removeClass('active');
+                $(this).addClass('active');
+                // =========================================================== Нужно добавить формы ====================================
+            })
 
 
         }
@@ -536,11 +575,6 @@
         currency_type.push(currency_type_value)
     });
 
-    $('.spalni').click(function () {
-        var spalni_id = $(this).attr('data_id');
-        $('input[name="spalni_id"]').val(spalni_id);
-    })
-
     $('.vannie').click(function () {
         var vannie_id = $(this).attr('data_id');
         $('input[name="vannie_id"]').val(vannie_id);
@@ -571,13 +605,13 @@
         var hiddenInput = $('<input>').attr({
             type: 'hidden',
             name: 'type',
-            value: type.join(',')
+            // value: type.join(',')
         });
 
         var hiddenInput2 = $('<input>').attr({
             type: 'hidden',
             name: 'currency_type',
-            value: currency_type.join(',')
+            // value: currency_type.join(',')
         });
 
         $('.header_search').append(hiddenInput);
@@ -591,13 +625,13 @@
         var hiddenInput = $('<input>').attr({
             type: 'hidden',
             name: 'type',
-            value: type.join(',')
+            // value: type.join(',')
         });
 
         var hiddenInput2 = $('<input>').attr({
             type: 'hidden',
             name: 'currency_type',
-            value: currency_type.join(',')
+            // value: currency_type.join(',')
         });
 
         $('.header_search').append(hiddenInput);
