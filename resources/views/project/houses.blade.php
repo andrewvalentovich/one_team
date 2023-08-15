@@ -899,39 +899,7 @@
                                                                 Планировки квартир
                                                             </div>
                                                             <div class="kompleks__layout-list" bis_skin_checked="1">
-                                                                @if(!is_null(json_decode($product->objects)))
-                                                                    @foreach(json_decode($product->objects) as $object)
-                                                                    <div class="kompleks__layout-item" bis_skin_checked="1">
-                                                                        <div class="kompleks__layout-info" bis_skin_checked="1">
-                                                                            <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                                                {{ $object->building }}
-                                                                            </div>
-                                                                            <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                                                $ {{ number_format($object->price, 0, '.', ' ') }}
-                                                                            </div>
-                                                                            <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                                                $ {{ number_format(intval((int) $object->price / ((int) $object->size  ?: 1)), 0, '.', ' ') }} / кв.м
-                                                                            </div>
-                                                                            <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                                                {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
 
-                                                                            </div>
-                                                                            <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                                                $645 / мес.
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="kompleks__layout-scheme" bis_skin_checked="1">
-                                                                            <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
-                                                                                @if(isset($object->apartment_layout_image))
-                                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
-                                                                                @else
-                                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
-                                                                                @endif
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    @endforeach
-                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -940,12 +908,9 @@
                                                             {{__('Особенности')}}
                                                         </div>
                                                         <div class="object__peculiarities-content">
-                                                            <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->id)->get() ?>
-                                                            @foreach($osobenosty as $osob)
                                                             <div class="object__peculiarities-item">
-                                                                {{__($osob->category->name)}}
+
                                                             </div>
-                                                            @endforeach
                                                         </div>
                                                     </div>
                                                     <div class="object__description">
@@ -2024,6 +1989,8 @@ function P(e) {
         });
 
         //комнаты
+        // const objectRooms = document.querySelector('.object__rooms-content')
+        // objectRooms.innerHTML = ''
 
         //карта
         const currentMap = document.querySelector('.current-map')
@@ -2039,6 +2006,92 @@ function P(e) {
             let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
             placeMap.geoObjects.add(placemark);
         });
+
+        //особенности
+        const objectPeculiarities = document.querySelector('.object__peculiarities-content')
+        objectPeculiarities.innerHTML = ''
+
+        currentHouse.peculiarities.forEach(element => {
+            if(element.type !== "Особенности") return
+
+            let div = document.createElement('div')
+            div.classList.add('object__peculiarities-item')
+            div.innerHTML = element.name
+            objectPeculiarities.appendChild(div)
+        });
+
+        // планировки квартир
+        const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
+        kompleksLayoutList.innerHTML = ''
+        
+        if(currentHouse.objects) {
+
+            const objects = JSON.parse(currentHouse.objects)
+            console.log('objects', objects)
+
+            objects.forEach((object, index) => {
+                let divItem = document.createElement('div')
+                divItem.classList.add('kompleks__layout-item')
+
+                let divInfo = document.createElement('div')
+                divInfo.classList.add('kompleks__layout-info')
+    
+                let divOption = document.createElement('div')
+                divOption.classList.add('kompleks__layout-option')
+                divOption.innerHTML = `${object.building} ${object.apartment_layout}`
+                divInfo.appendChild(divOption)
+
+                let divPrice = document.createElement('div')
+                divPrice.classList.add('kompleks__layout-price')
+                divPrice.innerHTML = `$ ${formatNumberWithSpaces(parseInt(object.price))}`
+                divInfo.appendChild(divPrice)
+
+                let divMeter = document.createElement('div')
+                divMeter.classList.add('kompleks__layout-price-meter')
+                const priceMeter = parseInt(object.price / object.size)
+                divMeter.innerHTML = `${formatNumberWithSpaces(priceMeter)} / кв.м`
+                divInfo.appendChild(divMeter)
+
+                let divSquare = document.createElement('div')
+                divSquare.classList.add('kompleks__layout-square')
+                divSquare.innerHTML = `${object.size} <span>|</span> ${object.apartment_layout}`
+                divInfo.appendChild(divSquare)
+
+                let divMonth = document.createElement('div')
+                divMonth.classList.add('kompleks__layout-price-month')
+                divMonth.innerHTML = `$645 / мес.`
+                divInfo.appendChild(divMonth)
+
+                let divCheme = document.createElement('div')
+                divCheme.classList.add('kompleks__layout-scheme')
+
+                let divChemePic = document.createElement('div')
+                divChemePic.classList.add('kompleks__layout-img')
+                divChemePic.addEventListener('click', function(e) {
+                    const chemePopup = document.querySelector(".object__photo");
+                    const img = chemePopup.querySelector('img')
+                    img.setAttribute('src', `${site_url}uploads/${object.apartment_layout_image}`)
+                    chemePopup.classList.add('active')
+                })
+
+
+                let divChemeImg = document.createElement('img')
+                divChemeImg.setAttribute('src', `${site_url}uploads/${object.apartment_layout_image}`)
+                
+                divChemePic.appendChild(divChemeImg)
+                divCheme.appendChild(divChemePic)
+
+                divInfo.appendChild(divMonth)
+
+                divItem.appendChild(divInfo)
+                divItem.appendChild(divCheme)
+                kompleksLayoutList.appendChild(divItem)
+            });
+        }
+
+
+
+
 
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)

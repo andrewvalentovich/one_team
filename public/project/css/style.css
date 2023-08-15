@@ -6869,3 +6869,14 @@ body.scroll_fixed {
 
   }
 }
+.kompleks__layout-img {
+  max-width: 100px;
+
+}
+.kompleks__layout-img img {
+  width: 100%;
+}
+.kompleks__layout-scheme {
+  display: flex;
+  justify-content: center;
+}
