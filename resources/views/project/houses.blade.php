@@ -677,10 +677,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="object__id">
-                                                        ID: {{$product->id}}
+                                                        <!-- ID: {{$product->id}} -->
                                                     </div>
                                                     <div class="place__address">
-                                                        {{$product->address}}
+                                                        <!-- {{$product->address}} -->
                                                     </div>
                                                     <div class="place__square">
                                                         <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
@@ -722,8 +722,7 @@
                                                 </div>
                                                 <div class="place__scroll-content">
                                                     <div class="place__advantages">
-                                                        @if($product->vnj == 'Да')
-                                                        <div class="place__advantages-item">
+                                                        <div class="place__advantages-item vnj">
                                                             <div class="place__advantages-img">
                                                                 <svg width="71" height="57" viewBox="0 0 71 57" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <g clip-path="url(#clip0_890_2)">
@@ -745,12 +744,10 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                {{__('ВНЖ в подарок')}}
+                                                                ВНЖ в подарок
                                                             </div>
                                                         </div>
-                                                        @endif
-                                                        @if($product->cryptocurrency == 'Да')
-                                                        <div class="place__advantages-item">
+                                                        <div class="place__advantages-item cryptocurrency">
                                                             <div class="place__advantages-img">
                                                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <g clip-path="url(#clip0_890_23)">
@@ -771,12 +768,10 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                {{__('Оплата криптовалютой')}}
+                                                                Оплата криптовалютой
                                                             </div>
                                                         </div>
-                                                        @endif
-                                                        @if($product->commissions == 'Да')
-                                                        <div class="place__advantages-item">
+                                                        <div class="place__advantages-item commissions">
                                                             <div class="place__advantages-img place__advantages-commission">
                                                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M23.8947 2H4.05263C2.91899 2 2 2.91899 2 4.05263V23.8947C2 25.0284 2.91899 25.9474 4.05263 25.9474H23.8947C25.0284 25.9474 25.9474 25.0284 25.9474 23.8947V4.05263C25.9474 2.91899 25.0284 2 23.8947 2Z" stroke="#508CFA" stroke-width="2.05263" stroke-miterlimit="22.9256"></path>
@@ -788,12 +783,10 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                {{__('Без комиссии')}}
+                                                                Без комиссии
                                                             </div>
                                                         </div>
-                                                        @endif
-                                                        @if($product->parking == 'Да')
-                                                        <div class="place__advantages-item">
+                                                        <div class="place__advantages-item parking">
                                                             <div class="place__advantages-img">
                                                                 <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                     <path d="M23.0804 1H2.9598C1.87743 1 1 1.87743 1 2.9598V23.0804C1 24.1628 1.87743 25.0402 2.9598 25.0402H23.0804C24.1628 25.0402 25.0402 24.1628 25.0402 23.0804V2.9598C25.0402 1.87743 24.1628 1 23.0804 1Z" stroke="#508CFA" stroke-width="1.9598" stroke-miterlimit="22.9256"></path>
@@ -802,10 +795,9 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                {{__('Паркинг в подарок')}}
+                                                                Паркинг в подарок
                                                             </div>
                                                         </div>
-                                                        @endif
                                                     </div>
                                                     <div class="place__order">
                                                         <div class="place__order-content">
@@ -880,8 +872,8 @@
                                                             {{$product->disposition}}
                                                         </div>
                                                         <div class="place__location-map">
-                                                            <div class="">
-                                                                <script>
+                                                            <div class="current-map">
+                                                                <!-- <script>
                                                                     product_id_is = <?php echo $product->id?>
                                                                     function createYandexMap(latitude, longitude) {
                                                                         let div_id = 'place-map'+product_id_is.toString();
@@ -896,8 +888,8 @@
                                                                         });
                                                                     }
                                                                     createYandexMap(<?php echo $product->lat.','.$product->long?>);
-                                                                </script>
-                                                                <div id="place-map{{$product->id}}" style="width: 100%; height: 165px;"></div>
+                                                                </script> -->
+                                                                <div id="place-map" style="width: 100%; height: 165px;"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1810,10 +1802,12 @@
 
 // динамический массив для заполнения точек на карте map_city
 function P(e) {
+    console.log('test')
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
     let houseData = {}
     let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
+
     async function getData(topLeft, bottomRight) {
         $.ajax({
             url: `/api/houses/by_coordinates/with_filter`,
@@ -1842,7 +1836,7 @@ function P(e) {
                                 <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                                 <div class="balloon-city__square">${city.kv} ${kvm}</div>
                             </div>
-                            <div class="balloon-city__img"> <img src="${site_url + city.image}"></div>
+                            <div class="balloon-city__img"> <img src="${site_url}uploads/${city.photo[0].photo}"></div>
                         </div>`,
                         city_id: city.id
                     });
@@ -1931,16 +1925,18 @@ function P(e) {
                 e.stopPropagation();
             })
 
-            // const priceDiv = document.createElement('div');
-            // priceDiv.classList.add('city-col__item-price');
-            // priceDiv.textContent = `${numberFormat(product.price, 0, '.', ' ')} €`;
-            // textDiv.appendChild(priceDiv);
+            //цена в карточке превью
+            const priceDiv = document.createElement('div');
+            priceDiv.classList.add('city-col__item-price');
+            priceDiv.textContent = `${formatNumberWithSpaces(cityElement.price)} €`;
+            textDiv.appendChild(priceDiv);
 
+            //комнаты в карточке превью
             const roomsDiv = document.createElement('div');
             roomsDiv.classList.add('city-col__item-rooms');
-            // roomsDiv.innerHTML = `${product.size} ${__('кв.м')}
-            //     <span>|</span> ${getCategories(product.ProductCategory, 'Спальни')} ${__('спальни')}
-            //     <span>|</span> ${getCategories(product.ProductCategory, 'Ванные')} ${__('ванна')}`;
+            roomsDiv.innerHTML = `${cityElement.size} кв.м`
+                // <span>|</span> ${getCategories(product.ProductCategory, 'Спальни')} ${__('спальни')}
+                // <span>|</span> ${getCategories(product.ProductCategory, 'Ванные')} ${__('ванна')}`;
             textDiv.appendChild(roomsDiv);
 
             const addressDiv = document.createElement('div');
@@ -1972,6 +1968,7 @@ function P(e) {
         });
     }
 
+    let placeMap = null;
     function setNewPopupHouseData(id) {
         id = parseInt(id)
         const placeW = document.querySelector('.place-w')
@@ -2004,6 +2001,7 @@ function P(e) {
 
         placeTopFavorites.setAttribute('data_id', id)
         placeHeaderFavorites.setAttribute('data_id', id)
+
         if(favotires_house_id.hasOwnProperty(id)) {
             placeTopFavorites.classList.add('active')
             placeHeaderFavorites.classList.add('active')
@@ -2012,6 +2010,47 @@ function P(e) {
             placeHeaderFavorites.classList.remove('active')
         }
 
+        //айди в попапе
+        const objectId = document.querySelector('.object__id')
+        objectId.innerHTML = `ID: ${currentHouse.id}`
+
+        //адресс в попапе
+        const address = document.querySelector('.place__address')
+        address.innerHTML = `${currentHouse.address}`
+
+        //плюсы
+        const properties = [
+            { property: 'vnj', selector: '.place__advantages-item.vnj' },
+            { property: 'cryptocurrency', selector: '.place__advantages-item.cryptocurrency' },
+            { property: 'commissions', selector: '.place__advantages-item.commissions' },
+            { property: 'parking', selector: '.place__advantages-item.parking' },
+        ];
+
+        properties.forEach(item => {
+            const element = document.querySelector(item.selector);
+            if (element && currentHouse[item.property] === 'Да') {
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+
+        //комнаты
+
+        //карта
+        const currentMap = document.querySelector('.current-map')
+        const div_id = 'place-map'
+        if (placeMap) {
+            placeMap.destroy(); // Уничтожаем текущую карту, если она существует
+        } 
+        ymaps.ready(function() {
+            placeMap = new ymaps.Map(div_id, {
+                center: [currentHouse.lat, currentHouse.long],
+                zoom: 10,
+            });
+            let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
+            placeMap.geoObjects.add(placemark);
+        });
 
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
@@ -2178,7 +2217,6 @@ function P(e) {
     }
 
     function setBallons() {
-        mapCountry.geoObjects.removeAll();
         var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
             build: function () {
                 this.constructor.superclass.build.call(this);
@@ -2281,17 +2319,18 @@ function P(e) {
             });
 
             mapCountry.geoObjects.add(placemark);
+
             placemark.events.add('mouseenter', function (e) {
                 placemark.balloon.open(); // Открываем балун при наведении мыши
                 setTimeout(function () {
                     var balloonContentElement = document.querySelector('.ballon-city__content');
                     console.log(balloonContentElement);
 
-                    document.querySelector('.ballon-city__content').addEventListener('click', function() {
-                        var city_id = document.querySelector('.balloon-city').id;
-                        console.log(city_id);
-                        document.getElementById(`card_object-${city_id}`).scrollIntoView();
-                    });
+                    // document.querySelector('.ballon-city__content').addEventListener('click', function() {
+                    //     var city_id = document.querySelector('.balloon-city').id;
+                    //     console.log(city_id);
+                    //     document.getElementById(`card_object-${city_id}`).scrollIntoView();
+                    // });
 
                     if (balloonContentElement) {
                         var mouseLeaveListener = function () {
@@ -2305,7 +2344,7 @@ function P(e) {
         });
     }
 
-    var mapCountry;
+    let mapCountry;
     var script;
     var head = document.getElementsByTagName('head')[0];
 
@@ -2328,6 +2367,11 @@ function P(e) {
     changeLangMap(mapLang);
 
     function init(ymaps) {
+        const mapCity = document.querySelector('#map_city')
+        mapCity.innerHTML = ''
+        if(mapCountry) {
+            mapCountry.destroy()
+        }
         mapCountry = new ymaps.Map("map_city", {
             center: [<?php echo $country->lat . ',' . $country->long ?>],
             zoom: 6,
@@ -2350,6 +2394,22 @@ function P(e) {
 
         getData(top_left, bottom_right);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
             let newBounds = event.get('newBounds');
             let top_left = {
@@ -2365,7 +2425,6 @@ function P(e) {
             getData(top_left, bottom_right);
 
         });
-
     }
 }
 

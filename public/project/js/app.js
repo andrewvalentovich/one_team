@@ -514,7 +514,7 @@ async function getData() {
     function P(e) {
         document.querySelectorAll("#map_city1").length && ymaps.ready((function () {
 
-            C = new ymaps.Map("map_city", {
+            C = new ymaps.Map("map_city1", {
                 center: [39.475851, 30.815585],
                 zoom: 6,
                 controls: [],
@@ -1132,4 +1132,10 @@ if(document.querySelectorAll('.place__slider_p').length) {
 }
 
 
+///////// для страницы houses
 let favotires_house_id = {}
+
+
+function formatNumberWithSpaces(number) {
+    return number.toLocaleString('en-US', { minimumFractionDigits: 0 }).replace(',', ' ');
+}
