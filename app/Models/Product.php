@@ -25,6 +25,11 @@ class Product extends Model
         return $this->belongsTo(CountryAndCity::class, 'city_id', 'id');
     }
 
+    public function country()
+    {
+        return $this->belongsTo(CountryAndCity::class, 'country_id', 'id');
+    }
+
     public function photo() {
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
     }

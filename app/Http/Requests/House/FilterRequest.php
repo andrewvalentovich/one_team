@@ -29,17 +29,17 @@ class FilterRequest extends FormRequest
             'bottom_right' => 'nullable|array',
             'page' => 'filled|numeric|min:1',
             'sale_or_rent' => 'nullable|string',
+            'ot_zastroishika' => 'nullable|string',
             'order_by' => 'nullable|string',
             'price' => 'nullable|array',
-            'bedrooms' => 'nullable|string',
-            'bathrooms' => 'nullable|string',
-            'osobenost' => 'nullable|array',
+            'bedrooms' => 'nullable|numeric|min:0',
+            'bathrooms' => 'nullable|numeric|min:0',
+            'peculiarities' => 'nullable|array',
             'view' => 'nullable|string',
             'to_sea' => 'nullable|string',
-            'size' => 'nullable|string',
-            'size_home' => 'nullable|string',
+            'size' => 'nullable|array',
             'type' => 'nullable|string',
-            'ot_zastroishika' => 'nullable|string',
+            'country' => 'nullable|string',
         ];
     }
 }

@@ -29,7 +29,7 @@ class HousesController extends Controller
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
         $houses = Product::filter($filter)->with('photo')->with('peculiarities')->with(['favorite' => function ($query) use ($data) {
-            $query->where('user_id', $data['user_id']);
+            $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
         }])->paginate(10)->through(function ($row) {
             $objects = [];
             if (isset($row->objects)) {
