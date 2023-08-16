@@ -132,10 +132,10 @@
                             <div class="more-dropdown__sea-item"></div>
                         </div>
                         <div class="search-nav__dropdown-item more-dropdown__square">
-                            <div class="more-dropdown__title">Площади (кв.м)</div>
+                            <div class="more-dropdown__title">Площадь (кв.м)</div>
                             <div class="more-dropdown__square-item">
-                                <input placeholder="Общая" name="size" value="">
-                                <input placeholder="Дом" name="size_home" value="">
+                                <input placeholder="От" name="size[min]" value="">
+                                <input placeholder="До" name="size[max]" value="">
                             </div>
                         </div>
                     </div>
@@ -216,10 +216,10 @@
                     <div class="search__filter-item">
                         <div class="search__filter-square">
                             <div class="search__filter-square-content">
-                                <div class="search__filter-square-title">Площади (кв.м)</div>
+                                <div class="search__filter-square-title">Площадь (кв.м)</div>
                                 <div class="search__filter-square-item">
-                                    <input class="search__filter-square-general" placeholder="Общая" name="size" value="">
-                                    <input class="search__filter-square-plot" placeholder="Дом" name="size_home" value="">
+                                    <input class="search__filter-square-general" placeholder="От" name="size[min]" value="">
+                                    <input class="search__filter-square-plot" placeholder="До" name="size[max]" value="">
                                 </div>
                             </div>
                         </div>
@@ -246,7 +246,7 @@
             console.log(data);
             // Выводим валюту в dropdown
             $.each(data.currency, function (index, value) {
-                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+(($.query.get('price[code]').toString() === index.toString()) ? 'active' : '')+' currency_type" currency_type="' + index + '">' + value + '</div>');
+                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+(($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '')+' currency_type" currency_type="' + index + '">' + value + '</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
@@ -318,7 +318,7 @@
 
             // Выводим спальни в dropdown
             $.each(data.bedrooms, function (index, value) {
-                $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+value.name+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(($.query.get('bedrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+                $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+value.id+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(($.query.get('bedrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
@@ -332,7 +332,7 @@
 
             // Выводим ванные в dropdown
             $.each(data.bathrooms, function (index, value) {
-                $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+value.name+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(($.query.get('bathrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+                $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+value.id+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(($.query.get('bathrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
@@ -351,7 +351,7 @@
                     '<label class="more-dropdown__peculiarities peculiarities">'+
                         '<input name="peculiarities['+value.id+']" '+
                         'class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" '+
-                        (($.query.get('peculiarities['+value.id+']') === true) ? 'checked' : '')+'>'+
+                        (($.query.get('peculiarities['+value.id+']') === "true") ? 'checked' : '')+'>'+
                         '<div class="more-dropdown-custom-checkbox"></div>'+
                         '<div class="more-dropdown-checkbox-text">'+value.name+'</div>'+
                     '</label>'+
@@ -363,52 +363,56 @@
                 var checked = $(this).prop('checked');
                 var name = $(this).attr('name');
 
-                history.pushState(null, null, $.query.SET(name, checked)); // подстановка параметров
+                if(checked) {
+                    history.pushState(null, null, $.query.SET(name, checked.toString())); // подстановка параметров
+                } else {
+                    history.pushState(null, null, $.query.REMOVE(name, "true")); // подстановка параметров
+                }
             })
 
             // Выводим виды в dropdown
             $.each(data.views, function (index, value) {
-                $('.more-dropdown__view-item').append('<div data_id="'+value.name+'" class="view search-nav__dropdown-button search-nav__view-button '+(($.query.get('view').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+                $('.more-dropdown__view-item').append('<div data_id="'+value.id+'" class="view search-nav__dropdown-button search-nav__view-button '+(($.query.get('view').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.view').click(function () {
-                var name = $(this).attr('data_id');
+                var id = $(this).attr('data_id');
                 $(this).closest('.more-dropdown__view-item').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('view', name)); // подстановка параметров
+                history.pushState(null, null, $.query.SET('view', id)); // подстановка параметров
             });
 
 
             // Выводим виды в dropdown
             $.each(data.to_sea, function (index, value) {
-                $('.more-dropdown__sea-item').append('<div data_id="'+value.name+'" class="to_sea search-nav__dropdown-button search-nav__sea-button ts '+(($.query.get('to_sea').toString() == value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
+                $('.more-dropdown__sea-item').append('<div data_id="'+value.id+'" class="to_sea search-nav__dropdown-button search-nav__sea-button ts '+(($.query.get('to_sea').toString() == value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.to_sea').click(function () {
-                var to_sea = $(this).attr('data_id');
+                var id = $(this).attr('data_id');
                 $(this).closest('.more-dropdown__sea-item').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('to_sea', to_sea)); // подстановка параметров
+                history.pushState(null, null, $.query.SET('to_sea', id)); // подстановка параметров
             })
 
             // Выводим площадь в dropdown
-            $('input[name="size"]').val(($.query.get('size').toString() && $.query.get('size').toString() != "true") ? $.query.get('size').toString() : "");
-            $('input[name="size_home"]').val(($.query.get('size_home').toString() && $.query.get('size_home').toString() != "true") ? $.query.get('size_home').toString() : "");
+            $('input[name="size[min]"]').val(($.query.get('size[min]').toString() && $.query.get('size[min]').toString() != "true") ? $.query.get('size[min]').toString() : "");
+            $('input[name="size[max]"]').val(($.query.get('size[max]').toString() && $.query.get('size[max]').toString() != "true") ? $.query.get('size[max]').toString() : "");
 
             // При изменении size площади
-            $('input[name="size').on('change input', function () {
-                var size = $(this).val();
-                history.pushState(null, null, $.query.SET('size', size)); // подстановка параметров
+            $('input[name="size[min]').on('change input', function () {
+                var min = $(this).val();
+                history.pushState(null, null, $.query.SET('size[min]', size)); // подстановка параметров
             })
 
             // При изменении size_home площади
-            $('input[name="size_home').on('change input', function () {
-                var size_home = $(this).val();
-                history.pushState(null, null, $.query.SET('size_home', size_home)); // подстановка параметров
+            $('input[name="size[max]').on('change input', function () {
+                var max = $(this).val();
+                history.pushState(null, null, $.query.SET('size[max]', max)); // подстановка параметров
             })
 
         }
