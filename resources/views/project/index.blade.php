@@ -38,18 +38,16 @@
         <div class="popular-locations__content">
             <div class="popular-locations__list">
                 @foreach($all_country as $country)
-                    <div class="popular-locations__item">
+                    <a href="{{route('country', $country->id)}}" class="popular-locations__item">
                         <div class="popular-locations__item-img">
-                            <a href="{{route('country', $country->id)}}"> <img style="max-width: 50px"
-                                                                               src="{{asset("uploads/$country->photo")}}"
-                                                                               alt="gr"></a>
+                            <img style="max-width: 50px" src="{{asset("uploads/$country->photo")}}" alt="gr">
                         </div>
                         <div class="popular-locations__item-text">
                             @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @endif
-                            <a href="{{route('country', $country->id)}}">  {{$country->name}}
-                                <span>{{$country->product_country->count()}}</span></a>
+                            {{$country->name}}
+                            <span>{{$country->product_country->count()}}</span>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>

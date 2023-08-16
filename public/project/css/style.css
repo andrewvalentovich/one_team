@@ -6880,3 +6880,26 @@ body.scroll_fixed {
   display: flex;
   justify-content: center;
 }
+
+
+@media (max-width: 639px) {
+  .popular-locations__item {
+    margin-bottom: 0px;
+    padding: 5px 0px;
+  }
+}
+.kompleks__layout-price span {
+  display: none;
+}
+
+.kompleks__layout-price span.active {
+  display: block;
+}
+
+.kompleks__layout-price-meter span {
+  display: none;
+}
+
+.kompleks__layout-price-meter span.active {
+  display: block;
+}
