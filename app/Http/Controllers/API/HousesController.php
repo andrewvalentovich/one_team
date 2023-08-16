@@ -59,7 +59,7 @@ class HousesController extends Controller
                 "address" => $row->address,
                 "size" => $row->size,
                 "size_home" => $row->size_home,
-                "price_size" => $this->getPriceSize((int) $row->price, (int) $row->size),
+                "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size),
                 "price" => $this->getCurrencyPrice($row->price),
                 "description" => $row->description,
                 "description_en" => $row->description_en,
@@ -91,103 +91,22 @@ class HousesController extends Controller
                 "favorite" => $row->favorite,
             ];
         });
+    }
 
-//        $houses = Product::filter($filter)->with('photo')->with('peculiarities')->with(['favorite' => function ($query) use ($data) {
-//            $query->where('user_id', $data['user_id']);
-//        }])->map(function ($row) {
-//            $objects = [];
-//            if (isset($row->objects)) {
-//                foreach (json_decode($row->objects) as $object) {
-//                    // Формируем новое поле price_size
-//                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size);
-//
-//                    // Меняем цену
-//                    $price = $object->price;
-//                    $object->price = $this->getCurrencyPrice($price);
-//                    unset($price);
-//
-//                    // Присваиваем объект временной переменой
-//                    $objects[] = $object;
-//                }
-//
-//                $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
-//                unset($objects);
-//            }
-//
-//            return [
-//                "id" => $row->id,
-//                "country_id" => $row->country_id,
-//                "city_id" => $row->city_id,
-//                "sale_or_rent" => $row->sale_or_rent,
-//                "name" => $row->name,
-//                "address" => $row->address,
-//                "size" => $row->size,
-//                "size_home" => $row->size_home,
-//                "price_size" => $this->getPriceSize((int) $row->price, (int) $row->size),
-//                "price" => $this->getCurrencyPrice($row->price),
-//                "description" => $row->description,
-//                "description_en" => $row->description_en,
-//                "description_tr" => $row->description_tr,
-//                "lat" => $row->lat,
-//                "long" => $row->long,
-//                "citizenship" => $row->citizenship,
-//                "status" => $row->status,
-//                "disposition" => $row->disposition,
-//                "disposition_en" => $row->disposition_en,
-//                "disposition_tr" => $row->disposition_tr,
-//                "created_at" => $row->created_at,
-//                "updated_at" => $row->updated_at,
-//                "parking" => $row->parking,
-//                "vnj" => $row->vnj,
-//                "commissions" => $row->commissions,
-//                "cryptocurrency" => $row->cryptocurrency,
-//                "owner" => $row->owner,
-//                "grajandstvo" => $row->grajandstvo,
-//                "complex_or_not" => $row->complex_or_not,
-//                "objects" => $row->objects,
-//                "gostinnie" => !empty($row->peculiarities->whereIn('type', "Гостиные")->first()) ? $row->peculiarities->whereIn('type', "Гостиные")->first()->name : null,
-//                "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
-//                "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
-//                "do_more" => !empty($row->peculiarities->whereIn('type', "До моря")->first()) ? $row->peculiarities->whereIn('type', "До моря")->first()->name : null,
-//                "type_vid" => !empty($row->peculiarities->whereIn('type', "Вид")->first()) ? $row->peculiarities->whereIn('type', "Вид")->first()->name : null,
-//                "peculiarities" => !empty($row->peculiarities->whereIn('type', "Особенности")->all()) ? $row->peculiarities->whereIn('type', "Особенности")->all() : null,
-//                "favorite" => $row->favorite,
-//            ];
-//        })->pagiante(10);
-
-        // Преобразование цены для записей и поля объекты
-//        foreach ($houses as $house) {
-//            $price = $house['price'];
-//            $objects = [];
-//
-//            // Формируем новое поле price_size
-//            $house['price_size'] = $this->getPriceSize($house['price'], (int) $house['size']);
-//
-//            // Кладём массив с валютой
-//            $house['price'] = $this->getCurrencyPrice($price);
-//            unset($price);
-//
-//
-//            // Если у записи есть объекты
-//            if(isset($house->objects)) {
-//                foreach (json_decode($house->objects) as $object) {
-//                    // Формируем новое поле price_size
-//                    $object->price_size = $this->getPriceSize((int) $object->price, (int) $object->size);
-//
-//                    // Меняем цену
-//                    $price = $object->price;
-//                    $object->price = $this->getCurrencyPrice($price);
-//                    unset($price);
-//
-//                    // Присваиваем объект временной переменой
-//                    $objects[] = $object;
-//                }
-//                $house['objects'] = json_encode($objects, JSON_UNESCAPED_UNICODE);
-//                unset($objects);
-//            }
-//        }
-
-
+    public function getAll()
+    {
+        $houses = Product::with('photo')->with('peculiarities')->get()->transform(function ($row) {
+            return [
+                'id' => $row->id,
+                'coordinate' => $row->lat.','.$row->long,
+                "price" => $this->getCurrencyPrice($row->price),
+                "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
+                "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
+                'kv' => $row->size." кв.м.",
+                'address' => $row->address,
+                'image' => config('app.url').'uploads/'.$row->photo[0]->photo,
+            ];
+        });
 
         return response()->json($houses);
     }
