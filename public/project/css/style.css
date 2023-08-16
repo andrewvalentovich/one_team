@@ -6884,8 +6884,6 @@ body.scroll_fixed {
 
 @media (max-width: 639px) {
   .popular-locations__item {
-    margin-bottom: 0px;
-    padding: 5px 0px;
   }
 }
 .kompleks__layout-price span {
