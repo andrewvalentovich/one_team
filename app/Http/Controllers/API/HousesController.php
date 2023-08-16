@@ -26,7 +26,6 @@ class HousesController extends Controller
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
         $data = $request->validated();
-
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
         $houses = Product::filter($filter)->with('photo')->with('peculiarities')->with(['favorite' => function ($query) use ($data) {
@@ -213,7 +212,7 @@ class HousesController extends Controller
             "EUR" => number_format($price, 0, '.', ' ')." €",
             "USD" => number_format($price * $this->exchanges['USD'], 0, '.', ' ')." $",
             "RUB" => number_format($price * $this->exchanges['RUB'], 0, '.', ' ')." ₽",
-            "TRY" => number_format($price * $this->exchanges['TRY'], 0, '.', ' ')." ₤",
+            "TRY" => number_format($price * $this->exchanges['TRY'], 0, '.', ' ')." ₺",
         ];
     }
 
@@ -223,7 +222,7 @@ class HousesController extends Controller
             "EUR" => number_format(ceil($price / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." € / кв.м.",
             "USD" => number_format(ceil($price * $this->exchanges['USD'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." $ / кв.м.",
             "RUB" => number_format(ceil($price * $this->exchanges['RUB'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₽ / кв.м.",
-            "TRY" => number_format(ceil($price * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₤ / кв.м.",
+            "TRY" => number_format(ceil($price * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₺ / кв.м.",
         ];
     }
 }
