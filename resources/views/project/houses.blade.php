@@ -1789,7 +1789,9 @@ function P(e) {
                 houseData = { ...data }
                 checkFavorites(data.data)
                 let site_url = `{{config('app.url')}}`;
+
                 setBallons(data.data);
+
                 setCityItem(data.data);
                 setListenersToOpenPopup();
                 setListenersToAddfavorites()
@@ -2473,7 +2475,6 @@ function P(e) {
                 hideIconOnBalloonOpen: false,
                 balloonOffset: [-110, -50]
             });
-
             mapCountry.geoObjects.add(placemark);
 
             placemark.events.add('mouseenter', function (e) {
@@ -2558,7 +2559,8 @@ function P(e) {
                 lat: newBounds[1][0],
                 long: newBounds[1][1]
             };
-
+            console.log('Top left:', top_left);
+            console.log('Bottom right:', bottom_right);
             getData(top_left, bottom_right);
 
         });

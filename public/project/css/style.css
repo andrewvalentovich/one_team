@@ -2593,7 +2593,7 @@ body.scroll_fixed {
 
 .place__collage-item {
   margin-bottom: 10px;
-  flex: calc(50% - 5px)
+  flex: 0 0 calc(50% - 5px)
 }
 
 .place__collage-item img {
