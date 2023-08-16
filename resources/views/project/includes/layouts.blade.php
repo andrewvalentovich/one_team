@@ -138,6 +138,16 @@
         $('.place__square div').css('display', 'none');
         $('.place__square-'+$(this).data('exchange')).css('display', 'block');
         $('.place__currency').removeClass('open');
+        const popupBlock = this.closest('.place-popup')
+        const exchange = this.getAttribute('data-exchange')
+        popupBlock.setAttribute('data-exchange', exchange)
+        if(popupBlock.querySelectorAll('.valute').length) {
+            const kompleksBlockPrice = popupBlock.querySelector('.kompleks__layout-price')
+            const kompleksBlockMeterPrice = popupBlock.querySelector('.kompleks__layout-price-meter')
+            changeExchange(kompleksBlockPrice, exchange)
+            changeExchange(kompleksBlockMeterPrice, exchange)
+            
+        }
     });
 
     $(".place__currency-preview").bind('click', function () {
@@ -223,6 +233,14 @@
         }
     })
 
+function changeExchange (blockPrice, currentExchange) {
+    const prices = blockPrice.querySelectorAll('[data-exchange]')
+    prices.forEach(element => {
+        element.classList.remove('active')
+    });
+    const currentPrice = blockPrice.querySelector(`[data-exchange="${currentExchange}"]`);
+    currentPrice.classList.add('active')
+}
 </script>
 <script>
 //анимация инпутов

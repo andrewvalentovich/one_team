@@ -1139,3 +1139,4 @@ let favotires_house_id = {}
 function formatNumberWithSpaces(number) {
     return number.toLocaleString('en-US', { minimumFractionDigits: 0 }).replace(',', ' ');
 }
+

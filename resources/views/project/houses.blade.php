@@ -517,7 +517,7 @@
                             @endforeach
                         </div>
                         <div class="place-w">
-                            <div class="place-popup">
+                            <div class="place-popup" data-exchange="EUR">
                                 <section class="object place">
                                     <div class="place__header">
                                         <div class="place__header-content">
@@ -634,10 +634,10 @@
                                                 <div class="place__info">
                                                     <div class="place__price">
                                                         <div class="place__price-value">
-                                                            <div class="place__exchange-EUR"><span>{{ number_format($product->price, 0, '.', ' ') }}</span><b> €</b></div>
-                                                            <div class="place__exchange-USD" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['USD']), 0, '.', ' ') }}</span><b> $</b></div>
-                                                            <div class="place__exchange-RUB" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['RUB']), 0, '.', ' ') }}</span><b> ₽</b></div>
-                                                            <div class="place__exchange-TRY" style="display: none;"><span>{{ number_format(intval($product->price * $exchanges['TRY']), 0, '.', ' ') }}</span><b class="lira"> ₺</b></div>
+                                                            <div class="place__exchange-EUR"><span></span><b></b></div>
+                                                            <div class="place__exchange-USD" style="display: none;"><span></span><b></b></div>
+                                                            <div class="place__exchange-RUB" style="display: none;"><span></span><b></b></div>
+                                                            <div class="place__exchange-TRY" style="display: none;"><span></span><b class="lira"></b></div>
                                                         </div>
                                                         <div class="place__currency">
                                                             <div class="place__currency-preview">
@@ -822,54 +822,47 @@
                                                             {{__('Заказать просмотр')}}
                                                         </div>
                                                     </div>
-                                                    @if($product->complex_or_not == 'Нет' || !is_null($product->complex_or_not))
                                                     <div class="object__rooms">
                                                         <div class="object__rooms-content">
                                                             <div class="object__rooms-item">
                                                                 <div class="object__rooms-subtitle">
                                                                     {{__('Общая площадь')}}
                                                                 </div>
-                                                                <div class="object__rooms-value">
-                                                                {{$product->size}} {{__('кв.м')}}
+                                                                <div class="object__rooms-value main-size">
+                                                                    <span></span> {{__('кв.м')}}
                                                                 </div>
                                                             </div>
                                                             <div class="object__rooms-item">
                                                                 <div class="object__rooms-subtitle">
                                                                     {{__('Спален')}}
                                                                 </div>
-                                                                <div class="object__rooms-value">
-                                                                <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
-                                                                    {{ str_replace('+','',$spalni->category->name)}}
+                                                                <div class="object__rooms-value spalni">
+
                                                                 </div>
                                                             </div>
                                                             <div class="object__rooms-item">
                                                                 <div class="object__rooms-subtitle">
                                                                     {{__('Гостиные')}}
                                                                 </div>
-                                                                <div class="object__rooms-value">
-                                                                    <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->id)->first(); ?>
-                                                                    {{str_replace('+','',__($spalni->category->name))}}
+                                                                <div class="object__rooms-value gostinnie">
+
                                                                 </div>
                                                             </div>
                                                             <div class="object__rooms-item">
                                                                 <div class="object__rooms-subtitle">
                                                                     {{__('Ванные')}}
                                                                 </div>
-                                                                <div class="object__rooms-value">
-                                                                    <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->id)->first(); ?>
-                                                                    {{str_replace('+','', __($spalni->category->name))}}
+                                                                <div class="object__rooms-value vanie">
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @endif
                                                     <div class="place__location">
                                                         <div class="place__location-title place__title">
                                                             {{__('Расположение и инфраструктура')}}
                                                         </div>
                                                         <div class="place__location-info">
-                                                            @if(app()->getLocale() == 'en') <?php $product->disposition = $product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->disposition = $product->disposition_tr ?>  @endif
-                                                            {{$product->disposition}}
                                                         </div>
                                                         <div class="place__location-map">
                                                             <div class="current-map">
@@ -1777,6 +1770,8 @@ function P(e) {
     let houseData = {}
     let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
 
+    const langSite = `{{ app()->getLocale() }}`
+
     async function getData(topLeft, bottomRight) {
         await $.ajax({
             url: `/api/houses/by_coordinates/with_filter`,
@@ -1881,26 +1876,24 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            priceDiv.textContent = `${formatNumberWithSpaces(cityElement.price)} €`;
+            priceDiv.textContent = `${cityElement.price.EUR}`;
             textDiv.appendChild(priceDiv);
 
             //комнаты в карточке превью
             const roomsDiv = document.createElement('div');
             roomsDiv.classList.add('city-col__item-rooms');
 
-            const spalni = cityElement.peculiarities.filter(item => item.type === "Спальни");
-            const vannie = cityElement.peculiarities.filter(item => item.type === "Ванные");
+            const spalni = cityElement.spalni
+            const vannie = cityElement.vanie
 
             
-            console.log('spalni',spalni)
             roomsDiv.innerHTML = `${cityElement.size} кв.м`
-            roomsDiv.innerHTML = `${cityElement.size} кв.м`;
             if (spalni && spalni.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${spalni[0].name.replace('+', '')} Спальни`;
+                roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} Спальни`;
             }
 
             if (vannie && vannie.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${vannie[0].name.replace('+', '')} Ванные`;
+                roomsDiv.innerHTML += `<span>|</span> ${vannie.replace('+', '')} Ванные`;
             }
 
             textDiv.appendChild(roomsDiv);
@@ -1937,6 +1930,7 @@ function P(e) {
     let placeMap = null;
     function setNewPopupHouseData(id) {
         id = parseInt(id)
+        const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
         placeW.classList.add('active')
 
@@ -1984,6 +1978,24 @@ function P(e) {
         const address = document.querySelector('.place__address')
         address.innerHTML = `${currentHouse.address}`
 
+        //цена в попапе
+        Object.keys(currentHouse.price).forEach(function(currencyCode, price) {
+            const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
+            const spanPriceBlock = currencyCodePrice.querySelector('span')
+            const bPriceBlock = currencyCodePrice.querySelector('b')
+
+
+            let currentPrice = currentHouse.price[currencyCode];
+            const valuteSymbol = currentPrice[currentPrice.length - 1];
+            currentPrice = currentPrice.slice(0, -1);
+
+
+            spanPriceBlock.innerHTML = currentPrice
+            bPriceBlock.innerHTML = valuteSymbol
+        })
+
+
+
         //плюсы
         const properties = [
             { property: 'vnj', selector: '.place__advantages-item.vnj' },
@@ -2002,10 +2014,32 @@ function P(e) {
         });
 
         //комнаты
-        const objectRooms = document.querySelector('.object__rooms-content')
-        objectRooms.innerHTML = ''
-        if(currentHouse.complex_or_not === 'Нет' || currentHouse.complex_or_not === null) {
-            
+        const objectRooms = document.querySelector('.object__rooms')
+        objectRooms.style.display = 'none'
+        if(currentHouse.complex_or_not !== 'Нет' || currentHouse.complex_or_not !== null) {
+            objectRooms.style.display = 'block'
+
+            const mainSize = objectRooms.querySelector('.main-size').querySelector('span')
+            mainSize.innerHTML = currentHouse.size_home
+
+            if(currentHouse.spalni) {
+                const spalni = objectRooms.querySelector('.spalni')
+                spalni.innerHTML = currentHouse.spalni.replace('+', '')
+            }
+
+
+            if(currentHouse.gostinnie) {
+                const gostinnie = objectRooms.querySelector('.gostinnie')
+                gostinnie.innerHTML = currentHouse.gostinnie.replace('+', '')
+            }
+
+
+            if(currentHouse.vanie) {
+                const vanie = objectRooms.querySelector('.vanie')
+                vanie.innerHTML = currentHouse.vanie.replace('+', '')
+            }
+
+
         }
 
 
@@ -2028,6 +2062,7 @@ function P(e) {
         const objectPeculiarities = document.querySelector('.object__peculiarities-content')
         objectPeculiarities.innerHTML = ''
 
+        if(currentHouse.peculiarities)
         currentHouse.peculiarities.forEach(element => {
             if(element.type !== "Особенности") return
 
@@ -2041,10 +2076,12 @@ function P(e) {
         const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
         kompleksLayoutList.innerHTML = ''
         
-        if(currentHouse.objects) {
-
-            const objects = JSON.parse(currentHouse.objects)
-            console.log('objects', objects)
+        const kompleks__layout = document.querySelector('.kompleks__layout')
+        kompleks__layout.style.display = 'none'
+        const objects = JSON.parse(currentHouse.objects)
+        if(objects.length != 0 && objects) {
+        console.log(objects.length)
+            kompleks__layout.style.display = 'block'
 
             objects.forEach((object, index) => {
                 let divItem = document.createElement('div')
@@ -2060,13 +2097,40 @@ function P(e) {
 
                 let divPrice = document.createElement('div')
                 divPrice.classList.add('kompleks__layout-price')
-                divPrice.innerHTML = `$ ${formatNumberWithSpaces(parseInt(object.price))}`
+
+
+                console.log(object)
+                Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.innerHTML = `${((currencyPrice))}`
+
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divPrice.appendChild(span)
+
+                })
                 divInfo.appendChild(divPrice)
+
 
                 let divMeter = document.createElement('div')
                 divMeter.classList.add('kompleks__layout-price-meter')
-                const priceMeter = parseInt(object.price / object.size)
-                divMeter.innerHTML = `${formatNumberWithSpaces(priceMeter)} / кв.м`
+                Object.entries(object.price_size).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.innerHTML = `${((currencyPrice))}`
+
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divMeter.appendChild(span)
+
+                })
                 divInfo.appendChild(divMeter)
 
                 let divSquare = document.createElement('div')
@@ -2107,7 +2171,27 @@ function P(e) {
         }
 
 
+        //Расположение и инфраструктура
+        const placeLocationInfo = document.querySelector('.place__location-info')
+        if(langSite === 'ru')
+        placeLocationInfo.innerHTML = currentHouse.disposition
 
+        if(langSite === 'en')
+        placeLocationInfo.innerHTML = currentHouse.disposition_en
+
+        if(langSite === 'tr')
+        placeLocationInfo.innerHTML = currentHouse.disposition_tr
+
+        //Описание
+        const placeDescription = document.querySelector('.object__description-text')
+        if(langSite === 'ru')
+        placeDescription.innerHTML = currentHouse.description
+
+        if(langSite === 'en')
+        placeDescription.innerHTML = currentHouse.description_en
+
+        if(langSite === 'tr')
+        placeDescription.innerHTML = currentHouse.description_tr
 
 
         setListenersToOpenCollage()
@@ -2271,7 +2355,6 @@ function P(e) {
                 favotires_house_id[element.id] = true
             }
         });
-        console.log(favotires_house_id)
     }
 
     function setBallons(houses) {
@@ -2362,7 +2445,6 @@ function P(e) {
         });
 
         var c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>');
-        console.log(houses)
         houses.forEach(city => {
             locationsCity.push({
                 coordinates: [city.lat, city.long],
@@ -2380,7 +2462,6 @@ function P(e) {
             });
         });
         locationsCity.forEach(function (location) {
-        console.log('test')
             var placemark = new ymaps.Placemark(location.coordinates, {
                 balloonContent: location.balloonContent
             }, {
