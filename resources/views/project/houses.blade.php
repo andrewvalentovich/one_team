@@ -1773,17 +1773,22 @@ function P(e) {
     const langSite = `{{ app()->getLocale() }}`
 
     async function getData(topLeft, bottomRight) {
-        return new Promise((resolve, reject) => {
             $.ajax({
                 url: `/api/houses/by_coordinates/with_filter`,
                 method: 'GET',
                 dataType: 'json',
                 data: {
-                    user_id: user_id
+                    user_id: user_id,
+                    top_left: topLeft,
+                    bottom_right: bottomRight,
+                    price: $.query.get('price'),
+                    vanie: $.query.get('vanie'),
+                    spalni: $.query.get('spalni'),
+                    kv: $.query.get('kv'),
+                    address: $.query.get('address'),
                 },
                 success: function (data) {
-                    resolve(data);
-                    console.log(data);
+                    console.log('data',data);
                     locationsCity.length = 0;
                     houseData.length = 0;
                     houseData = { ...data }
@@ -1800,8 +1805,25 @@ function P(e) {
                     console.error('Error:', error);
                 }
             });
+    }
+    
+    async function getDataMarks() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `/api/houses/all`,
+                method: 'GET',
+                dataType: 'json',
+                data: {
+                },
+                success: function (data) {
+                    resolve(data);
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
         })
-
     }
 
     let previousSwiperInstance = null;
@@ -2083,7 +2105,8 @@ function P(e) {
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
         const objects = JSON.parse(currentHouse.objects)
-        if(objects.length != 0 && objects) {
+        if(false) {
+        if(objects.length == 0) return  
         console.log(objects.length)
             kompleks__layout.style.display = 'block'
 
@@ -2103,7 +2126,6 @@ function P(e) {
                 divPrice.classList.add('kompleks__layout-price')
 
 
-                console.log(object)
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
@@ -2197,7 +2219,7 @@ function P(e) {
         if(langSite === 'tr')
         placeDescription.innerHTML = currentHouse.description_tr
 
-
+        console.log('test')
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
@@ -2206,7 +2228,7 @@ function P(e) {
 
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
-
+        console.log('test')
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
                 addNewImagesToSwiper(e.target, i)
@@ -2482,14 +2504,14 @@ function P(e) {
             placemark.events.add('mouseenter', function (e) {
                 placemark.balloon.open(); // Открываем балун при наведении мыши
                 setTimeout(function () {
-                    var balloonContentElement = document.querySelector('.ballon-city__content');
+                    var balloonContentElement = document.querySelector('.balloon-city');
 
                     // document.querySelector('.ballon-city__content').addEventListener('click', function() {
                     //     var city_id = document.querySelector('.balloon-city').id;
                     //     console.log(city_id);
                     //     document.getElementById(`card_object-${city_id}`).scrollIntoView();
                     // });
-
+                    console.log(balloonContentElement)
                     if (balloonContentElement) {
                         var mouseLeaveListener = function () {
                             placemark.balloon.close();
@@ -2607,22 +2629,26 @@ function P(e) {
         });
 
 
-        let allmarks = await getData();
+        let allmarks = await getDataMarks();
 
-        allmarks.data.forEach(city => {
+        allmarks.forEach(mark => {
+            const coordinate = {
+                lat: mark.coordinate.split(',')[0],
+                long: mark.coordinate.split(',')[1],
+            }
             locationsCity.push({
-                coordinates: [city.lat, city.long],
-                balloonContent: `<div class="balloon-city" id="${city.id}">
-                    <div class="balloon-city__text">
-                        <div class="balloon-city__price">€ ${city.price}</div>
-                        <div class="balloon-city__rooms">${city.spalni} ${spal}, ${city.vannie} ${van}</div>
-                        <div class="balloon-city__rooms_m">${city.kv} ${kvm}  <span>|</span> ${city.spalni} спальни  <span>|</span> ${city.vannie} ванна</div>
-                        <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
-                        <div class="balloon-city__square">${city.kv} ${kvm}</div>
-                    </div>
-                    <div class="balloon-city__img"> <img src="${site_url}uploads/${city.photo[0].photo}"></div>
-                </div>`,
-                city_id: city.id
+                coordinates: [coordinate.lat, coordinate.long],
+                balloonContent: `<div class="balloon-city" id="${mark.id}">
+                                    <div class="balloon-city__text">
+                                        <div class="balloon-city__price">${mark.price.EUR}</div>
+                                        ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
+                                        <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
+                                        <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
+                                        <div class="balloon-city__square">${mark.kv} ${kvm}</div>
+                                    </div>
+                                    <div class="balloon-city__img"> <img src="${mark.image}"></div>
+                                </div>`,
+                city_id: mark.id
             });
         });
 
@@ -2642,23 +2668,60 @@ function P(e) {
             mapCountry.geoObjects.add(placemark);
 
             // Добавляем обработчики событий на метку
-            // placemark.events.add('mouseenter', function (e) {
-            //     placemark.balloon.open(); // Открываем балун при наведении мыши
-            //     setTimeout(function () {
-            //         var balloonContentElement = document.querySelector('.ballon-city__content');
-            //         console.log(balloonContentElement)
-            //         if (balloonContentElement) {
-            //             var mouseLeaveListener = function () {
-            //                 placemark.balloon.close();
-            //                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
-            //             };
-            //             balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
-            //         }
-            //     }, 0);
-            // });
+            placemark.events.add('mouseenter', function (e) {
+                placemark.balloon.open(); // Открываем балун при наведении мыши
+                setTimeout(function () {
+                    var balloonContentElement = document.querySelector('.balloon-city');
+                    if (balloonContentElement) {
+                        var mouseLeaveListener = function () {
+                            placemark.balloon.close();
+                            balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                            balloonContentElement.removeEventListener('click', clickListener);
+                        };
+                        balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+                        
+                        var clickListener = function (event) {
+                            const id = balloonContentElement.getAttribute('id')
+                                setNewPopupHouseData(id)
+                            // setListenersToOpenPopup();
+                            // setListenersToAddfavorites()
+                        };
+                        balloonContentElement.addEventListener('click', clickListener);
+                    }
+                }, 0);
+            });
 
         });
 
+        let startBounds = mapCountry.getBounds();
+        let top_left = {
+            lat: startBounds[0][0],
+            long: startBounds[0][1]
+        };
+
+        let bottom_right = {
+            lat: startBounds[1][0],
+            long: startBounds[1][1]
+        };
+
+        getData(top_left, bottom_right);
+
+
+        mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+            let newBounds = event.get('newBounds');
+            let top_left = {
+                lat: newBounds[0][0],
+                long: newBounds[0][1]
+            };
+
+            let bottom_right = {
+                lat: newBounds[1][0],
+                long: newBounds[1][1]
+            };
+
+            getData(top_left, bottom_right);
+
+        });
 
     }
 }

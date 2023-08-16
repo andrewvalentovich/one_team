@@ -676,7 +676,21 @@ async function getData() {
     })), P(E = window.innerWidth > 1003 ? 0 : 1 / 0), window.addEventListener("resize", (function (e) {
 
         this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
-
+        // if (this.document.querySelectorAll(".city-col__item").length) {
+        //     if (window.innerWidth > 1003 && E === 0) {
+        //         if (C) {
+        //             C.destroy();
+        //         }
+        //         P(0);
+        //         E = 1 / 0;
+        //     } else if (window.innerWidth <= 1003 && E === 1 / 0) {
+        //         if (C) {
+        //             C.destroy();
+        //         }
+        //         P(1 / 0);
+        //         E = 0;
+        //     }
+        // }
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
 
         var e = new ymaps.Map("map-country", {
