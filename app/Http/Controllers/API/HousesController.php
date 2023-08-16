@@ -91,6 +91,8 @@ class HousesController extends Controller
                 "favorite" => $row->favorite,
             ];
         });
+
+        return response()->json($houses);
     }
 
     public function getAll()
