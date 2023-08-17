@@ -80,32 +80,15 @@
                         {{__('объявлений')}}
                     </div>
 
-                    <div class="city-col__btns">
-                        <form action="{{ route('houses.index') }}" method="get">
-                            <button style="width: 100%; background: transparent;">
-                                <div class="city-col__btn city-col__all active">
-                                    {{__('Все')}}
-                                </div>
-                            </button>
-                        </form>
-
-                        @if(isset($_GET['ot_zastroishika'] ) && $_GET['ot_zastroishika']  == true)
-                            <div class="city-col__btn city-col__builder  active">
-                                @else
-                                    <div class="city-col__btn city-col__builder">
-                                        @endif
-                                        <form action="{{ route('houses.index') }}" method="get">
-                                            <input type="hidden" name="ot_zastroishika" value="true">
-                                                <button style="background: transparent;     color: #508cfa;">{{__('От застройщика')}}</button>
-                                                <button style="width: 100%; background: transparent; color: white">
-                                                    {{__('От застройщика')}}
-                                                </button>
-                                        </form>
-                                    </div>
-
-                            </div>
-
+                    <div class="city-col__btns" style="font-size:16px;">
+                        <div class="city-col__btn city-col__all" data_id="false">
+                            {{__('Все')}}
+                        </div>
+                        <div style="padding: 10px 27px;" class="city-col__btn" data_id="true">
+                            {{__('От застройщика')}}
+                        </div>
                     </div>
+                </div>
 
                     <div class="city-col__content">
                         <div class="city-col__list">
@@ -1036,8 +1019,6 @@
 @section('scripts')
     <script>
         // Сортировка
-        console.log('order_by = '+$.query.get('order_by'));
-        console.log('ot_zastroishika = '+$.query.get('ot_zastroishika'));
 
         if ($.query.get('order_by').toString() === "price-desc") {
             $('.city-cil__filter-title').text("Сначала дешёвые");
@@ -1049,6 +1030,12 @@
 
         if ($.query.get('order_by').toString() === "created_at-desc") {
             $('.city-cil__filter-title').text("Сначала новые");
+        }
+
+        if ($.query.get('ot_zastroishika') === "false" || $.query.get('ot_zastroishika') === true) {
+            $('.city-col__all').addClass("active");
+        } else {
+            $('.city-col__btn:not(.city-col__all)').addClass("active");
         }
 
         $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">Сначала дешёвые</div>');
@@ -1315,11 +1302,11 @@
             }));
 
             let p = document.querySelectorAll(".city-col__btn");
-
             for (let t = 0; t < p.length; t++) p[t].addEventListener("click", (function (o) {
-
-                e(p), p[t].classList.add("active")
-
+                console.log(p[t].getAttribute('data_id'));
+                var ot_zastroishika = p[t].getAttribute('data_id');
+                e(p), p[t].classList.add("active");
+                history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
             }));
 
             let h = document.querySelectorAll(".favorite-item-btn");
