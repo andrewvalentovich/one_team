@@ -2105,8 +2105,8 @@ function P(e) {
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
         const objects = JSON.parse(currentHouse.objects)
-        if(false) {
-        if(objects.length == 0) return  
+        if(currentHouse.objects !== null && currentHouse.objects !== '[]')
+        if(objects.length !== 0) {
         console.log(objects.length)
             kompleks__layout.style.display = 'block'
 
@@ -2219,16 +2219,15 @@ function P(e) {
         if(langSite === 'tr')
         placeDescription.innerHTML = currentHouse.description_tr
 
-        console.log('test')
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
     }
 
+    console.log('test1')
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
-        console.log('test')
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
                 addNewImagesToSwiper(e.target, i)
@@ -2511,7 +2510,6 @@ function P(e) {
                     //     console.log(city_id);
                     //     document.getElementById(`card_object-${city_id}`).scrollIntoView();
                     // });
-                    console.log(balloonContentElement)
                     if (balloonContentElement) {
                         var mouseLeaveListener = function () {
                             placemark.balloon.close();
