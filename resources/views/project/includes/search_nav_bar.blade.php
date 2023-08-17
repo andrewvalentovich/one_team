@@ -404,13 +404,13 @@
             $('input[name="size[max]"]').val(($.query.get('size[max]').toString() && $.query.get('size[max]').toString() != "true") ? $.query.get('size[max]').toString() : "");
 
             // При изменении size площади
-            $('input[name="size[min]').on('change input', function () {
+            $('input[name="size[min]"]').on('change input', function () {
                 var min = $(this).val();
-                history.pushState(null, null, $.query.SET('size[min]', size)); // подстановка параметров
+                history.pushState(null, null, $.query.SET('size[min]', min)); // подстановка параметров
             })
 
             // При изменении size_home площади
-            $('input[name="size[max]').on('change input', function () {
+            $('input[name="size[max]"]').on('change input', function () {
                 var max = $(this).val();
                 history.pushState(null, null, $.query.SET('size[max]', max)); // подстановка параметров
             })
