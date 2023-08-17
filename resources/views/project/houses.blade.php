@@ -1773,6 +1773,19 @@ function P(e) {
     const langSite = `{{ app()->getLocale() }}`
 
     async function getData(topLeft, bottomRight) {
+        const queryParams = {
+            user_id: user_id,
+            top_left: topLeft,
+            bottom_right: bottomRight,
+            price: $.query.get('price'),
+            vanie: $.query.get('vanie'),
+            spalni: $.query.get('spalni'),
+            kv: $.query.get('kv'),
+            address: $.query.get('address'),
+        };
+
+        console.log("Отправленные параметры:", queryParams);
+
             $.ajax({
                 url: `/api/houses/by_coordinates/with_filter`,
                 method: 'GET',
@@ -1795,7 +1808,7 @@ function P(e) {
                     checkFavorites(data.data)
                     let site_url = `{{config('app.url')}}`;
 
-                    // setBallons(data.data);       
+                    // setBallons(data.data);
 
                     setCityItem(data.data);
                     setListenersToOpenPopup();
@@ -1806,7 +1819,7 @@ function P(e) {
                 }
             });
     }
-    
+
     async function getDataMarks() {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -1912,7 +1925,7 @@ function P(e) {
             const spalni = cityElement.spalni
             const vannie = cityElement.vanie
 
-            
+
             roomsDiv.innerHTML = `${cityElement.size} кв.м`
             if (spalni && spalni.length > 0) {
                 roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} Спальни`;
@@ -2074,7 +2087,7 @@ function P(e) {
         const div_id = 'place-map'
         if (placeMap) {
             placeMap.destroy(); // Уничтожаем текущую карту, если она существует
-        } 
+        }
         ymaps.ready(function() {
             placeMap = new ymaps.Map(div_id, {
                 center: [currentHouse.lat, currentHouse.long],
@@ -2101,12 +2114,12 @@ function P(e) {
         // планировки квартир
         const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
         kompleksLayoutList.innerHTML = ''
-        
+
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
         const objects = JSON.parse(currentHouse.objects)
         if(false) {
-        if(objects.length == 0) return  
+        if(objects.length == 0) return
         console.log(objects.length)
             kompleks__layout.style.display = 'block'
 
@@ -2116,7 +2129,7 @@ function P(e) {
 
                 let divInfo = document.createElement('div')
                 divInfo.classList.add('kompleks__layout-info')
-    
+
                 let divOption = document.createElement('div')
                 divOption.classList.add('kompleks__layout-option')
                 divOption.innerHTML = `${object.building} ${object.apartment_layout}`
@@ -2184,7 +2197,7 @@ function P(e) {
 
                 let divChemeImg = document.createElement('img')
                 divChemeImg.setAttribute('src', `${site_url}uploads/${object.apartment_layout_image}`)
-                
+
                 divChemePic.appendChild(divChemeImg)
                 divCheme.appendChild(divChemePic)
 
@@ -2679,7 +2692,7 @@ function P(e) {
                             balloonContentElement.removeEventListener('click', clickListener);
                         };
                         balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
-                        
+
                         var clickListener = function (event) {
                             const id = balloonContentElement.getAttribute('id')
                                 setNewPopupHouseData(id)
@@ -2703,6 +2716,8 @@ function P(e) {
             lat: startBounds[1][0],
             long: startBounds[1][1]
         };
+        console.log('top_left.lat = '+top_left.lat+'\ntop_left.long = '+top_left.long);
+        console.log('bottom_right.lat = '+bottom_right.lat+'\ntop_left.long = '+bottom_right.long);
 
         getData(top_left, bottom_right);
 
