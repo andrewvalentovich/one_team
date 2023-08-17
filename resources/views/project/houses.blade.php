@@ -65,7 +65,7 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-                        {{__('Недвижимость')}} {{--{{__('в')}} @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr')<?php $country->name = $country->name_tr ?> @endif{{$country->name}}--}}
+                        {{__('Недвижимость в Турции')}} {{--{{__('в')}} @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr')<?php $country->name = $country->name_tr ?> @endif{{$country->name}}--}}
                     </div>
                     <div class="city-col__filter">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>
@@ -987,6 +987,8 @@
         .object__photo-popup-close svg {
             z-index: 204;
         }
+
+        .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
     </style>
     <section class="object__photo">
         <div class="object__photo-popup">
@@ -1035,10 +1037,10 @@
             $('.city-cil__filter-title').text("Сначала новые");
         }
 
-        if ($.query.get('ot_zastroishika') === "false" || $.query.get('ot_zastroishika') === true) {
-            $('.city-col__all').addClass("active");
-        } else {
+        if ($.query.get('ot_zastroishika') === "true" || $.query.get('ot_zastroishika') === true) {
             $('.city-col__btn:not(.city-col__all)').addClass("active");
+        } else {
+            $('.city-col__all').addClass("active");
         }
 
         $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">Сначала дорогие</div>');
@@ -1744,6 +1746,7 @@ function P(e) {
         //карта
         const currentMap = document.querySelector('.current-map')
         const div_id = 'place-map'
+
         if (placeMap) {
             placeMap.destroy(); // Уничтожаем текущую карту, если она существует
         }
@@ -2250,7 +2253,7 @@ function P(e) {
             urlParams.forEach((value, key) => {
                 params[key] = value;
             });
-            
+
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
@@ -2317,6 +2320,47 @@ function P(e) {
             }, {
                 searchControlProvider: "yandex#search"
             });
+
+            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+
+                // Переопределяем методы макета, чтобы выполнять дополнительные действия
+                // при построении и очистке макета.
+                build: function () {
+                    // Вызываем родительский метод build.
+                    ZoomLayout.superclass.build.call(this);
+
+                    // Привязываем функции-обработчики к контексту и сохраняем ссылки
+                    // на них, чтобы потом отписаться от событий.
+                    this.zoomInCallback = ymaps.util.bind(this.zoomIn, this);
+                    this.zoomOutCallback = ymaps.util.bind(this.zoomOut, this);
+
+                    // Начинаем слушать клики на кнопках макета.
+                    $('.zoom-control__zoom-in').bind('click', this.zoomInCallback);
+                    $('.zoom-control__zoom-out').bind('click', this.zoomOutCallback);
+                },
+
+                clear: function () {
+                    // Снимаем обработчики кликов.
+                    $('.zoom-control__zoom-in').unbind('click', this.zoomInCallback);
+                    $('.zoom-control__zoom-out').unbind('click', this.zoomOutCallback);
+
+                    // Вызываем родительский метод clear.
+                    ZoomLayout.superclass.clear.call(this);
+                },
+
+                zoomIn: function () {
+                    var map = this.getData().control.getMap();
+                    map.setZoom(map.getZoom() + 1, {checkZoomRange: true});
+                },
+
+                zoomOut: function () {
+                    var map = this.getData().control.getMap();
+                    map.setZoom(map.getZoom() - 1, {checkZoomRange: true});
+                }
+            }),
+            zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
+
+            mapCountry.controls.add(zoomControl);
 
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {
@@ -2389,7 +2433,7 @@ function P(e) {
                 }
             });
 
-            
+
 
             allmarks.forEach(mark => {
                 const coordinate = {
@@ -2467,9 +2511,10 @@ function P(e) {
 
             getData(top_left, bottom_right);
 
-
+            let center = [];
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');
+
                 let top_left = {
                     lat: newBounds[0][0],
                     long: newBounds[0][1]
@@ -2480,8 +2525,19 @@ function P(e) {
                     long: newBounds[1][1]
                 };
 
+                center = {
+                    lat: (top_left.lat + bottom_right.lat) / 2,
+                    long: (top_left.long + bottom_right.long) / 2
+                };
+
                 getData(top_left, bottom_right);
 
+            });
+
+
+            ymaps.geocode(center).then(function (res) {
+                var firstGeoObject = res.geoObjects.get(0);
+                console.log("firstGeoObject - "+firstGeoObject);
             });
 
         }
