@@ -2693,6 +2693,7 @@ body.scroll_fixed {
 
 .place__currency-preview {
   display: flex;
+  align-items: center;
 }
 
 .place__currency-preview-item {
@@ -6906,4 +6907,11 @@ body.scroll_fixed {
   background: #fff;
   padding: 3px;
   justify-content: space-between;
+}
+.place__square-item {
+  display: none;
+}
+
+.place__square-item.active {
+  display: block;
 }
