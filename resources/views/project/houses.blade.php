@@ -1431,7 +1431,6 @@ function P(e) {
     const langSite = `{{ app()->getLocale() }}`
 
     async function getData(topLeft, bottomRight) {
-
             $.ajax({
                 url: `/api/houses/by_coordinates/with_filter`,
                 method: 'GET',
@@ -2246,14 +2245,6 @@ function P(e) {
         if(document.querySelectorAll('.btn-filter-houses').length) {
             const btnFilterHouses = document.querySelector('.btn-filter-houses')
             btnFilterHouses.addEventListener('click', async function() {
-                const queryParams = {
-                    user_id: user_id,
-                    price: $.query.get('price'),
-                    vanie: $.query.get('vanie'),
-                    spalni: $.query.get('spalni'),
-                    kv: $.query.get('kv'),
-                    address: $.query.get('address'),
-                };
                 let allMarks = await getDataMarks(queryParams)
                 createMapCity(allMarks)
             })
@@ -2266,7 +2257,12 @@ function P(e) {
                     method: 'GET',
                     dataType: 'json',
                     data: {
-                        params
+                        user_id: user_id,
+                        price: $.query.get('price'),
+                        vanie: $.query.get('vanie'),
+                        spalni: $.query.get('spalni'),
+                        kv: $.query.get('kv'),
+                        address: $.query.get('address'),
                     },
                     success: function (data) {
                         resolve(data);
@@ -2279,8 +2275,9 @@ function P(e) {
             })
         }
 
-        let allmarks = await getDataMarks();
-        createMapCity(allmarks)
+        let marksFilter = await getDataMarks()
+        createMapCity(marksFilter)
+
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
