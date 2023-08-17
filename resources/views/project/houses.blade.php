@@ -2234,7 +2234,12 @@ function P(e) {
         }
 
         function createParams() {
-            let params = <?php echo json_encode(request()->all()) ?>;
+            let urlParams = new URLSearchParams(window.location.search);
+            let params = {};
+
+            urlParams.forEach((value, key) => {
+                params[key] = value;
+            });
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
