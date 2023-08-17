@@ -143,10 +143,19 @@
         popupBlock.setAttribute('data-exchange', exchange)
         if(popupBlock.querySelectorAll('.valute').length) {
             const kompleksBlockPrice = popupBlock.querySelector('.kompleks__layout-price')
+
             const kompleksBlockMeterPrice = popupBlock.querySelector('.kompleks__layout-price-meter')
+
+            const kompleksBlockPriceSquare = popupBlock.querySelector('.place__square')
+
+            if(kompleksBlockPrice !== null)
             changeExchange(kompleksBlockPrice, exchange)
+        
+            if(kompleksBlockMeterPrice !== null)
             changeExchange(kompleksBlockMeterPrice, exchange)
 
+            if(kompleksBlockPriceSquare !== null)
+            changeExchange(kompleksBlockPriceSquare, exchange)
         }
     });
 
@@ -237,9 +246,11 @@ function changeExchange (blockPrice, currentExchange) {
     const prices = blockPrice.querySelectorAll('[data-exchange]')
     prices.forEach(element => {
         element.classList.remove('active')
+        element.style.display = ('none')
     });
     const currentPrice = blockPrice.querySelector(`[data-exchange="${currentExchange}"]`);
     currentPrice.classList.add('active')
+    currentPrice.style.display = ('block')
 }
 </script>
 <script>
@@ -358,11 +369,9 @@ function setListenersToAddfavorites() {
                         $('.header__top-favorites-value').css('display', 'flex');
                     }
                     $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
-                    console.log('test')
                     delete favotires_house_id[data_id]
 
                 }
-                console.log(favotires_house_id)
             },
         });
     });

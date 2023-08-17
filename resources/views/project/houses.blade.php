@@ -304,8 +304,11 @@
                     </div>
                     <div class="city-col__subtitle">
 
-                        {{$count}} {{__('объявлений')}}
+                        <!-- {{$count}} {{__('объявлений')}} -->
+                        <span>
 
+                        </span>
+                        {{__('объявлений')}}
                     </div>
 
                     <div class="city-col__btns">
@@ -683,10 +686,10 @@
                                                         <!-- {{$product->address}} -->
                                                     </div>
                                                     <div class="place__square">
-                                                        <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
+                                                        <!-- <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
                                                         <div class="place__square-USD" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  $  / кв.м</div>
                                                         <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽  / кв.м</div>
-                                                        <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira"> ₺ </span>  / кв.м</div>
+                                                        <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira"> ₺ </span>  / кв.м</div> -->
                                                     </div>
                                                 </div>
                                                 <div class="place__buy">
@@ -744,7 +747,7 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                ВНЖ в подарок
+                                                            {{__('ВНЖ в подарок')}}
                                                             </div>
                                                         </div>
                                                         <div class="place__advantages-item cryptocurrency">
@@ -768,7 +771,7 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                Оплата криптовалютой
+                                                                {{__('Оплата криптовалютой')}}
                                                             </div>
                                                         </div>
                                                         <div class="place__advantages-item commissions">
@@ -783,7 +786,7 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                Без комиссии
+                                                                {{__('Без комиссии')}}
                                                             </div>
                                                         </div>
                                                         <div class="place__advantages-item parking">
@@ -795,7 +798,7 @@
                                                                 </svg>
                                                             </div>
                                                             <div class="place__advantages-text">
-                                                                Паркинг в подарок
+                                                                {{__('Паркинг в подарок')}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -889,7 +892,7 @@
                                                     <div class="kompleks__layout" bis_skin_checked="1">
                                                         <div class="kompleks__layout-content" bis_skin_checked="1">
                                                             <div class="kompleks__layout-title place__title" bis_skin_checked="1">
-                                                                Планировки квартир
+                                                                {{__('Планировки квартир')}}
                                                             </div>
                                                             <div class="kompleks__layout-list" bis_skin_checked="1">
 
@@ -1811,6 +1814,7 @@ function P(e) {
                     // setBallons(data.data);
 
                     setCityItem(data.data);
+                    setCountObjectsPerPage(data.data.length)
                     setListenersToOpenPopup();
                     setListenersToAddfavorites()
                 },
@@ -1839,7 +1843,33 @@ function P(e) {
         })
     }
 
+    //отправить запрос с фильтром по кнопке найти страница houses
+    if(document.querySelectorAll('.btn-filter-houses').length) {
+        const btnFilterHouses = document.querySelector('.btn-filter-houses')
+        btnFilterHouses.addEventListener('click', function() {
+            getDataMarks()
+        })
+    }
+
     let previousSwiperInstance = null;
+    let ballons = []
+    const dictionary = {
+        rooms_bedroom: {
+            ru: 'спальни',
+            en: 'bedrooms',
+            tr: 'yatak odaları',
+        },
+        rooms_bathroom: {
+            ru: 'ванные',
+            en: 'bathrooms',
+            tr: 'banyolar',
+        },
+        square_m: {
+            ru: 'кв.м.',
+            en: 'sq.m.',
+            tr: 'metrekare',
+        }
+    }
     function setCityItem(data) {
         const cityList = document.querySelector('.city-col__list')
         cityList.innerHTML = ''
@@ -1928,11 +1958,11 @@ function P(e) {
 
             roomsDiv.innerHTML = `${cityElement.size} кв.м`
             if (spalni && spalni.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} Спальни`;
+                roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
             }
 
             if (vannie && vannie.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${vannie.replace('+', '')} Ванные`;
+                roomsDiv.innerHTML += `<span>|</span> ${vannie.replace('+', '')} ${dictionary.rooms_bathroom[langSite]}`;
             }
 
             textDiv.appendChild(roomsDiv);
@@ -1946,6 +1976,23 @@ function P(e) {
 
             // Добавление элемента в контейнер
             cityList.appendChild(cityItem);
+            cityItem.addEventListener('mouseover', function() {
+                const id = cityItem.getAttribute('data_id')
+                let currentBallon
+                ballons.forEach(element => {
+                    if(element.house_id == id) currentBallon = element
+                });
+                currentBallon.balloon.open();
+                // setTimeout(() => {
+                //     let balloonContentElement = document.querySelector('.balloon-city');
+                //     balloonContentElement.addEventListener('click', function () {
+                //         setNewPopupHouseData(id)
+                //     });
+                // }, 0);
+            })
+            cityItem.addEventListener('mouseout', function() {
+                mapCountry.balloon.close()
+            })
         });
         previousSwiperInstance = new Swiper(".city__swiper", {
             slidesPerView: 1,
@@ -1954,6 +2001,12 @@ function P(e) {
                 hide: true
             }
         });
+    }
+
+    function setCountObjectsPerPage(number) {
+        const subtitle = document.querySelector('.city-col__subtitle')
+        const span = subtitle.querySelector('span')
+        span.innerHTML = number
     }
 
     function setListenersToOpenPopup() {
@@ -2016,6 +2069,24 @@ function P(e) {
         //адресс в попапе
         const address = document.querySelector('.place__address')
         address.innerHTML = `${currentHouse.address}`
+
+
+        // цена площади
+        let divSquare = document.querySelector('.place__square')
+        divSquare.innerHTML = ''
+        Object.entries(currentHouse.price_size).forEach(function([currencyCode, currencyPrice]) {
+            let div = document.createElement('div')
+            div.classList.add('place__square-item')
+            div.setAttribute('data-exchange', currencyCode)
+            div.classList.add('valute')
+            div.innerHTML = `${((currencyPrice))} ${kvm}`
+
+            if(currencyCode === dataExchange) {
+                div.classList.add('active')
+            }
+
+            divSquare.appendChild(div)
+        })
 
         //цена в попапе
         Object.keys(currentHouse.price).forEach(function(currencyCode, price) {
@@ -2122,7 +2193,6 @@ function P(e) {
         if(currentHouse.objects !== null && currentHouse.objects !== '[]')
         if(objects.length !== 0) {
 
-        console.log(objects.length)
             kompleks__layout.style.display = 'block'
 
             objects.forEach((object, index) => {
@@ -2163,7 +2233,7 @@ function P(e) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
-                    span.innerHTML = `${((currencyPrice))}`
+                    span.innerHTML = `${((currencyPrice))} ${kvm}`
 
                     if(currencyCode === dataExchange) {
                         span.classList.add('active')
@@ -2240,7 +2310,6 @@ function P(e) {
         addNewImagesToCollage(currentHouse)
     }
 
-    console.log('test1')
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
         for (let i = 0; i < collageImg.length; i++) {
@@ -2667,7 +2736,7 @@ function P(e) {
 
         locationsCity.forEach(function (location) {
             var placemark = new ymaps.Placemark(location.coordinates, {
-                balloonContent: location.balloonContent
+                balloonContent: location.balloonContent,
             }, {
                 balloonPanelMaxMapArea: 250000,
                 balloonShadow: false,
@@ -2679,7 +2748,8 @@ function P(e) {
             });
 
             mapCountry.geoObjects.add(placemark);
-
+            placemark.house_id = location.city_id
+            ballons.push(placemark)
             // Добавляем обработчики событий на метку
             placemark.events.add('mouseenter', function (e) {
                 placemark.balloon.open(); // Открываем балун при наведении мыши

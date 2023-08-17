@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__find search-nav__list-item_b form_button header_search_button">
-                    <div class="search-nav__list-item-title search-nav__find-title">Найти</div>
+                    <div class="search-nav__list-item-title search-nav__find-title btn-filter-houses">Найти</div>
                     <svg class="search-nav__icon"  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="59px" height="59px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                          viewBox="0 0 1.61 1.61"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -467,4 +467,6 @@
             });
         });
     });
+
+
 </script>
