@@ -32,8 +32,10 @@ async function getData() {
     await getData();
 
     if(window.innerWidth <=1003) {
-        document.querySelector("#map_city").classList.add("map_city_active");
-        document.querySelector(".city__content").classList.add("city_map");
+        if(document.querySelectorAll("#map_city").length) {
+            document.querySelector("#map_city").classList.add("map_city_active");
+            document.querySelector(".city__content").classList.add("city_map");
+        }
     }
 
 

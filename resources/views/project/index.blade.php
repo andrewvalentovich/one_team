@@ -356,9 +356,9 @@
     <script>
 
 
-        let locations = [];
+        // let locations = [];
 
-        let obect = "<?php echo __('объектов')?>"
+        // let obect = "<?php echo __('объектов')?>"
 
         (async () => {
             "use strict";
@@ -699,7 +699,7 @@
             }
         )
 
-        let popupClose = document.querySelectorAll('.popup-close')
+        // let popupClose = document.querySelectorAll('.popup-close')
         for (let i = 0; i < popupClose.length; i++) {
             popupClose[i].addEventListener("click",
                 function () {

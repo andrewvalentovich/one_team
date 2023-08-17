@@ -2312,7 +2312,7 @@ function P(e) {
             mapCountry = new ymaps.Map("map_city", {
                 center: [<?php echo $country->lat . ',' . $country->long ?>],
                 zoom: 6,
-                controls: ['zoomControl'],
+                controls: [],
                 behaviors: ["default", "scrollZoom"]
             }, {
                 searchControlProvider: "yandex#search"
