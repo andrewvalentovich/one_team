@@ -23,6 +23,7 @@ class HousesFilter extends AbstractFilter
     const VIEW = 'view';
     const TO_SEA = 'to_sea';
     const SIZE = 'size';
+    const CITY = 'city_id';
 
     protected function getCallbacks(): array
     {
@@ -41,8 +42,17 @@ class HousesFilter extends AbstractFilter
             self::PECULIARITIES => [$this, 'peculiarities'],
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
+            self::CITY => [$this, 'city_by_id'],
         ];
     }
+
+    protected function city_by_id(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->where('city_id', $value);
+        }
+    }
+
 
     protected function sale_or_rent(Builder $builder, $value)
     {

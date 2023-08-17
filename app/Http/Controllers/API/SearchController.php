@@ -17,7 +17,7 @@ class SearchController extends Controller
     {
         $countries = CountryAndCity::select('id','name')->where('parent_id', null)->get();
         $collections = Peculiarities::select('id','name', 'type')->get();
-        $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"];
+        $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
 
         $data = [
             "countries" => $countries,
