@@ -1035,10 +1035,10 @@
             $('.city-cil__filter-title').text("Сначала новые");
         }
 
-        if ($.query.get('ot_zastroishika') === "false" || $.query.get('ot_zastroishika') === true) {
-            $('.city-col__all').addClass("active");
-        } else {
+        if ($.query.get('ot_zastroishika') === "true" || $.query.get('ot_zastroishika') === true) {
             $('.city-col__btn:not(.city-col__all)').addClass("active");
+        } else {
+            $('.city-col__all').addClass("active");
         }
 
         $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">Сначала дорогие</div>');
@@ -2251,7 +2251,7 @@ function P(e) {
             urlParams.forEach((value, key) => {
                 params[key] = value;
             });
-            
+
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
@@ -2390,7 +2390,7 @@ function P(e) {
                 }
             });
 
-            
+
 
             allmarks.forEach(mark => {
                 const coordinate = {
