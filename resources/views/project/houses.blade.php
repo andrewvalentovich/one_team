@@ -2511,34 +2511,34 @@ function P(e) {
 
             getData(top_left, bottom_right);
 
-            let center = [];
-            mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
-                let newBounds = event.get('newBounds');
+            // let center = [];
+            // mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+            //     let newBounds = event.get('newBounds');
 
-                let top_left = {
-                    lat: newBounds[0][0],
-                    long: newBounds[0][1]
-                };
+            //     let top_left = {
+            //         lat: newBounds[0][0],
+            //         long: newBounds[0][1]
+            //     };
 
-                let bottom_right = {
-                    lat: newBounds[1][0],
-                    long: newBounds[1][1]
-                };
+            //     let bottom_right = {
+            //         lat: newBounds[1][0],
+            //         long: newBounds[1][1]
+            //     };
 
-                center = {
-                    lat: (top_left.lat + bottom_right.lat) / 2,
-                    long: (top_left.long + bottom_right.long) / 2
-                };
+            //     center = {
+            //         lat: (top_left.lat + bottom_right.lat) / 2,
+            //         long: (top_left.long + bottom_right.long) / 2
+            //     };
 
-                getData(top_left, bottom_right);
+            //     getData(top_left, bottom_right);
 
-            });
+            // });
 
 
-            ymaps.geocode(center).then(function (res) {
-                var firstGeoObject = res.geoObjects.get(0);
-                console.log("firstGeoObject - "+firstGeoObject);
-            });
+            // ymaps.geocode(center).then(function (res) {
+            //     var firstGeoObject = res.geoObjects.get(0);
+            //     console.log("firstGeoObject - "+firstGeoObject);
+            // });
 
         }
     }
