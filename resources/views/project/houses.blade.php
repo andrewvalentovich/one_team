@@ -1021,11 +1021,11 @@
         // Сортировка
 
         if ($.query.get('order_by').toString() === "price-desc") {
-            $('.city-cil__filter-title').text("Сначала дорогие");
+            $('.city-cil__filter-title').text("Сначала дешёвые");
         }
 
         if ($.query.get('order_by').toString() === "price-asc") {
-            $('.city-cil__filter-title').text("Сначала дешёвые");
+            $('.city-cil__filter-title').text("Сначала дорогие");
         }
 
         if ($.query.get('order_by').toString() === "created_at-desc") {
@@ -2240,6 +2240,7 @@ function P(e) {
             urlParams.forEach((value, key) => {
                 params[key] = value;
             });
+            
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
@@ -2301,7 +2302,7 @@ function P(e) {
             mapCountry = new ymaps.Map("map_city", {
                 center: [<?php echo $country->lat . ',' . $country->long ?>],
                 zoom: 6,
-                controls: [],
+                controls: ['zoomControl'],
                 behaviors: ["default", "scrollZoom"]
             }, {
                 searchControlProvider: "yandex#search"
@@ -2378,7 +2379,7 @@ function P(e) {
                 }
             });
 
-
+            
 
             allmarks.forEach(mark => {
                 const coordinate = {
@@ -2456,6 +2457,24 @@ function P(e) {
 
             getData(top_left, bottom_right);
 
+            // Получаем координаты центра карты
+            const center = mapCountry.getCenter();
+
+            // Создаем объект геокодера
+            const geocoder = ymaps.geocode(center);
+
+            // Запускаем обратное геокодирование
+            geocoder.then(function (result) {
+                // Получаем первый найденный объект
+                const firstGeoObject = result.geoObjects.get(0);
+
+                // Получаем название города и страны из свойств объекта
+                const city = firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas();
+                const country = firstGeoObject.getCountry();
+
+                console.log('Город:', city);
+                console.log('Страна:', country);
+            });
 
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');

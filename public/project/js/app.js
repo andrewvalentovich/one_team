@@ -1020,9 +1020,12 @@ document.addEventListener("click", function(event) {
 
 
     //закрытие блоков close-out по клику вне
-    if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
-      let closeOutBlock = document.querySelectorAll('.close-out')
+    if(!target.classList.contains('search-nav__item-dropdown') && !target.closest('.search-nav__item-dropdown')
+     && !target.classList.contains('search-nav__list-item') && !target.closest('.search-nav__list-item')) {
+      let closeOutBlock = document.querySelectorAll('.search-nav__list-item')
+      let test = document.querySelectorAll('.search-nav__item-dropdown')
       changerActive(closeOutBlock)
+      changerActive(test)
     }
   }
 
