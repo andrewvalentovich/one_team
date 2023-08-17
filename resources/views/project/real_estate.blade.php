@@ -19,7 +19,7 @@
 
 
 
-    @include('project.includes.search_nav_bar')
+    @include('project.includes.search_city_nav_bar')
 
 
 
@@ -2862,17 +2862,17 @@
 
                     mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                         let newBounds = event.get('newBounds');
-                        
+
                         let topLeft = {
                             lat: newBounds[0][0],
                             lng: newBounds[0][1]
                         };
-                        
+
                         let bottomRight = {
                             lat: newBounds[1][0],
                             lng: newBounds[1][1]
                         };
-                        
+
                         console.log('Top left:', topLeft);
                         console.log('Bottom right:', bottomRight);
                     });
