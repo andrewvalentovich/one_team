@@ -91,6 +91,9 @@
                 </div>
 
                     <div class="city-col__content">
+                        <div class="nothing">
+                            {{__('Объявлений не найдено')}}
+                        </div>
                         <div class="city-col__list">
                             @foreach($get_product as $product)
                                 <!-- <div class="city-col__item" data_id="{{$product->id}}">
@@ -1583,8 +1586,15 @@ function P(e) {
 
     function setCountObjectsPerPage(number) {
         const subtitle = document.querySelector('.city-col__subtitle')
+        const nothing = document.querySelector('.nothing')
         const span = subtitle.querySelector('span')
         span.innerHTML = number
+
+        if(number == 0) {
+            nothing.classList.add('active')
+        } else {
+            nothing.classList.remove('active')
+        }
     }
 
     function setListenersToOpenPopup() {
@@ -2457,24 +2467,6 @@ function P(e) {
 
             getData(top_left, bottom_right);
 
-            // Получаем координаты центра карты
-            const center = mapCountry.getCenter();
-
-            // Создаем объект геокодера
-            const geocoder = ymaps.geocode(center);
-
-            // Запускаем обратное геокодирование
-            geocoder.then(function (result) {
-                // Получаем первый найденный объект
-                const firstGeoObject = result.geoObjects.get(0);
-
-                // Получаем название города и страны из свойств объекта
-                const city = firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas();
-                const country = firstGeoObject.getCountry();
-
-                console.log('Город:', city);
-                console.log('Страна:', country);
-            });
 
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');
