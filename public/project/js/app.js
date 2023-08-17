@@ -31,6 +31,10 @@ async function getData() {
 
     await getData();
 
+    if(window.innerWidth <=1003) {
+        document.querySelector("#map_city").classList.add("map_city_active");
+        document.querySelector(".city__content").classList.add("city_map");
+    }
 
 
     function e(e) {
@@ -49,8 +53,23 @@ async function getData() {
 
     })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
 
-        document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
+        if (document.querySelectorAll("#map_city").length) {
+            if (window.innerWidth > 1003) {
+                document.querySelector(".city__content").classList.remove("city_map");
+                document.querySelector(".city-col").classList.add("active");
+                document.querySelector(".map_city__btn-changer").classList.remove("active");
+                document.querySelector(".city-col__btn-changer").classList.add("active");
+                document.querySelector("#map_city").classList.remove("map_city_active");
+                document.querySelector(".city__content").classList.remove("city_map");
 
+                document.querySelector("#map_city").style.height = window.innerWidth > 1199 ?
+                    window.innerHeight - 18 - 161 + "px" :
+                    window.innerHeight - 88 - 60 + "px";
+            } else if (window.innerWidth <= 1003) {
+                document.querySelector(".city__content").classList.add("city_map");
+                document.querySelector("#map_city").style.height = "100%";
+            }
+        }
     })), document.querySelector(".header__top-lang").onclick = function () {
 
         document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
@@ -333,20 +352,34 @@ async function getData() {
     }));
 
     document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
+        P(1 / 0);
+        this.classList.remove("active");
+        document.querySelector(".city-col").classList.remove("active");
+        document.querySelector(".map_city__btn-changer").classList.add("active");
+        document.querySelector("#map_city").classList.add("show");
+        document.querySelector("#map_city").classList.add("map_city_active");
+        document.querySelector(".city__content").classList.add("city_map");
+        // document.querySelector(".city__content").classList.add("city_map");
 
-        C.destroy(), P(1 / 0), C.container.fitToViewport(), this.classList.remove("active"), document.querySelector(".city-col").classList.remove("active"), document.querySelector(".map_city__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.add("map_city_active"), document.querySelector(".city__content").classList.add("city_map")
-
+        
     }), document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
 
         this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
+        document.querySelector("#map_city").classList.remove("show");
 
     }), document.querySelectorAll(".place__currency-preview").length && (document.querySelector(".place__currency-preview").onclick = function () {
         document.querySelector(".place__currency").classList.toggle("active")
 
     }), window.innerWidth > 1003 && document.querySelectorAll(".city").length && document.body.classList.add("scroll_fixed"), window.addEventListener("resize", (function (e) {
 
-        window.innerWidth > 1003 && document.querySelectorAll(".city").length && document.body.classList.add("scroll_fixed"), window.innerWidth <= 1003 && document.querySelectorAll(".city").length && document.body.classList.remove("scroll_fixed")
+        window.innerWidth > 1003 && document.querySelectorAll(".city").length && document.body.classList.add("scroll_fixed")
+        if (window.innerWidth <= 1003 && document.querySelectorAll(".city").length > 0) {
+            document.body.classList.remove("scroll_fixed");
+            document.querySelector("#map_city").classList.add("map_city_active");
+            document.querySelector(".city__content").classList.add("city_map");
+        }
 
+        
     }));
 
     let g = document.querySelectorAll(".city-col__item"),
@@ -462,38 +495,6 @@ async function getData() {
     if (S.length)
 
         for (let e = 0; e < S.length; e++) S[e].addEventListener("click", (function (t) {
-
-            // c = new Swiper(".place__slider_p-swiper", {
-
-            //     slidesPerView: 1,
-
-            //     autoHeight: !0,
-
-            //     initialSlide: e,
-
-            //     navigation: {
-
-            //         nextEl: ".place__slider_p-next",
-
-            //         prevEl: ".place__slider_p-prev"
-
-            //     },
-
-            //     pagination: {
-
-            //         el: ".place__slider_p-pagination",
-
-            //         type: "custom",
-
-            //         renderCustom: function (e, t, o) {
-
-            //             return t + " из " + o
-
-            //         }
-
-            //     }
-
-            // }),
 
             q.classList.add("active")
 
@@ -675,22 +676,22 @@ async function getData() {
 
     })), P(E = window.innerWidth > 1003 ? 0 : 1 / 0), window.addEventListener("resize", (function (e) {
 
-        this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
-        // if (this.document.querySelectorAll(".city-col__item").length) {
-        //     if (window.innerWidth > 1003 && E === 0) {
-        //         if (C) {
-        //             C.destroy();
-        //         }
-        //         P(0);
-        //         E = 1 / 0;
-        //     } else if (window.innerWidth <= 1003 && E === 1 / 0) {
-        //         if (C) {
-        //             C.destroy();
-        //         }
-        //         P(1 / 0);
-        //         E = 0;
-        //     }
-        // }
+        // this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
+        if (this.document.querySelectorAll(".city-col__item").length) {
+            if (window.innerWidth > 1003 && E === 0) {
+                if (C) {
+                    C.destroy();
+                }
+                P(0);
+                E = 1 / 0;
+            } else if (window.innerWidth <= 1003 && E === 1 / 0) {
+                if (C) {
+                    C.destroy();
+                }
+                P(1 / 0);
+                E = 0;
+            }
+        }
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
 
         var e = new ymaps.Map("map-country", {
@@ -1020,9 +1021,12 @@ document.addEventListener("click", function(event) {
 
 
     //закрытие блоков close-out по клику вне
-    if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
-      let closeOutBlock = document.querySelectorAll('.close-out')
+    if(!target.classList.contains('search-nav__item-dropdown') && !target.closest('.search-nav__item-dropdown')
+     && !target.classList.contains('search-nav__list-item') && !target.closest('.search-nav__list-item')) {
+      let closeOutBlock = document.querySelectorAll('.search-nav__list-item')
+      let test = document.querySelectorAll('.search-nav__item-dropdown')
       changerActive(closeOutBlock)
+      changerActive(test)
     }
   }
 

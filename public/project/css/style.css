@@ -158,6 +158,7 @@ body {
   padding-top: 10px;
   display: none;
   position: relative;
+  flex: 1;
 }
 
 .city-col.active {
@@ -258,6 +259,9 @@ body {
   transition: 0.2s;
   color: #ffffff;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .city-col__btn.active {
@@ -2678,9 +2682,14 @@ body.scroll_fixed {
     /* font-family: Source Sans Pro; */
 }
 
+.place__price-value b {
+  font-weight: 500;
+}
+
 .place__currency {
   cursor: pointer;
   position: relative;
+  padding: 8px 0px 8px 0px;
 }
 
 .place__currency.open .place__currency-preview-arrow svg {
@@ -3553,8 +3562,9 @@ body.scroll_fixed {
 
 .search-nav {
   padding-bottom: 20px;
-  max-width: 1384px;
   margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .search-nav__list {
@@ -3686,6 +3696,8 @@ body.scroll_fixed {
   position: absolute;
   top: 45px;
   z-index: 5;
+  max-height: 350px;
+  overflow: auto;
 }
 
 .search-nav__item-dropdown.active {
@@ -3765,7 +3777,6 @@ body.scroll_fixed {
 }
 
 .search-nav__more .search-nav__dropdown-button:not(:last-child) {
-  margin-right: 11px;
 }
 
 .search-nav__more-dropdown {
@@ -3787,7 +3798,6 @@ body.scroll_fixed {
 }
 
 .search-nav__dropdown-button:not(:last-child) {
-  margin-right: 5px;
 }
 
 .search-nav__dropdown-button.active {
@@ -3802,8 +3812,7 @@ body.scroll_fixed {
 
 .more-dropdown__peculiarities-item {
   display: flex;
-  margin-bottom: 13px;
-  flex: 0 0 27%;
+  flex: 0 0 calc(33.33% - 8px);
 }
 
 .more-dropdown__peculiarities-checkbox {
@@ -3812,11 +3821,15 @@ body.scroll_fixed {
 
 .more-dropdown__view-item {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .more-dropdown__sea-item {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .more-dropdown__square {
@@ -3852,6 +3865,7 @@ body.scroll_fixed {
 .more-dropdown__peculiarities-list {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .more-dropdown__peculiarities-list .more-dropdown-custom-checkbox {
@@ -3864,6 +3878,8 @@ body.scroll_fixed {
   border: 2px solid #508cfa;
   position: relative;
   transition: 0.2s;
+  min-width: 22px;
+  min-height: 22px;
 }
 
 .more-dropdown__peculiarities-list .more-dropdown-custom-checkbox::before {
@@ -4103,8 +4119,6 @@ body.scroll_fixed {
   background: #f6f8fc;
   padding: 12px 17px;
   cursor: pointer;
-  margin-right: 11px;
-  margin-bottom: 11px;
   text-align: center;
   justify-content: center;
   display: flex;
@@ -4692,6 +4706,15 @@ body.scroll_fixed {
     display: block;
     flex: 1;
     width: 100%;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #map_city.show {
+    position: static;
+    opacity: 1;
+    pointer-events: all;
   }
 
   .city-col::-webkit-scrollbar {
@@ -6913,5 +6936,19 @@ body.scroll_fixed {
 }
 
 .place__square-item.active {
+  display: block;
+}
+
+.header-right-menu {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nothing {
+  display: none;
+}
+
+.nothing.active {
   display: block;
 }

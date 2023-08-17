@@ -91,6 +91,9 @@
                 </div>
 
                     <div class="city-col__content">
+                        <div class="nothing">
+                            {{__('Объявлений не найдено')}}
+                        </div>
                         <div class="city-col__list">
                             @foreach($get_product as $product)
                                 <!-- <div class="city-col__item" data_id="{{$product->id}}">
@@ -1021,11 +1024,11 @@
         // Сортировка
 
         if ($.query.get('order_by').toString() === "price-desc") {
-            $('.city-cil__filter-title').text("Сначала дорогие");
+            $('.city-cil__filter-title').text("Сначала дешёвые");
         }
 
         if ($.query.get('order_by').toString() === "price-asc") {
-            $('.city-cil__filter-title').text("Сначала дешёвые");
+            $('.city-cil__filter-title').text("Сначала дорогие");
         }
 
         if ($.query.get('order_by').toString() === "created_at-desc") {
@@ -1583,8 +1586,15 @@ function P(e) {
 
     function setCountObjectsPerPage(number) {
         const subtitle = document.querySelector('.city-col__subtitle')
+        const nothing = document.querySelector('.nothing')
         const span = subtitle.querySelector('span')
         span.innerHTML = number
+
+        if(number == 0) {
+            nothing.classList.add('active')
+        } else {
+            nothing.classList.remove('active')
+        }
     }
 
     function setListenersToOpenPopup() {
@@ -2241,6 +2251,7 @@ function P(e) {
             urlParams.forEach((value, key) => {
                 params[key] = value;
             });
+            
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
@@ -2302,7 +2313,7 @@ function P(e) {
             mapCountry = new ymaps.Map("map_city", {
                 center: [<?php echo $country->lat . ',' . $country->long ?>],
                 zoom: 6,
-                controls: [],
+                controls: ['zoomControl'],
                 behaviors: ["default", "scrollZoom"]
             }, {
                 searchControlProvider: "yandex#search"
@@ -2379,7 +2390,7 @@ function P(e) {
                 }
             });
 
-
+            
 
             allmarks.forEach(mark => {
                 const coordinate = {
