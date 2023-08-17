@@ -104,7 +104,7 @@ class HousesController extends Controller
                 "price" => $this->getCurrencyPrice($row->price),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
-                'kv' => $row->size." кв.м.",
+                'kv' => $row->size,
                 'address' => $row->address,
                 'image' => config('app.url').'uploads/'.$row->photo[0]->photo,
             ];
