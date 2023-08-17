@@ -7,8 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet"><link rel=stylesheet href=
-    "http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic&amp;subset=latin,latin-ext">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel=stylesheet href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic&amp;subset=latin,latin-ext">
     <link rel="stylesheet" type="text/css" href="{{asset('project/css/swiper-bundle.min.css')}} ">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{asset('project/files/fonts/stylesheet.css')}}">
@@ -146,7 +146,7 @@
             const kompleksBlockMeterPrice = popupBlock.querySelector('.kompleks__layout-price-meter')
             changeExchange(kompleksBlockPrice, exchange)
             changeExchange(kompleksBlockMeterPrice, exchange)
-            
+
         }
     });
 
@@ -360,7 +360,7 @@ function setListenersToAddfavorites() {
                     $('.check-favorites[data_id="'+ data_id + '"]').removeClass('active');
                     console.log('test')
                     delete favotires_house_id[data_id]
-                    
+
                 }
                 console.log(favotires_house_id)
             },
