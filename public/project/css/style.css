@@ -1907,7 +1907,7 @@ body {
 }
 
 .popular-locations__item-text {
-  font-size: 22px;
+  font-size: 16px;
   transition: 0.2s;
   cursor: pointer;
   white-space: nowrap;
