@@ -1444,18 +1444,6 @@ function P(e) {
     const langSite = `{{ app()->getLocale() }}`
 
     async function getData(topLeft, bottomRight) {
-        const queryParams = {
-            user_id: user_id,
-            top_left: topLeft,
-            bottom_right: bottomRight,
-            price: $.query.get('price'),
-            vanie: $.query.get('vanie'),
-            spalni: $.query.get('spalni'),
-            kv: $.query.get('kv'),
-            address: $.query.get('address'),
-        };
-
-        console.log("Отправленные параметры:", queryParams);
 
             $.ajax({
                 url: `/api/houses/by_coordinates/with_filter`,
@@ -1490,33 +1478,6 @@ function P(e) {
                     console.error('Error:', error);
                 }
             });
-    }
-
-    async function getDataMarks() {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `/api/houses/all`,
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                },
-                success: function (data) {
-                    resolve(data);
-                    console.log(data);
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                }
-            });
-        })
-    }
-
-    //отправить запрос с фильтром по кнопке найти страница houses
-    if(document.querySelectorAll('.btn-filter-houses').length) {
-        const btnFilterHouses = document.querySelector('.btn-filter-houses')
-        btnFilterHouses.addEventListener('click', function() {
-            getDataMarks()
-        })
     }
 
     let previousSwiperInstance = null;
@@ -2293,190 +2254,232 @@ function P(e) {
     changeLangMap(mapLang);
 
     async function init(ymaps) {
-        const mapCity = document.querySelector('#map_city')
-        mapCity.innerHTML = ''
-        if(mapCountry) {
-            mapCountry.destroy()
+
+        //отправить запрос с фильтром по кнопке найти страница houses
+        if(document.querySelectorAll('.btn-filter-houses').length) {
+            const btnFilterHouses = document.querySelector('.btn-filter-houses')
+            btnFilterHouses.addEventListener('click', async function() {
+                const queryParams = {
+                    user_id: user_id,
+                    price: $.query.get('price'),
+                    vanie: $.query.get('vanie'),
+                    spalni: $.query.get('spalni'),
+                    kv: $.query.get('kv'),
+                    address: $.query.get('address'),
+                };
+                let allMarks = await getDataMarks(queryParams)
+                createMapCity(allMarks)
+            })
         }
-        mapCountry = new ymaps.Map("map_city", {
-            center: [<?php echo $country->lat . ',' . $country->long ?>],
-            zoom: 6,
-            controls: [],
-            behaviors: ["default", "scrollZoom"]
-        }, {
-            searchControlProvider: "yandex#search"
-        });
 
-        var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-            build: function () {
-                this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-            },
-
-            clear: function () {
-                this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-            },
-
-            onSublayoutSizeChange: function () {
-                t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-            },
-
-            applyElementOffset: function () {
-                this._$element.css({
-                    left: -this._$element[0].offsetWidth / 2,
-                    top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-                })
-            },
-
-            onCloseClick: function (e) {
-                e.preventDefault(), this.events.fire("userclose")
-            },
-
-            getShape: function () {
-                if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-                var e = this._$element.position();
-                return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-                    [e.left, e.top],
-                    [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-                ]))
-            },
-
-            _isElement: function (e) {
-                return e && e[0] && e.find(".arrow")[0]
-            }
-        }),
-
-        o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-            build: function () {
-                o.superclass.build.call(this);
-                var e = this.getParentElement().getElementsByClassName("placemark")[0],
-                    t = this.isActive ? 60 : 34,
-                    c = {
-                        type: "Circle",
-                        coordinates: [0, 0],
-                        radius: t / 2
+        function getDataMarks(params) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: `/api/houses/all`,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: {
+                        params
                     },
-
-                    l = {
-                        type: "Circle",
-                        coordinates: [0, -30],
-                        radius: t / 2
-                    };
-
-                this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-                    if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-                        var t = document.querySelectorAll(".placemark");
-                        for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                    success: function (data) {
+                        resolve(data);
+                        console.log(data);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
                     }
-                })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-                    var o = document.querySelectorAll(".placemark");
-                    if (e.classList.contains("active")) e.classList.remove("active");
-                    else {
-                        for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-                        e.classList.add("active")
-                    }
-                }), this))
-            }
-        });
-
+                });
+            })
+        }
 
         let allmarks = await getDataMarks();
-
-        allmarks.forEach(mark => {
-            const coordinate = {
-                lat: mark.coordinate.split(',')[0],
-                long: mark.coordinate.split(',')[1],
+        createMapCity(allmarks)
+        async function createMapCity(allmarks) {
+            const mapCity = document.querySelector('#map_city')
+            mapCity.innerHTML = ''
+            if(mapCountry) {
+                mapCountry.destroy()
             }
-            locationsCity.push({
-                coordinates: [coordinate.lat, coordinate.long],
-                balloonContent: `<div class="balloon-city" id="${mark.id}">
-                                    <div class="balloon-city__text">
-                                        <div class="balloon-city__price">${mark.price.EUR}</div>
-                                        ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
-                                        <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
-                                        <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
-                                        <div class="balloon-city__square">${mark.kv} ${kvm}</div>
-                                    </div>
-                                    <div class="balloon-city__img"> <img src="${mark.image}"></div>
-                                </div>`,
-                city_id: mark.id
-            });
-        });
-
-        locationsCity.forEach(function (location) {
-            var placemark = new ymaps.Placemark(location.coordinates, {
-                balloonContent: location.balloonContent,
+            mapCountry = new ymaps.Map("map_city", {
+                center: [<?php echo $country->lat . ',' . $country->long ?>],
+                zoom: 6,
+                controls: [],
+                behaviors: ["default", "scrollZoom"]
             }, {
-                balloonPanelMaxMapArea: 250000,
-                balloonShadow: false,
-                balloonLayout: t,
-                iconLayout: o,
-                balloonContentLayout: c,
-                hideIconOnBalloonOpen: false,
-                balloonOffset: [-110, -50]
+                searchControlProvider: "yandex#search"
             });
 
-            mapCountry.geoObjects.add(placemark);
-            placemark.house_id = location.city_id
-            ballons.push(placemark)
-            // Добавляем обработчики событий на метку
-            placemark.events.add('mouseenter', function (e) {
-                placemark.balloon.open(); // Открываем балун при наведении мыши
-                setTimeout(function () {
-                    var balloonContentElement = document.querySelector('.balloon-city');
-                    if (balloonContentElement) {
-                        var mouseLeaveListener = function () {
-                            placemark.balloon.close();
-                            balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
-                            balloonContentElement.removeEventListener('click', clickListener);
-                        };
-                        balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+            var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
+                build: function () {
+                    this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
+                },
 
-                        var clickListener = function (event) {
-                            const id = balloonContentElement.getAttribute('id')
-                                setNewPopupHouseData(id)
-                            // setListenersToOpenPopup();
-                            // setListenersToAddfavorites()
+                clear: function () {
+                    this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
+                },
+
+                onSublayoutSizeChange: function () {
+                    t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
+                },
+
+                applyElementOffset: function () {
+                    this._$element.css({
+                        left: -this._$element[0].offsetWidth / 2,
+                        top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
+                    })
+                },
+
+                onCloseClick: function (e) {
+                    e.preventDefault(), this.events.fire("userclose")
+                },
+
+                getShape: function () {
+                    if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
+                    var e = this._$element.position();
+                    return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
+                        [e.left, e.top],
+                        [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
+                    ]))
+                },
+
+                _isElement: function (e) {
+                    return e && e[0] && e.find(".arrow")[0]
+                }
+            }),
+
+            o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
+                build: function () {
+                    o.superclass.build.call(this);
+                    var e = this.getParentElement().getElementsByClassName("placemark")[0],
+                        t = this.isActive ? 60 : 34,
+                        c = {
+                            type: "Circle",
+                            coordinates: [0, 0],
+                            radius: t / 2
+                        },
+
+                        l = {
+                            type: "Circle",
+                            coordinates: [0, -30],
+                            radius: t / 2
                         };
-                        balloonContentElement.addEventListener('click', clickListener);
-                    }
-                }, 0);
+
+                    this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
+                        if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                            var t = document.querySelectorAll(".placemark");
+                            for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                        }
+                    })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
+                        var o = document.querySelectorAll(".placemark");
+                        if (e.classList.contains("active")) e.classList.remove("active");
+                        else {
+                            for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
+                            e.classList.add("active")
+                        }
+                    }), this))
+                }
             });
 
-        });
+            
 
-        let startBounds = mapCountry.getBounds();
-        let top_left = {
-            lat: startBounds[0][0],
-            long: startBounds[0][1]
-        };
+            allmarks.forEach(mark => {
+                const coordinate = {
+                    lat: mark.coordinate.split(',')[0],
+                    long: mark.coordinate.split(',')[1],
+                }
+                locationsCity.push({
+                    coordinates: [coordinate.lat, coordinate.long],
+                    balloonContent: `<div class="balloon-city" id="${mark.id}">
+                                        <div class="balloon-city__text">
+                                            <div class="balloon-city__price">${mark.price.EUR}</div>
+                                            ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
+                                            <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
+                                            <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
+                                            <div class="balloon-city__square">${mark.kv} ${kvm}</div>
+                                        </div>
+                                        <div class="balloon-city__img"> <img src="${mark.image}"></div>
+                                    </div>`,
+                    city_id: mark.id
+                });
+            });
 
-        let bottom_right = {
-            lat: startBounds[1][0],
-            long: startBounds[1][1]
-        };
-        console.log('top_left.lat = '+top_left.lat+'\ntop_left.long = '+top_left.long);
-        console.log('bottom_right.lat = '+bottom_right.lat+'\ntop_left.long = '+bottom_right.long);
+            locationsCity.forEach(function (location) {
+                var placemark = new ymaps.Placemark(location.coordinates, {
+                    balloonContent: location.balloonContent,
+                }, {
+                    balloonPanelMaxMapArea: 250000,
+                    balloonShadow: false,
+                    balloonLayout: t,
+                    iconLayout: o,
+                    balloonContentLayout: c,
+                    hideIconOnBalloonOpen: false,
+                    balloonOffset: [-110, -50]
+                });
 
-        getData(top_left, bottom_right);
+                mapCountry.geoObjects.add(placemark);
+                placemark.house_id = location.city_id
+                ballons.push(placemark)
+                // Добавляем обработчики событий на метку
+                placemark.events.add('mouseenter', function (e) {
+                    placemark.balloon.open(); // Открываем балун при наведении мыши
+                    setTimeout(function () {
+                        var balloonContentElement = document.querySelector('.balloon-city');
+                        if (balloonContentElement) {
+                            var mouseLeaveListener = function () {
+                                placemark.balloon.close();
+                                balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                                balloonContentElement.removeEventListener('click', clickListener);
+                            };
+                            balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
 
+                            var clickListener = function (event) {
+                                const id = balloonContentElement.getAttribute('id')
+                                    setNewPopupHouseData(id)
+                                // setListenersToOpenPopup();
+                                // setListenersToAddfavorites()
+                            };
+                            balloonContentElement.addEventListener('click', clickListener);
+                        }
+                    }, 0);
+                });
 
-        mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
-            let newBounds = event.get('newBounds');
+            });
+
+            let startBounds = mapCountry.getBounds();
             let top_left = {
-                lat: newBounds[0][0],
-                long: newBounds[0][1]
+                lat: startBounds[0][0],
+                long: startBounds[0][1]
             };
 
             let bottom_right = {
-                lat: newBounds[1][0],
-                long: newBounds[1][1]
+                lat: startBounds[1][0],
+                long: startBounds[1][1]
             };
+            console.log('top_left.lat = '+top_left.lat+'\ntop_left.long = '+top_left.long);
+            console.log('bottom_right.lat = '+bottom_right.lat+'\ntop_left.long = '+bottom_right.long);
 
             getData(top_left, bottom_right);
 
-        });
 
+            mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                let newBounds = event.get('newBounds');
+                let top_left = {
+                    lat: newBounds[0][0],
+                    long: newBounds[0][1]
+                };
+
+                let bottom_right = {
+                    lat: newBounds[1][0],
+                    long: newBounds[1][1]
+                };
+
+                getData(top_left, bottom_right);
+
+            });
+
+        }
     }
+
 }
 
 
