@@ -987,6 +987,8 @@
         .object__photo-popup-close svg {
             z-index: 204;
         }
+
+        .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
     </style>
     <section class="object__photo">
         <div class="object__photo-popup">
@@ -2313,11 +2315,52 @@ function P(e) {
             mapCountry = new ymaps.Map("map_city", {
                 center: [<?php echo $country->lat . ',' . $country->long ?>],
                 zoom: 6,
-                controls: ['zoomControl'],
+                controls: [],
                 behaviors: ["default", "scrollZoom"]
             }, {
                 searchControlProvider: "yandex#search"
             });
+
+            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+
+                // Переопределяем методы макета, чтобы выполнять дополнительные действия
+                // при построении и очистке макета.
+                build: function () {
+                    // Вызываем родительский метод build.
+                    ZoomLayout.superclass.build.call(this);
+
+                    // Привязываем функции-обработчики к контексту и сохраняем ссылки
+                    // на них, чтобы потом отписаться от событий.
+                    this.zoomInCallback = ymaps.util.bind(this.zoomIn, this);
+                    this.zoomOutCallback = ymaps.util.bind(this.zoomOut, this);
+
+                    // Начинаем слушать клики на кнопках макета.
+                    $('.zoom-control__zoom-in').bind('click', this.zoomInCallback);
+                    $('.zoom-control__zoom-out').bind('click', this.zoomOutCallback);
+                },
+
+                clear: function () {
+                    // Снимаем обработчики кликов.
+                    $('.zoom-control__zoom-in').unbind('click', this.zoomInCallback);
+                    $('.zoom-control__zoom-out').unbind('click', this.zoomOutCallback);
+
+                    // Вызываем родительский метод clear.
+                    ZoomLayout.superclass.clear.call(this);
+                },
+
+                zoomIn: function () {
+                    var map = this.getData().control.getMap();
+                    map.setZoom(map.getZoom() + 1, {checkZoomRange: true});
+                },
+
+                zoomOut: function () {
+                    var map = this.getData().control.getMap();
+                    map.setZoom(map.getZoom() - 1, {checkZoomRange: true});
+                }
+            }),
+            zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
+
+            mapCountry.controls.add(zoomControl);
 
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {
