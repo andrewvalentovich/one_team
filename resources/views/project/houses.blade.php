@@ -1089,7 +1089,6 @@
 
         let ids = {{ $id }};
 
-        let queryParams = <?php echo json_encode(request()->all()) ?>;
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -1429,42 +1428,6 @@ function P(e) {
     let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
 
     const langSite = `{{ app()->getLocale() }}`
-
-    async function getData(topLeft, bottomRight) {
-            $.ajax({
-                url: `/api/houses/by_coordinates/with_filter`,
-                method: 'GET',
-                dataType: 'json',
-                data: {
-                    user_id: user_id,
-                    top_left: topLeft,
-                    bottom_right: bottomRight,
-                    price: $.query.get('price'),
-                    vanie: $.query.get('vanie'),
-                    spalni: $.query.get('spalni'),
-                    kv: $.query.get('kv'),
-                    address: $.query.get('address'),
-                },
-                success: function (data) {
-                    console.log('data',data);
-                    locationsCity.length = 0;
-                    houseData.length = 0;
-                    houseData = { ...data }
-                    checkFavorites(data.data)
-                    let site_url = `{{config('app.url')}}`;
-
-                    // setBallons(data.data);
-
-                    setCityItem(data.data);
-                    setCountObjectsPerPage(data.data.length)
-                    setListenersToOpenPopup();
-                    setListenersToAddfavorites()
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                }
-            });
-    }
 
     let previousSwiperInstance = null;
     let ballons = []
@@ -2245,25 +2208,20 @@ function P(e) {
         if(document.querySelectorAll('.btn-filter-houses').length) {
             const btnFilterHouses = document.querySelector('.btn-filter-houses')
             btnFilterHouses.addEventListener('click', async function() {
-                let allMarks = await getDataMarks(queryParams)
+                let allMarks = await getDataMarks()
                 createMapCity(allMarks)
             })
         }
 
-        function getDataMarks(params) {
+        function getDataMarks() {
+            let params = createParams()
+            console.log('params',params)
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: `/api/houses/all`,
                     method: 'GET',
                     dataType: 'json',
-                    data: {
-                        user_id: user_id,
-                        price: $.query.get('price'),
-                        vanie: $.query.get('vanie'),
-                        spalni: $.query.get('spalni'),
-                        kv: $.query.get('kv'),
-                        address: $.query.get('address'),
-                    },
+                    data: params,
                     success: function (data) {
                         resolve(data);
                         console.log(data);
@@ -2275,8 +2233,59 @@ function P(e) {
             })
         }
 
+        function createParams() {
+            let params = <?php echo json_encode(request()->all()) ?>;
+            params.user_id = user_id;
+
+            if (params.country === true) params.country = null;
+            if (params.type === true) params.type = null;
+            if (params.price && params.price.price_min === true) params.price.price_min = null;
+            if (params.price && params.price.price_max === true) params.price.price_max = null;
+            if (params.bedrooms === true) params.bedrooms = null;
+            if (params.bathrooms === true) params.bathrooms = null;
+            if (params.view === true) params.view = null;
+            if (params.to_sea === true) params.to_sea = null;
+
+            if (params.size && params.size.min === true) params.size.min = null;
+            if (params.size && params.size.max === true) params.size.max = null;
+
+            return params;
+        }
+
         let marksFilter = await getDataMarks()
+
         createMapCity(marksFilter)
+        async function getData(topLeft, bottomRight) {
+            let params = createParams()
+                $.ajax({
+                    url: `/api/houses/by_coordinates/with_filter`,
+                    method: 'GET',
+                    dataType: 'json',
+                    data: {
+                        ...params,
+                        top_left: topLeft,
+                        bottom_right: bottomRight,
+                    },
+                    success: function (data) {
+                        console.log('data',data);
+                        locationsCity.length = 0;
+                        houseData.length = 0;
+                        houseData = { ...data }
+                        checkFavorites(data.data)
+                        let site_url = `{{config('app.url')}}`;
+
+                        // setBallons(data.data);
+
+                        setCityItem(data.data);
+                        setCountObjectsPerPage(data.data.length)
+                        setListenersToOpenPopup();
+                        setListenersToAddfavorites()
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+        }
 
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
@@ -2439,8 +2448,6 @@ function P(e) {
                 lat: startBounds[1][0],
                 long: startBounds[1][1]
             };
-            console.log('top_left.lat = '+top_left.lat+'\ntop_left.long = '+top_left.long);
-            console.log('bottom_right.lat = '+bottom_right.lat+'\ntop_left.long = '+bottom_right.long);
 
             getData(top_left, bottom_right);
 
