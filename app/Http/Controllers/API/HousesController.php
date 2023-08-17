@@ -9,6 +9,7 @@ use App\Http\Requests\House\FilterRequest;
 use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\Peculiarities;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 
 class HousesController extends Controller
@@ -25,6 +26,7 @@ class HousesController extends Controller
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
+        $locale = App::currentLocale();
         $data = $request->validated();
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
@@ -97,6 +99,7 @@ class HousesController extends Controller
 
     public function getAll(FilterRequest $request)
     {
+        $locale = App::currentLocale();
         $data = $request->validated();
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);

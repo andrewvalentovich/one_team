@@ -10,11 +10,13 @@ use App\Models\CountryAndCity;
 use App\Models\Peculiarities;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class SearchController extends Controller
 {
     public function getParams()
     {
+        $locale = App::currentLocale();
         $countries = CountryAndCity::select('id','name')->where('parent_id', null)->get();
         $collections = Peculiarities::select('id','name', 'type')->get();
         $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
