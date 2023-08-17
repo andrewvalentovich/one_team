@@ -65,7 +65,7 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-                        {{__('Недвижимость')}} {{--{{__('в')}} @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr')<?php $country->name = $country->name_tr ?> @endif{{$country->name}}--}}
+                        {{__('Недвижимость в Турции')}} {{--{{__('в')}} @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr')<?php $country->name = $country->name_tr ?> @endif{{$country->name}}--}}
                     </div>
                     <div class="city-col__filter">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>
@@ -1734,6 +1734,7 @@ function P(e) {
         //карта
         const currentMap = document.querySelector('.current-map')
         const div_id = 'place-map'
+
         if (placeMap) {
             placeMap.destroy(); // Уничтожаем текущую карту, если она существует
         }
@@ -2456,9 +2457,10 @@ function P(e) {
 
             getData(top_left, bottom_right);
 
-
+            let center = [];
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');
+
                 let top_left = {
                     lat: newBounds[0][0],
                     long: newBounds[0][1]
@@ -2469,8 +2471,19 @@ function P(e) {
                     long: newBounds[1][1]
                 };
 
+                center = {
+                    lat: (top_left.lat + bottom_right.lat) / 2,
+                    long: (top_left.long + bottom_right.long) / 2
+                };
+
                 getData(top_left, bottom_right);
 
+            });
+
+
+            ymaps.geocode(center).then(function (res) {
+                var firstGeoObject = res.geoObjects.get(0);
+                console.log("firstGeoObject - "+firstGeoObject);
             });
 
         }
