@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->float('lat')->change();
-            $table->float('long')->change();
+            $table->double('lat')->change();
+            $table->double('long')->change();
         });
     }
 
