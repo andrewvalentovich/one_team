@@ -2223,7 +2223,7 @@ function P(e) {
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
             console.log(p[t].getAttribute('data_id'));
             var ot_zastroishika = p[t].getAttribute('data_id');
-            // e(p), p[t].classList.add("active");  
+            // e(p), p[t].classList.add("active");
             history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
@@ -2269,6 +2269,7 @@ function P(e) {
             params.user_id = user_id;
 
             if (params.country === true) params.country = null;
+            if (params.city_id === true) params.city_id = null;
             if (params.type === true) params.type = null;
             if (params.price && params.price.price_min === true) params.price.price_min = null;
             if (params.price && params.price.price_max === true) params.price.price_max = null;

@@ -40,6 +40,7 @@ class FilterRequest extends FormRequest
             'size' => 'nullable|array',
             'type' => 'nullable|string',
             'country' => 'nullable|string',
+            'city_id' => 'nullable|numeric',
         ];
     }
 }
