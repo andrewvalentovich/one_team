@@ -1,3 +1,4 @@
+<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 @extends('project.includes.layouts')
 
 
@@ -159,7 +160,7 @@
                                                     </g>
                                                 </svg>
                                             </div>
-                                            <div class="place__header-favorite check-favorites">
+                                            <div class="place__header-favorite test check-favorites">
                                                 <div class="place__header-favorites-text">
                                                     {{__('В избранное')}}
                                                 </div>
@@ -859,7 +860,7 @@
                             <footer class="footer footer_col">
                                 <div class="footer__top">
                                     <a href="{{route('home_page')}}" class="footer__logo">
-                                        <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                                        <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
                                     </a>
                                 </div>
                                 <div class="footer__nav">
@@ -1306,14 +1307,14 @@
             }));
 
             let p = document.querySelectorAll(".city-col__btn");
-            for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-                console.log(p[t].getAttribute('data_id'));
-                var ot_zastroishika = p[t].getAttribute('data_id');
-                e(p), p[t].classList.add("active");
-                history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
-                let allMarks = await getDataMarks()
-                createMapCity(allMarks)
-            }));
+            // for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
+            //     console.log(p[t].getAttribute('data_id'));
+            //     var ot_zastroishika = p[t].getAttribute('data_id');
+            //     e(p), p[t].classList.add("active");
+            //     history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
+            //     let allMarks = await getDataMarks()
+            //     createMapCity(allMarks)
+            // }));
 
             let h = document.querySelectorAll(".favorite-item-btn");
 

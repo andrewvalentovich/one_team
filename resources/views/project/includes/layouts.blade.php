@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('project/css/style.css')}}">
     <title>One-team</title>
     <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
-    <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+    <!-- <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
