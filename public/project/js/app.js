@@ -255,12 +255,13 @@ async function getData() {
     });
 
     let r = document.querySelectorAll(".search-nav__price-currency-item");
-    if(r)
-    for (let t = 0; t < s.length; t++) r[t].addEventListener("click", (function (o) {
+    // console.log('r',r)
+    // if(r)
+    // for (let t = 0; t < s.length; t++) r[t].addEventListener("click", (function (o) {
 
-        e(r), r[t].classList.add("active")
+    //     e(r), r[t].classList.add("active")
 
-    }));
+    // }));
 
     let d = document.querySelectorAll(".search-nav__list-item-title"),
 
