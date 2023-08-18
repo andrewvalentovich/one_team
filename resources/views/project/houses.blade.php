@@ -2372,7 +2372,12 @@ function P(e) {
             }),
             zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
 
-            mapCountry.controls.add(zoomControl);
+            mapCountry.controls.add(zoomControl, {
+                position: {
+                    right: 20,
+                    bottom: 20
+                }
+            });
 
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {

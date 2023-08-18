@@ -6962,3 +6962,7 @@ body.scroll_fixed {
 .button._view_air {
   background: #fff;
 }
+
+.ymaps-2-1-79-controls__control {
+  /* inset: auto 10px 108px auto !important; */
+}
