@@ -65,7 +65,7 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-                        {{__('Недвижимость в Турции')}} {{--{{__('в')}} @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr')<?php $country->name = $country->name_tr ?> @endif{{$country->name}}--}}
+                        {{__('Недвижимость в Турции') }}
                     </div>
                     <div class="city-col__filter">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>

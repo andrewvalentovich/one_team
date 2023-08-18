@@ -363,7 +363,7 @@ async function getData() {
         document.querySelector(".city__content").classList.add("city_map");
         // document.querySelector(".city__content").classList.add("city_map");
 
-        
+
     }), document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
 
         this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
@@ -381,7 +381,7 @@ async function getData() {
             document.querySelector(".city__content").classList.add("city_map");
         }
 
-        
+
     }));
 
     let g = document.querySelectorAll(".city-col__item"),
@@ -824,7 +824,7 @@ async function getData() {
 
             }),
 
-            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="https://dev.one-team.pro/city/city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
+            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="https://dev.one-team.pro/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
 
             // l = window.myPlacemark = new ymaps.Placemark([40.93824, 29.26059], {
 
