@@ -1,5 +1,4 @@
 @extends('project.includes.layouts')
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 
 
 
@@ -203,7 +202,7 @@
 
                     </div>
 
-                    <div class="place__header-favorite check-favorites {{ $get_product == null ? '' : 'active' }}" data_id="{{$product->product->id}}">
+                    <div class="place__header-favorite">
 
                         <div class="place__header-favorites-text">
 
@@ -214,7 +213,7 @@
 
                         <div class="place__header-favorites-logo">
 
-                            <svg class="white-to-blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
+                            <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
 
                                 version="1.1"
 
@@ -228,7 +227,7 @@
 
     <metadata id="CorelCorpID_0Corel-Layer"/>
 
-    <path 
+    <path class="fil0 str0"
 
         d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
 
@@ -2017,7 +2016,7 @@
 
                 window.innerWidth <= 766 && q.classList.contains("active") && (x.classList.add("active"), q.classList.remove("active")), window.innerWidth > 766 && x.classList.contains("active") && (x.classList.remove("active"), q.classList.add("active"))
 
-            })), window.addEventListener("resize", (function(e) {
+            })), P(E = window.innerWidth > 1003 ? 0 : 1 / 0), window.addEventListener("resize", (function(e) {
 
                 this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 

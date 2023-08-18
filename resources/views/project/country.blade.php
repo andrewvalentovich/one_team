@@ -1,5 +1,4 @@
 @extends('project.includes.layouts')
-    <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 
 
 
@@ -2330,46 +2329,46 @@
 
     <script>
 
-        // let locations = [
+        let locations = [
 
-        // ];
-
-
-
-
-        // let obect =  "<?php echo __('объектов')?>";
-
-
-        // let ids = <?php echo $country->id?>
+        ];
 
 
 
-        // async function getData() {
 
-        //     await fetch(`/city_from_map/${ids}`)
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             if (data.status) {
-        //                 data.data.forEach(city => {
-        //                     locations.push({
-        //                         coordinates: city.coordinate.split(',').map(parseFloat),
-        //                         balloonContent: `${city.name}, ${city.count}  ${obect} `,
-        //                         city_id: city.id
-        //                     });
+        let obect =  "<?php echo __('объектов')?>";
 
-        //                 });
 
-        //             }
+        let ids = <?php echo $country->id?>
 
-        //         })
 
-        //         .catch(error => {
 
-        //             console.error('Error:', error);
+        async function getData() {
 
-        //         });
+            await fetch(`/city_from_map/${ids}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        data.data.forEach(city => {
+                            locations.push({
+                                coordinates: city.coordinate.split(',').map(parseFloat),
+                                balloonContent: `${city.name}, ${city.count}  ${obect} `,
+                                city_id: city.id
+                            });
 
-        // }
+                        });
+
+                    }
+
+                })
+
+                .catch(error => {
+
+                    console.error('Error:', error);
+
+                });
+
+        }
 
 
 
@@ -3105,7 +3104,7 @@
 
                 this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 
-            })), document.querySelectorAll("#map-country1").length && ymaps.ready((function() {
+            })), document.querySelectorAll("#map-country").length && ymaps.ready((function() {
 
                 var mapCountry;
                 var script;
