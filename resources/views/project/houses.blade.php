@@ -1306,11 +1306,13 @@
             }));
 
             let p = document.querySelectorAll(".city-col__btn");
-            for (let t = 0; t < p.length; t++) p[t].addEventListener("click", (function (o) {
+            for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
                 console.log(p[t].getAttribute('data_id'));
                 var ot_zastroishika = p[t].getAttribute('data_id');
                 e(p), p[t].classList.add("active");
                 history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
+                let allMarks = await getDataMarks()
+                createMapCity(allMarks)
             }));
 
             let h = document.querySelectorAll(".favorite-item-btn");
@@ -2217,6 +2219,16 @@ function P(e) {
 
     async function init(ymaps) {
 
+        let p = document.querySelectorAll(".city-col__btn");
+        for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
+            console.log(p[t].getAttribute('data_id'));
+            var ot_zastroishika = p[t].getAttribute('data_id');
+            // e(p), p[t].classList.add("active");  
+            history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
+            let allMarks = await getDataMarks()
+            createMapCity(allMarks)
+        }));
+
         //отправить запрос с фильтром по кнопке найти страница houses
         if(document.querySelectorAll('.btn-filter-houses').length) {
             const btnFilterHouses = document.querySelector('.btn-filter-houses')
@@ -2512,27 +2524,27 @@ function P(e) {
             getData(top_left, bottom_right);
 
             // let center = [];
-            // mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
-            //     let newBounds = event.get('newBounds');
+            mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
+                let newBounds = event.get('newBounds');
 
-            //     let top_left = {
-            //         lat: newBounds[0][0],
-            //         long: newBounds[0][1]
-            //     };
+                let top_left = {
+                    lat: newBounds[0][0],
+                    long: newBounds[0][1]
+                };
 
-            //     let bottom_right = {
-            //         lat: newBounds[1][0],
-            //         long: newBounds[1][1]
-            //     };
+                let bottom_right = {
+                    lat: newBounds[1][0],
+                    long: newBounds[1][1]
+                };
 
-            //     center = {
-            //         lat: (top_left.lat + bottom_right.lat) / 2,
-            //         long: (top_left.long + bottom_right.long) / 2
-            //     };
+                // center = {
+                //     lat: (top_left.lat + bottom_right.lat) / 2,
+                //     long: (top_left.long + bottom_right.long) / 2
+                // };
 
-            //     getData(top_left, bottom_right);
+                getData(top_left, bottom_right);
 
-            // });
+            });
 
 
             // ymaps.geocode(center).then(function (res) {
