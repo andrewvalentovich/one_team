@@ -6966,3 +6966,13 @@ body.scroll_fixed {
 .ymaps-2-1-79-controls__control {
   /* inset: auto 10px 108px auto !important; */
 }
+.zoom-control__zoom-in, .zoom-control__zoom-out {
+  width: 31px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.zoom-control__icon svg path {
+  fill: #969696;
+}
