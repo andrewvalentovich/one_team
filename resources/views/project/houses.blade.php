@@ -66,15 +66,19 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-                        {{__('Недвижимость в Турции') }}
+                        @if(isset($_GET['city_id']))
+                            {{ __('Недвижимость ') }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                        @elseif(isset($_GET['country']))
+                            {{ __('Недвижимость ') }}{{ $_GET['country'] }}
+                        @elseif(!isset($_GET['country']) && !isset($_GET['city_id']))
+                            {{__('Недвижимость') }}
+                        @endif
                     </div>
                     <div class="city-col__filter">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>
                         <div class="city-col__filter-list"></div>
                     </div>
                     <div class="city-col__subtitle">
-
-                        <!-- {{$count}} {{__('объявлений')}} -->
                         <span>
 
                         </span>
