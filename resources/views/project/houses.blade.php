@@ -2390,7 +2390,7 @@ function P(e) {
             mapCountry.controls.add(zoomControl, {
                 position: {
                     right: 20,
-                    bottom: 20
+                    bottom: 50
                 }
             });
 

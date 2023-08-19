@@ -6955,12 +6955,12 @@ body.scroll_fixed {
 
 
 .zoom-control {
-  background: #fff;
-  border-radius: 8px;
 }
 
 .button._view_air {
   background: #fff;
+  border-radius: 8px;
+  padding: 3px;
 }
 
 .ymaps-2-1-79-controls__control {
@@ -6975,4 +6975,9 @@ body.scroll_fixed {
 }
 .zoom-control__icon svg path {
   fill: #969696;
+}
+.zoom-control__group {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
 }
