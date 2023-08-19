@@ -148,7 +148,7 @@ body {
 }
 
 .city__content.city_map {
-  height: calc(100vh - 148px);
+  /* height: calc(100vh - 148px); */
 }
 
 .city-col {
@@ -5341,8 +5341,8 @@ body.scroll_fixed {
   }
 
   .city__content.city_map {
-    height: calc(100vh - 134px);
-    overflow: hidden;
+    /* height: calc(100vh - 134px); */
+    /* overflow: hidden; */
   }
 
   .city-col {
