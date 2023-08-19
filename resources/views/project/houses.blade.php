@@ -2489,12 +2489,13 @@ function P(e) {
                     city_id: mark.id
                 });
             });
-
+            let areaForBallon = 250000
+            if(window.innerWidth <= 768) areaForBallon = 1000000
             locationsCity.forEach(function (location) {
                 var placemark = new ymaps.Placemark(location.coordinates, {
                     balloonContent: location.balloonContent,
                 }, {
-                    balloonPanelMaxMapArea: 250000,
+                    balloonPanelMaxMapArea: areaForBallon,
                     balloonShadow: false,
                     balloonLayout: t,
                     iconLayout: o,
