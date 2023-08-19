@@ -2224,6 +2224,8 @@ function P(e) {
     }
 
     let mapLang = "<?php echo app()->getLocale() ?>";
+    const userAgent = navigator.userAgent.toLowerCase();
+
     changeLangMap(mapLang);
 
     async function init(ymaps) {
@@ -2506,6 +2508,7 @@ function P(e) {
                 ballons.push(placemark)
                 // Добавляем обработчики событий на метку
                 placemark.events.add('mouseenter', function (e) {
+                    if (userAgent.match(/(android|iphone|ipad|ipod|blackberry|windows phone)/)) return
                     placemark.balloon.open(); // Открываем балун при наведении мыши
                     setTimeout(function () {
                         var balloonContentElement = document.querySelector('.balloon-city');
