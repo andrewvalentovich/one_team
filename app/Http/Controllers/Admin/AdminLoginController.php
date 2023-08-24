@@ -12,21 +12,22 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminLoginController extends Controller
 {
-
-    public function login(){
+    public function login()
+    {
         return view('admin.login');
     }
 
-    public function logined(Request $request){
-
-        $user = User::where('email', '=' , $request->email)->get();
+    public function logined(Request $request)
+    {
+        $user = User::where('email', $request->email)->get();
         if($user->isEmpty()){
             return redirect()->route('login')->with('login', 'неверный логин');
         }
+
         if(!$user->isEmpty()){
-            $user_dataa = $request->only(['email', 'password']);
-            if (Auth::attempt($user_dataa)){
-                if(Auth()->user()->role_id !=1){
+            $user_data = $request->only(['email', 'password']);
+            if (Auth::attempt($user_data)){
+                if(Auth()->user()->role_id != 1){
                     auth()->logout();
                     return view('admin.login');
                 }
@@ -42,9 +43,9 @@ class AdminLoginController extends Controller
     }
 
     public function logoutAdmin(){
-  auth()->logout();
+        auth()->logout();
 
-  return redirect()->route('login');
+        return redirect()->route('login');
     }
 
 
