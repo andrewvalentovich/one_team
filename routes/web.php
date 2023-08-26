@@ -50,26 +50,29 @@ Route::get('/get', function(){
     return Session::get('session');
 });
 
-Route::domain('panel'.config('session.domain'))->group(function () {
-    Route::get('login',[PanelLoginController::class,'login'])->name('panel.login');
+Route::domain('panel.localhost')->group(function () {
+        Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
+        Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
 
-    Route::middleware(['panel.no_auth'])->group(function () {
-        Route::post('logined',[PanelLoginController::class,'logined'])->name('panel.logined');
-        Route::get('logout', [PanelLoginController::class,'logoutAdmin'])->name('panel.logout');
+        Route::middleware(['panel.no_auth'])->group(function () {
+            Route::post('logined', [PanelLoginController::class, 'logined'])->name('panel.logined');
+            Route::get('settings', [PanelLoginController::class, 'settings'])->name('panel.settings');
+            Route::post('updatePassword', [PanelLoginController::class, 'updatePassword'])->name('panel.updatePassword');
+        });
 
-        Route::get('settingView', [PanelLoginController::class, 'settingView'])->name('panel.settingView');
-        Route::post('updatePassword', [PanelLoginController::class, 'updatePassword'])->name('panel.updatePassword');
-    });
+        Route::middleware(['panel.auth'])->group(function () {
+            Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
+        });
 
-
-    Route::middleware(['panel.auth'])->group(function () {
-        Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
+    Route::group(['as' => 'panel.'], function () {
+        Route::resource('templates', \App\Http\Controllers\Panel\TemplateController::class); // CRUD model Template
+        Route::resource('landings', \App\Http\Controllers\Panel\LandingController::class); // CRUD model Landing
     });
 });
 
 
 
-Route::domain('dev'.config('session.domain'))->group(function () {
+Route::domain('dev.localhost')->group(function () {
     Route::view('test','test2');
 
 

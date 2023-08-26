@@ -47,7 +47,7 @@ class PanelLoginController extends Controller
         return redirect()->route('panel.login');
     }
 
-    public function settingView()
+    public function settings()
     {
         return view('panel.settings');
     }

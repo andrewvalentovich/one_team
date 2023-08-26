@@ -115,19 +115,28 @@
 
 
                     <li class="nav-item menu-items">
-                        <a class="nav-link" href="{{ route('admin.exchange_rates.index') }}">
-              <span class="menu-icon">
-                <i class="mdi mdi-table-large"></i>
-              </span>
-                            <span class="menu-title">Курс валют</span>
+                        <a class="nav-link" href="{{ route('panel.templates.index') }}">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-table-large"></i>
+                            </span>
+                            <span class="menu-title">{{ __('Шаблоны лендингов') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" href="{{ route('panel.landings.index') }}">
+                            <span class="menu-icon">
+                                <i class="mdi mdi-table-large"></i>
+                            </span>
+                            <span class="menu-title">{{ __('Лендинги') }}</span>
                         </a>
                     </li>
 
                     <li class="nav-item menu-items">
                         <a class="nav-link" data-toggle="collapse" href="#ui-basic10" aria-expanded="false" aria-controls="ui-basic10">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
+                            <span class="menu-icon">
+                                <i class="mdi mdi-laptop"></i>
+                            </span>
                             <span class="menu-title">Заявки</span>
                             <i class="menu-arrow"></i>
                         </a>
@@ -218,27 +227,6 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic5" aria-expanded="false" aria-controls="ui-basic5">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-                            <span class="menu-title">Страницы</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic5" bis_skin_checked="1">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('invest_page')}}">Инвестиции</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('vng_page')}}">ВНЖ и Гражданство</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('rasrochka_page')}}">Рассрочка</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('contacts_page')}}">Контакты</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('all_company_select')}}">О компании</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('police')}}">Поль. сог. при исп. сай.</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('privice')}}">Пол. обр. пер. дан.</a></li>
-
-                            </ul>
-                        </div>
-                    </li>
 
                 </ul>
             </nav>
@@ -309,7 +297,7 @@
                                      aria-labelledby="profileDropdown">
                                     <h6 class="p-3 mb-0">Пофиль</h6>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{route('panel.setting')}}" class="dropdown-item preview-item">
+                                    <a href="{{route('panel.settings')}}" class="dropdown-item preview-item">
                                         <div class="preview-thumbnail">
                                             <div class="preview-icon bg-dark rounded-circle">
                                                 <i class="mdi mdi-settings text-success"></i>
