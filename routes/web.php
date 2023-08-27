@@ -51,7 +51,7 @@ Route::get('/get', function(){
     return Session::get('session');
 });
 
-Route::domain('panel.localhost')->group(function () {
+Route::domain('panel.'.config('app.domain'))->group(function () {
     Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
     Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
 
@@ -74,7 +74,7 @@ Route::domain('panel.localhost')->group(function () {
 
 
 
-Route::domain('dev.localhost')->group(function () {
+Route::domain('dev.'.config('app.domain'))->group(function () {
     Route::view('test','test2');
 
 
