@@ -203,7 +203,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     });
 });
 
-Route::group(['domain' => '{subdomain}.localhost'], function () {
+Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
     Route::get('/', function ($subdomain) {
         $currentLanding = Landing::where('subdomain', $subdomain)->get();
 
