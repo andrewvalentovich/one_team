@@ -142,92 +142,12 @@
                         </a>
                         <div class="collapse" id="ui-basic10" bis_skin_checked="1">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('all_requests_new')}}">Новые Заявки</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('requests_old')}}">Просмотренные</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('all_requests_new') }}">Новые Заявки</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('requests_old') }}">Просмотренные</a></li>
                                 {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
                             </ul>
                         </div>
                     </li>
-
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-                            <span class="menu-title">Страны и города</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic" bis_skin_checked="1">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('all_country')}}">Страны</a></li>
-                                {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
-                            </ul>
-                        </div>
-                    </li>
-
-
-
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-                            <span class="menu-title">Параметры сайта</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic2" bis_skin_checked="1">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Типы')}}">Типы</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Спальни')}}">Спальни</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Ванные')}}">Ванные</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Гостиные')}}">Гостиные</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Особенности')}}">Особенности</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Вид')}}">Вид</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','До моря')}}">До моря
-                                    </a></li>
-                                {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
-                            </ul>
-                        </div>
-                    </li>
-
-
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-                            <span class="menu-title">Продажа</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <?php $category = \App\Models\Peculiarities::where('type','Типы')->get() ?>
-                        <div class="collapse" id="ui-basic3" bis_skin_checked="1">
-                            <ul class="nav flex-column sub-menu">
-                                @foreach($category as $cat)
-                                    <li class="nav-item"> <a class="nav-link" href="{{route('all_product',$cat->id)}}">{{$cat->name}}</a></li>
-                                @endforeach
-                                {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item menu-items">
-                        <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
-              <span class="menu-icon">
-                <i class="mdi mdi-laptop"></i>
-              </span>
-                            <span class="menu-title">Аренда</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <?php $category = \App\Models\Peculiarities::where('type','Типы')->get() ?>
-                        <div class="collapse" id="ui-basic4" bis_skin_checked="1">
-                            <ul class="nav flex-column sub-menu">
-                                @foreach($category as $cat)
-                                    <li class="nav-item"> <a class="nav-link" href="{{route('rent_product',$cat->id)}}">{{$cat->name}}</a></li>
-                                @endforeach
-                                {{-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
-                            </ul>
-                        </div>
-                    </li>
-
                 </ul>
             </nav>
             <!-- partial -->

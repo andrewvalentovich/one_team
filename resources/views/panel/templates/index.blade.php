@@ -42,6 +42,7 @@
                                     <th style="width:50px;">#</th>
                                     <th style="">{{ __('Название') }}</th>
                                     <th style="">{{ __('Путь шаблона') }}</th>
+                                    <th style="">{{ __('Токен') }}</th>
                                     <th>{{ __('Действие') }}</th>
                                 </tr>
                                 </thead>
@@ -51,6 +52,7 @@
                                         <td>{{$template->id}}</td>
                                         <td>{{$template->name}}</td>
                                         <td>{{$template->path}}</td>
+                                        <td>{{$template->token}}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{route('panel.templates.show', $template->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Показать') }}</a>
                                         </td>

@@ -63,7 +63,7 @@ class TemplateController extends Controller
         $data = $request->validated();
         $template->update($data);
 
-        return redirect()->route('panel.templates.show', compact('template'));
+        return redirect()->route('panel.templates.index');
     }
 
     /**

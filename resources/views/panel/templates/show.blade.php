@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('panel.layouts.default')
 @section('title')
     {{__("Просмотр шаблона")}}
 @endsection
@@ -42,14 +42,20 @@
                         @csrf
                         @method('delete')
 
-                        <div class="col-md-6" bis_skin_checked="1">
+                        <div class="col-md-6 pl-0 py-3" bis_skin_checked="1">
                             <div class="form-group" bis_skin_checked="1">
-                                <label for="name">{{ __('Покупка') }}</label>
-                                <input name="name" type="text" class="form-control" id="name" value="{{ $template->name }}" placeholder="{{ __('Покупка') }}">
+                                <label for="name">{{ __('Название шаблона') }}</label>
+                                <input name="name" type="text" class="form-control" id="name" value="{{ $template->name }}" placeholder="{{ __('Название шаблона') }}">
                             </div>
+
                             <div class="form-group" bis_skin_checked="1">
-                                <label for="path">{{ __('Продажа') }}</label>
-                                <input name="path" type="text" class="form-control" id="path" value="{{ $template->path }}" placeholder="{{ __('Продажа') }}">
+                                <label for="path">{{ __('Путь шаблона') }}</label>
+                                <input name="path" type="text" class="form-control" id="path" value="{{ $template->path }}" placeholder="{{ __('Путь шаблона') }}">
+                            </div>
+
+                            <div class="form-group" bis_skin_checked="1">
+                                <label for="token">{{ __('Токен') }}</label>
+                                <input name="token" type="text" class="form-control" value="{{ $template->token }}" id="token" placeholder="{{ __('Токен') }}">
                             </div>
                         </div>
 

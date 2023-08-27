@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'path' => 'required|string|max:255',
+            'token' => 'required|string|max:255',
         ];
     }
 
@@ -41,6 +42,9 @@ class StoreRequest extends FormRequest
             'path.required' => 'Данное поле является обязательным для заполнения',
             'path.string' => 'Данное поле должно быть строкой',
             'path.max' => 'Максимальная длина данного поля - :max',
+            'token.required' => 'Данное поле является обязательным для заполнения',
+            'token.string' => 'Данное поле должно быть строкой',
+            'token.max' => 'Максимальная длина данного поля - :max',
         ];
     }
 }

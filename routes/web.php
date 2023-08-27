@@ -4,6 +4,7 @@ use App\Http\Controllers\Front\HousesController;
 use App\Http\Controllers\Front\RealEstateController;
 use App\Http\Controllers\Panel\PanelController;
 use App\Http\Controllers\Panel\PanelLoginController;
+use App\Models\Landing;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\CountryAndCityController;
@@ -51,23 +52,24 @@ Route::get('/get', function(){
 });
 
 Route::domain('panel.localhost')->group(function () {
-        Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
-        Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
+    Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
+    Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
 
-        Route::middleware(['panel.no_auth'])->group(function () {
-            Route::post('logined', [PanelLoginController::class, 'logined'])->name('panel.logined');
-            Route::get('settings', [PanelLoginController::class, 'settings'])->name('panel.settings');
-            Route::post('updatePassword', [PanelLoginController::class, 'updatePassword'])->name('panel.updatePassword');
-        });
-
-        Route::middleware(['panel.auth'])->group(function () {
-            Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
-        });
-
-    Route::group(['as' => 'panel.'], function () {
-        Route::resource('templates', \App\Http\Controllers\Panel\TemplateController::class); // CRUD model Template
-        Route::resource('landings', \App\Http\Controllers\Panel\LandingController::class); // CRUD model Landing
+    Route::middleware(['panel.no_auth'])->group(function () {
+        Route::post('logined', [PanelLoginController::class, 'logined'])->name('panel.logined');
+        Route::get('settings', [PanelLoginController::class, 'settings'])->name('panel.settings');
+        Route::post('updatePassword', [PanelLoginController::class, 'updatePassword'])->name('panel.updatePassword');
     });
+
+    Route::middleware(['panel.auth'])->group(function () {
+        Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
+
+        Route::group(['as' => 'panel.'], function () {
+            Route::resource('templates', \App\Http\Controllers\Panel\TemplateController::class); // CRUD model Template
+            Route::resource('landings', \App\Http\Controllers\Panel\LandingController::class); // CRUD model Landing
+        });
+    });
+
 });
 
 
@@ -198,5 +200,15 @@ Route::domain('dev.localhost')->group(function () {
             Route::post('update_product',[ProductController::class,'update_product'])->name('update_product');
         });
 
+    });
+});
+
+Route::group(['domain' => '{subdomain}.localhost'], function () {
+    Route::get('/', function ($subdomain) {
+        $currentLanding = Landing::where('subdomain', $subdomain)->get();
+
+        abort_if($currentLanding->isEmpty(), 404);
+
+        return view("landings/{$currentLanding[0]->template->path}");
     });
 });

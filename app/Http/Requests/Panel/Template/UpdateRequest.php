@@ -26,6 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'name' => 'nullable|string|max:255',
             'path' => 'nullable|string|max:255',
+            'token' => 'nullable|string|max:255',
         ];
     }
 
@@ -39,6 +40,8 @@ class UpdateRequest extends FormRequest
             'name.max' => 'Максимальная длина данного поля - :max',
             'path.string' => 'Данное поле должно быть строкой',
             'path.max' => 'Максимальная длина данного поля - :max',
+            'token.string' => 'Данное поле должно быть строкой',
+            'token.max' => 'Максимальная длина данного поля - :max',
         ];
     }
 }
