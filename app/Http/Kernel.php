@@ -56,6 +56,8 @@ class Kernel extends HttpKernel
     protected $middlewareAliases = [
         'locale' =>   \App\Http\Middleware\LocalizationMiddleware::class,
         'AuthUser' => \App\Http\Middleware\AuthUser::class,
+        'panel.auth' => \App\Http\Middleware\PanelAuthUser::class,
+        'panel.no_auth' => \App\Http\Middleware\PanelNoAuthUser::class,
         'NoAuthUser' => \App\Http\Middleware\NoAuthUser::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
