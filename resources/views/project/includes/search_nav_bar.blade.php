@@ -233,7 +233,7 @@
     // history.pushState(null,null, set_query); // подстановка параметров
 
     $.ajax({
-        url: '{{config('app.url')}}api/houses/filter_params',       /* Куда отправить запрос */
+        url: '/api/houses/filter_params',       /* Куда отправить запрос */
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
             console.log(data);
