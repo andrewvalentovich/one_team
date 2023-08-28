@@ -20,7 +20,7 @@
   background-color: transparent !important;">
                         <div class="card-body px-5 py-5">
                             <h3 class="card-title text-left mb-3">Вход</h3>
-                            <form method="post" action="{{route('logined')}}" >
+                            <form method="post" action="{{route('logined')}}">
                                 @csrf
                                 <div class="form-group">
                                     <label>Эл.почта *</label>

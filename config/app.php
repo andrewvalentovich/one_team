@@ -56,6 +56,7 @@ return [
     */
 
     'url' => env('APP_URL', 'https://onetime.justcode.am'),
+    'domain' => env('APP_DOMAIN', 'localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
