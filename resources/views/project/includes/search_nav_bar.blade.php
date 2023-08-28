@@ -280,7 +280,10 @@
             });
 
             // Вешаем событие на добавленные элементы в dropdown
-            $('.type').click(function(){
+            $('.type').click(function(e){
+                e.stopPropagation();
+                e.preventDefault();
+
                 var name = $(this).attr('data_id');
                 $(this).addClass('active');
                 $('.search-nav__item-dropdown').removeClass('active');
@@ -290,6 +293,12 @@
 
                 var html = $(this).html();
                 $('.type_select').html(html);
+
+                const parentBlock = this.closest('.search-nav__list-item')
+                const dropDown = this.closest('.search-nav__item-dropdown')
+
+                parentBlock.classList.remove('active')
+                dropDown.classList.remove('active')
             });
 
             // Выводим название страны при загрузке страницы
@@ -300,13 +309,21 @@
             });
 
             // Вешаем событие на добавленные элементы в dropdown
-            $('.country').click(function(){
+            $('.country').click(function(e){
+                e.stopPropagation();
+                e.preventDefault();
                 var name = $(this).attr('data_id');
 
                 history.pushState(null, null, $.query.SET('country', name)); // подстановка параметров
 
                 var html = $(this).html();
                 $('.country_select').html(html);
+
+                const parentBlock = this.closest('.search-nav__list-item')
+                const dropDown = this.closest('.search-nav__item-dropdown')
+
+                parentBlock.classList.remove('active')
+                dropDown.classList.remove('active')
             });
 
             // Выводим спальни в dropdown

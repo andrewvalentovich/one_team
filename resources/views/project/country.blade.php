@@ -3105,7 +3105,7 @@
 
                 this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 
-            })), document.querySelectorAll("#map-country").length && ymaps.ready((function() {
+            })), document.querySelectorAll("#map-country1").length && ymaps.ready((function() {
 
                 var mapCountry;
                 var script;

@@ -241,7 +241,7 @@
                                         <div class="place__right-col">
                                             <div class="place__right-top">
                                                 <a href="{{route('home_page')}}" class="place__top-logo">
-                                                    <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                                                    <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
                                                 </a>
                                                 <div class="place__top-favorites check-favorites">
                                                     <div class="place__top-favorites-text">
@@ -652,7 +652,7 @@
                                                             <footer class="footer footer_place">
                                                                 <div class="footer__top">
                                                                     <a href="{{route('home_page')}}" class="footer__logo">
-                                                                        <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                                                                        <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
                                                                     </a>
                                                                 </div>
                                                                 <div class="footer__nav">
@@ -865,7 +865,7 @@
                             <footer class="footer footer_col">
                                 <div class="footer__top">
                                     <a href="{{route('home_page')}}" class="footer__logo">
-                                        <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
+                                        <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
                                     </a>
                                 </div>
                                 <div class="footer__nav">
