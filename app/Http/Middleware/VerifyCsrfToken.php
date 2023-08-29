@@ -16,5 +16,7 @@ class VerifyCsrfToken extends Middleware
         'login/',
         'logined/',
         'add_or_delete_in_favorite/',
+        'deleteFavorite/',
+        'delete_my_all_favorite/',
     ];
 }
