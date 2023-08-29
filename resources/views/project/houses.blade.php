@@ -1628,7 +1628,7 @@ function P(e) {
         let currentHouse = houseData.data.find(obj => obj.id == id);
 
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
-        topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
+        topPic.setAttribute('src',`dev.${site_url}uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
 

@@ -342,7 +342,10 @@ function setListenersToAddfavorites() {
             }
         });
         $.ajax({
-            url:  site_url+'add_or_delete_in_favorite',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url:  '/add_or_delete_in_favorite',
             type: 'POST',
             data: {
                 user_id: user_id,

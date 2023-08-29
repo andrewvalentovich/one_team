@@ -50,11 +50,9 @@ class FavoriteController extends Controller
     }
 
 
-    public function add_or_delete_in_favorite(Request $request){
-
+    public function add_or_delete_in_favorite(Request $request)
+    {
         $get = favorite::where('user_id', $request->user_id)->where('product_id', $request->product_id)->first();
-
-
 
         if ($get == null ){
             favorite::create([
@@ -78,7 +76,5 @@ class FavoriteController extends Controller
             ]);
 
         }
-
-
     }
 }
