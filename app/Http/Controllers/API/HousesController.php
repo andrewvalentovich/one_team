@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
 use App\Http\Requests\House\FilterRequest;
+use App\Models\CountryAndCity;
 use App\Models\ExchangeRate;
 use App\Models\Product;
 use App\Models\Peculiarities;
@@ -26,7 +27,6 @@ class HousesController extends Controller
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
-        $locale = App::currentLocale();
         $data = $request->validated();
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
@@ -94,7 +94,32 @@ class HousesController extends Controller
             ];
         });
 
-        return response()->json($houses);
+        $location = [];
+        if(isset($data['city_id'])) {
+            $location = CountryAndCity::where('id', $data['city_id'])->get()->transform(function ($row) {
+                $name = 'name_'.App::currentLocale();
+                return [
+                    'id' => $row->id,
+                    'lat' => $row->lat,
+                    'long' => $row->long,
+                    'name' => (App::currentLocale() === 'ru') ? $row->name : $row[$name],
+                ];
+            });
+        } elseif(isset($data['country'])) {
+            $location = CountryAndCity::where('id', $data['country'])->get()->transform(function ($row) {
+                $name = 'name_'.App::currentLocale();
+                return [
+                    'id' => $row->id,
+                    'lat' => $row->lat,
+                    'long' => $row->long,
+                    'name' => (App::currentLocale() === 'ru') ? $row->name : $row[$name],
+                ];
+            });
+        }
+        $custom = collect(['location' => $location]);
+        $data = $custom->merge($houses);
+        
+        return response()->json($data);
     }
 
     public function getAll(FilterRequest $request)
