@@ -209,6 +209,7 @@ Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
 
         abort_if($currentLanding->isEmpty(), 404);
 
-        return view("landings/{$currentLanding[0]->template->path}");
+        return $currentLanding[0]->domain;
+//        return view("landings/{$currentLanding[0]->template->path}");
     });
 });

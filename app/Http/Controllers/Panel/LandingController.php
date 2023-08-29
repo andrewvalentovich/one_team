@@ -8,6 +8,7 @@ use App\Http\Requests\Panel\Landing\UpdateRequest;
 use App\Models\Landing;
 use App\Models\Template;
 use Illuminate\Http\Request;
+use ValueError;
 
 class LandingController extends Controller
 {
@@ -36,9 +37,13 @@ class LandingController extends Controller
     {
         $data = $request->validated();
 
+        // Кладём в переменную $data['domain'] полный url с поддоменом - subdomain.domain.com
         $domain = explode("//", config('app.url'));
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
+
+        // Вызов команды для создания SSL-сертификата
+        $this->ssl_create_command($data['subdomain']);
 
         Landing::create($data);
 
@@ -73,6 +78,10 @@ class LandingController extends Controller
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
 
+        // Удаление ssl для старого поддомена и создание ssl для нового
+        $this->ssl_delete_command($landing->subdomain);
+        $this->ssl_create_command($data['subdomain']);
+
         $landing->update($data);
 
         return redirect()->route('panel.landings.show', compact('landing'));
@@ -85,6 +94,40 @@ class LandingController extends Controller
     {
         $landing->delete();
 
+        // Выполнение команды удаления ssl-сертификата
+        $this->ssl_delete_command($landing->subdomain);
+
         return redirect()->route('panel.landings.index');
+    }
+
+    /**
+     * Команда удаления ssl-сертификата
+     * @param string $subdomain
+     */
+    private function ssl_delete_command(string $subdomain) :void
+    {
+        $command = "sudo certbot delete --cert-name ".$subdomain.".".config('app.domain');
+        $command_code = 0;
+        $command_result = [];
+
+        exec($command, $command_result, $command_code);
+    }
+
+    /**
+     * Команда создания ssl-сертификата
+     * @param string $subdomain
+     * @return mixed
+     */
+    private function ssl_create_command(string $subdomain)
+    {
+        $command = "sudo certbot certonly -d ".$subdomain.".".config('app.domain')." --expand --nginx";
+        $command_code = 0;
+        $command_result = [];
+
+        try {
+            exec($command, $command_result, $command_code);
+        } catch (ValueError $exception) {
+            return back()->withError("Сommand $command was not called")->withInput();
+        }
     }
 }

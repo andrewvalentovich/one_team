@@ -40,6 +40,10 @@
                         @csrf
 
                         <div class="col-md-6 pl-0 py-3" bis_skin_checked="1">
+                            @if (session('error'))
+                                <div class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
+
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="subdomain">{{ __('Поддомен') }}</label>
                                 <input name="subdomain" type="text" class="form-control" id="subdomain" placeholder="{{ __('Поддомен') }}">
