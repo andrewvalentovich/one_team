@@ -6,7 +6,7 @@ let locations = [];
 
 async function getData() {
 
-    await fetch('https://dev.one-team.pro/city_from_map')
+    await fetch('/city_from_map')
         .then(response => response.json())
         .then(data => {
             if (data.status) {
@@ -825,7 +825,7 @@ async function getData() {
 
             }),
 
-            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="https://dev.one-team.pro/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
+            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
 
             // l = window.myPlacemark = new ymaps.Placemark([40.93824, 29.26059], {
 

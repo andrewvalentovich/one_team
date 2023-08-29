@@ -118,7 +118,7 @@ class HousesController extends Controller
         }
         $custom = collect(['location' => $location]);
         $data = $custom->merge($houses);
-        
+
         return response()->json($data);
     }
 
