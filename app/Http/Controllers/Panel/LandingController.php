@@ -120,16 +120,13 @@ class LandingController extends Controller
      */
     private function ssl_create_command(string $subdomain)
     {
-        $command = "sudo certbot certonly -d ".$subdomain.".".config('app.domain')." --expand --nginx";
+        $command = "certbot certonly -d ".$subdomain.".".config('app.domain')." --expand --nginx";
         $command_code = 0;
         $command_result = [];
 
-        try {
-            $result = system($command, $command_result);
-            dump($result);
-            dd($command_result);
-        } catch (ValueError $exception) {
-            return back()->withError("Сommand $command was not called")->withInput();
-        }
+        $result = system($command, $command_result);
+        dump($subdomain.".".config('app.domain'));
+        dump($result);
+        dd($command_result);
     }
 }
