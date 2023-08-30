@@ -42,9 +42,6 @@ class LandingController extends Controller
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
 
-        // Вызов команды для создания SSL-сертификата
-        $this->ssl_create_command($data['subdomain']);
-
         Landing::create($data);
 
         return redirect()->route('panel.landings.index');
@@ -78,10 +75,6 @@ class LandingController extends Controller
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
 
-        // Удаление ssl для старого поддомена и создание ssl для нового
-        $this->ssl_delete_command($landing->subdomain);
-        $this->ssl_create_command($data['subdomain']);
-
         $landing->update($data);
 
         return redirect()->route('panel.landings.show', compact('landing'));
@@ -94,39 +87,6 @@ class LandingController extends Controller
     {
         $landing->delete();
 
-        // Выполнение команды удаления ssl-сертификата
-        $this->ssl_delete_command($landing->subdomain);
-
         return redirect()->route('panel.landings.index');
-    }
-
-    /**
-     * Команда удаления ssl-сертификата
-     * @param string $subdomain
-     */
-    private function ssl_delete_command(string $subdomain) :void
-    {
-        $command = "sudo certbot delete --cert-name ".$subdomain.".".config('app.domain');
-        $command_code = 0;
-        $command_result = [];
-
-        exec($command, $command_result, $command_code);
-    }
-
-    /**
-     * Команда создания ssl-сертификата
-     * @param string $subdomain
-     * @return mixed
-     */
-    private function ssl_create_command(string $subdomain)
-    {
-        $command = "ls"." -la";
-        $command_code = 0;
-        $command_result = [];
-
-        $result = passthru($command, $command_result);
-        dump($command);
-        dump($result);
-        dd($command_result);
     }
 }
