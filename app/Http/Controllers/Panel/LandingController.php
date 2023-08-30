@@ -125,7 +125,9 @@ class LandingController extends Controller
         $command_result = [];
 
         try {
-            exec($command, $command_result, $command_code);
+            $result = system($command, $command_result);
+            dump($result);
+            dd($command_result);
         } catch (ValueError $exception) {
             return back()->withError("Сommand $command was not called")->withInput();
         }
