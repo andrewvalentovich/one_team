@@ -120,7 +120,7 @@ class LandingController extends Controller
      */
     private function ssl_create_command(string $subdomain)
     {
-        $command = "certbot certonly -d ".$subdomain.".".config('app.domain')." --expand --nginx";
+        $command = "ls"." -la";
         $command_code = 0;
         $command_result = [];
 
