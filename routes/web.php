@@ -52,6 +52,9 @@ Route::get('/get', function(){
 });
 
 Route::domain('panel.'.config('app.domain'))->group(function () {
+    Route::get('phpinfo', function () {
+        phpinfo();
+    });
     Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
     Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
 
