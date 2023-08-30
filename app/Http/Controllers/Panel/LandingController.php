@@ -124,8 +124,8 @@ class LandingController extends Controller
         $command_code = 0;
         $command_result = [];
 
-        $result = system($command, $command_result);
-        dump($subdomain.".".config('app.domain'));
+        $result = passthru($command, $command_result);
+        dump($command);
         dump($result);
         dd($command_result);
     }
