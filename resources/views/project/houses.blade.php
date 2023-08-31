@@ -2358,9 +2358,9 @@ function P(e) {
             const sortedData = allmarks.sort((a, b) => {
                 const [latA, lonA] = a.coordinate.split(',').map(coord => parseFloat(coord));
                 const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
-            
-                // Сортировка по широте (latitude) или долготе (longitude), в зависимости от вашего требования
-                return latA - latB; // Или lonA - lonB для сортировки по долготе
+
+                // Сортировка по долготе (longitude)
+                return lonA - lonB;
             });
 
             // Получение координат для установки границ карты
