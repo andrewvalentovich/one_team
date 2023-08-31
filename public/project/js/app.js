@@ -76,20 +76,6 @@ async function getData() {
 
         document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
 
-    }, document.querySelector(".header__nav-buy").onclick = function () {
-        document.querySelector(".header__rent-dropdown").classList.remove("active"),
-        document.querySelector(".header__nav-rent").classList.remove("active"),
-        this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
-
-    }, document.querySelector(".header__nav-rent").onclick = function () {
-        document.querySelector(".header__buy-dropdown").classList.remove("active"),
-        document.querySelector(".header__nav-buy").classList.remove("active"),
-        this.classList.toggle("active"), document.querySelector(".header__rent-dropdown").classList.toggle("active")
-
-    }, document.querySelector(".header__nav-about").onclick = function () {
-
-        this.classList.toggle("active"), document.querySelector(".header__about-dropdown").classList.toggle("active")
-
     }, document.querySelector(".header__top-phone-menu").onclick = function () {
 
         document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
@@ -99,6 +85,22 @@ async function getData() {
         this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
 
     };
+
+    const headerNavItem = document.querySelectorAll(".header__nav-item")
+    headerNavItem.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if(this.querySelector('.header__nav-title').classList.contains('active')) {
+                $('.header__nav-title').removeClass('active')
+                $('.header__nav-item-dropdown').removeClass('active')
+            } else {
+                $('.header__nav-title').removeClass('active')
+                $('.header__nav-item-dropdown').removeClass('active')
+                this.querySelector('.header__nav-title').classList.add("active")
+                if(this.querySelector('.header__nav-item-dropdown'))
+                this.querySelector('.header__nav-item-dropdown').classList.add("active")
+            }
+        })
+    })
 
     let t = document.querySelectorAll(".header-m__langs-item");
 

@@ -377,10 +377,10 @@
             })), document.querySelector(".header__top-lang").onclick = function () {
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
             }, document.querySelector(".header__nav-buy").onclick = function () {
-                this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
-                document.querySelector(".header__nav-rent").classList.remove("active"), document.querySelector(".header__rent-dropdown").classList.remove("active")
+
+
             }, document.querySelector(".header__nav-about").onclick = function () {
-                this.classList.toggle("active"), document.querySelector(".header__about-dropdown").classList.toggle("active")
+
             }, document.querySelector(".header__top-phone-menu").onclick = function () {
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
             }, document.querySelector(".header-m__aboute").onclick = function () {

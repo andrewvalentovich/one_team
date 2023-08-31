@@ -1114,11 +1114,7 @@
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
             })), document.querySelector(".header__top-lang").onclick = function () {
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
-            }, document.querySelector(".header__nav-buy").onclick = function () {
-                this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
-            }, document.querySelector(".header__nav-about").onclick = function () {
-                this.classList.toggle("active"), document.querySelector(".header__about-dropdown").classList.toggle("active")
-            }, document.querySelector(".header__top-phone-menu").onclick = function () {
+            },document.querySelector(".header__top-phone-menu").onclick = function () {
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
             }, document.querySelector(".header-m__aboute").onclick = function () {
                 this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
