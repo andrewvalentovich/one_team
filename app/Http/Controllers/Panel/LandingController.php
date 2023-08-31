@@ -8,7 +8,6 @@ use App\Http\Requests\Panel\Landing\UpdateRequest;
 use App\Models\Landing;
 use App\Models\Template;
 use Illuminate\Http\Request;
-use ValueError;
 
 class LandingController extends Controller
 {

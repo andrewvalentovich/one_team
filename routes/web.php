@@ -52,9 +52,12 @@ Route::get('/get', function(){
 });
 
 Route::domain('panel.'.config('app.domain'))->group(function () {
-    Route::get('phpinfo', function () {
-        phpinfo();
-    });
+    Route::get('all_requests_new', [RequestController::class, 'all_requests_new'])->name('all_requests_new');
+    Route::get('requests_old', [RequestController::class, 'requests_old'])->name('requests_old');
+    Route::get('update_status_one/{id}', [RequestController::class, 'update_status_one'])->name('update_status_one');
+    Route::get('update_status_two/{id}', [RequestController::class, 'update_status_two'])->name('update_status_two');
+    Route::get('single_page_request/{id}', [RequestController::class, 'single_page_request'])->name('single_page_request');
+
     Route::get('login', [PanelLoginController::class, 'login'])->name('panel.login');
     Route::get('logout', [PanelLoginController::class, 'logoutAdmin'])->name('panel.logout');
 

@@ -1,10 +1,9 @@
 @extends('panel.layouts.default')
 @section('title')
-    {{ __('Лендинги') }}
+    Заявки
 @endsection
 
 @section('content')
-
 
     <div class="content-wrapper" bis_skin_checked="1">
         <br>
@@ -30,40 +29,43 @@
                             </div>
                         @endif
                         <div style="display: flex; justify-content: space-between">
-
-                            <h4 class="card-title">{{ __('Лендинги') }}</h4>
-                            <a href="{{ route('panel.landings.create') }}" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">{{ __('Добавить') }}</a>
+                            <h4 class="card-title"></h4>
+                            <a href="" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>
                         </div>
 
                         <div class="table-responsive" bis_skin_checked="1">
-                            <table class="table">
+                            <table class="table" id="myTable" class="display">
                                 <thead>
-                                <tr>
-                                    <th style="width:50px;">#</th>
-                                    <th style="">{{ __('Домен') }}</th>
-                                    <th style="">{{ __('Название шаблона') }}</th>
-                                    <th>{{ __('Действие') }}</th>
-                                </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>ФИО</th>
+                                        <th>Страна</th>
+                                        <th>Телефон</th>
+                                        <th>Мессенджер</th>
+                                    </tr>
                                 </thead>
-                                @foreach($landings as $landing)
+                                @foreach($get as $item)
                                     <tbody>
                                     <tr>
-                                        <td>{{ $landing->id }}</td>
-                                        <td>
-                                            <a href="{{ $landing->domain }}">{{ $landing->domain }}</a>
-                                        </td>
-                                        <td>{{ $landing->template->name }}</td>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->fio }}</td>
+                                        <td>{{ $item->country }}</td>
+                                        <td>{{ $item->phone }}</td>
+                                        <td>{{ $item->messenger }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
-                                            <a href="{{ route('panel.landings.show', $landing->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Показать') }}</a>
+                                            <a href="{{ route('single_page_request', $item->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 @endforeach
                             </table>
                         </div>
+                        <div style="display: flex; justify-content: center;" bis_skin_checked="1">{{ $get->links() }}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 @endsection
