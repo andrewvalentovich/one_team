@@ -2360,7 +2360,6 @@ function P(e) {
                 const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
             
                 // Сортировка по широте (latitude) или долготе (longitude), в зависимости от вашего требования
-                console.log(latA - latB)
                 return latA - latB; // Или lonA - lonB для сортировки по долготе
             });
 
@@ -2371,7 +2370,11 @@ function P(e) {
             const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
 
             // Используйте полученные координаты для установки границ карты
-            mapCountry.setBounds([[maxLat, maxLon], [minLat, minLon]], {
+            console.log('minLat',minLat)
+            console.log('minLon',minLon)
+            console.log('maxLat',maxLat)
+            console.log('maxLon',maxLon)
+            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
                 // Код выполнится после установки границ
