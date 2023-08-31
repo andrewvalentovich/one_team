@@ -2371,7 +2371,7 @@ function P(e) {
             const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
 
             // Используйте полученные координаты для установки границ карты
-            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+            mapCountry.setBounds([[maxLat, maxLon], [minLat, minLon]], {
                 checkZoomRange: true,
             }).then(function() {
                 // Код выполнится после установки границ
