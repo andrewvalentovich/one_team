@@ -1057,8 +1057,6 @@
             var value = $(this).attr('data_id');
             var text = $(this).text();
 
-            console.log('text = '+text);
-            console.log('value = '+value);
 
             $('.city-cil__filter-title').text(text);
             history.pushState(null, null, $.query.SET('order_by', value)); // подстановка параметров
@@ -1070,8 +1068,6 @@
         g.forEach((item, index) => {
             item.addEventListener('click', () => {
                 b[0].classList.add("active");
-                console.log(item.dataset.productid);
-                console.log(b[0]);
                 b[0].childNodes[1].childNodes[1].childNodes[1].src = item.childNodes[1].src;
             })
         })
@@ -2232,7 +2228,6 @@ function P(e) {
 
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-            console.log(p[t].getAttribute('data_id'));
             var ot_zastroishika = p[t].getAttribute('data_id');
             // e(p), p[t].classList.add("active");
             history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
@@ -2256,7 +2251,6 @@ function P(e) {
 
         function getDataMarks() {
             let params = createParams()
-            console.log('params',params)
             return new Promise((resolve, reject) => {
                 $.ajax({
                     url: `/api/houses/all`,
@@ -2334,6 +2328,7 @@ function P(e) {
                     }
                 });
         }
+        
 
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
@@ -2349,6 +2344,43 @@ function P(e) {
             }, {
                 searchControlProvider: "yandex#search"
             });
+
+
+
+            // const test = [
+            //     {id: 16, coordinate: '37.014527998549,30.617296728445', vanie: '4+', spalni: '1+'},
+            //     {id: 17, coordinate: '37.060684082444,31.423120336413', vanie: '4+', spalni: '1+'},
+            //     {id: 18, coordinate: '37.056043486724,31.470336235632', vanie: '4+', spalni: '1+'},
+            //     {id: 19, coordinate: '37.437609897727,31.151629175749', vanie: '4+', spalni: '1+'},
+            //     {id: 20, coordinate: '36.817809294999,31.335206738751', vanie: '4+', spalni: '1+'},
+            //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
+            // ]
+            const sortedData = allmarks.sort((a, b) => {
+                const [latA, lonA] = a.coordinate.split(',').map(coord => parseFloat(coord));
+                const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
+            
+                // Сортировка по широте (latitude) или долготе (longitude), в зависимости от вашего требования
+                console.log(latA - latB)
+                return latA - latB; // Или lonA - lonB для сортировки по долготе
+            });
+
+            // Получение координат для установки границ карты
+            const minLat = parseFloat(sortedData[0].coordinate.split(',')[0]);
+            const maxLat = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[0]);
+            const minLon = parseFloat(sortedData[0].coordinate.split(',')[1]);
+            const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
+
+            // Используйте полученные координаты для установки границ карты
+            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+                checkZoomRange: true,
+            }).then(function() {
+                // Код выполнится после установки границ
+            }, function(err) {
+                // Обработка ошибок
+            }, this);
+
+
+
 
             ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
