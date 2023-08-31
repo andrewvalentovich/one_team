@@ -378,6 +378,7 @@
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
             }, document.querySelector(".header__nav-buy").onclick = function () {
                 this.classList.toggle("active"), document.querySelector(".header__buy-dropdown").classList.toggle("active")
+                document.querySelector(".header__nav-rent").classList.remove("active"), document.querySelector(".header__rent-dropdown").classList.remove("active")
             }, document.querySelector(".header__nav-about").onclick = function () {
                 this.classList.toggle("active"), document.querySelector(".header__about-dropdown").classList.toggle("active")
             }, document.querySelector(".header__top-phone-menu").onclick = function () {

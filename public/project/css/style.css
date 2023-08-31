@@ -340,7 +340,6 @@ body {
 }
 
 .city-col__bottom {
-  margin-bottom: 100px;
   padding-left: 20px;
   padding-right: 36px;
 }
@@ -4360,7 +4359,6 @@ body.scroll_fixed {
   }
 
   .city-col__bottom {
-    margin-bottom: 110px;
   }
 
   .city-col__pages_m {
@@ -4688,7 +4686,6 @@ body.scroll_fixed {
 
 @media (max-width: 1004px) {
   .city-col__bottom {
-    margin-bottom: 103px;
     padding-right: 20px;
   }
 
@@ -5394,7 +5391,6 @@ body.scroll_fixed {
   }
 
   .city-col__bottom {
-    margin-bottom: 58px;
   }
 
   .city-col__pages_m {
