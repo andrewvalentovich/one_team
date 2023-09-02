@@ -30,7 +30,7 @@
                         @endif
                         <div style="display: flex; justify-content: space-between">
                             <h4 class="card-title"></h4>
-                            <a href="" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>
+{{--                            <a href="" class="btn btn-inverse-warning btn-fw" style="display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>--}}
                         </div>
 
                         <div class="table-responsive" bis_skin_checked="1">
@@ -44,7 +44,7 @@
                                         <th>Мессенджер</th>
                                     </tr>
                                 </thead>
-                                @foreach($get as $item)
+                                @foreach($requests as $item)
                                     <tbody>
                                     <tr>
                                         <td>{{ $item->id }}</td>
@@ -53,14 +53,14 @@
                                         <td>{{ $item->phone }}</td>
                                         <td>{{ $item->messenger }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
-                                            <a href="{{ route('single_page_request', $item->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
+                                            <a href="{{ route('panel.requests.show', $item->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 @endforeach
                             </table>
                         </div>
-                        <div style="display: flex; justify-content: center;" bis_skin_checked="1">{{ $get->links() }}</div>
+                        <div style="display: flex; justify-content: center;" bis_skin_checked="1">{{ $requests->links() }}</div>
                     </div>
                 </div>
             </div>

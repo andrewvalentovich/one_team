@@ -15,7 +15,6 @@ class CountryAndCity extends Model
         return $this->hasMany(CountryAndCity::class, 'parent_id')->withCount('product_city')->orderby('product_city_count','DESC');
     }
 
-
     public function country()
     {
         return $this->belongsto(CountryAndCity::class, 'parent_id');

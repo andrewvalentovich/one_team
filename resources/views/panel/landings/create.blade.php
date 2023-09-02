@@ -65,6 +65,20 @@
                                     <label class="text-danger font-weight-normal" for="template_id">{{ $message }}</label>
                                 @enderror
                             </div>
+
+                            <div class="form-group row" bis_skin_checked="1">
+                                <label class="col-sm-12 col-form-label">{{ __('Шаблон сайта') }}</label>
+                                <div class="col-sm-12" bis_skin_checked="1">
+                                    <select class="form-control" name="template_id" style="color: #e2e8f0">
+                                        @foreach($templates as $template)
+                                            <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('template_id')
+                                    <label class="text-danger font-weight-normal" for="template_id">{{ $message }}</label>
+                                @enderror
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-inverse-success btn-fw">{{ __('Создать') }}</button>

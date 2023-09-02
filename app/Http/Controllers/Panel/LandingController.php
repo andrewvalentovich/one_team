@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\Landing\StoreRequest;
 use App\Http\Requests\Panel\Landing\UpdateRequest;
+use App\Models\CountryAndCity;
 use App\Models\Landing;
+use App\Models\Product;
 use App\Models\Template;
 use Illuminate\Http\Request;
 
@@ -25,6 +27,9 @@ class LandingController extends Controller
      */
     public function create()
     {
+        $country = CountryAndCity::whereNull('parent_id')->get();
+        $cities = CountryAndCity::whereNotNull('parent_id')->get();
+        $complexes = Product::where('complex_or_not', 'Да')->get();
         $templates = Template::all();
         return view('panel.landings.create', compact('templates'));
     }

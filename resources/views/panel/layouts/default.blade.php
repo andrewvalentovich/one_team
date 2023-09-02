@@ -142,8 +142,8 @@
                         </a>
                         <div class="collapse" id="ui-basic10" bis_skin_checked="1">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('all_requests_new') }}">Новые Заявки</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('requests_old') }}">Просмотренные</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('panel.requests.unchecked') }}">Новые Заявки</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('panel.requests.checked') }}">Просмотренные</a></li>
                                 {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
                             </ul>
                         </div>
@@ -298,7 +298,7 @@
 
         <script src="{{asset('admin/AdminSelect/js/typeahead.bundle.min.js')}}"></script>
         <script src="{{asset('admin/AdminSelect/js/typeahead.js')}}"></script>
-        <script src="{{asset('admin//js/ManyPhoto.js')}}"></script>
+        <script src="{{asset('admin/js/ManyPhoto.js')}}"></script>
 
 
 

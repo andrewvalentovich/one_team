@@ -1,6 +1,6 @@
 @extends('panel.layouts.default')
 @section('title')
-    Заявка № {{$get->id}}
+    Заявка № {{ $request->id }}
 @endsection
 
 <style>
@@ -40,36 +40,36 @@
                             </button>
                         </div>
                     @endif
-                    <h4 class="card-title">Заявка № {{$get->id}}</h4>
+                    <h4 class="card-title">Заявка № {{ $request->id }}</h4>
                         <div class="card" style="width: 18rem;">
                             <ul class="list-group list-group-flush">
-                                @if(isset($get->fio))
-                                <li class="list-group-item">ФИО ` {{$get->fio}}</li>
+                                @if(isset($request->fio))
+                                <li class="list-group-item">ФИО ` {{ $request->fio }}</li>
                                 @endif
-                                @if(isset($get->product_id))
-                                        <li class="list-group-item">ID обекта `  <a href="{{ route('single_page_product',$get->product_id)}}">{{$get->product_id}}</a> </li>
+                                @if(isset($request->product_id))
+                                        <li class="list-group-item">ID обекта `  <a href="{{ route('panel.requests.show', $request->product_id) }}">{{ $request->product_id }}</a> </li>
                                 @endif
-                                    @if(isset($get->messenger))
-                                        <li class="list-group-item">Мессенджер ` {{$get->messenger}}</li>
+                                    @if(isset($request->messenger))
+                                        <li class="list-group-item">Мессенджер ` {{ $request->messenger }}</li>
                                     @endif
-                                    @if(isset($get->country))
-                                        <li class="list-group-item">Страна ` {{$get->country}}</li>
+                                    @if(isset($request->country))
+                                        <li class="list-group-item">Страна ` {{ $request->country }}</li>
                                     @endif
-                                    @if(isset($get->phone))
-                                        <li class="list-group-item">Номер телефона ` {{$get->phone}}</li>
+                                    @if(isset($request->phone))
+                                        <li class="list-group-item">Номер телефона ` {{ $request->phone }}</li>
                                     @endif
 
                             </ul>
                         </div>
                         <br>
                         <div style="display: flex; justify-content: space-between">
-                            @if($get->status == 1)
-                            <a href="{{route('update_status_one', $get->id)}}" class="btn btn-inverse-warning btn-fw">Отметить как просмотренное</a>
-                                @endif
+                            @if($request->status == 1)
+                                <a href="{{ route('panel.requests.set_status_unchecked', $request->id) }}" class="btn btn-inverse-warning btn-fw">Отметить как просмотренное</a>
+                            @endif
 
-                                @if($get->status == 2)
-                                    <a href="{{route('update_status_two', $get->id)}}" class="btn btn-inverse-warning btn-fw">Отметить как не просмотренное</a>
-                                @endif
+                            @if($request->status == 2)
+                                <a href="{{ route('panel.requests.set_status_checked', $request->id) }}" class="btn btn-inverse-warning btn-fw">Отметить как не просмотренное</a>
+                            @endif
                         </div>
 
                 </div>

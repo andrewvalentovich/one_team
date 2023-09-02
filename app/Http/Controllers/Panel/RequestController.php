@@ -7,31 +7,32 @@ use Illuminate\Http\Request;
 use App\Models\Request as req;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendRequestFromAdmin;
+
 class RequestController extends Controller
 {
-
-    public function all_requests_new(){
-        $get = req::where('status', 1)->orderby('created_at','desc')->paginate(10);
-        return view('admin.requests.all', compact('get'));
+    public function index_unchecked()
+    {
+        $requests = req::where('status', 1)->orderby('created_at','desc')->paginate(10);
+        return view('panel.requests.all', compact('requests'));
     }
 
-
-    public function single_page_request($id){
-        $get = req::where('id', $id)->first();
-        if ($get == null){
+    public function show($id)
+    {
+        $request = req::where('id', $id)->first();
+        if ($request == null){
             return redirect()->back();
         }
-        return view('admin.requests.single', compact('get'));
+        return view('panel.requests.single', compact('request'));
     }
 
-
-    public function requests_old(){
-        $get = req::where('status', 2)->orderby('created_at','desc')->paginate(10);
-        return view('admin.requests.all', compact('get'));
+    public function index_checked()
+    {
+        $requests = req::where('status', 2)->orderby('created_at','desc')->paginate(10);
+        return view('panel.requests.all', compact('requests'));
     }
 
-
-    public function update_status_one($id){
+    public function set_status_checked($id)
+    {
         $get = req::where('id', $id)->first();
         if ($get == null){
             return redirect()->back();
@@ -40,7 +41,8 @@ class RequestController extends Controller
         return redirect()->back();
     }
 
-    public function update_status_two($id){
+    public function set_status_unchecked($id)
+    {
         $get = req::where('id', $id)->first();
         if ($get == null){
             return redirect()->back();
@@ -49,12 +51,8 @@ class RequestController extends Controller
         return redirect()->back();
     }
 
-
-
-
-
-
-    public function send_request(Request $request){
+    public function send_request(Request $request)
+    {
         $string = $request->country;
 
         $cleanString = strip_tags($string);
@@ -73,7 +71,6 @@ class RequestController extends Controller
             $message = 'Mesajınızı aldık, personelimiz kısa süre içinde sizinle iletişime geçecektir.';
         }
 
-
         $data = array();
         if (isset($request->phone)){
             $data['phone'] = $request->phone;
@@ -88,10 +85,6 @@ class RequestController extends Controller
         if (isset($request->product_id)){
             $data['product_id'] = $request->product_id;
         }
-
-
-
-
 
         $details = [
            'phone' => $request->phone,
@@ -118,7 +111,6 @@ class RequestController extends Controller
             'fio' => $request->name,
             'product_id' => $request->product_id
         ]);
-
 
         return response()->json([
            'status' => true,
