@@ -4,8 +4,6 @@
 @endsection
 
 @section('content')
-
-
     <div class="content-wrapper" bis_skin_checked="1">
         <br>
         <br>   <br>

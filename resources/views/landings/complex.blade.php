@@ -3,22 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="files/fonts/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('lands/files/fonts/stylesheet.css') }}">
 	<link href="https://fonts.cdnfonts.com/css/rubik-one" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
-	<link rel="stylesheet" type="text/css" href="css/style.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
 	<title>ЖК</title>
 </head>
-<body>	
+<body>
 	<div class="wrapper">
 		<main>
 			<header class="header-w">
     <div class="header container">
         <div class="header__info">
             <a href="/" class="header__logo">
-                <img class="colors" src="./img/icons/logo-1.svg" alt="логотип">
-                <img class="white" src="./img/icons/logo-2.svg" alt="логотип">
+                <img class="colors" src="{{ asset('lands/img/icons/logo-1.svg') }}" alt="логотип">
+                <img class="white" src="{{ asset('lands/img/icons/logo-2.svg') }}" alt="логотип">
             </a>
             <nav class="header__nav nav">
                 <a class="header__nav-item scroll" href="#about">
@@ -44,14 +44,14 @@
                 </div>
             </div>
             <a class="header__phone" href="tel:88007005555">
-                <img src="./img/icons/phone-call.png" alt="телефон">
+                <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
                     8 800 700 55 55
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">
                 Оставить заявку
-                <img src="./img/icons/right-arrows.png" alt="стрелочка">
+                <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
             </button>
         </div>
     </div>
@@ -82,11 +82,11 @@
     </div>
 </div>
 			<div class="preview">
-				<img class="preview__pic" src="./img/pic/sky.jpg" alt="">
+				<img class="preview__pic" src="{{ asset('lands/img/pic/sky.jpg') }}" alt="">
 				<div class="preview__content container">
 					<div class="preview__place">
 						<div class="preview__place-address">
-							<img src="./img/icons/location.png" alt="локация">
+							<img src="{{ asset('lands/img/icons/location.png') }}" alt="локация">
 							Анталья, Турция
 						</div>
 						<div class="preview__title">
@@ -107,7 +107,7 @@
 						<input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
-							<img src="./img/icons/right-arrows.png" alt="стрелочка">
+							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 						</button>
 						<p class="preview__form-agreement">
 							Нажимая на кнопку, вы принимаете Согласие на обработку персональных данных
@@ -160,7 +160,7 @@
 					<div class="about__swiper-wrapper swiper-wrapper">
 						<div class="about__slide swiper-slide">
 							<div class="about__slide-pic">
-								<img src="./img/pic/about.png" alt="">
+								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
 							</div>
 							<div class="about__slide-text">
 								<div class="about__slide-title">
@@ -173,7 +173,7 @@
 						</div>
 						<div class="about__slide swiper-slide">
 							<div class="about__slide-pic">
-								<img src="./img/pic/about.png" alt="">
+								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
 							</div>
 							<div class="about__slide-text">
 								<div class="about__slide-title">
@@ -186,7 +186,7 @@
 						</div>
 						<div class="about__slide swiper-slide">
 							<div class="about__slide-pic">
-								<img src="./img/pic/about.png" alt="">
+								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
 							</div>
 							<div class="about__slide-text">
 								<div class="about__slide-title">
@@ -200,11 +200,11 @@
 					</div>
 					<div class="about__swiper-action">
 						<div class="about__prev about__swiper-btn">
-							<img src="./img/icons/right-arrows.png" alt="стрелочка назад">
+							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка назад">
 						</div>
 						<div class="about__pagination "></div>
 						<div class="about__next about__swiper-btn">
-							<img src="./img/icons/right-arrows.png" alt="стрелочка вперед">
+							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка вперед">
 						</div>
 					</div>
 				</div>
@@ -213,7 +213,7 @@
 				<div class="title">
 					Территория
 				</div>
-				<img src="./img/pic/territoriya.png" alt="инфраструктура">
+				<img src="{{ asset('lands/img/pic/territoriya.png') }}" alt="инфраструктура">
 			</div>
 			<div class="layouts container" id="layouts">
 				<div class="title">
@@ -223,7 +223,7 @@
 					<div class="layouts__swiper-wrapper swiper-wrapper">
 						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
 							<div class="layouts__slide-pic">
-								<img src="./img/pic/layout.png" alt="схема">
+								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
 							</div>
 							<div class="layouts__slide-text">
 								<div class="layouts__slide-price">
@@ -234,14 +234,14 @@
 										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
 									</div>
 									<div class="layouts__slide-btn btn btn_grey">
-										<img src="./img/icons/right-arrows.png" alt="стрелочка">
+										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
 							<div class="layouts__slide-pic">
-								<img src="./img/pic/layout-2.png" alt="схема">
+								<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
 							</div>
 							<div class="layouts__slide-text">
 								<div class="layouts__slide-price">
@@ -252,14 +252,14 @@
 										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
 									</div>
 									<div class="layouts__slide-btn btn btn_grey">
-										<img src="./img/icons/right-arrows.png" alt="стрелочка">
+										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
 							<div class="layouts__slide-pic">
-								<img src="./img/pic/layout.png" alt="схема">
+								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
 							</div>
 							<div class="layouts__slide-text">
 								<div class="layouts__slide-price">
@@ -270,14 +270,14 @@
 										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
 									</div>
 									<div class="layouts__slide-btn btn btn_grey">
-										<img src="./img/icons/right-arrows.png" alt="стрелочка">
+										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
 							<div class="layouts__slide-pic">
-								<img src="./img/pic/layout-2.png" alt="схема">
+								<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
 							</div>
 							<div class="layouts__slide-text">
 								<div class="layouts__slide-price">
@@ -288,14 +288,14 @@
 										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
 									</div>
 									<div class="layouts__slide-btn btn btn_grey">
-										<img src="./img/icons/right-arrows.png" alt="стрелочка">
+										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
 							<div class="layouts__slide-pic">
-								<img src="./img/pic/layout.png" alt="схема">
+								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
 							</div>
 							<div class="layouts__slide-text">
 								<div class="layouts__slide-price">
@@ -306,7 +306,7 @@
 										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
 									</div>
 									<div class="layouts__slide-btn btn btn_grey">
-										<img src="./img/icons/right-arrows.png" alt="стрелочка">
+										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 									</div>
 								</div>
 							</div>
@@ -351,7 +351,7 @@
 								<span>
 									Все
 								</span>
-								<img class="arrow" src="./img/icons/next.png" alt="стрелочка">
+								<img class="arrow" src="{{ asset('lands/img/icons/next.png') }}" alt="стрелочка">
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
@@ -369,23 +369,23 @@
 				<div class="gallery__swiper-w">
 					<div class="gallery__swiper swiper">
 						<div class="gallery__swiper-wrapper swiper-wrapper">
-							<a href="./img/pic/gallery-1.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-1.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-1.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
 							</a>
-							<a href="./img/pic/gallery-2.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-2.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-2.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
 							</a>
-							<a href="./img/pic/gallery-3.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-3.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-3.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
 							</a>
-							<a href="./img/pic/gallery-1.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-1.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-1.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
 							</a>
-							<a href="./img/pic/gallery-2.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-2.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-2.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
 							</a>
-							<a href="./img/pic/gallery-3.png" class="gallery__slide swiper-slide" data-fancybox="gallery">
-								<img src="./img/pic/gallery-3.png" alt="">
+							<a href="{{ asset('lands/img/pic/gallery-3.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
 							</a>
 						</div>
 					</div>
@@ -442,7 +442,7 @@
 							</div>
 							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
 								Оставить заявку
-								<img src="./img/icons/right-arrows.png" alt="стрелочка">
+								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 							</button>
 						</div>
 						<div class="conditions__item-number">
@@ -469,11 +469,11 @@
 							</div>
 							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
 								Оставить заявку
-								<img src="./img/icons/right-arrows.png" alt="стрелочка">
+								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
 							</button>
 						</div>
 						<div class="conditions__item-number">
-							2	
+							2
 						</div>
 					</div>
 				</div>
@@ -484,7 +484,7 @@
         <div class="header__info">
             <div class="header__logo">
                 <a href="/">
-                    <img src="./img/icons/logo-2.svg" alt="логотип">
+                    <img src="{{ asset('lands/img/icons/logo-2.svg') }}" alt="логотип">
                 </a>
                 <span>
                     Copyright, 2023
@@ -514,14 +514,14 @@
                 </div>
             </div>
             <a class="header__phone" href="tel:88007005555">
-                <img src="./img/icons/phone-call.png" alt="телефон">
+                <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
                     8 800 700 55 55
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">
                 Оставить заявку
-                <img src="./img/icons/right-arrows.png" alt="стрелочка">
+                <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
             </button>
         </div>
     </div>
@@ -547,7 +547,7 @@
                 <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
-                    <img src="./img/icons/right-arrows.png" alt="стрелочка">
+                    <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
                 <p class="preview__form-agreement">
                     Нажимая на кнопку, вы принимаете Согласие на обработку персональных данных
@@ -559,7 +559,7 @@
                     <path d="M13 1L1 13" stroke="#272727" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
             </div>
-        </div>	
+        </div>
     </div>
 </form>
 
@@ -594,14 +594,14 @@
                     <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
-                        <img src="./img/icons/right-arrows.png" alt="стрелочка">
+                        <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>
                 </form>
             </div>
             <div class="popup-close popup-close_blue">
-                <img src="./img/icons/close_blue.svg" alt="крестик">
+                <img src="{{ asset('lands/img/icons/close_blue.svg') }}" alt="крестик">
             </div>
-        </div>	
+        </div>
     </div>
 </div>
 
@@ -612,22 +612,22 @@
         <div class="popup__content">
             <iframe class="popup-video__iframe" width="100%" height="100%" src="https://www.youtube.com/embed/__-vp0g_BhA?si=LPDKdGTXLhGtUeHL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             <div class="popup-close popup-close_blue">
-                <img src="./img/icons/close_blue.svg" alt="крестик">
+                <img src="{{ asset('lands/img/icons/close_blue.svg') }}" alt="крестик">
             </div>
-        </div>	
+        </div>
     </div>
 </div>
 
 	</div>
 
-	<script src="js/jquery.js"></script>
-	<script src="js/bodyScrollLock.min.js"></script>
+	<script src="{{ asset('lands/js/jquery.js') }}"></script>
+	<script src="{{ asset('lands/js/bodyScrollLock.min.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-	<script src="js/allCountries-list.js"></script>
-	<script src="js/libphonenumber-validator.js"></script>
-	<script src="js/inputPhone.js"></script>
-	<script src="js/app.js"></script>
+	<script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
+	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
+	<script src="{{ asset('lands/js/inputPhone.js') }}"></script>
+	<script src="{{ asset('lands/js/app.js') }}"></script>
 
 </body>
 </html>

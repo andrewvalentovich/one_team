@@ -43,36 +43,6 @@
 
 {{--    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>--}}
     <script src="{{asset('editor/tinymce/js/tinymce/tinymce.min.js')}}" referrerpolicy="origin"></script>
-
-    <script type="text/javascript">
-        tinymce.init({
-            selector: '#mytextarea',
-            plugins: 'a_tinymce_plugin',
-            a_plugin_option: true,
-            a_configuration_option: 400,
-            plugins: 'advlist link image lists',
-            plugins: 'code',
-            toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
-        });
-        tinymce.init({
-            selector: '#mytextarea_en',
-            plugins: 'a_tinymce_plugin',
-            a_plugin_option: true,
-            a_configuration_option: 400,
-            plugins: 'advlist link image lists',
-            plugins: 'code',
-            toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
-        });
-        tinymce.init({
-            selector: '#mytextarea_tr',
-            plugins: 'a_tinymce_plugin',
-            a_plugin_option: true,
-            a_configuration_option: 400,
-            plugins: 'advlist link image lists',
-            plugins: 'code',
-            toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
-        });
-    </script>
 </head>
 <body>
 
@@ -84,7 +54,6 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-
                     <a class=" sidebar-brand brand-logo" style="color: white; text-decoration: none;" href="{{route('panel.index')}}">
                         <h3 style="color: #2f5687 !important">OneTime</h3>
                     </a>
@@ -301,17 +270,11 @@
         <script src="{{asset('admin/js/ManyPhoto.js')}}"></script>
 
 
-
-
-
         <!-- End custom js for this page -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"
                 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{asset('admin/dist/image-uploader.min.js')}} "></script>
-
         <script src="{{asset('admin/js/Product.js')}}"></script>
         @yield('scripts')
-
-
 </body>
 </html>

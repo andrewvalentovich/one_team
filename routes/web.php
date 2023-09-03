@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Front\HousesController;
 use App\Http\Controllers\Front\RealEstateController;
-use App\Http\Controllers\Panel\PanelController;
 use App\Http\Controllers\Panel\PanelLoginController;
 use App\Models\Landing;
 use Illuminate\Support\Facades\Route;
@@ -219,7 +218,7 @@ Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
 
         abort_if($currentLanding->isEmpty(), 404);
 
-        return $currentLanding[0]->domain;
-//        return view("landings/{$currentLanding[0]->template->path}");
+//        return $currentLanding[0]->domain;
+        return view("landings/{$currentLanding[0]->template->path}");
     });
 });
