@@ -228,12 +228,12 @@
         // Delete Accordion
         function delete_main_lists_accordion(el) {
             document.getElementById('main_lists_accordion'+el.dataset.identificator).remove();
-            checkAccordions();
+            checkAccordions('main_lists');
         }
 
         // Check Accordions count
-        function checkAccordions() {
-            let accordions = document.querySelectorAll('.main_lists_accordion');
+        function checkAccordions(prefix) {
+            let accordions = document.querySelectorAll('.'+prefix+'_accordion');
             let accordionsCount = accordions.length;
 
             console.log("==== checkAccordions start ====");
@@ -252,31 +252,31 @@
                     // accordions[i] нашли .accordion
                     // console.log(accordions[i]);
                     accordions[i].dataset.identificator = i;
-                    accordions[i].id = "main_lists_accordion"+i;
+                    accordions[i].id = prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
                     // console.log(accordions[i].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].id = "main_lists_heading"+i;
+                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
 
                     // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#main_lists_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = "main_lists_collapse"+i; // ?
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+i;
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = "main_lists["+i+"][id]";
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "main_lists_add_id"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
 
                     // accordions[i].childNodes[0].childNodes[1] нашли .collapse
                     console.log(accordions[i].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].id = "main_lists_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = "main_lists_heading"+i;
-                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#main_lists_accordion"+i;
+                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
@@ -284,15 +284,15 @@
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли add_building
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = "main_lists_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "main_lists_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = "main_lists["+i+"][title]";
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "m"+prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли add_price
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = "main_lists_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = "main_lists_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = "main_lists["+i+"][content]";
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
                 }
             }
 
@@ -301,14 +301,14 @@
 
         $('#create_landings_form').on('submit', function (e) {
             e.preventDefault();
-
             let formData = new FormData(this);
             // Display the key/value pairs
+
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ' => ' + pair[1]);
             }
         });
 
-        $('#main_lists_field').append(window["getMainListsAccordion"](2));
+        $('#main_lists_field').append(window["getMainListsAccordion"](0));
     </script>
 @endsection
