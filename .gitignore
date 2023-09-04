@@ -20,5 +20,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/_docker
-docker-compose.yml
