@@ -2351,45 +2351,29 @@ function P(e) {
             //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
             // ]
             let minLat = Infinity;
-            let maxLat = -Infinity;
-            let minLon = Infinity;
-            let maxLon = -Infinity;
+let maxLat = -Infinity;
+let minLon = Infinity;
+let maxLon = -Infinity;
 
-            allmarks.forEach(mark => {
-                if (mark.coordinate && mark.coordinate !== ',') {
-                    const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
-                    if (!isNaN(lat) && !isNaN(lon)) {
-                        minLat = Math.min(minLat, lat);
-                        maxLat = Math.max(maxLat, lat);
-                        minLon = Math.min(minLon, lon);
-                        maxLon = Math.max(maxLon, lon);
-                    }
-                }
-            });
+allmarks.forEach(mark => {
+    if (mark.coordinate && mark.coordinate !== ',') {
+        const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
+        if (!isNaN(lat) && !isNaN(lon)) {
+            minLat = Math.min(minLat, lat);
+            maxLat = Math.max(maxLat, lat);
+            minLon = Math.min(minLon, lon);
+            maxLon = Math.max(maxLon, lon);
+        }
+    }
+});
 
-<<<<<<< HEAD
-=======
-            console.log(sortedData);
-
-            // Получение координат для установки границ карты
-            const minLat = parseFloat(sortedData[0].coordinate.split(',')[0]);
-            const maxLat = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[0]);
-            const minLon = parseFloat(sortedData[0].coordinate.split(',')[1]);
-            const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
-
-            // Используйте полученные координаты для установки границ карты
-            console.log('minLat',minLat)
-            console.log('minLon',minLon)
-            console.log('maxLat',maxLat)
-            console.log('maxLon',maxLon)
->>>>>>> 22782420e5ab881859d7ad1ec2f111a6d57a39b8
-            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
-                checkZoomRange: true,
-            }).then(function() {
-                // Код выполнится после установки границ
-            }, function(err) {
-                // Обработка ошибок
-            }, this);
+mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+    checkZoomRange: true,
+}).then(function() {
+    // Код выполнится после установки границ
+}, function(err) {
+    // Обработка ошибок
+}, this);
 
 
 
