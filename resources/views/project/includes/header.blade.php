@@ -136,7 +136,7 @@
                 </div>
             </div>
             <a href="{{route('home_page')}}" class="header__top-logo">
-                <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+                <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
             </a>
             <div class="header__top-favorites">
                 <div class="header__top-favorites-img">
@@ -193,7 +193,7 @@
                 </div>
             </div>
             <a href="{{route('home_page')}}" class="header__top-logo">
-                <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+                <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
              </a>
             <div class="header-right-menu">
                 <div class="header__nav-list">

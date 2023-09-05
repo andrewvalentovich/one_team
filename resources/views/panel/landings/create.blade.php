@@ -188,8 +188,8 @@
             });
         });
 
-        // Get Accordion
-        function getMainListsAccordion(id) {
+        // Получаем структуру блока
+        function get_main_lists_accordion(id) {
             return "<div class='main_lists_accordion' data-identificator='"+ id +"' id='main_lists_accordion" + id + "'>"+
                 "<div class='card'>"+
                 "<div class='card-header' id='main_lists_heading" + id + "'>"+
@@ -219,19 +219,19 @@
                 "</div>";
         }
 
-        // objects_module
+        // Добавление элемента в dom с правильным порядковым номером
         $('#main_lists_add').on('click', function () {
             let accordionCount = $('.main_lists_accordion').length;
-            $('#main_lists_field').append(getMainListsAccordion(accordionCount));
+            $('#main_lists_field').append(get_main_lists_accordion(accordionCount));
         });
 
-        // Delete Accordion
+        // Удаление объекта по его порядковому номеру
         function delete_main_lists_accordion(el) {
             document.getElementById('main_lists_accordion'+el.dataset.identificator).remove();
             checkAccordions('main_lists');
         }
 
-        // Check Accordions count
+        // Проверка и исправление порядкового номера элемента
         function checkAccordions(prefix) {
             let accordions = document.querySelectorAll('.'+prefix+'_accordion');
             let accordionsCount = accordions.length;
