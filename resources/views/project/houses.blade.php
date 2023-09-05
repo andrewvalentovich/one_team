@@ -241,7 +241,7 @@
                                         <div class="place__right-col">
                                             <div class="place__right-top">
                                                 <a href="{{route('home_page')}}" class="place__top-logo">
-                                                    <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+                                                    <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                                 </a>
                                                 <div class="place__top-favorites check-favorites">
                                                     <div class="place__top-favorites-text">
@@ -652,7 +652,7 @@
                                                             <footer class="footer footer_place">
                                                                 <div class="footer__top">
                                                                     <a href="{{route('home_page')}}" class="footer__logo">
-                                                                        <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+                                                                        <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                                                     </a>
                                                                 </div>
                                                                 <div class="footer__nav">
@@ -865,7 +865,7 @@
                             <footer class="footer footer_col">
                                 <div class="footer__top">
                                     <a href="{{route('home_page')}}" class="footer__logo">
-                                        <img src="{{asset('project/img/logo_inv_and_realest.png')}}" alt="logo">
+                                        <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                     </a>
                                 </div>
                                 <div class="footer__nav">
@@ -2367,6 +2367,22 @@ function P(e) {
                 }
             });
 
+<<<<<<< HEAD
+=======
+            console.log(sortedData);
+
+            // Получение координат для установки границ карты
+            const minLat = parseFloat(sortedData[0].coordinate.split(',')[0]);
+            const maxLat = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[0]);
+            const minLon = parseFloat(sortedData[0].coordinate.split(',')[1]);
+            const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
+
+            // Используйте полученные координаты для установки границ карты
+            console.log('minLat',minLat)
+            console.log('minLon',minLon)
+            console.log('maxLat',maxLat)
+            console.log('maxLon',maxLon)
+>>>>>>> 22782420e5ab881859d7ad1ec2f111a6d57a39b8
             mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
