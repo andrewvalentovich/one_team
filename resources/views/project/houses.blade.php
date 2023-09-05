@@ -2352,7 +2352,7 @@ function P(e) {
             // ]
             const sortedData = allmarks.sort((a, b) => {
             // Проверяем, что координаты не пусты
-            if (!a.coordinate || !b.coordinate) {
+            if (!a.coordinate || !b.coordinate || a.coordinate !== ',' || b.coordinate !== ',') {
                 return 0; // Если хотя бы одна из координат пуста, порядок не меняется
             }
 
