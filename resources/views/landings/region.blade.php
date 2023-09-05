@@ -87,10 +87,20 @@
 					</div>
 					<form class="preview__form form">
 						<div class="preview__form-title">
-							Оставить заявку эксперту
+							Оставить заявку эксперту 1
 						</div>
-						<input placeholder="Имя">
-						<input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+						<label class="field input-wrapper" >
+							<span class="text">
+							Имя
+							</span>
+							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						</label>
+						<label class="field input-wrapper">
+							<span class="text">
+							Номер телефона
+							</span>
+							<input type="number" value="" placeholder="+7" >
+						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
 							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -692,8 +702,18 @@
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
-                <input placeholder="Имя">
-                <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+				<label class="field input-wrapper" >
+					<span class="text">
+					Имя
+					</span>
+					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+				</label>
+				<label class="field input-wrapper">
+					<span class="text">
+					Номер телефона
+					</span>
+					<input type="number" value="" placeholder="+7" >
+				</label>
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -772,9 +792,9 @@
 	<script src="{{ asset('lands/js/bodyScrollLock.min.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-	<script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
+	<!-- <script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
-	<script src="{{ asset('lands/js/inputPhone.js') }}"></script>
+	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
 	<script src="{{ asset('lands/js/app.js') }}"></script>
 
 </body>
