@@ -1069,6 +1069,12 @@ document.addEventListener("click", function(event) {
     }
 
 
+    if(!target.classList.contains('header__nav-title') || !target.classList.closest('.header__nav-title')) {
+        $('.header__nav-title').removeClass('active')
+        $('.header__nav-item-dropdown').removeClass('active')
+    }
+
+
     //закрытие блоков close-out по клику вне
     if(!target.classList.contains('search-nav__item-dropdown') && !target.closest('.search-nav__item-dropdown')
      && !target.classList.contains('search-nav__list-item') && !target.closest('.search-nav__list-item')) {
@@ -1078,6 +1084,7 @@ document.addEventListener("click", function(event) {
       changerActive(test)
     }
   }
+
 
 )
 

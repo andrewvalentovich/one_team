@@ -2350,30 +2350,23 @@ function P(e) {
             //     {id: 20, coordinate: '36.817809294999,31.335206738751', vanie: '4+', spalni: '1+'},
             //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
             // ]
-            const sortedData = allmarks.sort((a, b) => {
-            // Проверяем, что координаты не пусты
-            if (!a.coordinate || !b.coordinate || a.coordinate !== ',' || b.coordinate !== ',') {
-                return 0; // Если хотя бы одна из координат пуста, порядок не меняется
-            }
+            let minLat = Infinity;
+            let maxLat = -Infinity;
+            let minLon = Infinity;
+            let maxLon = -Infinity;
 
-            const [latA, lonA] = a.coordinate.split(',').map(coord => parseFloat(coord));
-            const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
+            allmarks.forEach(mark => {
+                if (mark.coordinate && mark.coordinate !== ',') {
+                    const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        minLat = Math.min(minLat, lat);
+                        maxLat = Math.max(maxLat, lat);
+                        minLon = Math.min(minLon, lon);
+                        maxLon = Math.max(maxLon, lon);
+                    }
+                }
+            });
 
-            // Сортировка по долготе (longitude)
-            return lonA - lonB;
-        });
-
-            // Получение координат для установки границ карты
-            const minLat = parseFloat(sortedData[0].coordinate.split(',')[0]);
-            const maxLat = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[0]);
-            const minLon = parseFloat(sortedData[0].coordinate.split(',')[1]);
-            const maxLon = parseFloat(sortedData[sortedData.length - 1].coordinate.split(',')[1]);
-
-            // Используйте полученные координаты для установки границ карты
-            console.log('minLat',minLat)
-            console.log('minLon',minLon)
-            console.log('maxLat',maxLat)
-            console.log('maxLon',maxLon)
             mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
@@ -2469,7 +2462,7 @@ function P(e) {
                 }
             }),
 
-            o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
+            o = ymaps.templateLayoutFactory.createClass(`<div class="placemark"></div>`, {
                 build: function () {
                     o.superclass.build.call(this);
                     var e = this.getParentElement().getElementsByClassName("placemark")[0],
@@ -2533,10 +2526,42 @@ function P(e) {
                     balloonPanelMaxMapArea: areaForBallon,
                     balloonShadow: false,
                     balloonLayout: t,
-                    iconLayout: o,
+                    iconLayout: ymaps.templateLayoutFactory.createClass(
+                    `<div class="placemark" mark-id="${location.city_id}"></div>`, {
+                        build: function () {
+                        o.superclass.build.call(this);
+                        var e = this.getParentElement().getElementsByClassName("placemark")[0],
+                            t = this.isActive ? 60 : 34,
+                            c = {
+                                type: "Circle",
+                                coordinates: [0, 0],
+                                radius: t / 2
+                            },
+
+                            l = {
+                                type: "Circle",
+                                coordinates: [0, -30],
+                                radius: t / 2
+                            };
+
+                        this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
+                            if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                                var t = document.querySelectorAll(".placemark");
+                                for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                            }
+                        })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
+                            var o = document.querySelectorAll(".placemark");
+                            if (e.classList.contains("active")) e.classList.remove("active");
+                            else {
+                                for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
+                                e.classList.add("active")
+                            }
+                        }), this))
+                    }
+                    }),
                     balloonContentLayout: c,
                     hideIconOnBalloonOpen: false,
-                    balloonOffset: [-120, -80]
+                    balloonOffset: [-120, -80],
                 });
 
                 mapCountry.geoObjects.add(placemark);
@@ -2546,11 +2571,20 @@ function P(e) {
                 placemark.events.add('mouseenter', function (e) {
                     if (userAgent.match(/(android|iphone|ipad|ipod|blackberry|windows phone)/)) return
                     placemark.balloon.open(); // Открываем балун при наведении мыши
+                    console.log(placemark)
                     setTimeout(function () {
                         var balloonContentElement = document.querySelector('.balloon-city');
+                        const id = balloonContentElement.getAttribute('id')
+                        const marks = document.querySelectorAll(`.placemark`);
+                        const mark = document.querySelector(`[mark-id="${id}"]`);
+                        marks.forEach(mark => {
+                            mark.classList.remove('active')
+                        });
+                        mark.classList.add('active')
                         if (balloonContentElement) {
                             var mouseLeaveListener = function () {
                                 placemark.balloon.close();
+                                mark.classList.remove('active')
                                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
                                 balloonContentElement.removeEventListener('click', clickListener);
                             };
