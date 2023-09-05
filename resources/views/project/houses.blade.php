@@ -2571,12 +2571,16 @@ mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 placemark.events.add('mouseenter', function (e) {
                     if (userAgent.match(/(android|iphone|ipad|ipod|blackberry|windows phone)/)) return
                     placemark.balloon.open(); // Открываем балун при наведении мыши
-                    console.log(placemark)
                     setTimeout(function () {
                         var balloonContentElement = document.querySelector('.balloon-city');
                         const id = balloonContentElement.getAttribute('id')
                         const marks = document.querySelectorAll(`.placemark`);
                         const mark = document.querySelector(`[mark-id="${id}"]`);
+                        if(mark.classList.contains('active')) {
+                            mark.classList.remove('active')
+                            placemark.balloon.close();
+                            return
+                        }
                         marks.forEach(mark => {
                             mark.classList.remove('active')
                         });
