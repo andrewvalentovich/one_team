@@ -2351,33 +2351,31 @@ function P(e) {
             //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
             // ]
             let minLat = Infinity;
-let maxLat = -Infinity;
-let minLon = Infinity;
-let maxLon = -Infinity;
+            let maxLat = -Infinity;
+            let minLon = Infinity;
+            let maxLon = -Infinity;
 
-allmarks.forEach(mark => {
-    if (mark.coordinate && mark.coordinate !== ',') {
-        const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
-        if (!isNaN(lat) && !isNaN(lon)) {
-            minLat = Math.min(minLat, lat);
-            maxLat = Math.max(maxLat, lat);
-            minLon = Math.min(minLon, lon);
-            maxLon = Math.max(maxLon, lon);
-        }
-    }
-});
+            allmarks.forEach(mark => {
+                if (mark.coordinate && mark.coordinate !== ',') {
+                    const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
+                    if (!isNaN(lat) && !isNaN(lon)) {
+                        minLat = Math.min(minLat, lat);
+                        maxLat = Math.max(maxLat, lat);
+                        minLon = Math.min(minLon, lon);
+                        maxLon = Math.max(maxLon, lon);
+                    }
+                }
+            });
 
-mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
-    checkZoomRange: true,
-}).then(function() {
-    // Код выполнится после установки границ
-}, function(err) {
-    // Обработка ошибок
-}, this);
+            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+                checkZoomRange: true,
+            }).then(function() {
+                // Код выполнится после установки границ
+            }, function(err) {
+                // Обработка ошибок
+            }, this);
 
-
-
-
+            
             ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
                 // Переопределяем методы макета, чтобы выполнять дополнительные действия

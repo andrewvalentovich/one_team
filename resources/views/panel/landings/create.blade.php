@@ -211,7 +211,7 @@
                 "<label for='main_lists_content"+id+"'>Текст</label>"+
                 "<input name='main_lists["+id+"][content]' type='text' class='form-control' id='main_lists_content"+id+"' placeholder='Солнечных дней в году'>"+
                 "</div>"+
-                "<p class='btn btn-outline-danger delete_main_lists_accordion' onclick='delete_main_lists_accordion(this);' data-identificator='"+ id +"'>Удалить элемент списка</p>"+
+                "<p class='btn btn-outline-danger delete_main_lists_accordion' onclick='delete_accordion(\"main_lists\", this);' data-identificator='"+ id +"'>Удалить элемент списка</p>"+
                 "</div>"+
                 "</div>"+
                 "</div>"+
@@ -226,13 +226,16 @@
         });
 
         // Удаление объекта по его порядковому номеру
-        function delete_main_lists_accordion(el) {
+        function delete_accordion(prefix, el) {
             document.getElementById('main_lists_accordion'+el.dataset.identificator).remove();
-            checkAccordions('main_lists');
+            check_accordions('main_lists');
+
+            window["check_"+prefix+"_accordions"](0);
         }
 
         // Проверка и исправление порядкового номера элемента
-        function checkAccordions(prefix) {
+        function check_accordions() {
+            let prefix = 'main_lists';
             let accordions = document.querySelectorAll('.'+prefix+'_accordion');
             let accordionsCount = accordions.length;
 
@@ -308,7 +311,5 @@
                 console.log(pair[0]+ ' => ' + pair[1]);
             }
         });
-
-        $('#main_lists_field').append(window["getMainListsAccordion"](0));
     </script>
 @endsection
