@@ -2342,7 +2342,6 @@ function P(e) {
             });
 
 
-
             // const test = [
             //     {id: 16, coordinate: '37.014527998549,30.617296728445', vanie: '4+', spalni: '1+'},
             //     {id: 17, coordinate: '37.060684082444,31.423120336413', vanie: '4+', spalni: '1+'},
@@ -2352,12 +2351,17 @@ function P(e) {
             //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
             // ]
             const sortedData = allmarks.sort((a, b) => {
-                const [latA, lonA] = a.coordinate.split(',').map(coord => parseFloat(coord));
-                const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
+            // Проверяем, что координаты не пусты
+            if (!a.coordinate || !b.coordinate) {
+                return 0; // Если хотя бы одна из координат пуста, порядок не меняется
+            }
 
-                // Сортировка по долготе (longitude)
-                return lonA - lonB;
-            });
+            const [latA, lonA] = a.coordinate.split(',').map(coord => parseFloat(coord));
+            const [latB, lonB] = b.coordinate.split(',').map(coord => parseFloat(coord));
+
+            // Сортировка по долготе (longitude)
+            return lonA - lonB;
+        });
 
             // Получение координат для установки границ карты
             const minLat = parseFloat(sortedData[0].coordinate.split(',')[0]);
@@ -2532,7 +2536,7 @@ function P(e) {
                     iconLayout: o,
                     balloonContentLayout: c,
                     hideIconOnBalloonOpen: false,
-                    balloonOffset: [-110, -50]
+                    balloonOffset: [-120, -80]
                 });
 
                 mapCountry.geoObjects.add(placemark);
