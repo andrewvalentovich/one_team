@@ -5453,6 +5453,10 @@ input[type='number'] {
     max-width: 257px;
     width: 100%;
   }
+  .popup-building .building__item-info {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 }
 
 
@@ -5474,4 +5478,17 @@ input[type='number'] {
   border-color: rgb(204, 204, 204);
   border-image: initial;
   color: #000;
+}
+
+@media (hover) {
+  .mapTitle {
+    display: none !important;
+  }
+  .wrapMap {
+    pointer-events: none;
+  }
+
+  .wrapMap iframe {
+    pointer-events: all !important;
+  }
 }
