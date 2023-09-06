@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/files/fonts/stylesheet.css') }}">
 	<link href="https://fonts.cdnfonts.com/css/rubik-one" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" /> -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
 	<title>ЖК</title>
 </head>
@@ -103,8 +103,18 @@
 						<div class="preview__form-title">
 							Оставить заявку эксперту
 						</div>
-						<input placeholder="Имя">
-						<input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+						<label class="field input-wrapper" >
+							<span class="text">
+							Имя
+							</span>
+							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						</label>
+						<label class="field input-wrapper">
+							<span class="text">
+							Номер телефона
+							</span>
+							<input type="number" value="" placeholder="+7" >
+						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
 							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -219,100 +229,108 @@
 				<div class="title">
 					КВАРТИРЫ В ПРОДАЖЕ
 				</div>
-				<div class="layouts__swiper swiper">
-					<div class="layouts__swiper-wrapper swiper-wrapper">
-						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
-							<div class="layouts__slide-pic">
-								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-							</div>
-							<div class="layouts__slide-text">
-								<div class="layouts__slide-price">
-									165 000 €
-								</div>
-								<div class="layouts__slide-info">
-									<div class="layouts__slide-lead">
-										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-									</div>
-									<div class="layouts__slide-btn btn btn_grey">
-										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
-							<div class="layouts__slide-pic">
-								<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
-							</div>
-							<div class="layouts__slide-text">
-								<div class="layouts__slide-price">
-									165 000 €
-								</div>
-								<div class="layouts__slide-info">
-									<div class="layouts__slide-lead">
-										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-									</div>
-									<div class="layouts__slide-btn btn btn_grey">
-										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
-							<div class="layouts__slide-pic">
-								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-							</div>
-							<div class="layouts__slide-text">
-								<div class="layouts__slide-price">
-									165 000 €
-								</div>
-								<div class="layouts__slide-info">
-									<div class="layouts__slide-lead">
-										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-									</div>
-									<div class="layouts__slide-btn btn btn_grey">
-										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
-							<div class="layouts__slide-pic">
-								<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
-							</div>
-							<div class="layouts__slide-text">
-								<div class="layouts__slide-price">
-									165 000 €
-								</div>
-								<div class="layouts__slide-info">
-									<div class="layouts__slide-lead">
-										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-									</div>
-									<div class="layouts__slide-btn btn btn_grey">
-										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="layouts__slide swiper-slide" btn-popup="popup-record">
-							<div class="layouts__slide-pic">
-								<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-							</div>
-							<div class="layouts__slide-text">
-								<div class="layouts__slide-price">
-									165 000 €
-								</div>
-								<div class="layouts__slide-info">
-									<div class="layouts__slide-lead">
-										50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-									</div>
-									<div class="layouts__slide-btn btn btn_grey">
-										<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-									</div>
-								</div>
-							</div>
-						</div>
+				<div class="layouts__swiper-w">
+					<div class="layouts__btn layouts__prev">
+						<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M364.8 106.666667L298.666667 172.8 637.866667 512 298.666667 851.2l66.133333 66.133333L768 512z" fill="#2196F3"></path></svg>
 					</div>
-					<div class="layouts__pagination swiper__pagination"></div>
+					<div class="layouts__btn layouts__next">
+						<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 1024 1024" class="icon" version="1.1"><path d="M364.8 106.666667L298.666667 172.8 637.866667 512 298.666667 851.2l66.133333 66.133333L768 512z" fill="#2196F3"></path></svg>
+					</div>
+					<div class="layouts__swiper swiper">
+						<div class="layouts__swiper-wrapper swiper-wrapper">
+							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
+								<div class="layouts__slide-pic">
+									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
+								</div>
+								<div class="layouts__slide-text">
+									<div class="layouts__slide-price">
+										165 000 €
+									</div>
+									<div class="layouts__slide-info">
+										<div class="layouts__slide-lead">
+											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
+										</div>
+										<div class="layouts__slide-btn btn btn_grey">
+											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
+								<div class="layouts__slide-pic">
+									<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
+								</div>
+								<div class="layouts__slide-text">
+									<div class="layouts__slide-price">
+										165 000 €
+									</div>
+									<div class="layouts__slide-info">
+										<div class="layouts__slide-lead">
+											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
+										</div>
+										<div class="layouts__slide-btn btn btn_grey">
+											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
+								<div class="layouts__slide-pic">
+									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
+								</div>
+								<div class="layouts__slide-text">
+									<div class="layouts__slide-price">
+										165 000 €
+									</div>
+									<div class="layouts__slide-info">
+										<div class="layouts__slide-lead">
+											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
+										</div>
+										<div class="layouts__slide-btn btn btn_grey">
+											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
+								<div class="layouts__slide-pic">
+									<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
+								</div>
+								<div class="layouts__slide-text">
+									<div class="layouts__slide-price">
+										165 000 €
+									</div>
+									<div class="layouts__slide-info">
+										<div class="layouts__slide-lead">
+											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
+										</div>
+										<div class="layouts__slide-btn btn btn_grey">
+											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
+								<div class="layouts__slide-pic">
+									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
+								</div>
+								<div class="layouts__slide-text">
+									<div class="layouts__slide-price">
+										165 000 €
+									</div>
+									<div class="layouts__slide-info">
+										<div class="layouts__slide-lead">
+											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
+										</div>
+										<div class="layouts__slide-btn btn btn_grey">
+											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layouts__pagination swiper__pagination"></div>
+					</div>
 				</div>
 			</div>
 			<div class="gallery" id="gallery">
@@ -321,29 +339,29 @@
 						ГАЛЕРЕЯ
 					</div>
 					<div class="gallery__filter">
-						<div class="gallery__item gallery__item_video" btn-popup="popup-video">
+						<div class="gallery__item gallery__item_video changeGallery" btn-popup="popup-video">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16" fill="#000000" class="bi bi-play-circle">
 								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 								<path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
 							</svg>
 							Видео
 						</div>
-						<div class="gallery__item active">
+						<div class="gallery__item changeGallery active">
 							Все
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Интерьер
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Экстерьер
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Инфраструктура
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Лобби
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Территория
 						</div>
 						<div class="gallery__all sort close-out " style="width: 200px;">
@@ -355,11 +373,23 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
-									<div class="sort__list-item">
-										<span>индивидуальная</span>
+									<div class="sort__list-item changeGallery">
+										<span>Интерьер</span>
 									</div>
-									<div class="sort__list-item">
-										<span>коммерческая</span>
+									<div class="sort__list-item changeGallery">
+										<span>Экстерьер</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Инфраструктура</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Лобби</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Территория</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Все</span>
 									</div>
 								</div>
 							</div>
@@ -369,24 +399,24 @@
 				<div class="gallery__swiper-w">
 					<div class="gallery__swiper swiper">
 						<div class="gallery__swiper-wrapper swiper-wrapper">
-							<a href="{{ asset('lands/img/pic/gallery-1.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
-							</a>
-							<a href="{{ asset('lands/img/pic/gallery-2.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							</div>
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
-							</a>
-							<a href="{{ asset('lands/img/pic/gallery-3.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							</div>
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
-							</a>
-							<a href="{{ asset('lands/img/pic/gallery-1.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							</div>
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
-							</a>
-							<a href="{{ asset('lands/img/pic/gallery-2.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							</div>
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
-							</a>
-							<a href="{{ asset('lands/img/pic/gallery-3.png') }}" class="gallery__slide swiper-slide" data-fancybox="gallery">
+							</div>
+							<div class="gallery__slide swiper-slide">
 								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
-							</a>
+							</div>
 						</div>
 					</div>
 					<div class="gallery__pagination swiper__pagination"></div>
@@ -404,8 +434,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="map">
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
+			<div class="map wrapMap" id="map">
+				<iframe style="pointer-events: none;" src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
 					width="100%"
 					height="500"
 					frameborder="0">
@@ -543,8 +573,18 @@
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
-                <input placeholder="Имя">
-                <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+				<label class="field input-wrapper" >
+					<span class="text">
+					Имя
+					</span>
+					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+				</label>
+				<label class="field input-wrapper">
+					<span class="text">
+					Номер телефона
+					</span>
+					<input type="number" value="" placeholder="+7" >
+				</label>
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -590,8 +630,18 @@
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
-                    <input placeholder="Имя">
-                    <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+					<label class="field input-wrapper" >
+						<span class="text">
+						Имя
+						</span>
+						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					</label>
+					<label class="field input-wrapper">
+						<span class="text">
+						Номер телефона
+						</span>
+						<input type="number" value="" placeholder="+7" >
+					</label>
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -618,15 +668,94 @@
     </div>
 </div>
 
+<!-- КВАРТИРЫ В ПРОДАЖЕ модалка -->
+<form class="popup popup-house form">
+    <div class="popup__body">
+        <div class="popup__content">
+			<div class="popup__house-info">
+				<div class="popup__house-pic">
+					<img src="">
+				</div>
+				<div class="popup__house-price">
+
+				</div>
+				<div class="popup__house-lead">
+
+				</div>
+			</div>
+            <div class="preview__form">
+                <div class="preview__form-title">
+                    Оставить заявку эксперту
+                </div>
+				<label class="field input-wrapper" >
+					<span class="text">
+					Имя
+					</span>
+					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+				</label>
+				<label class="field input-wrapper">
+					<span class="text">
+					Номер телефона
+					</span>
+					<input type="number" value="" placeholder="+7" >
+				</label>
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    Оставить заявку
+                    <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+                </button>
+                <p class="preview__form-agreement">
+                    Нажимая на кнопку, вы принимаете Согласие на обработку персональных данных
+                </p>
+            </div>
+            <div class="popup-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""/>
+                    <path d="M1 1L13 13" stroke="#272727" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M13 1L1 13" stroke="#272727" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Slider main container -->
+<div class="popup popup-gallery form">
+	<div class="popup__prev popup__nav-btn">
+		<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
+			<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
+		</svg>
+	</div>
+	<div class="popup__next popup__nav-btn">
+		<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
+			<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
+		</svg>
+	</div>
+    <div class="popup__body">
+        <div class="popup__content">
+			<div class="popup__swiper swiper">
+				<div class="popup__swiper-wrapper swiper-wrapper">
+				</div>
+				<div class="popup__swiper-pagination"></div>
+			</div>
+		</div>
+	</div>
+	<div class="popup-close">
+		<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""/>
+			<path d="M1 1L13 13" stroke="#272727" stroke-width="1.5" stroke-linecap="round"/>
+			<path d="M13 1L1 13" stroke="#272727" stroke-width="1.5" stroke-linecap="round"/>
+		</svg>
+	</div>
+</div>
+
+
 	</div>
 
 	<script src="{{ asset('lands/js/jquery.js') }}"></script>
 	<script src="{{ asset('lands/js/bodyScrollLock.min.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-	<script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script> -->
+	<!-- <script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
-	<script src="{{ asset('lands/js/inputPhone.js') }}"></script>
+	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
 	<script src="{{ asset('lands/js/app.js') }}"></script>
 
 </body>

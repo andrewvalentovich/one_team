@@ -89,8 +89,18 @@
 						<div class="preview__form-title">
 							Оставить заявку эксперту
 						</div>
-						<input placeholder="Имя">
-						<input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+						<label class="field input-wrapper" >
+							<span class="text">
+							Имя
+							</span>
+							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						</label>
+						<label class="field input-wrapper">
+							<span class="text">
+							Номер телефона
+							</span>
+							<input type="number" value="" placeholder="+7" >
+						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
 							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -234,7 +244,7 @@
 					</div>
 				</div>
 				<div class="building__list">
-					<div class="building__item" btn-popup="popup-record">
+					<div class="building__item" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -294,7 +304,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="building__item" btn-popup="popup-record">
+					<div class="building__item" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -354,7 +364,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="building__item" btn-popup="popup-record">
+					<div class="building__item" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -411,7 +421,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="building__item building__item_point" btn-popup="popup-record">
+					<div class="building__item building__item_point" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -472,7 +482,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="building__item building__item_point" btn-popup="popup-record">
+					<div class="building__item building__item_point" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -533,7 +543,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="building__item building__item_point" btn-popup="popup-record">
+					<div class="building__item building__item_point" open-building-popup="popup-buildings">
 						<div class="building__item-top">
 							<div class="building__item-swiper swiper">
 								<div class="building__item-swiper-wrapper swiper-wrapper">
@@ -660,8 +670,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="map" id="map">
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
+			<div class="map wrapMap" id="map">
+				<iframe style="pointer-events: none;" src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
 					width="100%"
 					height="500"
 					frameborder="0">
@@ -778,6 +788,7 @@
     </div>
 </footer>
 
+@include('landings.includes.modals.modal-build')
 <!-- дефолтная модалка -->
 <form class="popup popup-record form">
     <div class="popup__body">
@@ -786,8 +797,18 @@
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
-                <input placeholder="Имя">
-                <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+				<label class="field input-wrapper" >
+					<span class="text">
+					Имя
+					</span>
+					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+				</label>
+				<label class="field input-wrapper">
+					<span class="text">
+					Номер телефона
+					</span>
+					<input type="number" value="" placeholder="+7" >
+				</label>
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -833,8 +854,18 @@
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
-                    <input placeholder="Имя">
-                    <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+					<label class="field input-wrapper" >
+						<span class="text">
+						Имя
+						</span>
+						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					</label>
+					<label class="field input-wrapper">
+						<span class="text">
+						Номер телефона
+						</span>
+						<input type="number" value="" placeholder="+7" >
+					</label>
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -866,9 +897,9 @@
 	<script src="{{ asset('lands/js/bodyScrollLock.min.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-	<script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
+	<!-- <script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
-	<script src="{{ asset('lands/js/inputPhone.js') }}"></script>
+	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
 	<script src="{{ asset('lands/js/app.js') }}"></script>
 
 </body>
