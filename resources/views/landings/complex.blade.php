@@ -339,29 +339,29 @@
 						ГАЛЕРЕЯ
 					</div>
 					<div class="gallery__filter">
-						<div class="gallery__item gallery__item_video" btn-popup="popup-video">
+						<div class="gallery__item gallery__item_video changeGallery" btn-popup="popup-video">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16" fill="#000000" class="bi bi-play-circle">
 								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 								<path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
 							</svg>
 							Видео
 						</div>
-						<div class="gallery__item active">
+						<div class="gallery__item changeGallery active">
 							Все
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Интерьер
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Экстерьер
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Инфраструктура
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Лобби
 						</div>
-						<div class="gallery__item">
+						<div class="gallery__item changeGallery">
 							Территория
 						</div>
 						<div class="gallery__all sort close-out " style="width: 200px;">
@@ -373,11 +373,23 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
-									<div class="sort__list-item">
-										<span>индивидуальная</span>
+									<div class="sort__list-item changeGallery">
+										<span>Интерьер</span>
 									</div>
-									<div class="sort__list-item">
-										<span>коммерческая</span>
+									<div class="sort__list-item changeGallery">
+										<span>Экстерьер</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Инфраструктура</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Лобби</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Территория</span>
+									</div>
+									<div class="sort__list-item changeGallery">
+										<span>Все</span>
 									</div>
 								</div>
 							</div>
@@ -618,8 +630,18 @@
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
-                    <input placeholder="Имя">
-                    <input data-phone-pattern="+7 (___) ___-__-__" class="validation-phone">
+					<label class="field input-wrapper" >
+						<span class="text">
+						Имя
+						</span>
+						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					</label>
+					<label class="field input-wrapper">
+						<span class="text">
+						Номер телефона
+						</span>
+						<input type="number" value="" placeholder="+7" >
+					</label>
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -697,16 +719,16 @@
 
 <!-- Slider main container -->
 <div class="popup popup-gallery form">
-		<div class="popup__prev popup__nav-btn">
-			<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
-				<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
-			</svg>
-		</div>
-		<div class="popup__next popup__nav-btn">
-			<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
-				<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
-			</svg>
-		</div>
+	<div class="popup__prev popup__nav-btn">
+		<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
+			<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
+		</svg>
+	</div>
+	<div class="popup__next popup__nav-btn">
+		<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" fill="#000000" version="1.1" baseProfile="tiny" id="Layer_1" width="800px" height="800px" viewBox="0 0 42 42" xml:space="preserve">
+			<polygon fill-rule="evenodd" points="11,38.32 28.609,21 11,3.68 13.72,1 34,21.01 13.72,41 "/>
+		</svg>
+	</div>
     <div class="popup__body">
         <div class="popup__content">
 			<div class="popup__swiper swiper">

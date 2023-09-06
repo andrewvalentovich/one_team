@@ -285,8 +285,8 @@ const gallerySwiper = new Swiper('.gallery__swiper', {
 
 //смена контента в галерее
 
-if(document.querySelectorAll('.gallery__item')) {
-  const galleryItem = document.querySelectorAll('.gallery__item')
+if(document.querySelectorAll('.changeGallery')) {
+  const galleryItem = document.querySelectorAll('.changeGallery')
   galleryItem.forEach((galleryBtn, index) => {
 
     galleryBtn.addEventListener('click', function() {
@@ -316,10 +316,11 @@ function changeContentGallerySwiper(numberBtn) {
     let numberPhoto = numberBtn
     if(numberBtn === 0 || numberBtn >=4) numberPhoto = 1
 
-    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="./img/pic/gallery-${numberPhoto}.png" alt=""></div>`)
+    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="http://lend2.localhost:8879/lands/img/pic/gallery-${numberPhoto}.png" alt=""></div>`)
   }
   gallerySwiper.update()
   gallerySwiper.updateSlides()
+  addClickOpenGallery()
 }
 
 
@@ -363,6 +364,7 @@ if(document.querySelectorAll('.building__item-swiper').length) {
     const width = 1 / slides.length * 100
     for(let i = 0; i < slides.length; i++) {
       let newDiv = document.createElement("i");
+      newDiv.classList.add('iHover')
       swiper.append(newDiv)
       newDiv.style.width = width + '%'
       newDiv.style.left = width * i + '%'
@@ -492,21 +494,24 @@ if(document.querySelectorAll('.gallery__slide').length) {
   addClickOpenGallery()
 }
 
-//свайпер about
-const popupGallerySwiper = new Swiper('.popup__swiper', {
-  slidesPerView: 1,
-  navigation: {
-    nextEl: ".popup__next",
-    prevEl: ".popup__prev",
-  },
-  pagination: {
-    el: ".popup__swiper-pagination",
-    type: "custom",
-    renderCustom: function (e, t, o) {
-        return t + " из " + o
-    }
-  },
-})
+let popupGallerySwiper
+if(document.querySelectorAll('.popup__swiper').length) {
+  //свайпер about
+  popupGallerySwiper = new Swiper('.popup__swiper', {
+    slidesPerView: 1,
+    navigation: {
+      nextEl: ".popup__next",
+      prevEl: ".popup__prev",
+    },
+    pagination: {
+      el: ".popup__swiper-pagination",
+      type: "custom",
+      renderCustom: function (e, t, o) {
+          return t + " из " + o
+      }
+    },
+  })
+}
 
 function addClickOpenGallery() {
   const gallerySlide = document.querySelectorAll('.gallery__slide')
@@ -537,12 +542,56 @@ function addPhotosPopupSwiper(slideNumber) {
 }
 
 function toggleActivePopupSwiper() {
-  if(window.innerWidth <= 540) {
-    popupGallerySwiper.disable()
-  }
-  else {
-    popupGallerySwiper.enable()
+  if(popupGallerySwiper) {
+    if(window.innerWidth <= 540) {
+      popupGallerySwiper.disable()
+    }
+    else {
+      popupGallerySwiper.enable()
+    }
   }
 }
 
 toggleActivePopupSwiper()
+
+
+if (document.querySelectorAll('[open-building-popup="popup-buildings"]').length) {
+  const openBuildingPopupBtn = document.querySelectorAll('[open-building-popup="popup-buildings"]')
+  openBuildingPopupBtn.forEach(elementHouse => {
+    elementHouse.addEventListener('click', function(e) {
+      const buildingPopup = document.querySelector('.popup-building')
+      buildingPopup.classList.add('active')
+      bodyScrollLock.disableBodyScroll(buildingPopup);
+
+      const houseBlock = this.closest('.building__item')
+      addBuldingToPopup(houseBlock)
+    })
+  });
+}
+
+function addBuldingToPopup(houseBlock) {
+  const popupBuildingInfo = document.querySelector('.popup__building-info')
+  popupBuildingInfo.innerHTML = ''
+  popupBuildingInfo.appendChild(houseBlock.cloneNode(true))
+
+  const swiper = popupBuildingInfo.querySelector('.building__item-swiper')
+  swiper.classList.add('newSwiper')
+  //свайпер новостроек bulding
+  const buildingSwiper = new Swiper('.newSwiper', {
+    slidesPerView: 1,
+    scrollbar: {
+      el: ".building__item-scrollbar",
+      hide: false,
+      draggable: true,
+    },
+  })
+  buildingSwiper.slideTo(1, 0)
+  buildingSwiper.slideTo(0, 0)
+
+  const iHover = popupBuildingInfo.querySelectorAll('.iHover')
+  iHover.forEach((element, index) => {
+    element.addEventListener('mouseover', function() {
+      buildingSwiper.slideTo(index, 400)
+    })
+  });
+}

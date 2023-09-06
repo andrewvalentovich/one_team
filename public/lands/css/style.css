@@ -3799,7 +3799,7 @@ ul.list_point li {
   background: #fff;
   border-radius: 30px;
   padding: 45px 40px 35px 40px;
-  flex: 0 0 380px;
+  flex: 0 0 320px;
 }
 
 .preview__form input {
@@ -3952,7 +3952,7 @@ ul.list_point li {
 }
 
 .footer__desc {
-  flex: 0 0 200px;
+  flex: 0 0 190px;
   color: #ffffff;
   font-size: 15px;
   opacity: 0.45;
@@ -5235,11 +5235,12 @@ input[type='number'] {
 }
 
 .popup-house .popup__content{
-  max-width: 700px;
+  max-width: 723px;
   background: #fff;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 50px;
+  justify-content: space-between;
 }
 
 
@@ -5257,14 +5258,16 @@ input[type='number'] {
   border-radius: 0px;
   padding: 0px;
 }
-
+.popup__house-info {
+  flex: 0 0 320px;
+}
 @media (max-width: 767px) {
   .popup-house .popup__content {
     flex-wrap: wrap;
   }
   .popup-house .preview__form {
     margin: 0 auto;
-    flex: 0 0 100%;
+    flex: 0 0 257px;
   }
   
   .popup__house-pic  {
@@ -5274,6 +5277,7 @@ input[type='number'] {
 
   .popup__house-info {
     margin: 0 auto;
+    flex: 0 0 257px;
   }
 }
 
@@ -5361,6 +5365,7 @@ input[type='number'] {
 }
 
 .popup-gallery .popup-close  {
+  position: fixed;
 }
 
 
@@ -5374,6 +5379,7 @@ input[type='number'] {
 
   .popup-gallery .popup__body {
     padding: 0px;
+    height: auto;
   }
   
   .popup-gallery .popup__content {
@@ -5413,4 +5419,38 @@ input[type='number'] {
     max-width: 962px;
     object-fit: cover;
     height: 100%;
+}
+.popup-building .building__item{
+  max-width: 323px;
+  width: 100%;
+}
+.popup-building .popup__content{
+  max-width: 723px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  column-gap: 50px;
+  row-gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+}
+.popup-building .preview__form {
+  flex: 0 0 320px;
+  padding: 0px;
+}
+
+@media (max-width: 767px) {
+  .popup-building .popup__building-info{
+    margin: 0 auto;
+  }
+  .popup-building .preview__form {
+    flex: 0 0 257px;
+    margin: 0 auto;
+  }
+
+  .popup-building .building__item{
+    max-width: 257px;
+    width: 100%;
+  }
 }
