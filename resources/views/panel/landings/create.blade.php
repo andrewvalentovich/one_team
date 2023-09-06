@@ -43,20 +43,20 @@
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
 
-                            <div class="form-group" bis_skin_checked="1">
+                            <div class="form-group unfilterable" bis_skin_checked="1">
                                 <label for="subdomain">{{ __('Поддомен') }}</label>
                                 <input name="subdomain" type="text" class="form-control" id="subdomain" placeholder="{{ __('Поддомен') }}">
+                                @error('subdomain')
+                                    <label class="text-danger font-weight-normal" for="subdomain">{{ $message }}</label>
+                                @enderror
                             </div>
-                            @error('subdomain')
-                                <label class="text-danger font-weight-normal" for="subdomain">{{ $message }}</label>
-                            @enderror
 
-                            <div class="form-group row" bis_skin_checked="1">
+                            <div class="form-group row unfilterable" bis_skin_checked="1">
                                 <label class="col-sm-12 col-form-label">{{ __('Шаблон сайта') }}</label>
                                 <div class="col-sm-12" bis_skin_checked="1">
-                                    <select class="form-control" name="template_id" style="color: #e2e8f0">
+                                    <select class="form-control" name="template_id" id="template_select" style="color: #e2e8f0">
                                         @foreach($templates as $template)
-                                            <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                            <option value="{{ $template->id }}" data-path="{{ $template->path }}">{{ $template->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,21 +65,50 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group row" bis_skin_checked="1">
-                                <label class="col-sm-12 col-form-label">{{ __('Параметры') }}</label>
+                            <div class="form-group row" bis_skin_checked="1" data-select="country" style="display: none;">
+                                <label class="col-sm-12 col-form-label">{{ __('Выбор страны') }}</label>
                                 <div class="col-sm-12" bis_skin_checked="1">
-                                    <select class="form-control" name="template_id" style="color: #e2e8f0">
-                                        @foreach($templates as $template)
-                                            <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                    <select class="form-control" name="filter_country" style="color: #e2e8f0">
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('template_id')
-                                    <label class="text-danger font-weight-normal" for="template_id">{{ $message }}</label>
+                                @error('country_filter')
+                                    <label class="text-danger font-weight-normal" for="country_filter">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group" bis_skin_checked="1">
+                            <div class="form-group row" bis_skin_checked="1" data-select="region" style="display: none;">
+                                <label class="col-sm-12 col-form-label">{{ __('Выбор региона') }}</label>
+                                <div class="col-sm-12" bis_skin_checked="1">
+                                    <select class="form-control" name="filter_region" style="color: #e2e8f0">
+                                        @foreach($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name.", ".$city->country->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('region_filter')
+                                    <label class="text-danger font-weight-normal" for="region_filter">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group row" bis_skin_checked="1" data-select="complex" style="display: none;">
+                                <label class="col-sm-12 col-form-label">{{ __('Выбор ЖК') }}</label>
+                                <div class="col-sm-12" bis_skin_checked="1">
+                                    <select class="form-control" name="filter_complex" style="color: #e2e8f0">
+                                        @foreach($complexes as $complex)
+                                            <option value="{{ $complex->id }}">{{ $complex->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('complex_filter')
+                                    <label class="text-danger font-weight-normal" for="complex_filter">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <h3 class="pt-5 region country complex" style="display: none;">Шапка и подвал сайта</h3>
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="phone">{{ __('Номер телефона') }}</label>
                                 <input name="phone" type="text" class="form-control" id="phone" placeholder="{{ __('Номер телефона') }}">
                                 @error('phone')
@@ -87,50 +116,60 @@
                                 @enderror
                             </div>
 
-                            <h3 class="pt-3">Главный экран</h3>
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <h3 class="pt-5 region country complex" style="display: none;">Главный экран</h3>
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_title">{{ __('Заголовок главного блока') }}</label>
-                                <div>
-                                    <textarea id="main_title" class="textarea" name="main_title">{!! __('Заголовок главного блока') !!}</textarea>
-                                </div>
+                                <input name="main_title" type="text" class="form-control" id="main_title" placeholder="{{ __('Заголовок главного блока') }}">
                                 @error('main_title')
                                     <label class="text-danger font-weight-normal" for="main_title">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                                <label for="main_subtitle">{{ __('Подзаголовок главного блока') }}</label>
+                                <input name="main_subtitle" type="text" class="form-control" id="main_subtitle" placeholder="{{ __('Подзаголовок главного блока') }}">
+                                @error('main_subtitle')
+                                    <label class="text-danger font-weight-normal" for="main_subtitle">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_content">{{ __('Контент главного блока') }}</label>
                                 <div>
-                                    <textarea id="main_content" class="textarea" name="main_content">{!! __('Контент главного блока') !!}</textarea>
+                                    <textarea id="main_content" class="textarea" name="main_content"></textarea>
                                 </div>
                                 @error('main_content')
                                     <label class="text-danger font-weight-normal" for="main_content">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group pt-3">
+                            <div class="form-group region country complex" style="display: none;">
                                 <div>
-                                    <label for="main_photo">{{ __('Фотография фона главного блока') }}</label>
-                                    <input type="file" class="form-control-file" id="main_photo">
+                                    <div class="preview_image" style="display: inline-block; position: relative;">
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none"></span>
+                                        <img class="py-3" src="" alt="" style="max-width: 300px; max-height: 300px;">
+                                    </div>
+                                    <label class="d-block" for="main_photo">{{ __('Фотография фона главного блока') }}</label>
+                                    <input type="file" name="main_photo" onchange="displayUploadedImage(this);" class="form-control-file" id="main_photo">
                                 </div>
-                                @error('main_content')
-                                    <label class="text-danger font-weight-normal" for="main_content">{{ $message }}</label>
+                                @error('main_photo')
+                                    <label class="text-danger font-weight-normal" for="main_photo">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Списки для главного блока') }}</label>
                                 <div class="card">
                                     <div class="card-header" id="main_lists_field">
                                     </div>
                                     <div class="card-body">
-                                        <p class="btn btn-outline-primary" id="main_lists_add">Добавить список</p>
+                                        <p class="btn btn-outline-primary accordion_add" data-type="main_lists">{{ __('Добавить список') }}</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <h3 class="pt-3">Блок с объектами</h3>
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <h3 class="pt-5 region country" style="display: none;">Блок с объектами</h3>
+                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="objects_title">{{ __('Заголовок блока с объектами') }}</label>
                                 <input name="objects_title" type="text" class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
                                 @error('objects_title')
@@ -138,30 +177,107 @@
                                 @enderror
                             </div>
 
-                            <h3 class="pt-3">Блок с описанием ЖК</h3>
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <h3 class="pt-5 complex" style="display: none;">Блок с описанием ЖК</h3>
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_title">{{ __('Заголовок') }}</label>
                                 <input name="about_title" type="text" class="form-control" id="about_title" placeholder="{{ __('PERGE COLLECTION: SKY BLUE') }}">
                                 @error('about_title')
-                                <label class="text-danger font-weight-normal" for="about_title">{{ $message }}</label>
+                                    <label class="text-danger font-weight-normal" for="about_title">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_subtitle">{{ __('Подзаголовок') }}</label>
                                 <input name="about_subtitle" type="text" class="form-control" id="about_subtitle" placeholder="{{ __('БИЗНЕС-КЛАСС НА БЕРЕГУ СРЕДИЗЕМНОГО МОРЯ') }}">
                                 @error('about_subtitle')
-                                <label class="text-danger font-weight-normal" for="about_subtitle">{{ $message }}</label>
+                                    <label class="text-danger font-weight-normal" for="about_subtitle">{{ $message }}</label>
                                 @enderror
                             </div>
 
-                            <div class="form-group pt-3" bis_skin_checked="1">
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Карточки с описанием ЖК') }}</label>
                                 <div class="card">
-                                    <div class="card-header" id="about_field">
+                                    <div class="card-header" id="about_description_field">
                                     </div>
                                     <div class="card-body">
-                                        <p class="btn btn-outline-primary" id="about_add">Добавить карточку</p>
+                                        <p class="btn btn-outline-primary accordion_add" data-type="about_description" id="about_description_add">{{ __('Добавить карточку') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="pt-5 complex" style="display: none;">Блок территория ЖК</h3>
+                            <div class="form-group pt-3 complex" style="display: none;">
+                                <div>
+                                    <div class="preview_image" style="display: inline-block; position: relative;">
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none"></span>
+                                        <img class="py-3" src="" alt="" style="max-width: 300px; max-height: 300px;">
+                                    </div>
+                                    <label class="d-block" for="territory">{{ __('Фотография-план территории ЖК') }}</label>
+                                    <input type="file" name="territory" onchange="displayUploadedImage(this);" class="form-control-file" id="territory">
+                                </div>
+                                @error('territory')
+                                <label class="text-danger font-weight-normal" for="territory">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <h3 class="pt-5 region country complex" style="display: none;">Блок с картой</h3>
+                            <div class="form-group pt-3 region country complex" style="display: none;">
+                                <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
+                                <div>
+                                    <textarea id="map" class="textarea" name="map"></textarea>
+                                </div>
+                                @error('map')
+                                <label class="text-danger font-weight-normal" for="map">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <h3 class="pt-5 region country complex" style="display: none;">Блок с условиями покупки</h3>
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                                <label for="card">{{ __('Карточки с условиями покупки') }}</label>
+                                <div class="card">
+                                    <div class="card-header" id="purchase_terms_field">
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="btn btn-outline-primary accordion_add" data-type="purchase_terms" id="purchase_terms_add">{{ __('Добавить карточку') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="pt-5 region country complex" style="display: none;">Блок ВНЖ</h3>
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                                <label for="vnj_title">{{ __('Заголовок блока ВНЖ') }}</label>
+                                <input name="vnj_title" type="text" class="form-control" id="vnj_title" placeholder="{{ __('Вид на жительство в Турции') }}">
+                                @error('vnj_title')
+                                <label class="text-danger font-weight-normal" for="vnj_title">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                                <label for="vnj_content">{{ __('Контент блока ВНЖ') }}</label>
+                                <div>
+                                    <textarea id="vnj_content" class="textarea" name="vnj_content"></textarea>
+                                </div>
+                                @error('vnj_content')
+                                <label class="text-danger font-weight-normal" for="vnj_content">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <h3 class="pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
+                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
+                                <label for="sight_title">{{ __('Заголовок') }}</label>
+                                <input name="sight_title" type="text" class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
+                                @error('sight_title')
+                                    <label class="text-danger font-weight-normal" for="sight_title">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
+                                <label for="card">{{ __('Карточки с достопримечательностями') }}</label>
+                                <div class="card">
+                                    <div class="card-header" id="sight_cards_field">
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="btn btn-outline-primary accordion_add" data-type="sight_cards" id="sight_cards_add">{{ __('Добавить карточку') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +292,7 @@
 @endsection
 @section('scripts')
     <script type="text/javascript">
-        $(document).ready(function () {
+        function initEditors() {
             tinymce.init({
                 selector: '.textarea',
                 plugins: 'a_tinymce_plugin',
@@ -186,16 +302,71 @@
                 plugins: 'code',
                 toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
             });
+        }
+
+        $(document).ready(function () {
+            initEditors();
         });
 
-        // Получаем структуру блока
+        $('#template_select').on('change', function() {
+            var data_path = $(this).find('option:selected').attr('data-path');
+            $('.form-group[data-select]').hide();
+            $('.form-group:not(.unfilterable)').hide();
+            $('.forms-sample').find('h3').hide();
+
+            $('.form-group[data-select="'+data_path+'"]').show();
+            $('.forms-sample').find('.'+data_path).show();
+        });
+
+        function displayUploadedImage(el) {
+            var file = el.files[0];
+            var reader = new FileReader();
+
+            if(file) {
+                reader.onload = function(e) {
+                    $(el).siblings('.preview_image').find('img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+                $(el).siblings('.preview_image').find('span').fadeIn();
+            }
+        }
+
+        function closeUploadedImage(el) {
+            var input = el.parentNode.nextSibling.nextSibling.nextSibling.nextSibling;
+            input.value = null;
+            el.style.display = "none";
+            el.nextSibling.nextSibling.src = "";
+        }
+
+        // Добавление элемента в dom с правильным порядковым номером
+        // Для корректной работы данной функции и целой логики - необходимо:
+        // 1. Для кнопки, которая отвечает за добавление элемента присвоить аттрибут data-type со значением префикса, например main_lists
+        // 2. Создать функцию get_префикс_accordion (пример, get_main_lists_accordion), где будет храниться dom-структура (вёрстка)
+        // 3. Создать функцию check_префикс_accordions (пример, check_main_lists_accordions), где будет производиться проверка полей на корректность идентификатора
+
+        $('.accordion_add').on('click', function () {
+            let prefix = $(this).attr('data-type');
+            let accordionCount = $('.'+prefix+'_accordion').length;
+
+            $('#'+prefix+'_field').append(window["get_"+prefix+"_accordion"](accordionCount));
+            tinyMCE.remove();
+            initEditors();
+        });
+
+        // Удаление объекта по его порядковому номеру
+        function delete_accordion(prefix, el) {
+            document.getElementById(prefix+'_accordion'+el.dataset.identificator).remove();
+            window["check_"+prefix+"_accordions"](0);
+        }
+
+        // Получаем структуру блока main_lists_accordion
         function get_main_lists_accordion(id) {
             return "<div class='main_lists_accordion' data-identificator='"+ id +"' id='main_lists_accordion" + id + "'>"+
                 "<div class='card'>"+
                 "<div class='card-header' id='main_lists_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#main_lists_collapse" + id + "' aria-expanded='true' aria-controls='main_lists_collapse" + id + "'>"+
-                "Объект #" + id +
+                "Список #" + id +
                 "</p>"+
                 "<input name='main_lists["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -219,28 +390,11 @@
                 "</div>";
         }
 
-        // Добавление элемента в dom с правильным порядковым номером
-        $('#main_lists_add').on('click', function () {
-            let accordionCount = $('.main_lists_accordion').length;
-            $('#main_lists_field').append(get_main_lists_accordion(accordionCount));
-        });
-
-        // Удаление объекта по его порядковому номеру
-        function delete_accordion(prefix, el) {
-            document.getElementById('main_lists_accordion'+el.dataset.identificator).remove();
-            check_accordions('main_lists');
-
-            window["check_"+prefix+"_accordions"](0);
-        }
-
-        // Проверка и исправление порядкового номера элемента
-        function check_accordions() {
+        // Проверка и исправление порядкового номера каждого аккордиона main_lists
+        function check_main_lists_accordions() {
             let prefix = 'main_lists';
             let accordions = document.querySelectorAll('.'+prefix+'_accordion');
             let accordionsCount = accordions.length;
-
-            console.log("==== checkAccordions start ====");
-            // console.log("accordionsCount = "+accordionsCount);
 
             // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
             // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
@@ -288,7 +442,7 @@
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли add_building
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "m"+prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли add_price
@@ -298,17 +452,347 @@
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
                 }
             }
-
-            console.log("==== checkAccordions end ====");
         }
 
+        // Получаем структуру блока purchase_terms_accordion
+        function get_purchase_terms_accordion(id) {
+            return "<div class='purchase_terms_accordion' data-identificator='"+ id +"' id='purchase_terms_accordion" + id + "'>"+
+                "<div class='card'>"+
+                "<div class='card-header' id='purchase_terms_heading" + id + "'>"+
+                "<h5 class='mb-0'>"+
+                "<p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse" + id + "' aria-expanded='true' aria-controls='purchase_terms_collapse" + id + "'>"+
+                "Карточка #" + id +
+                "</p>"+
+                "<input name='purchase_terms["+id+"][id]' type='hidden' value='"+id+"'>"+
+                "</h5>"+
+                "</div>"+
+                "<div id='purchase_terms_collapse" + id + "' class='collapse show' aria-labelledby='purchase_terms_heading" + id + "' data-parent='#purchase_terms_accordion" + id + "'>"+
+                "<div class='card-body'>"+
+                "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                "<label for='purchase_terms_title"+id+"'>Заголовок</label>"+
+                "<input name='purchase_terms["+id+"][title]' type='text' class='form-control' id='purchase_terms_title"+id+"' placeholder='310'>"+
+                "</div>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                    "<label for='purchase_terms_content"+id+"'>Текст</label>"+
+                    "<div>"+
+                        "<textarea id='purchase_terms' class='textarea' name='purchase_terms["+id+"][content]'></textarea>"+
+                    "</div>"+
+                "</div>"+
+                "<p class='btn btn-outline-danger delete_purchase_terms_accordion' onclick='delete_accordion(\"purchase_terms\", this);' data-identificator='"+ id +"'>Удалить элемент списка</p>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>";
+        }
+
+        // Проверка и исправление порядкового номера каждого аккордиона purchase_terms
+        function check_purchase_terms_accordions() {
+            let prefix = 'purchase_terms';
+            let accordions = document.querySelectorAll('.'+prefix+'_accordion');
+            let accordionsCount = accordions.length;
+
+            // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
+            // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
+            // ВАЖНО!!! все изменяемые поля должны содержать префикс например main_lists_collapse
+            // а свойство name тегов input должны содержать имя префикса main_lists[i][имя поля]
+            for(let i = 0; i < accordionsCount; i++) {
+                // console.log('ident = '+accordions[i].dataset.identificator);
+                // console.log('i = '+i);
+                if (i != Number(accordions[i].dataset.identificator)) {
+                    // console.log('- Не совпало -');
+
+                    // accordions[i] нашли .accordion
+                    // console.log(accordions[i]);
+                    accordions[i].dataset.identificator = i;
+                    accordions[i].id = prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0] нашли .card-header
+                    // console.log(accordions[i].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
+                    console.log(accordions[i].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
+                }
+            }
+        }
+
+        // Получаем структуру блока about_description_accordion
+        function get_about_description_accordion(id) {
+            return "<div class='about_description_accordion' data-identificator='"+ id +"' id='about_description_accordion" + id + "'>"+
+                "<div class='card'>"+
+                "<div class='card-header' id='about_description_heading" + id + "'>"+
+                "<h5 class='mb-0'>"+
+                "<p class='btn btn-link' data-toggle='collapse' data-target='#about_description_collapse" + id + "' aria-expanded='true' aria-controls='about_description_collapse" + id + "'>"+
+                "Карточка #" + id +
+                "</p>"+
+                "<input name='about_description["+id+"][id]' type='hidden' value='"+id+"'>"+
+                "</h5>"+
+                "</div>"+
+                "<div id='about_description_collapse" + id + "' class='collapse show' aria-labelledby='about_description_heading" + id + "' data-parent='#about_description_accordion" + id + "'>"+
+                "<div class='card-body'>"+
+                "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                    "<label for='about_description_title"+id+"'>Заголовок</label>"+
+                    "<input name='about_description["+id+"][title]' type='text' class='form-control' id='about_description_title"+id+"' placeholder='Большая закрытая территория с двумя бассейнами'>"+
+                "</div>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                    "<label for='about_description_content"+id+"'>Текст</label>"+
+                    "<div>"+
+                        "<textarea id='about_description' class='textarea' name='about_description["+id+"][content]'></textarea>"+
+                    "</div>"+
+                "</div>"+
+                "<div class='form-group'>\n" +
+                    "<div>\n" +
+                        "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
+                            "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
+                            "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
+                        "</div>\n" +
+                        "<label class='d-block' for='about_description_photo'>Фотография карточки блока о ЖК</label>\n" +
+                        "<input type='file' name='about_description["+id+"][photo]' onchange='displayUploadedImage(this);' class='form-control-file' id='about_description_photo'>\n" +
+                    "</div>\n" +
+                "</div>"+
+                "<p class='btn btn-outline-danger delete_about_description_accordion' onclick='delete_accordion(\"about_description\", this);' data-identificator='"+ id +"'>Удалить элемент списка</p>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>";
+        }
+
+        // Проверка и исправление порядкового номера каждого аккордиона about_description
+        function check_about_description_accordions() {
+            let prefix = 'about_description';
+            console.log(prefix);
+            let accordions = document.querySelectorAll('.'+prefix+'_accordion');
+            let accordionsCount = accordions.length;
+
+            // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
+            // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
+            // ВАЖНО!!! все изменяемые поля должны содержать префикс например about_collapse
+            // а свойство name тегов input должны содержать имя префикса about[i][имя поля]
+
+            for(let i = 0; i < accordionsCount; i++) {
+                // console.log('ident = '+accordions[i].dataset.identificator);
+                // console.log('i = '+i);
+                if (i != Number(accordions[i].dataset.identificator)) {
+                    // console.log('- Не совпало -');
+
+                    // accordions[i] нашли .accordion
+                    console.log(accordions[i]);
+                    accordions[i].dataset.identificator = i;
+                    accordions[i].id = prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0] нашли .card-header
+                    console.log(accordions[i].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
+                    console.log(accordions[i].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли photo
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[3].htmlFor = prefix+"_photo"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].name = prefix+"["+i+"][photo]";
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].id = prefix+"_content"+i;
+                }
+            }
+        }
+
+        // Получаем структуру блока sight_cards_accordion
+        function get_sight_cards_accordion(id) {
+            return "<div class='sight_cards_accordion' data-identificator='"+ id +"' id='sight_cards_accordion" + id + "'>"+
+                "<div class='card'>"+
+                "<div class='card-header' id='sight_cards_heading" + id + "'>"+
+                "<h5 class='mb-0'>"+
+                "<p class='btn btn-link' data-toggle='collapse' data-target='#sight_cards_collapse" + id + "' aria-expanded='true' aria-controls='sight_cards_collapse" + id + "'>"+
+                "Карточка #" + id +
+                "</p>"+
+                "<input name='sight_cards["+id+"][id]' type='hidden' value='"+id+"'>"+
+                "</h5>"+
+                "</div>"+
+                "<div id='sight_cards_collapse" + id + "' class='collapse show' aria-labelledby='sight_cards_heading" + id + "' data-parent='#sight_cards_accordion" + id + "'>"+
+                "<div class='card-body'>"+
+                "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                    "<label for='sight_cards_title"+id+"'>Заголовок</label>"+
+                    "<input name='sight_cards["+id+"][title]' type='text' class='form-control' id='sight_cards_title"+id+"' placeholder='Большая закрытая территория с двумя бассейнами'>"+
+                "</div>"+
+                "<div class='form-group' bis_skin_checked='1'>"+
+                    "<label for='sight_cards_content"+id+"'>Текст</label>"+
+                    "<div>"+
+                        "<textarea id='main_content' class='textarea' name='sight_cards["+id+"][content]'></textarea>"+
+                    "</div>"+
+                "</div>"+
+                "<div class='form-group'>\n" +
+                    "<div>\n" +
+                        "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
+                            "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
+                            "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
+                        "</div>\n" +
+                        "<label class='d-block' for='sight_cards_photo'>Фотография достопримечательности</label>\n" +
+                        "<input type='file' name='sight_cards["+id+"][photo]' onchange='displayUploadedImage(this);' class='form-control-file' id='sight_cards_photo'>\n" +
+                    "</div>\n" +
+                "</div>"+
+                "<p class='btn btn-outline-danger delete_sight_cards_accordion' onclick='delete_accordion(\"sight_cards\", this);' data-identificator='"+ id +"'>Удалить элемент списка</p>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>"+
+                "</div>";
+        }
+
+        // Проверка и исправление порядкового номера каждого аккордиона sight_cards
+        function check_sight_cards_accordions() {
+            let prefix = 'sight_cards';
+            console.log(prefix);
+            let accordions = document.querySelectorAll('.'+prefix+'_accordion');
+            let accordionsCount = accordions.length;
+
+            // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
+            // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
+            // ВАЖНО!!! все изменяемые поля должны содержать префикс например about_collapse
+            // а свойство name тегов input должны содержать имя префикса about[i][имя поля]
+
+            for(let i = 0; i < accordionsCount; i++) {
+                // console.log('ident = '+accordions[i].dataset.identificator);
+                // console.log('i = '+i);
+                if (i != Number(accordions[i].dataset.identificator)) {
+                    // console.log('- Не совпало -');
+
+                    // accordions[i] нашли .accordion
+                    console.log(accordions[i]);
+                    accordions[i].dataset.identificator = i;
+                    accordions[i].id = prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0] нашли .card-header
+                    console.log(accordions[i].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+
+                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
+                    console.log(accordions[i].childNodes[0].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
+                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли photo
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[3].htmlFor = prefix+"_photo"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].name = prefix+"["+i+"][photo]";
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].id = prefix+"_content"+i;
+                }
+            }
+        }
+
+        // При "сабмите" формы...
         $('#create_landings_form').on('submit', function (e) {
             e.preventDefault();
             let formData = new FormData(this);
             // Display the key/value pairs
 
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ' => ' + pair[1]);
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0]+ ' => ' + pair[1]);
+            // }
+
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
             }
         });
     </script>

@@ -28,7 +28,7 @@ class LandingController extends Controller
     public function create()
     {
         $countries = CountryAndCity::whereNull('parent_id')->get();
-        $cities = CountryAndCity::whereNotNull('parent_id')->get();
+        $cities = CountryAndCity::whereNotNull('parent_id')->with('country')->get();
         $complexes = Product::where('complex_or_not', 'Да')->get();
         $templates = Template::all();
         return view('panel.landings.create', compact('templates', 'countries', 'cities', 'complexes'));
