@@ -676,8 +676,7 @@
 					height="500"
 					frameborder="0">
 				</iframe> -->
-				<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;width=100%&amp;height=351&amp;lang=ru_RU&amp;scroll=false"></script>
-
+				<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;width=100%&amp;height=351&amp;lang=ru_RU&amp;scroll=false&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3"></script>
 			</div>
 			<div class="about container" id="about">
 				<div class="title">
