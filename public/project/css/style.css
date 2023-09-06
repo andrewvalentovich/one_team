@@ -1287,7 +1287,7 @@ body {
   background-size: 100%;
   width: 17px;
   height: 17px;
-  transform: translate(-17px, -17px);
+  /* transform: translate(-17px, -17px); */
   cursor: pointer;
 }
 
@@ -6978,4 +6978,29 @@ body.scroll_fixed {
   display: flex;
   flex-direction: column;
   gap: 13px;
+}
+
+.header-m__item-btn.active .header-m__aboute-list{
+  display: block;
+}
+
+.header-m__aboute-content a {
+  display: block;
+  margin-bottom: 20px;
+}
+
+
+
+.header-m__item-btn.active .header-m__item-text{
+  margin-bottom: 20px;
+}
+
+.ymaps-2-1-79-placemark-overlay {
+  width: 17px !important;
+  height: 17px !important;
+}
+
+.ymaps-2-1-79-placemark-overlay ymaps{
+  width: 17px !important;
+  height: 17px !important;
 }

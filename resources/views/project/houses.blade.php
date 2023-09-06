@@ -1116,12 +1116,7 @@
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
             },document.querySelector(".header__top-phone-menu").onclick = function () {
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
-            }, document.querySelector(".header-m__aboute").onclick = function () {
-                this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
-            }, document.querySelector(".header-m__buy").onclick = function () {
-                this.classList.toggle("active")
-            };
-
+            }
             let t = document.querySelectorAll(".header-m__langs-item");
             for (let o = 0; o < t.length; o++) t[o].addEventListener("click", (function (c) {
                 e(t), t[o].classList.add("active")
@@ -2172,7 +2167,8 @@ function P(e) {
                 iconLayout: o,
                 balloonContentLayout: c,
                 hideIconOnBalloonOpen: false,
-                balloonOffset: [-110, -50]
+                balloonOffset: [-110, -50],
+                iconImageSize: [17,17]
             });
             mapCountry.geoObjects.add(placemark);
 

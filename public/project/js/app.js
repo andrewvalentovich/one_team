@@ -80,12 +80,7 @@ async function getData() {
 
         document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
 
-    }, document.querySelector(".header-m__aboute").onclick = function () {
-
-        this.classList.toggle("active"), document.querySelector(".header-m__aboute-list").classList.toggle("active")
-
-    };
-
+    }
     const headerNavItem = document.querySelectorAll(".header__nav-item")
     headerNavItem.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -1223,4 +1218,13 @@ window.addEventListener('resize', () => {
     vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     console.log(vh)
+});
+
+
+//открытие dropdown в мобильном меню
+const headerMobileBtn = document.querySelectorAll('.header-m__item-btn')
+headerMobileBtn.forEach(btn => {
+    btn.addEventListener('click', function() {
+        btn.classList.toggle('active')
+    })
 });

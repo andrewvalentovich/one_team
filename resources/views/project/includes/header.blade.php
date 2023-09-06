@@ -40,6 +40,16 @@
                         {{__('Купить') }}
 {{--                        Купить--}}
                     </div>
+                    <div class="header-m__aboute-list">
+                        <div class="header-m__aboute-content">
+                            <a href="{{ route('houses.index') }}">
+                                {{__('Жилая')}}
+                            </a>
+                            <a href="{{ route('houses.index') }}">
+                                {{__('Коммерческая')}}
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <a href="#" class="header-m__item">
                     <div class="header-m__item-text">
