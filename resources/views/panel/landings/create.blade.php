@@ -642,8 +642,8 @@
                     accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].dataset.identificator = i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
@@ -728,52 +728,52 @@
                     // console.log('- Не совпало -');
 
                     // accordions[i] нашли .accordion
-                    console.log(accordions[i]);
+                    // console.log(accordions[i]);
                     accordions[i].dataset.identificator = i;
                     accordions[i].id = prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
 
                     // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
+                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
 
                     // accordions[i].childNodes[0].childNodes[1] нашли .collapse
-                    console.log(accordions[i].childNodes[0].childNodes[1]);
+                    // console.log(accordions[i].childNodes[0].childNodes[1]);
                     accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
                     accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].dataset.identificator = i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = prefix+"_title"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
+                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].htmlFor = prefix+"_content"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли photo
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
+                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[3].htmlFor = prefix+"_photo"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].name = prefix+"["+i+"][photo]";
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].id = prefix+"_content"+i;
