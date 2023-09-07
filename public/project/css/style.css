@@ -7004,3 +7004,27 @@ body.scroll_fixed {
   width: 17px !important;
   height: 17px !important;
 }
+.place__slide {
+  overflow: hidden;
+  padding-bottom: 42%;
+  position: relative;
+}
+
+.place__slide img {
+  transition: 0.4s;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+@media (max-width: 539px) {
+  .place__slide {
+    padding-bottom: 70%;
+  }
+}
