@@ -307,7 +307,11 @@ if(document.querySelectorAll('.changeGallery')) {
   })
 }
 
-//временная функция чтобы показать смену контента в галерее 
+//временная функция чтобы показать смену контента в галереес 
+let urlImg
+if(document.querySelectorAll('.gallery__swiper')) {
+  urlImg = document.querySelector('.gallery__slide').querySelector('img').getAttribute('src')
+}
 function changeContentGallerySwiper(numberBtn) {
   const swiperGallery = document.querySelector('.gallery__swiper')
   const swiperWrapper = swiperGallery.querySelector('.gallery__swiper-wrapper')
@@ -316,7 +320,7 @@ function changeContentGallerySwiper(numberBtn) {
     let numberPhoto = numberBtn
     if(numberBtn === 0 || numberBtn >=4) numberPhoto = 1
 
-    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="http://lend2.localhost:8879/lands/img/pic/gallery-${numberPhoto}.png" alt=""></div>`)
+    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="${urlImg}" alt=""></div>`)
   }
   gallerySwiper.update()
   gallerySwiper.updateSlides()
@@ -503,6 +507,7 @@ if(document.querySelectorAll('.popup__swiper').length) {
       nextEl: ".popup__next",
       prevEl: ".popup__prev",
     },
+    keyboard: true,
     pagination: {
       el: ".popup__swiper-pagination",
       type: "custom",
@@ -594,35 +599,4 @@ function addBuldingToPopup(houseBlock) {
       buildingSwiper.slideTo(index, 400)
     })
   });
-}
-
-// создаём элемент <div>, который будем перемещать вместе с указателем мыши пользователя
-var mapTitle = document.createElement('div'); mapTitle.className = 'mapTitle';
-// вписываем нужный нам текст внутрь элемента
-mapTitle.textContent = 'Для активации карты нажмите по ней';
-// добавляем элемент с подсказкой последним элементов внутрь нашего <div> с id wrapMap
-let wrapMap = document.querySelector('.wrapMap')
-
-console.log(wrapMap)
-
-wrapMap.appendChild(mapTitle);
-// по клику на карту
-wrapMap.onclick = function() {
-    // убираем атрибут "style", в котором прописано свойство "pointer-events"
-    this.children[0].removeAttribute('style');
-    // удаляем элемент с интерактивной подсказкой
-    mapTitle.parentElement.removeChild(mapTitle);
-}
-// по движению мыши в области карты
-wrapMap.onmousemove = function(event) {
-    // показываем подсказку
-    mapTitle.style.display = 'block';
-    // двигаем подсказку по области карты вместе с мышкой пользователя
-    if(event.offsetY > 10) mapTitle.style.top = event.offsetY + 20 + 'px';
-    if(event.offsetX > 10) mapTitle.style.left = event.offsetX + 20 + 'px';
-}
-// при уходе указателя мыши с области карты
-wrapMap.onmouseleave = function() {
-    // прячем подсказку
-    mapTitle.style.display = 'none';
 }
