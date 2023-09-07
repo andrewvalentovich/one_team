@@ -307,7 +307,11 @@ if(document.querySelectorAll('.changeGallery')) {
   })
 }
 
-//временная функция чтобы показать смену контента в галерее 
+//временная функция чтобы показать смену контента в галереес 
+let urlImg
+if(document.querySelectorAll('.gallery__swiper')) {
+  urlImg = document.querySelector('.gallery__slide').querySelector('img').getAttribute('src')
+}
 function changeContentGallerySwiper(numberBtn) {
   const swiperGallery = document.querySelector('.gallery__swiper')
   const swiperWrapper = swiperGallery.querySelector('.gallery__swiper-wrapper')
@@ -316,7 +320,7 @@ function changeContentGallerySwiper(numberBtn) {
     let numberPhoto = numberBtn
     if(numberBtn === 0 || numberBtn >=4) numberPhoto = 1
 
-    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="http://lend2.localhost:8879/lands/img/pic/gallery-${numberPhoto}.png" alt=""></div>`)
+    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="${urlImg}" alt=""></div>`)
   }
   gallerySwiper.update()
   gallerySwiper.updateSlides()

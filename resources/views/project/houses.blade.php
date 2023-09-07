@@ -1560,6 +1560,12 @@ function P(e) {
                 let currentBallon
                 ballons.forEach(element => {
                     if(element.house_id == id) currentBallon = element
+                    const marks = document.querySelectorAll(`[mark-id]`);
+                    marks.forEach(element => {
+                        element.classList.remove('active')
+                    });
+                    const mark = document.querySelector(`[mark-id="${id}"]`);
+                    mark.classList.add('active')
                 });
                 currentBallon.balloon.open();
                 // setTimeout(() => {
@@ -1571,6 +1577,10 @@ function P(e) {
             })
             cityItem.addEventListener('mouseout', function() {
                 mapCountry.balloon.close()
+                const marks = document.querySelectorAll(`[mark-id]`);
+                marks.forEach(element => {
+                    element.classList.remove('active')
+                });
             })
         });
         previousSwiperInstance = new Swiper(".city__swiper", {
