@@ -46,91 +46,79 @@
                             <div class="form-group unfilterable" bis_skin_checked="1">
                                 <label for="subdomain">{{ __('Поддомен') }}</label>
                                 <input name="subdomain" type="text" class="form-control" id="subdomain" placeholder="{{ __('Поддомен') }}">
-                                @error('subdomain')
-                                    <label class="text-danger font-weight-normal" for="subdomain">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="subdomain" id="subdomain_error"></label>
                             </div>
 
-                            <div class="form-group row unfilterable" bis_skin_checked="1">
-                                <label class="col-sm-12 col-form-label">{{ __('Шаблон сайта') }}</label>
-                                <div class="col-sm-12" bis_skin_checked="1">
+                            <div class="form-group unfilterable" bis_skin_checked="1">
+                                <label class="col-sm-12 px-0 col-form-label">{{ __('Шаблон сайта') }}</label>
+                                <div class="col-sm-12 px-0" bis_skin_checked="1">
                                     <select class="form-control" name="template_id" id="template_select" style="color: #e2e8f0">
+                                        <option value="">{{ __('Выбор шаблона') }}</option>
                                         @foreach($templates as $template)
                                             <option value="{{ $template->id }}" data-path="{{ $template->path }}">{{ $template->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('template_id')
-                                    <label class="text-danger font-weight-normal" for="template_id">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="template_id" id="template_id_error"></label>
                             </div>
 
                             <div class="form-group row" bis_skin_checked="1" data-select="country" style="display: none;">
                                 <label class="col-sm-12 col-form-label">{{ __('Выбор страны') }}</label>
                                 <div class="col-sm-12" bis_skin_checked="1">
                                     <select class="form-control" name="filter_country" style="color: #e2e8f0">
+                                        <option value="">{{ __('Выбор страны') }}</option>
                                         @foreach($countries as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('country_filter')
-                                    <label class="text-danger font-weight-normal" for="country_filter">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="filter_country" id="filter_country" id="_error"></label>
                             </div>
 
                             <div class="form-group row" bis_skin_checked="1" data-select="region" style="display: none;">
                                 <label class="col-sm-12 col-form-label">{{ __('Выбор региона') }}</label>
                                 <div class="col-sm-12" bis_skin_checked="1">
                                     <select class="form-control" name="filter_region" style="color: #e2e8f0">
+                                        <option value="">{{ __('Выбор региона') }}</option>
                                         @foreach($cities as $city)
                                             <option value="{{ $city->id }}">{{ $city->name.", ".$city->country->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('region_filter')
-                                    <label class="text-danger font-weight-normal" for="region_filter">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="region_filter" id="region_filter_error"></label>
                             </div>
 
                             <div class="form-group row" bis_skin_checked="1" data-select="complex" style="display: none;">
                                 <label class="col-sm-12 col-form-label">{{ __('Выбор ЖК') }}</label>
                                 <div class="col-sm-12" bis_skin_checked="1">
                                     <select class="form-control" name="filter_complex" style="color: #e2e8f0">
+                                        <option value="">{{ __('Выбор ЖК') }}</option>
                                         @foreach($complexes as $complex)
                                             <option value="{{ $complex->id }}">{{ $complex->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('complex_filter')
-                                    <label class="text-danger font-weight-normal" for="complex_filter">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="complex_filter" id="complex_filter_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Шапка и подвал сайта</h3>
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="phone">{{ __('Номер телефона') }}</label>
                                 <input name="phone" type="text" class="form-control" id="phone" placeholder="{{ __('Номер телефона') }}">
-                                @error('phone')
-                                    <label class="text-danger font-weight-normal" for="phone">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Главный экран</h3>
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_title">{{ __('Заголовок главного блока') }}</label>
                                 <input name="main_title" type="text" class="form-control" id="main_title" placeholder="{{ __('Заголовок главного блока') }}">
-                                @error('main_title')
-                                    <label class="text-danger font-weight-normal" for="main_title">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="main_title" id="main_title_error"></label>
                             </div>
 
                             <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_subtitle">{{ __('Подзаголовок главного блока') }}</label>
                                 <input name="main_subtitle" type="text" class="form-control" id="main_subtitle" placeholder="{{ __('Подзаголовок главного блока') }}">
-                                @error('main_subtitle')
-                                    <label class="text-danger font-weight-normal" for="main_subtitle">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="main_subtitle" id="main_subtitle_error"></label>
                             </div>
 
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
@@ -138,9 +126,7 @@
                                 <div>
                                     <textarea id="main_content" class="textarea" name="main_content"></textarea>
                                 </div>
-                                @error('main_content')
-                                    <label class="text-danger font-weight-normal" for="main_content">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="main_content" id="main_content_error"></label>
                             </div>
 
                             <div class="form-group region country complex" style="display: none;">
@@ -152,9 +138,7 @@
                                     <label class="d-block" for="main_photo">{{ __('Фотография фона главного блока') }}</label>
                                     <input type="file" name="main_photo" onchange="displayUploadedImage(this);" class="form-control-file" id="main_photo">
                                 </div>
-                                @error('main_photo')
-                                    <label class="text-danger font-weight-normal" for="main_photo">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="main_photo" id="main_photo_error"></label>
                             </div>
 
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
@@ -166,32 +150,27 @@
                                         <p class="btn btn-outline-primary accordion_add" data-type="main_lists">{{ __('Добавить список') }}</p>
                                     </div>
                                 </div>
+                                <label class="text-danger font-weight-normal" for="main_lists" id="main_lists_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country" style="display: none;">Блок с объектами</h3>
                             <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="objects_title">{{ __('Заголовок блока с объектами') }}</label>
                                 <input name="objects_title" type="text" class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
-                                @error('objects_title')
-                                <label class="text-danger font-weight-normal" for="objects_title">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="objects_title" id="objects_title_error"></label>
                             </div>
 
                             <h3 class="pt-5 complex" style="display: none;">Блок с описанием ЖК</h3>
                             <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_title">{{ __('Заголовок') }}</label>
                                 <input name="about_title" type="text" class="form-control" id="about_title" placeholder="{{ __('PERGE COLLECTION: SKY BLUE') }}">
-                                @error('about_title')
-                                    <label class="text-danger font-weight-normal" for="about_title">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="about_title" id="about_title_error"></label>
                             </div>
 
                             <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_subtitle">{{ __('Подзаголовок') }}</label>
                                 <input name="about_subtitle" type="text" class="form-control" id="about_subtitle" placeholder="{{ __('БИЗНЕС-КЛАСС НА БЕРЕГУ СРЕДИЗЕМНОГО МОРЯ') }}">
-                                @error('about_subtitle')
-                                    <label class="text-danger font-weight-normal" for="about_subtitle">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="about_subtitle" id="about_subtitle_error"></label>
                             </div>
 
                             <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
@@ -203,6 +182,7 @@
                                         <p class="btn btn-outline-primary accordion_add" data-type="about_description" id="about_description_add">{{ __('Добавить карточку') }}</p>
                                     </div>
                                 </div>
+                                <label class="text-danger font-weight-normal" for="about_description" id="about_description_error"></label>
                             </div>
 
                             <h3 class="pt-5 complex" style="display: none;">Блок территория ЖК</h3>
@@ -215,9 +195,7 @@
                                     <label class="d-block" for="territory">{{ __('Фотография-план территории ЖК') }}</label>
                                     <input type="file" name="territory" onchange="displayUploadedImage(this);" class="form-control-file" id="territory">
                                 </div>
-                                @error('territory')
-                                <label class="text-danger font-weight-normal" for="territory">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="territory" id="territory_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Блок с картой</h3>
@@ -226,9 +204,7 @@
                                 <div>
                                     <textarea id="map" class="textarea" name="map"></textarea>
                                 </div>
-                                @error('map')
-                                <label class="text-danger font-weight-normal" for="map">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Блок с условиями покупки</h3>
@@ -241,15 +217,14 @@
                                         <p class="btn btn-outline-primary accordion_add" data-type="purchase_terms" id="purchase_terms_add">{{ __('Добавить карточку') }}</p>
                                     </div>
                                 </div>
+                                <label class="text-danger font-weight-normal" for="purchase_terms" id="purchase_terms_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Блок ВНЖ</h3>
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="vnj_title">{{ __('Заголовок блока ВНЖ') }}</label>
                                 <input name="vnj_title" type="text" class="form-control" id="vnj_title" placeholder="{{ __('Вид на жительство в Турции') }}">
-                                @error('vnj_title')
-                                <label class="text-danger font-weight-normal" for="vnj_title">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="vnj_title" id="vnj_title_error"></label>
                             </div>
 
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
@@ -257,18 +232,14 @@
                                 <div>
                                     <textarea id="vnj_content" class="textarea" name="vnj_content"></textarea>
                                 </div>
-                                @error('vnj_content')
-                                <label class="text-danger font-weight-normal" for="vnj_content">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="vnj_content" id="vnj_content_error"></label>
                             </div>
 
                             <h3 class="pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
                             <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="sight_title">{{ __('Заголовок') }}</label>
                                 <input name="sight_title" type="text" class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
-                                @error('sight_title')
-                                    <label class="text-danger font-weight-normal" for="sight_title">{{ $message }}</label>
-                                @enderror
+                                <label class="text-danger font-weight-normal" for="sight_title" id="sight_title_error"></label>
                             </div>
 
                             <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
@@ -280,8 +251,10 @@
                                         <p class="btn btn-outline-primary accordion_add" data-type="sight_cards" id="sight_cards_add">{{ __('Добавить карточку') }}</p>
                                     </div>
                                 </div>
+                                <label class="text-danger font-weight-normal" for="sight_cards" id="sight_cards_error"></label>
                             </div>
 
+                            <span id="field_error"></span>
                             <button type="submit" class="btn btn-inverse-success btn-fw" id="landings_create_button">{{ __('Создать') }}</button>
                         </div>
                     </form>
@@ -784,16 +757,42 @@
         // При "сабмите" формы...
         $('#create_landings_form').on('submit', function (e) {
             e.preventDefault();
-            let formData = new FormData(this);
-            // Display the key/value pairs
 
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0]+ ' => ' + pair[1]);
-            // }
+            let formData = new FormData(this);
 
             for (const [key, value] of formData.entries()) {
                 console.log(key, value);
             }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: "http://panel.localhost:8879/landings",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert("Success");
+                    console.log(data);
+{{--                    window.location.href = "{{ route('panel.landings.index') }}";--}}
+                },
+                error: function (reject) {
+                    if( reject.status == 422 ) {
+                        var errors = $.parseJSON(reject.responseText);
+                        // console.log(errors);
+                        $.each(errors.errors, function (key, val) {
+                            $("#" + key + "_error").text(val[0]);
+                        });
+
+                        alert("Error, correct specific fields!");
+                    }
+                }
+            });
         });
     </script>
 @endsection

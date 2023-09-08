@@ -18,5 +18,6 @@ class VerifyCsrfToken extends Middleware
         'add_or_delete_in_favorite/',
         'deleteFavorite/',
         'delete_my_all_favorite/',
+        'landings/',
     ];
 }

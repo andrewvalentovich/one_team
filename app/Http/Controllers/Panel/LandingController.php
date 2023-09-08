@@ -9,7 +9,9 @@ use App\Models\CountryAndCity;
 use App\Models\Landing;
 use App\Models\Product;
 use App\Models\Template;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LandingController extends Controller
 {
@@ -46,9 +48,48 @@ class LandingController extends Controller
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
 
-        Landing::create($data);
+        // Кладём картинку в хранилище Storage
+        if (isset($data['main_photo'])) {
+            $data['main_photo'] = $this->save_image($data['main_photo']);
+        }
 
-        return redirect()->route('panel.landings.index');
+        // Кладём картинку в хранилище Storage
+        if (isset($data['territory'])) {
+            $data['territory'] = $this->save_image($data['territory']);
+        }
+
+        // Кодируем массив в json
+        if (isset($data['main_lists'])) {
+            $data['main_lists'] = json_encode($data['main_lists']);
+        }
+
+        // Сохраняем картинку и кодируем массив в json
+        if (isset($data['about_description'])) {
+            foreach ($data['about_description'] as $key => $value) {
+                if (isset($value['photo'])) {
+                    $value['photo'] = $this->save_image($value['photo']);
+                }
+            }
+
+            $data['about_description'] = json_encode($data['about_description']);
+        }
+
+        if (isset($data['purchase_terms'])) {
+            $data['purchase_terms'] = json_encode($data['purchase_terms']);
+        }
+
+        if (isset($data['sight_cards'])) {
+            foreach ($data['sight_cards'] as $key => $value) {
+                if (isset($value['photo'])) {
+                    $data['sight_cards'][$key]['photo'] = $this->save_image($value['photo']);
+                }
+            }
+
+            $data['sight_cards'] = json_encode($data['sight_cards']);
+        }
+
+        Landing::create($data);
+        return new JsonResponse(['data' => $data],200);
     }
 
     /**
@@ -92,5 +133,13 @@ class LandingController extends Controller
         $landing->delete();
 
         return redirect()->route('panel.landings.index');
+    }
+
+    private function save_image($image) : string
+    {
+//        $data['image'] = Storage::disk('public')->put('/images', $data['image']);
+        $new_name = 'landing_' . rand() . '.' . $image->getClientOriginalExtension();
+        Storage::disk('public')->put('/images/' . rand() . '.' . $image->getClientOriginalExtension(), file_get_contents($image));
+        return $new_name;
     }
 }
