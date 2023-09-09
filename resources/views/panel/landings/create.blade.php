@@ -109,6 +109,12 @@
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Главный экран</h3>
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                                <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>
+                                <input name="main_location" type="text" class="form-control" id="main_location" placeholder="{{ __('Локация/регион для главного блока') }}">
+                                <label class="text-danger font-weight-normal" for="main_location" id="main_location_error"></label>
+                            </div>
+
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_title">{{ __('Заголовок главного блока') }}</label>
                                 <input name="main_title" type="text" class="form-control" id="main_title" placeholder="{{ __('Заголовок главного блока') }}">
@@ -202,7 +208,7 @@
                             <div class="form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
-                                    <textarea id="map" class="textarea" name="map"></textarea>
+                                    <textarea class="form-control" rows="10" id="map" name="map"></textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
@@ -277,6 +283,7 @@
         }
 
         $(document).ready(function () {
+            tinyMCE.remove();
             initEditors();
         });
 
@@ -756,6 +763,9 @@
         // При "сабмите" формы...
         $('#create_landings_form').on('submit', function (e) {
             e.preventDefault();
+
+            tinyMCE.remove();
+            initEditors();
 
             let formData = new FormData(this);
 

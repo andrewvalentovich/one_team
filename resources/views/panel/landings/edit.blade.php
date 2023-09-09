@@ -105,6 +105,12 @@
                             </div>
 
                             <h3 class="pt-5 region country complex" style="display: none;">Главный экран</h3>
+                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                                <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>
+                                <input name="main_location" type="text" class="form-control" id="main_location" placeholder="{{ __('Локация/регион для главного блока') }}">
+                                <label class="text-danger font-weight-normal" for="main_location" id="main_location_error"></label>
+                            </div>
+
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_title">{{ __('Заголовок главного блока') }}</label>
                                 <input name="main_title" type="text" class="form-control" id="main_title" value="{{ $landing->main_title }}" placeholder="{{ __('Заголовок главного блока') }}">
@@ -120,7 +126,7 @@
                             <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_content">{{ __('Контент главного блока') }}</label>
                                 <div>
-                                    <textarea id="main_content" class="textarea" name="main_content">{!! $landing->main_content !!}</textarea>
+                                    <textarea id="main_content" class="textarea" name="main_content">{{ $landing->main_content }}</textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="main_content" id="main_content_error"></label>
                             </div>
@@ -220,11 +226,11 @@
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="about_description_title{{ $about_description->id }}">{{ $about_description->title ?? null }}</label>
-                                                                        <input name="about_description[{{ $about_description->id }}][title]" type="text" class="form-control" id="about_description_title{{ $about_description->id }}" placeholder="Большая закрытая территория с двумя бассейнами">
+                                                                        <label for="about_description_title{{ $about_description->id }}">{{ __('Заголовок') }}</label>
+                                                                        <input name="about_description[{{ $about_description->id }}][title]" type="text" value="{{ $about_description->title ?? null }}" class="form-control" id="about_description_title{{ $about_description->id }}" placeholder="Большая закрытая территория с двумя бассейнами">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="about_description_content{{ $about_description->id }}">Текст</label>
+                                                                        <label for="about_description_content{{ $about_description->id }}">{{ __('Контент') }}</label>
                                                                         <div>
                                                                             <textarea class="textarea" name="about_description[{{ $about_description->id }}][content]">{!! $about_description->content ?? null !!}</textarea>
                                                                         </div>
@@ -260,11 +266,11 @@
                             <div class="form-group pt-3 complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($territory) ? 'display: block;' : 'display: none;' }}"></span>
-                                        <img class="py-3" src="{{ asset($territory ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->territory) ? 'display: block;' : 'display: none;' }}"></span>
+                                        <img class="py-3" src="{{ asset($landing->territory ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="territory">{{ __('Фотография-план территории ЖК') }}</label>
-                                    <input type="file" name="territory" value="{{ $territory ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="territory">
+                                    <input type="file" name="territory" value="{{ $landing->territory ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="territory">
                                 </div>
                                 <label class="text-danger font-weight-normal" for="territory" id="territory_error"></label>
                             </div>
@@ -273,7 +279,7 @@
                             <div class="form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
-                                    <textarea id="map" class="textarea" name="map">{{ $landing->map ?? null }}</textarea>
+                                    <textarea class="form-control" rows="10" id="map" name="map">{{ $landing->map ?? null }}</textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
@@ -305,7 +311,7 @@
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
                                                                         <label for="purchase_terms_content{{ $purchase_terms->id }}">Текст</label>
                                                                         <div>
-                                                                            <textarea class="textarea" name="purchase_terms[{{ $purchase_terms->id }}][content]">{!! $purchase_terms->content ?? null !!}</textarea>
+                                                                            <textarea class="textarea" name="purchase_terms[{{ $purchase_terms->id }}][content]">{{ $purchase_terms->content ?? null }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <p class="btn btn-outline-danger delete_purchase_terms_accordion" onclick="delete_accordion('purchase_terms', this);" data-identificator="{{ $purchase_terms->id }}">Удалить элемент списка</p>
@@ -413,9 +419,8 @@
 @section('scripts')
     <script type="text/javascript">
         function initEditors() {
-            tinyMCE.remove();
             tinymce.init({
-                selector: 'textarea',
+                selector: '.textarea',
                 plugins: 'a_tinymce_plugin',
                 a_plugin_option: true,
                 a_configuration_option: 400,
@@ -426,6 +431,7 @@
         }
 
         $(document).ready(function () {
+            tinyMCE.remove();
             initEditors();
 
             // Показываем поля соответствующие выбранному шаблону
@@ -479,6 +485,7 @@
             let accordionCount = $('.'+prefix+'_accordion').length;
 
             $('#'+prefix+'_field').append(window["get_"+prefix+"_accordion"](accordionCount));
+            tinyMCE.remove();
             initEditors();
         });
 
@@ -913,6 +920,8 @@
         // При "сабмите" формы...
         $('#update_landings_form').on('submit', function (e) {
             e.preventDefault();
+
+            tinyMCE.remove();
             initEditors();
 
             let formData = new FormData(this);

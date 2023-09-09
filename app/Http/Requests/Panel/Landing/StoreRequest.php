@@ -34,6 +34,7 @@ class StoreRequest extends FormRequest
 
             'phone' => 'nullable|string|min:1|max:20',
 
+            'main_location' => 'nullable|string|max:255',
             'main_title' => 'nullable|string|max:255',
             'main_subtitle' => 'nullable|string|max:255',
             'main_content' => 'nullable|string|max:8192',

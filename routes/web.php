@@ -215,10 +215,12 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
 Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
     Route::get('/', function ($subdomain) {
         $currentLanding = Landing::where('subdomain', $subdomain)->get();
+        if ($currentLanding->isEmpty()) {
+            abort_if(!isset($landing), 404);
+        } else {
+            $landing = $currentLanding[0];
+        }
 
-        abort_if($currentLanding->isEmpty(), 404);
-
-//        return $currentLanding[0]->domain;
-        return view("landings/{$currentLanding[0]->template->path}");
+        return view("landings/{$landing->template->path}", compact('landing'));
     });
 });

@@ -39,10 +39,10 @@
                     <span></span>
                 </div>
             </div>
-            <a class="header__phone" href="tel:88007005555">
+            <a class="header__phone" href="tel:{{ isset($landing->phone) ? str_replace(" ", "", $landing->phone) : "88007005555" }}">
                 <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
-                    8 800 700 55 55
+                    {{ isset($landing->phone) ? $landing->phone : "8 800 700 55 55" }}
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">
@@ -75,14 +75,14 @@
     </div>
 </div>
 			<div class="preview">
-				<img class="preview__pic" src="{{ asset('lands/img/pic/country.jpg') }}" alt="">
+				<img class="preview__pic" src="{{ asset($landing->main_photo) }}" alt="">
 				<div class="preview__content container">
 					<div class="preview__place">
 						<div class="preview__title">
-							ТУРЦИЯ
+                            {{ $landing->main_title ?? null }}
 						</div>
 						<p class="preview__lead">
-							Регион, в котором море, солнце, история и природа соединяются в гармонии. Древние города, море, солнце, пляж, лес - компоненты одного прекрасного целого. Мустафа Кемаль Ататюрк описывает Анталью фразой: «Несомненно, Анталья - самое красивое место в мире».
+                            {!! $landing->main_content ?? null !!}
 						</p>
 					</div>
 					<form class="preview__form form">
@@ -111,44 +111,22 @@
 					</form>
 				</div>
 				<div class="preview__info container">
-					<div class="preview__info-item">
-						<span>
-							310
-						</span>
-						<p>
-							Солнечных дней в году
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							50
-						</span>
-						<p>
-							Комплексов в продаже
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							ВНЖ
-						</span>
-						<p>
-							Вид на жительство при покупке
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							15
-						</span>
-						<p>
-							Инвестиционный процент
-						</p>
-					</div>
+                    @foreach(json_decode($landing->main_lists) as $main_list)
+                        <div class="preview__info-item">
+                            <span>
+                                {{ $main_list->title ?? null }}
+                            </span>
+                            <p>
+                                {{ $main_list->content ?? null }}
+                            </p>
+                        </div>
+                    @endforeach
 				</div>
 			</div>
 			<div class="building container" id="objects">
 				<div class="building__header">
 					<div class="building__title title">
-						НОВОСТРОЙКИ В ТУРЦИИ
+                        {{ $landing->objects_title ?? null }}
 					</div>
 					<div class="sort close-out ">
 						<span class="sort__title btn">
@@ -608,120 +586,60 @@
 					УСЛОВИЯ ПОКУПКИ
 				</div>
 				<div class="conditions__list">
-					<div class="conditions__list-item">
-						<div class="conditions__item-info">
-							<div class="">
-								<div class="conditions__item-subtitle">
-									Беспроцентная рассрочка
-								</div>
-								<p>
-									Рассрочка на период строительства
-								</p>
-								<p>
-									Первоначальный платеж 30% от стоимости квартиры
-								</p>
-								<ul class="list_point">
-									<li>
-										Возможна удалённая сделка
-									</li>
-									<li>
-										Помощь по вариантам оплаты
-									</li>
-								</ul>
-								<p>
-									Вид на жительство можете получить после внесения последнего платежа
-								</p>
-							</div>
-							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
-								Оставить заявку
-								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-							</button>
-						</div>
-						<div class="conditions__item-number">
-							1
-						</div>
-					</div>
-					<div class="conditions__list-item">
-						<div class="conditions__item-info">
-							<div class="">
-								<div class="conditions__item-subtitle">
-									Оплата 100%
-								</div>
-								<ul class="list_point">
-									<li>
-										Возможна удалённая сделка
-									</li>
-									<li>
-										Помощь по вариантам оплаты
-									</li>
-								</ul>
-								<button class="conditions__item-btn-more" btn-popup="popup-vnj">
-									Подробнее о ВНЖ
-								</button>
-							</div>
-							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
-								Оставить заявку
-								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-							</button>
-						</div>
-						<div class="conditions__item-number">
-							2
-						</div>
-					</div>
+                    @if(isset($landing->purchase_terms))
+                        @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
+                            <div class="conditions__list-item">
+                                <div class="conditions__item-info">
+                                    <div class="">
+                                        <div class="conditions__item-subtitle">
+                                            {{ $purchase_terms->title ?? null }}
+                                        </div>
+                                        <p>{!! $purchase_terms->content ?? null !!}</p>
+                                        @if($loop->last)
+                                            <button class="conditions__item-btn-more" btn-popup="popup-vnj">
+                                                Подробнее о ВНЖ
+                                            </button>
+                                        @endif
+                                    </div>
+                                    <button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
+                                        Оставить заявку
+                                        <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+                                    </button>
+                                </div>
+                                <div class="conditions__item-number">
+                                    {{ $loop->iteration }}
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
 				</div>
 			</div>
 			<div class="map wrapMap" id="map">
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
-					width="100%"
-					height="500"
-					frameborder="0">
-				</iframe>
+                {!! $landing->map !!}
 			</div>
 			<div class="about container" id="about">
 				<div class="title">
-					ДОСТОПРИЧАТЕЛЬНОСТИ АНТАЛИИ
+                    {{ $landing->sight_title }}
 				</div>
 				<div class="about__swiper swiper">
 					<div class="about__swiper-wrapper swiper-wrapper">
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about-2.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Десятки исторических памятников культуры
-								</div>
-								<p class="about__slide-lead">
-									В Анталье расположены десятки исторических памятников культуры, которые непременно стоит увидеть! На протяжении всей своей истории Анталья становилась домом для десятка цивилизаций, сохранила следы этих цивилизаций и сегодня выставляет их для своих посетителей.
-								</p>
-							</div>
-						</div>
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about-2.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Десятки исторических памятников культуры
-								</div>
-								<p class="about__slide-lead">
-									В Анталье расположены десятки исторических памятников культуры, которые непременно стоит увидеть! На протяжении всей своей истории Анталья становилась домом для десятка цивилизаций, сохранила следы этих цивилизаций и сегодня выставляет их для своих посетителей.
-								</p>
-							</div>
-						</div>
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about-2.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Десятки исторических памятников культуры
-								</div>
-								<p class="about__slide-lead">
-									В Анталье расположены десятки исторических памятников культуры, которые непременно стоит увидеть! На протяжении всей своей истории Анталья становилась домом для десятка цивилизаций, сохранила следы этих цивилизаций и сегодня выставляет их для своих посетителей.
-								</p>
-							</div>
-						</div>
+                        @if(isset($landing->sight_cards))
+                            @foreach(json_decode($landing->sight_cards) as $sight_cards)
+                                <div class="about__slide swiper-slide">
+                                    <div class="about__slide-pic">
+                                        <img src="{{ asset($sight_cards->photo) }}" alt="">
+                                    </div>
+                                    <div class="about__slide-text">
+                                        <div class="about__slide-title">
+                                            {{ $sight_cards->title ?? null }}
+                                        </div>
+                                        <p class="about__slide-lead">
+                                            {!! $sight_cards->content ?? null !!}
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
 					</div>
 					<div class="about__swiper-action">
 						<div class="about__prev about__swiper-btn">
@@ -766,10 +684,10 @@
                     <span></span>
                 </div>
             </div>
-            <a class="header__phone" href="tel:88007005555">
+            <a class="header__phone" href="tel:{{ isset($landing->phone) ? $landing->phone : "88007005555" }}">
                 <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
-                    8 800 700 55 55
+                    {{ isset($landing->phone) ? $landing->phone : "8 800 700 55 55" }}
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">

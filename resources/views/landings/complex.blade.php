@@ -43,10 +43,10 @@
                     <span></span>
                 </div>
             </div>
-            <a class="header__phone" href="tel:88007005555">
+            <a class="header__phone" href="tel:{{ isset($landing->phone) ? $landing->phone : "88007005555" }}">
                 <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
-                    8 800 700 55 55
+                    {{ isset($landing->phone) ? $landing->phone : "8 800 700 55 55" }}
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">
@@ -87,16 +87,16 @@
 					<div class="preview__place">
 						<div class="preview__place-address">
 							<img src="{{ asset('lands/img/icons/location.png') }}" alt="локация">
-							Анталья, Турция
+                            {{ $landing->main_location ?? null }}
 						</div>
 						<div class="preview__title">
-							ЖК SKY BLUE
+                            {{ $landing->main_title ?? null }}
 							<span>
-								PERGE COLLECTION
+                                {{ $landing->main_subtitle ?? null }}
 							</span>
 						</div>
 						<p class="preview__lead">
-							Жилой комплекс класса бизнес на берегу моря в новом районе Алтынташ. Это первый район в Анталии с утвержденным проектом планировки территории
+                            {{ $landing->main_content ?? null }}
 						</p>
 					</div>
 					<form class="preview__form form">
@@ -125,88 +125,42 @@
 					</form>
 				</div>
 				<div class="preview__info container">
-					<div class="preview__info-item">
-						<span>
-							2024
-						</span>
-						<p>
-							I квартал сдача жилого комплекса
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							50
-						</span>
-						<p>
-							Всего квартир в комплексе
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							ВНЖ
-						</span>
-						<p>
-							Вид на жительство при покупке
-						</p>
-					</div>
-					<div class="preview__info-item">
-						<span>
-							2
-						</span>
-						<p>
-							Больших бассейна на территории ЖК
-						</p>
-					</div>
+                    @foreach(json_decode($landing->main_lists) as $main_list)
+                        <div class="preview__info-item">
+                            <span>
+                                {{ $main_list->title ?? null }}
+                            </span>
+                            <p>
+                                {{ $main_list->content ?? null }}
+                            </p>
+                        </div>
+                    @endforeach
 				</div>
 			</div>
 			<div class="about container" id="about">
 				<div class="title">
-					PERGE COLLECTION: SKY BLUE
+                    {{ $landing->about_title ?? null }}
 				</div>
 				<div class="title title_grey">
-					БИЗНЕС-КЛАСС НА БЕРЕГУ СРЕДИЗЕМНОГО МОРЯ
+                    {{ $landing->about_subtitle ?? null }}
 				</div>
 				<div class="about__swiper swiper">
 					<div class="about__swiper-wrapper swiper-wrapper">
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Большая закрытая территория с двумя бассейнами
-								</div>
-								<p class="about__slide-lead">
-									5700м2 - идеальная территория для 50 квартир, чтобы чувствовать уединенность и приватность. На территории есть сауна и тренажерный зал. Разноуровневые посадки растений по всей территории по индивидуальному проекту. Спортивная площадка для баскетбола, волейбола или тенниса.
-								</p>
-							</div>
-						</div>
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Большая закрытая территория с двумя бассейнами
-								</div>
-								<p class="about__slide-lead">
-									5700м2 - идеальная территория для 50 квартир, чтобы чувствовать уединенность и приватность. На территории есть сауна и тренажерный зал. Разноуровневые посадки растений по всей территории по индивидуальному проекту. Спортивная площадка для баскетбола, волейбола или тенниса.
-								</p>
-							</div>
-						</div>
-						<div class="about__slide swiper-slide">
-							<div class="about__slide-pic">
-								<img src="{{ asset('lands/img/pic/about.png') }}" alt="">
-							</div>
-							<div class="about__slide-text">
-								<div class="about__slide-title">
-									Большая закрытая территория с двумя бассейнами
-								</div>
-								<p class="about__slide-lead">
-									5700м2 - идеальная территория для 50 квартир, чтобы чувствовать уединенность и приватность. На территории есть сауна и тренажерный зал. Разноуровневые посадки растений по всей территории по индивидуальному проекту. Спортивная площадка для баскетбола, волейбола или тенниса.
-								</p>
-							</div>
-						</div>
+                        @foreach(json_decode($landing->about_description) as $about_description)
+                            <div class="about__slide swiper-slide">
+                                <div class="about__slide-pic">
+                                    <img src="{{ asset($about_description->photo ?? null) }}" alt="">
+                                </div>
+                                <div class="about__slide-text">
+                                    <div class="about__slide-title">
+                                        {{ $about_description->title ?? null }}
+                                    </div>
+                                    <p class="about__slide-lead">
+                                        {!! $about_description->content ?? null !!}
+                                    </p>
+                                </div>
+                            </div>
+                        @endforeach
 					</div>
 					<div class="about__swiper-action">
 						<div class="about__prev about__swiper-btn">
@@ -223,7 +177,7 @@
 				<div class="title">
 					Территория
 				</div>
-				<img src="{{ asset('lands/img/pic/territoriya.png') }}" alt="инфраструктура">
+				<img src="{{ asset($landing->territory ?? null) }}" alt="инфраструктура">
 			</div>
 			<div class="layouts container" id="layouts">
 				<div class="title">
@@ -446,66 +400,30 @@
 					УСЛОВИЯ ПОКУПКИ
 				</div>
 				<div class="conditions__list">
-					<div class="conditions__list-item">
-						<div class="conditions__item-info">
-							<div class="">
-								<div class="conditions__item-subtitle">
-									Беспроцентная рассрочка
-								</div>
-								<p>
-									Рассрочка на период строительства
-								</p>
-								<p>
-									Первоначальный платеж 30% от стоимости квартиры
-								</p>
-								<ul class="list_point">
-									<li>
-										Возможна удалённая сделка
-									</li>
-									<li>
-										Помощь по вариантам оплаты
-									</li>
-								</ul>
-								<p>
-									Вид на жительство можете получить после внесения последнего платежа
-								</p>
-							</div>
-							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
-								Оставить заявку
-								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-							</button>
-						</div>
-						<div class="conditions__item-number">
-							1
-						</div>
-					</div>
-					<div class="conditions__list-item">
-						<div class="conditions__item-info">
-							<div class="">
-								<div class="conditions__item-subtitle">
-									Оплата 100%
-								</div>
-								<ul class="list_point">
-									<li>
-										Возможна удалённая сделка
-									</li>
-									<li>
-										Помощь по вариантам оплаты
-									</li>
-								</ul>
-								<button class="conditions__item-btn-more" btn-popup="popup-vnj">
-									Подробнее о ВНЖ
-								</button>
-							</div>
-							<button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
-								Оставить заявку
-								<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-							</button>
-						</div>
-						<div class="conditions__item-number">
-							2
-						</div>
-					</div>
+                    @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
+                        <div class="conditions__list-item">
+                            <div class="conditions__item-info">
+                                <div class="">
+                                    <div class="conditions__item-subtitle">
+                                        {{ $purchase_terms->title ?? null }}
+                                    </div>
+                                    <p>{!! $purchase_terms->content !!}</p>
+                                    @if($loop->last == $loop->index)
+                                        <button class="conditions__item-btn-more" btn-popup="popup-vnj">
+                                            Подробнее о ВНЖ
+                                        </button>
+                                    @endif
+                                </div>
+                                <button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
+                                    Оставить заявку
+                                    <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+                                </button>
+                            </div>
+                            <div class="conditions__item-number">
+                                {{ $loop->iteration }}
+                            </div>
+                        </div>
+                    @endforeach
 				</div>
 			</div>
 		</main>
@@ -543,10 +461,10 @@
                     <span></span>
                 </div>
             </div>
-            <a class="header__phone" href="tel:88007005555">
+            <a class="header__phone" href="tel:{{ isset($landing->phone) ? $landing->phone : "88007005555" }}">
                 <img src="{{ asset('lands/img/icons/phone-call.png') }}" alt="телефон">
                 <span>
-                    8 800 700 55 55
+                    {{ isset($landing->phone) ? $landing->phone : "8 800 700 55 55" }}
                 </span>
             </a>
             <button class="header__application-btn btn btn_blue btn_arrow" btn-popup="popup-record">
@@ -609,22 +527,11 @@
     <div class="popup__body">
         <div class="popup__content">
             <div class="popup__title">
-                Вид на жительство в Турции
+                {{ $landing->vnj_title ?? null }}
             </div>
             <div class="vnj__keep">
                 <div class="vnj__text">
-                    <p>
-                        Покупая квартиру в ЖК «Perge Collection: sky blue» вы не только приобретаете жилье в большом курортном городе с отличным климатом, которое можно сдавать в аренду, но и получаете более ценные преимущества, такие, как вид на жительство в Турции или даже гражданство.
-                    </p>
-                    <p>
-                        ВНЖ имеет ряд несомненных плюсов, вы можете круглогодично жить в стране, открыть свой бизнес, бесплатно пользоваться некоторыми государственными услугами, а также претендовать на турецкое гражданство уже через 5 лет после приобретения недвижимости.
-                    </p>
-                    <p>
-                        Турецкий паспорт позволит вам пользоваться всеми привилегиями этого государства, путешествовать в безвизовом режиме более чем по 110 странам, получить право открыть свое дело в США и Великобритании и многое другое.
-                    </p>
-                    <p>
-                        Процесс оформления проходит достаточно быстро и просто, а это значит, что, приобретая квартиру в нашем жилищном комплексе, вы инвестируете в свое будущее.
-                    </p>
+                    {!! $landing->vnj_content ?? null !!}
                 </div>
                 <form class="preview__form" style="height: fit-content;">
                     <div class="preview__form-title">
