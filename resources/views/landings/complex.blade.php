@@ -96,7 +96,7 @@
 							</span>
 						</div>
 						<p class="preview__lead">
-                            {{ $landing->main_content ?? null }}
+                            {!! $landing->main_content ?? null !!}
 						</p>
 					</div>
 					<form class="preview__form form">
@@ -125,16 +125,18 @@
 					</form>
 				</div>
 				<div class="preview__info container">
-                    @foreach(json_decode($landing->main_lists) as $main_list)
-                        <div class="preview__info-item">
-                            <span>
-                                {{ $main_list->title ?? null }}
-                            </span>
-                            <p>
-                                {{ $main_list->content ?? null }}
-                            </p>
-                        </div>
-                    @endforeach
+                    @if(isset($landing->main_lists))
+                        @foreach(json_decode($landing->main_lists) as $main_list)
+                            <div class="preview__info-item">
+                                <span>
+                                    {{ $main_list->title ?? null }}
+                                </span>
+                                <p>
+                                    {{ $main_list->content ?? null }}
+                                </p>
+                            </div>
+                        @endforeach
+                    @endif
 				</div>
 			</div>
 			<div class="about container" id="about">

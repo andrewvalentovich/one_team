@@ -767,17 +767,17 @@
             tinyMCE.remove();
             initEditors();
 
-            let formData = new FormData(this);
-
-            for (const [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+
+            let formData = new FormData(this);
+
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
 
             $.ajax({
                 type: 'POST',
