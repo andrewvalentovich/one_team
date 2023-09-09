@@ -67,7 +67,7 @@ class LandingController extends Controller
         if (isset($data['about_description'])) {
             foreach ($data['about_description'] as $key => $value) {
                 if (isset($value['photo'])) {
-                    $value['photo'] = $this->save_image($value['photo']);
+                    $data['about_description'][$key]['photo'] = $this->save_image($value['photo']);
                 }
             }
 
@@ -105,8 +105,11 @@ class LandingController extends Controller
      */
     public function edit(Landing $landing)
     {
+        $countries = CountryAndCity::whereNull('parent_id')->get();
+        $cities = CountryAndCity::whereNotNull('parent_id')->with('country')->get();
+        $complexes = Product::where('complex_or_not', 'Да')->get();
         $templates = Template::all();
-        return view('panel.landings.edit', compact('landing', 'templates'));
+        return view('panel.landings.edit', compact('landing', 'countries', 'cities', 'complexes', 'templates'));
     }
 
     /**
@@ -115,14 +118,63 @@ class LandingController extends Controller
     public function update(UpdateRequest $request, Landing $landing)
     {
         $data = $request->validated();
-
         $domain = explode("//", config('app.url'));
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
 
-        $landing->update($data);
+        // Кладём картинку в хранилище Storage
+        if (isset($data['main_photo'])) {
+            $data['main_photo'] = $this->save_image($data['main_photo']);
+        } else {
+            unset($data['main_photo']);
+        }
 
-        return redirect()->route('panel.landings.show', compact('landing'));
+        // Кладём картинку в хранилище Storage
+        if (isset($data['territory'])) {
+            $data['territory'] = $this->save_image($data['territory']);
+        } else {
+            unset($data['territory']);
+        }
+
+        // Кодируем массив в json
+        if (isset($data['main_lists'])) {
+            $data['main_lists'] = json_encode($data['main_lists']);
+        }
+
+        // Сохраняем картинку и кодируем массив в json
+        if (isset($data['about_description'])) {
+            foreach ($data['about_description'] as $key => $value) {
+                if (isset($value['photo'])) {
+                    $data['about_description'][$key]['photo'] = $this->save_image($value['photo']);
+                } else {
+                    $decoded = json_decode($landing->about_description);
+                    $data['about_description'][$key]['photo'] = $decoded[$key]->photo;
+                }
+            }
+
+            $data['about_description'] = json_encode($data['about_description']);
+        }
+
+        if (isset($data['purchase_terms'])) {
+            $data['purchase_terms'] = json_encode($data['purchase_terms']);
+        }
+
+        if (isset($data['sight_cards'])) {
+            $decoded = json_decode($landing->sight_cards);
+
+            foreach ($data['sight_cards'] as $key => $value) {
+                if (isset($value['photo'])) {
+                    $data['sight_cards'][$key]['photo'] = $this->save_image($value['photo']);
+                } else {
+                    $data['sight_cards'][$key]['photo'] = $decoded[$key]->photo;
+                }
+            }
+
+            $data['sight_cards'] = json_encode($data['sight_cards']);
+        }
+
+        $landing->update($data);
+        return new JsonResponse(['data' => $data],200);
     }
 
     /**
@@ -138,8 +190,8 @@ class LandingController extends Controller
     private function save_image($image) : string
     {
 //        $data['image'] = Storage::disk('public')->put('/images', $data['image']);
-        $new_name = 'landing_' . rand() . '.' . $image->getClientOriginalExtension();
-        Storage::disk('public')->put('/images/' . rand() . '.' . $image->getClientOriginalExtension(), file_get_contents($image));
-        return $new_name;
+        $fileName = 'landing_' . rand() . '.' . $image->getClientOriginalExtension();
+        $filePath = $image->move('uploads', $fileName);
+        return $filePath;
     }
 }

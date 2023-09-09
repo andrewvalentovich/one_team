@@ -72,7 +72,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <label class="text-danger font-weight-normal" for="filter_country" id="filter_country" id="_error"></label>
+                                <label class="text-danger font-weight-normal" for="filter_country" id="filter_country" id="filter_country_error"></label>
                             </div>
 
                             <div class="form-group row" bis_skin_checked="1" data-select="region" style="display: none;">
@@ -254,7 +254,6 @@
                                 <label class="text-danger font-weight-normal" for="sight_cards" id="sight_cards_error"></label>
                             </div>
 
-                            <span id="field_error"></span>
                             <button type="submit" class="btn btn-inverse-success btn-fw" id="landings_create_button">{{ __('Создать') }}</button>
                         </div>
                     </form>
@@ -779,7 +778,7 @@
                 success: function (data) {
                     alert("Success");
                     console.log(data);
-{{--                    window.location.href = "{{ route('panel.landings.index') }}";--}}
+                    window.location.href = "{{ route('panel.landings.index') }}";
                 },
                 error: function (reject) {
                     if( reject.status == 422 ) {
