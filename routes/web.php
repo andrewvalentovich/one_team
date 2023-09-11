@@ -216,6 +216,7 @@ Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
     Route::get('/', function ($subdomain) {
         $currentLanding = Landing::where('subdomain', $subdomain)->get();
         $filter = "";
+        $content = "";
 
         if ($currentLanding->isEmpty()) {
             abort_if(!isset($landing), 404);
@@ -228,6 +229,7 @@ Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
 
             if($landing->template->path === "region") {
                 $filter = \App\Models\CountryAndCity::find($landing['filter_'.$landing->template->path]);
+                $content = \App\Models\Product::with('photo')->with('peculiarities')->where('city_id', $landing['filter_'.$landing->template->path])->get();
             }
 
             if($landing->template->path === "country") {
@@ -235,6 +237,6 @@ Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
             }
         }
 
-        return view("landings/{$landing->template->path}", compact('landing', 'filter'));
+        return view("landings/{$landing->template->path}", compact('landing', 'filter', 'content'));
     });
 });
