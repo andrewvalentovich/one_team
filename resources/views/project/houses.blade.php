@@ -1482,7 +1482,7 @@ function P(e) {
                 imgDiv.classList.add('city-col__item-img');
 
                 const img = document.createElement('img');
-                img.setAttribute('src', `${site_url}uploads/${photo.photo}`);
+                img.setAttribute('src', `/uploads/${photo.photo}`);
                 img.setAttribute('alt', 'place');
                 imgDiv.appendChild(img);
 
@@ -1625,7 +1625,7 @@ function P(e) {
         let currentHouse = houseData.data.find(obj => obj.id == id);
 
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
-        topPic.setAttribute('src',`${site_url}uploads/${currentHouse.photo[0].photo}`)
+        topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
 
         const leftCollage = placeW.querySelector('.place__left-collage')
 
@@ -1637,7 +1637,7 @@ function P(e) {
             div.classList.add('place__collage-item', 'place__collage-item_clickable')
 
             let img = document.createElement('img')
-            img.setAttribute('src', `${site_url}uploads/${photo.photo}`)
+            img.setAttribute('src', `/uploads/${photo.photo}`)
 
             div.appendChild(img)
             leftCollage.appendChild(div)
@@ -1859,13 +1859,13 @@ function P(e) {
                 divChemePic.addEventListener('click', function(e) {
                     const chemePopup = document.querySelector(".object__photo");
                     const img = chemePopup.querySelector('img')
-                    img.setAttribute('src', `${site_url}uploads/${object.apartment_layout_image}`)
+                    img.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
                     chemePopup.classList.add('active')
                 })
 
 
                 let divChemeImg = document.createElement('img')
-                divChemeImg.setAttribute('src', `${site_url}uploads/${object.apartment_layout_image}`)
+                divChemeImg.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
 
                 divChemePic.appendChild(divChemeImg)
                 divCheme.appendChild(divChemePic)
@@ -1973,7 +1973,7 @@ function P(e) {
         const topPic = collage.querySelector('.place_popup__top-item')
         topPic.innerHTML = ''
         const img = document.createElement('img')
-        img.setAttribute('src', `${site_url}uploads/${house.photo[0].photo}`)
+        img.setAttribute('src', `/uploads/${house.photo[0].photo}`)
 
         topPic.appendChild(img)
 
@@ -1987,7 +1987,7 @@ function P(e) {
             div.classList.add('place-popup-collage__item')
 
             const img = document.createElement('img')
-            img.setAttribute('src', `${site_url}uploads/${element.photo}`)
+            img.setAttribute('src', `/uploads/${element.photo}`)
 
             div.appendChild(img)
 
@@ -2011,7 +2011,7 @@ function P(e) {
             slide.classList.add('place__slide', 'swiper-slide', 'place__slide_clickable');
 
             const img = document.createElement('img')
-            img.setAttribute('src', `${site_url}uploads/${images[i].photo}`)
+            img.setAttribute('src', `/uploads/${images[i].photo}`)
 
             slide.appendChild(img);
             swiperWrapper.appendChild(slide);
@@ -2162,7 +2162,7 @@ function P(e) {
                         <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                         <div class="balloon-city__square">${city.kv} ${kvm}</div>
                     </div>
-                    <div class="balloon-city__img"> <img src="${site_url}uploads/${city.photo[0].photo}"></div>
+                    <div class="balloon-city__img"> <img src="/uploads/${city.photo[0].photo}"></div>
                 </div>`,
                 city_id: city.id
             });
@@ -2381,7 +2381,7 @@ function P(e) {
                 // Обработка ошибок
             }, this);
 
-            
+
             ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button disabled="" type="button" class="button _view_air _size_medium _disabled _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
                 // Переопределяем методы макета, чтобы выполнять дополнительные действия

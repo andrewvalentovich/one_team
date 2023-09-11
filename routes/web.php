@@ -215,12 +215,26 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
 Route::group(['domain' => '{subdomain}.'.config('app.domain')], function () {
     Route::get('/', function ($subdomain) {
         $currentLanding = Landing::where('subdomain', $subdomain)->get();
+        $filter = "";
+
         if ($currentLanding->isEmpty()) {
             abort_if(!isset($landing), 404);
         } else {
             $landing = $currentLanding[0];
+
+            if($landing->template->path === "complex") {
+                $filter = \App\Models\Product::find($landing['filter_'.$landing->template->path]);
+            }
+
+            if($landing->template->path === "region") {
+                $filter = \App\Models\CountryAndCity::find($landing['filter_'.$landing->template->path]);
+            }
+
+            if($landing->template->path === "country") {
+                $filter = \App\Models\CountryAndCity::find($landing['filter_'.$landing->template->path]);
+            }
         }
 
-        return view("landings/{$landing->template->path}", compact('landing'));
+        return view("landings/{$landing->template->path}", compact('landing', 'filter'));
     });
 });

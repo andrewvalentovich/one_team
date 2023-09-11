@@ -194,96 +194,28 @@
 					</div>
 					<div class="layouts__swiper swiper">
 						<div class="layouts__swiper-wrapper swiper-wrapper">
-							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
-								<div class="layouts__slide-pic">
-									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-								</div>
-								<div class="layouts__slide-text">
-									<div class="layouts__slide-price">
-										165 000 €
-									</div>
-									<div class="layouts__slide-info">
-										<div class="layouts__slide-lead">
-											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-										</div>
-										<div class="layouts__slide-btn btn btn_grey">
-											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
-								<div class="layouts__slide-pic">
-									<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
-								</div>
-								<div class="layouts__slide-text">
-									<div class="layouts__slide-price">
-										165 000 €
-									</div>
-									<div class="layouts__slide-info">
-										<div class="layouts__slide-lead">
-											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-										</div>
-										<div class="layouts__slide-btn btn btn_grey">
-											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
-								<div class="layouts__slide-pic">
-									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-								</div>
-								<div class="layouts__slide-text">
-									<div class="layouts__slide-price">
-										165 000 €
-									</div>
-									<div class="layouts__slide-info">
-										<div class="layouts__slide-lead">
-											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-										</div>
-										<div class="layouts__slide-btn btn btn_grey">
-											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
-								<div class="layouts__slide-pic">
-									<img src="{{ asset('lands/img/pic/layout-2.png') }}" alt="схема">
-								</div>
-								<div class="layouts__slide-text">
-									<div class="layouts__slide-price">
-										165 000 €
-									</div>
-									<div class="layouts__slide-info">
-										<div class="layouts__slide-lead">
-											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-										</div>
-										<div class="layouts__slide-btn btn btn_grey">
-											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="layouts__slide swiper-slide" btn-popup="popup-house">
-								<div class="layouts__slide-pic">
-									<img src="{{ asset('lands/img/pic/layout.png') }}" alt="схема">
-								</div>
-								<div class="layouts__slide-text">
-									<div class="layouts__slide-price">
-										165 000 €
-									</div>
-									<div class="layouts__slide-info">
-										<div class="layouts__slide-lead">
-											50 кв.м., 2 комнаты, 1 ванна, лоджия 12 кв.м.
-										</div>
-										<div class="layouts__slide-btn btn btn_grey">
-											<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-										</div>
-									</div>
-								</div>
-							</div>
+                            @if(isset($filter->objects))
+                                @foreach(json_decode($filter->objects) as $object)
+                                    <div class="layouts__slide swiper-slide" btn-popup="popup-house">
+                                        <div class="layouts__slide-pic">
+                                            <img src="{{ asset("uploads/".$object->add_apartment_layout_image ?? null) }}" alt="схема">
+                                        </div>
+                                        <div class="layouts__slide-text">
+                                            <div class="layouts__slide-price">
+                                                {{ $object->price ?? null }} €
+                                            </div>
+                                            <div class="layouts__slide-info">
+                                                <div class="layouts__slide-lead">
+                                                    {{ $object->size ?? null }} кв.м., {{ $object->apartment_layout ?? null }}
+                                                </div>
+                                                <div class="layouts__slide-btn btn btn_grey">
+                                                    <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
 						</div>
 						<div class="layouts__pagination swiper__pagination"></div>
 					</div>
@@ -410,7 +342,7 @@
                                         {{ $purchase_terms->title ?? null }}
                                     </div>
                                     <p>{!! $purchase_terms->content !!}</p>
-                                    @if($loop->last == $loop->index)
+                                    @if($loop->last)
                                         <button class="conditions__item-btn-more" btn-popup="popup-vnj">
                                             Подробнее о ВНЖ
                                         </button>
