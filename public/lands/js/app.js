@@ -310,7 +310,10 @@ if(document.querySelectorAll('.changeGallery')) {
 //временная функция чтобы показать смену контента в галереес 
 let urlImg
 if(document.querySelectorAll('.gallery__swiper')) {
-  urlImg = document.querySelector('.gallery__slide').querySelector('img').getAttribute('src')
+  urlImg = document.querySelector('.gallery__slide')
+  if(urlImg) {
+    const pic = urlImg.querySelector('img').getAttribute('src')
+  }
 }
 function changeContentGallerySwiper(numberBtn) {
   const swiperGallery = document.querySelector('.gallery__swiper')
@@ -320,7 +323,7 @@ function changeContentGallerySwiper(numberBtn) {
     let numberPhoto = numberBtn
     if(numberBtn === 0 || numberBtn >=4) numberPhoto = 1
 
-    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="${urlImg}" alt=""></div>`)
+    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="${pic}" alt=""></div>`)
   }
   gallerySwiper.update()
   gallerySwiper.updateSlides()
@@ -547,7 +550,8 @@ function addPhotosPopupSwiper(slideNumber) {
 }
 
 function toggleActivePopupSwiper() {
-  if(popupGallerySwiper) {
+  console.log(popupGallerySwiper)
+  if(popupGallerySwiper ) {
     if(window.innerWidth <= 540) {
       popupGallerySwiper.disable()
     }
@@ -600,3 +604,22 @@ function addBuldingToPopup(houseBlock) {
     })
   });
 }
+
+
+const wrapMap = document.querySelectorAll('.wrapMap')
+const popupMap = document.querySelector('.popup-map')
+const popupMapBody = popupMap.querySelector('.popup-map__body')
+wrapMap.forEach(map => {
+  const iframe = map.querySelector('iframe')
+  const iframeClone = (iframe.cloneNode(true))
+  const wrapClick = document.createElement('div')
+  wrapClick.classList.add('myWrapClick')
+  map.appendChild(wrapClick)
+  wrapClick.addEventListener('click', function() {
+    popupMap.classList.add('active')
+    bodyScrollLock.disableBodyScroll(popupMap);
+    if(!popupMap.querySelector('iframe')) {
+      popupMapBody.appendChild(iframeClone)
+    }
+  })
+});
