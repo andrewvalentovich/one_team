@@ -417,7 +417,7 @@
         </div>
     </div>
 </footer>
-
+@include('landings.includes.modals.modals')
 <!-- дефолтная модалка -->
 <form class="popup popup-record form">
     <div class="popup__body">
