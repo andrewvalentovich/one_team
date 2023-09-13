@@ -20,9 +20,15 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     });
 
 
-    Route::get('/houses/by_coordinates/with_filter', [\App\Http\Controllers\API\HousesController::class, 'getByCoordinatesWithFilter'])->name('api.houses.get.by_coordinates.with_filter'); //
-    Route::get('/houses/all', [\App\Http\Controllers\API\HousesController::class, 'getAll'])->name('api.houses.get.all'); //
-    Route::get('/houses/filter_params', [\App\Http\Controllers\API\SearchController::class, 'getParams'])->name('api.search.get.params'); //
+    // Отдаются объекты для карт по фильтру
+    Route::get('/houses/by_coordinates/with_filter', [\App\Http\Controllers\API\HousesController::class, 'getByCoordinatesWithFilter'])->name('api.houses.get.by_coordinates.with_filter');
+    // Отдаются объекты для карт все
+    Route::get('/houses/all', [\App\Http\Controllers\API\HousesController::class, 'getAll'])->name('api.houses.get.all');
+    // Отдаются (все) параметры для фильтра
+    Route::get('/houses/filter_params', [\App\Http\Controllers\API\SearchController::class, 'getParams'])->name('api.search.get.params');
+
+    // Отдаются объекты для лендингов по фильтру
+    Route::get('/landings/with_filter', [\App\Http\Controllers\API\LandingsController::class, 'getWithFilter'])->name('api.landings.get.with_filter');
 
 // Новый
     Route::get('/export', [\App\Http\Controllers\API\ExportController::class, 'export'])->name('api.export');

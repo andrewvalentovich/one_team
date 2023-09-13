@@ -7,6 +7,7 @@
 	<link href="https://fonts.cdnfonts.com/css/rubik-one" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>Страна</title>
 </head>
 <body>
@@ -139,42 +140,11 @@
 						</span>
 						<div class="sort__list">
 							<div class="sort__list-body">
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
+                                @foreach($types as $type)
+                                    <div class="sort__list-item" data-id="{{ $type->id }}">
+                                        <span>{{ $type->name }}</span>
+                                    </div>
+                                @endforeach
 							</div>
 						</div>
 					</div>
@@ -187,401 +157,159 @@
 						</span>
 						<div class="sort__list">
 							<div class="sort__list-body">
-								<div class="sort__list-item">
-									<span>индивидуальная</span>
-								</div>
-								<div class="sort__list-item">
-									<span>коммерческая</span>
-								</div>
+                                @foreach($filter->cities as $city)
+                                    <div class="sort__list-item" data-id="{{ $city->id }}">
+                                        <span>{{ $city->name }}</span>
+                                    </div>
+                                @endforeach
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="gallery__filter">
-					<div class="gallery__item building-select all active">
+					<div class="gallery__item building-select all active" data-id="0">
 						Все
 					</div>
-					<div class="gallery__item building-select">
-						Анталья
-					</div>
-					<div class="gallery__item building-select">
-						Кемер
-					</div>
-					<div class="gallery__item building-select">
-						Станбул
-					</div>
-					<div class="gallery__item building-select">
-						Мерсин
-					</div>
-					<div class="gallery__item building-select">
-						Измир
-					</div>
-					<div class="gallery__item building-select">
-						Аланья
-					</div>
-					<div class="gallery__item building-select">
-						Бодрум
-					</div>
+                    @foreach($filter->cities as $city)
+                        <div class="gallery__item building-select" data-id="{{ $city->id }}">
+                            {{ $city->name }}
+                        </div>
+                    @endforeach
 				</div>
 				<div class="building__list">
-					<div class="building__item" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-							<div class="building__item-hashtag">
-								СЕМЕЙНЫЙ
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="building__item" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-							<div class="building__item-hashtag">
-								ВНЖ
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="building__item" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="building__item building__item_point" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-							<div class="building__item-hashtag">
-								СЕМЕЙНЫЙ
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									<img src="{{ asset('lands/img/icons/location_black.png') }}" alt="точка">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="building__item building__item_point" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-2.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-							<div class="building__item-hashtag">
-								ВНЖ
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									<img src="{{ asset('lands/img/icons/location_black.png') }}" alt="точка">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="building__item building__item_point" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-3.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									<img src="{{ asset('lands/img/icons/location_black.png') }}" alt="точка">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
+                    @foreach($content as $item)
+                        @if(!empty(json_decode($item->objects)))
+                            <div class="building__item" open-building-popup="popup-buildings">
+                                <div class="building__item-top">
+                                    <div class="building__item-swiper swiper">
+                                        <div class="building__item-swiper-wrapper swiper-wrapper">
+                                            @foreach($item->photo as $photo)
+                                                <div class="building__item-slide swiper-slide">
+                                                    <img src="{{ asset('/uploads/'.$photo->photo) }}" alt="объект">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="building__item-scrollbar swiper-scrollbar"></div>
+                                    </div>
+                                    <div class="building__item-hashtag">
+                                        СЕМЕЙНЫЙ
+                                    </div>
+                                </div>
+                                <div class="building__item-info">
+                                    <div class="building__item-desc">
+                                        <div class="building__item-name">
+                                            {{ $item->name }}
+                                        </div>
+                                        <div class="building__item-address">
+                                            {{ $item->address }}
+                                        </div>
+                                        <div class="building__item-price">
+                                            от
+                                            <b>
+                                                @php
+                                                    $price = array_column(json_decode($item->objects), 'price');
+                                                    $min_price = min($price);
+                                                @endphp
+                                                {{ $min_price }} €
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div class="building__item-lead">
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
+                                            </div>
+                                            @php
+                                                $layouts = array_unique(array_column(json_decode($item->objects), 'apartment_layout'), SORT_STRING);
+                                            @endphp
+                                            @foreach($layouts as $layout)
+                                                {{ (!$loop->last) ? $layout.", " : $layout }}
+                                            @endforeach
+                                        </div>
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
+                                            </div>
+                                            @php
+                                                $size = array_column(json_decode($item->objects), 'size');
+                                                $min_size = min($size);
+                                                $max_size = max($size);
+                                                $size_result = ($min_size == $max_size) ? $max_size : $min_size."-".$max_size;
+                                            @endphp
+                                            {{ $size_result }} м2
+                                        </div>
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
+                                            </div>
+                                            {{ $item->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? "-" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="building__item" open-building-popup="popup-buildings">
+                                <div class="building__item-top">
+                                    <div class="building__item-swiper swiper">
+                                        <div class="building__item-swiper-wrapper swiper-wrapper">
+                                            @foreach($item->photo as $photo)
+                                                <div class="building__item-slide swiper-slide">
+                                                    <img src="{{ asset('/uploads/'.$photo->photo) }}" alt="объект">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="building__item-scrollbar swiper-scrollbar"></div>
+                                    </div>
+                                    <div class="building__item-hashtag">
+                                        СЕМЕЙНЫЙ
+                                    </div>
+                                </div>
+                                <div class="building__item-info">
+                                    <div class="building__item-desc">
+                                        <div class="building__item-name">
+                                            {{ $item->name }}
+                                        </div>
+                                        <div class="building__item-address">
+                                            {{ $item->address }}
+                                        </div>
+                                        <div class="building__item-price">
+                                            от
+                                            <b>
+                                                {{ $item->price }} €
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div class="building__item-lead">
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
+                                            </div>
+                                            {{ (int) $item->peculiarities->where('type', 'Спальни')->pluck('name')->all()[0] ?? "-" }}+{{ (int) $item->peculiarities->where('type', 'Гостиные')->pluck('name')->all()[0] ?? "-" }}
+                                        </div>
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
+                                            </div>
+                                            {{ $item->size }} м2
+                                        </div>
+                                        <div class="building__item-lead-point">
+                                            <div class="icon">
+                                                <img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
+                                            </div>
+                                            {{ $item->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? "-" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                    @endforeach
 				</div>
+                <div style="display: flex; justify-content: center">
+                    <button class="conditions__item-btn-more" btn-popup="more_building" data-count="0">
+                        Показать ещё
+                    </button>
+                </div>
 			</div>
 			<div class="conditions container">
 				<div class="conditions__title title">

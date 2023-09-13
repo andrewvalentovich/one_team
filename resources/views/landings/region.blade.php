@@ -7,6 +7,7 @@
 	<link href="https://fonts.cdnfonts.com/css/rubik-one" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>Регион</title>
 </head>
 <body>
@@ -185,67 +186,6 @@
                             </div>
                         </div>
                         @endforeach
-					<div class="building__item building__item_point" open-building-popup="popup-buildings">
-						<div class="building__item-top">
-							<div class="building__item-swiper swiper">
-								<div class="building__item-swiper-wrapper swiper-wrapper">
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-									<div class="building__item-slide swiper-slide">
-										<img src="{{ asset('lands/img/pic/building-1.png') }}" alt="объект">
-									</div>
-								</div>
-								<div class="building__item-scrollbar swiper-scrollbar"></div>
-							</div>
-							<div class="building__item-hashtag">
-								СЕМЕЙНЫЙ
-							</div>
-						</div>
-						<div class="building__item-info">
-							<div class="building__item-desc">
-								<div class="building__item-name">
-									Sedanka Hills
-								</div>
-								<div class="building__item-address">
-									<img src="{{ asset('lands/img/icons/location_black.png') }}" alt="точка">
-									Altıntaş / Aksu / Antalya
-								</div>
-								<div class="building__item-price">
-									от
-									<b>
-										165 000 €
-									</b>
-								</div>
-							</div>
-							<div class="building__item-lead">
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-									</div>
-									1+1, 2+1, 3+1
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-									</div>
-									79-121 м2
-								</div>
-								<div class="building__item-lead-point">
-									<div class="icon">
-										<img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-									</div>
-									500 м
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<div class="conditions container">
