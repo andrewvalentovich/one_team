@@ -40,7 +40,6 @@ class LandingFilter extends AbstractFilter
             self::TYPE => [$this, 'peculiarities_by_name'],
             self::PECULIARITIES => [$this, 'peculiarities'],
             self::PRICE => [$this, 'price'],
-            self::SIZE => [$this, 'size'],
             self::CITY => [$this, 'city_by_id'],
         ];
     }
