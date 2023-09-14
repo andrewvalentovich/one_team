@@ -2,22 +2,38 @@
 
 namespace App\Http\Middleware;
 
+
+use App\Models\Landing;
 use Closure;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Cors
 {
     /**
-     * Handle an incoming request.
+     * Массив доменов, с которых будем принимать запросы.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @var array
      */
-    public function handle(Request $request, Closure $next): Response
+    protected $domains = [];
+
+    public function __construct()
     {
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', "*")
-            ->header('Access-Control-Allow-Methods', "PUT,POST,DELETE,GET,OPTIONS")
-            ->header('Access-Control-Allow-Headers', "Accept,Authorization,Content-Type");
+        $this->domains = Landing::select('domain')->pluck('domain');
+    }
+
+    /**
+     * Метод, который обрабатывает все запросы, приходящие на сервер.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param Closure $next
+     * @return Response
+     */
+    public function handle($request, Closure $next)
+    {
+        header('Access-Control-Allow-Origin', '*');
+        header('Access-Control-Allow-Methods', '*');
+        header('Access-Control-Allow-Headers', '*');
+
+        return $next($request);
     }
 }

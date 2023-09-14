@@ -16,7 +16,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
-        \Illuminate\Http\Middleware\HandleCors::class,
+//        \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
     protected $middlewareAliases = [
         'locale' =>   \App\Http\Middleware\LocalizationMiddleware::class,
         'AuthUser' => \App\Http\Middleware\AuthUser::class,
+        'cors' => \App\Http\Middleware\Cors::class,
         'panel.auth' => \App\Http\Middleware\PanelAuthUser::class,
         'panel.no_auth' => \App\Http\Middleware\PanelNoAuthUser::class,
         'NoAuthUser' => \App\Http\Middleware\NoAuthUser::class,

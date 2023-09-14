@@ -28,8 +28,8 @@ class LandingsController extends Controller
         $products = Product::filter($filter)
             ->with('photo')
             ->with('peculiarities')
-            ->paginate(10)
-            ->through(function ($row) {
+            ->get()
+            ->transform(function ($row) {
                 if (!empty(json_decode($row->objects))) {
                     // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
                     $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
@@ -55,6 +55,7 @@ class LandingsController extends Controller
                         "layouts" => $layouts_result,
                         "size" => $size_result." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
+                        "photo" => $row->photo,
                     ];
                 } else {
                     return [
@@ -65,6 +66,7 @@ class LandingsController extends Controller
                         "layouts" => (int) $row->peculiarities->where('type', 'Спальни')->pluck('name')->all() . "+" . (int) $row->peculiarities->where('type', 'Гостиные')->pluck('name')->all(),
                         "size" => $row->size." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
+                        "photo" => $row->photo,
                     ];
                 }
             });

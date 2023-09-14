@@ -167,7 +167,7 @@
 					</div>
 				</div>
 				<div class="gallery__filter">
-					<div class="gallery__item building-select all active" data-id="0">
+					<div class="gallery__item building-select all" data-id="0">
 						Все
 					</div>
                     @foreach($filter->cities as $city)
@@ -550,6 +550,11 @@
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
 	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
 	<script src="{{ asset('lands/js/app.js') }}"></script>
+	<script src="{{ asset('lands/js/url-query-object.js') }}"></script>
+    <script>
+        window.domain = `{{ config('app.domain') }}`;
+    </script>
+	<script src="{{ asset('lands/js/objects-filter.js') }}"></script>
 
 </body>
 </html>

@@ -24,10 +24,11 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'filled|numeric|min:1',
-            'page' => 'filled|numeric|min:1',
-            'to_sea' => 'nullable|string',
+            'limit' => 'nullable|numeric',
+            'offset' => 'nullable|numeric',
+            'type' => 'nullable|numeric',
             'city_id' => 'nullable|numeric',
+            'country_id' => 'nullable|numeric',
         ];
     }
 }
