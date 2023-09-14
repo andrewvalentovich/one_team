@@ -31,18 +31,18 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
-            // Реализация системы поддоменов, вынесли в отдельный файл
-            Route::domain('{subdomain}.'.config('app.domain'))
-                ->middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/subdomains.php'));
-
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            // Реализация системы поддоменов, вынесли в отдельный файл
+            Route::domain('{subdomain}.'.config('app.domain'))
+                ->middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/subdomains.php'));
         });
     }
 }
