@@ -3807,7 +3807,12 @@ ul.list_point li {
   max-width: 540px;
   line-height: 1.55;
 }
-
+.preview__place p{
+  font-size: 18px;
+  font-weight: 400;
+  max-width: 540px;
+  line-height: 1.55;
+}
 .preview__form {
   background: #fff;
   border-radius: 30px;
@@ -4959,6 +4964,11 @@ ul.list_point li {
     line-height: 22px;
   }
 
+  .preview__place p{
+    font-size: 14px;
+    line-height: 22px;
+  }
+
   .preview__info-item span {
     font-size: 24px;
   }
@@ -5593,4 +5603,12 @@ input[type='number'] {
 
 .popup-map iframe{
   height: 99%;
+}
+
+
+.building__sort {
+  width: 300px;
+}
+.building__sort .sort__title {
+  width: 100%;
 }

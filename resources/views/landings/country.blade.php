@@ -131,7 +131,7 @@
 					<div class="building__title title">
                         {{ $landing->objects_title ?? null }}
 					</div>
-					<div class="sort close-out">
+					<div class="sort close-out building__sort">
 						<span class="sort__title btn">
 							<span class="sort__title-type">
 								Тип недвижимости

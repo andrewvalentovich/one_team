@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     // При загрузке страницы выводим активные элементы
     var url_city_id = $.query.get('city_id');
     var url_type_id = $.query.get('type');
@@ -35,6 +36,7 @@ $(document).ready(function () {
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
+            addClickBuildingItem()
         },
         error: function (error) {
             console.error('Error:', error);
@@ -91,6 +93,7 @@ function change_city(city_id) {
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
+            addClickBuildingItem()
         },
         error: function (error) {
             console.error('Error:', error);
@@ -125,6 +128,7 @@ function change_type(type_id) {
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
+            addClickBuildingItem()
         },
         error: function (error) {
             console.error('Error:', error);
@@ -225,4 +229,19 @@ function load_content() {
             console.error('Error:', error);
         }
     });
+}
+function addClickBuildingItem() {
+    if (document.querySelectorAll('[open-building-popup="popup-buildings"]').length) {
+        const openBuildingPopupBtn = document.querySelectorAll('[open-building-popup="popup-buildings"]')
+        openBuildingPopupBtn.forEach(elementHouse => {
+          elementHouse.addEventListener('click', function(e) {
+            const buildingPopup = document.querySelector('.popup-building')
+            buildingPopup.classList.add('active')
+            bodyScrollLock.disableBodyScroll(buildingPopup);
+      
+            const houseBlock = this.closest('.building__item')
+            addBuldingToPopup(houseBlock)
+          })
+        });
+    }
 }
