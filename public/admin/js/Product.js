@@ -364,6 +364,7 @@ $('#update_product').on('submit',function(e) {
         contentType: false,
         success: function(response) {
             console.log('ress--------------',response)
+            console.log('option_id = ' + formData.get("option_id"))
             alert('Редактирование успешно завершено');
             window.location.replace(response.url);
         },

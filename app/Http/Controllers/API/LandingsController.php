@@ -27,6 +27,7 @@ class LandingsController extends Controller
         $filter = app()->make(LandingFilter::class, ['queryParams' => $data]);
         $products = Product::filter($filter)
             ->with('photo')
+            ->with('option')
             ->with('peculiarities')
             ->get()
             ->transform(function ($row) {
@@ -55,7 +56,8 @@ class LandingsController extends Controller
                         "layouts" => $layouts_result,
                         "size" => $size_result." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
-                        "photo" => $row->photo,
+                        "photo" => $row->photo ?? null,
+                        "option" => $row->option->name ?? null,
                     ];
                 } else {
                     return [
@@ -66,7 +68,8 @@ class LandingsController extends Controller
                         "layouts" => (int) $row->peculiarities->where('type', 'Спальни')->pluck('name')->all() . "+" . (int) $row->peculiarities->where('type', 'Гостиные')->pluck('name')->all(),
                         "size" => $row->size." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
-                        "photo" => $row->photo,
+                        "photo" => $row->photo ?? null,
+                        "option" => $row->option->name ?? null,
                     ];
                 }
             });

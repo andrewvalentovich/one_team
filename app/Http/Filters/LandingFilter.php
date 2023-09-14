@@ -38,7 +38,7 @@ class LandingFilter extends AbstractFilter
     protected function limit(Builder $builder, $value)
     {
         if(isset($value)) {
-            $builder->limit($value);
+            $builder->limit($value + 1);
         }
     }
 

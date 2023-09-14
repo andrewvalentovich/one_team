@@ -131,17 +131,20 @@
 					<div class="building__title title">
                         {{ $landing->objects_title ?? null }}
 					</div>
-					<div class="sort close-out ">
+					<div class="sort close-out">
 						<span class="sort__title btn">
-							<span>
+							<span class="sort__title-type">
 								Тип недвижимости
 							</span>
 							<img class="arrow" src="{{ asset('lands/img/icons/next.png') }}" alt="стрелочка">
 						</span>
 						<div class="sort__list">
 							<div class="sort__list-body">
+                                <div class="sort__list-item type" data-id="0">
+                                    <span>Все типы</span>
+                                </div>
                                 @foreach($types as $type)
-                                    <div class="sort__list-item" data-id="{{ $type->id }}">
+                                    <div class="sort__list-item type" data-id="{{ $type->id }}">
                                         <span>{{ $type->name }}</span>
                                     </div>
                                 @endforeach
@@ -150,15 +153,18 @@
 					</div>
 					<div class="sort close-out building__all">
 						<span class="sort__title btn">
-							<span>
+							<span class="sort__title-city">
 								Все регионы
 							</span>
 							<img class="arrow" src="{{ asset('lands/img/icons/next.png') }}" alt="стрелочка">
 						</span>
 						<div class="sort__list">
 							<div class="sort__list-body">
+                                <div class="sort__list-item city" data-id="0">
+                                    <span>Все регионы</span>
+                                </div>
                                 @foreach($filter->cities as $city)
-                                    <div class="sort__list-item" data-id="{{ $city->id }}">
+                                    <div class="sort__list-item city" data-id="{{ $city->id }}">
                                         <span>{{ $city->name }}</span>
                                     </div>
                                 @endforeach
@@ -176,137 +182,11 @@
                         </div>
                     @endforeach
 				</div>
-				<div class="building__list">
-                    @foreach($content as $item)
-                        @if(!empty(json_decode($item->objects)))
-                            <div class="building__item" open-building-popup="popup-buildings">
-                                <div class="building__item-top">
-                                    <div class="building__item-swiper swiper">
-                                        <div class="building__item-swiper-wrapper swiper-wrapper">
-                                            @foreach($item->photo as $photo)
-                                                <div class="building__item-slide swiper-slide">
-                                                    <img src="{{ asset('/uploads/'.$photo->photo) }}" alt="объект">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="building__item-scrollbar swiper-scrollbar"></div>
-                                    </div>
-                                    <div class="building__item-hashtag">
-                                        СЕМЕЙНЫЙ
-                                    </div>
-                                </div>
-                                <div class="building__item-info">
-                                    <div class="building__item-desc">
-                                        <div class="building__item-name">
-                                            {{ $item->name }}
-                                        </div>
-                                        <div class="building__item-address">
-                                            {{ $item->address }}
-                                        </div>
-                                        <div class="building__item-price">
-                                            от
-                                            <b>
-                                                @php
-                                                    $price = array_column(json_decode($item->objects), 'price');
-                                                    $min_price = min($price);
-                                                @endphp
-                                                {{ $min_price }} €
-                                            </b>
-                                        </div>
-                                    </div>
-                                    <div class="building__item-lead">
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-                                            </div>
-                                            @php
-                                                $layouts = array_unique(array_column(json_decode($item->objects), 'apartment_layout'), SORT_STRING);
-                                            @endphp
-                                            @foreach($layouts as $layout)
-                                                {{ (!$loop->last) ? $layout.", " : $layout }}
-                                            @endforeach
-                                        </div>
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-                                            </div>
-                                            @php
-                                                $size = array_column(json_decode($item->objects), 'size');
-                                                $min_size = min($size);
-                                                $max_size = max($size);
-                                                $size_result = ($min_size == $max_size) ? $max_size : $min_size."-".$max_size;
-                                            @endphp
-                                            {{ $size_result }} м2
-                                        </div>
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-                                            </div>
-                                            {{ $item->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? "-" }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            <div class="building__item" open-building-popup="popup-buildings">
-                                <div class="building__item-top">
-                                    <div class="building__item-swiper swiper">
-                                        <div class="building__item-swiper-wrapper swiper-wrapper">
-                                            @foreach($item->photo as $photo)
-                                                <div class="building__item-slide swiper-slide">
-                                                    <img src="{{ asset('/uploads/'.$photo->photo) }}" alt="объект">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div class="building__item-scrollbar swiper-scrollbar"></div>
-                                    </div>
-                                    <div class="building__item-hashtag">
-                                        СЕМЕЙНЫЙ
-                                    </div>
-                                </div>
-                                <div class="building__item-info">
-                                    <div class="building__item-desc">
-                                        <div class="building__item-name">
-                                            {{ $item->name }}
-                                        </div>
-                                        <div class="building__item-address">
-                                            {{ $item->address }}
-                                        </div>
-                                        <div class="building__item-price">
-                                            от
-                                            <b>
-                                                {{ $item->price }} €
-                                            </b>
-                                        </div>
-                                    </div>
-                                    <div class="building__item-lead">
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-                                            </div>
-                                            {{ (int) $item->peculiarities->where('type', 'Спальни')->pluck('name')->all()[0] ?? "-" }}+{{ (int) $item->peculiarities->where('type', 'Гостиные')->pluck('name')->all()[0] ?? "-" }}
-                                        </div>
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-                                            </div>
-                                            {{ $item->size }} м2
-                                        </div>
-                                        <div class="building__item-lead-point">
-                                            <div class="icon">
-                                                <img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-                                            </div>
-                                            {{ $item->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? "-" }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+				<div class="building__list" data-count="6">
 
-                    @endforeach
 				</div>
                 <div style="display: flex; justify-content: center">
-                    <button class="conditions__item-btn-more" btn-popup="more_building" data-count="0">
+                    <button id="load_objects_btn" class="conditions__item-btn-more" btn-popup="more_building">
                         Показать ещё
                     </button>
                 </div>
@@ -549,10 +429,12 @@
 	<!-- <script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
 	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
-	<script src="{{ asset('lands/js/app.js') }}"></script>
 	<script src="{{ asset('lands/js/url-query-object.js') }}"></script>
+	<script src="{{ asset('lands/js/app.js') }}"></script>
     <script>
         window.domain = `{{ config('app.domain') }}`;
+
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
     </script>
 	<script src="{{ asset('lands/js/objects-filter.js') }}"></script>
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Option;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
@@ -47,7 +48,8 @@ class ProductController extends Controller
         $country = CountryAndCity::orderby('name', 'asc')->where('parent_id', null)->get();
         $category = Peculiarities::where('id', $id)->first();
         $categorys = Peculiarities::all();
-        return view('admin.Product.create', compact('category','categorys','country'));
+        $options =  Option::all();
+        return view('admin.Product.create', compact('category','categorys','country','options'));
     }
 
     public function create_product(Request $request) {
@@ -95,6 +97,7 @@ class ProductController extends Controller
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat),
             'objects' => json_encode($objects),
+            'option_id' => $request->option_id,
         ]);
 
         if (isset($request->osobenosti)){
@@ -135,6 +138,7 @@ class ProductController extends Controller
                 ]);
             }
         }
+
         return response()->json([
             'status' => true,
             'message' => 'Product Created',
@@ -156,10 +160,11 @@ class ProductController extends Controller
         $product_category = $get->ProductCategory->where('type', 'Типы');
         $get_new_category = Peculiarities::whereNotIn('id', $get->ProductCategory->pluck('peculiarities_id'))->where('type','Особенности')->get();
         $categorys =  Peculiarities::get();
+        $options =  Option::all();
 
         $get_old_category = ProductCategory::where('product_id', $get->id)->where('type', 'Особенности')->get();
 
-        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category'));
+        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options'));
     }
 
 
@@ -234,6 +239,7 @@ class ProductController extends Controller
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
             'objects' => json_encode($objects),
+            'option_id' => $request->option_id
         ]);
 
 

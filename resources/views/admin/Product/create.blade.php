@@ -59,13 +59,25 @@
                         <input type="hidden" name="category_id" value="{{$category->id}}">
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
+                                <label class="col-sm-3 col-form-label">Опция (для landing page)</label>
+                                <div class="col-sm-9" bis_skin_checked="1">
+                                    <select class="form-control"  name="option_id" style="color: #e2e8f0">
+                                        <option value="null">{{ __('Не выбрано') }}</option>
+                                        @foreach($options as $option)
+                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" bis_skin_checked="1">
+                            <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Вид</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
                                         @foreach($categorys->where('type', 'Вид') as $osobenosti)
                                             <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
                             </div>
