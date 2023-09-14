@@ -97,7 +97,7 @@ class ProductController extends Controller
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat),
             'objects' => json_encode($objects),
-            'option_id' => $request->option_id,
+            'option_id' => (is_numeric($request->option_id) && $request->option_id > 0) ? $request->option_id : null,
         ]);
 
         if (isset($request->osobenosti)){
@@ -239,9 +239,8 @@ class ProductController extends Controller
             'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
             'objects' => json_encode($objects),
-            'option_id' => $request->option_id
+            'option_id' => (is_numeric($request->option_id) && $request->option_id > 0) ? $request->option_id : null
         ]);
-
 
         if (isset($request->osobenosti)){
             ProductCategory::where('product_id',$request->product_id)->delete();
