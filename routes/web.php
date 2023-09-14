@@ -147,7 +147,6 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::get('contacts_page', [ContactsController::class, 'contacts_page'])->name('contacts_page');
             Route::post('contacts_page_create', [ContactsController::class, 'contacts_page_create'])->name('contacts_page_create');
 
-
             Route::get('police', [PolicyAndPrivice::class,'police'])->name('police');
             Route::post('police_create', [PolicyAndPrivice::class,'police_create'])->name('police_create');
 
@@ -161,13 +160,13 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::post('update_select_page', [CompanySelectController::class, 'update_select_page'])->name('update_select_page');
             Route::get('delete_select_page/select_id={id}', [CompanySelectController::class,'delete_select_page'])->name('delete_select_page');
 
-                Route::get('value_page', [KursController::class,'value_page'])->name('value_page');
+            Route::get('value_page', [KursController::class,'value_page'])->name('value_page');
+            Route::post('update_value', [KursController::class,'update_value'])->name('update_value');
 
             Route::group(['as' => 'admin.'], function() {
                 Route::resource('exchange_rates', \App\Http\Controllers\Admin\ExchangeRateController::class); // CRUD model ExchangeRate
             });
 
-                Route::post('update_value', [KursController::class,'update_value'])->name('update_value');
 
             Route::get('HomePage', [AdminLoginController::class,'HomePage'])->name('HomePage');
             Route::get('logoutAdmin', [AdminLoginController::class,'logoutAdmin'])->name('logoutAdmin');
@@ -186,6 +185,10 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::get('delete_country/country_id={id}' , [CountryAndCityController::class, 'delete_country'])->name('delete_country');
             Route::post('get_city', [CountryAndCityController::class,'get_city'])->name('get_city');
 
+
+            Route::group(['as' => 'admin.'], function() {
+                Route::resource('options', \App\Http\Controllers\Admin\OptionController::class); // CRUD model Options
+            });
 
             Route::get('peculiarities_peculiarities/{string}',[Peculiarities::class,'peculiarities_peculiarities'])->name('peculiarities_peculiarities');
             Route::get('new_peculiarities/{string}',[Peculiarities::class,'new_peculiarities'])->name('new_peculiarities');

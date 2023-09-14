@@ -47,7 +47,6 @@ $(document).ready(function () {
                 $.each(data, function (key, val) {
                     var photos = '';
 
-
                     $.each(val.photo, function (i, photo) {
                         photos += '<div class="building__item-slide swiper-slide"><img src="/uploads/' + photo.photo + '" alt="объект"></div>';
                     console.log(photos);

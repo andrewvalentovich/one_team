@@ -174,8 +174,8 @@
                                 <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Гостиные')}}">Гостиные</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Особенности')}}">Особенности</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','Вид')}}">Вид</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','До моря')}}">До моря
-                                    </a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('peculiarities_peculiarities','До моря')}}">До моря</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{route('admin.options.index')}}">{{ __('Опции') }}</a></li>
                                 {{--                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Города</a></li>--}}
                             </ul>
                         </div>

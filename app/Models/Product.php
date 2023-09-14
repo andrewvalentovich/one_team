@@ -11,6 +11,11 @@ class Product extends Model
     use HasFactory, Filterable;
     protected $guarded = [];
 
+    // Привязка продукта к опции (много продуктов к одной опции)
+    public function option()
+    {
+        return $this->belongsTo(Option::class, 'option_id', 'id');
+    }
 
     public function ProductCategory() {
         return $this->hasMany(ProductCategory::class,'product_id');
