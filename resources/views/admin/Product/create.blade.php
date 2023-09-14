@@ -62,7 +62,7 @@
                                 <label class="col-sm-3 col-form-label">Опция (для landing page)</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="option_id" style="color: #e2e8f0">
-                                        <option value="null">{{ __('Не выбрано') }}</option>
+                                        <option value="0">{{ __('Не выбрано') }}</option>
                                         @foreach($options as $option)
                                             <option value="{{ $option->id }}">{{ $option->name }}</option>
                                         @endforeach
