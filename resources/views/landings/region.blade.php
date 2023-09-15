@@ -86,7 +86,7 @@
                             {!! $landing->main_content ?? null !!}
                         </p>
 					</div>
-					<form class="preview__form form">
+					<form class="preview__form form request__form">
 						<div class="preview__form-title">
 							Оставить заявку эксперту 1
 						</div>
@@ -94,14 +94,15 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+							<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" value="" placeholder="+7" >
+							<input type="number" name="phone" value="" placeholder="+7" >
 						</label>
+                        <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
 							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -127,66 +128,39 @@
 				</div>
 			</div>
 			<div class="building container" id="objects">
-				<div class="building__title title">
-                    {{ $landing->objects_title ?? null }}
-				</div>
-				<div class="building__list">
-                    @foreach($content as $item)
-                        <div class="building__item" open-building-popup="popup-buildings">
-                            <div class="building__item-top">
-                                <div class="building__item-swiper swiper">
-                                    <div class="building__item-swiper-wrapper swiper-wrapper">
-                                        @foreach($item->photo as $photo)
-                                            <div class="building__item-slide swiper-slide">
-                                                <img src="{{ asset('/uploads/'.$photo->photo) }}" alt="объект">
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="building__item-scrollbar swiper-scrollbar"></div>
+                <div class="building__header">
+                    <div class="building__title title">
+                        {{ $landing->objects_title ?? null }}
+                    </div>
+                    <div class="sort close-out building__sort">
+						<span class="sort__title btn">
+							<span class="sort__title-type">
+								Тип недвижимости
+							</span>
+							<img class="arrow" src="{{ asset('lands/img/icons/next.png') }}" alt="стрелочка">
+						</span>
+                        <div class="sort__list">
+                            <div class="sort__list-body">
+                                <div class="sort__list-item type" data-id="0">
+                                    <span>Все типы</span>
                                 </div>
-                                <div class="building__item-hashtag">
-                                    СЕМЕЙНЫЙ
-                                </div>
-                            </div>
-                            <div class="building__item-info">
-                                <div class="building__item-desc">
-                                    <div class="building__item-name">
-                                        {{ $item->name }}
+                                @foreach($types as $type)
+                                    <div class="sort__list-item type" data-id="{{ $type->id }}">
+                                        <span>{{ $type->name }}</span>
                                     </div>
-                                    <div class="building__item-address">
-                                        {{ $item->address }}
-                                    </div>
-                                    <div class="building__item-price">
-                                        от
-                                        <b>
-                                            {{ $item->price }} €
-                                        </b>
-                                    </div>
-                                </div>
-                                <div class="building__item-lead">
-                                    <div class="building__item-lead-point">
-                                        <div class="icon">
-                                            <img src="{{ asset('lands/img/icons/dashboard.png') }}" alt="dashboard">
-                                        </div>
-                                        {{ (int) $item->peculiarities->where('type', 'Спальни')->pluck('name')->all()[0] ?? "-" }}+{{ (int) $item->peculiarities->where('type', 'Гостиные')->pluck('name')->all()[0] ?? "-" }}
-                                    </div>
-                                    <div class="building__item-lead-point">
-                                        <div class="icon">
-                                            <img src="{{ asset('lands/img/icons/wide.png') }}" alt="wide">
-                                        </div>
-                                        {{ $item->size }} м2
-                                    </div>
-                                    <div class="building__item-lead-point">
-                                        <div class="icon">
-                                            <img src="{{ asset('lands/img/icons/wave.png') }}" alt="wave">
-                                        </div>
-                                        {{ $item->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? "-" }}
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
-                        @endforeach
+                    </div>
+                </div>
+				<div class="building__list" data-count="6">
+
 				</div>
+                <div style="display: flex; justify-content: center">
+                    <button id="load_objects_btn" class="conditions__item-btn-more" btn-popup="more_building">
+                        Показать ещё
+                    </button>
+                </div>
 			</div>
 			<div class="conditions container">
 				<div class="conditions__title title">
@@ -320,7 +294,7 @@
 @include('landings.includes.modals.modal-build')
 @include('landings.includes.modals.modals')
 <!-- дефолтная модалка -->
-<form class="popup popup-record form">
+<form class="popup popup-record form request__form">
     <div class="popup__body">
         <div class="popup__content">
             <div class="preview__form">
@@ -331,14 +305,15 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" value="" placeholder="+7" >
+					<input type="number" name="phone" value="" placeholder="+7" >
 				</label>
+                <input type="hidden" name="landing_id" value="{{ $landing->id }}">
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -369,7 +344,7 @@
                 <div class="vnj__text">
                     {!! $landing->vnj_content !!}
                 </div>
-                <form class="preview__form" style="height: fit-content;">
+                <form class="preview__form request__form" style="height: fit-content;">
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
@@ -377,14 +352,15 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" value="" placeholder="+7" >
+						<input type="number" name="phone" value="" placeholder="+7" >
 					</label>
+                    <input type="hidden" name="landing_id" value="{{ $landing->id }}">
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -419,7 +395,15 @@
 	<!-- <script src="{{ asset('lands/js/allCountries-list.js') }}"></script>
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
 	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
-	<script src="{{ asset('lands/js/app.js') }}"></script>
+    <script src="{{ asset('lands/js/url-query-object.js') }}"></script>
+    <script src="{{ asset('lands/js/app.js') }}"></script>
+    <script>
+        window.domain = `{{ config('app.domain') }}`;
+
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+    </script>
+    <script src="{{ asset('lands/js/objects-filter.js') }}"></script>
+    <script src="{{ asset('lands/js/forms-submit.js') }}"></script>
 
 </body>
 </html>

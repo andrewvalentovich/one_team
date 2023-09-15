@@ -18,7 +18,8 @@ Route::get('/', function ($subdomain) {
 
         if($landing->template->path === "region") {
             $filter = \App\Models\CountryAndCity::find($landing['filter_'.$landing->template->path]);
-            return view("landings/{$landing->template->path}", compact('landing', 'filter'));
+            $types = \App\Models\Peculiarities::where('type', 'Типы')->get();
+            return view("landings/{$landing->template->path}", compact('landing', 'filter', 'types'));
         }
 
         if($landing->template->path === "country") {

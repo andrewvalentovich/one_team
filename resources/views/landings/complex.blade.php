@@ -196,7 +196,7 @@
 					<div class="layouts__swiper swiper">
 						<div class="layouts__swiper-wrapper swiper-wrapper">
                             @if(isset($filter->objects))
-                                @foreach(json_decode($filter->objects) as $object)
+                                @foreach(json_decode($filter->objects) as $object);
                                     <div class="layouts__slide swiper-slide" btn-popup="popup-house">
                                         <div class="layouts__slide-pic">
                                             <img src="{{ asset("uploads/".$object->apartment_layout_image ?? null) }}" alt="схема">
