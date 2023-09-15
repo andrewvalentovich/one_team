@@ -255,11 +255,12 @@ const layoutsSwiper = new Swiper('.layouts__swiper', {
   }
 })
 
-
+$(document).ready(function () {
+  
+})
 //свайпер gallery
 const gallerySwiper = new Swiper('.gallery__swiper', {
   spaceBetween: 20,
-  loop: true,
   navigation: {
     nextEl: ".gallery__next",
     prevEl: ".gallery__prev",
@@ -283,52 +284,8 @@ const gallerySwiper = new Swiper('.gallery__swiper', {
 })
 
 
-//смена контента в галерее
 
-if(document.querySelectorAll('.changeGallery')) {
-  const galleryItem = document.querySelectorAll('.changeGallery')
-  galleryItem.forEach((galleryBtn, index) => {
 
-    galleryBtn.addEventListener('click', function() {
-
-      if(galleryBtn.classList.contains('gallery__item_video')) return
-
-      if(galleryBtn.classList.contains('building-select')) {
-        let randomNumber = randomIntFromInterval(1,4)
-
-        if(galleryBtn.classList.contains('all')) randomNumber = -1
-        randomStatebuildingCards(randomNumber)
-      }
-
-      changerActive(galleryItem)
-      galleryBtn.classList.add('active')
-      changeContentGallerySwiper(index)
-    })
-  })
-}
-
-//временная функция чтобы показать смену контента в галереес 
-let urlImg
-if(document.querySelectorAll('.gallery__swiper')) {
-  urlImg = document.querySelector('.gallery__slide')
-  if(urlImg) {
-    const pic = urlImg.querySelector('img').getAttribute('src')
-  }
-}
-function changeContentGallerySwiper(numberBtn) {
-  const swiperGallery = document.querySelector('.gallery__swiper')
-  const swiperWrapper = swiperGallery.querySelector('.gallery__swiper-wrapper')
-  swiperWrapper.innerHTML = ''
-  for (let i = 0; i < 6; i++) {
-    let numberPhoto = numberBtn
-    if(numberBtn === 0 || numberBtn >=4) numberPhoto = 1
-
-    gallerySwiper.addSlide(i, `<div" class="gallery__slide swiper-slide"><img src="${pic}" alt=""></div>`)
-  }
-  gallerySwiper.update()
-  gallerySwiper.updateSlides()
-  addClickOpenGallery()
-}
 
 
 //свайпер новостроек bulding
@@ -623,3 +580,52 @@ wrapMap.forEach(map => {
     }
   })
 });
+
+
+if(document.querySelectorAll('.changeGallery[data-category-id]').length) {
+  const catogiesSelect = document.querySelectorAll('.changeGallery[data-category-id]');
+  catogiesSelect.forEach(selector => {
+    selector.addEventListener('click', function() {
+      const id = selector.getAttribute('data-category-id')
+      changerActive(catogiesSelect)
+      this.classList.add('active')
+      changeContentGallerySwiper(id)
+    })
+  });
+}
+
+function changeContentGallerySwiper(id) {
+  const swiperGallery = document.querySelector('.gallery__swiper')
+  const swiperWrapper = swiperGallery.querySelector('.gallery__swiper-wrapper')
+  const swiperSlides = swiperWrapper.querySelectorAll('.gallery__slide')
+  if(id === 'all') {
+    swiperSlides.forEach(slide => {
+      slide.classList.remove('hidden-slide')
+    });
+  } else {
+    for (let index = 0; index < swiperSlides.length; index++) {
+      const idCategorySlide = swiperSlides[index].getAttribute('data-category-id')
+      if(idCategorySlide != id) {
+        swiperSlides[index].classList.add('hidden-slide');
+      } else {
+        swiperSlides[index].classList.remove('hidden-slide')
+      }
+    }
+  }
+  gallerySwiper.update()
+  gallerySwiper.updateSlides()
+  addClickOpenGallery()
+  const galleryW = document.querySelector('.gallery__swiper-w')
+  const galleryText = document.querySelector('.gallery__text')
+  const gallery = document.querySelector('.gallery')
+
+  if(swiperWrapper.querySelectorAll('.hidden-slide').length === swiperSlides.length) {
+    galleryW.style.display = 'none'
+    galleryText.style.display = 'block'
+    gallery.style.overflow = 'visible'
+  } else {
+    galleryW.style.display = 'block'
+    galleryText.style.display = 'none'
+    gallery.style.overflow = 'hidden'
+  }
+}

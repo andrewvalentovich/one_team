@@ -235,16 +235,16 @@
 							</svg>
 							Видео
 						</div>
-						<div class="gallery__item changeGallery active">
+						<div class="gallery__item changeGallery active" data-category-id="all">
 							Все
 						</div>
-						<div class="gallery__item changeGallery">
+						<div class="gallery__item changeGallery" data-category-id="1">
 							Интерьер
 						</div>
-						<div class="gallery__item changeGallery">
+						<div class="gallery__item changeGallery" data-category-id="2">
 							Экстерьер
 						</div>
-						<div class="gallery__item changeGallery">
+						<div class="gallery__item changeGallery" data-category-id="3">
 							Инфраструктура
 						</div>
 						<div class="gallery__item changeGallery">
@@ -262,14 +262,13 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
-
-									<div class="sort__list-item changeGallery">
+									<div class="sort__list-item changeGallery" data-category-id="1">
 										<span>Интерьер</span>
 									</div>
-									<div class="sort__list-item changeGallery">
+									<div class="sort__list-item changeGallery" data-category-id="2">
 										<span>Экстерьер</span>
 									</div>
-									<div class="sort__list-item changeGallery">
+									<div class="sort__list-item changeGallery" data-category-id="3">
 										<span>Инфраструктура</span>
 									</div>
 									<div class="sort__list-item changeGallery">
@@ -278,13 +277,16 @@
 									<div class="sort__list-item changeGallery">
 										<span>Территория</span>
 									</div>
-									<div class="sort__list-item changeGallery">
+									<div class="sort__list-item changeGallery" data-category-id="all">
 										<span>Все</span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+                    <div class="gallery__text" style="display:none">
+                        Фотографий нет
+                    </div>
 				</div>
 				<div class="gallery__swiper-w">
 					<div class="gallery__swiper swiper">

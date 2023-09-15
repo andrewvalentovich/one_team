@@ -5612,3 +5612,11 @@ input[type='number'] {
 .building__sort .sort__title {
   width: 100%;
 }
+
+.hidden-slide {
+  display: none !important;
+}
+
+.gallery__text {
+  color: #000;
+}
