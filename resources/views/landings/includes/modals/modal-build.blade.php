@@ -1,5 +1,5 @@
 <!-- НОВОСТРОЙКИ В модалка -->
-<form class="popup popup-building form">
+<form class="popup popup-building form request__form">
     <div class="popup__body">
         <div class="popup__content">
 			<div class="popup__building-info">
@@ -13,14 +13,15 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" value="" placeholder="+7" >
+					<input type="number" name="phone" value="" placeholder="+7" >
 				</label>
+                <input type="hidden" name="landing_id" value="{{ $landing->id }}">
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">

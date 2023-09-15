@@ -19,7 +19,6 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
         return $request->user();
     });
 
-
     // Отдаются объекты для карт по фильтру
     Route::get('/houses/by_coordinates/with_filter', [\App\Http\Controllers\API\HousesController::class, 'getByCoordinatesWithFilter'])->name('api.houses.get.by_coordinates.with_filter');
     // Отдаются объекты для карт все
@@ -30,10 +29,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     // Отдаются объекты для лендингов по фильтру
     Route::get('/landings/with_filter', [\App\Http\Controllers\API\LandingsController::class, 'getWithFilter'])->name('api.landings.get.with_filter');
 
-// Новый
-    Route::get('/export', [\App\Http\Controllers\API\ExportController::class, 'export'])->name('api.export');
-
-// Старые
-    Route::get('/export_req', [\App\Http\Controllers\API\ExportController::class, 'export_req'])->name('api.export_req');
-    Route::get('/flats_requests/export', [\App\Http\Controllers\API\ExportController::class, 'flats_request_export'])->name('api.flats_requests.export');
+    // Отдаём заявки в зависимости от токена (у каждого типа лендинга свой токен, который задаётся в panel.one-team.pro)
+    Route::post('/requests/lead', [\App\Http\Controllers\API\RequestsController::class, 'lead'])->name('api.requests.lead');
+    Route::get('/requests/export', [\App\Http\Controllers\API\RequestsController::class, 'export'])->name('api.requests.export');
 });

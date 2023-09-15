@@ -781,7 +781,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: "http://panel.localhost:8879/landings",
+                url: "{{ route('panel.landings.store', $landing->id) }}",
                 data: formData,
                 contentType: false,
                 processData: false,

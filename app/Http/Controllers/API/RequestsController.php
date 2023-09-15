@@ -5,54 +5,42 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Template;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ExportController extends Controller
+class RequestsController extends Controller
 {
-    private $token;
-    private $from;
-
-    public function __construct(Request $request)
+    // Отдаём заявки для сторонней CRM
+    public function export(Request $request)
     {
+        // Проверка на наличие токена
         if(!$request->has('token')) {
             return response('Unauthorized.', 401);
         }
 
         // Валидация
         $data = $request->validate([
-            'token' => 'string|max:255',
-            'from' => 'max:255',
+            'token' => 'nullable|string|max:255',
+            'from' => 'nullable|max:255',
         ]);
 
         $template = Template::where('token', $data['token'])->get();
         if($template->isEmpty()) {
             return response('Unauthorized.', 401);
-        } else {
-            $this->token = $data['token'];
-            $this->from = $data['from'];
         }
-    }
 
-    public function export(Request $request)
-    {
         // Получаем заявки
-        $data = \App\Models\Request::query()->with('landing')->with('template')
-            ->where(function ($query) use ($request) {
-                if($this->from) {
-                    $query->where('created_at', '>', date('Y-m-d H:i:s', $this->from));
-                }
-            })
-            ->where(function ($query) use ($request) {
-                if($this->token) {
-                    $query->where('templates.token', $this->token);
-                }
-            })
+        $result = DB::table('requests')
+            ->join('landings', 'landings.id', '=', 'requests.landing_id')
+            ->join('templates', 'templates.id', '=', 'landings.template_id')
+            ->where('templates.token', '=', $data['token'])
             ->get()
             ->transform(function ($row) {
                 return [
                     'created' => (string) date('Y-m-d H:i:s', strtotime($row->created_at)),
                     'phone' => (string) $row->phone,
-                    'first_name' => isset($row->first_name) ? (string) $row->first_name : null,
+                    'first_name' => isset($row->fio) ? (string) $row->fio : null,
                     'last_name' => isset($row->last_name) ? (string) $row->last_name : null,
                     'middle_name' => isset($row->middle_name) ? (string) $row->middle_name : null,
                     'birthdate' => isset($row->birhday) ? (string) date('Y-m-d', strtotime($row->birhday)) : null,
@@ -63,12 +51,33 @@ class ExportController extends Controller
                     'utm_campaign' => isset($row->utm_campaign) ? (string) $row->utm_campaign : null,
                     'utm_term' => isset($row->utm_term) ? (string) $row->utm_term : null,
                     'utm_content' => isset($row->utm_content) ? (string) $row->utm_content : null,
-                    'referer' => isset($row->landing) ? (string) $row->landing->domain : null,
-                    'token' => isset($row->landing->template) ? (string) $row->landing->template->token : null,
+                    'referer' => isset($row->domain) ? (string) $row->domain : null,
+                    'token' => isset($row->token) ? (string) $row->token : null,
                 ];
             })
             ->toArray();
 
-        return response()->json(array_values(array_merge($data)));
+        return response()->json(array_values(array_merge($result)));
+    }
+
+    // Получаем заявки
+    public function lead(Request $request)
+    {
+        // Валидация
+        $data = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'landing_id' => 'nullable|numeric|min:1',
+        ]);
+
+        $data['fio'] = $data['name'];
+        unset($data['name']);
+
+        \App\Models\Request::create($data);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Заявка получена!',
+        ],200);
     }
 }

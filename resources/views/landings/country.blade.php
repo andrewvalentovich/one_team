@@ -86,7 +86,7 @@
                             {!! $landing->main_content ?? null !!}
 						</p>
 					</div>
-					<form class="preview__form form">
+					<form class="preview__form form request__form">
 						<div class="preview__form-title">
 							Оставить заявку эксперту
 						</div>
@@ -94,14 +94,15 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+							<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" value="" placeholder="+7" >
+							<input type="number" name="phone" value="" placeholder="+7" >
 						</label>
+                        <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
 							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -319,7 +320,7 @@
 @include('landings.includes.modals.modal-build')
 @include('landings.includes.modals.modals')
 <!-- дефолтная модалка -->
-<form class="popup popup-record form">
+<form class="popup popup-record form request__form">
     <div class="popup__body">
         <div class="popup__content">
             <div class="preview__form">
@@ -330,15 +331,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" value="" placeholder="+7" >
+					<input type="number" name="phone" value="" placeholder="+7" >
 				</label>
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <input type="hidden" name="landing_id" value="{{ $landing->id }}">
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -362,24 +364,13 @@
     <div class="popup__body">
         <div class="popup__content">
             <div class="popup__title">
-                Вид на жительство в Турции
+                {{ $landing->vnj_title }}
             </div>
             <div class="vnj__keep">
                 <div class="vnj__text">
-                    <p>
-                        Покупая квартиру в ЖК «Perge Collection: sky blue» вы не только приобретаете жилье в большом курортном городе с отличным климатом, которое можно сдавать в аренду, но и получаете более ценные преимущества, такие, как вид на жительство в Турции или даже гражданство.
-                    </p>
-                    <p>
-                        ВНЖ имеет ряд несомненных плюсов, вы можете круглогодично жить в стране, открыть свой бизнес, бесплатно пользоваться некоторыми государственными услугами, а также претендовать на турецкое гражданство уже через 5 лет после приобретения недвижимости.
-                    </p>
-                    <p>
-                        Турецкий паспорт позволит вам пользоваться всеми привилегиями этого государства, путешествовать в безвизовом режиме более чем по 110 странам, получить право открыть свое дело в США и Великобритании и многое другое.
-                    </p>
-                    <p>
-                        Процесс оформления проходит достаточно быстро и просто, а это значит, что, приобретая квартиру в нашем жилищном комплексе, вы инвестируете в свое будущее.
-                    </p>
+                    {!! $landing->vnj_content !!}
                 </div>
-                <form class="preview__form" style="height: fit-content;">
+                <form class="preview__form request__form" style="height: fit-content;">
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
@@ -387,14 +378,15 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" value="" placeholder="+7" >
+						<input type="number" name="phone" value="" placeholder="+7" >
 					</label>
+                    <input type="hidden" name="landing_id" value="{{ $landing->id }}">
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
@@ -437,6 +429,7 @@
         window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
     </script>
 	<script src="{{ asset('lands/js/objects-filter.js') }}"></script>
+	<script src="{{ asset('lands/js/forms-submit.js') }}"></script>
 
 </body>
 </html>
