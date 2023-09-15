@@ -188,6 +188,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
 
             Route::group(['as' => 'admin.'], function() {
                 Route::resource('options', \App\Http\Controllers\Admin\OptionController::class); // CRUD model Options
+                Route::resource('photo_categories', \App\Http\Controllers\Admin\PhotoCategoryController::class); // CRUD model PhotoCategory
             });
 
             Route::get('peculiarities_peculiarities/{string}',[Peculiarities::class,'peculiarities_peculiarities'])->name('peculiarities_peculiarities');
