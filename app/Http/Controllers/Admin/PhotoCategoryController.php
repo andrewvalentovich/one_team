@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\PhotoCategory\UpdateRequest;
 use App\Http\Requests\Admin\PhotoCategory\StoreRequest;
 use App\Models\PhotoCategory;
 use App\Models\PhotoTable;
-use App\Models\Product;
 
 class PhotoCategoryController extends Controller
 {

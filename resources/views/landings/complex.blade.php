@@ -262,6 +262,7 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
+
 									<div class="sort__list-item changeGallery">
 										<span>Интерьер</span>
 									</div>
@@ -288,24 +289,11 @@
 				<div class="gallery__swiper-w">
 					<div class="gallery__swiper swiper">
 						<div class="gallery__swiper-wrapper swiper-wrapper">
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
-							</div>
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
-							</div>
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
-							</div>
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-1.png') }}" alt="">
-							</div>
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-2.png') }}" alt="">
-							</div>
-							<div class="gallery__slide swiper-slide">
-								<img src="{{ asset('lands/img/pic/gallery-3.png') }}" alt="">
-							</div>
+                            @foreach($filter->photo as $photo)
+                                <div class="gallery__slide swiper-slide" data-category-id="{{ !is_null($photo->category) ? $photo->category->id : 0 }}">
+                                    <img src="{{ asset('uploads/'.$photo->photo) }}" alt="">
+                                </div>
+                            @endforeach
 						</div>
 					</div>
 					<div class="gallery__pagination swiper__pagination"></div>
