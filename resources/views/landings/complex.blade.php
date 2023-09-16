@@ -100,7 +100,7 @@
                             {!! $landing->main_content ?? null !!}
 						</p>
 					</div>
-					<form class="preview__form form">
+					<form class="preview__form form request__form">
 						<div class="preview__form-title">
 							Оставить заявку эксперту
 						</div>
@@ -108,13 +108,13 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" value="" placeholder="Иванов Алексей Петрович">
+							<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" value="" placeholder="+7" >
+							<input name="phone" type="number" value="" placeholder="+7" >
 						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
@@ -391,7 +391,7 @@
 </footer>
 @include('landings.includes.modals.modals')
 <!-- дефолтная модалка -->
-<form class="popup popup-record form">
+<form class="popup popup-record form request__form">
     <div class="popup__body">
         <div class="popup__content">
             <div class="preview__form">
@@ -402,13 +402,13 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" placeholder="+7" >
 				</label>
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
@@ -440,7 +440,7 @@
                 <div class="vnj__text">
                     {!! $landing->vnj_content ?? null !!}
                 </div>
-                <form class="preview__form" style="height: fit-content;">
+                <form class="preview__form request__form" style="height: fit-content;">
                     <div class="preview__form-title">
                         Оставить заявку эксперту
                     </div>
@@ -448,13 +448,13 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" value="" placeholder="Иванов Алексей Петрович">
+						<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" value="" placeholder="+7" >
+						<input name="phone" type="number" value="" placeholder="+7" >
 					</label>
                     <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                         Оставить заявку
@@ -483,7 +483,7 @@
 </div>
 
 <!-- КВАРТИРЫ В ПРОДАЖЕ модалка -->
-<form class="popup popup-house form">
+<form class="popup popup-house form request__form">
     <div class="popup__body">
         <div class="popup__content">
 			<div class="popup__house-info">
@@ -505,13 +505,13 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" placeholder="+7" >
 				</label>
                 <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
                     Оставить заявку
@@ -571,6 +571,12 @@
 	<script src="{{ asset('lands/js/libphonenumber-validator.js') }}"></script>
 	<script src="{{ asset('lands/js/inputPhone.js') }}"></script> -->
 	<script src="{{ asset('lands/js/app.js') }}"></script>
+    <script>
+        window.domain = `{{ config('app.domain') }}`;
+
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+    </script>
+    <script src="{{ asset('lands/js/forms-submit.js') }}"></script>
 
 </body>
 </html>
