@@ -14,7 +14,7 @@ class HousesFilter extends AbstractFilter
     const ORDER_BY = 'order_by';
     const TOP_LEFT = 'top_left';
     const BOTTOM_RIGHT = 'bottom_right';
-    const COUNTRY = 'country';
+    const COUNTRY = 'country_id';
     const TYPE = 'type';
     const PRICE = 'price';
     const BEDROOMS = 'bedrooms';
@@ -37,7 +37,7 @@ class HousesFilter extends AbstractFilter
             self::BATHROOMS => [$this, 'peculiarities_by_id'],
             self::VIEW => [$this, 'peculiarities_by_id'],
             self::TO_SEA => [$this, 'peculiarities_by_id'],
-            self::COUNTRY => [$this, 'country'],
+            self::COUNTRY => [$this, 'country_by_id'],
             self::TYPE => [$this, 'peculiarities_by_name'],
             self::PECULIARITIES => [$this, 'peculiarities'],
             self::PRICE => [$this, 'price'],
@@ -50,6 +50,13 @@ class HousesFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->where('city_id', $value);
+        }
+    }
+
+    protected function country_by_id(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->where('country_id', $value);
         }
     }
 

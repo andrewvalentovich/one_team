@@ -69,11 +69,11 @@
                         <div class="search-nav__price-dropdown-title">{{ __('Цена') }}</div>
                         <div class="search-nav__price-filter">
                             <div class="search-nav__price-filter-price">
-                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="от" name="price[min_price]" value="">
+                                <input class="search-nav__price-min search-nav__price-item" min="0" type="number" placeholder="{{ __('От') }}" name="price[min_price]" value="">
                                 <div class="search-nav__price-beetwen">
                                     -
                                 </div>
-                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="до" name="price[max_price]" value="">
+                                <input class="search-nav__price-max search-nav__price-item" min="0" type="number" placeholder="{{ __('До') }}" name="price[max_price]" value="">
                             </div>
 
                             <div class="search-nav__price-filter-currency"></div>
@@ -234,6 +234,9 @@
 
     $.ajax({
         url: '/api/houses/filter_params',       /* Куда отправить запрос */
+        data: {
+            locale: `{{ app()->getLocale() }}`
+        },
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
             console.log(data);
@@ -272,7 +275,7 @@
             })
 
             // Выводим название типа при загрузке страницы
-            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? $.query.get('type').toString() : "Тип объекта");
+            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? $.query.get('type').toString() : "{{ __('Тип объекта') }}");
 
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
@@ -302,19 +305,19 @@
             });
 
             // Выводим название страны при загрузке страницы
-            $(".country_select").text(($.query.get('country').toString() && $.query.get('country').toString() != "true") ? $.query.get('country').toString() : "Страны");
+            $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? $.query.get('country_id') : "{{ __('Страны') }}");
             // Выводим страны в dropdown
             $.each(data.countries, function (index, value) {
-                $('.search-nav__countries-list').append('<div data_id="'+value.name+'" class="country search-nav__types-item dropdown__selector other-element">'+value.name+'</div>');
+                $('.search-nav__countries-list').append('<div data_id="'+value.id+'" class="country search-nav__types-item dropdown__selector other-element">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.country').click(function(e){
                 e.stopPropagation();
                 e.preventDefault();
-                var name = $(this).attr('data_id');
+                var country_id = $(this).attr('data_id');
 
-                history.pushState(null, null, $.query.SET('country', name)); // подстановка параметров
+                history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
 
                 var html = $(this).html();
                 $('.country_select').html(html);

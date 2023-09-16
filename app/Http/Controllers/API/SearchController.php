@@ -14,11 +14,37 @@ use Illuminate\Support\Facades\App;
 
 class SearchController extends Controller
 {
-    public function getParams()
+    public function getParams(Request $request)
     {
+        // Валидация
+        $data = $request->validate([
+            'locale' => 'nullable|string|max:5',
+        ]);
+
         $locale = App::currentLocale();
-        $countries = CountryAndCity::select('id','name')->where('parent_id', null)->get();
-        $collections = Peculiarities::select('id','name', 'type')->get();
+
+        $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
+
+        $countries = CountryAndCity::select('id', $nameField)
+            ->where('parent_id', null)
+            ->get()
+            ->transform(function ($row) use ($nameField) {
+                return [
+                    'id' => $row->id,
+                    'name' => $row[$nameField],
+                ];
+            });
+
+        $collections = Peculiarities::select('id', $nameField, 'type')
+            ->get()
+            ->transform(function ($row) use ($nameField) {
+                return [
+                    'id' => $row->id,
+                    'name' => $row[$nameField],
+                    'type' => $row->type
+                ];
+            });
+
         $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
 
         $data = [
