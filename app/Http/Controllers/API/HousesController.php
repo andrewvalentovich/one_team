@@ -137,7 +137,7 @@ class HousesController extends Controller
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,
                 'address' => $row->address,
-                'image' => '/uploads/'.$row->photo[0]->photo,
+                'image' => count($row->photo) > 0 ? '/uploads/'.$row->photo[0]->photo : null,
             ];
         });
 
