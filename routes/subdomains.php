@@ -21,6 +21,7 @@ Route::get('/', function ($subdomain) {
 //                ->join('photo_tables', 'photo_tables.parent_id', '=', 'products.id')
 //                ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
 //                ->get();
+            $categories = \App\Models\PhotoCategory::all();
             return view("landings/{$landing->template->path}", compact('landing', 'filter'));
         }
 

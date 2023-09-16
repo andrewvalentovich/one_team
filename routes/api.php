@@ -26,6 +26,9 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     // Отдаются (все) параметры для фильтра
     Route::get('/houses/filter_params', [\App\Http\Controllers\API\SearchController::class, 'getParams'])->name('api.search.get.params');
 
+    // Отдаются (все) параметры для фильтра
+    Route::get('/photo_categories/filter_params', [\App\Http\Controllers\API\PhotoCategoriesController::class, 'getParams'])->name('api.photo_categories.get.params');
+
     // Отдаются объекты для лендингов по фильтру
     Route::get('/landings/with_filter', [\App\Http\Controllers\API\LandingsController::class, 'getWithFilter'])->name('api.landings.get.with_filter');
 

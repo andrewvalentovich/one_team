@@ -24,29 +24,23 @@ $(document).ready(function () {
 
             if ($('#other_photo_file')[0].files[i].size > 2000000){
                     alert('Вы привисили лимит  2mb')
-            }else{
+            } else {
+                let type =$('#other_photo_file')[0].files[i].type.split('/')[0]
+                            OtherDataArray.push($('#other_photo_file')[0].files[i]);
+                var fileUrl = URL.createObjectURL($('#other_photo_file')[0].files[i]);
 
 
-
-
-            let type =$('#other_photo_file')[0].files[i].type.split('/')[0]
-                        OtherDataArray.push($('#other_photo_file')[0].files[i]);
-            var fileUrl = URL.createObjectURL($('#other_photo_file')[0].files[i]);
-
-
-            $("#newDivqwe3").append(`
-                        <div class="PhotoDiv3" style='overflow: visible;position: relative; width: 150px; height: 150px'>
-                        <button type="button"  class="ixsButton3 " data-id="${OtherDataArray.length-1}" style='
-                                    outline: none;
-                                    border: none;
-                                position: relative;
-                                background-color: transparent;
-                                '></button>
-                        <img class='sendPhoto' style='width: 150px; height: 150px' src='${fileUrl}'/>
-                        </div>`);
-             }
-
-
+                $("#newDivqwe3").append(`
+                            <div class="PhotoDiv3" style='overflow: visible;position: relative; width: 150px; height: 150px'>
+                            <button type="button"  class="ixsButton3 " data-id="${OtherDataArray.length-1}" style='
+                                        outline: none;
+                                        border: none;
+                                    position: relative;
+                                    background-color: transparent;
+                                    '></button>
+                            <img class='sendPhoto' style='width: 150px; height: 150px' src='${fileUrl}'/>
+                            </div>`);
+            }
         }
 
         $(".ixsButton3").click(function (event) {
@@ -198,6 +192,7 @@ $("#file").on('change keyup paste', function () {
     let myArray = DataArray;
 
 
+
     let filteredArray = myArray.filter(item => item !== undefined);
     let allLenght = numFiles + filteredArray.length;
 
@@ -209,40 +204,61 @@ $("#file").on('change keyup paste', function () {
     for (var i = 0; i < file; i++) {
         if ($("#file")[0].files[i].size > 2000000){
             alert('Вы привисили лимит  2mb')
-        }else {
-
-
-        let type = $("#file")[0].files[i].type.split('/')[0]
-        DataArray.push($("#file")[0].files[i]);
-
-        if (type == 'image') {
-            var fileUrl = URL.createObjectURL($("#file")[0].files[i]);
-            $("#newDivqwe").append(`
-                    <div class="PhotoDiv" style='overflow: visible;position: relative; width: 150px; height: 150px'>
-                    <button  class="ixsButton" data-id="${DataArray.length-1}" style='
-                                outline: none;
-                                border: none;
-                            position: relative;
-                            background-color: transparent;
-                            '></button>
-                    <img class='sendPhoto' style='width: 150px; height: 150px' src='${fileUrl}'/>
-                    </div>`);
         } else {
-            $("#newDivqwe").append("  " +
-                "" +
-                "  <div class='PhotoDiv' style='overflow: visible;position: relative; width: 150px; height: 150px'>\n   " +
-                "                     <button class=\"ixsButton\" data-id="+`${DataArray.length-1}`+" style='\n                                position: relative;\n                                    outline: none;\n                                    border: none;\n                                position: relative;\n                                '></button>" +
-                "<i class=\"fileType fa fa-file fa-3x\" aria-hidden=\"true\"> </i></div>")
+            let type = $("#file")[0].files[i].type.split('/')[0]
+            DataArray.push($("#file")[0].files[i]);
+
+            // Получаем список категорий
+            var photo_categories = function () {
+                var tmp = null;
+                $.ajax({
+                    async: false,
+                    url: `${window.location.origin}/api/photo_categories/filter_params`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data){
+                        tmp = data;
+                    },
+                    error: function(error){
+                        console.log('error is: ' + error + '\n');
+                        return error;
+                    }
+                });
+                return tmp;
+            }();
+
+            var createdEl = null;
+
+            if (type == 'image') {
+                var fileUrl = URL.createObjectURL($("#file")[0].files[i]);
+                var displaySelect = displayPhoto(photo_categories, DataArray.length-1);
+
+                createdEl = $("#newDivqwe").append(`
+                    <div class="PhotoDiv" style='overflow: visible;position: relative; width: 150px; height: 150px'>
+                        <button class="ixsButton" data-id="new_${DataArray.length-1}" style='
+                                    outline: none;
+                                    border: none;
+                                position: relative;
+                                background-color: transparent;
+                                '></button>
+                        <img class='sendPhoto' style='width: 150px; height: 150px' src='${fileUrl}'/>
+                        ${displaySelect}
+                    </div>`);
+            } else {
+                createdEl = $("#newDivqwe").append("  " +
+                    "" +
+                    "  <div class='PhotoDiv' style='overflow: visible;position: relative; width: 150px; height: 150px'>\n   " +
+                    "                     <button class=\"ixsButton\" data-id="+`${DataArray.length-1}`+" style='\n                                position: relative;\n                                    outline: none;\n                                    border: none;\n                                position: relative;\n                                '></button>" +
+                    "<i class=\"fileType fa fa-file fa-3x\" aria-hidden=\"true\"> </i></div>")
+            }
         }
-    }
     }
     $(".ixsButton").click(function (event) {
         event.preventDefault()
         let data_id = $(this).attr('data-id')
-        $(this).parent('.PhotoDiv').hide()
+        $(this).parent('.PhotoDiv').remove()
         DataArray.splice(data_id,1,undefined)
         let data = DataArray;
-
 
         let allUndefined = true;
         $.each(data, function(index, item) {
@@ -298,6 +314,11 @@ $('#create_product').on('submit',function(e) {
             }
         });
 
+        // Вывод информации при отправке формы
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]);
+        }
+
         $('.submit_button').hide();
         $('.lds-ellipsis').show();
 
@@ -331,7 +352,7 @@ $('#update_product').on('submit',function(e) {
     let allLenght = filteredArray.length;
 
     filteredArray.forEach(function(value, index) {
-        formData.append('photo[]', value);
+        formData.append(`photo[${index}]`, value);
     });
 
     let objects_count = document.querySelectorAll('.accordion').length;
@@ -356,6 +377,11 @@ $('#update_product').on('submit',function(e) {
     $('.submit_button').hide();
     $('.lds-ellipsis').show();
 
+    // Вывод информации при отправке формы
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]);
+    // }
+
     $.ajax({
         url:  $(this).attr('action'),
         type: 'POST',
@@ -375,3 +401,16 @@ $('#update_product').on('submit',function(e) {
         }
     });
 });
+
+function displayPhoto(data, select_id) {
+    var select = `<select name="photo_categories[new_${select_id}]" style="width: 150px;"><option value="0">Без категории</option>`;
+    $.each(data, function (key, value) {
+        if ((data.length - 1) === key) {
+            select += `<option value="${value.id}">${value.name}</option></select>`;
+        } else {
+            select += `<option value="${value.id}">${value.name}</option>`;
+        }
+    })
+
+    return select;
+}

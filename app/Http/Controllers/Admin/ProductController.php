@@ -49,7 +49,8 @@ class ProductController extends Controller
         $category = Peculiarities::where('id', $id)->first();
         $categorys = Peculiarities::all();
         $options =  Option::all();
-        return view('admin.Product.create', compact('category','categorys','country','options'));
+        $photo_categories = \App\Models\PhotoCategory::all();
+        return view('admin.Product.create', compact('category','categorys','country','options', 'photo_categories'));
     }
 
     public function create_product(Request $request) {
@@ -94,8 +95,8 @@ class ProductController extends Controller
             'vnj' => $request->vnj,
             'grajandstvo' => $request->grajandstvo,
             'commissions' => $request->commissions,
-            'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat),
+            'long' => isset($request->long) ? preg_replace( '/[^0-9.]+$/',  '',  $request->long) : null,
+            'lat' => isset($request->lat) ? preg_replace( '/[^0-9.]+$/',  '',  $request->lat) : null,
             'objects' => json_encode($objects),
             'option_id' => (is_numeric($request->option_id) && $request->option_id > 0) ? $request->option_id : null,
         ]);
@@ -113,28 +114,29 @@ class ProductController extends Controller
 
         // Добавление фотографий
         $time = time();
-        if (isset($request->other_photo_two)){
-            $other_photo = $request->other_photo_two;
-            foreach ($other_photo as $item) {
-                $fileName = $time++.'.'.$item->getClientOriginalExtension();
-                $filePath = $item->move('uploads', $fileName);
-                ProductDrawing::create([
-                    'product_id' => $create->id,
-                    'photo' => $fileName
-                ]);
-            }
-        }
+//        if (isset($request->other_photo_two)){
+//            $other_photo = $request->other_photo_two;
+//            foreach ($other_photo as $item) {
+//                $fileName = $time++.'.'.$item->getClientOriginalExtension();
+//                $filePath = $item->move('uploads', $fileName);
+//                ProductDrawing::create([
+//                    'product_id' => $create->id,
+//                    'photo' => $fileName
+//                ]);
+//            }
+//        }
 
         if (isset($request->photo)){
 
-            foreach ($request->photo as $photo){
+            foreach ($request->photo as $key => $photo){
                 $file =  $photo;
                 $fileName = $time++.'.'.$file->getClientOriginalExtension();
                 $filePath = $file->move('uploads', $fileName);
                 PhotoTable::create([
-                        'parent_model'=>    '\App\Models\Product',
-                        'parent_id' => $create->id,
-                        'photo' => $fileName
+                    'parent_model'=> '\App\Models\Product',
+                    'parent_id' => $create->id,
+                    'photo' => $fileName,
+                    'category_id' => $request->photo_categories["new_".$key] > 0 ? $request->photo_categories["new_".$key] : null
                 ]);
             }
         }
@@ -161,10 +163,11 @@ class ProductController extends Controller
         $get_new_category = Peculiarities::whereNotIn('id', $get->ProductCategory->pluck('peculiarities_id'))->where('type','Особенности')->get();
         $categorys =  Peculiarities::get();
         $options =  Option::all();
+        $photo_categories = \App\Models\PhotoCategory::all();
 
         $get_old_category = ProductCategory::where('product_id', $get->id)->where('type', 'Особенности')->get();
 
-        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options'));
+        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options', 'photo_categories'));
     }
 
 
@@ -255,27 +258,46 @@ class ProductController extends Controller
                     ]);
                 }
             }
-                   ProductCategory::create([
-                          'product_id' => $request->product_id,
-                        'peculiarities_id' => $request->category_id,
-                        'type' => 'Типы',
-                   ]);
+
+            ProductCategory::create([
+                  'product_id' => $request->product_id,
+                'peculiarities_id' => $request->category_id,
+                'type' => 'Типы',
+            ]);
         }
 
 
-        if (isset($request->photo)){
+        if (isset($request->photo)) {
             $time = time();
-            foreach ($request->photo as $photo){
-                $file =  $photo;
+            foreach ($request->photo as $key => $photo){
+                $file = $photo;
                 $fileName = $time++.'.'.$file->getClientOriginalExtension();
                 $filePath = $file->move('uploads', $fileName);
                 PhotoTable::create([
-                    'parent_model'=>    '\App\Models\Product',
+                    'parent_model'=> '\App\Models\Product',
                     'parent_id' => $request->product_id,
-                    'photo' => $fileName
+                    'photo' => $fileName,
+                    'category_id' => $request->photo_categories["new_".$key] > 0 ? $request->photo_categories["new_".$key] : null
                 ]);
             }
         }
+
+        if (isset($request->photo_categories)) {
+            foreach ($request->photo_categories as $key => $category) {
+                if (gettype($key) != "string") {
+                    $data['category_id'] = $category > 0 ? $category : null;
+                    PhotoTable::whereId($key)->update($data);
+                    unset($data);
+                } else {
+                    if (strripos($key, "new_")) {
+                        $data['category_id'] = $category > 0 ? $category : null;
+                        PhotoTable::whereId($key)->update($data);
+                        unset($data);
+                    }
+                }
+            }
+        }
+
         if (isset($request->other_photo_two)){
             $time = time();
             $other_photo = $request->other_photo_two;
@@ -311,8 +333,6 @@ class ProductController extends Controller
         }
 
         $cat = ProductCategory::where('product_id', $id)->where('type', 'Типы')->first();
-
-
         $get->delete();
 
         return redirect()->route('all_product',$cat->peculiarities_id)->with('true', "Удаления адреса $get->address завершено");

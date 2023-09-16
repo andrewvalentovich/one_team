@@ -511,6 +511,12 @@
                                 cursor: pointer;
                                 " onclick="return confirm('Вы уверены, что хотите удалить это фото?');"></a>
                                             <img class="sendPhoto" style="width: 150px; height: 150px" src="{{asset("uploads/$photo->photo")}}">
+                                            <select name="photo_categories[{{ $photo->id }}]" style="overflow: hidden;max-width: 150px;">
+                                                <option value="0" {{ !isset($photo->category) ? "selected" : "" }}>Без категории</option>
+                                                @foreach($photo_categories as $category)
+                                                    <option value="{{ $category->id }}" {{ (isset($photo->category) && $photo->category->id === $category->id) ? "selected" : "" }}>{{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     @endforeach
                                 </div>
