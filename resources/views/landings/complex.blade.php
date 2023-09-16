@@ -228,31 +228,23 @@
 						ГАЛЕРЕЯ
 					</div>
 					<div class="gallery__filter">
-						<div class="gallery__item gallery__item_video changeGallery" btn-popup="popup-video">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16" fill="#000000" class="bi bi-play-circle">
-								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-								<path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
-							</svg>
-							Видео
-						</div>
-						<div class="gallery__item changeGallery active" data-category-id="all">
-							Все
-						</div>
-						<div class="gallery__item changeGallery" data-category-id="1">
-							Интерьер
-						</div>
-						<div class="gallery__item changeGallery" data-category-id="2">
-							Экстерьер
-						</div>
-						<div class="gallery__item changeGallery" data-category-id="3">
-							Инфраструктура
-						</div>
-						<div class="gallery__item changeGallery">
-							Лобби
-						</div>
-						<div class="gallery__item changeGallery">
-							Территория
-						</div>
+						@if(isset($filter->video))
+                            <div class="gallery__item gallery__item_video changeGallery" btn-popup="popup-video">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16" fill="#000000" class="bi bi-play-circle">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445z"/>
+                                </svg>
+                                Видео
+                            </div>
+                        @endif
+                        <div class="gallery__item changeGallery active" data-category-id="0">
+                            Все
+                        </div>
+                        @foreach($categories as $category)
+                            <div class="gallery__item changeGallery" data-category-id="{{ $category->id }}">
+                                {{ $category->name }}
+                            </div>
+                        @endforeach
 						<div class="gallery__all sort close-out " style="width: 200px;">
 							<span class="sort__title btn" style="width: 100%;">
 								<span>
@@ -262,22 +254,12 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
-									<div class="sort__list-item changeGallery" data-category-id="1">
-										<span>Интерьер</span>
-									</div>
-									<div class="sort__list-item changeGallery" data-category-id="2">
-										<span>Экстерьер</span>
-									</div>
-									<div class="sort__list-item changeGallery" data-category-id="3">
-										<span>Инфраструктура</span>
-									</div>
-									<div class="sort__list-item changeGallery">
-										<span>Лобби</span>
-									</div>
-									<div class="sort__list-item changeGallery">
-										<span>Территория</span>
-									</div>
-									<div class="sort__list-item changeGallery" data-category-id="all">
+                                    @foreach($categories as $category)
+                                        <div class="sort__list-item changeGallery" data-category-id="{{ $category->id }}">
+                                            <span>{{ $category->name }}</span>
+                                        </div>
+                                    @endforeach
+									<div class="sort__list-item changeGallery" data-category-id="0">
 										<span>Все</span>
 									</div>
 								</div>

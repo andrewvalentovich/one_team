@@ -13,16 +13,18 @@ Route::get('/', function ($subdomain) {
         $landing = $currentLanding[0];
 
         if($landing->template->path === "complex") {
-            $filter = \App\Models\Product::find($landing['filter_'.$landing->template->path]);
-//            $filter = \App\Models\Product::where('id', $landing['filter_'.$landing->template->path])->with('photo.category')->get();
-//            $categories =
-//                DB::table('products')
-//                ->where('products.id', $landing['filter_'.$landing->template->path])
-//                ->join('photo_tables', 'photo_tables.parent_id', '=', 'products.id')
-//                ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
-//                ->get();
-            $categories = \App\Models\PhotoCategory::all();
-            return view("landings/{$landing->template->path}", compact('landing', 'filter'));
+//            $filter = \App\Models\Product::find($landing['filter_'.$landing->template->path]);
+            $filter = \App\Models\Product::whereId($landing['filter_'.$landing->template->path])->with('photo.category')->get()[0];
+//            $categories = \App\Models\Product::whereId($landing['filter_'.$landing->template->path])->with('photo.category')->unique('name')->get()[0];
+            $categories =
+                DB::table('products')->select(['photo_categories.id', 'photo_categories.name'])
+                ->where('products.id', $landing['filter_'.$landing->template->path])
+                ->join('photo_tables', 'photo_tables.parent_id', '=', 'products.id')
+                ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
+                ->distinct('name')
+                ->get();
+
+            return view("landings/{$landing->template->path}", compact('landing', 'filter', 'categories'));
         }
 
         if($landing->template->path === "region") {

@@ -6,12 +6,12 @@ function changerActive(list) {
 }
 
 
-function randomIntFromInterval(min, max) { // min and max included 
+function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 
-//Popup close 
+//Popup close
 document.addEventListener("click", function(event) {
   event = event || window.event;
   let target = event.target
@@ -32,7 +32,7 @@ document.addEventListener("click", function(event) {
   }
 
 
-  //закрытие блоков close-out по клику вне 
+  //закрытие блоков close-out по клику вне
   if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
     const closeOutBlock = document.querySelectorAll('.close-out')
     $( '.sort__list' ).slideUp( "slow", function() {});
@@ -50,7 +50,7 @@ function stopVideoPopup() {
   }
 }
 
-//событие scroll у документа 
+//событие scroll у документа
 const headerW = document.querySelector('.header-w')
 document.addEventListener("scroll", function(event) {
   if(window.pageYOffset) {
@@ -103,7 +103,7 @@ if(document.querySelectorAll('.sort').length) {
     sortBlock.addEventListener('click', function(e) {
       const target = e.target
       const dropDown = sortBlock.querySelector('.sort__list')
-      //открытие по title 
+      //открытие по title
       if(target.classList.contains('sort__title') || target.closest('.sort__title')) {
         const closeOutBlock = document.querySelectorAll('.close-out')
 
@@ -169,23 +169,23 @@ function hedearMobileSwipeClose() {
 
   headerMobileContent.addEventListener('touchstart', handleTouchStart, false);
   headerMobileContent.addEventListener('touchmove', handleTouchMove, false);
-  
+
   let xDown = null;
   let yDown = null;
-  
+
   function handleTouchStart(evt) {
       xDown = evt.touches[0].clientX;
       yDown = evt.touches[0].clientY;
   };
-  
+
   function handleTouchMove(evt) {
       if ( ! xDown || ! yDown ) {
           return;
       }
-  
+
       let xUp = evt.touches[0].clientX;
       let yUp = evt.touches[0].clientY;
-  
+
       let xDiff = xDown - xUp;
       let yDiff = yDown - yUp;
       if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
@@ -204,7 +204,7 @@ function hedearMobileSwipeClose() {
       }
       xDown = null;
       yDown = null;
-  
+
   };
 }
 if(document.querySelectorAll('.header-m').length) {
@@ -256,7 +256,7 @@ const layoutsSwiper = new Swiper('.layouts__swiper', {
 })
 
 $(document).ready(function () {
-  
+
 })
 //свайпер gallery
 const gallerySwiper = new Swiper('.gallery__swiper', {
@@ -368,13 +368,13 @@ function createHouseInfoPopup(house) {
   const popupPic = popup.querySelector('.popup__house-pic').querySelector('img')
   const popupPrice = popup.querySelector('.popup__house-price')
   const popupLead = popup.querySelector('.popup__house-lead')
-  
+
   popupPic.setAttribute('src', picSrc)
   popupPrice.innerHTML = price
   popupLead.innerHTML = lead
 }
 
-// //галерея 
+// //галерея
 // $(document).ready(function() {
 //   $('[data-fancybox]').fancybox({
 //     // Настройки Fancybox, если необходимо
@@ -598,7 +598,7 @@ function changeContentGallerySwiper(id) {
   const swiperGallery = document.querySelector('.gallery__swiper')
   const swiperWrapper = swiperGallery.querySelector('.gallery__swiper-wrapper')
   const swiperSlides = swiperWrapper.querySelectorAll('.gallery__slide')
-  if(id === 'all') {
+  if(id == 0) {
     swiperSlides.forEach(slide => {
       slide.classList.remove('hidden-slide')
     });
