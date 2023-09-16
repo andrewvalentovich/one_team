@@ -110,6 +110,7 @@
 							</span>
 							<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 						</label>
+                        <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
@@ -404,6 +405,7 @@
 					</span>
 					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 				</label>
+                <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
@@ -450,6 +452,7 @@
 						</span>
 						<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 					</label>
+                    <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
@@ -507,6 +510,7 @@
 					</span>
 					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
 				</label>
+                <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
