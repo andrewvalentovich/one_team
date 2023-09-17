@@ -520,19 +520,20 @@ function toggleActivePopupSwiper() {
 
 toggleActivePopupSwiper()
 
-
-if (document.querySelectorAll('[open-building-popup="popup-buildings"]').length) {
-  const openBuildingPopupBtn = document.querySelectorAll('[open-building-popup="popup-buildings"]')
-  openBuildingPopupBtn.forEach(elementHouse => {
-    elementHouse.addEventListener('click', function(e) {
+if (document.querySelectorAll('.building__list').length) {
+  console.log('test')
+  const buildingList = document.querySelector('.building__list')
+  buildingList.addEventListener('click', function(e) {
+    const target = e.target
+    if(target.classList.contains('building__item') || target.closest('.building__item')) {
       const buildingPopup = document.querySelector('.popup-building')
       buildingPopup.classList.add('active')
       bodyScrollLock.disableBodyScroll(buildingPopup);
 
-      const houseBlock = this.closest('.building__item')
+      const houseBlock = target.closest('.building__item')
       addBuldingToPopup(houseBlock)
-    })
-  });
+    }
+  })
 }
 
 function addBuldingToPopup(houseBlock) {

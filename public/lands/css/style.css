@@ -1811,6 +1811,7 @@ ul.list_point li {
 
 .about__slide {
   display: flex;
+  height: auto;
 }
 
 .about__slide-pic {

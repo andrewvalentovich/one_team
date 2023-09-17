@@ -231,17 +231,17 @@ function load_content() {
     });
 }
 function addClickBuildingItem() {
-    if (document.querySelectorAll('[open-building-popup="popup-buildings"]').length) {
-        const openBuildingPopupBtn = document.querySelectorAll('[open-building-popup="popup-buildings"]')
-        openBuildingPopupBtn.forEach(elementHouse => {
-          elementHouse.addEventListener('click', function(e) {
-            const buildingPopup = document.querySelector('.popup-building')
-            buildingPopup.classList.add('active')
-            bodyScrollLock.disableBodyScroll(buildingPopup);
+    // if (document.querySelectorAll('[open-building-popup="popup-buildings"]').length) {
+    //     const openBuildingPopupBtn = document.querySelectorAll('[open-building-popup="popup-buildings"]')
+    //     openBuildingPopupBtn.forEach(elementHouse => {
+    //       elementHouse.addEventListener('click', function(e) {
+    //         const buildingPopup = document.querySelector('.popup-building')
+    //         buildingPopup.classList.add('active')
+    //         bodyScrollLock.disableBodyScroll(buildingPopup);
       
-            const houseBlock = this.closest('.building__item')
-            addBuldingToPopup(houseBlock)
-          })
-        });
-    }
+    //         const houseBlock = this.closest('.building__item')
+    //         addBuldingToPopup(houseBlock)
+    //       })
+    //     });
+    // }
 }
