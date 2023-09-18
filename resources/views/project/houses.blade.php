@@ -68,10 +68,10 @@
                 <div class="city-col__top">
                     <div class="city-col__title title">
                         @if(isset($_GET['city_id']))
-                            {{ __('Недвижимость ') }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
-                        @elseif(isset($_GET['country']))
-                            {{ __('Недвижимость ') }}{{ $_GET['country'] }}
-                        @elseif(!isset($_GET['country']) && !isset($_GET['city_id']))
+                            {{ __('Недвижимость') }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                        @elseif(isset($_GET['country_id']))
+                            {{ __('Недвижимость') }} {{ $countries->where('id', $_GET['country_id'])->first()->name }}
+                        @elseif(!isset($_GET['country_id']) && !isset($_GET['city_id']))
                             {{__('Недвижимость') }}
                         @endif
                     </div>

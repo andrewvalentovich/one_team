@@ -275,11 +275,11 @@
             })
 
             // Выводим название типа при загрузке страницы
-            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? $.query.get('type').toString() : "{{ __('Тип объекта') }}");
+            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? data.types.find(x => x.id == $.query.get('type')).name : "{{ __('Тип объекта') }}");
 
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
-                $('.search-nav__types-list').append('<div data_id="'+value.name+'" class="search-nav__types-item type closert_div">'+value.name+'</div>');
+                $('.search-nav__types-list').append('<div data_id="'+value.id+'" class="search-nav__types-item type closert_div">'+value.name+'</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
@@ -305,7 +305,7 @@
             });
 
             // Выводим название страны при загрузке страницы
-            $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? $.query.get('country_id') : "{{ __('Страны') }}");
+            $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
             // Выводим страны в dropdown
             $.each(data.countries, function (index, value) {
                 $('.search-nav__countries-list').append('<div data_id="'+value.id+'" class="country search-nav__types-item dropdown__selector other-element">'+value.name+'</div>');

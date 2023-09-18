@@ -38,7 +38,7 @@ class FilterRequest extends FormRequest
             'view' => 'nullable|string',
             'to_sea' => 'nullable|string',
             'size' => 'nullable|array',
-            'type' => 'nullable|string',
+            'type' => 'nullable|numeric',
             'country_id' => 'nullable|string',
             'city_id' => 'nullable|numeric',
         ];

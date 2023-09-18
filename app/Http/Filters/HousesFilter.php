@@ -38,7 +38,7 @@ class HousesFilter extends AbstractFilter
             self::VIEW => [$this, 'peculiarities_by_id'],
             self::TO_SEA => [$this, 'peculiarities_by_id'],
             self::COUNTRY => [$this, 'country_by_id'],
-            self::TYPE => [$this, 'peculiarities_by_name'],
+            self::TYPE => [$this, 'peculiarities_by_id'],
             self::PECULIARITIES => [$this, 'peculiarities'],
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
