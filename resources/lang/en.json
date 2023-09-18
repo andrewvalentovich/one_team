@@ -1,5 +1,4 @@
 {
-
   "объектов": "objects",
   "Всего" : "Total",
   "объявлений" : "ads",
@@ -62,6 +61,7 @@
   "Регион": "Locations",
   "Материк": "Locations",
   "Сначала дешевые": "Cheapest first",
+  "Сначала дешёвые": "Cheapest first",
   "Сначала дорогие": "Most expensive first",
   "Сначала новые": "Newest first",
   "Удалить все": "Delete all",

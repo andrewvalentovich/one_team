@@ -55,16 +55,20 @@
                             </div>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия страны</label>
-                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия страны" required >
+                            <label for="exampleInputName1">Название страны</label>
+                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия страны на Английском</label>
-                            <input name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Названия страны на английском" required >
+                            <label for="exampleInputName1">Название страны на Английском</label>
+                            <input name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на английском" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия страны на Турецком</label>
-                            <input name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Названия страны на Турецком" required >
+                            <label for="exampleInputName1">Название страны на Турецком</label>
+                            <input name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на Турецком" required >
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название страны на Немецком</label>
+                            <input name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на Немецком" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Longitude</label>
@@ -76,11 +80,23 @@
                             <input name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
                         </div>
 
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Гражданство на Русском</label>
+                            {{--                                <textarea style="color: white !important; height:  500px;" name="citizenship"  class="form-control" id="exampleInputName1" placeholder="Гражданство" >{{$get->div}}</textarea>--}}
+                            <textarea id="mytextarea" name="citizenship"></textarea>
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Гражданство на Английском</label>
+                            <textarea id="mytextarea_en" name="citizenship_en"></textarea>
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Гражданство на Турецком</label>
+                            <textarea id="mytextarea_tr" name="citizenship_tr"></textarea>
+                        </div>
 
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Гражданство</label>
-{{--                            <textarea style="color: white !important; height:  500px;" name="citizenship"  class="form-control" id="exampleInputName1" placeholder="Гражданство" ></textarea>--}}
-                            <textarea id="mytextarea" name="citizenship"></textarea>
+                            <label for="exampleInputName1">Гражданство на Немецком</label>
+                            <textarea id="mytextarea_de" name="citizenship_de"></textarea>
                         </div>
 
                         <div bis_skin_checked="1">

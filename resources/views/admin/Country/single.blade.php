@@ -55,16 +55,20 @@
                         </div>
                         @endif
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия  @if($get->parent_id == null) страны @else города @endif</label>
-                            <input  value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия  @if($get->parent_id == null) страны @else города @endif" required >
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif</label>
+                            <input  value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия  @if($get->parent_id == null) страны @else города @endif на Английском</label>
-                            <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Названия  @if($get->parent_id == null) страны @else города @endif на английском" required >
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Английском</label>
+                            <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на английском" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия  @if($get->parent_id == null) страны @else города @endif на Турецком</label>
-                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Названия  @if($get->parent_id == null) страны @else города @endif на Турецком" required >
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Турецком</label>
+                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Турецком" required >
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Немецком</label>
+                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Немецком" required >
                         </div>
 
                         <input type="hidden" name="country_id" value="{{$get->id}}">
@@ -86,11 +90,16 @@
                             </div>
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Английском</label>
-                                <textarea id="mytextarea_en" name="citizenship">{!!  $get->div_en  !!}</textarea>
+                                <textarea id="mytextarea_en" name="citizenship_en">{!!  $get->div_en  !!}</textarea>
                             </div>
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Турецком</label>
-                                <textarea id="mytextarea_tr" name="citizenship">{!!  $get->div_tr  !!}</textarea>
+                                <textarea id="mytextarea_tr" name="citizenship_tr">{!!  $get->div_tr  !!}</textarea>
+                            </div>
+
+                            <div class="form-group" bis_skin_checked="1">
+                                <label for="exampleInputName1">Гражданство на Немецком</label>
+                                <textarea id="mytextarea_de" name="citizenship_de">{!!  $get->div_de  !!}</textarea>
                             </div>
 
 
@@ -115,21 +124,25 @@
 
                 @if($get->parent_id == null)
                 <div class="card-body" bis_skin_checked="1">
-                    <h4 class="card-title">Добавления города</h4>
+                    <h4 class="card-title">Добавление города</h4>
                     <form class="forms-sample" action="{{route('create_country')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="parent_id" value="{{$get->id}}">
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия города</label>
-                            <input   name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия города" required >
+                            <label for="exampleInputName1">Название города</label>
+                            <input   name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название города" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия   города  на Английском</label>
-                            <input value="" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Названия   города  на английском" required >
+                            <label for="exampleInputName1">Название   города  на Английском</label>
+                            <input value="" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название   города  на английском" required >
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия   города  на Турецком</label>
-                            <input value="" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Названия  города  на Турецком" required >
+                            <label for="exampleInputName1">Название   города  на Турецком</label>
+                            <input value="" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  города  на Турецком" required >
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название   города  на Немецком</label>
+                            <input value="" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  города  на Немецком" required >
                         </div>
 
 
@@ -182,7 +195,7 @@
                             <div class="card-body" bis_skin_checked="1">
                                 <div style="display: flex; justify-content: space-between">
 
-                                    <h4 class="card-title">Список города</h4>
+                                    <h4 class="card-title">Список городов</h4>
 {{--                                    <a href="{{route('new_country_page')}}" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>--}}
                                 </div>
 

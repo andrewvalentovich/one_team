@@ -72,6 +72,15 @@
             plugins: 'code',
             toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
         });
+        tinymce.init({
+            selector: '#mytextarea_de',
+            plugins: 'a_tinymce_plugin',
+            a_plugin_option: true,
+            a_configuration_option: 400,
+            plugins: 'advlist link image lists',
+            plugins: 'code',
+            toolbar: 'a11ycheck|language | undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | outdent indent|code'
+        });
     </script>
 </head>
 <body>

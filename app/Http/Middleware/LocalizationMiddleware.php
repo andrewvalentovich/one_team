@@ -18,7 +18,7 @@ class LocalizationMiddleware
 
         $locale = $request->session()->get('locale');
 
-        if ($locale && in_array($locale, ['ru', 'tr', 'en'])) {
+        if ($locale && in_array($locale, ['ru', 'tr', 'en', 'de'])) {
 
             app()->setLocale($locale);
         }

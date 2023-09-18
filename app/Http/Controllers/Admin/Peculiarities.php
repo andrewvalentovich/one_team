@@ -22,6 +22,9 @@ class Peculiarities extends Controller
     public function create_peculiarities(Request $request){
         Peculiaritie::create([
            'name' => $request->name,
+           'name_en' => $request->name_en,
+           'name_tr' => $request->name_tr,
+           'name_de' => $request->name_de,
            'type' => $request->type
         ]);
         return redirect()->back()->with('true', 'Добавления успешно завершено');
@@ -46,7 +49,10 @@ class Peculiarities extends Controller
             return redirect()->back();
         }
         $get->update([
-           'name' => $request->name
+            'name' => $request->name,
+            'name_en' => $request->name_en,
+            'name_tr' => $request->name_tr,
+            'name_de' => $request->name_de,
         ]);
         return redirect()->back()->with('true', 'Редактирование Успешно завершено');
 

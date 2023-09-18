@@ -12,8 +12,6 @@ class CountryAndCityController extends Controller
 
 
     public function get_city(Request $request){
-
-
         $get = CountryAndCity::where('parent_id', $request->country_id)->get();
 
         return response()->json([
@@ -46,12 +44,16 @@ class CountryAndCityController extends Controller
         CountryAndCity::create([
             'metric_id' => $request->metric_id,
             'parent_id' => $request->parent_id,
-           'name' => $request->name,
-           'name_en' => $request->name_en,
-           'name_tr' => $request->name_tr,
-           'photo' => $fileName,
-           'div' => $request->citizenship,
-           'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
+            'name' => $request->name,
+            'name_en' => $request->name_en,
+            'name_tr' => $request->name_tr,
+            'name_de' => $request->name_de,
+            'photo' => $fileName,
+            'div' => $request->citizenship,
+            'div_en' => $request->citizenship_en,
+            'div_tr' => $request->citizenship_tr,
+            'div_de' => $request->citizenship_de,
+            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
             'long' =>  preg_replace( '/[^0-9.]+$/',  '',  $request->long)
         ]);
         return redirect()->back()->with('true', 'Вы успешно завершили добавления');
@@ -85,7 +87,11 @@ class CountryAndCityController extends Controller
             'photo' => $fileName??$get->photo,
             'name_en' => $request->name_en,
             'name_tr' => $request->name_tr,
+            'name_de' => $request->name_de,
             'div' => $request->citizenship,
+            'div_en' => $request->citizenship_en,
+            'div_tr' => $request->citizenship_tr,
+            'div_de' => $request->citizenship_de,
             'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
             'long' =>  preg_replace( '/[^0-9.]+$/',  '',  $request->long)
         ]);

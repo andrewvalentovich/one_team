@@ -44,6 +44,18 @@
                             <label for="exampleInputName1">Названия</label>
                             <input value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия" required >
                         </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Английском</label>
+                            <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Английском" required >
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Турецком</label>
+                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Турецком" required >
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Немецком</label>
+                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Немецком" required >
+                        </div>
                         <input type="hidden" name="id" value="{{$get->id}}">
                         <div style="display: flex; justify-content: space-between">
                         <button type="submit" class="btn btn-inverse-success btn-fw">Сохранить</button>

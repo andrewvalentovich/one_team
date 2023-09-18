@@ -480,6 +480,11 @@
                             <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположения на Турецком" required>{{$get->disposition_tr}}</textarea>
                         </div>
 
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="">Расположения на Немецком</label>
+                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположения на Немецком" required>{{$get->disposition_de}}</textarea>
+                        </div>
+
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
@@ -494,6 +499,11 @@
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Турецком</label>
                             <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком" required>{{$get->description_tr}}</textarea>
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="">Описание на Немецком</label>
+                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком" required>{{$get->description_de}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">

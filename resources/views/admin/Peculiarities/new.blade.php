@@ -37,13 +37,28 @@
                             </button>
                         </div>
                     @endif
-                    <h4 class="card-title">Добавления {{$string}}</h4>
+                    <h4 class="card-title">Добавление {{$string}}</h4>
                     <form class="forms-sample" action="{{route('create_peculiarities')}}" method="post" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия</label>
-                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия" required >
+                            <label for="exampleInputName1">Название</label>
+                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название" required >
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Английском</label>
+                            <input name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Английском" required >
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Турецком</label>
+                            <input name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Турецком" required >
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название на Немецком</label>
+                            <input name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Немецком" required >
                         </div>
 
                         <input type="hidden" name="type" value="{{$string}}">

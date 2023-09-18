@@ -15,25 +15,34 @@
                     </div>
                     <div class="header-m__langs-item active">
                         <a style="display: flex;" href="{{route('setLocale','ru')}}">
-                        <div class="header-m__langs-title">
-                            RU
-                        </div>
-                        <div class="header-m__langs-img">
-                            <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
-                        </div>
+                            <div class="header-m__langs-title">
+                                RU
+                            </div>
+                            <div class="header-m__langs-img">
+                                <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
+                            </div>
                         </a>
                     </div>
                     <div class="header-m__langs-item">
                         <a style="display: flex;" href="{{route('setLocale','tr')}}">
-                        <div class="header-m__langs-title">
-                            TR
-                        </div>
-                        <div class="header-m__langs-img">
-                            <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
-                        </div>
+                            <div class="header-m__langs-title">
+                                TR
+                            </div>
+                            <div class="header-m__langs-img">
+                                <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
+                            </div>
                         </a>
                     </div>
-
+                    <div class="header-m__langs-item">
+                        <a style="display: flex;" href="{{route('setLocale','de')}}">
+                            <div class="header-m__langs-title">
+                                DE
+                            </div>
+                            <div class="header-m__langs-img">
+                                <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 <div class="header-m__item header-m__buy header-m__item-btn">
                     <div class="header-m__item-text">
@@ -269,6 +278,16 @@
                                     </div>
                                     <div class="header__lang-img">
                                         <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
+                                    </div>
+                                    </a>
+                                </div>
+                                <div class="header__lang-list-item">
+                                    <a style="display: flex;" href="{{route('setLocale','de')}}">
+                                    <div class="header__lang-text">
+                                        DE
+                                    </div>
+                                    <div class="header__lang-img">
+                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">
                                     </div>
                                     </a>
                                 </div>

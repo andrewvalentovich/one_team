@@ -40,7 +40,6 @@
                                 <thead>
                                 <tr>
                                     <th> Название страны</th>
-
                                 </tr>
                                 </thead>
                                 @foreach($get as $item)
@@ -55,10 +54,7 @@
                                 @endforeach
                             </table>
                         </div>
-                            <div style="display: flex; justify-content: center;" bis_skin_checked="1">   {{$get->links()}} </div>
-
-
-
+                        <div style="display: flex; justify-content: center;" bis_skin_checked="1">   {{$get->links()}} </div>
                     </div>
                 </div>
             </div>

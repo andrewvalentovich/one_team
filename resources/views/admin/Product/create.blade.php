@@ -370,17 +370,22 @@
                         <div id="set_placemark_map"></div>
 
                         <div class="form-group pt-3" bis_skin_checked="1">
-                            <label for="">Расположения на Русском</label>
-                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположения" required></textarea>
+                            <label for="">Расположение на Русском</label>
+                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположение" required></textarea>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположения на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположения на Англиском" required></textarea>
+                            <label for="">Расположение на Англиском</label>
+                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположение на Англиском" required></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположения на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположения на Турецком" required></textarea>
+                            <label for="">Расположение на Турецком</label>
+                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположение на Турецком" required></textarea>
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="">Расположение на Немецком</label>
+                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположение на Немецком" required></textarea>
                         </div>
 
 
@@ -397,6 +402,11 @@
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Турецком</label>
                             <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком" required></textarea>
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="">Описание на Немецком</label>
+                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком" required></textarea>
                         </div>
 
 

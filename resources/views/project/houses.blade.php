@@ -1032,15 +1032,15 @@
         // Сортировка
 
         if ($.query.get('order_by').toString() === "price-desc") {
-            $('.city-cil__filter-title').text("Сначала дешёвые");
+            $('.city-cil__filter-title').text(`{{ __('Сначала дешёвые') }}`);
         }
 
         if ($.query.get('order_by').toString() === "price-asc") {
-            $('.city-cil__filter-title').text("Сначала дорогие");
+            $('.city-cil__filter-title').text(`{{ __('Сначала дорогие') }}`);
         }
 
         if ($.query.get('order_by').toString() === "created_at-desc") {
-            $('.city-cil__filter-title').text("Сначала новые");
+            $('.city-cil__filter-title').text(`{{ __('Сначала новые') }}`);
         }
 
         if ($.query.get('ot_zastroishika') === "true" || $.query.get('ot_zastroishika') === true) {
@@ -1049,9 +1049,9 @@
             $('.city-col__all').addClass("active");
         }
 
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">Сначала дорогие</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-asc") ? 'active' : '')+'" data_id="price-asc">Сначала дешёвые</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "created_at-desc") ? 'active' : '')+'" data_id="created_at-desc">Сначала новые</div>');
+        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">{{ __("Сначала дорогие")}}</div>');
+        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-asc") ? 'active' : '')+'" data_id="price-asc">{{ __("Сначала дешёвые")}}</div>');
+        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "created_at-desc") ? 'active' : '')+'" data_id="created_at-desc">{{ __("Сначала новые")}}</div>');
 
         $('.city-col__filter-item').on('click', function() {
             var value = $(this).attr('data_id');
