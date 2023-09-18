@@ -68,11 +68,33 @@
                 <div class="city-col__top">
                     <div class="city-col__title title">
                         @if(isset($_GET['city_id']))
-                            {{ __('Недвижимость') }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                            @if(app()->getLocale() == 'ru')
+                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                            @endif
+                            @if(app()->getLocale() == 'en')
+                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_en }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_en.")" }}
+                            @endif
+                            @if(app()->getLocale() == 'tr')
+                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_tr }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_tr.")" }}
+                            @endif
+                            @if(app()->getLocale() == 'de')
+                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_de }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_de.")" }}
+                            @endif
                         @elseif(isset($_GET['country_id']))
-                            {{ __('Недвижимость') }} {{ $countries->where('id', $_GET['country_id'])->first()->name }}
+                            @if(app()->getLocale() == 'ru')
+                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name }}
+                            @endif
+                            @if(app()->getLocale() == 'en')
+                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_en }}
+                            @endif
+                            @if(app()->getLocale() == 'tr')
+                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_tr }}
+                            @endif
+                            @if(app()->getLocale() == 'de')
+                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_de }}
+                            @endif
                         @elseif(!isset($_GET['country_id']) && !isset($_GET['city_id']))
-                            {{__('Недвижимость') }}
+                            {{__('Недвижимость')." " }}
                         @endif
                     </div>
                     <div class="city-col__filter">
