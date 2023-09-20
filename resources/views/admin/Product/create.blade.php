@@ -75,6 +75,7 @@
                                 <label class="col-sm-3 col-form-label">Вид</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
+                                        <option value="" disabled selected>Не выбрано</option>
                                         @foreach($categorys->where('type', 'Вид') as $osobenosti)
                                             <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                         @endforeach
@@ -87,10 +88,10 @@
                                 <label class="col-sm-3 col-form-label">До моря</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
+                                        <option value="" disabled selected>Не выбрано</option>
                                         @foreach($categorys->where('type', 'До моря') as $osobenosti)
                                             <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
                             </div>

@@ -90,13 +90,16 @@
                                 <label class="col-sm-3 col-form-label">Вид</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
+                                        @if(!isset($get->type_vid[0]))
+                                            <option value="" disabled selected>Не выбрано</option>
+                                        @endif
                                         @foreach($categorys->where('type', 'Вид') as $osobenosti)
-                                            @if($get->type_vid[0]->peculiarities_id == $osobenosti->id)
-                                            <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
-                                                @else
+                                            @if(isset($get->type_vid[0]))
+                                                <option value="{{$osobenosti->id}}" {{ ($get->type_vid[0]->peculiarities_id == $osobenosti->id) ? "selected" : "" }}>{{$osobenosti->name}}</option>
+                                            @else
                                                 <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
-                                                @endif
-                                                @endforeach
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -106,9 +109,12 @@
                                 <label class="col-sm-3 col-form-label">До моря</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
+                                        @if(!isset($get->do_more[0]))
+                                            <option value="" disabled selected>Не выбрано</option>
+                                        @endif
                                         @foreach($categorys->where('type', 'До моря') as $osobenosti)
-                                            @if($get->do_more[0]->peculiarities_id == $osobenosti->id)
-                                                <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
+                                            @if(isset($get->do_more[0]))
+                                                <option value="{{$osobenosti->id}}" {{ ($get->do_more[0]->peculiarities_id == $osobenosti->id) ? "selected" : "" }}>{{$osobenosti->name}}</option>
                                             @else
                                                 <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                             @endif

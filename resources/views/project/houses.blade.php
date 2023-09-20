@@ -67,6 +67,7 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
+{{--                        Временный костыль--}}
                         @if(isset($_GET['city_id']))
                             @if(app()->getLocale() == 'ru')
                                 {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
