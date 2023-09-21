@@ -46,8 +46,8 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Прямая</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
-                                    <select class="form-control"  name="direct_val" style="color: #e2e8f0">
-                                            <option selected value="{{$exchange_rate->direct_val}}">{{$exchange_rate->direct_val}}</option>
+                                    <select class="form-control"  name="direct" style="color: #e2e8f0">
+                                            <option selected value="{{$exchange_rate->direct}}">{{$exchange_rate->direct}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -57,8 +57,8 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Относительная</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
-                                    <select class="form-control"  name="relative_val" style="color: #e2e8f0">
-                                        <option selected value="{{$exchange_rate->relative_val}}">{{$exchange_rate->relative_val}}</option>
+                                    <select class="form-control"  name="relative" style="color: #e2e8f0">
+                                        <option selected value="{{$exchange_rate->relative}}">{{$exchange_rate->relative}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -66,12 +66,8 @@
 
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group" bis_skin_checked="1">
-                                <label for="buy_val">Покупка</label>
-                                <input name="buy_val" type="text" class="form-control" id="buy_val" value="{{ $exchange_rate->buy_val }}" placeholder="Покупка">
-                            </div>
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="sell_val">Продажа</label>
-                                <input name="sell_val" type="text" class="form-control" id="sell_val" value="{{ $exchange_rate->sell_val }}" placeholder="Продажа">
+                                <label for="value">Значение</label>
+                                <input name="value" type="text" class="form-control" id="value" value="{{ $exchange_rate->value }}" placeholder="Значение">
                             </div>
                         </div>
 

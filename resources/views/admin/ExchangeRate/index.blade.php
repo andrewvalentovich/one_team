@@ -42,8 +42,7 @@
                                     <th style="width:50px;">#</th>
                                     <th style="width:120px;">Прямой</th>
                                     <th style="width:120px;">Относительный</th>
-                                    <th style="width:200px;">Покупка</th>
-                                    <th style="width:200px;">Продажа</th>
+                                    <th style="width:200px;">Значение</th>
                                     <th>Действие</th>
                                 </tr>
                                 </thead>
@@ -51,10 +50,9 @@
                                     <tbody>
                                     <tr>
                                         <td>{{$exchange_rate->id}}</td>
-                                        <td>{{$exchange_rate->direct_val}}</td>
-                                        <td>{{$exchange_rate->relative_val}}</td>
-                                        <td>{{$exchange_rate->sell_val}}</td>
-                                        <td>{{$exchange_rate->buy_val}}</td>
+                                        <td>{{$exchange_rate->direct}}</td>
+                                        <td>{{$exchange_rate->relative}}</td>
+                                        <td>{{$exchange_rate->value}}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{route('admin.exchange_rates.show', $exchange_rate->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>

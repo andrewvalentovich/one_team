@@ -24,10 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'direct_val' => 'nullable|string',
-            'relative_val' => 'nullable|string',
-            'sell_val' => 'nullable|string',
-            'buy_val' => 'nullable|string',
+            'direct' => 'nullable|string',
+            'relative' => 'nullable|string',
+            'value' => 'nullable|string',
         ];
     }
 
@@ -37,10 +36,9 @@ class UpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'direct_val.string' => 'Данное поле должно быть строкой',
-            'relative_val.string' => 'Данное поле должно быть строкой',
-            'sell_val.string' => 'Данное поле должно быть строкой',
-            'buy_val.string' => 'Данное поле должно быть строкой',
+            'direct.string' => 'Данное поле должно быть строкой',
+            'relative.string' => 'Данное поле должно быть строкой',
+            'value.string' => 'Данное поле должно быть строкой',
         ];
     }
 }

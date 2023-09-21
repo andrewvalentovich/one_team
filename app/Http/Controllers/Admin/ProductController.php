@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExchangeRate;
 use App\Models\Option;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,8 +50,9 @@ class ProductController extends Controller
         $category = Peculiarities::where('id', $id)->first();
         $categorys = Peculiarities::all();
         $options =  Option::all();
+        $exchanges =  ExchangeRate::all();
         $photo_categories = \App\Models\PhotoCategory::all();
-        return view('admin.Product.create', compact('category','categorys','country','options', 'photo_categories'));
+        return view('admin.Product.create', compact('category','categorys','country','options', 'photo_categories', 'exchanges'));
     }
 
     public function create_product(Request $request) {
@@ -61,6 +63,7 @@ class ProductController extends Controller
             $objects[$i]['id'] = $request['add_id'.$i];
             $objects[$i]['building'] = $request['add_building'.$i];
             $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['price_code'] = $request['add_price_code'.$i];
             $objects[$i]['size'] = $request['add_size'.$i];
             $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
             $objects[$i]['floor'] = $request['add_floor'.$i];
@@ -80,6 +83,7 @@ class ProductController extends Controller
             'country_id' => $request->country_id,
             'name' => $request->name,
             'price'=> $request->price,
+            'price_code'=> $request->price_code,
             'size' => $request->size,
             'size_home' => $request->size_home,
             'address' => $request->address,
@@ -165,11 +169,12 @@ class ProductController extends Controller
         $get_new_category = Peculiarities::whereNotIn('id', $get->ProductCategory->pluck('peculiarities_id'))->where('type','Особенности')->get();
         $categorys =  Peculiarities::get();
         $options =  Option::all();
+        $exchanges =  ExchangeRate::all();
         $photo_categories = \App\Models\PhotoCategory::all();
 
         $get_old_category = ProductCategory::where('product_id', $get->id)->where('type', 'Особенности')->get();
 
-        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options', 'photo_categories'));
+        return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options', 'photo_categories', 'exchanges'));
     }
 
 
@@ -205,6 +210,7 @@ class ProductController extends Controller
             $objects[$i]['id'] = $request['add_id'.$i];
             $objects[$i]['building'] = $request['add_building'.$i];
             $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['price_code'] = $request['add_price_code'.$i];
             $objects[$i]['size'] = $request['add_size'.$i];
             $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
             $objects[$i]['floor'] = $request['add_floor'.$i];
@@ -226,6 +232,7 @@ class ProductController extends Controller
             'country_id' => $request->country_id,
             'name' => $request->name,
             'price'=> $request->price,
+            'price_code'=> $request->price_code,
             'size' => $request->size,
             'size_home' => $request->size_home,
             'address' => $request->address,

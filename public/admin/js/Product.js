@@ -5,6 +5,9 @@ let OtherDataArray =[];
 let ObjectsJSONArray =[];
 let ObjectsApartmentLayoutImages =[];
 
+// Список валют для цены в аккордеоне
+var exchange_rates = [];
+
 $('.other_photo_select').on('change', function () {
     var selectedValue = $(this).val();
     if (selectedValue == 'Да'){
@@ -16,6 +19,23 @@ $('.other_photo_select').on('change', function () {
 })
 
 $(document).ready(function () {
+    exchange_rates = function () {
+        var tmp = null;
+        $.ajax({
+            async: false,
+            url: `${window.location.origin}/api/exchange_rates/all`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                tmp = data;
+            },
+            error: function(error){
+                console.log('error is: ' + error + '\n');
+                return error;
+            }
+        });
+        return tmp;
+    }();
     $("#other_photo_file").on('change keyup paste', function () {
         var numFiles = $('#other_photo_file')[0].files.length;
 
@@ -26,7 +46,7 @@ $(document).ready(function () {
                     alert('Вы привисили лимит  2mb')
             } else {
                 let type =$('#other_photo_file')[0].files[i].type.split('/')[0]
-                            OtherDataArray.push($('#other_photo_file')[0].files[i]);
+                OtherDataArray.push($('#other_photo_file')[0].files[i]);
                 var fileUrl = URL.createObjectURL($('#other_photo_file')[0].files[i]);
 
 
@@ -80,55 +100,64 @@ $('.objects_module_select').on('change', function () {
     }
 });
 
+
 // Get Accordion
-function getAccordion(id) {
+function getAccordion(id, exchange_rates) {
+    var el = displayExchangeRatesSelect(exchange_rates, id);
+
     return "<div class='accordion' data-identificator='"+ id +"' id='accordion" + id + "'>"+
         "<div class='card'>"+
-        "<div class='card-header' id='heading" + id + "'>"+
-        "<h5 class='mb-0'>"+
-        "<p class='btn btn-link' data-toggle='collapse' data-target='#collapse" + id + "' aria-expanded='true' aria-controls='collapse" + id + "'>"+
-        "Объект #" + id +
-        "</p>"+
-        "<input name='add_id"+id+"' type='hidden' value='"+id+"'>"+
-        "</h5>"+
+            "<div class='card-header' id='heading" + id + "'>"+
+                "<h5 class='mb-0'>"+
+                    "<p class='btn btn-link' data-toggle='collapse' data-target='#collapse" + id + "' aria-expanded='true' aria-controls='collapse" + id + "'>"+
+                        "Объект #" + id +
+                    "</p>"+
+                    "<input name='add_id"+id+"' type='hidden' value='"+id+"'>"+
+                "</h5>"+
+            "</div>"+
+            "<div id='collapse" + id + "' class='collapse show' aria-labelledby='heading" + id + "' data-parent='#accordion" + id + "'>"+
+                "<div class='card-body'>"+
+                    "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
+                        "<div class='form-group' bis_skin_checked='1'>"+
+                            "<label for='add_building"+id+"'>Копрус</label>"+
+                            "<input name='add_building"+id+"' type='text' class='form-control' id='add_building"+id+"' placeholder='А'>"+
+                        "</div>"+
+                        "<div class='form-group d-flex' bis_skin_checked='1'>\n" +
+                            "<div class='form-group row col-md-6' bis_skin_checked='1'>\n" +
+                                "<label for='add_price"+id+"'>Цена</label>"+
+                                "<input name='add_price"+id+"' type='number' class='form-control' id='add_price"+id+"' placeholder='Цена' required >\n" +
+                            "</div>\n" +
+                            "<div class='form-group row col-md-6 ml-2' bis_skin_checked='1'>\n" +
+                                "<label>Валюта</label>\n"+
+                                el +
+                            "</div>\n" +
+                        "</div>\n" +
+                        "<div class='form-group' bis_skin_checked='1'>"+
+                            "<label for='add_size"+id+"'>Общая площадь (кв.м)</label>"+
+                            "<input name='add_size"+id+"' type='text' class='form-control' id='add_size"+id+"' placeholder='40'>"+
+                        "</div>"+
+                        "<div class='form-group' bis_skin_checked='1'>"+
+                            "<label for='add_apartment_layout"+id+"'>Планировка</label>"+
+                            "<input name='add_apartment_layout"+id+"' type='text' class='form-control' id='add_apartment_layout"+id+"' placeholder='1+1'>"+
+                        "</div>"+
+                        "<div class='form-group' bis_skin_checked='1'>"+
+                            "<label for='add_floor"+id+"'>Этаж</label>"+
+                            "<input name='add_floor"+id+"' type='text' class='form-control' id='add_floor"+id+"' placeholder='5'>"+
+                        "</div>"+
+                        "<div class='form-group' bis_skin_checked='1'>"+
+                        "\n" +
+                        "                <div class=\"form-main__label\" for=\"add_apartment_layout_image\">Прикрепить фотографию планировки</div>\n" +
+                        "                <label class=\"input-file\">\n" +
+                        "                    <span class=\"input-file-text form-control files_text\" type=\"text\"></span>\n" +
+                        "                    <input class=\"add_apartment_layout_image\" type=\"file\" name=\"add_apartment_layout_image"+id+"\">\n" +
+                        "                </label>"+
+                        "</div>"+
+                        "<p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='"+ id +"'>Удалить квартиру</p>"+
+                    "</div>"+
+                "</div>"+
+            "</div>"+
         "</div>"+
-        "<div id='collapse" + id + "' class='collapse show' aria-labelledby='heading" + id + "' data-parent='#accordion" + id + "'>"+
-        "<div class='card-body'>"+
-        "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "<label for='add_building"+id+"'>Копрус</label>"+
-        "<input name='add_building"+id+"' type='text' class='form-control' id='add_building"+id+"' placeholder='А'>"+
-        "</div>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "<label for='add_price"+id+"'>Цена в € </label>"+
-        "<input name='add_price"+id+"' type='number' class='form-control' id='add_price"+id+"' placeholder='249'>"+
-        "</div>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "<label for='add_size"+id+"'>Общая площадь (кв.м)</label>"+
-        "<input name='add_size"+id+"' type='text' class='form-control' id='add_size"+id+"' placeholder='40'>"+
-        "</div>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "<label for='add_apartment_layout"+id+"'>Планировка</label>"+
-        "<input name='add_apartment_layout"+id+"' type='text' class='form-control' id='add_apartment_layout"+id+"' placeholder='1+1'>"+
-        "</div>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "<label for='add_floor"+id+"'>Этаж</label>"+
-        "<input name='add_floor"+id+"' type='text' class='form-control' id='add_floor"+id+"' placeholder='5'>"+
-        "</div>"+
-        "<div class='form-group' bis_skin_checked='1'>"+
-        "\n" +
-        "                <div class=\"form-main__label\" for=\"add_apartment_layout_image\">Прикрепить фотографию планировки</div>\n" +
-        "                <label class=\"input-file\">\n" +
-        "                    <span class=\"input-file-text form-control files_text\" type=\"text\"></span>\n" +
-        "                    <input class=\"add_apartment_layout_image\" type=\"file\" name=\"add_apartment_layout_image"+id+"\">\n" +
-        "                </label>"+
-        "</div>"+
-        "<p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='"+ id +"'>Удалить квартиру</p>"+
-        "</div>"+
-        "</div>"+
-        "</div>"+
-        "</div>"+
-        "</div>";
+    "</div>";
 }
 
 // function accordionOnChange(data) {
@@ -173,7 +202,7 @@ function getAccordion(id) {
 // objects_module
 $('#object_module_add').on('click', function () {
     let accordionCount = $('.accordion').length;
-    $('#objects_module_field').append(getAccordion(accordionCount));
+    $('#objects_module_field').append(getAccordion(accordionCount, exchange_rates));
 
     $('.add_apartment_layout_image').on('change', function() {
         let file = this.files;
@@ -411,6 +440,19 @@ function displayPhoto(data, select_id) {
             select += `<option value="${value.id}">${value.name}</option>`;
         }
     })
+
+    return select;
+}
+
+function displayExchangeRatesSelect(data, select_id) {
+    var select = `<select class='form-control' name="add_price_code${select_id}" style='color: #e2e8f0'>`;
+    $.each(data, function (key, value) {
+        if ((data.length - 1) === key) {
+            select += `<option value="${value.name}">${value.name}</option></select>`;
+        } else {
+            select += `<option value="${value.name}">${value.name}</option>`;
+        }
+    });
 
     return select;
 }

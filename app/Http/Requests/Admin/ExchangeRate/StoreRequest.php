@@ -24,10 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'direct_val' => 'required|string',
-            'relative_val' => 'required|string',
-            'sell_val' => 'required|string',
-            'buy_val' => 'required|string',
+            'direct' => 'required|string',
+            'relative' => 'required|string',
+            'value' => 'required|string',
         ];
     }
 
@@ -37,14 +36,12 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'direct_val.required' => 'Данное поле является обязательным для заполнения',
-            'direct_val.string' => 'Данное поле должно быть строкой',
-            'relative_val.required' => 'Данное поле является обязательным для заполнения',
-            'relative_val.string' => 'Данное поле должно быть строкой',
-            'sell_val.required' => 'Данное поле является обязательным для заполнения',
-            'sell_val.string' => 'Данное поле должно быть строкой',
-            'buy_val.required' => 'Данное поле является обязательным для заполнения',
-            'buy_val.string' => 'Данное поле должно быть строкой',
+            'direct.required' => 'Данное поле является обязательным для заполнения',
+            'direct.string' => 'Данное поле должно быть строкой',
+            'relative.required' => 'Данное поле является обязательным для заполнения',
+            'relative.string' => 'Данное поле должно быть строкой',
+            'value.required' => 'Данное поле является обязательным для заполнения',
+            'value.string' => 'Данное поле должно быть строкой',
         ];
     }
 }

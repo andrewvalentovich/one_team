@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Template;
+use http\Client\Response;
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 class RequestsController extends Controller
 {
     // Отдаём заявки для сторонней CRM
-    public function export(Request $request)
+    public function export(Request $request) : mixed
     {
         // Проверка на наличие токена
         if(!$request->has('token')) {
@@ -25,6 +26,15 @@ class RequestsController extends Controller
             'from' => 'nullable|max:255',
         ]);
 
+        if ($data['token'] === config('app.token')) {
+            return response()->json(array_values(array_merge($this->export_default($data))));
+        } else {
+            return response()->json(array_values(array_merge($this->export_template($data))));
+        }
+    }
+
+    private function export_template(array $data) : mixed
+    {
         $template = Template::where('token', $data['token'])->get();
         if($template->isEmpty()) {
             return response('Unauthorized.', 401);
@@ -57,7 +67,36 @@ class RequestsController extends Controller
             })
             ->toArray();
 
-        return response()->json(array_values(array_merge($result)));
+        return $result;
+    }
+
+    private function export_default(array $data) : mixed
+    {
+        // Получаем заявки
+        $result = DB::table('requests')
+            ->get()
+            ->transform(function ($row) {
+                return [
+                    'created' => (string) date('Y-m-d H:i:s', strtotime($row->created_at)),
+                    'phone' => (string) $row->phone,
+                    'first_name' => isset($row->fio) ? (string) $row->fio : null,
+                    'last_name' => isset($row->last_name) ? (string) $row->last_name : null,
+                    'middle_name' => isset($row->middle_name) ? (string) $row->middle_name : null,
+                    'birthdate' => isset($row->birhday) ? (string) date('Y-m-d', strtotime($row->birhday)) : null,
+                    'age' => isset($row->age) ? (int) $row->age : null,
+                    'ip' => isset($row->ip) ? (string) $row->ip : null,
+                    'utm_source' => isset($row->utm_source) ? (string) $row->utm_source : null,
+                    'utm_medium' => isset($row->utm_medium) ? (string) $row->utm_medium : null,
+                    'utm_campaign' => isset($row->utm_campaign) ? (string) $row->utm_campaign : null,
+                    'utm_term' => isset($row->utm_term) ? (string) $row->utm_term : null,
+                    'utm_content' => isset($row->utm_content) ? (string) $row->utm_content : null,
+                    'referer' => isset($row->domain) ? (string) $row->domain : null,
+                    'token' => isset($row->token) ? (string) $row->token : null,
+                ];
+            })
+            ->toArray();
+
+        return $result;
     }
 
     // Получаем заявки

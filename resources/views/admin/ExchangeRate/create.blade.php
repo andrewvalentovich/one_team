@@ -45,14 +45,14 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Прямая</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
-                                    <select class="form-control"  name="direct_val" style="color: #e2e8f0">
+                                    <select class="form-control"  name="direct" style="color: #e2e8f0">
                                         @foreach($exchange_names as $name)
                                             <option value="{{$name}}">{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('direct_val')
-                                <label class="text-danger font-weight-normal" for="direct_val">{{ $message }}</label>
+                                @error('direct')
+                                <label class="text-danger font-weight-normal" for="direct">{{ $message }}</label>
                                 @enderror
                             </div>
                         </div>
@@ -61,32 +61,25 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Относительная</label>
                                 <div class="col-sm-3" bis_skin_checked="1">
-                                    <select class="form-control"  name="relative_val" style="color: #e2e8f0">
+                                    <select class="form-control"  name="relative" style="color: #e2e8f0">
                                         @foreach($exchange_names as $name)
                                             <option value="{{$name}}">{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('relative_val')
-                                <label class="text-danger font-weight-normal" for="relative_val">{{ $message }}</label>
+                                @error('relative')
+                                <label class="text-danger font-weight-normal" for="relative">{{ $message }}</label>
                                 @enderror
                             </div>
                         </div>
 
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group" bis_skin_checked="1">
-                                <label for="buy_val">Покупка</label>
-                                <input name="buy_val" type="text" class="form-control" id="buy_val" placeholder="Покупка">
+                                <label for="value">Значение</label>
+                                <input name="value" type="text" class="form-control" id="value" placeholder="Значение">
                             </div>
-                            @error('buy_val')
-                            <label class="text-danger font-weight-normal" for="buy_val">{{ $message }}</label>
-                            @enderror
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="sell_val">Продажа</label>
-                                <input name="sell_val" type="text" class="form-control" id="sell_val" placeholder="Продажа">
-                            </div>
-                            @error('sell_val')
-                            <label class="text-danger font-weight-normal" for="sell_val">{{ $message }}</label>
+                            @error('value')
+                                <label class="text-danger font-weight-normal" for="value">{{ $message }}</label>
                             @enderror
                         </div>
 

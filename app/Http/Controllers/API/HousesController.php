@@ -63,6 +63,7 @@ class HousesController extends Controller
                 "size_home" => $row->size_home,
                 "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size),
                 "price" => $this->getCurrencyPrice($row->price),
+                "price_code" => $row->price_code,
                 "description" => $row->description,
                 "description_en" => $row->description_en,
                 "description_tr" => $row->description_tr,
@@ -132,7 +133,7 @@ class HousesController extends Controller
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
-                "price" => $this->getCurrencyPrice($row->price),
+                "price" => $this->getCurrencyPrice($row->price, $row->price_code),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,
@@ -147,23 +148,23 @@ class HousesController extends Controller
     private function getExchanges(): array
     {
         // Получаем валюту
-        $exchange_rates = ExchangeRate::where('direct_val', 'EUR')->get();
+        $exchange_rates = ExchangeRate::where('direct', 'RUB')->get();
         $exchanges = [];
 
         // Преобразуем в массив вида - ["EUR" => 2.24]
         foreach ($exchange_rates as $exchange_rate) {
-            $exchanges[$exchange_rate->relative_val] = $exchange_rate->sell_val;
+            $exchanges[$exchange_rate->relative] = $exchange_rate->value;
         }
 
         return $exchanges;
     }
 
-    private function getCurrencyPrice(int $price): array
+    private function getCurrencyPrice($price): array
     {
         return [
-            "EUR" => number_format($price, 0, '.', ' ')." €",
+            "RUB" => number_format($price, 0, '.', ' ')." ₽",
             "USD" => number_format($price * $this->exchanges['USD'], 0, '.', ' ')." $",
-            "RUB" => number_format($price * $this->exchanges['RUB'], 0, '.', ' ')." ₽",
+            "EUR" => number_format($price * $this->exchanges['EUR'], 0, '.', ' ')." €",
             "TRY" => number_format($price * $this->exchanges['TRY'], 0, '.', ' ')." ₺",
         ];
     }
@@ -171,9 +172,9 @@ class HousesController extends Controller
     private function getPriceSize(int $price, int $size = 0): array
     {
         return [
-            "EUR" => number_format(ceil($price / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." €",
+            "RUB" => number_format(ceil($price / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₽",
             "USD" => number_format(ceil($price * $this->exchanges['USD'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." $",
-            "RUB" => number_format(ceil($price * $this->exchanges['RUB'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₽",
+            "EUR" => number_format(ceil($price * $this->exchanges['EUR'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." €",
             "TRY" => number_format(ceil($price * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₺",
         ];
     }

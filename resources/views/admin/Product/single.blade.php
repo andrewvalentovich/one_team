@@ -368,9 +368,20 @@
                                                                     <label for='add_building{{ $object->id }}'>Копрус</label>
                                                                     <input name='add_building{{ $object->id }}' type='text' class='form-control' value="{{ $object->building }}" id='add_building{{ $object->id }}' placeholder='А'>
                                                                 </div>
-                                                                <div class='form-group' bis_skin_checked='1'>
-                                                                    <label for='add_price{{ $object->id }}'>Цена в € </label>
-                                                                    <input name='add_price{{ $object->id }}' type='number' class='form-control' value="{{ $object->price }}" id='add_price{{ $object->id }}' placeholder='249'>
+                                                                <div class="form-group d-flex" bis_skin_checked="1">
+                                                                    <div class="form-group row col-md-3" bis_skin_checked="1">
+                                                                        <label for="">Цена</label>
+                                                                        <input name="add_price{{ $object->id }}" value="{{ $object->price }}" type="number" class="form-control" id="" placeholder="Цена" required>
+                                                                    </div>
+                                                                    <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
+                                                                        <label>Валюта</label>
+                                                                        <select class="form-control" name="add_price_code{{ $object->id }}" style="color: #e2e8f0">
+                                                                            <option value="RUB" selected>RUB</option>
+                                                                            @foreach($exchanges as $exchange)
+                                                                                <option value="{{ $exchange->relative }}" @if(isset($object->price_code)){{ $exchange->relative === $object->price_code ? "selected" : "" }}@endif>{{ $exchange->relative }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
                                                                     <label for='add_size{{ $object->id }}'>Общая площадь (кв.м)</label>
@@ -441,9 +452,20 @@
                             <input value="{{$get->name}}" name="name" type="text" class="form-control" id="" placeholder="Названия" required >
                         </div>
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Цена в € </label>
-                            <input value="{{$get->price}}" name="price" type="number" class="form-control" id="" placeholder="Цена в €" required >
+                        <div class="form-group d-flex" bis_skin_checked="1">
+                            <div class="form-group row col-md-3" bis_skin_checked="1">
+                                <label for="">Цена</label>
+                                <input name="price" type="number" value="{{ $get->price }}" class="form-control" placeholder="Цена" required >
+                            </div>
+                            <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
+                                <label>Валюта</label>
+                                <select class="form-control" name="price_code" style="color: #e2e8f0">
+                                    <option value="RUB" {{ ($get->price_code === "RUB") ? "selected" : "" }}>RUB</option>
+                                    @foreach($exchanges as $exchange)
+                                        <option value="{{ $exchange->relative }}" {{ ($exchange->relative === $get->price_code) ? "selected" : "" }}>{{ $exchange->relative }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
 

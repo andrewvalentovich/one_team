@@ -133,17 +133,17 @@ class HousesFilter extends AbstractFilter
     {
         $exchange_rates = "";
 
-        if (isset($value['code']) && $value['code'] != "EUR") {
-            $exchange_rates = ExchangeRate::where('direct_val', 'EUR')->where('relative_val', $value['code'])->first();
+        if (isset($value['code']) && $value['code'] != "RUB") {
+            $exchange_rates = ExchangeRate::where('direct', 'RUB')->where('relative', $value['code'])->first();
         }
 
         if (isset($value['min_price'])) {
-            $value['min_price'] = (isset($value['code']) && $value['code'] != "EUR") ? (int) $value['min_price'] / $exchange_rates->sell_val : $value['min_price'];
+            $value['min_price'] = (isset($value['code']) && $value['code'] != "RUB") ? (int) $value['min_price'] / $exchange_rates->value : $value['min_price'];
             $builder->where('price', ">=", $value['min_price']);
         }
 
         if (isset($value['max_price'])) {
-            $value['max_price'] = (isset($value['code']) && $value['code'] != "EUR") ? (int) $value['max_price'] / $exchange_rates->sell_val : $value['max_price'];
+            $value['max_price'] = (isset($value['code']) && $value['code'] != "RUB") ? (int) $value['max_price'] / $exchange_rates->value : $value['max_price'];
             $builder->where('price', "<=", $value['max_price']);
         }
     }

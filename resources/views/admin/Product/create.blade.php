@@ -136,7 +136,6 @@
                             </div>
                         </div>
 
-
 {{--                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--}}
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
@@ -149,9 +148,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
@@ -276,7 +272,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
 
-                        <div class="form-group" bis_skin_checked="1" id="objects_module" style="display: none;">
+                        <div class="form-group col-md-6" bis_skin_checked="1" id="objects_module" style="display: none;">
                             <div class="card">
                                 <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
@@ -342,9 +338,20 @@
                             <input name="name" type="text" class="form-control" id="" placeholder="Названия" required >
                         </div>
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Цена в € </label>
-                            <input name="price" type="number" class="form-control" id="" placeholder="Цена в €" required >
+                        <div class="form-group d-flex" bis_skin_checked="1">
+                            <div class="form-group row col-md-3" bis_skin_checked="1">
+                                <label for="">Цена</label>
+                                <input name="price" type="number" class="form-control" id="" placeholder="Цена" required >
+                            </div>
+                            <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
+                                <label>Валюта</label>
+                                <select class="form-control" name="price_code" style="color: #e2e8f0">
+                                    <option value="RUB" selected>RUB</option>
+                                    @foreach($exchanges as $exchange)
+                                        <option value="{{ $exchange->relative }}">{{ $exchange->relative }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
@@ -505,41 +512,45 @@
                     accordions[i].childNodes[0].childNodes[1].dataset.parent = "#accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6].dataset.identificator = i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[7]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[7].dataset.identificator = i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли add_building
                     console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = "add_building"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = "add_building"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = "add_building"+i;
                     accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = "add_building"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли add_price
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = "add_price"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = "add_price"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = "add_price"+i;
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли label add_price
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[2]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[1].htmlFor = "add_price"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[2].id = "add_price"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[2].name = "add_price"+i;
+
+                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли select add_price
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[3].childNodes[3]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[3].childNodes[3].name = "add_price_code"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1] нашли add_size
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[0].for = "add_size"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].id = "add_size"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].name = "add_size"+i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[0].htmlFor = "add_size"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].id = "add_size"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].name = "add_size"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1] нашли add_apartment_layout
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[0].for = "add_apartment_layout"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].id = "add_apartment_layout"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].childNodes[1].name = "add_apartment_layout"+i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[0].htmlFor = "add_apartment_layout"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].id = "add_apartment_layout"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].name = "add_apartment_layout"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1] нашли add_floor
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[0].for = "add_floor"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].id = "add_floor"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[4].childNodes[1].name = "add_floor"+i;
+                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1]);
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[0].htmlFor = "add_floor"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1].id = "add_floor"+i;
+                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1].name = "add_floor"+i;
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1] нашли add_apartment_layout_image
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1]);
+                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6].childNodes[2].childNodes[1]);
                     $('#accordion'+i+' input.add_apartment_layout_image').attr('name', 'add_apartment_layout_image'+i);
                     console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1].for = "add_apartment_layout_image"+;

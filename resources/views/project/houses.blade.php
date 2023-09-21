@@ -118,7 +118,6 @@
                         </div>
                     </div>
                 </div>
-
                     <div class="city-col__content">
                         <div class="nothing">
                             {{__('Объявлений не найдено')}}
@@ -142,7 +141,7 @@
                                     </div>
                                     <div class="city-col__item-text">
                                         <div class="city-col__item-price">
-                                            {{ number_format($product->price, 0, '.', ' ') }} €
+                                            {{ number_format($product->price, 0, '.', ' ') }} {{ get_exchange_rate_symbol($product->price_code) }}
                                         </div>
                                         <div class="city-col__item-rooms">
                                             {{$product->size}} {{__('кв.м')}}
@@ -338,9 +337,9 @@
                                                         <!-- {{$product->address}} -->
                                                     </div>
                                                     <div class="place__square">
-                                                        <!-- <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
+                                                        <!-- <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽ / кв.м</div>
                                                         <div class="place__square-USD" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  $  / кв.м</div>
-                                                        <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['RUB'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽  / кв.м</div>
+                                                        <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['EUR'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
                                                         <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira"> ₺ </span>  / кв.м</div> -->
                                                     </div>
                                                 </div>
@@ -728,7 +727,7 @@
                                 <div class="place__slider_p-wrapper swiper-wrapper">
                                     <div class="place__slider_p-slide swiper-slide">
                                         <div class="place__slider_p-img">
-                                            <img src="{{asset('uploads/'.$product->photo[0]->photo)}}">
+                                            <img src="{{ isset($product->photo[0]) ? asset('uploads/'.$product->photo[0]->photo) : asset('uploads/') }}">
                                         </div>
                                     </div>
                                         <div class="place__slider_p-slide swiper-slide">
@@ -1547,7 +1546,7 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            priceDiv.textContent = `${cityElement.price.EUR}`;
+            priceDiv.textContent = `${cityElement.price.EUR}`; // eval('cityElement.price.' + cityElement.price_code)
             textDiv.appendChild(priceDiv);
 
             //комнаты в карточке превью
