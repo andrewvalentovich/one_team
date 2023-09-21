@@ -26,25 +26,31 @@ class RequestsController extends Controller
             'from' => 'nullable|max:255',
         ]);
 
+
         if ($data['token'] === config('app.token')) {
             return response()->json(array_values(array_merge($this->export_default($data))));
         } else {
+            $template = Template::where('token', $data['token'])->get();
+            if($template->isEmpty()) {
+                return response('Unauthorized.', 401);
+            }
+
             return response()->json(array_values(array_merge($this->export_template($data))));
         }
     }
 
     private function export_template(array $data) : mixed
     {
-        $template = Template::where('token', $data['token'])->get();
-        if($template->isEmpty()) {
-            return response('Unauthorized.', 401);
-        }
-
         // Получаем заявки
         $result = DB::table('requests')
             ->join('landings', 'landings.id', '=', 'requests.landing_id')
             ->join('templates', 'templates.id', '=', 'landings.template_id')
             ->where('templates.token', '=', $data['token'])
+            ->where(function ($query) use ($data) {
+                if(isset($data->from)) {
+                    $query->where('created_at', '>', date('Y-m-d H:i:s', $data['from']));
+                }
+            })
             ->get()
             ->transform(function ($row) {
                 return [
@@ -70,10 +76,15 @@ class RequestsController extends Controller
         return $result;
     }
 
-    private function export_default(array $data) : mixed
+    private function export_default(array $data) : array
     {
         // Получаем заявки
         $result = DB::table('requests')
+            ->where(function ($query) use ($data) {
+                if(isset($data->from)) {
+                    $query->where('created_at', '>', date('Y-m-d H:i:s', $data['from']));
+                }
+            })
             ->get()
             ->transform(function ($row) {
                 return [
