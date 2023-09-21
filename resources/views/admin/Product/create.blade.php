@@ -347,7 +347,7 @@
                                 <label>Валюта</label>
                                 <select class="form-control" name="price_code" style="color: #e2e8f0">
                                     @foreach($exchanges as $exchange)
-                                        <option value="{{ $exchange->relative }}">{{ $exchange->relative }}</option>
+                                        <option value="{{ $exchange->relative }}" {{ $exchange->relative === "EUR" ? "selected" : "" }}>{{ $exchange->relative }}</option>
                                     @endforeach
                                     <option value="RUB">RUB</option>
                                 </select>

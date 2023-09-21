@@ -447,10 +447,14 @@ function displayPhoto(data, select_id) {
 function displayExchangeRatesSelect(data, select_id) {
     var select = `<select class='form-control' name="add_price_code${select_id}" style='color: #e2e8f0'>`;
     $.each(data, function (key, value) {
-        if ((data.length - 1) === key) {
-            select += `<option value="${value.name}">${value.name}</option></select>`;
+        if (value.name == "EUR") {
+            select += `<option value="${value.name}" selected>${value.name}</option>`;
         } else {
             select += `<option value="${value.name}">${value.name}</option>`;
+        }
+
+        if ((data.length - 1) === key) {
+            select += `</select>`;
         }
     });
 
