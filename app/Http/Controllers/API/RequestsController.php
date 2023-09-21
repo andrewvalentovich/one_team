@@ -47,8 +47,8 @@ class RequestsController extends Controller
             ->join('templates', 'templates.id', '=', 'landings.template_id')
             ->where('templates.token', '=', $data['token'])
             ->where(function ($query) use ($data) {
-                if(isset($data->from)) {
-                    $query->where('created_at', '>', date('Y-m-d H:i:s', $data['from']));
+                if(isset($data['from'])) {
+                    $query->where('requests.created_at', '>', date('Y-m-d H:i:s', $data['from']));
                 }
             })
             ->get()
@@ -80,8 +80,9 @@ class RequestsController extends Controller
     {
         // Получаем заявки
         $result = DB::table('requests')
+            ->whereNull('landing_id')
             ->where(function ($query) use ($data) {
-                if(isset($data->from)) {
+                if(isset($data['from'])) {
                     $query->where('created_at', '>', date('Y-m-d H:i:s', $data['from']));
                 }
             })
