@@ -460,10 +460,10 @@
                             <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
                                 <label>Валюта</label>
                                 <select class="form-control" name="price_code" style="color: #e2e8f0">
-                                    <option value="RUB" {{ ($get->price_code === "RUB") ? "selected" : "" }}>RUB</option>
                                     @foreach($exchanges as $exchange)
                                         <option value="{{ $exchange->relative }}" {{ ($exchange->relative === $get->price_code) ? "selected" : "" }}>{{ $exchange->relative }}</option>
                                     @endforeach
+                                    <option value="RUB" {{ ($get->price_code === "RUB") ? "selected" : "" }}>RUB</option>
                                 </select>
                             </div>
                         </div>

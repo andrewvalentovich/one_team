@@ -37,12 +37,14 @@ class HousesController extends Controller
             if (isset($row->objects)) {
                 foreach (json_decode($row->objects) as $object) {
                     // Формируем новое поле price_size
-                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size);
+                    $price_code = isset($row->price_code) ? $row->price_code : null;
+                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size, $price_code);
 
                     // Меняем цену
                     $price = $object->price;
-                    $object->price = $this->getCurrencyPrice($price);
+                    $object->price = $this->getCurrencyPrice($price, $price_code);
                     unset($price);
+                    unset($price_code);
 
                     // Присваиваем объект временной переменой
                     $objects[] = $object;
@@ -61,8 +63,8 @@ class HousesController extends Controller
                 "address" => $row->address,
                 "size" => $row->size,
                 "size_home" => $row->size_home,
-                "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size),
-                "price" => $this->getCurrencyPrice($row->price),
+                "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size, $row->price_code),
+                "price" => $this->getCurrencyPrice($row->price, $row->price_code),
                 "price_code" => $row->price_code,
                 "description" => $row->description,
                 "description_en" => $row->description_en,
@@ -133,7 +135,7 @@ class HousesController extends Controller
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
-                "price" => $this->getCurrencyPrice($row->price, $row->price_code),
+                "price" => $this->getCurrencyPrice($row->price),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,
@@ -159,23 +161,33 @@ class HousesController extends Controller
         return $exchanges;
     }
 
-    private function getCurrencyPrice($price): array
+    private function getCurrencyPrice(int $price, string $price_code = null): array
     {
-        return [
-            "RUB" => number_format($price, 0, '.', ' ')." ₽",
-            "USD" => number_format($price * $this->exchanges['USD'], 0, '.', ' ')." $",
-            "EUR" => number_format($price * $this->exchanges['EUR'], 0, '.', ' ')." €",
-            "TRY" => number_format($price * $this->exchanges['TRY'], 0, '.', ' ')." ₺",
+        if(is_null($price_code) || $price_code === "") {
+            $price_code = "EUR";
+        }
+
+        $price_array = [
+            "RUB" => number_format(($price_code === "RUB") ? $price : ($price / $this->exchanges[$price_code]), 0, '.', ' ')." ₽",
+            "USD" => number_format(($price_code === "RUB") ? $price * $this->exchanges['USD'] : $price / $this->exchanges[$price_code] * $this->exchanges['USD'], 0, '.', ' ')." $",
+            "EUR" => number_format(($price_code === "RUB") ? $price * $this->exchanges['EUR'] : $price / $this->exchanges[$price_code] * $this->exchanges['EUR'], 0, '.', ' ')." €",
+            "TRY" => number_format(($price_code === "RUB") ? $price * $this->exchanges['TRY'] : $price / $this->exchanges[$price_code] * $this->exchanges['TRY'], 0, '.', ' ')." ₺",
         ];
+
+        return $price_array;
     }
 
-    private function getPriceSize(int $price, int $size = 0): array
+    private function getPriceSize(int $price, int $size = 0, string $price_code = null): array
     {
+        if(is_null($price_code) || $price_code === "") {
+            $price_code = "EUR";
+        }
+
         return [
-            "RUB" => number_format(ceil($price / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₽",
-            "USD" => number_format(ceil($price * $this->exchanges['USD'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." $",
-            "EUR" => number_format(ceil($price * $this->exchanges['EUR'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." €",
-            "TRY" => number_format(ceil($price * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₺",
+            "RUB" => number_format(ceil(($price_code === "RUB") ? $price : ($price / $this->exchanges[$price_code]) / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₽",
+            "USD" => number_format(ceil(($price_code === "RUB") ? $price * $this->exchanges['USD'] : $price / $this->exchanges[$price_code] * $this->exchanges['USD'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." $",
+            "EUR" => number_format(ceil(($price_code === "RUB") ? $price * $this->exchanges['EUR'] : $price / $this->exchanges[$price_code] * $this->exchanges['EUR'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." €",
+            "TRY" => number_format(ceil(($price_code === "RUB") ? $price * $this->exchanges['TRY'] : $price / $this->exchanges[$price_code] * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₺",
         ];
     }
 }
