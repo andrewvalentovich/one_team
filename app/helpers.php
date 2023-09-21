@@ -14,7 +14,7 @@ function get_exchange_rate_symbol($code) {
         "TRY" => "₺"
     ];
 
-    return $exchange_rate[$code];
+    return $exchange_rate[isset($code) ? $code : "EUR"];
 }
 
 function cdn_asset($path, $secure = null) {
