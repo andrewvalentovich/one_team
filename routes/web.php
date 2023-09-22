@@ -129,7 +129,6 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
         });
 
 
-        Route::middleware(['AuthUser'])->group(function () {
             Route::get('all_requests_new', [RequestController::class, 'all_requests_new'])->name('all_requests_new');
             Route::get('requests_old', [RequestController::class, 'requests_old'])->name('requests_old');
             Route::get('update_status_one/{id}', [RequestController::class, 'update_status_one'])->name('update_status_one');
@@ -210,5 +209,4 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::post('create_product', [ProductController::class, 'create_product'])->name('create_product');
             Route::post('update_product', [ProductController::class, 'update_product'])->name('update_product');
         });
-    });
 });

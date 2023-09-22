@@ -407,9 +407,9 @@ $('#update_product').on('submit',function(e) {
     $('.lds-ellipsis').show();
 
     // Вывод информации при отправке формы
-    // for (var pair of formData.entries()) {
-    //     console.log(pair[0]+ ', ' + pair[1]);
-    // }
+    for (var pair of formData.entries()) {
+        console.log(pair[0]+ ':' + pair[1]);
+    }
 
     $.ajax({
         url:  $(this).attr('action'),

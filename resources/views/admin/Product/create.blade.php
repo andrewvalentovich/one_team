@@ -56,7 +56,6 @@
                         </div>
 
                         <input type="hidden" name="osobenosti[]" value="{{$category->id}}">
-                        <input type="hidden" name="category_id" value="{{$category->id}}">
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Опция (для landing page)</label>

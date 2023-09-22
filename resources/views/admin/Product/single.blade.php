@@ -66,12 +66,8 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="osobenosti[]" value="@foreach($product_category as $title)
-                        {{$title->id}}
-                        @endforeach">
-                        <input type="hidden" name="category_id" value="@foreach($product_category as $title)
-                        {{$title->peculiarities_id}}
-                        @endforeach">
+                        <input type="hidden" name="osobenosti[]" value="@foreach($product_category as $title){{$title->id}} @endforeach">
+                        <input type="hidden" name="category_id" value="@foreach($product_category as $title){{$title->peculiarities_id}} @endforeach">
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Опция (для landing page)</label>
@@ -491,10 +487,6 @@
                             <input value="{{$get->size_home}}" name="size_home" type="text" class="form-control" id="" placeholder="Названия" required >
                         </div>
 
-                        <input type="hidden" name="category_id" value="@foreach($product_category as $title)
-                        {{$title->peculiarities_id}}
-                        @endforeach">
-
                         <input value="{{$get->long}}"  name="long" type="hidden" class="form-control" id="long" placeholder="Долгота">
                         <input value="{{$get->lat}}"  name="lat" type="hidden" class="form-control" id="lat" placeholder="Широта">
 
@@ -548,12 +540,12 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label class="btn btn-outline-warning" for="file">Выберете фотографии</label>
-                            <input style="display: none"  type="file" name="image[]" id="file" accept="image/*" multiple  >
+                            <input style="display: none"  type="file" name="photo[]" id="file" accept="image/*" multiple>
                             <div id="imagePreview">
                                 <div id="newDivqwe">
                                     @foreach($get->photo as $photo)
                                         <div class="PhotoDiv" style="display:flex; flex-direction: column; overflow: visible;position: relative; width: auto; height: 150px" bis_skin_checked="1">
-                                            <a  href="{{route('delete_product_photo', $photo->id)}}" class="ixsButton2" data-id="0" style="
+                                            <a href="{{route('delete_product_photo', $photo->id)}}" class="ixsButton2" data-id="0" style="
                                     outline: none;
                                     border: none;
                                 position: relative;

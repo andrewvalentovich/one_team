@@ -1518,7 +1518,12 @@ function P(e) {
                 imgDiv.classList.add('city-col__item-img');
 
                 const img = document.createElement('img');
-                img.setAttribute('src', `/uploads/${photo.photo}`);
+                if(cityElement.preview_image !== null) {
+                    console.log("preview_image id="+cityElement.id);
+                    img.setAttribute('src', `${cityElement.preview_image}`);
+                } else {
+                    img.setAttribute('src', `/uploads/${photo.photo}`);
+                }
                 img.setAttribute('alt', 'place');
                 imgDiv.appendChild(img);
 

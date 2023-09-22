@@ -14,6 +14,9 @@ use App\Models\PhotoTable;
 use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+
 class ProductController extends Controller
 {
     public function all_product($id){
@@ -77,6 +80,7 @@ class ProductController extends Controller
         }
 
         $create =  Product::create([
+            'preview_image' => $this->savePreviewImage($request->photo[0]),
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -133,7 +137,6 @@ class ProductController extends Controller
 //        }
 
         if (isset($request->photo)){
-
             foreach ($request->photo as $key => $photo){
                 $file =  $photo;
                 $fileName = $time++.'.'.$file->getClientOriginalExtension();
@@ -142,7 +145,7 @@ class ProductController extends Controller
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $create->id,
                     'photo' => $fileName,
-                    'category_id' => $request->photo_categories["new_".$key] > 0 ? $request->photo_categories["new_".$key] : null
+                    'category_id' => (isset($request->photo_categories) && $request->photo_categories["new_".$key] > 0) ? $request->photo_categories["new_".$key] : null
                 ]);
             }
         }
@@ -226,6 +229,7 @@ class ProductController extends Controller
         }
 
         $create =  $product->update([
+            'preview_image' => (isset($product->photo[0])) ? $this->updatePreviewImage($product->photo[0]) : null,
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -258,9 +262,9 @@ class ProductController extends Controller
 
         if (isset($request->osobenosti)){
             ProductCategory::where('product_id',$request->product_id)->delete();
-                   $uniqueArray = array_unique($request->osobenosti);
-                   foreach ($uniqueArray as $item) {
-                $get_category =    Peculiarities::where('id', $item)->first();
+            $uniqueArray = array_unique($request->osobenosti);
+            foreach ($uniqueArray as $item) {
+                $get_category = Peculiarities::where('id', $item)->first();
                 if ($get_category != null){
                     ProductCategory::create([
                         'product_id' => $request->product_id,
@@ -270,11 +274,11 @@ class ProductController extends Controller
                 }
             }
 
-            ProductCategory::create([
-                  'product_id' => $request->product_id,
-                'peculiarities_id' => $request->category_id,
-                'type' => 'Типы',
-            ]);
+           ProductCategory::create([
+               'product_id' => $request->product_id,
+               'peculiarities_id' => $request->category_id,
+               'type' => 'Типы',
+           ]);
         }
 
 
@@ -284,6 +288,7 @@ class ProductController extends Controller
                 $file = $photo;
                 $fileName = $time++.'.'.$file->getClientOriginalExtension();
                 $filePath = $file->move('uploads', $fileName);
+
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $request->product_id,
@@ -323,7 +328,7 @@ class ProductController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => 'Product Created',
+            'message' => 'Product Updated',
             'url' => route('single_page_product',$request->product_id)
         ],200);
     }
@@ -363,5 +368,70 @@ class ProductController extends Controller
         }
             $get->delete();
             return redirect()->back();
+    }
+
+    private function savePreviewImage($image)
+    {
+        $thumbnailpath = null;
+
+        if ($image){
+            $filenamewithextension = $image->getClientOriginalName();
+
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+            //get file extension
+            $extension = $image->getClientOriginalExtension();
+
+            //filename to store
+            $filenametostore = $filename.'_'.uniqid().'.'.$extension;
+
+            Storage::put('uploads/'. $filenametostore, fopen($image, 'r+'));
+
+            //Resize image here
+            $thumbnailpath = public_path('uploads')."/".$filenametostore;
+            $img = Image::make($image->getRealPath());
+
+            $height = $img->height();
+            $width = $img->width();
+            if($height >= 601) {
+                $img->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            if($width >= 601) {
+                $img->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            $img->save($thumbnailpath);
+        }
+
+        return "uploads/".$filenametostore;
+    }
+
+    private function updatePreviewImage($image = null)
+    {
+        if (!is_null($image)){
+            $thumbnailpath = 'uploads'."/".$image->photo;
+            $img = Image::make($thumbnailpath);
+
+            $height = $img->height();
+            $width = $img->width();
+            if($height >= 601) {
+                $img->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            if($width >= 601) {
+                $img->resize(null, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+            }
+            $img->save($thumbnailpath);
+            return "uploads/".$image->photo;
+        }
+
+        return null;
     }
 }
