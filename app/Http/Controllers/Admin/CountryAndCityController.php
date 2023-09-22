@@ -81,6 +81,7 @@ class CountryAndCityController extends Controller
             $fileName = time().'.'.$request->photo->getClientOriginalExtension();
             $filePath = $file->move('uploads', $fileName);
         }
+
         $get->update([
             'metric_id' => $request->metric_id,
             'name' => $request->name,
