@@ -5316,7 +5316,7 @@ input[type='number'] {
   }
 }
 .popup-gallery .popup__content {
-  max-width: 1000px;
+  max-width: calc(100% - 150px);
   background: none;
   padding: 0px;
   width: 100%;
@@ -5450,7 +5450,7 @@ input[type='number'] {
 
 .popup__slide img {
     width: 100%;
-    max-width: 962px;
+    max-width: 100%;
     object-fit: cover;
     height: 100%;
 }
