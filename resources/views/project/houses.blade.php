@@ -973,6 +973,7 @@
             align-items: center;
             padding: 30px 53px;
             min-height: 100%;
+            height: 100%;
         }
 
         .object__photo-popup-block {
@@ -983,6 +984,7 @@
             align-items: center;
             z-index: 201;
             opacity: 1;
+            height: 100%;
         }
 
         .object__photo-popup img {
@@ -992,6 +994,8 @@
             z-index: 202;
             opacity: 1;
             width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .object__photo-popup-close {
