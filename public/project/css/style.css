@@ -1907,6 +1907,8 @@ body {
   display: flex !important;
   margin-bottom: 30px;
   gap: 10px;
+    box-sizing: border-box;
+    padding: 0 10px;
 }
 
 
@@ -5374,7 +5376,7 @@ body.scroll_fixed {
   .city-col__builder {
     padding: 10px 9px;
   }
-  
+
 
   .city-col__content {
     margin: 15px auto 0;
@@ -6887,7 +6889,7 @@ body.scroll_fixed {
   .check-favorites .white-to-blue {
     fill: none;
   }
-  
+
   .check-favorites .white-to-blue path{
     stroke: #fff;
   }
