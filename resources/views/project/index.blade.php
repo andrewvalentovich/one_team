@@ -73,14 +73,6 @@
     </section>
 
     <?php echo $citizenship_div->div ?>
-    {{--   {{}}--}}
-    <div class="citizenship__footer">
-        <div class="citizenship__footer-button">
-            {{__('Узнать больше')}}
-
-        </div>
-    </div>
-    </section>
     <form action="" id="index_page_form">
         <section class="contact">
             <div class="contact__title title">
