@@ -32,7 +32,7 @@ class HousesController extends Controller
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
         $houses = Product::filter($filter)->with('photo')->with('peculiarities')->with(['favorite' => function ($query) use ($data) {
             $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
-        }])->paginate(10)->through(function ($row) {
+        }])->paginate(12)->through(function ($row) {
             $objects = [];
             $layouts_result = null;
             $min_price = 9999999999;
