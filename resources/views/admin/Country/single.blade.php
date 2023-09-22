@@ -79,27 +79,27 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Latitude</label>
-                            <input  value="{{$get->lat}}" name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
+                            <input value="{{$get->lat}}" name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
                         </div>
                         @if($get->parent_id == null)
 
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Русском</label>
 {{--                                <textarea style="color: white !important; height:  500px;" name="citizenship"  class="form-control" id="exampleInputName1" placeholder="Гражданство" >{{$get->div}}</textarea>--}}
-                                <textarea id="mytextarea" name="citizenship">{!!  $get->div  !!}</textarea>
+                                <textarea class="form-control" rows="20" id="" name="citizenship">{!!  $get->div  !!}</textarea>
                             </div>
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Английском</label>
-                                <textarea id="mytextarea_en" name="citizenship_en">{!!  $get->div_en  !!}</textarea>
+                                <textarea class="form-control" rows="20" id="" name="citizenship_en">{!!  $get->div_en  !!}</textarea>
                             </div>
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Турецком</label>
-                                <textarea id="mytextarea_tr" name="citizenship_tr">{!!  $get->div_tr  !!}</textarea>
+                                <textarea class="form-control" rows="20" id="" name="citizenship_tr">{!!  $get->div_tr  !!}</textarea>
                             </div>
 
                             <div class="form-group" bis_skin_checked="1">
                                 <label for="exampleInputName1">Гражданство на Немецком</label>
-                                <textarea id="mytextarea_de" name="citizenship_de">{!!  $get->div_de  !!}</textarea>
+                                <textarea class="form-control" rows="20" id="" name="citizenship_de">{!!  $get->div_de  !!}</textarea>
                             </div>
 
 

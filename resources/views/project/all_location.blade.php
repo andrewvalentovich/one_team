@@ -14,7 +14,7 @@
             {{__('Все') }} {{__('локации')}}
         </div>
         <div class="locations__subtitle">
-            {{$count}} локаций
+            {{$count}} {{ __('локаций') }}
         </div>
         <div class="locations__content">
 
@@ -30,20 +30,31 @@
                             });
                         @endphp
                         @foreach($countries as $country)
-                           <div class="locations__item">
-
-                                <div class="locations__item-img">
-                                    <a href="{{route('country',$country->id )}}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->photo")}}" alt="hungary"> </a>
+                            @if(count($country->product_country) > 0)
+                               <div class="locations__item">
+                                    <div class="locations__item-img">
+                                        <a href="{{route('country',$country->id )}}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->photo")}}" alt="hungary"> </a>
+                                    </div>
+                                    <div class="locations__item-title">
+                                        @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?>  @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
+                                        <a href="{{route('country',$country->id )}}">    {{$country->name}}
+                                            <span>{{$country->product_country->count()}}</span> </a>
+                                    </div>
                                 </div>
-                                <div class="locations__item-title">
-                                    @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?>  @endif
-                                    <a href="{{route('country',$country->id )}}">    {{$country->name}}
-                                        <span>{{$country->product_country->count()}}</span> </a>
+                            @else
+                                <div class="locations__item">
+                                    <div class="locations__item-img">
+                                        <span><img style="max-width: 26px;" src="{{asset("uploads/$country->photo")}}" alt="hungary"></span>
+                                    </div>
+                                    <div class="locations__item-title">
+                                        @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
+                                        <p href="{{route('country',$country->id )}}">    {{$country->name}}
+                                            <span>({{ __('скоро открытие') }})</span> </p>
+                                    </div>
                                 </div>
-
-                            </div>
-
+                            @endif
                         @endforeach
+
                     </div>
                 </div>
             @endforeach

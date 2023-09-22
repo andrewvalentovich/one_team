@@ -19,7 +19,8 @@ class HomePageController extends Controller
             $citizenship_div->div = $citizenship_div->div_en;
         }elseif (app()->getLocale() == 'tr'){
             $citizenship_div->div = $citizenship_div->div_tr;
-
+        }elseif (app()->getLocale() == 'de'){
+            $citizenship_div->div = $citizenship_div->div_de;
         }
         return view('project.index', compact('all_country','citizenship_div'));
     }
