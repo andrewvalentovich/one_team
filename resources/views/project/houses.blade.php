@@ -2270,7 +2270,81 @@ function P(e) {
             btnFilterHouses.addEventListener('click', async function() {
                 let allMarks = await getDataMarks()
                 createMapCity(allMarks)
+                changeCountryField()
             })
+        }
+
+        function changeCountryField() {
+            // Получаем GET параметр country_id из url
+            var url_country_id = $.query.get('country_id');
+            var url_city_id = $.query.get('city_id');
+
+            $.ajax({
+                url: '/api/houses/filter_params',       /* Куда отправить запрос */
+                data: {
+                    locale: `{{ app()->getLocale() }}`,
+                    country_id: (typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") ? url_country_id : null
+                },
+                method: 'get',                                              /* Метод запроса (post или get) */
+                success: function(data) {
+                    // если задан параметр country_id, то выводим регионы
+                    if ((typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") || (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ")) {
+                        $('.search-nav__list-item[data_id="city"]').show();
+                        $('.search-nav__list-item[data_id="country"]').hide();
+                        // Выводим регионы при загрузке страницы
+                        $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : "{{ __('Регионы') }}");
+                        // Выводим страны в dropdown
+                        $.each(data.cities, function (index, value) {
+                            $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+                        });
+
+                        // Вешаем событие на добавленные элементы в dropdown
+                        $('.search_city').click(function (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            var city_id = $(this).attr('data_id');
+
+                            history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
+
+                            var html = $(this).html();
+                            $('.city_select').html(html);
+
+                            const parentBlock = this.closest('.search-nav__list-item')
+                            const dropDown = this.closest('.search-nav__item-dropdown')
+
+                            parentBlock.classList.remove('active')
+                            dropDown.classList.remove('active')
+                        });
+                    } else {
+                        $('.search-nav__list-item[data_id="city"]').hide();
+                        $('.search-nav__list-item[data_id="country"]').show();
+                        // Выводим название страны при загрузке страницы
+                        $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
+                        // Выводим страны в dropdown
+                        $.each(data.countries, function (index, value) {
+                            $('.search-nav__countries-list').append('<div data_id="' + value.id + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+                        });
+
+                        // Вешаем событие на добавленные элементы в dropdown
+                        $('.search_country').click(function (e) {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            var country_id = $(this).attr('data_id');
+
+                            history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
+
+                            var html = $(this).html();
+                            $('.country_select').html(html);
+
+                            const parentBlock = this.closest('.search-nav__list-item')
+                            const dropDown = this.closest('.search-nav__item-dropdown')
+
+                            parentBlock.classList.remove('active')
+                            dropDown.classList.remove('active')
+                        });
+                    }
+                }
+            });
         }
 
         function getDataMarks() {

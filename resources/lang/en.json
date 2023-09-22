@@ -141,5 +141,6 @@
   "кв.м" : "sq.m",
   "Объявлений не найдено" : "Ads not found",
     "Жилая" : "Residential",
-    "Коммерческая" : "Commercial"
+    "Коммерческая" : "Commercial",
+    "Регионы" : "Regions"
 }

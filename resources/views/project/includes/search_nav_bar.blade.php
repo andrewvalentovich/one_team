@@ -25,7 +25,7 @@
     <form action="{{ route('houses.index') }}" class="header_search" method="get">
         <div class ="search-nav container">
             <div class="search-nav__list">
-                    <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
+                <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
                     <div class="search-nav__list-item-title country_select dropdown__title">{{ __('Страны') }}</div>
                     <input name="country_id" type="hidden" value="">
                     <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
@@ -34,6 +34,24 @@
 
             border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__countries-list"></div>
+                        <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Слой_x0020_1">
+                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                <line class="fil0 str0" x1="0.02" y1="0.36" x2="0.36" y2="0.02"></line>
+                                <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2="0.02"></line>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="city">
+                    <div class="search-nav__list-item-title city_select dropdown__title">{{ __('Регионы') }}</div>
+                    <input name="city_id" type="hidden" value="">
+                    <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
+
+            width: 250px;
+
+            border-radius: 0px 5px 5px 5px;">
+                        <div class="search-nav__cities-list"></div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
                                 <metadata id="CorelCorpID_0Corel-Layer"></metadata>
@@ -232,17 +250,22 @@
     // var set_query = $.query.SET('order_by', "created_at-desc"); // создание url
     // history.pushState(null,null, set_query); // подстановка параметров
 
+    // Получаем GET параметр country_id из url
+    var url_country_id = $.query.get('country_id');
+    var url_city_id = $.query.get('city_id');
+
     $.ajax({
         url: '/api/houses/filter_params',       /* Куда отправить запрос */
         data: {
-            locale: `{{ app()->getLocale() }}`
+            locale: `{{ app()->getLocale() }}`,
+            country_id: (typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") ? url_country_id : null
         },
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
             console.log(data);
             // Выводим валюту в dropdown
             $.each(data.currency, function (index, value) {
-                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item '+(($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '')+' currency_type" currency_type="' + index + '">' + value + '</div>');
+                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item ' + (($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '') + ' currency_type" currency_type="' + index + '">' + value + '</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
@@ -279,11 +302,11 @@
 
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
-                $('.search-nav__types-list').append('<div data_id="'+value.id+'" class="search-nav__types-item type closert_div">'+value.name+'</div>');
+                $('.search-nav__types-list').append('<div data_id="' + value.id + '" class="search-nav__types-item type closert_div">' + value.name + '</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
-            $('.type').click(function(e){
+            $('.type').click(function (e) {
                 e.stopPropagation();
                 e.preventDefault();
 
@@ -304,30 +327,62 @@
                 dropDown.classList.remove('active')
             });
 
-            // Выводим название страны при загрузке страницы
-            $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
-            // Выводим страны в dropdown
-            $.each(data.countries, function (index, value) {
-                $('.search-nav__countries-list').append('<div data_id="'+value.id+'" class="country search-nav__types-item dropdown__selector other-element">'+value.name+'</div>');
-            });
+            // если задан параметр country_id, то выводим регионы
+            if ((typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") || (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ")) {
+                $('.search-nav__list-item[data_id="city"]').show();
+                $('.search-nav__list-item[data_id="country"]').hide();
+                // Выводим регионы при загрузке страницы
+                $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : "{{ __('Регионы') }}");
+                // Выводим страны в dropdown
+                $.each(data.cities, function (index, value) {
+                    $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+                });
 
-            // Вешаем событие на добавленные элементы в dropdown
-            $('.country').click(function(e){
-                e.stopPropagation();
-                e.preventDefault();
-                var country_id = $(this).attr('data_id');
+                // Вешаем событие на добавленные элементы в dropdown
+                $('.search_city').click(function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var city_id = $(this).attr('data_id');
 
-                history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
+                    history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
 
-                var html = $(this).html();
-                $('.country_select').html(html);
+                    var html = $(this).html();
+                    $('.city_select').html(html);
 
-                const parentBlock = this.closest('.search-nav__list-item')
-                const dropDown = this.closest('.search-nav__item-dropdown')
+                    const parentBlock = this.closest('.search-nav__list-item')
+                    const dropDown = this.closest('.search-nav__item-dropdown')
 
-                parentBlock.classList.remove('active')
-                dropDown.classList.remove('active')
-            });
+                    parentBlock.classList.remove('active')
+                    dropDown.classList.remove('active')
+                });
+            } else {
+                $('.search-nav__list-item[data_id="city"]').hide();
+                $('.search-nav__list-item[data_id="country"]').show();
+                // Выводим название страны при загрузке страницы
+                $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
+                // Выводим страны в dropdown
+                $.each(data.countries, function (index, value) {
+                    $('.search-nav__countries-list').append('<div data_id="' + value.id + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+                });
+
+                // Вешаем событие на добавленные элементы в dropdown
+                $('.search_country').click(function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var country_id = $(this).attr('data_id');
+
+                    history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
+
+                    var html = $(this).html();
+                    $('.country_select').html(html);
+
+                    const parentBlock = this.closest('.search-nav__list-item')
+                    const dropDown = this.closest('.search-nav__item-dropdown')
+
+                    parentBlock.classList.remove('active')
+                    dropDown.classList.remove('active')
+                });
+            }
 
             // Выводим спальни в dropdown
             $.each(data.bedrooms, function (index, value) {

@@ -19,9 +19,8 @@ class SearchController extends Controller
         // Валидация
         $data = $request->validate([
             'locale' => 'nullable|string|max:5',
+            'country_id' => 'nullable',
         ]);
-
-        $locale = App::currentLocale();
 
         $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
 
@@ -31,6 +30,17 @@ class SearchController extends Controller
             ->transform(function ($row) use ($nameField) {
                 return [
                     'id' => $row->id,
+                    'name' => $row[$nameField],
+                ];
+            });
+
+        $regions = CountryAndCity::select('id', $nameField, 'parent_id')
+            ->whereNotNull('parent_id')
+            ->get()
+            ->transform(function ($row) use ($nameField) {
+                return [
+                    'id' => $row->id,
+                    'parent_id' => $row->parent_id,
                     'name' => $row[$nameField],
                 ];
             });
@@ -49,6 +59,7 @@ class SearchController extends Controller
 
         $data = [
             "countries" => $countries,
+            "cities" => (isset($data['country_id'])) ? $regions->where('parent_id', $data['country_id'])->all() : $regions,
             "types" => $collections->whereIn('type', "Типы")->all(),
             "bedrooms" => $collections->whereIn('type', "Спальни")->all(),
             "bathrooms" => $collections->whereIn('type', "Ванные")->all(),
