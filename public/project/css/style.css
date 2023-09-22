@@ -345,10 +345,14 @@ body {
 }
 
 .city-col__bottom-btns {
-  display: flex;
+  display: none;
   align-items: center;
   margin-top: 20px;
   justify-content: center;
+}
+
+.city-col__bottom-btns.active {
+  display: flex;
 }
 
 .city-col__bottom-prev {
@@ -7029,4 +7033,7 @@ body.scroll_fixed {
   .place__slide {
     padding-bottom: 70%;
   }
+}
+.city-col__foooter {
+  margin-top: 30px;
 }

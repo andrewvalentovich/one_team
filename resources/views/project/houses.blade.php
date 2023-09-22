@@ -1643,13 +1643,16 @@ function P(e) {
     function setCountObjectsPerPage(number) {
         const subtitle = document.querySelector('.city-col__subtitle')
         const nothing = document.querySelector('.nothing')
+        const pagination = document.querySelector('.city-col__bottom-btns')
         const span = subtitle.querySelector('span')
         span.innerHTML = number
 
         if(number == 0) {
             nothing.classList.add('active')
+            pagination.classList.remove('active')
         } else {
             nothing.classList.remove('active')
+            pagination.classList.add('active')
         }
     }
 
