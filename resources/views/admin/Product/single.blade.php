@@ -378,7 +378,13 @@
                                                                         <select class="form-control" name="add_price_code{{ $object->id }}" style="color: #e2e8f0">
                                                                             <option value="RUB" selected>RUB</option>
                                                                             @foreach($exchanges as $exchange)
-                                                                                <option value="{{ $exchange->relative }}" @if(isset($object->price_code)){{ $exchange->relative === $object->price_code ? "selected" : "" }}@endif>{{ $exchange->relative }}</option>
+                                                                                <option value="{{ $exchange->relative }}"
+                                                                                    @if(isset($object->price_code))
+                                                                                        {{ $exchange->relative === $object->price_code ? "selected" : "" }}
+                                                                                    @else
+                                                                                        {{ $exchange->relative === "EUR" ? "selected" : "" }}
+                                                                                    @endif
+                                                                                >{{ $exchange->relative }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
