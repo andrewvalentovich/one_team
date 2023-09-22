@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\ExchangeRates;
 
+use App\Models\ExchangeRate;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
@@ -35,6 +36,12 @@ class GetRates extends Command
         // Логирование статуса ответа
         Log::info(Carbon::now()." Get exchange rates with API of Central Bank of Russia - status ".$response->status());
 
-        dd($response->json());
+        $response = $response->json();
+
+        $exchangeRates = ExchangeRate::all();
+
+        foreach ($exchangeRates as $exchangeRate) {
+            $exchangeRate->update(["value" => $response["rates"][$exchangeRate->relative]]);
+        }
     }
 }
