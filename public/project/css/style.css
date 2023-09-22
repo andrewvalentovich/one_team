@@ -1895,17 +1895,19 @@ body {
   padding-top: 49px;
   padding-left: 59px;
   padding-bottom: 19px;
+  padding-right: 59px;
 }
 
 .popular-locations__item {
   flex: 0 0 20%;
-  display: flex;
+  display: flex !important;
   margin-bottom: 30px;
+  gap: 10px;
 }
 
 
 .popular-locations__item-img {
-  margin-right: 14px;
+  /* margin-right: 14px; */
   cursor: pointer;
 }
 
@@ -4492,6 +4494,7 @@ body.scroll_fixed {
     padding-bottom: 9px;
     padding-top: 40px;
     padding-left: 39px;
+    padding-right: 39px;
   }
 
   .popular-locations__item {
@@ -4988,9 +4991,6 @@ body.scroll_fixed {
     margin: 0 auto 73px;
   }
 
-  .popular-locations__list {
-    padding-right: 70px;
-  }
 
   .popular-locations__item {
     flex: 0 0 34%;
@@ -4998,7 +4998,7 @@ body.scroll_fixed {
 
   .popular-locations__item:nth-last-child(-n+9) {
     /*display: none;*/
-    display: inline-block;
+    /* display: inline-block; */
   }
 
   .citizenship {
@@ -5623,6 +5623,8 @@ body.scroll_fixed {
     display: flex;
     justify-content: space-between;
     flex: 1;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .citizenship {
