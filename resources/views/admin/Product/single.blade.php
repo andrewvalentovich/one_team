@@ -552,7 +552,7 @@
                             <div id="imagePreview">
                                 <div id="newDivqwe">
                                     @foreach($get->photo as $photo)
-                                        <div class="PhotoDiv" style="overflow: visible;position: relative; width: 150px; height: 150px" bis_skin_checked="1">
+                                        <div class="PhotoDiv" style="display:flex; flex-direction: column; overflow: visible;position: relative; width: auto; height: 150px" bis_skin_checked="1">
                                             <a  href="{{route('delete_product_photo', $photo->id)}}" class="ixsButton2" data-id="0" style="
                                     outline: none;
                                     border: none;
@@ -560,8 +560,8 @@
                                 background-color: transparent;
                                 cursor: pointer;
                                 " onclick="return confirm('Вы уверены, что хотите удалить это фото?');"></a>
-                                            <img class="sendPhoto" style="width: 150px; height: 150px" src="{{asset("uploads/$photo->photo")}}">
-                                            <select name="photo_categories[{{ $photo->id }}]" style="overflow: hidden;max-width: 150px;">
+                                            <img class="sendPhoto" style="width: auto; height: 150px" src="{{asset("uploads/$photo->photo")}}">
+                                            <select name="photo_categories[{{ $photo->id }}]" style="overflow: hidden; width: 100%;">
                                                 <option value="0" {{ !isset($photo->category) ? "selected" : "" }}>Без категории</option>
                                                 @foreach($photo_categories as $category)
                                                     <option value="{{ $category->id }}" {{ (isset($photo->category) && $photo->category->id === $category->id) ? "selected" : "" }}>{{ $category->name }}</option>

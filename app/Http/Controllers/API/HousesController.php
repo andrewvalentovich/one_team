@@ -34,8 +34,11 @@ class HousesController extends Controller
             $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
         }])->paginate(10)->through(function ($row) {
             $objects = [];
-            if (isset($row->objects)) {
+            $layouts_result = null;
+
+            if (isset($row->objects) && $row->objects) {
                 foreach (json_decode($row->objects) as $object) {
+
                     // Формируем новое поле price_size
                     $price_code = isset($row->price_code) ? $row->price_code : null;
                     $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size, $price_code);
@@ -50,6 +53,16 @@ class HousesController extends Controller
                     $objects[] = $object;
                 }
 
+                // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
+                $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
+
+                // Вывод планировок (1+2, 2+2 и пр.)
+                foreach ($layouts as $key => $layout) {
+                    $layouts_result .= (count($layouts)-1 == $key) ? $layout : $layout . ", ";
+                }
+                unset($layouts);
+
+
                 $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
                 unset($objects);
             }
@@ -63,6 +76,7 @@ class HousesController extends Controller
                 "address" => $row->address,
                 "size" => $row->size,
                 "size_home" => $row->size_home,
+                "layouts" => $layouts_result,
                 "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size, $row->price_code),
                 "price" => $this->getCurrencyPrice($row->price, $row->price_code),
                 "price_code" => $row->price_code,

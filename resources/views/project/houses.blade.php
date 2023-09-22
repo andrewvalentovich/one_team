@@ -1459,18 +1459,28 @@ function P(e) {
             ru: 'спальни',
             en: 'bedrooms',
             tr: 'yatak odaları',
+            de: 'schlafzimmer',
         },
         rooms_bathroom: {
             ru: 'ванные',
             en: 'bathrooms',
             tr: 'banyolar',
+            de: 'badezimmer',
         },
         square_m: {
             ru: 'кв.м.',
             en: 'sq.m.',
             tr: 'metrekare',
+            de: 'qm',
+        },
+        from: {
+            ru: 'от',
+            en: 'from',
+            tr: 'itibaren',
+            de: 'aus',
         }
     }
+
     function setCityItem(data) {
         const cityList = document.querySelector('.city-col__list')
         cityList.innerHTML = ''
@@ -1546,7 +1556,7 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            priceDiv.textContent = `${cityElement.price.EUR}`; // eval('cityElement.price.' + cityElement.price_code)
+            priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.price.EUR}`; // eval('cityElement.price.' + cityElement.price_code)
             textDiv.appendChild(priceDiv);
 
             //комнаты в карточке превью
@@ -1555,16 +1565,23 @@ function P(e) {
 
             const spalni = cityElement.spalni
             const vannie = cityElement.vanie
+            const layouts = cityElement.layouts
 
 
             roomsDiv.innerHTML = `${cityElement.size} кв.м`
-            if (spalni && spalni.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
+
+            if (layouts && layouts.length > 0) {
+                roomsDiv.innerHTML += `<span>|</span> ${layouts}`;
+            } else {
+                if (spalni && spalni.length > 0) {
+                    roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
+                }
+
+                if (vannie && vannie.length > 0) {
+                    roomsDiv.innerHTML += `<span>|</span> ${vannie.replace('+', '')} ${dictionary.rooms_bathroom[langSite]}`;
+                }
             }
 
-            if (vannie && vannie.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${vannie.replace('+', '')} ${dictionary.rooms_bathroom[langSite]}`;
-            }
 
             textDiv.appendChild(roomsDiv);
 
