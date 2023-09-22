@@ -1560,7 +1560,11 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.price.EUR}`; // eval('cityElement.price.' + cityElement.price_code)
+            if (cityElement.layouts_count > 0) {
+                priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.min_price.EUR}`;
+            } else {
+                priceDiv.textContent = `${cityElement.price.EUR}`;
+            }
             textDiv.appendChild(priceDiv);
 
             //комнаты в карточке превью
@@ -1572,11 +1576,12 @@ function P(e) {
             const layouts = cityElement.layouts
 
 
-            roomsDiv.innerHTML = `${cityElement.size} кв.м`
 
             if (layouts && layouts.length > 0) {
-                roomsDiv.innerHTML += `<span>|</span> ${layouts}`;
+                roomsDiv.innerHTML = ` ${layouts}`;
             } else {
+                roomsDiv.innerHTML = `${cityElement.size} кв.м`
+
                 if (spalni && spalni.length > 0) {
                     roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
                 }

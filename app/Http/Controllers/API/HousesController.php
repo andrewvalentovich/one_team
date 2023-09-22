@@ -35,8 +35,9 @@ class HousesController extends Controller
         }])->paginate(10)->through(function ($row) {
             $objects = [];
             $layouts_result = null;
+            $min_price = 9999999999;
 
-            if (isset($row->objects) && $row->objects) {
+            if (isset($row->objects) && count(json_decode($row->objects)) > 0) {
                 foreach (json_decode($row->objects) as $object) {
 
                     // Формируем новое поле price_size
@@ -56,9 +57,37 @@ class HousesController extends Controller
                 // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
                 $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
 
+
+                $price_array[0] = array_column(json_decode($row->objects), 'price');
+                $price_array[1] = array_column(json_decode($row->objects), 'price_code');
+
+                $min_price_arr = [];
+                // Отбор минимальной цены
+                if(count($price_array[0]) <= 1) {
+                    $min_price = $this->getCurrencyPrice($price_array[0][0], isset($price_array[1][0]) ? $price_array[1][0] : "EUR");
+                } else {
+                    foreach ($price_array[0] as $key => $price) {
+                        $min_price_arr[$key] = $this->getCurrencyPrice($price, $price_array[1][$key] ?? "EUR");
+                        $min_price = (int) $min_price_arr[$key]["EUR"] < $price ? $min_price_arr[$key] : $min_price;
+                    }
+                }
+
+                // массив для сортировки
+                $layouts_sort_arr = [];
+                foreach ($layouts as $layout) {
+                    if($layout === "" || $layout === " ") {
+                        continue;
+                    } else {
+                        $layouts_sort_arr[] = explode("+", $layout);
+                    }
+                }
+
+                // Сортировка
+                $sort = $this->quicksort($layouts_sort_arr);
+
                 // Вывод планировок (1+2, 2+2 и пр.)
-                foreach ($layouts as $key => $layout) {
-                    $layouts_result .= (count($layouts)-1 == $key) ? $layout : $layout . ", ";
+                foreach ($sort as $layout) {
+                    $layouts_result .= !next($sort) ? implode("+", $layout) : implode("+", $layout) . ", ";
                 }
                 unset($layouts);
 
@@ -77,8 +106,10 @@ class HousesController extends Controller
                 "size" => $row->size,
                 "size_home" => $row->size_home,
                 "layouts" => $layouts_result,
+                "layouts_count" => !is_null($row->objects) ? count(json_decode($row->objects)) : 0,
                 "price_size" => $this->getPriceSize((int)$row->price, (int)$row->size, $row->price_code),
                 "price" => $this->getCurrencyPrice($row->price, $row->price_code),
+                "min_price" => !is_null($row->objects) ? $min_price : 0,
                 "price_code" => $row->price_code,
                 "description" => $row->description,
                 "description_en" => $row->description_en,
@@ -210,5 +241,25 @@ class HousesController extends Controller
             "EUR" => number_format(ceil(($price_code === "RUB") ? $price * $this->exchanges['EUR'] : $price / $this->exchanges[$price_code] * $this->exchanges['EUR'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." €",
             "TRY" => number_format(ceil(($price_code === "RUB") ? $price * $this->exchanges['TRY'] : $price / $this->exchanges[$price_code] * $this->exchanges['TRY'] / (($size) < 1 ? 1 : $size)), 0, '.', ' ')." ₺",
         ];
+    }
+
+    private function quicksort($arr)
+    {
+        if (count($arr) < 2) {
+            return $arr;
+        } else {
+            $pivot = $arr[0];
+            $less = [];
+            $greater = [];
+            for ($i = 1; $i < count($arr); $i++) {
+                if ($arr[$i] <= $pivot) {
+                    array_push($less, $arr[$i]);
+                }
+                if ($arr[$i] > $pivot) {
+                    array_push($greater, $arr[$i]);
+                }
+            }
+            return array_merge($this->quicksort($less), [$pivot], $this->quicksort($greater));
+        }
     }
 }
