@@ -6706,6 +6706,10 @@ body.scroll_fixed {
   width: 100%;
 }
 
+.place__slider .place__wrapper {
+  height: auto !important;
+}
+
 .place__slider_p-slide.swiper-slide {
   height: 100%;
 }
