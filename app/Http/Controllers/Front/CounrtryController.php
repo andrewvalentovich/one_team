@@ -24,6 +24,7 @@ class CounrtryController extends Controller
 //        $count = DB::table('country_and_cities')->distinct()->leftJoin('products', function($join){
 //            $join->on('products.city_id', '=', 'country_and_cities.id');
 //        })->get();
+
         $count = CountryAndCity::has('product_city')->get()->count();
 
         $citizenship_product = Product::where('country_id', $id)
@@ -33,7 +34,6 @@ class CounrtryController extends Controller
             ->limit(10)
             ->get()
             ->transform(function ($row) {
-
                 $objects = [];
                 $layouts_result = null;
                 $min_price = 9999999999;

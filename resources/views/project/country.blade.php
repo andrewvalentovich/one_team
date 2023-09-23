@@ -879,7 +879,11 @@
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                {{$product->price}}
+                                @if(isset($product->min_price["EUR"]))
+                                    {{ __("от") . " " . $product->min_price["EUR"] . " €" }}
+                                @else
+                                    {{ $product->price["EUR"] }} €
+                                @endif
                             </div>
 
                             <div class="objects__slide-rooms">
@@ -1061,7 +1065,11 @@
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+                                @if (isset($product->preview_image))
+                                    <img src="{{asset($product->preview_image)}}" alt="object">
+                                @else
+                                    <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+                                @endif
                             </div>
                         </div>
                         <div class="place__left-collage">
