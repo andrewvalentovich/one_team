@@ -389,7 +389,7 @@ class ProductController extends Controller
             Storage::put('uploads/'. $filenametostore, fopen($image, 'r+'));
 
             //Resize image here
-            $thumbnailpath = public_path('uploads')."/".$filenametostore;
+            $thumbnailpath = public_path('uploads')."/"."preview_".$filenametostore;
             $img = Image::make($image->getRealPath());
 
             $height = $img->height();
@@ -407,7 +407,7 @@ class ProductController extends Controller
             $img->save($thumbnailpath);
         }
 
-        return "uploads/".$filenametostore;
+        return "uploads/preview_".$filenametostore;
     }
 
     private function updatePreviewImage($image = null)
@@ -415,6 +415,7 @@ class ProductController extends Controller
         if (!is_null($image)){
             $thumbnailpath = 'uploads'."/".$image->photo;
             $img = Image::make($thumbnailpath);
+            $preview_image_path = 'uploads'."/preview_".$image->photo;
 
             $height = $img->height();
             $width = $img->width();
@@ -428,8 +429,8 @@ class ProductController extends Controller
                     $constraint->aspectRatio();
                 });
             }
-            $img->save($thumbnailpath);
-            return "uploads/".$image->photo;
+            $img->save($preview_image_path);
+            return $preview_image_path;
         }
 
         return null;
