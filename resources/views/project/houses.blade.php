@@ -860,7 +860,6 @@
 
                             </div>
                             <div class="city-col__pages_m">
-                                {{ $get_product->appends(Request::all())->links()}}
 
                                 {{--                            <div class="city-col__item_m favorites__page-number">--}}
 
@@ -1648,6 +1647,7 @@ function P(e) {
         if (Object.keys(data.data).length > 0) {
             var pagination = getPagination(data);
             $(".city-col__bottom-pages").html(pagination);
+            $(".city-col__pages_m").html(pagination);
         }
     }
 
