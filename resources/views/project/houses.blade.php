@@ -1565,7 +1565,7 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            if (cityElement.layouts_count > 0) {
+            if (cityElement.layouts_count > 1) {
                 priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.min_price.EUR}`;
             } else {
                 priceDiv.textContent = `${cityElement.price.EUR}`;
@@ -1857,7 +1857,7 @@ function P(e) {
 
                 let divOption = document.createElement('div')
                 divOption.classList.add('kompleks__layout-option')
-                divOption.innerHTML = `${object.building} ${object.apartment_layout}`
+                divOption.innerHTML = `${object.building}`
                 divInfo.appendChild(divOption)
 
                 let divPrice = document.createElement('div')
@@ -1899,7 +1899,7 @@ function P(e) {
 
                 let divSquare = document.createElement('div')
                 divSquare.classList.add('kompleks__layout-square')
-                divSquare.innerHTML = `${object.size} <span>|</span> ${object.apartment_layout}`
+                divSquare.innerHTML = `${object.size} ${dictionary.square_m[langSite]}<span>|</span> ${object.apartment_layout}`
                 divInfo.appendChild(divSquare)
 
                 let divMonth = document.createElement('div')
