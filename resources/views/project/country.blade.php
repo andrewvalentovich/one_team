@@ -879,7 +879,7 @@
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                {{$product->price}}
+                                {{ isset($product->min_price) ? __("от")." ".$product->min_price["EUR"] : $product->price["EUR"] }} €
                             </div>
 
                             <div class="objects__slide-rooms">
