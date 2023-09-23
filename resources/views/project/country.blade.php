@@ -865,6 +865,7 @@
                 <div class="objects__wrapper swiper-wrapper">
 
                     @foreach($citizenship_product as $product)
+
                     <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
 
                         <div class="objects__slide-img">
@@ -874,36 +875,42 @@
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
-
+                        @dd($product)
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                {{ isset($product->min_price) ? $product->min_price["EUR"] : $product->price["EUR"] }} €
+                                {{$product->price}}
                             </div>
+
                             <div class="objects__slide-rooms">
-                                @if(!is_null(json_decode($product->objects)) && count(json_decode($product->objects)) > 0 && $product->layouts !== "" && $product->layouts !== " " && !is_null($product->layouts))
-                                    {{ $product->layouts }}
-                                @else
-                                    <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
-                                    <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
 
-                                    {{$product->size}}  {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
-                                    {{__($spalni->category->name )}}
+                                <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
+
+                                <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
+
+
+
+                              {{$product->size}}  {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
+
+                                        {{__($spalni->category->name )}}
+
                                     @endforeach{{__('Спальни')}} <span>|</span> @foreach($category_vannie as $spalni)  {{__($spalni->category->name)}}
-                                    @endforeach {{__('Ванна')}}
-                                @endif
-                            </div>
-                            <div class="objects__slide-address">
-                               {{$product->address}}
-{{--                                Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
-                            </div>
-                        </div>
 
-                        @php
-                            $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
-                            $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
-                        @endphp
-                        <div class="objects__slide-favorites check-favorites {{ count($fav) === 0 ? '' : 'active' }}"  data_id="{{$product->id}}" >
+                                    @endforeach {{__('Ванна')}}
+
+                            </div>
+
+                            <div class="objects__slide-address">
+
+                               {{$product->address}}
+
+{{--                                Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
+
+                            </div>
+
+                        </div>
+                        <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
+                        <div class="objects__slide-favorites check-favorites {{ is_null($fav) ? '' : 'active' }}"  data_id="{{$product->id}}" >
                             <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 
                                  viewBox="0 0 2.33 2.04"
@@ -1163,17 +1170,17 @@
                     </div>
 
                     <div class="place__right-mid">
+
                         <div class="place__info">
+
                             <div class="place__price">
-                                <div
-                                    class="place__price-value"
-                                    data-price-rub="{{ $product->price["RUB"] }}"
-                                    data-price-eur="{{ $product->price["EUR"] }}"
-                                    data-price-usd="{{ $product->price["USD"] }}"
-                                    data-price-try="{{ $product->price["TRY"] }}"
-                                >
-                                    {{ $product->price["EUR"] }}
+
+                                <div class="place__price-value">
+
+                                    {{$product->price}} €
+
                                 </div>
+
                                 <div class="place__currency">
                                     <div class="place__currency-preview">
                                         <div class="place__currency-preview-item">
@@ -1233,49 +1240,84 @@
                             </div>
 
                             <div class="object__id">
+
                                 ID: {{$product->id}}
+
                             </div>
+
                             <div class="place__address">
+
                                 {{$product->address}}
+
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
+
                             </div>
-                            <div class="place__square"
-                                 data-price-rub="{{ $product->price_size["RUB"] }}"
-                                 data-price-eur="{{ $product->price_size["EUR"] }}"
-                                 data-price-usd="{{ $product->price_size["USD"] }}"
-                                 data-price-try="{{ $product->price_size["TRY"] }}"
-                            >
-                                {{ $product->price_size["EUR"] }}
+
+                            <div class="place__square">
+
+                                {{intval((int)$product->price / ((int)$product->size ?: 1))}}  €  / кв.м
+
                             </div>
+
                         </div>
+
                         <div class="place__buy">
+
                             <div class="place__buy-btn" data_id="{{$product->id}}">
+
                                 <div class="place__buy-text">
+
                                     {{__('Купить в рассрочку')}}
-                               </div>
+
+
+                                </div>
+
                                 <div class="place__buy-img">
+
                                     <svg xmlns="http://www.w3.org/2000/svg"
+
                                         xml:space="preserve" version="1.1"
+
                                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+
                                         viewBox="0 0 1.34 1.29"
+
                                         xmlns:xlink="http://www.w3.org/1999/xlink">
+
             <g id="Слой_x0020_1">
+
                 <metadata id="CorelCorpID_0Corel-Layer"/>
+
                 <path class="fil0 str0"
+
                     d="M1.29 0.15l0 1c0,0.05 -0.04,0.09 -0.09,0.09l-1.06 0c-0.05,0 -0.09,-0.04 -0.09,-0.09l0 -1 1.24 0z"/>
+
                 <path class="fil0 str0" d="M1.03 0l0 0.31m-0.72 -0.31l0 0.31"/>
+
                 <line class="fil0 str0" x1="0.05" y1="0.41" x2="1.29" y2="0.41"/>
+
                 <line class="fil0 str0" x1="0.75" y1="0.62" x2="0.59" y2="0.62"/>
+
                 <line class="fil0 str0" x1="0.44" y1="0.62" x2="0.28" y2="0.62"/>
+
                 <line class="fil0 str0" x1="1.06" y1="0.62" x2="0.9" y2="0.62"/>
+
                 <line class="fil0 str0" x1="0.75" y1="0.82" x2="0.59" y2="0.82"/>
+
                 <line class="fil0 str0" x1="0.44" y1="0.82" x2="0.28" y2="0.82"/>
+
                 <line class="fil0 str0" x1="1.06" y1="0.82" x2="0.9" y2="0.82"/>
+
                 <line class="fil0 str0" x1="0.75" y1="1.03" x2="0.59" y2="1.03"/>
+
                 <line class="fil0 str0" x1="0.44" y1="1.03" x2="0.28" y2="1.03"/>
+
                 <line class="fil0 str0" x1="1.06" y1="1.03" x2="0.9" y2="1.03"/>
+
             </g>
+
         </svg>
+
                                 </div>
 
                             </div>
@@ -1523,7 +1565,7 @@
                                             {{__('Общая площадь')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                        {   {$product->size}} {{__('кв.м')}}
+                                        {{$product->size}} {{__('кв.м')}}
                                         </div>
                                     </div>
                                     <div class="object__rooms-item">
@@ -1593,24 +1635,43 @@
                                 <div class="place__location-map">
 
                                     <div class="">
-{{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
-{{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
+
+
+
+    {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
+
+    {{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
+
+
+
                                         <script>
-                                            product_id_is = `{{ $product->id }}`;
+
+                                            product_id_is = <?php echo $product->id?>
+
+
 
                                             function createYandexMap(latitude, longitude) {
-                                                let div_id = 'place-map'+product_id_is.toString();
+
+                                                                let div_id = 'place-map'+product_id_is.toString();
 
                                                 ymaps.ready(function() {
+
                                                     let map = new ymaps.Map(div_id, {
+
                                                         center: [latitude, longitude],
+
                                                         zoom: 10,
                                                     });
+
                                                     let placemark = new ymaps.Placemark([latitude, longitude]);
+
                                                     map.geoObjects.add(placemark);
+
                                                 });
+
                                             }
-                                            createYandexMap({{ $product->lat.','.$product->long }});
+
+                                            createYandexMap(<?php echo $product->lat.','.$product->long?>);
 
                                         </script>
 
@@ -1642,28 +1703,15 @@
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
                                                         {{ $object->building }}
                                                     </div>
-                                                    <div
-                                                        class="kompleks__layout-price"
-                                                        bis_skin_checked="1"
-                                                        data-price-rub="{{ $object->price->RUB }}"
-                                                        data-price-eur="{{ $object->price->EUR }}"
-                                                        data-price-usd="{{ $object->price->USD }}"
-                                                        data-price-try="{{ $object->price->TRY }}"
-                                                    >
-                                                        {{ $object->price->EUR }}
+                                                    <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                        ${{ $object->price }}
                                                     </div>
-                                                    <div
-                                                        class="kompleks__layout-price-meter"
-                                                        bis_skin_checked="1"
-                                                        data-price-rub="{{ $object->price_size->RUB }}"
-                                                        data-price-eur="{{ $object->price_size->EUR }}"
-                                                        data-price-usd="{{ $object->price_size->USD }}"
-                                                        data-price-try="{{ $object->price_size->TRY }}"
-                                                    >
-                                                        {{ $object->price_size->EUR }} / {{ __('кв.м') }}
+                                                    <div class="kompleks__layout-price-meter" bis_skin_checked="1">
+                                                        ${{ intval((int) $object->price / ((int) $object->size  ?: 1)) }} / кв.м
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                        {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
+                                                        {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
+
                                                     </div>
                                                     <div class="kompleks__layout-price-month" bis_skin_checked="1">
                                                         $645 / мес.
