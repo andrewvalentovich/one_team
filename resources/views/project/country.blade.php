@@ -909,8 +909,12 @@
                             </div>
 
                         </div>
-                        <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                        <div class="objects__slide-favorites check-favorites {{ is_null($fav) ? '' : 'active' }}"  data_id="{{$product->id}}" >
+
+                        @php
+                            $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                            $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                        @endphp
+                        <div class="objects__slide-favorites check-favorites {{ $fav === 0 ? '' : 'active' }}"  data_id="{{$product->id}}" >
                             <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 
                                  viewBox="0 0 2.33 2.04"
@@ -1635,43 +1639,24 @@
                                 <div class="place__location-map">
 
                                     <div class="">
-
-
-
-    {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
-
-    {{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
-
-
-
+{{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
+{{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
                                         <script>
-
-                                            product_id_is = <?php echo $product->id?>
-
-
+                                            product_id_is = `{{ $product->id }}`;
 
                                             function createYandexMap(latitude, longitude) {
-
-                                                                let div_id = 'place-map'+product_id_is.toString();
+                                                let div_id = 'place-map'+product_id_is.toString();
 
                                                 ymaps.ready(function() {
-
                                                     let map = new ymaps.Map(div_id, {
-
                                                         center: [latitude, longitude],
-
                                                         zoom: 10,
                                                     });
-
                                                     let placemark = new ymaps.Placemark([latitude, longitude]);
-
                                                     map.geoObjects.add(placemark);
-
                                                 });
-
                                             }
-
-                                            createYandexMap(<?php echo $product->lat.','.$product->long?>);
+                                            createYandexMap({{ $product->lat.','.$product->long }});
 
                                         </script>
 
