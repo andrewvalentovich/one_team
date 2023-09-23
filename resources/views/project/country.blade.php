@@ -883,34 +883,29 @@
                             </div>
 
                             <div class="objects__slide-rooms">
+                                @if(!is_null(json_decode($product->objects)) && count(json_decode($product->objects)) > 0 && $product->layouts !== "" && $product->layouts !== " " && !is_null($product->layouts))
+                                    {{ $product->layouts }}
+                                @else
+                                    <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
+                                    <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
 
-                                <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
-
-                                <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
-
-
-
-                              {{$product->size}}  {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
-
-                                        {{__($spalni->category->name )}}
-
+                                    {{ $product->size }} {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
+                                    {{__($spalni->category->name )}}
                                     @endforeach{{__('Спальни')}} <span>|</span> @foreach($category_vannie as $spalni)  {{__($spalni->category->name)}}
 
                                     @endforeach {{__('Ванна')}}
-
+                                @endif
                             </div>
-
                             <div class="objects__slide-address">
-
                                {{$product->address}}
-
 {{--                                Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
-
                             </div>
-
                         </div>
-                        <?php $fav = App\Models\favorite::where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                        <div class="objects__slide-favorites check-favorites {{ is_null($fav) ? '' : 'active' }}"  data_id="{{$product->id}}" >
+                        @php
+                            $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                            $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                        @endphp
+                        <div class="objects__slide-favorites check-favorites {{ count($fav) === 0 ? '' : 'active' }}"  data_id="{{$product->id}}" >
                             <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 
                                  viewBox="0 0 2.33 2.04"
@@ -1170,68 +1165,50 @@
                     </div>
 
                     <div class="place__right-mid">
-
                         <div class="place__info">
-
                             <div class="place__price">
-
-                                <div class="place__price-value">
-
-                                    {{$product->price}} €
-
+                                <div
+                                    class="place__price-value"
+                                    data-price-rub="{{ $product->price["RUB"] }}"
+                                    data-price-eur="{{ $product->price["EUR"] }}"
+                                    data-price-usd="{{ $product->price["USD"] }}"
+                                    data-price-try="{{ $product->price["TRY"] }}"
+                                >
+                                {{ $product->price["EUR"] }} €
                                 </div>
-
                                 <div class="place__currency">
                                     <div class="place__currency-preview">
                                         <div class="place__currency-preview-item">
-
                                             {{__('Валюта')}}
-
-
                                         </div>
-
                                         <div class="place__currency-preview-arrow">
-
                                             <svg xmlns="http://www.w3.org/2000/svg"
-
                                                 xml:space="preserve" version="1.1"
-
                                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                                 viewBox="0 0 0.5 0.86"
-
                                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-
                                                 <g id="Слой_x0020_1">
-
                                                     <metadata id="CorelCorpID_0Corel-Layer"/>
-
                                                     <polyline class="fil0 str0"
-
                                                             points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-
                                                 </g>
-
                                             </svg>
-
                                         </div>
-
                                     </div>
-
                                     <div class="place__currency-list">
-                                        <div class="place__currency-item" data-exchange="EUR">
+                                        <div class="place__currency-item" data-exchange="eur">
                                             €
                                         </div>
-                                        <div class="place__currency-item" data-exchange="USD">
+                                        <div class="place__currency-item" data-exchange="usd">
                                             $
                                         </div>
-                                        <div class="place__currency-item" data-exchange="RUB">
+                                        <div class="place__currency-item" data-exchange="rub">
                                             ₽
                                         </div>
-                                        <div class="place__currency-item" data-exchange="TRY">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="13px" height="13px" viewBox="0 0 24 24" fill="none">
-                                                <path d="M19 13C19 17.4183 14.5228 21 9 21V3M15 10L5 12M15 6L5 8" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
+                                        <div class="place__currency-item" data-exchange="try">
+                                            <span class="lira">
+                                                ₺
+                                            </span>
                                         </div>
                                     </div>
 
@@ -1252,11 +1229,13 @@
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
 
                             </div>
-
-                            <div class="place__square">
-
-                                {{intval((int)$product->price / ((int)$product->size ?: 1))}}  €  / кв.м
-
+                            <div class="place__square"
+                                 data-price-rub="{{ $product->price_size["RUB"] }}"
+                                 data-price-eur="{{ $product->price_size["EUR"] }}"
+                                 data-price-usd="{{ $product->price_size["USD"] }}"
+                                 data-price-try="{{ $product->price_size["TRY"] }}"
+                            >
+                                {{ $product->price_size["EUR"] }} €
                             </div>
 
                         </div>
@@ -1703,14 +1682,28 @@
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
                                                         {{ $object->building }}
                                                     </div>
-                                                    <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                        ${{ $object->price }}
+                                                    <div
+                                                        class="kompleks__layout-price"
+                                                        bis_skin_checked="1"
+                                                        data-price-rub="{{ $object->price->RUB }}"
+                                                        data-price-eur="{{ $object->price->EUR }}"
+                                                        data-price-usd="{{ $object->price->USD }}"
+                                                        data-price-try="{{ $object->price->TRY }}"
+                                                    >
+                                                        {{ $object->price->EUR }} €
                                                     </div>
-                                                    <div class="kompleks__layout-price-meter" bis_skin_checked="1">
-                                                        ${{ intval((int) $object->price / ((int) $object->size  ?: 1)) }} / кв.м
+                                                    <div
+                                                        class="kompleks__layout-price-meter"
+                                                        bis_skin_checked="1"
+                                                        data-price-rub="{{ $object->price_size->RUB }}"
+                                                        data-price-eur="{{ $object->price_size->EUR }}"
+                                                        data-price-usd="{{ $object->price_size->USD }}"
+                                                        data-price-try="{{ $object->price_size->TRY }}"
+                                                    >
+                                                        {{ $object->price_size->EUR }} € / {{ __('кв.м') }}
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                        {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
+                                                        {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
 
                                                     </div>
                                                     <div class="kompleks__layout-price-month" bis_skin_checked="1">
@@ -2329,6 +2322,36 @@
 @section('scripts')
 
     <script>
+        // Валюта
+        var currency = {
+            "eur": `&nbsp;€`,
+            "usd": `&nbsp;$`,
+            "try": `&nbsp;<span class="lira">₺</span>`,
+            "rub": `&nbsp;₽`
+        }
+        var square_m = {
+            "en": `sq.m`,
+            "de": `qm`,
+            "tr": `metrekare`,
+            "ru": `кв.м`
+        }
+        var current_locale = `{{ app()->getLocale() }}`;
+
+        $(".place__currency-item").on("click", function() {
+            var rate = $(this).attr('data-exchange');
+            var place_price_el = $('.place-w.active').find('.place__price-value');
+            var place_square_el = $('.place-w.active').find('.place__square');
+            var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
+            var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
+
+            place_price_el.html(place_price_el.attr('data-price-'+rate) + currency[rate]);
+            place_square_el.html(place_square_el.attr('data-price-'+rate) + currency[rate]);
+            kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
+            kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
+        });
+
+
+
 
         // let locations = [
 

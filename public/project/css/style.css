@@ -3180,11 +3180,13 @@ body.scroll_fixed {
   font-size: 22px;
   line-height: 28px;
   font-weight: 700;
+    display: flex;
 }
 
 .kompleks__layout-price-meter {
   color: #c2c2c2;
   line-height: 24px;
+    display: flex;
 }
 
 .kompleks__layout-square {
@@ -6909,7 +6911,7 @@ body.scroll_fixed {
   }
 }
 .kompleks__layout-price span {
-  display: none;
+  display: block;
 }
 
 .kompleks__layout-price span.active {
@@ -6917,7 +6919,7 @@ body.scroll_fixed {
 }
 
 .kompleks__layout-price-meter span {
-  display: none;
+  display: block;
 }
 
 .kompleks__layout-price-meter span.active {
