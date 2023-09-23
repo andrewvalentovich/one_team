@@ -35,6 +35,7 @@ class SearchController extends Controller
             });
 
         $regions = CountryAndCity::select('id', $nameField, 'parent_id')
+            ->has('product_city')
             ->whereNotNull('parent_id')
             ->get()
             ->transform(function ($row) use ($nameField) {
