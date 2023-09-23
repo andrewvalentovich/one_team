@@ -1703,7 +1703,7 @@
                                                         {{ $object->price_size->EUR }} € / {{ __('кв.м') }}
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                        {{ $object->size }}  <span>|</span>  {{ $object->apartment_layout }}
+                                                        {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
 
                                                     </div>
                                                     <div class="kompleks__layout-price-month" bis_skin_checked="1">
@@ -2324,10 +2324,10 @@
     <script>
         // Валюта
         var currency = {
-            "eur": `€`,
-            "usd": `$`,
-            "try": `<span class="lira">₺</span>`,
-            "rub": `₽`
+            "eur": `&nbsp;€`,
+            "usd": `&nbsp;$`,
+            "try": `&nbsp;<span class="lira">₺</span>`,
+            "rub": `&nbsp;₽`
         }
         var square_m = {
             "en": `sq.m`,
@@ -2344,10 +2344,10 @@
             var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
             var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
 
-            place_price_el.html(place_price_el.attr('data-price-'+rate) + " " + currency[rate]);
-            place_square_el.html(place_square_el.attr('data-price-'+rate) + " " + currency[rate]);
-            kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + " " + currency[rate]);
-            kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + " " + currency[rate] + " / " + square_m[current_locale]);
+            place_price_el.html(place_price_el.attr('data-price-'+rate) + currency[rate]);
+            place_square_el.html(place_square_el.attr('data-price-'+rate) + currency[rate]);
+            kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
+            kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
         });
 
 
