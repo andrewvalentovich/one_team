@@ -857,7 +857,7 @@
 
                             </style>
                             <div class="city-col__bottom-pages">
-                                {{ $get_product->appends(Request::all())->links()}}
+
                             </div>
                             <div class="city-col__pages_m">
                                 {{ $get_product->appends(Request::all())->links()}}
@@ -1056,7 +1056,6 @@
 @section('scripts')
     <script>
         // Сортировка
-
         if ($.query.get('order_by').toString() === "price-desc") {
             $('.city-cil__filter-title').text(`{{ __('Сначала дешёвые') }}`);
         }
@@ -1643,6 +1642,87 @@ function P(e) {
                 hide: true
             }
         });
+    }
+
+    function setPagination(data) {
+        if (Object.keys(data.data).length > 0) {
+            var pagination = getPagination(data);
+            $(".city-col__bottom-pages").html(pagination);
+        }
+    }
+
+    function getPagination(data) {
+        // Пагинация
+        var pagination = `<nav>
+        <ul class="pagination">`;
+
+        if (data.current_page === 1) {
+            pagination +=  `<li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                                <span class="page-link" aria-hidden="true">&lsaquo;</span>
+                            </li>`;
+        } else {
+            pagination +=  `<li class="page-item">
+                                    <a class="page-link" href="${data.prev_page_url}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                                </li>`;
+        }
+        $.each(data.links, function (page, link) {
+            if(page === 0 || page === (data.last_page+1)) {
+                return;
+            } else {
+                if (link.active === true) {
+                    pagination += `<li class="page-item active" aria-current="page"><span class="page-link">${page}</span></li>`;
+                } else {
+                    let url = "";
+                    let params = window
+                    .location
+                    .search
+                    .replace('?','')
+                    .split('&')
+                    .reduce(
+                        function(p,e){
+                            var a = e.split('=');
+                            p[ decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+                            return p;
+                        },
+                        {}
+                    );
+
+                    if (window.location.search.indexOf("?") !== -1) {
+                        if (params['page'] === undefined) {
+                            url = window.location + "&page=" + page;
+                        } else {
+                            let search_str = "page="+data.current_page;
+                            let page_str = "page=";
+                            let win_loc_str = window.location.toString();
+
+                            let pos = window.location.toString().indexOf(search_str);
+                            let search_len = data.current_page.toString().length;
+
+                            url = win_loc_str.substr(0, pos + page_str.length) + page + win_loc_str.substr(pos + page_str.length + search_len);
+                        }
+                    } else {
+                        url = window.location + "?page=" + page;
+                    }
+
+                    pagination += `<li class="page-item"><a class="page-link" href="${url}">${page}</a></li>`;
+                }
+            }
+        });
+
+        if (data.next_page_url !== null) {
+            pagination += `<li class="page-item">
+                                <a class="page-link" href="${data.next_page_url}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                            </li>`;
+        } else {
+            pagination += `<li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                                <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                            </li>`;
+        }
+
+        pagination += `</ul>
+                    </nav>`;
+
+        return pagination;
     }
 
     function setCountObjectsPerPage(number) {
@@ -2453,7 +2533,8 @@ function P(e) {
                         setCityItem(data.data);
                         setCountObjectsPerPage(data.data.length)
                         setListenersToOpenPopup();
-                        setListenersToAddfavorites()
+                        setListenersToAddfavorites();
+                        setPagination(data);
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -2812,5 +2893,6 @@ function P(e) {
 
 
         });
+
     </script>
 @endsection

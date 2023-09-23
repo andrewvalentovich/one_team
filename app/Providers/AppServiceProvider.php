@@ -23,9 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Request $request): void
     {
-
-
         Paginator::useBootstrap();
-
     }
 }
