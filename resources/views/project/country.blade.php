@@ -875,11 +875,11 @@
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
-                        @dd($product)
+
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                {{ isset($product->min_price) ? __("от")." ".$product->min_price["EUR"] : $product->price["EUR"] }} €
+                                {{$product->price}}
                             </div>
 
                             <div class="objects__slide-rooms">
