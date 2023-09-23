@@ -875,7 +875,7 @@
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
-                        @dd($product)
+                        
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
