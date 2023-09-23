@@ -1892,23 +1892,21 @@ body {
 
 .popular-locations__list {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   border: 1px solid #e3e9f6;
   border-radius: 15px;
   padding-top: 49px;
   padding-left: 59px;
-  padding-bottom: 19px;
+  padding-bottom: 49px;
   padding-right: 59px;
+  gap: 20px;
 }
 
 .popular-locations__item {
-  flex: 0 0 20%;
+  flex: 0 0 calc(33.33% - 13.4px);
   display: flex !important;
-  margin-bottom: 30px;
   gap: 10px;
     box-sizing: border-box;
-    padding: 0 10px;
 }
 
 
@@ -1922,6 +1920,12 @@ body {
   transition: 0.2s;
   cursor: pointer;
   white-space: nowrap;
+  align-items: center;
+}
+@media (max-width: 539px) {
+  .popular-locations__item-text._close-opening span {
+    font-size: 12px;
+  }
 }
 
 
@@ -4497,14 +4501,10 @@ body.scroll_fixed {
   }
 
   .popular-locations__list {
-    padding-bottom: 9px;
+    padding-bottom: 40px;
     padding-top: 40px;
     padding-left: 39px;
     padding-right: 39px;
-  }
-
-  .popular-locations__item {
-    flex: 0 0 22%;
   }
 
   .popular-locations__item:nth-last-child(-n+3) {
@@ -4591,9 +4591,9 @@ body.scroll_fixed {
   }
 }
 
-@media (max-width: 1034px) {
+@media (max-width: 1023px) {
   .popular-locations__item {
-    flex: 0 0 26%;
+    flex: 0 0 calc(50% - 10px);
   }
 
   .popular-locations__item:nth-last-child(-n+6) {
@@ -4997,11 +4997,6 @@ body.scroll_fixed {
     margin: 0 auto 73px;
   }
 
-
-  .popular-locations__item {
-    flex: 0 0 34%;
-  }
-
   .popular-locations__item:nth-last-child(-n+9) {
     /*display: none;*/
     /* display: inline-block; */
@@ -5306,9 +5301,6 @@ body.scroll_fixed {
 }
 
 @media (max-width: 660px) {
-  .popular-locations__item {
-    flex: 0 0 35%;
-  }
 
   .place__slide img {
     min-height: 265px;
@@ -5345,6 +5337,7 @@ body.scroll_fixed {
 
   .city__content.city_map {
     height: calc(var(--vh, 1vh) * 100 - 134px);
+    min-height: -webkit-fill-available;
     overflow: hidden;
   }
 
@@ -5596,13 +5589,13 @@ body.scroll_fixed {
     flex-direction: column;
     margin: 0 auto;
     padding-top: 29px;
+    padding-bottom: 29px;
     padding-left: 24px;
     padding-right: 22px;
   }
 
   .popular-locations__item {
     justify-content: space-between;
-    margin-bottom: 22px;
   }
 
   .popular-locations__item:nth-last-child(-n+9) {
@@ -6978,6 +6971,11 @@ body.scroll_fixed {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: .2s;
+}
+
+.zoom-control__zoom-in:hover, .zoom-control__zoom-out:hover {
+  box-shadow: 0px 0px 31px -2px rgba(34, 60, 80, 0.4);
 }
 .zoom-control__icon svg path {
   fill: #969696;
