@@ -878,7 +878,7 @@
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                {{ isset($product->min_price) ? $product->min_price["EUR"] : $product->price["EUR"] }} €
+                                {{ isset($product->min_price) ? __("от")." ".$product->min_price["EUR"] : $product->price["EUR"] }} €
                             </div>
                             <div class="objects__slide-rooms">
                                 @if(!is_null(json_decode($product->objects)) && count(json_decode($product->objects)) > 0 && $product->layouts !== "" && $product->layouts !== " " && !is_null($product->layouts))
