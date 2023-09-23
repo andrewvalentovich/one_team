@@ -55,7 +55,7 @@
                             <div class="popular-locations__item-img">
                                 <img style="max-width: 50px" src="{{asset("uploads/$country->photo")}}" alt="gr">
                             </div>
-                            <div class="popular-locations__item-text">
+                            <div class="popular-locations__item-text _close-opening">
                                 @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?> @endif
                                 {{$country->name}}
                                 <span>({{ __('скоро открытие') }})</span>
