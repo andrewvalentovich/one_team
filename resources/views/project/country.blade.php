@@ -795,7 +795,7 @@
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
                             <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
-                        </div>
+                        </div>s
                         <div class="realty__item-text-subtitle">
                             <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                         </div>
@@ -869,9 +869,11 @@
                     <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
 
                         <div class="objects__slide-img">
-
-                            <img src="{{asset('uploads/'.($product->preview_image ?? $product->photo[0]->photo)) }}" alt="place">
-
+                            @if(isset($product->preview_image))
+                                <img src="{{ asset($product->preview_image) }}" alt="place">
+                            @else
+                                <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
+                            @endif
                         </div>
 
                         <div class="objects__slide-text">
