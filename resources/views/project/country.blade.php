@@ -1701,14 +1701,14 @@
                                                     <div class="kompleks__layout-price" bis_skin_checked="1">
                                                         <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} €</span>
                                                         <span data-exchange="usd" class="valute">{{ $object->price->USD }} $</span>
-                                                        <span data-exchange="try" class="valute">{{ $object->price->TRY }} ₽</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->RUB }} <span class="lira" style="display:block;">₺</span></span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span></span>
                                                     </div>
                                                     <div class="kompleks__layout-price-meter"bis_skin_checked="1">
                                                         <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} € / {{ __('кв.м') }}</span>
                                                         <span data-exchange="usd" class="valute">{{ $object->price->USD }} $ / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute">{{ $object->price->TRY }} ₽ / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->RUB }} <span class="lira" style="display:block;">₺</span> / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽ / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span> / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
@@ -2352,6 +2352,7 @@
             var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
             kompleks_layout_price_el.children('span').removeClass('active');
             kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('active');
+            kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('lira');
 
             var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
             kompleks_layout_price_meter_el.children('span').removeClass('active');

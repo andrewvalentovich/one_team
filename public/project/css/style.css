@@ -1903,7 +1903,7 @@ body {
 }
 
 .popular-locations__item {
-  flex: 0 0 calc(33.33% - 13.4px);
+  flex: 0 0 calc(25% - 15px);
   display: flex !important;
   gap: 10px;
     box-sizing: border-box;
@@ -5625,7 +5625,8 @@ body.scroll_fixed {
     justify-content: space-between;
     flex: 1;
     flex-wrap: wrap;
-    gap: 10px;
+    row-gap: 2px;
+    column-gap: 10px;
   }
 
   .citizenship {
@@ -6910,8 +6911,9 @@ body.scroll_fixed {
 }
 
 
-@media (max-width: 639px) {
+@media (max-width: 767px) {
   .popular-locations__item {
+    flex: 0 0 100%;
   }
 }
 .kompleks__layout-price span {
