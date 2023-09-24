@@ -35,18 +35,16 @@ class HousesController extends Controller
         }])->orderBy('created_at', 'desc')->paginate(12)->through(function ($row) {
             $objects = [];
             $layouts_result = null;
-            $min_price = 9999999999;
+            $min_price = null;
 
             if (isset($row->objects) && count(json_decode($row->objects)) > 0) {
                 foreach (json_decode($row->objects) as $object) {
-
                     // Формируем новое поле price_size
-                    $price_code = isset($row->price_code) ? $row->price_code : null;
-                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size, $price_code);
+                    $object->price_size = $this->getPriceSize((int)$object->price, (int)$object->size, $object->price_code);
 
                     // Меняем цену
                     $price = $object->price;
-                    $object->price = $this->getCurrencyPrice($price, $price_code);
+                    $object->price = $this->getCurrencyPrice($price, $object->price_code);
                     unset($price);
                     unset($price_code);
 
@@ -57,7 +55,6 @@ class HousesController extends Controller
                 // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
                 $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
 
-
                 $price_array[0] = array_column(json_decode($row->objects), 'price');
                 $price_array[1] = array_column(json_decode($row->objects), 'price_code');
 
@@ -66,10 +63,19 @@ class HousesController extends Controller
                 if(count($price_array[0]) <= 1) {
                     $min_price = $this->getCurrencyPrice($price_array[0][0], isset($price_array[1][0]) ? $price_array[1][0] : "EUR");
                 } else {
+                    $i = 0;
                     foreach ($price_array[0] as $key => $price) {
                         $min_price_arr[$key] = $this->getCurrencyPrice($price, $price_array[1][$key] ?? "EUR");
-                        $min_price = (int) $min_price_arr[$key]["EUR"] < $price ? $min_price_arr[$key] : $min_price;
+                        if ($i === 0) {
+                            $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]);
+                        } else {
+                            $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) < (int) str_replace(" ", "", $min_price) ? (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) : (int) str_replace(" ", "", $min_price);
+                        }
+
+                        $i++;
                     }
+
+                    $min_price = $this->getCurrencyPrice($min_price, "EUR");
                 }
 
                 // массив для сортировки
@@ -142,32 +148,7 @@ class HousesController extends Controller
             ];
         });
 
-        $location = [];
-        if(isset($data['city_id'])) {
-            $location = CountryAndCity::where('id', $data['city_id'])->get()->transform(function ($row) {
-                $name = 'name_'.App::currentLocale();
-                return [
-                    'id' => $row->id,
-                    'lat' => $row->lat,
-                    'long' => $row->long,
-                    'name' => (App::currentLocale() === 'ru') ? $row->name : $row[$name],
-                ];
-            });
-        } elseif(isset($data['country'])) {
-            $location = CountryAndCity::where('id', $data['country'])->get()->transform(function ($row) {
-                $name = 'name_'.App::currentLocale();
-                return [
-                    'id' => $row->id,
-                    'lat' => $row->lat,
-                    'long' => $row->long,
-                    'name' => (App::currentLocale() === 'ru') ? $row->name : $row[$name],
-                ];
-            });
-        }
-        $custom = collect(['location' => $location]);
-        $data = $custom->merge($houses);
-
-        return response()->json($data);
+        return response()->json($houses);
     }
 
     public function getAll(FilterRequest $request)
