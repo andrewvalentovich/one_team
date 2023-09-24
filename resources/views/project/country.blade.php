@@ -868,7 +868,9 @@
                     <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
 
                         <div class="objects__slide-img">
-                            @if(isset($product->photo[0]))
+                            @if(isset($product->photo[0]->preview))
+                                <img src="{{ asset('uploads/'.$product->photo[0]->preview) }}" alt="place">
+                            @ele
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
@@ -1062,10 +1064,8 @@
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                @if (isset($product->photo[0]->preview))
-                                    <img src="{{asset('uploads/'.$product->photo->first()->preview)}}" alt="object">
-                                @else
-                                    <img src="{{asset('uploads/'.$product->photo->first()->photo)}}" alt="object">
+                                @if (isset($product->photo[0]))
+                                    <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
                                 @endif
                             </div>
                         </div>
