@@ -6915,7 +6915,7 @@ body.scroll_fixed {
   }
 }
 .kompleks__layout-price span {
-  display: block;
+  display: none;
 }
 
 .kompleks__layout-price span.active {
@@ -6923,7 +6923,7 @@ body.scroll_fixed {
 }
 
 .kompleks__layout-price-meter span {
-  display: block;
+  display: none;
 }
 
 .kompleks__layout-price-meter span.active {
