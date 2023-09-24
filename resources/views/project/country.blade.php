@@ -865,7 +865,6 @@
                 <div class="objects__wrapper swiper-wrapper">
 
                     @foreach($citizenship_product as $product)
-
                     <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
 
                         <div class="objects__slide-img">
