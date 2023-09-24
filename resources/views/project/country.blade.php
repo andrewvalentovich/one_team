@@ -1073,11 +1073,19 @@
                             </div>
                         </div>
                         <div class="place__left-collage">
-                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
-                                <div class="place__collage-item place__collage-item_clickable">
-                                    <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
-                                </div>
-                            @endforeach
+                            @if (isset($product->preview_image))
+                                @foreach($product->photo as $photo)
+                                    <div class="place__collage-item place__collage-item_clickable">
+                                        <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
+                                    </div>
+                                @endforeach
+                            @else
+                                @foreach($product->photo->where('id','!=',$product->photo[0]->id)->all() as $photo)
+                                    <div class="place__collage-item place__collage-item_clickable">
+                                        <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="place__slider">
@@ -1690,25 +1698,17 @@
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
                                                         {{ $object->building }}
                                                     </div>
-                                                    <div
-                                                        class="kompleks__layout-price"
-                                                        bis_skin_checked="1"
-                                                        data-price-rub="{{ $object->price->RUB }}"
-                                                        data-price-eur="{{ $object->price->EUR }}"
-                                                        data-price-usd="{{ $object->price->USD }}"
-                                                        data-price-try="{{ $object->price->TRY }}"
-                                                    >
-                                                        {{ $object->price->EUR }} €
+                                                    <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} €</span>
+                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }} $</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span></span>
                                                     </div>
-                                                    <div
-                                                        class="kompleks__layout-price-meter"
-                                                        bis_skin_checked="1"
-                                                        data-price-rub="{{ $object->price_size->RUB }}"
-                                                        data-price-eur="{{ $object->price_size->EUR }}"
-                                                        data-price-usd="{{ $object->price_size->USD }}"
-                                                        data-price-try="{{ $object->price_size->TRY }}"
-                                                    >
-                                                        {{ $object->price_size->EUR }} € / {{ __('кв.м') }}
+                                                    <div class="kompleks__layout-price-meter"bis_skin_checked="1">
+                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} € / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }} $ / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽ / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span> / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
@@ -2350,12 +2350,19 @@
             var place_price_el = $('.place-w.active').find('.place__price-value');
             var place_square_el = $('.place-w.active').find('.place__square');
             var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
+            kompleks_layout_price_el.children('span').removeClass('active');
+            kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('active');
+            kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('lira');
+
             var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
+            kompleks_layout_price_meter_el.children('span').removeClass('active');
+            kompleks_layout_price_meter_el.find(`span[data-exchange="${rate}"]`).addClass('active');
+
 
             place_price_el.html(place_price_el.attr('data-price-'+rate) + currency[rate]);
             place_square_el.html(place_square_el.attr('data-price-'+rate) + currency[rate]);
-            kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
-            kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
+            // kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
+            // kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
         });
 
 

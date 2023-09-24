@@ -1948,6 +1948,7 @@ function P(e) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
+                    span.classList.add('lira')
                     span.innerHTML = `${((currencyPrice))}`
 
                     if(currencyCode === dataExchange) {
@@ -1966,6 +1967,7 @@ function P(e) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
+                    span.classList.add('lira')
                     span.innerHTML = `${((currencyPrice))} ${kvm}`
 
                     if(currencyCode === dataExchange) {
