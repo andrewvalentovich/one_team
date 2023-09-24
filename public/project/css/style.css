@@ -311,7 +311,7 @@ body {
   border-radius: 0px 0px 5px 5px;
   padding-top: 15px;
   padding-left: 19px;
-  padding-right: 8px;
+  padding-right: 19px;
   flex: 1;
 }
 
@@ -1941,6 +1941,7 @@ body {
 
 .popular-locations__item-text span {
   color: #c2c2c2;
+  font-size: 12px;
 }
 
 .popular-locations__button {
@@ -4765,7 +4766,7 @@ body.scroll_fixed {
   }
 
   .city-col__item-address {
-    margin-bottom: 13px;
+    margin-bottom: 19px;
   }
 
   .city-col__btn-changer.active {
@@ -5388,7 +5389,6 @@ body.scroll_fixed {
   }
 
   .city-col__item-address {
-    margin-bottom: 34px;
   }
 
   .city-col__bottom {
