@@ -869,8 +869,8 @@
 
                         <div class="objects__slide-img">
                             @if(isset($product->photo[0]->preview))
-                                <img src="{{ asset('uploads/'.$product->photo[0]->preview) }}" alt="place">
-                            @ele
+                                <img src="{{ asset($product->photo[0]->preview) }}" alt="place">
+                            @else
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
