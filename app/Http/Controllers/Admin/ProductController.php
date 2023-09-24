@@ -14,6 +14,7 @@ use App\Models\PhotoTable;
 use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -228,8 +229,18 @@ class ProductController extends Controller
             }
         }
 
+        $preview_image = null;
+
+        if($product->photo->first() && !is_null($product->photo->first())) {
+            $preview_image = $this->updatePreviewImage($product->photo->first());
+        } else {
+            if (isset($request->photo[0])) {
+                $preview_image = $this->savePreviewImage($request->photo[0]);
+            }
+        }
+
         $create =  $product->update([
-            'preview_image' => (isset($product->photo[0])) ? $this->updatePreviewImage($product->photo[0]) : null,
+            'preview_image' => $preview_image,
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -413,6 +424,7 @@ class ProductController extends Controller
     private function updatePreviewImage($image = null)
     {
         if (!is_null($image)){
+            Log::info(gettype($image));
             $thumbnailpath = 'uploads'."/".$image->photo;
             $img = Image::make($thumbnailpath);
             $preview_image_path = 'uploads'."/preview_".$image->photo;
