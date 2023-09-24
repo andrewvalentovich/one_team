@@ -27,7 +27,7 @@ class FilterRequest extends FormRequest
             'user_id' => 'filled|numeric|min:1',
             'top_left' => 'nullable|array',
             'bottom_right' => 'nullable|array',
-            'page' => 'filled|numeric|min:1',
+            'page' => 'nullable|numeric',
             'sale_or_rent' => 'nullable|string',
             'ot_zastroishika' => 'nullable|string',
             'order_by' => 'nullable|string',
