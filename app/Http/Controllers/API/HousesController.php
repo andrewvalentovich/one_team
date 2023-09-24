@@ -118,7 +118,6 @@ class HousesController extends Controller
                 "long" => $row->long,
                 "citizenship" => $row->citizenship,
                 "photo" => $row->photo,
-                "preview_image" => $row->preview_image,
                 "status" => $row->status,
                 "disposition" => $row->disposition,
                 "disposition_en" => $row->disposition_en,
@@ -186,7 +185,7 @@ class HousesController extends Controller
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,
                 'address' => $row->address,
-                'image' => count($row->photo) > 0 ? '/uploads/'.$row->photo[0]->photo : null,
+                'image' => count($row->photo) > 0 ? $row->photo[0]->preview : null,
             ];
         });
 

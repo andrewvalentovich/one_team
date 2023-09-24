@@ -30,6 +30,7 @@ class CounrtryController extends Controller
         $citizenship_product = Product::where('country_id', $id)
             ->where('grajandstvo','Да')
             ->with('favorite')
+            ->has('photo')
             ->inRandomOrder()
             ->limit(10)
             ->get()
@@ -107,8 +108,6 @@ class CounrtryController extends Controller
             });
         return view('project.country', compact('get','country', 'citizenship_product', 'count'));
     }
-
-
 
     private function getExchanges(): array
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ExchangeRate;
 use App\Models\Option;
+use App\Services\PreviewImageService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
@@ -20,6 +21,13 @@ use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
+    private $previewImage;
+
+    public function __construct(PreviewImageService $service)
+    {
+        $this->previewImage = $service;
+    }
+
     public function all_product($id)
     {
         $category = Peculiarities::where('id', $id)->first();
@@ -84,7 +92,6 @@ class ProductController extends Controller
         }
 
         $create =  Product::create([
-            'preview_image' => $this->savePreviewImage($request->photo[0]),
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -145,10 +152,12 @@ class ProductController extends Controller
                 $file =  $photo;
                 $fileName = $time++.'.'.$file->getClientOriginalExtension();
                 $filePath = $file->move('uploads', $fileName);
+
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $create->id,
                     'photo' => $fileName,
+                    'preview' => $this->previewImage->update($fileName),
                     'category_id' => (isset($request->photo_categories) && $request->photo_categories["new_".$key] > 0) ? $request->photo_categories["new_".$key] : null
                 ]);
             }
@@ -194,7 +203,7 @@ class ProductController extends Controller
 
     public function delete_product_photo($id)
     {
-        $get =  PhotoTable::where('id', $id)->first();
+        $get = PhotoTable::where('id', $id)->first();
 
         $image_path = public_path("uploads/{$get->photo}");
 //        dd($image_path );
@@ -234,18 +243,7 @@ class ProductController extends Controller
             }
         }
 
-        $preview_image = null;
-
-        if($product->photo->first() && !is_null($product->photo->first())) {
-            $preview_image = $this->updatePreviewImage($product->photo->first());
-        } else {
-            if (isset($request->photo[0])) {
-                $preview_image = $this->savePreviewImage($request->photo[0]);
-            }
-        }
-
         $create =  $product->update([
-            'preview_image' => $preview_image,
             'complex_or_not' => $request->complex_or_not,
             'city_id' => $request->city_id,
             'sale_or_rent' => $request->sale_or_rent,
@@ -309,6 +307,7 @@ class ProductController extends Controller
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $request->product_id,
                     'photo' => $fileName,
+                    'preview' => $this->previewImage->update($fileName),
                     'category_id' => $request->photo_categories["new_".$key] > 0 ? $request->photo_categories["new_".$key] : null
                 ]);
             }
@@ -330,18 +329,6 @@ class ProductController extends Controller
             }
         }
 
-        if (isset($request->other_photo_two)){
-            $time = time();
-            $other_photo = $request->other_photo_two;
-            foreach ($other_photo as $item) {
-                $fileName = $time++.'.'.$item->getClientOriginalExtension();
-                $filePath = $item->move('uploads', $fileName);
-                ProductDrawing::create([
-                    'product_id' => $request->product_id,
-                    'photo' => $fileName
-                ]);
-            }
-        }
         return response()->json([
             'status' => true,
             'message' => 'Product Updated',
@@ -372,7 +359,6 @@ class ProductController extends Controller
     }
 
 
-
     public function delete_drawing($id){
          $get = ProductDrawing::where('id', $id)->first();
         if ($get == null){
@@ -384,72 +370,5 @@ class ProductController extends Controller
         }
             $get->delete();
             return redirect()->back();
-    }
-
-    private function savePreviewImage($image)
-    {
-        $thumbnailpath = null;
-
-        if ($image){
-            $filenamewithextension = $image->getClientOriginalName();
-
-            //get filename without extension
-            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-
-            //get file extension
-            $extension = $image->getClientOriginalExtension();
-
-            //filename to store
-            $filenametostore = $filename.'_'.uniqid().'.'.$extension;
-
-            Storage::put('uploads/'. $filenametostore, fopen($image, 'r+'));
-
-            //Resize image here
-            $thumbnailpath = public_path('uploads')."/"."preview_".$filenametostore;
-            $img = Image::make($image->getRealPath());
-            Log:info($image->getRealPath());
-
-            $height = $img->height();
-            $width = $img->width();
-            if($height >= 400) {
-                $img->resize(null, 350, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-            }
-            if($width >= 601) {
-                $img->resize(600, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-            }
-            $img->save($thumbnailpath);
-        }
-
-        return "uploads/preview_".$filenametostore;
-    }
-
-    private function updatePreviewImage($image = null)
-    {
-        if (!is_null($image)){
-            $thumbnailpath = 'uploads'."/".$image->photo;
-            $img = Image::make($thumbnailpath);
-            $preview_image_path = 'uploads'."/preview_".$image->photo;
-
-            $height = $img->height();
-            $width = $img->width();
-            if($height >= 400) {
-                $img->resize(null, 350, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-            }
-            if($width >= 601) {
-                $img->resize(600, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-            }
-            $img->save($preview_image_path);
-            return $preview_image_path;
-        }
-
-        return null;
     }
 }

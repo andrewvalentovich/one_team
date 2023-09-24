@@ -1508,7 +1508,7 @@ function P(e) {
             wrapperDiv.classList.add('city__wrapper', 'swiper-wrapper');
             swiperDiv.appendChild(wrapperDiv);
 
-            cityElement.photo.forEach((photo ,index) => {
+            cityElement.photo.forEach(photo => {
                 const slideDiv = document.createElement('div');
                 slideDiv.classList.add('city__slide', 'swiper-slide');
 
@@ -1516,11 +1516,13 @@ function P(e) {
                 imgDiv.classList.add('city-col__item-img');
 
                 const img = document.createElement('img');
-                if(cityElement.preview_image !== null && index == 0) {
-                    img.setAttribute('src', `${cityElement.preview_image}`);
+
+                if(photo.preview !== null && photo.preview) {
+                    img.setAttribute('src', `${photo.preview}`);
                 } else {
-                    img.setAttribute('src', `/uploads/${photo.photo}`);
+                    img.setAttribute('src', `uploads/${photo.photo}`);
                 }
+
                 img.setAttribute('alt', 'place');
                 imgDiv.appendChild(img);
 
