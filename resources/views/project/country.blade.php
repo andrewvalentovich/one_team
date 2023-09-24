@@ -868,9 +868,7 @@
                     <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
 
                         <div class="objects__slide-img">
-                            @if(isset($product->preview_image))
-                                <img src="{{ asset($product->preview_image) }}" alt="place">
-                            @else
+                            @if(isset($product->photo[0]))
                                 <img src="{{ asset('uploads/'.$product->photo[0]->photo) }}" alt="place">
                             @endif
                         </div>
@@ -984,6 +982,7 @@
     @endif
 <section class="popuuups">
 @foreach($citizenship_product as $product)
+
 <div class="place-w" data_id="{{$product->id}}">
 
     <div class="place-popup">
@@ -1058,16 +1057,15 @@
                 </div>
 
             </div>
-
             <div class="place__content">
                 <div class="place__left-col">
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                @if (isset($product->preview_image))
-                                    <img src="{{asset($product->preview_image)}}" alt="object">
+                                @if (isset($product->photo[0]->preview))
+                                    <img src="{{asset('uploads/'.$product->photo->first()->preview)}}" alt="object">
                                 @else
-                                    <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
+                                    <img src="{{asset('uploads/'.$product->photo->first()->photo)}}" alt="object">
                                 @endif
                             </div>
                         </div>
