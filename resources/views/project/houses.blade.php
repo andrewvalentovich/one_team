@@ -331,20 +331,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="object__id">
-                                                        <!-- ID: {{$product->id}} -->
+
                                                     </div>
                                                     <div class="place__address">
-                                                        <!-- {{$product->address}} -->
+
                                                     </div>
                                                     <div class="place__square">
-                                                        <!-- <div class="place__square-EUR">{{ number_format(intval((int)$product->price / ((int)$product->size ?: 1)), 0, '.', ' ') }}  ₽ / кв.м</div>
-                                                        <div class="place__square-USD" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['USD'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  $  / кв.м</div>
-                                                        <div class="place__square-RUB" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['EUR'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  €  / кв.м</div>
-                                                        <div class="place__square-TRY" style="display: none;">{{ number_format(intval((int)$product->price * $exchanges['TRY'] / ((int)$product->size ?: 1)), 0, '.', ' ') }}  <span class="lira"> ₺ </span>  / кв.м</div> -->
+
                                                     </div>
                                                 </div>
                                                 <div class="place__buy">
-                                                    <div class="place__buy-btn" data_id="{{$product->id}}">
+                                                    <div class="place__buy-btn" data_id="">
                                                         <div class="place__buy-text">
                                                             {{__('Купить в рассрочку')}}
                                                         </div>
@@ -520,22 +517,6 @@
                                                         </div>
                                                         <div class="place__location-map">
                                                             <div class="current-map">
-                                                                <!-- <script>
-                                                                    product_id_is = <?php echo $product->id?>
-                                                                    function createYandexMap(latitude, longitude) {
-                                                                        let div_id = 'place-map'+product_id_is.toString();
-
-                                                                        ymaps.ready(function() {
-                                                                            let map = new ymaps.Map(div_id, {
-                                                                                center: [latitude, longitude],
-                                                                                zoom: 10,
-                                                                            });
-                                                                            let placemark = new ymaps.Placemark([latitude, longitude]);
-                                                                            map.geoObjects.add(placemark);
-                                                                        });
-                                                                    }
-                                                                    createYandexMap(<?php echo $product->lat.','.$product->long?>);
-                                                                </script> -->
                                                                 <div id="place-map" style="width: 100%; height: 165px;"></div>
                                                             </div>
                                                         </div>
@@ -565,8 +546,6 @@
                                                             {{__('Описание')}}
                                                         </div>
                                                         <div class="object__description-text">
-                                                            @if(app()->getLocale() == 'en') <?php $product->description = $product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->description = $product->description_tr ?> @endif
-                                                            {{$product->description}}
                                                         </div>
                                                     </div>
                                                     <div class="place__btns">
@@ -1645,7 +1624,7 @@ function P(e) {
     }
 
     function setPagination(data) {
-        if (Object.keys(data.data).length > 0) {
+        if (data.last_page !== 1) {
             var pagination = getPagination(data);
             $(".city-col__bottom-pages").html(pagination);
             $(".city-col__pages_m").html(pagination);
