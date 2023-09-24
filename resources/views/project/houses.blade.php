@@ -835,7 +835,7 @@
                                 }
 
                             </style>
-                            <div class="city-col__bottom-pages">
+                            <div class="city-col__bottom-pages" style="display:none">
 
                             </div>
                             <div class="city-col__pages_m">
@@ -1421,7 +1421,10 @@
 // динамический массив для заполнения точек на карте map_city
 let firstCall = 1
 function P(e) {
-
+    let currentCoordinateMapLeft = null
+    let currentCoordinateMapRight = null
+    let maxPage = null
+    let currentPage = 1
     let mapCountry;
     var script;
     var head = document.getElementsByTagName('head')[0];
@@ -1462,10 +1465,10 @@ function P(e) {
         }
     }
 
-    function setCityItem(data) {
+    function setCityItem(data, clearList) {
+        console.log('объекты',data)
         const cityList = document.querySelector('.city-col__list')
-        cityList.innerHTML = ''
-
+        if(clearList) cityList.innerHTML = ''
         // Удаление предыдущего экземпляра Swiper, если он есть
         if (previousSwiperInstance) {
             previousSwiperInstance = null;
@@ -1705,14 +1708,15 @@ function P(e) {
         return pagination;
     }
 
-    function setCountObjectsPerPage(number) {
+    function setCountObjectsPerPage() {
         const subtitle = document.querySelector('.city-col__subtitle')
         const nothing = document.querySelector('.nothing')
         const pagination = document.querySelector('.city-col__bottom-btns')
         const span = subtitle.querySelector('span')
-        span.innerHTML = number
+        const objects = document.querySelectorAll('.city-col__item')
+        span.innerHTML = objects.length
 
-        if(number == 0) {
+        if(objects.length == 0) {
             nothing.classList.add('active')
             pagination.classList.remove('active')
         } else {
@@ -2453,7 +2457,6 @@ function P(e) {
                     data: params,
                     success: function (data) {
                         resolve(data);
-                        console.log(data);
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -2491,8 +2494,11 @@ function P(e) {
         let marksFilter = await getDataMarks()
 
         createMapCity(marksFilter)
-        async function getData(topLeft, bottomRight) {
+        async function getData(topLeft, bottomRight, paramsCustom) {
             let params = createParams()
+            if(paramsCustom) {
+                params.page = paramsCustom.page
+            }
                 $.ajax({
                     url: `/api/houses/by_coordinates/with_filter`,
                     method: 'GET',
@@ -2505,15 +2511,19 @@ function P(e) {
                     success: function (data) {
                         console.log('data',data);
                         locationsCity.length = 0;
+                        maxPage = data.last_page
                         houseData.length = 0;
                         houseData = { ...data }
                         checkFavorites(data.data)
                         let site_url = `{{config('app.url')}}`;
 
                         // setBallons(data.data);
-
-                        setCityItem(data.data);
-                        setCountObjectsPerPage(data.data.length)
+                        if(!paramsCustom) {
+                            setCityItem(data.data, true);
+                        } else {
+                            setCityItem(data.data, false);
+                        }
+                        setCountObjectsPerPage()
                         setListenersToOpenPopup();
                         setListenersToAddfavorites();
                         setPagination(data);
@@ -2523,6 +2533,37 @@ function P(e) {
                     }
                 });
         }
+
+
+
+        // делаем запрос на объекты когда доскролили вниз
+        const cityCol = document.querySelector('.city-col');
+        const cityColFooter = document.querySelector('.city-col__foooter');
+        let canLoadData = true;
+        function onScrollToFooter() {
+            const cityColTop = cityCol.getBoundingClientRect().top;
+            const footerTop = cityColFooter.getBoundingClientRect().top;
+            const footerBottom = cityColFooter.getBoundingClientRect().bottom;
+
+            if (footerTop - 400 <= cityColTop && footerBottom >= cityColTop) {
+                if (canLoadData && currentPage <= maxPage) {
+                    currentPage++
+                    canLoadData = false;
+                    console.log('отправил запрос', currentPage)
+                    getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
+                    setTimeout(() => {
+                        canLoadData = true;
+                    }, 3000);
+                }
+            }
+        }
+
+        // Добавляем слушатель события прокрутки к элементу cityCol
+        cityCol.addEventListener('scroll', function() {
+            onScrollToFooter()
+        });
+
+
 
 
         async function createMapCity(allmarks) {
@@ -2816,7 +2857,9 @@ function P(e) {
             };
 
             getData(top_left, bottom_right);
-
+            currentCoordinateMapLeft = top_left
+            currentCoordinateMapRight = bottom_right
+            currentPage = 1
             // let center = [];
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');
@@ -2837,7 +2880,9 @@ function P(e) {
                 // };
 
                 getData(top_left, bottom_right);
-
+                currentCoordinateMapLeft = top_left
+                currentCoordinateMapRight = bottom_right
+                currentPage = 1
             });
 
 

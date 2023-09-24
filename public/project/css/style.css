@@ -347,7 +347,6 @@ body {
 .city-col__bottom-btns {
   display: none;
   align-items: center;
-  margin-top: 20px;
   justify-content: center;
 }
 
@@ -6146,7 +6145,6 @@ body.scroll_fixed {
   }
 
   .city-col__bottom-btns {
-    margin-top: 11px;
   }
 
   .city-col__pages_m {
