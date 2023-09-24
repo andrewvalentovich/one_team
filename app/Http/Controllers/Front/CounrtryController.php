@@ -64,14 +64,24 @@ class CounrtryController extends Controller
                     $price_array[1] = array_column(json_decode($row->objects), 'price_code');
 
                     $min_price_arr = [];
+
                     // Отбор минимальной цены
                     if(count($price_array[0]) <= 1) {
                         $min_price = $this->getCurrencyPrice($price_array[0][0], isset($price_array[1][0]) ? $price_array[1][0] : "EUR");
                     } else {
+                        $i = 0;
                         foreach ($price_array[0] as $key => $price) {
                             $min_price_arr[$key] = $this->getCurrencyPrice($price, $price_array[1][$key] ?? "EUR");
-                            $min_price = (int) $min_price_arr[$key]["EUR"] < $price ? $min_price_arr[$key] : $min_price;
+                            if ($i === 0) {
+                                $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]);
+                            } else {
+                                $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) < (int) str_replace(" ", "", $min_price) ? (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) : (int) str_replace(" ", "", $min_price);
+                            }
+
+                            $i++;
                         }
+
+                        $min_price = $this->getCurrencyPrice($min_price, "EUR");
                     }
 
                     // массив для сортировки
@@ -97,7 +107,7 @@ class CounrtryController extends Controller
                     $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
                     unset($objects);
 
-                    $row->min_price = $min_price;
+                    $row->min_price = !is_null($row->objects) ? $min_price : 0;
                     $row->layouts = $layouts_result;
                 }
 

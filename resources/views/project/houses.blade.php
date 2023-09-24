@@ -1923,7 +1923,6 @@ function P(e) {
                 let divPrice = document.createElement('div')
                 divPrice.classList.add('kompleks__layout-price')
 
-
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
