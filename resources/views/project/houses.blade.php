@@ -1508,7 +1508,7 @@ function P(e) {
             wrapperDiv.classList.add('city__wrapper', 'swiper-wrapper');
             swiperDiv.appendChild(wrapperDiv);
 
-            cityElement.photo.forEach(photo => {
+            cityElement.photo.forEach((photo ,index) => {
                 const slideDiv = document.createElement('div');
                 slideDiv.classList.add('city__slide', 'swiper-slide');
 
@@ -1516,8 +1516,7 @@ function P(e) {
                 imgDiv.classList.add('city-col__item-img');
 
                 const img = document.createElement('img');
-                if(cityElement.preview_image !== null) {
-                    console.log("preview_image id="+cityElement.id);
+                if(cityElement.preview_image !== null && index == 0) {
                     img.setAttribute('src', `${cityElement.preview_image}`);
                 } else {
                     img.setAttribute('src', `/uploads/${photo.photo}`);

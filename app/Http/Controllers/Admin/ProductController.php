@@ -20,7 +20,8 @@ use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
-    public function all_product($id){
+    public function all_product($id)
+    {
         $category = Peculiarities::where('id', $id)->first();
 
         if ($category  == null){
@@ -34,7 +35,8 @@ class ProductController extends Controller
         return view('admin.Product.all',compact('category','product'));
     }
 
-    public function rent_product($id){
+    public function rent_product($id)
+    {
         $category = Peculiarities::where('id', $id)->first();
 
         if ($category  == null){
@@ -49,7 +51,8 @@ class ProductController extends Controller
     }
 
 
-    public function create_product_page($id){
+    public function create_product_page($id)
+    {
         $country = CountryAndCity::orderby('name', 'asc')->where('parent_id', null)->get();
         $category = Peculiarities::where('id', $id)->first();
         $categorys = Peculiarities::all();
@@ -59,8 +62,8 @@ class ProductController extends Controller
         return view('admin.Product.create', compact('category','categorys','country','options', 'photo_categories', 'exchanges'));
     }
 
-    public function create_product(Request $request) {
-
+    public function create_product(Request $request)
+    {
         $objects = [];
 
         for($i = 0; $i < $request->objects_count; $i++) {
@@ -183,12 +186,14 @@ class ProductController extends Controller
 
 
 
-    public function delete_osobenosti($id){
+    public function delete_osobenosti($id)
+    {
         ProductCategory::where('id', $id)->delete();
         return redirect()->back()->with('false', 'Особенность успешно удалена');
     }
 
-    public function delete_product_photo($id){
+    public function delete_product_photo($id)
+    {
         $get =  PhotoTable::where('id', $id)->first();
 
         $image_path = public_path("uploads/{$get->photo}");
@@ -203,8 +208,8 @@ class ProductController extends Controller
     }
 
 
-    public function update_product(Request $request){
-
+    public function update_product(Request $request)
+    {
         $objects = [];
 
         $product = Product::find($request->product_id);
@@ -402,16 +407,17 @@ class ProductController extends Controller
             //Resize image here
             $thumbnailpath = public_path('uploads')."/"."preview_".$filenametostore;
             $img = Image::make($image->getRealPath());
+            Log:info($image->getRealPath());
 
             $height = $img->height();
             $width = $img->width();
-            if($height >= 601) {
-                $img->resize(300, null, function ($constraint) {
+            if($height >= 400) {
+                $img->resize(null, 350, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
             if($width >= 601) {
-                $img->resize(null, 300, function ($constraint) {
+                $img->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
@@ -424,20 +430,19 @@ class ProductController extends Controller
     private function updatePreviewImage($image = null)
     {
         if (!is_null($image)){
-            Log::info(gettype($image));
             $thumbnailpath = 'uploads'."/".$image->photo;
             $img = Image::make($thumbnailpath);
             $preview_image_path = 'uploads'."/preview_".$image->photo;
 
             $height = $img->height();
             $width = $img->width();
-            if($height >= 601) {
-                $img->resize(300, null, function ($constraint) {
+            if($height >= 400) {
+                $img->resize(null, 350, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
             if($width >= 601) {
-                $img->resize(null, 300, function ($constraint) {
+                $img->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
