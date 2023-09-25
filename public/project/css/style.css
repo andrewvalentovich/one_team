@@ -373,7 +373,7 @@ body {
 }
 
 .city-col__pages_m {
-  display: none;
+  display: none !important;
   color: #002850;
   margin: 0 126px;
 }
