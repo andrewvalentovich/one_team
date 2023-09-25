@@ -5338,7 +5338,7 @@ body.scroll_fixed {
   }
 
   .city__content.city_map {
-    height: calc(var(--vh, 1vh) * 100 - 134px);
+    height: calc(100vh - 134px);
     min-height: -webkit-fill-available;
     overflow: hidden;
   }
