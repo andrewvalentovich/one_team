@@ -7100,6 +7100,12 @@ body.scroll_fixed {
   height: 100%;
 }
 
+@media (max-width: 539px) {
+  .object__photo-popup-block {
+    height: auto;
+  }
+}
+
 .object__photo-popup img {
   position: relative;
   max-width: 1348px;
