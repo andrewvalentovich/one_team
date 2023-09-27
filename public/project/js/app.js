@@ -1231,3 +1231,17 @@ headerMobileBtn.forEach(btn => {
         btn.classList.toggle('active')
     })
 });
+
+//закрытие модалки схемы объекта
+if(document.querySelectorAll('.object__photo-popup-close').length) {
+    const objectChemePopup = document.querySelector('.object__photo')
+    document.querySelector('.object__photo-popup-close').addEventListener('click', () => {
+        objectChemePopup.classList.remove("active");
+    })
+
+    objectChemePopup.addEventListener('click', function(e) {
+        const target = e.target
+        if(target.classList.contains('object__photo'))
+        objectChemePopup.classList.remove('active')
+    })
+}

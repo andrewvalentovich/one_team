@@ -925,6 +925,7 @@ body {
   gap: 5px;
   margin: 0;
   justify-content: center;
+  z-index: 1;
 }
 
 .objects__pagination .swiper-pagination-bullet {
@@ -7043,4 +7044,91 @@ body.scroll_fixed {
 }
 .city-col__foooter {
   margin-top: 30px;
+}
+
+
+.city {
+  min-height: -webkit-fill-available;
+}
+
+
+.object__photo {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 165;
+}
+
+.object__photo.active {
+  display: block;
+}
+
+.object__photo:before {
+  content: "";
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  z-index: 199;
+}
+
+.object__photo-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 53px;
+  min-height: 100%;
+  height: 100%;
+}
+
+.object__photo-popup-block {
+  width: fit-content;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 201;
+  opacity: 1;
+  height: 100%;
+}
+
+.object__photo-popup img {
+  position: relative;
+  max-width: 1348px;
+  margin: 0 auto;
+  z-index: 202;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.object__photo-popup-close {
+  position: absolute;
+  top: 20px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  z-index: 203;
+  cursor: pointer;
+  color: #fff;
+}
+
+@media (max-width: 1364px) {
+  .object__photo-popup-close {
+      right: 15px;
+  }
+}
+
+
+.object__photo-popup-close svg {
+  z-index: 204;
 }

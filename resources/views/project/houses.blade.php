@@ -917,86 +917,7 @@
         </div>
     </section>
     <style>
-        .object__photo {
-            display: none;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: 165;
-        }
 
-        .object__photo.active {
-            display: block;
-        }
-
-        .object__photo:before {
-            content: "";
-            background: #000;
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.7;
-            z-index: 199;
-        }
-
-        .object__photo-popup {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px 53px;
-            min-height: 100%;
-            height: 100%;
-        }
-
-        .object__photo-popup-block {
-            width: 100%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 201;
-            opacity: 1;
-            height: 100%;
-        }
-
-        .object__photo-popup img {
-            position: relative;
-            max-width: 1348px;
-            margin: 0 auto;
-            z-index: 202;
-            opacity: 1;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .object__photo-popup-close {
-            position: absolute;
-            top: 20px;
-            right: 5px;
-            width: 26px;
-            height: 26px;
-            z-index: 203;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        @media (max-width: 1364px) {
-            .object__photo-popup-close {
-                right: 15px;
-            }
-        }
-
-
-        .object__photo-popup-close svg {
-            z-index: 204;
-        }
 
         .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
     </style>
@@ -1075,9 +996,7 @@
             })
         })
 
-        document.querySelector('.object__photo-popup-close').addEventListener('click', () => {
-            document.querySelector('.object__photo').classList.remove("active");
-        })
+
 
 
         let spal = "<?php echo __('спал') ?>";
@@ -1740,7 +1659,12 @@ function P(e) {
         id = parseInt(id)
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
+        const placeLeftCol = document.querySelector('.place__left-col')
+        const placeScrollContent = document.querySelector('.place__scroll-content')
+
         placeW.classList.add('active')
+        $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
+        $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
 
         let currentHouse = houseData.data.find(obj => obj.id == id);
 
