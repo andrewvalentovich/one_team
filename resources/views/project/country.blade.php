@@ -3522,7 +3522,7 @@
             listImg.appendChild(collageItem)
         });
     }
-    
+
     if(document.querySelectorAll('.kompleks__layout-img').length) {
         const chemePic = document.querySelectorAll('.kompleks__layout-img')
         const chemePopup = document.querySelector(".object__photo");
@@ -3530,7 +3530,7 @@
             pic.addEventListener('click', function(e) {
                 const img = chemePopup.querySelector('img')
                 const srcPic = pic.querySelector('img').getAttribute('src')
-                img.setAttribute('src', `/uploads/${srcPic}`)
+                img.setAttribute('src', `${srcPic}`)
                 chemePopup.classList.add('active')
             })
         });

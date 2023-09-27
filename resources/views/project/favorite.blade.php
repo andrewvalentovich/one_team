@@ -2247,7 +2247,7 @@
             pic.addEventListener('click', function(e) {
                 const img = chemePopup.querySelector('img')
                 const srcPic = pic.querySelector('img').getAttribute('src')
-                img.setAttribute('src', `/uploads/${srcPic}`)
+                img.setAttribute('src', `${srcPic}`)
                 chemePopup.classList.add('active')
             })
         });
