@@ -500,7 +500,6 @@ async function getData() {
         for (let e = 0; e < S.length; e++) S[e].addEventListener("click", (function (t) {
 
             q.classList.add("active")
-
         }));
 
     if (L.length)

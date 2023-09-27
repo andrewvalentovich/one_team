@@ -2106,6 +2106,12 @@
             const id = block.getAttribute('data_id')
             const placePopup = document.querySelector('.place-w[data_id="' + id + '"]');
             placePopup.classList.add('active')
+
+            const placeLeftCol = placePopup.querySelector('.place__left-col')
+            const placeScrollContent = placePopup.querySelector('.place__scroll-content')
+
+            $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
+            $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
         }
         //закрытие модалки по крестику
         $('.place__exit').click(function() {
