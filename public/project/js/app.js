@@ -82,23 +82,23 @@ async function getData() {
 
     }
     const headerNavItem = document.querySelectorAll(".header__nav-item")
-    headerNavItem.forEach(btn => {
-        btn.addEventListener('click', function() {
-            console.log($('.search-nav__list-item'))
-            $('.search-nav__list-item').removeClass('active')
-            $('.search-nav__item-dropdown').removeClass('active')
-            if(this.querySelector('.header__nav-title').classList.contains('active')) {
-                $('.header__nav-title').removeClass('active')
-                $('.header__nav-item-dropdown').removeClass('active')
-            } else {
-                $('.header__nav-title').removeClass('active')
-                $('.header__nav-item-dropdown').removeClass('active')
-                this.querySelector('.header__nav-title').classList.add("active")
-                if(this.querySelector('.header__nav-item-dropdown'))
-                this.querySelector('.header__nav-item-dropdown').classList.add("active")
-            }
-        })
-    })
+    // headerNavItem.forEach(btn => {
+    //     btn.addEventListener('test', function() {
+    //         console.log($('.search-nav__list-item'))
+    //         $('.search-nav__list-item').removeClass('active')
+    //         $('.search-nav__item-dropdown').removeClass('active')
+    //         if(this.querySelector('.header__nav-title').classList.contains('active')) {
+    //             $('.header__nav-title').removeClass('active')
+    //             $('.header__nav-item-dropdown').removeClass('active')
+    //         } else {
+    //             $('.header__nav-title').removeClass('active')
+    //             $('.header__nav-item-dropdown').removeClass('active')
+    //             this.querySelector('.header__nav-title').classList.add("active")
+    //             if(this.querySelector('.header__nav-item-dropdown'))
+    //             this.querySelector('.header__nav-item-dropdown').classList.add("active")
+    //         }
+    //     })
+    // })
 
     let t = document.querySelectorAll(".header-m__langs-item");
 

@@ -1555,6 +1555,11 @@ body {
   display: block;
   font-size: 17px;
   position: relative;
+  padding: 10px 0px;
+}
+
+.header__nav-item:hover .header__nav-item-dropdown {
+  display: block;
 }
 
 .header__about-dropdown {
@@ -1576,7 +1581,7 @@ body {
 
 .header__nav-title.active {
   color: #508cfa;
-}.city-col__all
+}
 
 .header__nav-title:hover {
   color: #508cfa;
@@ -1588,7 +1593,7 @@ body {
 
 .header__buy-dropdown {
   position: absolute;
-  top: 25px;
+  top: 35px;
   left: 0px;
   padding: 27px 0px 28px 29px;
   width: 242px;
@@ -1641,6 +1646,7 @@ body {
   border-radius: 5px;
   background: #ffffff;
   z-index: 19;
+  top: 35px !important;
 }
 
 .header__nav-item-dropdown.active {
@@ -6982,8 +6988,18 @@ body.scroll_fixed {
   transition: .2s;
 }
 
+
+.zoom-control__zoom-in svg, .zoom-control__zoom-out svg{
+  transition: .2s;
+}
+
+
 .zoom-control__zoom-in:hover, .zoom-control__zoom-out:hover {
   box-shadow: 0px 0px 31px -2px rgba(34, 60, 80, 0.4);
+
+}
+.zoom-control__zoom-in:hover svg path, .zoom-control__zoom-out:hover svg path{
+  fill: #000;  
 }
 .zoom-control__icon svg path {
   fill: #969696;
