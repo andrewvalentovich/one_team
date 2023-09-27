@@ -56,12 +56,24 @@ class SearchController extends Controller
                 ];
             });
 
+        $types = Peculiarities::select('id', $nameField, 'type')
+            ->where('type', "Типы")
+            ->has('product')
+            ->get()
+            ->transform(function ($row) use ($nameField) {
+                return [
+                    'id' => $row->id,
+                    'name' => $row[$nameField],
+                    'type' => $row->type
+                ];
+            });
+
         $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
 
         $data = [
             "countries" => $countries,
             "cities" => (isset($data['country_id'])) ? $regions->where('parent_id', $data['country_id'])->all() : $regions,
-            "types" => $collections->whereIn('type', "Типы")->all(),
+            "types" => $types,
             "bedrooms" => $collections->whereIn('type', "Спальни")->all(),
             "bathrooms" => $collections->whereIn('type', "Ванные")->all(),
             "peculiarities" => $collections->whereIn('type', "Особенности")->all(),
