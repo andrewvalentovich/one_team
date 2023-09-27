@@ -1729,20 +1729,36 @@ function P(e) {
         })
 
         //цена в попапе
-        Object.keys(currentHouse.price).forEach(function(currencyCode, price) {
-            const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
-            const spanPriceBlock = currencyCodePrice.querySelector('span')
-            const bPriceBlock = currencyCodePrice.querySelector('b')
+        if (currentHouse.min_price !== null) {
+            Object.keys(currentHouse.min_price).forEach(function (currencyCode, price) {
+                const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
+                const spanPriceBlock = currencyCodePrice.querySelector('span')
+                const bPriceBlock = currencyCodePrice.querySelector('b')
+
+                let currentPrice = `${dictionary.from[langSite]} ` + currentHouse.min_price[currencyCode];
+                const valuteSymbol = currentPrice[currentPrice.length - 1];
+                currentPrice = currentPrice.slice(0, -1);
 
 
-            let currentPrice = currentHouse.price[currencyCode];
-            const valuteSymbol = currentPrice[currentPrice.length - 1];
-            currentPrice = currentPrice.slice(0, -1);
+                spanPriceBlock.innerHTML = currentPrice
+                bPriceBlock.innerHTML = valuteSymbol
+            })
+        } else {
+            Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
+                const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
+                const spanPriceBlock = currencyCodePrice.querySelector('span')
+                const bPriceBlock = currencyCodePrice.querySelector('b')
 
 
-            spanPriceBlock.innerHTML = currentPrice
-            bPriceBlock.innerHTML = valuteSymbol
-        })
+                let currentPrice = currentHouse.price[currencyCode];
+                const valuteSymbol = currentPrice[currentPrice.length - 1];
+                currentPrice = currentPrice.slice(0, -1);
+
+
+                spanPriceBlock.innerHTML = currentPrice
+                bPriceBlock.innerHTML = valuteSymbol
+            })
+        }
 
 
 
