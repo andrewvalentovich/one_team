@@ -28,9 +28,7 @@ class UpdateRequest extends FormRequest
             'domain' => 'nullable|string|max:255',
             'template_id' => 'nullable|numeric|min:1',
 
-            'filter_country' => 'nullable|numeric|min:1',
-            'filter_region' => 'nullable|numeric|min:1',
-            'filter_complex' => 'nullable|numeric|min:1',
+            'relation_id' => 'nullable|numeric|min:1',
 
             'phone' => 'nullable|string|min:1|max:20',
 

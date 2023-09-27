@@ -39,6 +39,7 @@
                                 <tr>
                                     <th style="width:50px;">#</th>
                                     <th style="">{{ __('Домен') }}</th>
+                                    <th style="">{{ __('Название (к чему относится)') }}</th>
                                     <th style="">{{ __('Название шаблона') }}</th>
                                     <th>{{ __('Действие') }}</th>
                                 </tr>
@@ -48,11 +49,12 @@
                                     <tr>
                                         <td>{{ $landing->id }}</td>
                                         <td>
-                                            <a href="{{ $landing->domain }}">{{ $landing->domain }}</a>
+                                            <a href="{{ $landing->domain }}" target="_blank">{{ rtrim(preg_replace ('/https:\/\/|http:\/\//', '', $landing->domain, 1), '/') }}</a>
                                         </td>
+                                        <td>{{ isset($landing->relation_name) ? $landing->relation_name : "Не указано" }}</td>
                                         <td>{{ $landing->template->name }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
-                                            <a href="{{ route('panel.landings.show', $landing->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Показать') }}</a>
+                                            <a href="{{ route('panel.landings.edit', $landing->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Редактировать') }}</a>
                                         </td>
                                     </tr>
                                     </tbody>

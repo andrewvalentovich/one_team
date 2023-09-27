@@ -38,92 +38,96 @@
                         @csrf
                         @method('patch')
 
-                        <div class="col-md-6 pl-0 py-3" bis_skin_checked="1">
-
-                            <div class="form-group unfilterable" bis_skin_checked="1">
-                                <label for="subdomain">{{ __('Поддомен') }}</label>
-                                <input name="subdomain" type="text" class="form-control" value="{{ $landing->subdomain }}" id="subdomain" placeholder="{{ __('Поддомен') }}">
-                                <label class="text-danger font-weight-normal" for="subdomain" id="subdomain_error"></label>
-                            </div>
-
-                            <div class="form-group unfilterable" bis_skin_checked="1">
-                                <label class="col-sm-12 px-0 col-form-label">{{ __('Шаблон сайта') }}</label>
-                                <div class="col-sm-12 px-0" bis_skin_checked="1">
-                                    <select class="form-control" name="template_id" id="template_select" style="color: #e2e8f0">
-                                        @foreach($templates as $template)
-                                            <option value="{{ $template->id }}" data-path="{{ $template->path }}" {{ $landing->template->id === $template->id ? "selected" : "" }}>{{ $template->name }}</option>
-                                        @endforeach
-                                    </select>
+                        <div class="pl-0 py-3 row" bis_skin_checked="1">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group unfilterable" bis_skin_checked="1">
+                                    <label for="subdomain">{{ __('Поддомен') }}</label>
+                                    <input name="subdomain" type="text" class="form-control" value="{{ $landing->subdomain }}" id="subdomain" placeholder="{{ __('Поддомен') }}">
+                                    <label class="text-danger font-weight-normal" for="subdomain" id="subdomain_error"></label>
                                 </div>
-                                <label class="text-danger font-weight-normal" for="template_id" id="template_id_error"></label>
                             </div>
 
-                            <div class="form-group row" bis_skin_checked="1" data-select="country" style="display: none;">
-                                <label class="col-sm-12 col-form-label">{{ __('Выбор страны') }}</label>
-                                <div class="col-sm-12" bis_skin_checked="1">
-                                    <select class="form-control" name="filter_country" style="color: #e2e8f0">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group unfilterable" bis_skin_checked="1">
+                                    <label for="template_select">{{ __('Шаблон сайта') }}</label>
+                                    <div class="col-sm-12 px-0" bis_skin_checked="1">
+                                        <select class="form-control" name="template_id" id="template_select" style="color: #e2e8f0">
+                                            @foreach($templates as $template)
+                                                <option value="{{ $template->id }}" data-path="{{ $template->path }}" {{ $landing->template->id === $template->id ? "selected" : "" }}>{{ $template->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <label class="text-danger font-weight-normal" for="template_id" id="template_id_error"></label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-12 col-md-6" data-select="country" style="display: none;">
+                                <label>{{ __('Выбор страны') }}</label>
+                                <div>
+                                    <select class="form-control" {{ $landing->template->path === "country" ? "name=relation_id" : "" }} style="color: #e2e8f0">
                                         <option value="">{{ __('Выбор страны') }}</option>
                                         @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ $landing->filter_country === $country->id ? "selected" : "" }}>{{ $country->name }}</option>
+                                            <option value="{{ $country->id }}" {{ $landing->relation_id === $country->id ? "selected" : "" }}>{{ $country->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <label class="text-danger font-weight-normal" for="filter_country" id="filter_country" id="filter_country_error"></label>
+                                <label class="text-danger font-weight-normal" for="relation_id" id="relation_id" id="relation_id_error"></label>
                             </div>
 
-                            <div class="form-group row" bis_skin_checked="1" data-select="region" style="display: none;">
-                                <label class="col-sm-12 col-form-label">{{ __('Выбор региона') }}</label>
-                                <div class="col-sm-12" bis_skin_checked="1">
-                                    <select class="form-control" name="filter_region" style="color: #e2e8f0">
+                            <div class="form-group col-sm-12 col-md-6" data-select="region" style="display: none;">
+                                <label>{{ __('Выбор региона') }}</label>
+                                <div>
+                                    <select class="form-control" {{ $landing->template->path === "region" ? "name=relation_id" : "" }} style="color: #e2e8f0">
                                         <option value="">{{ __('Выбор региона') }}</option>
                                         @foreach($cities as $city)
-                                            <option value="{{ $city->id }}" {{ $landing->filter_region === $city->id ? "selected" : "" }}>{{ $city->name.", ".$city->country->name }}</option>
+                                            <option value="{{ $city->id }}" {{ $landing->relation_id === $city->id ? "selected" : "" }}>{{ $city->name.", ".$city->country->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <label class="text-danger font-weight-normal" for="region_filter" id="region_filter_error"></label>
+                                <label class="text-danger font-weight-normal" for="relation_id" id="relation_id_error"></label>
                             </div>
 
-                            <div class="form-group row" bis_skin_checked="1" data-select="complex" style="display: none;">
-                                <label class="col-sm-12 col-form-label">{{ __('Выбор ЖК') }}</label>
-                                <div class="col-sm-12" bis_skin_checked="1">
-                                    <select class="form-control" name="filter_complex" style="color: #e2e8f0">
+                            <div class="form-group col-sm-12 col-md-6" data-select="complex" style="display: none;">
+                                <label>{{ __('Выбор ЖК') }}</label>
+                                <div>
+                                    <select class="form-control" {{ $landing->template->path === "complex" ? "name=relation_id" : "" }} style="color: #e2e8f0">
                                         <option value="">{{ __('Выбор ЖК') }}</option>
                                         @foreach($complexes as $complex)
-                                            <option value="{{ $complex->id }}" {{ $landing->filter_complex === $complex->id ? "selected" : "" }}>{{ $complex->name }}</option>
+                                            <option value="{{ $complex->id }}" {{ $landing->relation_id === $complex->id ? "selected" : "" }}>{{ $complex->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <label class="text-danger font-weight-normal" for="complex_filter" id="complex_filter_error"></label>
+                                <label class="text-danger font-weight-normal" for="relation_id" id="relation_id_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country complex" style="display: none;">Шапка и подвал сайта</h3>
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
-                                <label for="phone">{{ __('Номер телефона') }}</label>
-                                <input name="phone" type="text" class="form-control" id="phone" value="{{ $landing->phone }}" placeholder="{{ __('Номер телефона') }}">
-                                <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
+                            <div class="col-sm-12 col-md-6 region country complex form-group" style="display: none;">
+                                <div class="" bis_skin_checked="1">
+                                    <label for="phone">{{ __('Номер телефона') }}</label>
+                                    <input name="phone" type="text" class="form-control" id="phone" value="{{ $landing->phone }}" placeholder="{{ __('Номер телефона') }}">
+                                    <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
+                                </div>
                             </div>
 
-                            <h3 class="pt-5 region country complex" style="display: none;">Главный экран</h3>
-                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Главный экран</h3>
+                            <div class="col-12 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>
                                 <input name="main_location" type="text" class="form-control" id="main_location" placeholder="{{ __('Локация/регион для главного блока') }}">
                                 <label class="text-danger font-weight-normal" for="main_location" id="main_location_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-sm-12 col-md-6 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_title">{{ __('Заголовок главного блока') }}</label>
                                 <input name="main_title" type="text" class="form-control" id="main_title" value="{{ $landing->main_title }}" placeholder="{{ __('Заголовок главного блока') }}">
                                 <label class="text-danger font-weight-normal" for="main_title" id="main_title_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-sm-12 col-md-6 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_subtitle">{{ __('Подзаголовок главного блока') }}</label>
                                 <input name="main_subtitle" type="text" class="form-control" id="main_subtitle" value="{{ $landing->main_subtitle }}" placeholder="{{ __('Подзаголовок главного блока') }}">
                                 <label class="text-danger font-weight-normal" for="main_subtitle" id="main_subtitle_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-12 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_content">{{ __('Контент главного блока') }}</label>
                                 <div>
                                     <textarea id="main_content" class="textarea" name="main_content">{{ $landing->main_content }}</textarea>
@@ -131,10 +135,10 @@
                                 <label class="text-danger font-weight-normal" for="main_content" id="main_content_error"></label>
                             </div>
 
-                            <div class="form-group region country complex" style="display: none;">
+                            <div class="col-12 form-group region country complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->main_photo) ? "display: block" : "display: none" }}"></span>
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: none; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->main_photo) ? "display: block" : "display: none" }}"></span>
                                         <img class="py-3" src="{{ asset($landing->main_photo ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="main_photo">{{ __('Фотография фона главного блока') }}</label>
@@ -143,13 +147,13 @@
                                 <label class="text-danger font-weight-normal" for="main_photo" id="main_photo_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-12 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Списки для главного блока') }}</label>
                                 <div class="card">
-                                    <div class="card-header" id="main_lists_field">
+                                    <div class="card-header row" style="gap: 30px 0;" id="main_lists_field">
                                         @if(!is_null(json_decode($landing->main_lists)))
                                             @foreach(json_decode($landing->main_lists) as $main_list)
-                                                <div class="main_lists_accordion" data-identificator="{{ $main_list->id }}" id="main_lists_accordion{{ $main_list->id }}">
+                                                <div class="main_lists_accordion col-sm-6 col-md-3" data-identificator="{{ $main_list->id }}" id="main_lists_accordion{{ $main_list->id }}">
                                                     <div class="card">
                                                         <div class="card-header" id="main_lists_heading{{ $main_list->id }}">
                                                             <h5 class="mb-0">
@@ -186,27 +190,27 @@
                                 <label class="text-danger font-weight-normal" for="main_lists" id="main_lists_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country" style="display: none;">Блок с объектами</h3>
-                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 region country" style="display: none;">Блок с объектами</h3>
+                            <div class="col-sm-12 col-md-6 form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="objects_title">{{ __('Заголовок блока с объектами') }}</label>
                                 <input name="objects_title" type="text" class="form-control" value="{{ $landing->objects_title ?? null }}" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
                                 <label class="text-danger font-weight-normal" for="objects_title" id="objects_title_error"></label>
                             </div>
 
-                            <h3 class="pt-5 complex" style="display: none;">Блок с описанием ЖК</h3>
-                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 complex" style="display: none;">Блок с описанием ЖК</h3>
+                            <div class="col-sm-12 col-md-6 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_title">{{ __('Заголовок') }}</label>
                                 <input name="about_title" type="text" class="form-control" value="{{ $landing->about_title ?? null }}" id="about_title" placeholder="{{ __('PERGE COLLECTION: SKY BLUE') }}">
                                 <label class="text-danger font-weight-normal" for="about_title" id="about_title_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-sm-12 col-md-6 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="about_subtitle">{{ __('Подзаголовок') }}</label>
                                 <input name="about_subtitle" type="text" class="form-control" value="{{ $landing->about_subtitle ?? null }}" id="about_subtitle" placeholder="{{ __('БИЗНЕС-КЛАСС НА БЕРЕГУ СРЕДИЗЕМНОГО МОРЯ') }}">
                                 <label class="text-danger font-weight-normal" for="about_subtitle" id="about_subtitle_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-12 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Карточки с описанием ЖК') }}</label>
                                 <div class="card">
                                     <div class="card-header" id="about_description_field">
@@ -262,8 +266,8 @@
                                 <label class="text-danger font-weight-normal" for="about_description" id="about_description_error"></label>
                             </div>
 
-                            <h3 class="pt-5 complex" style="display: none;">Блок территория ЖК</h3>
-                            <div class="form-group pt-3 complex" style="display: none;">
+                            <h3 class="col-12 pt-5 complex" style="display: none;">Блок территория ЖК</h3>
+                            <div class="col-12 form-group pt-3 complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
                                         <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->territory) ? 'display: block;' : 'display: none;' }}"></span>
@@ -275,8 +279,8 @@
                                 <label class="text-danger font-weight-normal" for="territory" id="territory_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country complex" style="display: none;">Блок с картой</h3>
-                            <div class="form-group pt-3 region country complex" style="display: none;">
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Блок с картой</h3>
+                            <div class="col-12 form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
                                     <textarea class="form-control" rows="10" id="map" name="map">{{ $landing->map ?? null }}</textarea>
@@ -284,14 +288,14 @@
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country complex" style="display: none;">Блок с условиями покупки</h3>
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Блок с условиями покупки</h3>
+                            <div class="col-12 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Карточки с условиями покупки') }}</label>
                                 <div class="card">
-                                    <div class="card-header" id="purchase_terms_field">
+                                    <div class="card-header row" id="purchase_terms_field">
                                         @if(!is_null(json_decode($landing->purchase_terms)))
                                             @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
-                                                <div class="purchase_terms_accordion" data-identificator="{{ $purchase_terms->id }}" id="purchase_terms_accordion{{ $purchase_terms->id }}">
+                                                <div class="purchase_terms_accordion col-sm-12 col-md-6" data-identificator="{{ $purchase_terms->id }}" id="purchase_terms_accordion{{ $purchase_terms->id }}">
                                                     <div class="card">
                                                         <div class="card-header" id="purchase_terms_heading{{ $purchase_terms->id }}">
                                                             <h5 class="mb-0">
@@ -330,14 +334,14 @@
                                 <label class="text-danger font-weight-normal" for="purchase_terms" id="purchase_terms_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country complex" style="display: none;">Блок ВНЖ</h3>
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Блок ВНЖ</h3>
+                            <div class="col-12 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="vnj_title">{{ __('Заголовок блока ВНЖ') }}</label>
                                 <input name="vnj_title" type="text" class="form-control" value="{{ $landing->vnj_title ?? null }}" id="vnj_title" placeholder="{{ __('Вид на жительство в Турции') }}">
                                 <label class="text-danger font-weight-normal" for="vnj_title" id="vnj_title_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
+                            <div class="col-12 form-group pt-3 region country complex" bis_skin_checked="1" style="display: none;">
                                 <label for="vnj_content">{{ __('Контент блока ВНЖ') }}</label>
                                 <div>
                                     <textarea id="vnj_content" class="textarea" name="vnj_content">{{ $landing->vnj_content ?? null }}</textarea>
@@ -345,14 +349,14 @@
                                 <label class="text-danger font-weight-normal" for="vnj_content" id="vnj_content_error"></label>
                             </div>
 
-                            <h3 class="pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
-                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
+                            <h3 class="col-12 pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
+                            <div class="col-12 form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="sight_title">{{ __('Заголовок') }}</label>
                                 <input name="sight_title" type="text" class="form-control" value="{{ $landing->sight_title ?? null }}" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
                                 <label class="text-danger font-weight-normal" for="sight_title" id="sight_title_error"></label>
                             </div>
 
-                            <div class="form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
+                            <div class="col-12 form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="card">{{ __('Карточки с достопримечательностями') }}</label>
                                 <div class="card">
                                     <div class="card-header" id="sight_cards_field">
@@ -407,10 +411,18 @@
                                 </div>
                                 <label class="text-danger font-weight-normal" for="sight_cards" id="sight_cards_error"></label>
                             </div>
-
-                            <button type="submit" class="btn btn-inverse-success btn-fw">{{ __('Сохранить изменения') }}</button>
                         </div>
                     </form>
+                    <div class="col-12">
+                        <button id="submit-update-landings-form" type="submit" class="btn btn-inverse-success btn-fw">{{ __('Сохранить изменения') }}</button>
+                        <form id="delete_landings_form-{{ $landing->id }}" style="display: none;" action="{{ route('panel.landings.destroy', $landing->id) }}" method="post">
+                            @csrf
+                            @method('delete')
+                        </form>
+                        <a class="btn btn-inverse-danger btn-fw ml-1" onclick="if(confirm('Вы уверены, что хотите удалить лендинг?')) document.getElementById('delete_landings_form-{{ $landing->id }}').submit(); return false;">
+                            Удалить
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -441,6 +453,8 @@
             $('.form-group:not(.unfilterable)').hide();
             $('.forms-sample').find('h3').hide();
             $('.form-group[data-select="'+data_path+'"]').show();
+            $('.form-control[name="relation_id"]').removeAttr('name');
+            $('.form-group[data-select="'+data_path+'"] select').attr('name', 'relation_id');
             $('.forms-sample').find('.'+data_path).show();
         });
 
@@ -451,6 +465,8 @@
             $('.forms-sample').find('h3').hide();
 
             $('.form-group[data-select="'+data_path+'"]').show();
+            $('.form-control[name="relation_id"]').removeAttr('name');
+            $('.form-group[data-select="'+data_path+'"] select').attr('name', 'relation_id');
             $('.forms-sample').find('.'+data_path).show();
         });
 
@@ -497,7 +513,7 @@
 
         // Получаем структуру блока main_lists_accordion
         function get_main_lists_accordion(id) {
-            return "<div class='main_lists_accordion' data-identificator='"+ id +"' id='main_lists_accordion" + id + "'>"+
+            return "<div class='main_lists_accordion col-sm-6 col-md-3' data-identificator='"+ id +"' id='main_lists_accordion" + id + "'>"+
                 "<div class='card'>"+
                 "<div class='card-header' id='main_lists_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
@@ -592,7 +608,7 @@
 
         // Получаем структуру блока purchase_terms_accordion
         function get_purchase_terms_accordion(id) {
-            return "<div class='purchase_terms_accordion' data-identificator='"+ id +"' id='purchase_terms_accordion" + id + "'>"+
+            return "<div class='purchase_terms_accordion col-sm-12 col-md-6' data-identificator='"+ id +"' id='purchase_terms_accordion" + id + "'>"+
                 "<div class='card'>"+
                 "<div class='card-header' id='purchase_terms_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
@@ -916,6 +932,10 @@
                 }
             }
         }
+
+        $('#submit-update-landings-form').on('click', function () {
+            $('#update_landings_form').submit();
+        })
 
         // При "сабмите" формы...
         $('#update_landings_form').on('submit', function (e) {

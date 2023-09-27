@@ -20,7 +20,28 @@ class LandingController extends Controller
      */
     public function index()
     {
-        $landings = Landing::all();
+        $landings = Landing::orderBy('id', 'desc')
+            ->get()
+            ->transform(function ($row) {
+                if ($row->template->path === "region") {
+                    $filter = \App\Models\CountryAndCity::find($row->relation_id);
+                    $row->relation_name = isset($filter->name) ? $filter->name : "Ну выбрано";
+                }
+
+                if ($row->template->path === "country") {
+                    $filter = \App\Models\CountryAndCity::find($row->relation_id);
+                    $row->relation_name = isset($filter->name) ? $filter->name : "Нe выбрано";
+                }
+
+                if ($row->template->path === "complex") {
+                    $filter = Product::find($row->relation_id);
+                    $row->relation_name = isset($filter->name) ? $filter->name : "Нe выбрано";
+                }
+
+                return $row;
+            });
+
+
         return view('panel.landings.index', compact('landings'));
     }
 

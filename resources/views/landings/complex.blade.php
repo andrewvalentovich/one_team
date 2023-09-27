@@ -9,7 +9,7 @@
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" /> -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-	<title>ЖК</title>
+	<title>{{ $landing->main_title }}</title>
 </head>
 <body>
 	<div class="wrapper">
@@ -274,11 +274,13 @@
 				<div class="gallery__swiper-w">
 					<div class="gallery__swiper swiper">
 						<div class="gallery__swiper-wrapper swiper-wrapper">
-                            @foreach($filter->photo as $photo)
-                                <div class="gallery__slide swiper-slide" data-category-id="{{ !is_null($photo->category) ? $photo->category->id : 0 }}">
-                                    <img src="{{ asset('uploads/'.$photo->photo) }}" alt="">
-                                </div>
-                            @endforeach
+                            @if(isset($filter->photo))
+                                @foreach($filter->photo as $photo)
+                                    <div class="gallery__slide swiper-slide" data-category-id="{{ !is_null($photo->category) ? $photo->category->id : 0 }}">
+                                        <img src="{{ asset('uploads/'.$photo->photo) }}" alt="">
+                                    </div>
+                                @endforeach
+                            @endif
 						</div>
 					</div>
 					<div class="gallery__pagination swiper__pagination"></div>

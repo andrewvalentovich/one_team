@@ -54,7 +54,7 @@
                                         <td>{{$template->path}}</td>
                                         <td>{{$template->token}}</td>
                                         <td style="display: flex; justify-content: flex-end;">
-                                            <a href="{{route('panel.templates.show', $template->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Показать') }}</a>
+                                            <a href="{{ route('panel.templates.edit', $template->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Редактировать') }}</a>
                                         </td>
                                     </tr>
                                     </tbody>
