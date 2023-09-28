@@ -4260,7 +4260,7 @@ body.scroll_fixed {
 }
 
 .search-w__close {
-  position: absolute;
+  position: fixed;
   right: 19px;
   top: 16px;
   width: 18px;
@@ -7052,7 +7052,7 @@ body.scroll_fixed {
   height: 17px !important;
 }
 
-.ymaps-2-1-79-placemark-overlay ymaps{
+#map_city .ymaps-2-1-79-placemark-overlay ymaps{
   width: 17px !important;
   height: 17px !important;
 }

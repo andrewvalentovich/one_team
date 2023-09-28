@@ -241,7 +241,7 @@ async function getData() {
 
     }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place__btns-call-preview").onclick = function () {
 
-        document.querySelector(".place__btns-call-list").classList.toggle("active")
+        // document.querySelector(".place__btns-call-list").classList.toggle("active")
 
     }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place-w").onscroll = function () {
 
