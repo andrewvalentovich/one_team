@@ -176,6 +176,19 @@
 
             const kompleksBlockPriceSquare = popupBlock.querySelectorAll('.place__square')
 
+            const kompleksBlockPriceSquarePrice = popupBlock.querySelector('.place__price_country')
+            if(kompleksBlockPriceSquarePrice) {
+                const price = kompleksBlockPriceSquarePrice.querySelector('.place__price-value')
+                const valute = price.getAttribute(`data-price-${exchange}`)
+                price.innerHTML = valute
+            }
+
+            const placeSquareCountry = popupBlock.querySelector('.place__square_country')
+            if(placeSquareCountry) {
+                const valute = placeSquareCountry.getAttribute(`data-price-${exchange}`)
+                placeSquareCountry.innerHTML = valute
+            }
+
             if(kompleksBlockPrice !== null)
             kompleksBlockPrice.forEach(block => {
                 changeExchange(block, exchange)
@@ -189,8 +202,10 @@
             if(kompleksBlockPriceSquare !== null)
             kompleksBlockPriceSquare.forEach(block => {
                 changeExchange(block, exchange)
-
             });
+
+
+
         }
     });
 

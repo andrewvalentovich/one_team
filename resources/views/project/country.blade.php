@@ -1179,13 +1179,13 @@
 
                     <div class="place__right-mid">
                         <div class="place__info">
-                            <div class="place__price">
+                            <div class="place__price place__price_country">
                                 <div
                                     class="place__price-value"
-                                    data-price-rub="{{ $product->price["RUB"] }}"
-                                    data-price-eur="{{ $product->price["EUR"] }}"
-                                    data-price-usd="{{ $product->price["USD"] }}"
-                                    data-price-try="{{ $product->price["TRY"] }}"
+                                    data-price-rub="{{ $product->price["RUB"] }} ₽"
+                                    data-price-eur="{{ $product->price["EUR"] }} €"
+                                    data-price-usd="{{ $product->price["USD"] }} $"
+                                    data-price-try="{{ $product->price["TRY"] }} ₺"
                                 >
                                 {{ $product->price["EUR"] }} €
                                 </div>
@@ -1242,11 +1242,11 @@
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
 
                             </div>
-                            <div class="place__square"
-                                 data-price-rub="{{ $product->price_size["RUB"] }}"
-                                 data-price-eur="{{ $product->price_size["EUR"] }}"
-                                 data-price-usd="{{ $product->price_size["USD"] }}"
-                                 data-price-try="{{ $product->price_size["TRY"] }}"
+                            <div class="place__square place__square_country"
+                                 data-price-rub="{{ $product->price_size["RUB"] }} ₽"
+                                 data-price-eur="{{ $product->price_size["EUR"] }} €"
+                                 data-price-usd="{{ $product->price_size["USD"] }} $"
+                                 data-price-try="{{ $product->price_size["TRY"] }} ₺"
                             >
                                 {{ $product->price_size["EUR"] }} €
                             </div>
