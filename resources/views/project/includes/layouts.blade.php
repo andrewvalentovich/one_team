@@ -170,20 +170,27 @@
         const exchange = this.getAttribute('data-exchange')
         popupBlock.setAttribute('data-exchange', exchange)
         if(popupBlock.querySelectorAll('.valute').length) {
-            const kompleksBlockPrice = popupBlock.querySelector('.kompleks__layout-price')
+            const kompleksBlockPrice = popupBlock.querySelectorAll('.kompleks__layout-price')
 
-            const kompleksBlockMeterPrice = popupBlock.querySelector('.kompleks__layout-price-meter')
+            const kompleksBlockMeterPrice = popupBlock.querySelectorAll('.kompleks__layout-price-meter')
 
-            const kompleksBlockPriceSquare = popupBlock.querySelector('.place__square')
+            const kompleksBlockPriceSquare = popupBlock.querySelectorAll('.place__square')
 
             if(kompleksBlockPrice !== null)
-            changeExchange(kompleksBlockPrice, exchange)
+            kompleksBlockPrice.forEach(block => {
+                changeExchange(block, exchange)
+            });
 
             if(kompleksBlockMeterPrice !== null)
-            changeExchange(kompleksBlockMeterPrice, exchange)
+            kompleksBlockMeterPrice.forEach(block => {
+                changeExchange(block, exchange)
+            });
 
             if(kompleksBlockPriceSquare !== null)
-            changeExchange(kompleksBlockPriceSquare, exchange)
+            kompleksBlockPriceSquare.forEach(block => {
+                changeExchange(block, exchange)
+
+            });
         }
     });
 
@@ -272,6 +279,7 @@
 
 function changeExchange (blockPrice, currentExchange) {
     const prices = blockPrice.querySelectorAll('[data-exchange]')
+    console.log(prices)
     prices.forEach(element => {
         element.classList.remove('active')
         element.style.display = ('none')
