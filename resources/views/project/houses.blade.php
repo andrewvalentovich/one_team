@@ -1146,9 +1146,6 @@
 
 //
 
-            let d = document.querySelectorAll(".search-nav__list-item-title"),
-
-                u = document.querySelectorAll(".search-nav__item-dropdown");
 
 
             function m() {
@@ -1157,27 +1154,7 @@
 
             }
 
-
-            for (let e = 0; e < d.length - 1; e++) d[e].addEventListener("click", (function (t) {
-
-                let navItem = d[e].closest('.search-nav__list-item')
-
-                let navItemDropdown = navItem.querySelector('.search-nav__item-dropdown')
-
-                if (navItem.classList.contains('active')) {
-
-                    navItem.classList.remove('active')
-
-                    navItemDropdown.classList.remove('active')
-
-                }
-
-                m(), u[e].style.zIndex = 6
-
-            }));
-
             document.querySelectorAll(".search-nav__price-title").length && (document.querySelector(".search-nav__price-title").onclick = function () {
-
                 document.querySelector(".search-nav__price").classList.toggle("active"), document.querySelector(".search-nav__price-dropdown").classList.toggle("active")
 
             }), document.querySelector(".city-col__filter") && (document.querySelector(".city-col__filter").onclick = function () {
@@ -2600,7 +2577,10 @@ function P(e) {
                     bottom: 20
                 }
             });
-
+            mapCountry.events.add('balloonclose', function (e) {
+                var t = document.querySelectorAll(".placemark");
+                for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+            });
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {
                     this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))

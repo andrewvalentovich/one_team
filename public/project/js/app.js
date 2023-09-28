@@ -263,25 +263,6 @@ async function getData() {
 
     // }));
 
-    let d = document.querySelectorAll(".search-nav__list-item-title"),
-
-        u = document.querySelectorAll(".search-nav__item-dropdown");
-
-
-
-    function m() {
-
-        for (let e = 0; e < u.length - 1; e++) u[e].style.zIndex = 5
-
-    }
-
-
-
-    for (let e = 0; e < d.length - 1; e++) d[e].addEventListener("click", (function (t) {
-
-        m(), u[e].style.zIndex = 6
-
-    }));
 
     document.querySelectorAll(".search-nav__price-title").length && (document.querySelector(".search-nav__price-title").onclick = function () {
 

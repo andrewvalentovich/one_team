@@ -3715,7 +3715,7 @@ body.scroll_fixed {
   display: none;
   position: absolute;
   top: 45px;
-  z-index: 5;
+  z-index: 6;
   max-height: 350px;
   overflow: auto;
 }

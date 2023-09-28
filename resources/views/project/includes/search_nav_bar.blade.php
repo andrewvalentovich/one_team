@@ -491,15 +491,15 @@
         $('.search-nav__more-dropdown').removeClass('active');
     });
 
-    $(document).ready(function() {
-        $('.search-nav__list-item, .search-nav__price, .search-nav__list-item_b, .search-nav__list-item_arrow').click(function() {
-            var clickedElement = $(this);
-                 $('.search-nav__list-item, .search-nav__price, .search-nav__list-item_b, .search-nav__list-item_arrow, .search-nav__item-dropdown, .search-nav__types-dropdown').removeClass('active');
-                 $('.search-nav__item-dropdown, .search-nav__types-dropdown').children().removeClass('active');
-                    clickedElement.addClass('active');
-                    clickedElement.children('.search-nav__item-dropdown, .search-nav__types-dropdown').addClass('active');
-        });
-    });
+    // $(document).ready(function() {
+    //     $('.search-nav__list-item, .search-nav__price, .search-nav__list-item_b, .search-nav__list-item_arrow').click(function() {
+    //         var clickedElement = $(this);
+    //              $('.search-nav__list-item, .search-nav__price, .search-nav__list-item_b, .search-nav__list-item_arrow, .search-nav__item-dropdown, .search-nav__types-dropdown').removeClass('active');
+    //              $('.search-nav__item-dropdown, .search-nav__types-dropdown').children().removeClass('active');
+    //                 clickedElement.addClass('active');
+    //                 clickedElement.children('.search-nav__item-dropdown, .search-nav__types-dropdown').addClass('active');
+    //     });
+    // });
 
     //open dropdown
     if(document.querySelectorAll('.dropdown').length) {
