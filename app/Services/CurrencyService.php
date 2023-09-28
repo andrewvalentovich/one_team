@@ -47,7 +47,7 @@ class CurrencyService
     public function convertPriceToEur(int $price = null, string $price_code = null) : int
     {
         // Рубль возвращаем, а прочие валюты конвертируем
-        if (!is_null($price_code) && $price_code !== "EUR") {
+        if (!is_null($price_code) && $price_code !== "" && $price_code !== "EUR") {
             $price = ($price_code === "RUB") ? $price * $this->exchanges["EUR"] : ceil($price / $this->exchanges[$price_code] * $this->exchanges["EUR"]);
         }
 
