@@ -1202,5 +1202,18 @@ if(document.querySelectorAll('.search-nav__more').length) {
     searchWClose.addEventListener('click', function() {
         searchW.classList.remove('active')
     })
-    
+}
+
+if(document.querySelectorAll('._regions').length) {
+    const navRegions = document.querySelector('._regions')
+    const dropdown = navRegions.querySelector('.search-nav__item-dropdown')
+    const searchWClose = navRegions.querySelector('.search-w__close')
+    navRegions.addEventListener('click', function() {
+        if(window.innerWidth < 900) {
+            dropdown.classList.add('active')
+        }
+    })
+    searchWClose.addEventListener('click', function() {
+        dropdown.classList.remove('active')
+    })
 }

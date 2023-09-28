@@ -43,10 +43,10 @@
                         </svg>
                     </div>
                 </div>
-                <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="city">
+                <div class="search-nav__list-item _regions search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="city">
                     <div class="search-nav__list-item-title city_select dropdown__title">{{ __('Регионы') }}</div>
                     <input name="city_id" type="hidden" value="">
-                    <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
+                    <div class="search-nav__item-dropdown " style="   padding: 26px 20px 29px 29px;
                         min-width: 100%;
                         border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__cities-list"></div>

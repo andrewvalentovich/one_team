@@ -7174,3 +7174,41 @@ body.scroll_fixed {
 .object__photo-popup-close svg {
   z-index: 204;
 }
+
+
+@media (max-width: 899px) {
+  .search-nav__list-item._regions:hover .search-nav__item-dropdown {
+    display: none;
+  }
+  .search-nav__list-item._regions:hover .search-nav__list-item-title{
+    border-left: 2px solid #508cfa;
+    border-top: 2px solid #508cfa;
+    border-bottom: 2px solid #508cfa;
+    padding: 12px 0px 9px 18px;
+  }
+  .search-nav__list-item._regions:hover.search-nav__list-item_arrow::after{
+    transform: rotate(180deg) !important;
+  }
+  .search-nav__list-item._regions .search-nav__item-dropdown.active {
+    position: fixed;
+    left: 0;
+    max-height: none;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100;
+    border: none;
+    display: block;
+
+  }
+
+  .search-nav__list-item._regions .close-dropdown {
+    display: block;
+    position: absolute;
+    right: 19px;
+    top: 16px;
+    width: 18px;
+    cursor: pointer;
+  }
+  
+}
