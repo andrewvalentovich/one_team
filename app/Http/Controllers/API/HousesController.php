@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\App;
 class HousesController extends Controller
 {
     private $peculiarities;
-    private $currency;
-    private $sort;
+    private $currencyService;
+    private $sortService;
 
-    public function __construct(CurrencyService $currency, SortService $sort)
+    public function __construct(CurrencyService $currencyService, SortService $sortService)
     {
         $this->peculiarities = Peculiarities::all();
-        $this->currency = $currency;
-        $this->sort = $sort;
+        $this->currencyService = $currencyService;
+        $this->sortService = $sortService;
     }
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
@@ -37,46 +37,40 @@ class HousesController extends Controller
             $layouts_result = null;
             $min_price = null;
 
-            if (isset($row->objects) && count(json_decode($row->objects)) > 0) {
+            if (is_countable(json_decode($row->objects))) {
+
+                // Создаём индекс
+                $i = 0;
                 foreach (json_decode($row->objects) as $object) {
                     // Формируем новое поле price_size
-                    $object->price_size = $this->currency->getPriceSize((int)$object->price, (int)$object->size, $object->price_code);
+                    $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+
+                    // Ищем минимальную цену
+                    if ($i === 0) {
+                        $min_price = $object->price;
+                    } else {
+                        $min_price = $object->price < $min_price ? $object->price : $min_price;
+                    }
 
                     // Меняем цену
                     $price = $object->price;
-                    $object->price = $this->currency->getPrice($price, $object->price_code);
+                    $object->price = $this->currencyService->getPriceFromDB($price);
                     unset($price);
-                    unset($price_code);
 
                     // Присваиваем объект временной переменой
                     $objects[] = $object;
+
+                    // Увеличиваем индекс
+                    $i++;
                 }
+                // Очищаем индекс
+                unset($i);
+
+                // Возвращаем минимальную цену с валютами
+                $min_price = $this->currencyService->getPriceFromDB($min_price);
 
                 // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
                 $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
-
-                $price_array[0] = array_column(json_decode($row->objects), 'price');
-                $price_array[1] = array_column(json_decode($row->objects), 'price_code');
-
-                $min_price_arr = [];
-                // Отбор минимальной цены
-                if(count($price_array[0]) <= 1) {
-                    $min_price = $this->currency->getPrice($price_array[0][0], isset($price_array[1][0]) ? $price_array[1][0] : "EUR");
-                } else {
-                    $i = 0;
-                    foreach ($price_array[0] as $key => $price) {
-                        $min_price_arr[$key] = $this->currency->getPrice($price, $price_array[1][$key] ?? "EUR");
-                        if ($i === 0) {
-                            $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]);
-                        } else {
-                            $min_price = (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) < (int) str_replace(" ", "", $min_price) ? (int) str_replace(" ", "", $min_price_arr[$key]["EUR"]) : (int) str_replace(" ", "", $min_price);
-                        }
-
-                        $i++;
-                    }
-
-                    $min_price = $this->currency->getPrice($min_price, "EUR");
-                }
 
                 // массив для сортировки
                 $layouts_sort_arr = [];
@@ -89,7 +83,7 @@ class HousesController extends Controller
                 }
 
                 // Сортировка
-                $sort = $this->sort->quicksort($layouts_sort_arr);
+                $sort = $this->sortService->quicksort($layouts_sort_arr);
 
                 // Вывод планировок (1+2, 2+2 и пр.)
                 foreach ($sort as $layout) {
@@ -99,7 +93,6 @@ class HousesController extends Controller
 
 
                 $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
-                unset($objects);
             }
 
             return [
@@ -112,10 +105,10 @@ class HousesController extends Controller
                 "size" => $row->size,
                 "size_home" => $row->size_home,
                 "layouts" => $layouts_result,
-                "layouts_count" => !is_null($row->objects) ? count(json_decode($row->objects)) : 0,
-                "price_size" => $this->currency->getPriceSize((int)$row->price, (int)$row->size, $row->price_code),
-                "price" => $this->currency->getPrice($row->price, $row->price_code),
-                "min_price" => !is_null($row->objects) ? $min_price : 0,
+                "layouts_count" => is_countable($objects) ? count($objects) : 0,
+                "price_size" => $this->currencyService->getPriceSizeFromDB((int)$row->price, (int)$row->size),
+                "price" => $this->currencyService->getPriceFromDB($row->price),
+                "min_price" => is_countable($objects) ? $min_price : 0,
                 "price_code" => $row->price_code,
                 "description" => $row->description,
                 "description_en" => $row->description_en,
@@ -161,7 +154,7 @@ class HousesController extends Controller
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
-                "price" => $this->currency->getPrice($row->price),
+                "price" => $this->currencyService->getPriceFromDB($row->price),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,

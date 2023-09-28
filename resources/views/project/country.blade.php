@@ -878,10 +878,10 @@
                         <div class="objects__slide-text">
 
                             <div class="objects__slide-price">
-                                @if(isset($product->min_price["EUR"]))
-                                    {{ __("от") . " " . $product->min_price["EUR"] . " €" }}
+                                @if(!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price["EUR"]))
+                                    {{ __("от") . " " . $product->min_price["EUR"] }}
                                 @else
-                                    {{ $product->price["EUR"] }} €
+                                    {{ $product->price["EUR"] }}
                                 @endif
                             </div>
 
@@ -1182,12 +1182,12 @@
                             <div class="place__price place__price_country">
                                 <div
                                     class="place__price-value"
-                                    data-price-rub="{{ $product->price["RUB"] }} ₽"
-                                    data-price-eur="{{ $product->price["EUR"] }} €"
-                                    data-price-usd="{{ $product->price["USD"] }} $"
-                                    data-price-try="{{ $product->price["TRY"] }} ₺"
+                                    data-price-rub="{{ (int) str_replace(" ", "", $product->price["RUB"]) }}"
+                                    data-price-eur="{{ (int) str_replace(" ", "", $product->price["EUR"]) }}"
+                                    data-price-usd="{{ (int) str_replace(" ", "", $product->price["USD"]) }}"
+                                    data-price-try="{{ (int) str_replace(" ", "", $product->price["TRY"]) }}"
                                 >
-                                {{ $product->price["EUR"] }} €
+                                {{ (int) str_replace(" ", "", $product->price["EUR"]) }} €
                                 </div>
                                 <div class="place__currency">
                                     <div class="place__currency-preview">
@@ -1243,12 +1243,12 @@
 
                             </div>
                             <div class="place__square place__square_country"
-                                 data-price-rub="{{ $product->price_size["RUB"] }} ₽"
-                                 data-price-eur="{{ $product->price_size["EUR"] }} €"
-                                 data-price-usd="{{ $product->price_size["USD"] }} $"
-                                 data-price-try="{{ $product->price_size["TRY"] }} ₺"
+                                 data-price-rub="{{ (int) str_replace(" ", "", $product->price_size["RUB"]) }}"
+                                 data-price-eur="{{ (int) str_replace(" ", "", $product->price_size["EUR"]) }}"
+                                 data-price-usd="{{ (int) str_replace(" ", "", $product->price_size["USD"]) }}"
+                                 data-price-try="{{ (int) str_replace(" ", "", $product->price_size["TRY"]) }}"
                             >
-                                {{ $product->price_size["EUR"] }} €
+                                {{ (int) str_replace(" ", "", $product->price_size["EUR"]) }} €
                             </div>
 
                         </div>
@@ -1696,16 +1696,16 @@
                                                         {{ $object->building }}
                                                     </div>
                                                     <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} €</span>
-                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }} $</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span></span>
+                                                        <span data-exchange="eur" class="valute active">{{ (int) str_replace(" ", "", $object->price->EUR) }} €</span>
+                                                        <span data-exchange="usd" class="valute">{{ (int) str_replace(" ", "", $object->price->USD) }} $</span>
+                                                        <span data-exchange="rub" class="valute">{{ (int) str_replace(" ", "", $object->price->TRY) }} ₽</span>
+                                                        <span data-exchange="try" class="valute lira">{{ (int) str_replace(" ", "", $object->price->RUB) }} <span class="lira" style="display:inline-block;">₺</span></span>
                                                     </div>
                                                     <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} € / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }} $ / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} ₽ / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} <span class="lira" style="display:inline-block;">₺</span> / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="eur" class="valute active">{{ (int) str_replace(" ", "", $object->price->EUR) }} € / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="usd" class="valute">{{ (int) str_replace(" ", "", $object->price->USD) }} $ / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ (int) str_replace(" ", "", $object->price->TRY) }} ₽ / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ (int) str_replace(" ", "", $object->price->RUB) }} <span class="lira" style="display:inline-block;">₺</span> / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
@@ -2498,7 +2498,7 @@
                 this.classList.toggle("active"), document.querySelector(".contact__phone-dropdown").classList.toggle("active")
 
             }),
-            
+
             const swiperObject = new Swiper(".objects__swiper", {
                 slidesPerView: 4,
                 spaceBetween: 20,

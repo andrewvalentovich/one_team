@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ExchangeRate;
 use App\Models\Option;
+use App\Services\CurrencyService;
 use App\Services\PreviewImageService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,17 +16,16 @@ use App\Models\PhotoTable;
 use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
-    private $previewImage;
+    private $previewImageService;
+    private $currencyService;
 
-    public function __construct(PreviewImageService $service)
+    public function __construct(PreviewImageService $service, CurrencyService $currency)
     {
-        $this->previewImage = $service;
+        $this->previewImageService = $service;
+        $this->currencyService = $currency;
     }
 
     public function all_product($id)
@@ -77,7 +77,7 @@ class ProductController extends Controller
         for($i = 0; $i < $request->objects_count; $i++) {
             $objects[$i]['id'] = $request['add_id'.$i];
             $objects[$i]['building'] = $request['add_building'.$i];
-            $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['price'] = $this->currencyService->convertPriceToEur($request['add_price'.$i], $request['add_price_code'.$i]);
             $objects[$i]['price_code'] = $request['add_price_code'.$i];
             $objects[$i]['size'] = $request['add_size'.$i];
             $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
@@ -97,7 +97,7 @@ class ProductController extends Controller
             'sale_or_rent' => $request->sale_or_rent,
             'country_id' => $request->country_id,
             'name' => $request->name,
-            'price'=> $request->price,
+            'price'=> $this->currencyService->convertPriceToEur($request->price, $request->price_code),
             'price_code'=> $request->price_code,
             'size' => $request->size,
             'size_home' => $request->size_home,
@@ -157,7 +157,7 @@ class ProductController extends Controller
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $create->id,
                     'photo' => $fileName,
-                    'preview' => $this->previewImage->update($fileName),
+                    'preview' => $this->previewImageService->update($fileName),
                     'category_id' => (isset($request->photo_categories) && $request->photo_categories["new_".$key] > 0) ? $request->photo_categories["new_".$key] : null
                 ]);
             }
@@ -172,9 +172,21 @@ class ProductController extends Controller
 
 
 
-    public function single_page_product($id){
-
+    public function single_page_product($id)
+    {
+        // Получаем элемент
         $get = Product::where('id', $id)->first();
+
+        // Выводим корректную цену в соответствии с указанной валютой
+        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
+
+        // Выводим корректную цену в соответствии с указанной валютой в планировках
+        $objects = json_decode($get->objects);
+        foreach ($objects as $key => $object) {
+            $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+        }
+        $get->objects = json_encode($objects);
+        unset($objects);
 
         if ($get == null){
             return redirect()->back();
@@ -185,7 +197,13 @@ class ProductController extends Controller
         $get_new_category = Peculiarities::whereNotIn('id', $get->ProductCategory->pluck('peculiarities_id'))->where('type','Особенности')->get();
         $categorys =  Peculiarities::get();
         $options =  Option::all();
-        $exchanges =  ExchangeRate::all();
+        $exchanges = [];
+
+        foreach (ExchangeRate::all() as $exchange) {
+            $exchanges[] = $exchange->relative;
+        }
+        $exchanges[] = "RUB";
+
         $photo_categories = \App\Models\PhotoCategory::all();
 
         $get_old_category = ProductCategory::where('product_id', $get->id)->where('type', 'Особенности')->get();
@@ -227,7 +245,7 @@ class ProductController extends Controller
         for($i = 0; $i < $request->objects_count; $i++) {
             $objects[$i]['id'] = $request['add_id'.$i];
             $objects[$i]['building'] = $request['add_building'.$i];
-            $objects[$i]['price'] = $request['add_price'.$i];
+            $objects[$i]['price'] = $this->currencyService->convertPriceToEur($request['add_price'.$i], $request['add_price_code'.$i]);
             $objects[$i]['price_code'] = $request['add_price_code'.$i];
             $objects[$i]['size'] = $request['add_size'.$i];
             $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
@@ -249,7 +267,7 @@ class ProductController extends Controller
             'sale_or_rent' => $request->sale_or_rent,
             'country_id' => $request->country_id,
             'name' => $request->name,
-            'price'=> $request->price,
+            'price'=> $this->currencyService->convertPriceToEur($request->price, $request->price_code),
             'price_code'=> $request->price_code,
             'size' => $request->size,
             'size_home' => $request->size_home,
@@ -307,7 +325,7 @@ class ProductController extends Controller
                     'parent_model'=> '\App\Models\Product',
                     'parent_id' => $request->product_id,
                     'photo' => $fileName,
-                    'preview' => $this->previewImage->update($fileName),
+                    'preview' => $this->previewImageService->update($fileName),
                     'category_id' => $request->photo_categories["new_".$key] > 0 ? $request->photo_categories["new_".$key] : null
                 ]);
             }

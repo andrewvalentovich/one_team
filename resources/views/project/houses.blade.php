@@ -1424,7 +1424,8 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            if (cityElement.layouts_count > 1) {
+            console.log("layouts = " + cityElement.layouts_count);
+            if (cityElement.layouts_count > 0) {
                 priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.min_price.EUR}`;
             } else {
                 priceDiv.textContent = `${cityElement.price.EUR}`;
@@ -1688,7 +1689,7 @@ function P(e) {
         })
 
         //цена в попапе
-        if (currentHouse.min_price !== null) {
+        if (currentHouse.layouts_count && currentHouse.layouts_count > 0) {
             Object.keys(currentHouse.min_price).forEach(function (currencyCode, price) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
                 const spanPriceBlock = currencyCodePrice.querySelector('span')
