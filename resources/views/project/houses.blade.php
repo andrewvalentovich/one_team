@@ -2451,7 +2451,7 @@ function P(e) {
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
                     setTimeout(() => {
                         canLoadData = true;
-                    }, 3000);
+                    }, 500);
                 }
             }
         }
