@@ -62,7 +62,6 @@ class CounrtryController extends Controller
 
                         // Присваиваем объект временной переменой
                         $objects[] = $object;
-
                         // Увеличиваем индекс
                         $i++;
                     }

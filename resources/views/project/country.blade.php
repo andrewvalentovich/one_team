@@ -1235,23 +1235,14 @@
                                             </span>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
                             <div class="object__id">
-
                                 ID: {{$product->id}}
-
                             </div>
-
                             <div class="place__address">
-
                                 {{$product->address}}
-
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
-
                             </div>
                             <div class="place__square place__square_country"
                                  data-price-rub="{{ $product->price_size["RUB"] }}"
@@ -1261,9 +1252,7 @@
                             >
                                 {{ $product->price_size["EUR"] }}
                             </div>
-
                         </div>
-
                         <div class="place__buy">
 
                             <div class="place__buy-btn" data_id="{{$product->id}}">
@@ -1713,10 +1702,10 @@
                                                         <span data-exchange="try" class="valute lira">{{ $object->price->RUB }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="eur" class="valute active">{{ $object->price_size->EUR }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="usd" class="valute">{{ $object->price_size->USD }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price_size->TRY }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price_size->RUB }} / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
