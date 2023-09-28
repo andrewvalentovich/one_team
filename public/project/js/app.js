@@ -198,20 +198,7 @@ async function getData() {
 
         }
 
-    }), document.querySelectorAll(".search-nav__rooms-title").length && (document.querySelector(".search-nav__rooms-title").onclick = function () {
-
-        document.querySelector(".search-nav__rooms").classList.toggle("active"), document.querySelector(".search-nav__rooms-dropdown").classList.toggle("active")
-
-    }), document.querySelectorAll(".search-nav__more-title").length && (document.querySelector(".search-nav__more-title").onclick = function () {
-
-        window.innerWidth > 899 && (document.querySelector(".search-nav__more").classList.toggle("active"), document.querySelector(".search-nav__more-dropdown").classList.toggle("active")), window.innerWidth <= 899 && document.querySelector(".search-w").classList.toggle("active")
-
-    }), document.querySelectorAll(".search-w__close").length && (document.querySelector(".search-w__close").onclick = function () {
-
-        window.innerWidth <= 899 && document.querySelector(".search-w").classList.remove("active")
-
-    });
-
+    })
     let n = document.querySelectorAll(".search-nav__rooms-dropdown-bedrooms-button");
 
     for (let t = 0; t < n.length; t++) n[t].addEventListener("click", (function (o) {
@@ -244,31 +231,7 @@ async function getData() {
 
     }));
 
-    document.querySelectorAll(".search-nav__types-title").length && (document.querySelector(".search-nav__types-title").onclick = function () {
-
-        document.querySelector(".search-nav__types").classList.toggle("active"), document.querySelector(".search-nav__types-dropdown").classList.toggle("active")
-
-    }), document.querySelectorAll(".search-nav__price-title").length && (document.querySelector(".search-nav__price-title").onclick = function () {
-
-        document.querySelector(".search-nav__price").classList.toggle("active"), document.querySelector(".search-nav__price-dropdown").classList.toggle("active")
-
-    });
-
-    let r = document.querySelectorAll(".search-nav__price-currency-item");
-    // console.log('r',r)
-    // if(r)
-    // for (let t = 0; t < s.length; t++) r[t].addEventListener("click", (function (o) {
-
-    //     e(r), r[t].classList.add("active")
-
-    // }));
-
-
-    document.querySelectorAll(".search-nav__price-title").length && (document.querySelector(".search-nav__price-title").onclick = function () {
-
-        document.querySelector(".search-nav__price").classList.toggle("active"), document.querySelector(".search-nav__price-dropdown").classList.toggle("active")
-
-    }), document.querySelector(".city-col__filter") && (document.querySelector(".city-col__filter").onclick = function () {
+     document.querySelector(".city-col__filter") && (document.querySelector(".city-col__filter").onclick = function () {
 
         this.classList.toggle("active"), document.querySelector(".city-col__filter-list").classList.toggle("active")
 
@@ -1224,4 +1187,20 @@ if(document.querySelectorAll('.object__photo-popup-close').length) {
         if(target.classList.contains('object__photo'))
         objectChemePopup.classList.remove('active')
     })
+}
+
+
+if(document.querySelectorAll('.search-nav__more').length) {
+    const navMore = document.querySelector('.search-nav__more')
+    const searchW = document.querySelector('.search-w')
+    const searchWClose = document.querySelector('.search-w__close')
+    navMore.addEventListener('click', function() {
+        if(window.innerWidth < 900) {
+            searchW.classList.add('active')
+        }
+    })
+    searchWClose.addEventListener('click', function() {
+        searchW.classList.remove('active')
+    })
+    
 }

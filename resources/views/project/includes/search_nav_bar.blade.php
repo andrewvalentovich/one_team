@@ -13,7 +13,7 @@
     }
     /*.search-nav__item-dropdown {*/
     /*    padding: 26px 20px 29px 29px;*/
-    /*    width: 250px;*/
+    /*    min-width: 100%;*/
     /*    border-radius: 0px 5px 5px 5px;*/
     /*}*/
     /*.search-nav__list-item-title.search-nav__find-title {*/
@@ -30,7 +30,7 @@
                     <input name="country_id" type="hidden" value="">
                     <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
 
-            width: 250px;
+            min-width: 100%;
 
             border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__countries-list"></div>
@@ -47,10 +47,8 @@
                     <div class="search-nav__list-item-title city_select dropdown__title">{{ __('Регионы') }}</div>
                     <input name="city_id" type="hidden" value="">
                     <div class="search-nav__item-dropdown" style="   padding: 26px 20px 29px 29px;
-
-            width: 250px;
-
-            border-radius: 0px 5px 5px 5px;">
+                        min-width: 100%;
+                        border-radius: 0px 5px 5px 5px;">
                         <div class="search-nav__cities-list"></div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -486,10 +484,10 @@
         }
     });
 
-    $('.search-w__close').click(function () {
-        $('.search-nav__list-item_b').removeClass('active');
-        $('.search-nav__more-dropdown').removeClass('active');
-    });
+    // $('.search-w__close').click(function () {
+    //     $('.search-nav__list-item_b').removeClass('active');
+    //     $('.search-nav__more-dropdown').removeClass('active');
+    // });
 
     // $(document).ready(function() {
     //     $('.search-nav__list-item, .search-nav__price, .search-nav__list-item_b, .search-nav__list-item_arrow').click(function() {
@@ -501,26 +499,6 @@
     //     });
     // });
 
-    //open dropdown
-    if(document.querySelectorAll('.dropdown').length) {
-        const dropdownTitle = document.querySelectorAll('.dropdown__title')
-        for(let i = 0; i < dropdownTitle.length; i++) {
-            dropdownTitle[i].onclick = function(e) {
-                const dropwdown = dropdownTitle[i].closest('.dropdown')
-                dropwdown.classList.toggle('active')
-            }
-        }
-
-        const dropdownSelector = document.querySelectorAll('.dropdown__selector')
-        for(let i = 0; i < dropdownSelector.length; i++) {
-            dropdownSelector[i].onclick = function(e) {
-                const dropwdown = dropdownSelector[i].closest('.dropdown')
-                const dropdownTitle = dropwdown.querySelector('.dropdown__title')
-                dropdownTitle.innerHTML = this.innerHTML
-                dropwdown.classList.toggle('active')
-            }
-        }
-    }
 
     $(document).ready(function() {
         $(".close-dropdown").each(function() {

@@ -987,15 +987,15 @@
 
 
 
-    $('.search-w__close').click(function () {
+    // $('.search-w__close').click(function () {
 
-        $('.search-nav__list-item_b').removeClass('active');
+    //     $('.search-nav__list-item_b').removeClass('active');
 
-        $('.search-nav__more-dropdown').removeClass('active');
+    //     $('.search-nav__more-dropdown').removeClass('active');
 
 
 
-    });
+    // });
 
 
 
@@ -1202,53 +1202,6 @@
     //     });
 
     // });
-
-    //open dropdown
-
-    if(document.querySelectorAll('.dropdown').length) {
-
-
-
-        const dropdownTitle = document.querySelectorAll('.dropdown__title')
-
-        for(let i = 0; i < dropdownTitle.length; i++) {
-
-            dropdownTitle[i].onclick = function(e) {
-
-                const dropwdown = dropdownTitle[i].closest('.dropdown')
-
-                dropwdown.classList.toggle('active')
-
-            }
-
-        }
-
-
-
-
-
-        const dropdownSelector = document.querySelectorAll('.dropdown__selector')
-
-        for(let i = 0; i < dropdownSelector.length; i++) {
-
-            dropdownSelector[i].onclick = function(e) {
-
-                const dropwdown = dropdownSelector[i].closest('.dropdown')
-
-                const dropdownTitle = dropwdown.querySelector('.dropdown__title')
-
-                dropdownTitle.innerHTML = this.innerHTML
-
-                dropwdown.classList.toggle('active')
-
-            }
-
-        }
-
-    }
-
-
-
     $(".search-nav__price-currency-item").each(function(index) {
 
 

@@ -1557,7 +1557,9 @@ body {
   position: relative;
   padding: 10px 0px;
 }
-
+.header__nav-item:hover .header__nav-title{
+  color: #508cfa;
+}
 .header__nav-item:hover .header__nav-item-dropdown {
   display: block;
 }
@@ -3601,6 +3603,19 @@ body.scroll_fixed {
   color: #508cfa;
 }
 
+.search-nav__list-item:hover .search-nav__list-item-title{
+  border: 1px solid #e3eeff;
+  padding: 12px 0px 10px 18px;
+}
+
+.search-nav__list-item:hover .search-nav__item-dropdown{
+  display: block;
+}
+
+.search-nav__list-item:hover.search-nav__list-item_arrow::after {
+  transform: rotate(0deg) !important;
+}
+
 .search-nav__place-title {
   border-radius: 5px 0px 0px 5px;
   font-family: "Geometria";
@@ -3714,7 +3729,7 @@ body.scroll_fixed {
   border: 1px solid #508cfa;
   display: none;
   position: absolute;
-  top: 45px;
+  top: 39px;
   z-index: 6;
   max-height: 350px;
   overflow: auto;
@@ -3726,7 +3741,6 @@ body.scroll_fixed {
 
 .search-nav__rooms-dropdown {
   width: 358px;
-  left: -143px;
   padding-top: 17px;
   padding-left: 19px;
   padding-right: 16px;
@@ -6322,6 +6336,12 @@ body.scroll_fixed {
   transition: .2s;
   position: absolute;
   cursor: pointer;
+}
+
+@media screen {
+.close-dropdown {
+  display: none;
+}
 }
 .close-dropdown:hover {
   transform: scale(1.1);
