@@ -4,6 +4,7 @@
 /public/uploads
 /public/hot
 /public/storage
+/public/*.html
 /storage/*.key
 /vendor
 /tmp
