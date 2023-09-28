@@ -4111,6 +4111,7 @@ body.scroll_fixed {
   height: 100vh;
   overflow: auto;
   display: none;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .search-w.active {
