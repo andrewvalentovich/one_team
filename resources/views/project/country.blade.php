@@ -1182,7 +1182,7 @@
                             <div class="place__price place__price_country">
                                 @if (is_countable(json_decode($product->objects)) && isset($product->min_price))
                                     <div
-                                        class="place__price-value"
+                                        class="place__price-value lira"
                                         data-price-rub="{{ __("от") . " " . $product->min_price["RUB"] }}"
                                         data-price-eur="{{ __("от") . " " . $product->min_price["EUR"] }}"
                                         data-price-usd="{{ __("от") . " " . $product->min_price["USD"] }}"
@@ -1191,7 +1191,7 @@
                                     {{ __("от") . " " . $product->min_price["EUR"] }}
                                 @else
                                     <div
-                                        class="place__price-value"
+                                        class="place__price-value lira"
                                         data-price-rub="{{ $product->price["RUB"] }}"
                                         data-price-eur="{{ $product->price["EUR"] }}"
                                         data-price-usd="{{ $product->price["USD"] }}"
@@ -1244,7 +1244,7 @@
                                 {{$product->address}}
     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                             </div>
-                            <div class="place__square place__square_country"
+                            <div class="place__square place__square_country lira"
                                  data-price-rub="{{ $product->price_size["RUB"] }}"
                                  data-price-eur="{{ $product->price_size["EUR"] }}"
                                  data-price-usd="{{ $product->price_size["USD"] }}"
@@ -1698,14 +1698,14 @@
                                                     <div class="kompleks__layout-price" bis_skin_checked="1">
                                                         <span data-exchange="eur" class="valute active">{{ $object->price->EUR }}</span>
                                                         <span data-exchange="usd" class="valute">{{ $object->price->USD }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->TRY }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price->RUB }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price->RUB }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price->TRY }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-price-meter"bis_skin_checked="1">
                                                         <span data-exchange="eur" class="valute active">{{ $object->price_size->EUR }} / {{ __('кв.м') }}</span>
                                                         <span data-exchange="usd" class="valute">{{ $object->price_size->USD }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price_size->TRY }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price_size->RUB }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $object->price_size->RUB }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $object->price_size->TRY }} / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
                                                         {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}

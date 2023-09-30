@@ -1344,7 +1344,6 @@ function P(e) {
     }
 
     function setCityItem(data, clearList) {
-        console.log('объекты',data)
         const cityList = document.querySelector('.city-col__list')
         if(clearList) cityList.innerHTML = ''
         // Удаление предыдущего экземпляра Swiper, если он есть
@@ -1501,6 +1500,25 @@ function P(e) {
             scrollbar: {
                 el: ".city__scrollbar",
                 hide: true
+            }
+        });
+        addHoverMouseSwiper(previousSwiperInstance)
+    }
+
+    //свайп при ховере мышки
+    function addHoverMouseSwiper (swipers) {
+        swipers.forEach(swiper => {
+            const slidesLength =swiper.slides.length
+            const width = 1 / slidesLength * 100
+            for(let i = 0; i < slidesLength; i++) {
+                let newDiv = document.createElement("i");
+                swiper.el.append(newDiv)
+                newDiv.style.width = width + '%'
+                newDiv.style.left = width * i + '%'
+                console.log(newDiv)
+                newDiv.addEventListener('mouseover', function() {
+                    swiper.slideTo(i, 400)
+                })
             }
         });
     }
@@ -1781,6 +1799,13 @@ function P(e) {
                 center: [currentHouse.lat, currentHouse.long],
                 zoom: 10,
             });
+            placeMap.controls.remove('geolocationControl'); // удаляем геолокацию
+            placeMap.controls.remove('searchControl'); // удаляем поиск
+            // placeMap.controls.remove('trafficControl'); // удаляем контроль трафика
+            // placeMap.controls.remove('typeSelector'); // удаляем тип
+            // placeMap.controls.remove('fullscreenControl'); // удаляем кнопку перехода в полноэкранный режим
+            // placeMap.controls.remove('zoomControl'); // удаляем контрол зуммирования
+            // placeMap.controls.remove('rulerControl'); // удаляем контрол правил
             let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
             placeMap.geoObjects.add(placemark);
         });
@@ -2644,15 +2669,17 @@ function P(e) {
                 }
                 locationsCity.push({
                     coordinates: [coordinate.lat, coordinate.long],
-                    balloonContent: `<div class="balloon-city" id="${mark.id}">
-                                        <div class="balloon-city__text">
-                                            <div class="balloon-city__price">${mark.price.EUR}</div>
-                                            ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
-                                            <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
-                                            <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
-                                            <div class="balloon-city__square">${mark.kv} ${kvm}</div>
+                    balloonContent: `<div class="balloon-city-w">
+                                        <div class="balloon-city" id="${mark.id}">
+                                            <div class="balloon-city__text">
+                                                <div class="balloon-city__price">${mark.price.EUR}</div>
+                                                ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
+                                                <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
+                                                <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
+                                                <div class="balloon-city__square">${mark.kv} ${kvm}</div>
+                                            </div>
+                                            <div class="balloon-city__img"> <img src="${mark.image}"></div>
                                         </div>
-                                        <div class="balloon-city__img"> <img src="${mark.image}"></div>
                                     </div>`,
                     city_id: mark.id
                 });
@@ -2744,6 +2771,9 @@ function P(e) {
                         }
                     }, 0);
                 });
+                placemark.events.add('mouseleave', function (e) {
+                    console.log(e.originalEvent.target)
+                })
 
             });
 
