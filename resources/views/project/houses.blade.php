@@ -962,15 +962,17 @@
             list = 0
         }
         // фильтр открытие
-        if(document.querySelectorAll('.search-nav__list-item').length) {
-            const filterItem = document.querySelectorAll('.search-nav__list-item')
+        if(document.querySelectorAll('.search-nav__list-item-title').length) {
+            const filterItem = document.querySelectorAll('.search-nav__list-item-title')
+            const selectors = document.querySelectorAll('.search-nav__list-item')
             filterItem.forEach(selector => {
                 selector.addEventListener('click', function() {
-                    if(selector.classList.contains('active')) {
-                        selector.classList.remove('active')
+                    const secectorContainer = selector.closest('.search-nav__list-item')
+                    if(secectorContainer.classList.contains('active')) {
+                        secectorContainer.classList.remove('active')
                     } else {
-                        changerActive(filterItem)
-                        selector.classList.add('active')
+                        changerActive(selectors)
+                        secectorContainer.classList.add('active')
                     }
                 })
             });
