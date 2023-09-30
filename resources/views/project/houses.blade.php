@@ -2842,6 +2842,7 @@ function P(e) {
                 currentPage = 1
             });
 
+            mapCountry.container.fitToViewport()
 
             // ymaps.geocode(center).then(function (res) {
             //     var firstGeoObject = res.geoObjects.get(0);
