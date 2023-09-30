@@ -1174,7 +1174,25 @@ window.addEventListener('resize', () => {
 // We execute the same script as before
     vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
+    if (deviceWidth.matches) {
+        setHeight()
+    }
 });
+
+// define a function that sets min-height of my-element to window.innerHeight:
+
+const setHeight = () => {
+    document.getElementById("map_city").style.minHeight = window.innerHeight + "px"
+};
+
+// define mobile screen size:
+
+let deviceWidth = window.matchMedia("(max-width: 1024px)");
+
+if (deviceWidth.matches) {
+    setHeight()
+}
+
 
 //открытие dropdown в мобильном меню
 const headerMobileBtn = document.querySelectorAll('.header-m__item-btn')
