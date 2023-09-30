@@ -2524,7 +2524,8 @@ function P(e) {
                 center: [<?php echo $country->lat . ',' . $country->long ?>],
                 zoom: 6,
                 controls: [],
-                behaviors: ["default", "scrollZoom"]
+                behaviors: ["default", "scrollZoom"],
+                autoFitToViewport: 'always'
             }, {
                 searchControlProvider: "yandex#search"
             });
