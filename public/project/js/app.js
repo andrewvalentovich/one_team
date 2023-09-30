@@ -1174,9 +1174,7 @@ window.addEventListener('resize', () => {
 // We execute the same script as before
     vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    console.log(vh)
 });
-
 
 //открытие dropdown в мобильном меню
 const headerMobileBtn = document.querySelectorAll('.header-m__item-btn')
