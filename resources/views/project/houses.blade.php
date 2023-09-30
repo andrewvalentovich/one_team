@@ -2560,6 +2560,7 @@ function P(e) {
                 checkZoomRange: true,
             }).then(function() {
                 // Код выполнится после установки границ
+                mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
             }, this);
@@ -2844,7 +2845,6 @@ function P(e) {
             });
             mapCountry.events.add('boundschange', function(e){
                 if (e.get('newZoom') !== e.get('oldZoom')) {
-                    console.log('zoomchange')
                     mapCountry.container.fitToViewport()
                 }
             })
