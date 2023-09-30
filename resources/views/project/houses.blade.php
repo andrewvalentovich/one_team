@@ -2841,8 +2841,12 @@ function P(e) {
                 currentCoordinateMapRight = bottom_right
                 currentPage = 1
             });
-
-            mapCountry.container.fitToViewport()
+            mapCountry.events.add('boundschange', function(e){
+                if (e.get('newZoom') !== e.get('oldZoom')) {
+                    console.log('zoomchange')
+                    mapCountry.container.fitToViewport()
+                }
+            })
 
             // ymaps.geocode(center).then(function (res) {
             //     var firstGeoObject = res.geoObjects.get(0);
