@@ -1529,19 +1529,22 @@ function P(e) {
 
     //свайп при ховере мышки
     function addHoverMouseSwiper (swipers) {
-        swipers.forEach(swiper => {
-            const slidesLength =swiper.slides.length
-            const width = 1 / slidesLength * 100
-            for(let i = 0; i < slidesLength; i++) {
-                let newDiv = document.createElement("i");
-                swiper.el.append(newDiv)
-                newDiv.style.width = width + '%'
-                newDiv.style.left = width * i + '%'
-                newDiv.addEventListener('mouseover', function() {
-                    swiper.slideTo(i, 400)
-                })
-            }
-        });
+        if(swipers) {
+            swipers.forEach(swiper => {
+                const slidesLength =swiper.slides.length
+                const width = 1 / slidesLength * 100
+                if(!swiper.el.querySelectorAll('i').length)
+                for(let i = 0; i < slidesLength; i++) {
+                    let newDiv = document.createElement("i");
+                    swiper.el.append(newDiv)
+                    newDiv.style.width = width + '%'
+                    newDiv.style.left = width * i + '%'
+                    newDiv.addEventListener('mouseover', function() {
+                        swiper.slideTo(i, 400)
+                    })
+                }
+            });
+        }
     }
 
     function setPagination(data) {
