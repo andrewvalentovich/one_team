@@ -170,7 +170,7 @@
                                 </div> -->
                             @endforeach
                         </div>
-                        <div class="place-w">
+                        <div class="place-w _country">
                             <div class="place-popup" data-exchange="EUR">
                                 <section class="object place">
                                     <div class="place__header">
@@ -953,7 +953,29 @@
 
 
 @section('scripts')
+
     <script>
+        function changerActive(list) {
+            for(let i = 0; i < list.length; i++) {
+                list[i].classList.remove('active')
+            }
+            list = 0
+        }
+        // фильтр открытие
+        if(document.querySelectorAll('.search-nav__list-item').length) {
+            const filterItem = document.querySelectorAll('.search-nav__list-item')
+            filterItem.forEach(selector => {
+                selector.addEventListener('click', function() {
+                    if(selector.classList.contains('active')) {
+                        selector.classList.remove('active')
+                    } else {
+                        changerActive(filterItem)
+                        selector.classList.add('active')
+                    }
+                })
+            });
+        }
+
         // Сортировка
         if ($.query.get('order_by').toString() === "price-desc") {
             $('.city-cil__filter-title').text(`{{ __('Сначала дешёвые') }}`);
@@ -1515,7 +1537,6 @@ function P(e) {
                 swiper.el.append(newDiv)
                 newDiv.style.width = width + '%'
                 newDiv.style.left = width * i + '%'
-                console.log(newDiv)
                 newDiv.addEventListener('mouseover', function() {
                     swiper.slideTo(i, 400)
                 })
@@ -2772,7 +2793,8 @@ function P(e) {
                     }, 0);
                 });
                 placemark.events.add('mouseleave', function (e) {
-                    console.log(e.originalEvent.target)
+                    var targetGeoObject = e.get('target'); // Получаем геообъект, на который наведен курсор мыши
+                    console.log(targetGeoObject);
                 })
 
             });
@@ -2846,6 +2868,10 @@ function P(e) {
             $('.place__exit').click(function () {
 
                 $(this).closest('.place-w').removeClass('active');
+                const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
+                const placeLeftCollage = document.querySelector('.place__left-collage')
+                placeLeftCollage.innerHtml = ''
+                placeTopImg.setAttribute('src', '')
                 $('.header-w').removeClass('fixed');
 
             });

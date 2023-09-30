@@ -2184,7 +2184,7 @@ body {
   position: relative;
 }
 
-.contact__form-phone::after {
+.contact__form-phone::before {
   content: "";
   position: absolute;
   background: url(../img/svg/form-arrow-2.svg);
@@ -2212,21 +2212,20 @@ body {
 }
 
 .contact__form-phone-country.active::after {
-  transform: rotate(0deg);
+  transform: rotate(180deg);
 }
 
 .contact__form-phone-country::after {
   content: "";
   position: absolute;
-  width: 9px;
-  height: 6px;
+  width: 18px;
+  height: 18px;
   display: block;
-  background: url(../img/check.png);
+  background: url(../img/svg/arrow-down.svg);
   background-size: cover;
   background-repeat: no-repeat;
-  top: 24px;
-  right: 19px;
-  transform: rotate(180deg);
+  top: 18px;
+  right: 14px;
   transition: 0.4s;
 }
 
@@ -2271,9 +2270,14 @@ body {
 
 .contact__form-phone-input {
   flex: 1;
-  padding-left: 21px;
+  padding-left: 6px;
   font-size: 16px;
   padding-right: 14px;
+}
+@media (max-width: 539px) {
+  .contact__form-phone-input {
+    padding-left: 7px;
+  }
 }
 
 .contact__form-politic {
@@ -3632,40 +3636,19 @@ body.scroll_fixed {
   padding: 11px 0px 10px 17px;
 }
 
+.search-nav__list-item.active .search-nav__list-item-title::after {
+  transform: rotate(180deg);
+}
+
+.search-nav__list-item.active .search-nav__item-dropdown  {
+  display: block;
+}
+
 .search-nav__list-item_b .search-nav__list-item-title {
   color: #508cfa;
 }
 
-.search-nav__list-item:hover .search-nav__list-item-title{
-  border-left: 2px solid #e3eeff;
-  border-top: 2px solid #e3eeff;
-  border-bottom: 2px solid #e3eeff;
-  padding: 11px 0px 10px 17px;
-}
-.search-nav__list-item:hover .search-nav__list-item-title::after {
-  transform: rotate(180deg);
-}
-.search-nav__list-item:hover .search-nav__item-dropdown{
-  display: block;
-}
 
-.search-nav__list-item:hover.search-nav__list-item_arrow::after {
-  transform: rotate(180deg) !important;
-}
-
-.search-nav__list-item.header_search_button:hover { 
-}
-
-.search-nav__list-item.header_search_button:hover .search-nav__list-item-title{
-  padding: 11px 0px 10px 0px;
-}
-.search-nav__place-title {
-  border-radius: 5px 0px 0px 5px;
-  font-family: "Geometria";
-  font-weight: 400;
-  color: #022a51;
-  width: 100%;
-}
 
 .search-nav__place-title::placeholder {
   color: #022a51;
@@ -3737,7 +3720,7 @@ body.scroll_fixed {
 }
 
 .search-nav__list-item_arrow.active::after {
-  transform: rotate(0deg);
+  transform: rotate(180deg);
 }
 
 .search-nav__list-item_arrow::after {
@@ -4468,7 +4451,7 @@ body.scroll_fixed {
     top: 19px;
   }
 
-  .contact__form-phone::after {
+  .contact__form-phone::before {
     background: url(../img/svg/form-arrow-4.svg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -4644,7 +4627,7 @@ body.scroll_fixed {
     top: 24px;
   }
 
-  .contact__form-phone::after {
+  .contact__form-phone::before {
     width: 187px;
     height: 67px;
     right: -192px;
@@ -5140,7 +5123,7 @@ body.scroll_fixed {
     flex: 0 0 32%;
   }
 
-  .contact__form-phone::after {
+  .contact__form-phone::before {
     background: url(../img/svg/form-arrow-5.svg);
     background-size: cover;
     background-repeat: no-repeat;
@@ -5789,7 +5772,7 @@ body.scroll_fixed {
     padding-right: 4px;
   }
 
-  .contact__form-phone::after {
+  .contact__form-phone::before {
     display: none;
   }
 
@@ -5800,7 +5783,7 @@ body.scroll_fixed {
   .contact__form-phone-input {
     text-overflow: ellipsis;
     padding-right: 0px;
-    padding-left: 0px;
+    padding-left: 15px;
   }
 
   .contact__form-politic {
@@ -6721,11 +6704,11 @@ body.scroll_fixed {
 }
 .field-phone .contact__form-phone-country::after {
   top: 50%;
-  transform: translate(0, -50%) rotate(180deg);
+  transform: translate(0, -50%) rotate(0deg);
 }
 
 .field-phone .contact__form-phone-country.active::after {
-  transform: translate(0, -50%) rotate(0deg);
+  transform: translate(0, -50%) rotate(180deg);
 }
 .kompleks__layout-img img {
   cursor: pointer;
@@ -7222,9 +7205,6 @@ body.scroll_fixed {
     border-top: 2px solid #508cfa;
     border-bottom: 2px solid #508cfa;
     padding: 12px 0px 9px 18px;
-  }
-  .search-nav__list-item._regions:hover.search-nav__list-item_arrow::after{
-    transform: rotate(180deg) !important;
   }
   .search-nav__list-item._regions .search-nav__item-dropdown.active {
     position: fixed;

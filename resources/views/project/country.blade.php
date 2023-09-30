@@ -2350,7 +2350,6 @@
 
 
 @section('scripts')
-
     <script>
         // Валюта
         var currency = {

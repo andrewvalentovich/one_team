@@ -1024,6 +1024,12 @@ document.addEventListener("click", function(event) {
       changerActive(closeOutBlock)
       changerActive(test)
     }
+
+    //закрытие блоков close-out по клику вне 
+    if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
+        let closeOutBlock = document.querySelectorAll('.close-out')
+        changerActive(closeOutBlock)
+        }
   }
 
 
@@ -1130,6 +1136,12 @@ if(document.querySelectorAll('.place-w').length) {
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
             }
+            if(target.classList.contains('_country')) {
+                const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
+                const placeLeftCollage = document.querySelector('.place__left-collage')
+                placeLeftCollage.innerHtml = ''
+                placeTopImg.setAttribute('src', '')
+            }
         })
     });
 }
@@ -1138,7 +1150,6 @@ if(document.querySelectorAll('.place__slider_p').length) {
     placeSlider.forEach(placeSlider => {
         placeSlider.addEventListener('click', function(e) {
             const target = e.target
-            console.log(target)
             if(target.classList.contains('place__slider_p-img')) {
                 placeSlider.classList.remove('active')
             }
@@ -1213,10 +1224,9 @@ if(document.querySelectorAll('._regions').length) {
             dropdown.classList.add('active')
         }
     })
+    if(searchWClose)
     searchWClose.addEventListener('click', function() {
         dropdown.classList.remove('active')
     })
 }
-
-
 

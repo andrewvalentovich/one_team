@@ -72,14 +72,14 @@
                     Номер телефона
                 </div> -->
                 <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
-                    <div class="contact__form-phone-country " bis_skin_checked="1">
+                    <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                         <div class="contact__form-country-item" bis_skin_checked="1">
                             <div class="contact__form-country-item-img" bis_skin_checked="1">
                                 <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
                             </div>
                         </div>
                     </div>
-                    <div class="contact__phone-dropdown " bis_skin_checked="1">
+                    <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
                         <div class="contact__phone-list" bis_skin_checked="1">
                             <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">

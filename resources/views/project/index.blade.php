@@ -98,7 +98,7 @@
                 <input type="hidden" name="contact_type" value="WhatsApp">
 
                 <div class="contact__form-phone input-wrapper">
-                    <div class="contact__form-phone-country">
+                    <div class="contact__form-phone-country close-out">
                         <div class="contact__form-country-item">
                             <div class="contact__form-country-item-img">
                                 <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
@@ -111,7 +111,7 @@
                     <input data-phone-pattern="+7 (___) ___-__-__" class="contact__form-phone-input contact__phone-input"
                            placeholder="{{__('Ваш телефон')}} {{__('в')}} whatsApp" name="phone">
 
-                    <div class="contact__phone-dropdown ">
+                    <div class="contact__phone-dropdown close-out">
                         <div class="contact__phone-list">
                             <div class="contact__phone-list-item" mask="+7 (___) ___-__-__">
                                 <div class="contact__phone-img">
@@ -274,14 +274,14 @@
                     {{__('Номер телефона')}}
                 </div>
                 <div class="field field-phone selection-phone">
-                    <div class="contact__form-phone-country ">
+                    <div class="contact__form-phone-country close-out">
                         <div class="contact__form-country-item">
                             <div class="contact__form-country-item-img">
                                 <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
                             </div>
                         </div>
                     </div>
-                    <div class="contact__phone-dropdown ">
+                    <div class="contact__phone-dropdown close-out">
                         <div class="contact__phone-list">
                             <div class="contact__phone-list-item" mask="+7 (___) ___-__-__">
                                 <div class="contact__phone-img">
