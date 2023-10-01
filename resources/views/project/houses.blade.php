@@ -1447,7 +1447,6 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            console.log("layouts = " + cityElement.layouts_count);
             if (cityElement.layouts_count > 0) {
                 priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.min_price.EUR}`;
             } else {
@@ -2561,7 +2560,6 @@ function P(e) {
             mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
-                // Код выполнится после установки границ
                 mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
@@ -2844,10 +2842,11 @@ function P(e) {
                 currentCoordinateMapLeft = top_left
                 currentCoordinateMapRight = bottom_right
                 currentPage = 1
+                mapCountry.container.fitToViewport()
             });
             mapCountry.events.add('boundschange', function(e){
                 if (e.get('newZoom') !== e.get('oldZoom')) {
-                    mapCountry.container.fitToViewport()
+                    // mapCountry.container.fitToViewport()
                 }
             })
 
