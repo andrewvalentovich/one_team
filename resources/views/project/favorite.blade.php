@@ -364,11 +364,10 @@
                         </div>
 
                     </div>
-
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (is_countable(json_decode($product->product->objects)) && isset($product->product->min_price))
+                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price))
                                     <div
                                         class="place__price-value"
                                         data-price-rub="{{ __("от") . " " . $product->product->min_price["RUB"] }}"
@@ -907,9 +906,13 @@
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                         <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
                                                             @if(isset($object->apartment_layout_image))
-                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
-                                                            @else
-                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
+                                                                @if(is_countable($object->apartment_layout_image))
+                                                                    @foreach($object->apartment_layout_image as $image)
+                                                                        <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $image) }}" alt="scheme">
+                                                                    @endforeach
+                                                                @else
+                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $object->apartment_layout_image) }}" alt="scheme">
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\CompanySelect;
 use App\Models\ExchangeRate;
 use App\Services\CurrencyService;
 use App\Services\SortService;
@@ -22,15 +23,19 @@ class CounrtryController extends Controller
         $this->sortService = $sortService;
     }
 
-    public function country($id){
-
+    public function country($id)
+    {
         $get = CountryAndCity::where('parent_id', $id)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-        $country = CountryAndCity::where('id', $id)->first();
+        $country = CountryAndCity::where('id', $id)->with('product_country')->with('cities.product_city')->first();
         $count = CountryAndCity::has('product_city')->get()->count();
+        $get_footer_link =  CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get();
 
         $citizenship_product = Product::where('country_id', $id)
             ->where('grajandstvo','Да')
             ->with('favorite')
+            ->with('photo')
+            ->with('ProductCategory')
+            ->with('peculiarities')
             ->has('photo')
             ->inRandomOrder()
             ->limit(10)
@@ -106,6 +111,6 @@ class CounrtryController extends Controller
                 return $row;
             });
 
-        return view('project.country', compact('get','country', 'citizenship_product', 'count'));
+        return view('project.country', compact('get','country', 'citizenship_product', 'count', 'get_footer_link'));
     }
 }

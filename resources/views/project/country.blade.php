@@ -66,7 +66,7 @@
 
         <div class="realty__subtitle">
 
-          {{__('Всего')}}  {{numbers_graduation($country->product_country->count())}}
+          {{__('Всего')}}  {{ numbers_graduation($country->product_country->count()) }}
 
         </div>
 
@@ -195,7 +195,7 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -322,7 +322,7 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -436,7 +436,7 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -537,7 +537,7 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -623,7 +623,7 @@
                 </div>
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -696,14 +696,14 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}"><img src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
-                            <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white"> {{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                            <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white">{{__('Вся')}} @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
                         </div>
                         <div class="realty__item-text-subtitle">
-                            <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
+                            <a href="{{route('houses.index', ['country_id' => $country->id])}}" style="color: white"> {{numbers_graduation($country->product_country->count())}} </a>
                         </div>
                     </div>
                 </div>
@@ -752,7 +752,7 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -790,7 +790,7 @@
             <div class="realty__right-col">
                 <div class="realty__item realty__item_s" >
                     <div class="realty__img_s">
-                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                        <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                     </div>
                     <div class="realty__item-text">
                         <div class="realty__item-text-title">
@@ -811,7 +811,7 @@
                 <div class="realty__left-col_1">
                     <div class="realty__item realty__item_b" >
                         <div class="realty__img_b">
-                            <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{asset('uploads/'.$country->cities[0]->photo)}}" alt="All-Turkey"></a>
+                            <a href="{{route('houses.index', ['country_id' => $country->id])}}">  <img  src="{{ asset('uploads/all-turkey-30.webp') }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
@@ -852,8 +852,7 @@
     <section class="objects-slider container">
 
         <div class="objects-slider__title title">
-
-            {{__("Объекты для получения гражданства :name за инвестиции" ,['name' =>$country->name ])}}
+            {{__("Объекты для получения гражданства :name за инвестиции" ,['name' => ($country->name == 'Турция') ? "Турции" : $country->name ])}}
 
 
         </div>
@@ -1018,8 +1017,11 @@
     </svg>
 
                     </div>
-                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
-                    <div class="place__header-favorite check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
+                    @php
+                        $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                        $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                    @endphp
+                    <div class="place__header-favorite check-favorites {{ count($fav) === 0 ? '' : 'active' }}" data_id="{{$product->id}}">
 
                         <div class="place__header-favorites-text">
 
@@ -1137,50 +1139,33 @@
                             <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
 
                         </a>
-                        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
-                        <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
-
+                        @php
+                            $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                            $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                        @endphp
+                        <div class="place__top-favorites check-favorites {{ count($fav) === 0 ? '' : 'active' }}" data_id="{{$product->id}}">
                             <div class="place__top-favorites-text">
-
                                 {{__('В избранное')}}
-
-
                             </div>
-
                             <div class="place__top-favorites-logo">
-
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
                                     version="1.1"
-
                                     style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                     viewBox="0 0 2.14 1.86"
-
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
-
-    <g id="Слой_x0020_1">
-        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-        <metadata id="CorelCorpID_0Corel-Layer"/>
-
-        <path
-
-            d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
-
-    </g>
-
-    </svg>
-
+                                    <g id="Слой_x0020_1">
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <path
+                                            d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
+                                    </g>
+                                </svg>
                             </div>
-
                         </div>
-
                     </div>
-
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (is_countable(json_decode($product->objects)) && isset($product->min_price))
+                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price))
                                     <div
                                         class="place__price-value lira"
                                         data-price-rub="{{ __("от") . " " . $product->min_price["RUB"] }}"
@@ -1560,75 +1545,50 @@
                                         {{$product->size}} {{__('кв.м')}}
                                         </div>
                                     </div>
-                                    <div class="object__rooms-item">
-                                        <div class="object__rooms-subtitle">
-                                            {{__('Спален')}}
+                                    @if(isset($product->peculiarities->where('type', 'Спальни')->first()->name))
+                                        <div class="object__rooms-item">
+                                            <div class="object__rooms-subtitle">
+                                                {{__('Спален')}}
+                                            </div>
+                                            <div class="object__rooms-value">
+                                                {{ str_replace('+','',$product->peculiarities->where('type', 'Спальни')->first()->name) }}
+                                            </div>
                                         </div>
-                                        <div class="object__rooms-value">
-                                        <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
-                                            {{str_replace('+','',$spalni->category->name)}}
-                                        </div>
-                                    </div>
+                                    @endif
+                                    @if(isset($product->peculiarities->where('type', 'Гостиные')->first()->name))
                                     <div class="object__rooms-item">
                                         <div class="object__rooms-subtitle">
                                             {{__('Гостиные')}}
                                         </div>
-
                                         <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->id)->first(); ?>
-
-                                            {{str_replace('+','',__($spalni->category->name))}}
-
+                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Гостиные')->first()->name) }}
                                         </div>
-
                                     </div>
-
+                                    @endif
+                                    @if(isset($product->peculiarities->where('type', 'Ванные')->first()->name))
                                     <div class="object__rooms-item">
-
                                         <div class="object__rooms-subtitle">
-
                                             {{__('Ванные')}}
-
-
                                         </div>
-
                                         <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->id)->first(); ?>
-
-                                            {{str_replace('+','', __($spalni->category->name))}}
-
+                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Ванные')->first()->name) }}
                                         </div>
-
                                     </div>
-
+                                    @endif
                                 </div>
-
                             </div>
                             @endif
 
                             <div class="place__location">
-
                                 <div class="place__location-title place__title">
-
                                     {{__('Расположение и инфраструктура')}}
-
-
                                 </div>
-
                                 <div class="place__location-info">
-
                                     @if(app()->getLocale() == 'en') <?php $product->disposition = $product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->disposition = $product->disposition_tr ?>  @endif
                             {{$product->disposition}}
-
                                 </div>
-
                                 <div class="place__location-map">
-
                                     <div class="">
-
-
 
     {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
 
@@ -1637,10 +1597,7 @@
 
 
                                         <script>
-
                                             product_id_is = <?php echo $product->id?>
-
-
 
                                             function createYandexMap(latitude, longitude) {
 
@@ -1718,9 +1675,13 @@
                                                 <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                     <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
                                                         @if(isset($object->apartment_layout_image))
-                                                            <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
-                                                        @else
-                                                            <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
+                                                            @if(is_countable($object->apartment_layout_image))
+                                                                @foreach($object->apartment_layout_image as $image)
+                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $image) }}" alt="scheme">
+                                                                @endforeach
+                                                            @else
+                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $object->apartment_layout_image) }}" alt="scheme">
+                                                            @endif
                                                         @endif
                                                     </div>
                                                 </div>
@@ -1912,127 +1873,73 @@
 
 
                             <div class="object__peculiarities">
-
                                 <div class="object__peculiarities-title place__title">
-
                                     {{__('Особенности')}}
-
-
                                 </div>
-
                                 <div class="object__peculiarities-content">
-                                    <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->id)->get() ?>
-                                    @foreach($osobenosty as $osob)
-                                    <div class="object__peculiarities-item">
-                                {{__($osob->category->name)}}
-                                    </div>
+                                    @if(!is_null($product->peculiarities->where('type', 'Особенности')))
+                                        @foreach($product->peculiarities->where('type', 'Особенности') as $osob)
+                                            <div class="object__peculiarities-item">
+                                                {{__($osob->name)}}
+                                            </div>
                                         @endforeach
+                                    @else
+                                        {{ __('Нет') }}
+                                    @endif
                                 </div>
                             </div>
 
                             <div class="object__description">
-
                                 <div class="object__description-title place__title">
-
                                     {{__('Описание')}}
-
-
                                 </div>
-
                                 <div class="object__description-text">
-
                                     @if(app()->getLocale() == 'en') <?php $product->description = $product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->description = $product->description_tr ?> @endif
                                     {{$product->description}}
-
                                 </div>
-
                             </div>
-
                             <div class="place__btns">
-
                                 <div class="place__btns-content">
-
                                     <div class="place__btns-item place__btns-send">
-
                                         {{__('Отправить заявку')}}
-
-
                                     </div>
-
                                     <div class="place__btns-item place__btns-call">
-
                                         <div class="place__btns-call-preview">
-
                                             <svg version="1.1" id="Capa_1"
-
                                                 xmlns="http://www.w3.org/2000/svg"
-
                                                 xmlns:xlink="http://www.w3.org/1999/xlink"
-
                                                 x="0px" y="0px"
-
                                                 width="32px" height="32px"
-
                                                 viewBox="0 0 477.156 477.156"
-
                                                 style="enable-background:new 0 0 477.156 477.156;"
-
                                                 xml:space="preserve">
-
-                    <g>
-
-                        <path d="M475.009,380.316l-2.375-7.156c-5.625-16.719-24.062-34.156-41-38.75l-62.688-17.125c-17-4.625-41.25,1.594-53.688,14.031
-
-                            l-22.688,22.688c-82.453-22.28-147.109-86.938-169.359-169.375L145.9,161.94c12.438-12.438,18.656-36.656,14.031-53.656
-
-                            l-17.094-62.719c-4.625-16.969-22.094-35.406-38.781-40.969L96.9,2.19c-16.719-5.563-40.563,0.063-53,12.5L9.962,48.659
-
-                            C3.899,54.69,0.024,71.94,0.024,72.003c-1.187,107.75,41.063,211.562,117.281,287.781
-
-                            c76.031,76.031,179.454,118.219,286.891,117.313c0.562,0,18.312-3.813,24.375-9.845l33.938-33.938
-
-                            C474.946,420.878,480.571,397.035,475.009,380.316z"/>
-
-                    </g>
-
-                </svg>
-
+                                                <g>
+                                                    <path d="M475.009,380.316l-2.375-7.156c-5.625-16.719-24.062-34.156-41-38.75l-62.688-17.125c-17-4.625-41.25,1.594-53.688,14.031
+                                                        l-22.688,22.688c-82.453-22.28-147.109-86.938-169.359-169.375L145.9,161.94c12.438-12.438,18.656-36.656,14.031-53.656
+                                                        l-17.094-62.719c-4.625-16.969-22.094-35.406-38.781-40.969L96.9,2.19c-16.719-5.563-40.563,0.063-53,12.5L9.962,48.659
+                                                        C3.899,54.69,0.024,71.94,0.024,72.003c-1.187,107.75,41.063,211.562,117.281,287.781
+                                                        c76.031,76.031,179.454,118.219,286.891,117.313c0.562,0,18.312-3.813,24.375-9.845l33.938-33.938
+                                                        C474.946,420.878,480.571,397.035,475.009,380.316z"/>
+                                                </g>
+                                            </svg>
                                         </div>
-
                                         <div class="place__btns-call-list">
-
                                             <div class="place__btns-call-item">
-
                                                 <svg xmlns="http://www.w3.org/2000/svg"
-
                                                     aria-label="Telegram" role="img"
-
                                                     viewBox="0 0 512 512">
-
                                                     <rect
-
                                                             width="512" height="512"
-
                                                             rx="15%"
-
                                                             fill="#37aee2"/>
-
                                                     <path fill="#c8daea"
-
                                                         d="M199 404c-11 0-10-4-13-14l-32-105 245-144"/>
-
                                                     <path fill="#a9c9dd"
-
                                                         d="M199 404c7 0 11-4 16-8l45-43-56-34"/>
-
                                                     <path fill="#f6fbfe"
-
                                                         d="M204 319l135 99c14 9 26 4 30-14l55-258c5-22-9-32-24-25L79 245c-21 8-21 21-4 26l83 26 190-121c9-5 17-3 11 4"/>
-
                                                 </svg>
-
                                             </div>
-
                                             <div class="place__btns-call-item">
 
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -2154,63 +2061,34 @@
                                         <div class="footer__nav">
 
                                             <div class="footer__nav-list">
-                                                <?php $get_footer_link =  \App\Models\CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get(); ?>
                                                 @foreach($get_footer_link as $link)
-
-
                                                         <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
                                                             {{__($link->name)}}
                                                         </a>
-
-
                                                 @endforeach
                                             </div>
-
                                         </div>
-
                                         <div class="footer__content">
-
                                             <a href="{{route('personal_data_processing_policy')}}" class="footer__subtitle">
-
                                                 {{__('Пользовательское соглашение при использовании сайта')}}
-
-
                                             </a>
-
                                             <a href="{{route('user_agreement_when_using_the_site')}}" class="footer__subtitle">
-
                                                 {{__('Политика обработки персональных данных')}}
-
-
                                             </a>
-
                                         </div>
-
                                         <div class="footer__bottom">
-
                                             <div class="footer__slogan">
-
                                                 © 2022 - {{\Illuminate\Support\Carbon::now()->year}} OneTeam
-
                                             </div>
-
                                         </div>
-
                                     </footer>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </section>
-
         <div class="place__exit">
             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"

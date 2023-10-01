@@ -125,7 +125,7 @@
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
                                         @foreach($categorys->where('type', 'Спальни')->where('name','!=','Неважно') as $osobenosti)
-                                            @if($get->spalni[0]->peculiarities_id == $osobenosti->id)
+                                            @if(isset($get->spalni[0]) && $get->spalni[0]->peculiarities_id == $osobenosti->id)
                                                 <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
                                             @else
                                                 <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
@@ -142,7 +142,7 @@
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
                                         @foreach($categorys->where('type', 'Ванные')->where('name','!=','Неважно') as $osobenosti)
-                                            @if($get->vanie[0]->peculiarities_id == $osobenosti->id)
+                                            @if(isset($get->vanie[0]) && $get->vanie[0]->peculiarities_id == $osobenosti->id)
                                                 <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
                                             @else
                                                 <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
@@ -159,7 +159,7 @@
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
                                         @foreach($categorys->where('type', 'Гостиные')->where('name','!=','Неважно') as $osobenosti)
-                                            @if($get->gostinnie[0]->peculiarities_id == $osobenosti->id)
+                                            @if(isset($get->gostinnie[0]) && $get->gostinnie[0]->peculiarities_id == $osobenosti->id)
                                                 <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
                                             @else
                                                 <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
@@ -345,7 +345,7 @@
                             <div class="card">
                                 <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
-                                    @if(isset($get->objects))
+                                    @if(!is_null(json_decode($get->objects)))
                                         @foreach(json_decode($get->objects) as $object)
                                             <div class='accordion' data-identificator='{{ $object->id }}' id='accordion{{ $object->id }}'>
                                                 <div class="card">
@@ -400,8 +400,22 @@
                                                                 <div class='form-group' bis_skin_checked='1'>
                                                                     <div class="form-main__label" for="add_apartment_layout_image">Прикрепить фотографию планировки</div>
                                                                         <label class="input-file">
-                                                                            <span class="input-file-text form-control files_text" type="text">{{ isset($object->apartment_layout_image) ? $object->apartment_layout_image : '' }}</span>
-                                                                            <input class="add_apartment_layout_image" type="file" value="" name="add_apartment_layout_image{{ $object->id }}">
+                                                                            @if(isset($object->apartment_layout_image))
+                                                                                @if(is_countable($object->apartment_layout_image))
+                                                                                    <span class="input-file-text form-control files_text" type="text">
+                                                                                        @foreach($object->apartment_layout_image as $image)
+                                                                                            @if(isset($image))
+                                                                                                {{ $loop->last ? $image : $image . ", " }}
+                                                                                            @endif
+                                                                                        @endforeach
+                                                                                    </span>
+                                                                                @else
+                                                                                    <span class="input-file-text form-control files_text" type="text">{{ isset($object->apartment_layout_image) ? $object->apartment_layout_image : '' }}</span>
+                                                                                @endif
+                                                                            @else
+                                                                                <span class="input-file-text form-control files_text" type="text"></span>
+                                                                            @endif
+                                                                            <input class="add_apartment_layout_image" type="file" value="" name="add_apartment_layout_image{{ $object->id }}[]" accept="image/*" multiple>
                                                                         </label>
                                                                     </div>
                                                                 <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $object->id }}'>Удалить квартиру</p>

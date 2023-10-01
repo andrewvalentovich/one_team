@@ -16,6 +16,7 @@ use App\Models\PhotoTable;
 use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -84,10 +85,18 @@ class ProductController extends Controller
             $objects[$i]['floor'] = $request['add_floor'.$i];
 
             // Добавление фотографий
-            if (isset($request['add_apartment_layout_image'.$i])){
-                $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' .$request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
-                $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
-                $objects[$i]['apartment_layout_image'] = $fileName;
+            if (isset($request['add_apartment_layout_image'.$i])) {
+                if (is_array($request['add_apartment_layout_image'.$i])) {
+                    foreach ($request['add_apartment_layout_image'.$i] as $image) {
+                        $fileName = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                        $filePath = $image->move('uploads', $fileName);
+                        $objects[$i]['apartment_layout_image'][] = $fileName;
+                    }
+                } else {
+                    $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' . $request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
+                    $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
+                    $objects[$i]['apartment_layout_image'][] = $fileName;
+                }
             }
         }
 
@@ -182,11 +191,13 @@ class ProductController extends Controller
 
         // Выводим корректную цену в соответствии с указанной валютой в планировках
         $objects = json_decode($get->objects);
-        foreach ($objects as $key => $object) {
-            $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+        if(!is_null($objects)) {
+            foreach ($objects as $key => $object) {
+                $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+            }
+            $get->objects = json_encode($objects);
+            unset($objects);
         }
-        $get->objects = json_encode($objects);
-        unset($objects);
 
         if ($get == null){
             return redirect()->back();
@@ -252,10 +263,18 @@ class ProductController extends Controller
             $objects[$i]['floor'] = $request['add_floor'.$i];
 
             // Добавление фотографий
-            if (isset($request['add_apartment_layout_image'.$i])){
-                $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' .$request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
-                $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
-                $objects[$i]['apartment_layout_image'] = $fileName;
+            if (isset($request['add_apartment_layout_image'.$i])) {
+                if (is_array($request['add_apartment_layout_image'.$i])) {
+                    foreach ($request['add_apartment_layout_image'.$i] as $image) {
+                        $fileName = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                        $filePath = $image->move('uploads', $fileName);
+                        $objects[$i]['apartment_layout_image'][] = $fileName;
+                    }
+                } else {
+                    $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' . $request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
+                    $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
+                    $objects[$i]['apartment_layout_image'][] = $fileName;
+                }
             } else {
                 $objects[$i]['apartment_layout_image'] = $json_objects[$i]->apartment_layout_image;
             }

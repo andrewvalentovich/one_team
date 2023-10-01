@@ -149,7 +149,7 @@ function getAccordion(id, exchange_rates) {
                         "                <div class=\"form-main__label\" for=\"add_apartment_layout_image\">Прикрепить фотографию планировки</div>\n" +
                         "                <label class=\"input-file\">\n" +
                         "                    <span class=\"input-file-text form-control files_text\" type=\"text\"></span>\n" +
-                        "                    <input class=\"add_apartment_layout_image\" type=\"file\" name=\"add_apartment_layout_image"+id+"\">\n" +
+                        "                    <input class=\"add_apartment_layout_image\" type=\"file\" name=\"add_apartment_layout_image"+id+"[]\" accept=\"image/*\"  multiple>\n" +
                         "                </label>"+
                         "</div>"+
                         "<p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='"+ id +"'>Удалить квартиру</p>"+
@@ -419,7 +419,7 @@ $('#update_product').on('submit',function(e) {
         contentType: false,
         success: function(response) {
             console.log('ress--------------',response)
-            console.log('option_id = ' + formData.get("option_id"))
+            console.log('option_id = ' + formData.get("option_id"));
             alert('Редактирование успешно завершено');
             window.location.replace(response.url);
         },
