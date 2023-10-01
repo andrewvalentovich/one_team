@@ -2564,8 +2564,8 @@ function P(e) {
                 // Сдвинем карту на 10 пикселей влево.
                 setTimeout(() => {
                     var position = mapCountry.getGlobalPixelCenter();
-                    mapCountry.setGlobalPixelCenter([ position[0] - 1000, position[1] ]);
-                }, 5000);
+                    mapCountry.setGlobalPixelCenter([ position[0] - 10, position[1] ]);
+                }, 100);
                 mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
