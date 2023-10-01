@@ -69,7 +69,7 @@ class SearchController extends Controller
             });
 
         $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
-
+        
         $data = [
             "countries" => $countries,
             "cities" => (isset($data['country_id'])) ? $regions->where('parent_id', $data['country_id'])->all() : $regions,

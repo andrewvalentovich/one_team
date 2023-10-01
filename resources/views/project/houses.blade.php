@@ -2344,6 +2344,7 @@ function P(e) {
                         // Выводим регионы при загрузке страницы
                         $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : "{{ __('Регионы') }}");
                         // Выводим страны в dropdown
+                        $('.search-nav__cities-list').empty();
                         $.each(data.cities, function (index, value) {
                             $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
                         });
