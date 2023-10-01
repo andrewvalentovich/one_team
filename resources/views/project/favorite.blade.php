@@ -364,11 +364,10 @@
                         </div>
 
                     </div>
-
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (is_countable(json_decode($product->product->objects)) && isset($product->product->min_price))
+                                @if (is_countable(json_decode($product->product->objects)) && count(json_decode($product->product->objects)) > 0 && isset($product->product->min_price))
                                     <div
                                         class="place__price-value"
                                         data-price-rub="{{ __("от") . " " . $product->product->min_price["RUB"] }}"

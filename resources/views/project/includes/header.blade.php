@@ -162,9 +162,8 @@
                     <a href="{{route('my_favorites')}}"><img src="{{asset('project/img/svg/favorites-2.svg')}}" alt="favorites"></a>
                 </div>
 
-                <?php $get_count = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count() ?>
-                <div class="header__top-favorites-value"  @if($get_count == 0) style="display: none" @endif>
-                    {{ isset($get_count) ? $get_count : "" }}
+                <div class="header__top-favorites-value"  @if($fav_count == 0) style="display: none" @endif>
+                    {{ isset($fav_count) ? $fav_count : "" }}
                 </div>
             </div>
         </div>
@@ -227,10 +226,10 @@
                         </div>
                         <div class="header__nav-item-dropdown header__about-dropdown">
                             <div class="header__about-list header__dropdown-list">
-                                @foreach($company_pages as $pages)
-                                <a href="{{route('company_page',$pages->id)}}" class="header__list-item header__about-list-item">
-                            {{__($pages->name)}}
-                                </a>
+                                @foreach($company_pages as $pages)v
+                                    <a href="{{route('company_page',$pages->id)}}" class="header__list-item header__about-list-item">
+                                        {{__($pages->name)}}
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -299,9 +298,8 @@
                             <a href="{{route('my_favorites')}}"><img src="{{asset('project/img/svg/favorites-2.svg')}}" alt="favorites"></a>
                         </div>
 
-                        <?php $get_count = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count() ?>
-                        <div class="header__top-favorites-value"  @if($get_count == 0) style="display: none" @endif>
-                            {{ isset($get_count) ? $get_count : "" }}
+                        <div class="header__top-favorites-value"  @if($fav_count == 0) style="display: none" @endif>
+                            {{ isset($fav_count) ? $fav_count : "" }}
                         </div>
                     </div>
                 </div>
