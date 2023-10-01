@@ -907,9 +907,13 @@
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                         <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
                                                             @if(isset($object->apartment_layout_image))
-                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/'.$object->apartment_layout_image) }}" alt="scheme">
-                                                            @else
-                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/') }}" alt="scheme">
+                                                                @if(is_countable($object->apartment_layout_image))
+                                                                    @foreach($object->apartment_layout_image as $image)
+                                                                        <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $image) }}" alt="scheme">
+                                                                    @endforeach
+                                                                @else
+                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $object->apartment_layout_image) }}" alt="scheme">
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>

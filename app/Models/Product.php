@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    // У objects image может быть массивом или текстовым полем, аккуратно!
     use HasFactory, Filterable;
     protected $guarded = [];
 
