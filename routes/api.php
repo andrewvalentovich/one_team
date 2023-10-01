@@ -26,7 +26,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     // Отдаются (все) параметры для фильтра
     Route::get('/houses/filter_params', [\App\Http\Controllers\API\SearchController::class, 'getParams'])->name('api.search.get.params');
     // Отдаётся объект для popup-карточки (например, в houses)
-    Route::get('/houses/one', [\App\Http\Controllers\API\HousesController::class, 'getOne'])->name('api.houses.get.one');
+    Route::get('/houses/simple', [\App\Http\Controllers\API\HousesController::class, 'getSimple'])->name('api.houses.get.simple');
 
     // Отдаются (все) параметры для фильтра
     Route::get('/photo_categories/filter_params', [\App\Http\Controllers\API\PhotoCategoriesController::class, 'getParams'])->name('api.photo_categories.get.params');

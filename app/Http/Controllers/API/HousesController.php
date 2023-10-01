@@ -146,7 +146,7 @@ class HousesController extends Controller
         return response()->json($houses);
     }
 
-    public function getOne(GetOneRequest $request)
+    public function getSimple(GetOneRequest $request)
     {
         $data = $request->validated();
         // Фильтр элементов
