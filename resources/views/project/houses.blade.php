@@ -1334,6 +1334,8 @@ function P(e) {
     let site_url = `{{config('app.url')}}`;
     let locationsCity = [];
     let houseData = {}
+    let objectsListSet = new Set()
+    let objectsListMap = new Map()
     let user_id = {{ isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time() }}
 
     const langSite = `{{ app()->getLocale() }}`
@@ -1367,6 +1369,18 @@ function P(e) {
         }
     }
 
+    function setListenersToOpenPopup() {
+        const cityColList = document.querySelector('.city-col__list')
+        console.log(cityColList)
+        cityColList.addEventListener('click', function(e) {
+            const houseCard = e.target.closest('.city-col__item');
+            console.log(houseCard)
+            if (!houseCard) return
+            const id = houseCard.getAttribute('data_id')
+            setNewPopupHouseData(id)
+        })
+    }
+    setListenersToOpenPopup()
     function setCityItem(data, clearList) {
         const cityList = document.querySelector('.city-col__list')
         if(clearList) cityList.innerHTML = ''
@@ -1525,13 +1539,14 @@ function P(e) {
                 hide: true
             }
         });
-        if(data.length !== 0)
-        addHoverMouseSwiper(previousSwiperInstance)
+        if(data.length !== 0) {
+            addHoverMouseSwiper(previousSwiperInstance)
+        }
     }
 
     //свайп при ховере мышки
     function addHoverMouseSwiper (swipers) {
-        if(swipers) {
+        if(swipers.length) {
             swipers.forEach(swiper => {
                 const slidesLength =swiper.slides.length
                 const width = 1 / slidesLength * 100
@@ -1648,15 +1663,15 @@ function P(e) {
         }
     }
 
-    function setListenersToOpenPopup() {
-        const houseItem = document.querySelectorAll('.city-col__item')
-        houseItem.forEach(houseCard => {
-            houseCard.addEventListener('click', function(e) {
-                const id = houseCard.getAttribute('data_id')
-                setNewPopupHouseData(id)
-            })
-        });
-    }
+    // function setListenersToOpenPopup() {
+    //     const houseItem = document.querySelectorAll('.city-col__item')
+    //     houseItem.forEach(houseCard => {
+    //         houseCard.addEventListener('click', function(e) {
+    //             const id = houseCard.getAttribute('data_id')
+    //             setNewPopupHouseData(id)
+    //         })
+    //     });
+    // }
 
     let placeMap = null;
     function setNewPopupHouseData(id) {
@@ -1669,9 +1684,9 @@ function P(e) {
         placeW.classList.add('active')
         $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
         $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
-
-        let currentHouse = houseData.data.find(obj => obj.id == id);
-
+        console.log(objectsListMap)
+        currentHouse = {...objectsListMap.get(id)} 
+        console.log(currentHouse)
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
         topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
 
@@ -1815,10 +1830,12 @@ function P(e) {
 
         //карта
         const currentMap = document.querySelector('.current-map')
+        const currentMapID = document.querySelector('#place-map')
         const div_id = 'place-map'
 
         if (placeMap) {
             placeMap.destroy(); // Уничтожаем текущую карту, если она существует
+            currentMapID.innerHTML = ''
         }
         ymaps.ready(function() {
             placeMap = new ymaps.Map(div_id, {
@@ -2241,11 +2258,13 @@ function P(e) {
         });
         locationsCity.forEach(function (location) {
             var placemark = new ymaps.Placemark(location.coordinates, {
-                balloonContent: location.balloonContent
+                balloonContent: location.balloonContent,
+                balloonAutoPan: false,
             }, {
                 balloonPanelMaxMapArea: 250000,
                 balloonShadow: false,
                 balloonLayout: t,
+                balloonAutoPan: false,
                 iconLayout: o,
                 balloonContentLayout: c,
                 hideIconOnBalloonOpen: false,
@@ -2464,6 +2483,12 @@ function P(e) {
                         maxPage = data.last_page
                         houseData.length = 0;
                         houseData = { ...data }
+                        data.data.forEach(object => {
+                            if (!objectsListSet.has(object.id)) {
+                                objectsListSet.add(object.id);
+                                objectsListMap.set(object.id, object);
+                            }
+                        });
                         checkFavorites(data.data)
                         let site_url = `{{config('app.url')}}`;
 
@@ -2474,7 +2499,7 @@ function P(e) {
                             setCityItem(data.data, false);
                         }
                         setCountObjectsPerPage()
-                        setListenersToOpenPopup();
+                        // setListenersToOpenPopup();
                         setListenersToAddfavorites();
                         setPagination(data);
                     },
