@@ -2560,6 +2560,9 @@ function P(e) {
             mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
+                // Сдвинем карту на 10 пикселей влево.
+                var position = mapCountry.getGlobalPixelCenter();
+                mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
                 mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
