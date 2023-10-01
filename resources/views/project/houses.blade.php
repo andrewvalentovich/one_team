@@ -2561,11 +2561,6 @@ function P(e) {
             mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                 checkZoomRange: true,
             }).then(function() {
-                // Сдвинем карту на 10 пикселей влево.
-                setTimeout(() => {
-                    var position = mapCountry.getGlobalPixelCenter();
-                    mapCountry.setGlobalPixelCenter([ position[0] - 10, position[1] ]);
-                }, 100);
                 mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
@@ -2862,6 +2857,21 @@ function P(e) {
             // });
 
         }
+        let moveWas = 0
+        document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
+            this.classList.remove("active");
+            document.querySelector(".city-col").classList.remove("active");
+            document.querySelector(".map_city__btn-changer").classList.add("active");
+            document.querySelector("#map_city").classList.add("show");
+            document.querySelector("#map_city").classList.add("map_city_active");
+            document.querySelector(".city__content").classList.add("city_map");
+            if(!moveWas) {
+                console.log('tesst')
+                var position = mapCountry.getGlobalPixelCenter();
+                mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
+                moveWas = 1
+            }
+        })
     }
 
 }

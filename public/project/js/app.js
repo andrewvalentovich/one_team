@@ -298,22 +298,10 @@ async function getData() {
 
     }));
 
-    document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
-        P(1 / 0);
-        this.classList.remove("active");
-        document.querySelector(".city-col").classList.remove("active");
-        document.querySelector(".map_city__btn-changer").classList.add("active");
-        document.querySelector("#map_city").classList.add("show");
-        document.querySelector("#map_city").classList.add("map_city_active");
-        document.querySelector(".city__content").classList.add("city_map");
-        // document.querySelector(".city__content").classList.add("city_map");
-
-
-    }), document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
+ document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
 
         this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
         document.querySelector("#map_city").classList.remove("show");
-
     }), document.querySelectorAll(".place__currency-preview").length && (document.querySelector(".place__currency-preview").onclick = function () {
         document.querySelector(".place__currency").classList.toggle("active")
 
