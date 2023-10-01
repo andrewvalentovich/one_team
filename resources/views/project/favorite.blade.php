@@ -2108,6 +2108,11 @@
         openPlacePopupBtn.forEach(blockBtn => {
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
+                url.searchParams.set('object_id', this.getAttribute('data_id'));
+                // Получение обновленного URL
+                var updatedUrl = url.toString();
+                // Обновление URL в адресной строке
+                window.history.replaceState({}, '', updatedUrl);
                 if(window.innerWidth < 1023)
                 header.classList.add('fixed')
             })
@@ -2128,7 +2133,12 @@
         $('.place__exit').click(function() {
 
             $(this).closest('.place-w').removeClass('active');
-
+            console.log('tes')
+            url.searchParams.delete('object_id');
+            // Получение обновленного URL
+            var updatedUrl = url.toString();
+            // Обновление URL в адресной строке
+            window.history.replaceState({}, '', updatedUrl);
         });
     }
     //открытие галереи обхекта со слайдером
@@ -2273,5 +2283,23 @@
 }
 </script>
     {{--    <script src="{{asset('project/js/app.js')}} "></script>--}}
+<script>
+// Получение текущего URL
+const currentUrl = window.location.href;
 
+// Создание объекта URL
+const url = new URL(currentUrl);
+
+// Получение параметров из URL
+const searchParams = url.searchParams;
+
+// Получение значения параметра по его имени
+const objectIdFromUrl = searchParams.get('object_id');
+if(objectIdFromUrl) {
+    const popupObject = document.querySelector(`.place-w[data_id="${parseInt(objectIdFromUrl)}"]`)
+    if(popupObject) {
+        popupObject.classList.add('active')
+    }
+}
+</script>
 @endsection

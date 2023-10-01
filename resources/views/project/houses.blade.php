@@ -2521,7 +2521,7 @@ function P(e) {
             const footerTop = cityColFooter.getBoundingClientRect().top;
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
 
-            if (footerTop - 400 <= cityColTop && footerBottom >= cityColTop) {
+            if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
                 if (canLoadData && currentPage <= maxPage) {
                     currentPage++
                     canLoadData = false;
