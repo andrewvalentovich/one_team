@@ -2865,8 +2865,7 @@ function P(e) {
             document.querySelector("#map_city").classList.add("show");
             document.querySelector("#map_city").classList.add("map_city_active");
             document.querySelector(".city__content").classList.add("city_map");
-            if(!moveWas) {
-                console.log('tesst')
+            if(moveWas) {
                 var position = mapCountry.getGlobalPixelCenter();
                 mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
                 moveWas = 1
