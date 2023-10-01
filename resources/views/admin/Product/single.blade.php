@@ -345,7 +345,7 @@
                             <div class="card">
                                 <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
-                                    @if(isset($get->objects))
+                                    @if(!is_null(json_decode($get->objects)))
                                         @foreach(json_decode($get->objects) as $object)
                                             <div class='accordion' data-identificator='{{ $object->id }}' id='accordion{{ $object->id }}'>
                                                 <div class="card">

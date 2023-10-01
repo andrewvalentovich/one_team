@@ -191,11 +191,13 @@ class ProductController extends Controller
 
         // Выводим корректную цену в соответствии с указанной валютой в планировках
         $objects = json_decode($get->objects);
-        foreach ($objects as $key => $object) {
-            $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+        if(!is_null($objects)) {
+            foreach ($objects as $key => $object) {
+                $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+            }
+            $get->objects = json_encode($objects);
+            unset($objects);
         }
-        $get->objects = json_encode($objects);
-        unset($objects);
 
         if ($get == null){
             return redirect()->back();

@@ -1017,8 +1017,11 @@
     </svg>
 
                     </div>
-                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
-                    <div class="place__header-favorite check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
+                    @php
+                        $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                        $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                    @endphp
+                    <div class="place__header-favorite check-favorites {{ count($fav) === 0 ? '' : 'active' }}" data_id="{{$product->id}}">
 
                         <div class="place__header-favorites-text">
 
@@ -1136,46 +1139,30 @@
                             <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
 
                         </a>
-                        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null )->where('product_id', $product->id)->first() ?>
-                        <div class="place__top-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
-
+                        @php
+                            $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
+                            $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
+                        @endphp
+                        <div class="place__top-favorites check-favorites {{ count($fav) === 0 ? '' : 'active' }}" data_id="{{$product->id}}">
                             <div class="place__top-favorites-text">
-
                                 {{__('В избранное')}}
-
-
                             </div>
-
                             <div class="place__top-favorites-logo">
-
                                 <svg class="white" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
                                     version="1.1"
-
                                     style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                     viewBox="0 0 2.14 1.86"
-
                                     xmlns:xlink="http://www.w3.org/1999/xlink">
-
-    <g id="Слой_x0020_1">
-        <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-        <metadata id="CorelCorpID_0Corel-Layer"/>
-
-        <path
-
-            d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
-
-    </g>
-
-    </svg>
-
+                                    <g id="Слой_x0020_1">
+<!--                                        --><?php // $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
+                                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                                        <path
+                                            d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
+                                    </g>
+                                </svg>
                             </div>
-
                         </div>
-
                     </div>
-
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
@@ -1559,75 +1546,50 @@
                                         {{$product->size}} {{__('кв.м')}}
                                         </div>
                                     </div>
-                                    <div class="object__rooms-item">
-                                        <div class="object__rooms-subtitle">
-                                            {{__('Спален')}}
+                                    @if(isset($product->peculiarities->where('type', 'Спальни')->first()->name))
+                                        <div class="object__rooms-item">
+                                            <div class="object__rooms-subtitle">
+                                                {{__('Спален')}}
+                                            </div>
+                                            <div class="object__rooms-value">
+                                                {{ str_replace('+','',$product->peculiarities->where('type', 'Спальни')->first()->name) }}
+                                            </div>
                                         </div>
-                                        <div class="object__rooms-value">
-                                        <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->id)->first(); ?>
-                                            {{str_replace('+','',$spalni->category->name)}}
-                                        </div>
-                                    </div>
+                                    @endif
+                                    @if(isset($product->peculiarities->where('type', 'Гостиные')->first()->name))
                                     <div class="object__rooms-item">
                                         <div class="object__rooms-subtitle">
                                             {{__('Гостиные')}}
                                         </div>
-
                                         <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->id)->first(); ?>
-
-                                            {{str_replace('+','',__($spalni->category->name))}}
-
+                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Гостиные')->first()->name) }}
                                         </div>
-
                                     </div>
-
+                                    @endif
+                                    @if(isset($product->peculiarities->where('type', 'Ванные')->first()->name))
                                     <div class="object__rooms-item">
-
                                         <div class="object__rooms-subtitle">
-
                                             {{__('Ванные')}}
-
-
                                         </div>
-
                                         <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->id)->first(); ?>
-
-                                            {{str_replace('+','', __($spalni->category->name))}}
-
+                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Ванные')->first()->name) }}
                                         </div>
-
                                     </div>
-
+                                    @endif
                                 </div>
-
                             </div>
                             @endif
 
                             <div class="place__location">
-
                                 <div class="place__location-title place__title">
-
                                     {{__('Расположение и инфраструктура')}}
-
-
                                 </div>
-
                                 <div class="place__location-info">
-
                                     @if(app()->getLocale() == 'en') <?php $product->disposition = $product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->disposition = $product->disposition_tr ?>  @endif
                             {{$product->disposition}}
-
                                 </div>
-
                                 <div class="place__location-map">
-
                                     <div class="">
-
-
 
     {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
 
@@ -1636,10 +1598,7 @@
 
 
                                         <script>
-
                                             product_id_is = <?php echo $product->id?>
-
-
 
                                             function createYandexMap(latitude, longitude) {
 

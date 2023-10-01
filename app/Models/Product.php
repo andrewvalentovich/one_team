@@ -49,18 +49,18 @@ class Product extends Model
     }
 
     public function type_vid() {
-        return $this->hasmany(ProductCategory::class,'product_id')->where('type','Вид');
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Вид');
     }
     public function do_more() {
-        return $this->hasmany(ProductCategory::class,'product_id')->where('type','До моря');
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','До моря');
     }
     public function spalni() {
-        return $this->hasmany(ProductCategory::class,'product_id')->where('type','Спальни');
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Спальни');
     }
     public function vanie() {
-        return $this->hasmany(ProductCategory::class,'product_id')->where('type','Ванные');
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Ванные');
     }
     public function gostinnie() {
-        return $this->hasmany(ProductCategory::class,'product_id')->where('type','Гостиные');
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
     }
 }

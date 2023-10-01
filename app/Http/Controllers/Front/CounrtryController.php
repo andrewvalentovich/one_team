@@ -22,8 +22,8 @@ class CounrtryController extends Controller
         $this->sortService = $sortService;
     }
 
-    public function country($id){
-
+    public function country($id)
+    {
         $get = CountryAndCity::where('parent_id', $id)->withCount('product_city')->orderby('product_city_count','DESC')->get();
         $country = CountryAndCity::where('id', $id)->first();
         $count = CountryAndCity::has('product_city')->get()->count();
