@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
+use App\Http\Requests\API\Houses\GetOneRequest;
 use App\Http\Requests\House\FilterRequest;
 use App\Models\Product;
 use App\Models\Peculiarities;
@@ -143,6 +144,123 @@ class HousesController extends Controller
 
 
         return response()->json($houses);
+    }
+
+    public function getOne(GetOneRequest $request)
+    {
+        $data = $request->validated();
+        // Фильтр элементов
+        $house = Product::whereId($data['id'])
+            ->with('photo')
+            ->with('peculiarities')
+            ->with(['favorite' => function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            }])->get()->first();
+
+            $objects = [];
+            $layouts_result = null;
+            $min_price = null;
+            if (is_countable(json_decode($house->objects))) {
+
+                // Создаём индекс
+                $i = 0;
+                foreach (json_decode($house->objects) as $object) {
+                    // Формируем новое поле price_size
+                    $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+
+                    // Ищем минимальную цену
+                    if ($i === 0) {
+                        $min_price = $object->price;
+                    } else {
+                        $min_price = $object->price < $min_price ? $object->price : $min_price;
+                    }
+
+                    // Меняем цену
+                    $price = $object->price;
+                    $object->price = $this->currencyService->getPriceFromDB($price);
+                    unset($price);
+
+                    // Присваиваем объект временной переменой
+                    $objects[] = $object;
+
+                    // Увеличиваем индекс
+                    $i++;
+                }
+                // Очищаем индекс
+                unset($i);
+
+                // Возвращаем минимальную цену с валютами
+                $min_price = $this->currencyService->getPriceFromDB($min_price);
+
+                // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
+                $layouts = array_unique(array_column(json_decode($house->objects), 'apartment_layout'), SORT_STRING);
+
+                // массив для сортировки
+                $layouts_sort_arr = [];
+                foreach ($layouts as $layout) {
+                    if ($layout === "" || $layout === " ") {
+                        continue;
+                    } else {
+                        $layouts_sort_arr[] = explode("+", $layout);
+                    }
+                }
+
+                // Сортировка
+                $sort = $this->sortService->quicksort($layouts_sort_arr);
+
+                // Вывод планировок (1+2, 2+2 и пр.)
+                foreach ($sort as $layout) {
+                    $layouts_result .= !next($sort) ? implode("+", $layout) : implode("+", $layout) . ", ";
+                }
+                unset($layouts);
+
+                $house->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
+            }
+
+        return response()->json([
+            "id" => $house->id,
+            "country_id" => $house->country_id,
+            "city_id" => $house->city_id,
+            "sale_or_rent" => $house->sale_or_rent,
+            "name" => $house->name,
+            "address" => $house->address,
+            "size" => $house->size,
+            "size_home" => $house->size_home,
+            "layouts" => $layouts_result,
+            "layouts_count" => is_countable($objects) ? count($objects) : 0,
+            "price_size" => $this->currencyService->getPriceSizeFromDB((int)$house->price, (int)$house->size),
+            "price" => $this->currencyService->getPriceFromDB($house->price),
+            "min_price" => is_countable($objects) ? $min_price : 0,
+            "price_code" => $house->price_code,
+            "description" => $house->description,
+            "description_en" => $house->description_en,
+            "description_tr" => $house->description_tr,
+            "lat" => $house->lat,
+            "long" => $house->long,
+            "citizenship" => $house->citizenship,
+            "photo" => $house->photo,
+            "status" => $house->status,
+            "disposition" => $house->disposition,
+            "disposition_en" => $house->disposition_en,
+            "disposition_tr" => $house->disposition_tr,
+            "created_at" => $house->created_at,
+            "updated_at" => $house->updated_at,
+            "parking" => $house->parking,
+            "vnj" => $house->vnj,
+            "commissions" => $house->commissions,
+            "cryptocurrency" => $house->cryptocurrency,
+            "owner" => $house->owner,
+            "grajandstvo" => $house->grajandstvo,
+            "complex_or_not" => $house->complex_or_not,
+            "objects" => $house->objects,
+            "gostinnie" => !empty($house->peculiarities->whereIn('type', "Гостиные")->first()) ? $house->peculiarities->whereIn('type', "Гостиные")->first()->name : null,
+            "vanie" => !empty($house->peculiarities->whereIn('type', "Ванные")->first()) ? $house->peculiarities->whereIn('type', "Ванные")->first()->name : null,
+            "spalni" => !empty($house->peculiarities->whereIn('type', "Спальни")->first()) ? $house->peculiarities->whereIn('type', "Спальни")->first()->name : null,
+            "do_more" => !empty($house->peculiarities->whereIn('type', "До моря")->first()) ? $house->peculiarities->whereIn('type', "До моря")->first()->name : null,
+            "type_vid" => !empty($house->peculiarities->whereIn('type', "Вид")->first()) ? $house->peculiarities->whereIn('type', "Вид")->first()->name : null,
+            "peculiarities" => !empty($house->peculiarities->whereIn('type', "Особенности")->all()) ? $house->peculiarities->whereIn('type', "Особенности")->all() : null,
+            "favorite" => $house->favorite,
+        ]);
     }
 
     public function getAll(FilterRequest $request)
