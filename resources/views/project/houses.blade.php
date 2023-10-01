@@ -2561,8 +2561,10 @@ function P(e) {
                 checkZoomRange: true,
             }).then(function() {
                 // Сдвинем карту на 10 пикселей влево.
-                var position = mapCountry.getGlobalPixelCenter();
-                mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
+                setTimeout(() => {
+                    var position = mapCountry.getGlobalPixelCenter();
+                    mapCountry.setGlobalPixelCenter([ position[0] - 10, position[1] ]);
+                }, 0);
                 mapCountry.container.fitToViewport()
             }, function(err) {
                 // Обработка ошибок
