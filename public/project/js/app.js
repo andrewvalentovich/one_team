@@ -1182,7 +1182,7 @@ window.addEventListener('resize', () => {
 // define a function that sets min-height of my-element to window.innerHeight:
 
 const setHeight = () => {
-    document.getElementById("map_city").style.minHeight = window.innerHeight - 126 + "px"
+    // document.getElementById("map_city").style.minHeight = window.innerHeight - 126 + "px"
 };
 
 // define mobile screen size:
