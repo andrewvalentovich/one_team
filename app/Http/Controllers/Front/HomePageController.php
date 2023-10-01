@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Front;
+
+
 use App\Http\Controllers\Admin\Peculiarities;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
@@ -12,16 +14,22 @@ use DB;
 class HomePageController extends Controller
 {
     public function home_page(){
-        $all_country = CountryAndCity::where('parent_id', null)->withCount('product_country')
-            ->orderBy('product_country_count', 'desc')->limit(15)->get();
+        $all_country = CountryAndCity::where('parent_id', null)
+            ->withCount('product_country')
+            ->with('product_country')
+            ->orderBy('product_country_count', 'desc')
+            ->limit(15)
+            ->get();
+
         $citizenship_div = CountryAndCity::where('name', 'Турция')->first();
         if (app()->getLocale() == 'en'){
             $citizenship_div->div = $citizenship_div->div_en;
-        }elseif (app()->getLocale() == 'tr'){
+        } elseif (app()->getLocale() == 'tr') {
             $citizenship_div->div = $citizenship_div->div_tr;
-        }elseif (app()->getLocale() == 'de'){
+        } elseif (app()->getLocale() == 'de') {
             $citizenship_div->div = $citizenship_div->div_de;
         }
+
         return view('project.index', compact('all_country','citizenship_div'));
     }
 
