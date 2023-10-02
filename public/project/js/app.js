@@ -1120,23 +1120,26 @@ getData();
 
 if(document.querySelectorAll('.place-w').length) {
     const placeW = document.querySelectorAll('.place-w')
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
     placeW.forEach(placeBlock => {
         placeBlock.addEventListener('click', function(e) {
             const target = e.target
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
-                url.searchParams.delete('object_id');
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
-                // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
             }
             if(target.classList.contains('_country')) {
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
+                
             }
+            url.searchParams.delete('object_id');
+            // Получение обновленного URL
+            var updatedUrl = url.toString();
+            // Обновление URL в адресной строке
+            window.history.replaceState({}, '', updatedUrl);
         })
     });
 }

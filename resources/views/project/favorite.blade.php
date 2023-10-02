@@ -2133,7 +2133,6 @@
         $('.place__exit').click(function() {
 
             $(this).closest('.place-w').removeClass('active');
-            console.log('tes')
             url.searchParams.delete('object_id');
             // Получение обновленного URL
             var updatedUrl = url.toString();

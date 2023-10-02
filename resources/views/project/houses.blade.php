@@ -1304,7 +1304,6 @@
             //         const placeW = target.closest('.place-w')
             //         const id = placeW.getAttribute('data_id')
             //         const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
-            //         console.log(placeCollage)
             //         placeCollage.classList.add("active")
             //     }));
 
@@ -1323,6 +1322,12 @@
 // динамический массив для заполнения точек на карте map_city
 let firstCall = 1
 function P(e) {
+    // Получение текущего URL
+    const currentUrl = window.location.href;
+    // Создание объекта URL
+    const url = new URL(currentUrl);
+    // Получение параметров из URL
+    const searchParams = url.searchParams;
     let currentCoordinateMapLeft = null
     let currentCoordinateMapRight = null
     let maxPage = null
@@ -1371,13 +1376,12 @@ function P(e) {
 
     function setListenersToOpenPopup() {
         const cityColList = document.querySelector('.city-col__list')
-        console.log(cityColList)
         cityColList.addEventListener('click', function(e) {
             const houseCard = e.target.closest('.city-col__item');
-            console.log(houseCard)
             if (!houseCard) return
             const id = houseCard.getAttribute('data_id')
-            setNewPopupHouseData(id)
+            let object = {...objectsListMap.get(parseInt(id))}
+            setNewPopupHouseData(object)
         })
     }
     setListenersToOpenPopup()
@@ -1663,19 +1667,30 @@ function P(e) {
         }
     }
 
-    // function setListenersToOpenPopup() {
-    //     const houseItem = document.querySelectorAll('.city-col__item')
-    //     houseItem.forEach(houseCard => {
-    //         houseCard.addEventListener('click', function(e) {
-    //             const id = houseCard.getAttribute('data_id')
-    //             setNewPopupHouseData(id)
-    //         })
-    //     });
-    // }
-
     let placeMap = null;
-    function setNewPopupHouseData(id) {
-        id = parseInt(id)
+    async function getObjectById (id) {
+        $.ajax({
+                url: '/api/houses/simple',
+                data: {
+                    id: id
+                },
+                method: 'get',
+                success: function(data) {
+                    setNewPopupHouseData(data)
+                }
+            });
+    }
+    const objectIdFromUrl = searchParams.get('object_id');
+    console.log(searchParams)
+    if(objectIdFromUrl) {
+        getObjectById(objectIdFromUrl)
+    }
+    function setNewPopupHouseData(object) {
+        url.searchParams.set('object_id', object.id);
+        // Получение обновленного URL
+        var updatedUrl = url.toString();
+        // Обновление URL в адресной строке
+        window.history.replaceState({}, '', updatedUrl);
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
         const placeLeftCol = document.querySelector('.place__left-col')
@@ -1684,9 +1699,7 @@ function P(e) {
         placeW.classList.add('active')
         $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
         $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
-        console.log(objectsListMap)
-        currentHouse = {...objectsListMap.get(id)} 
-        console.log(currentHouse)
+        currentHouse = {...object} 
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
         topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
 
@@ -1710,10 +1723,10 @@ function P(e) {
         const placeTopFavorites = document.querySelector('.place__top-favorites')
         const placeHeaderFavorites = document.querySelector('.place__header-favorite')
 
-        placeTopFavorites.setAttribute('data_id', id)
-        placeHeaderFavorites.setAttribute('data_id', id)
+        placeTopFavorites.setAttribute('data_id', currentHouse.id)
+        placeHeaderFavorites.setAttribute('data_id', currentHouse.id)
 
-        if(favotires_house_id.hasOwnProperty(id)) {
+        if(favotires_house_id.hasOwnProperty(currentHouse.id)) {
             placeTopFavorites.classList.add('active')
             placeHeaderFavorites.classList.add('active')
         } else {
@@ -2280,7 +2293,6 @@ function P(e) {
 
                     // document.querySelector('.ballon-city__content').addEventListener('click', function() {
                     //     var city_id = document.querySelector('.balloon-city').id;
-                    //     console.log(city_id);
                     //     document.getElementById(`card_object-${city_id}`).scrollIntoView();
                     // });
                     if (balloonContentElement) {
@@ -2525,7 +2537,6 @@ function P(e) {
                 if (canLoadData && currentPage <= maxPage) {
                     currentPage++
                     canLoadData = false;
-                    console.log('отправил запрос', currentPage)
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
                     setTimeout(() => {
                         canLoadData = true;
@@ -2816,9 +2827,8 @@ function P(e) {
 
                             var clickListener = function (event) {
                                 const id = balloonContentElement.getAttribute('id')
-                                    setNewPopupHouseData(id)
-                                // setListenersToOpenPopup();
-                                // setListenersToAddfavorites()
+                                //запрос новый на объект
+                                getObjectById(id)
                             };
                             balloonContentElement.addEventListener('click', clickListener);
                         }
@@ -2826,7 +2836,6 @@ function P(e) {
                 });
                 placemark.events.add('mouseleave', function (e) {
                     var targetGeoObject = e.get('target'); // Получаем геообъект, на который наведен курсор мыши
-                    console.log(targetGeoObject);
                 })
 
             });
@@ -2879,7 +2888,6 @@ function P(e) {
 
             // ymaps.geocode(center).then(function (res) {
             //     var firstGeoObject = res.geoObjects.get(0);
-            //     console.log("firstGeoObject - "+firstGeoObject);
             // });
 
         }
@@ -2915,7 +2923,8 @@ function P(e) {
 
 
         $(document).ready(function () {
-
+            const currentUrl = window.location.href;
+            const url = new URL(currentUrl);
             $('.place__exit').click(function () {
 
                 $(this).closest('.place-w').removeClass('active');
@@ -2924,10 +2933,12 @@ function P(e) {
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
                 $('.header-w').removeClass('fixed');
-
+                url.searchParams.delete('object_id');
+                // Получение обновленного URL
+                var updatedUrl = url.toString();
+                // Обновление URL в адресной строке
+                window.history.replaceState({}, '', updatedUrl);
             });
-
-
         });
 
 
