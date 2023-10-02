@@ -985,81 +985,45 @@
 @foreach($citizenship_product as $product)
 
 <div class="place-w" data_id="{{$product->id}}">
-
     <div class="place-popup">
-
         <section class="object place">
-
             <div class="place__header">
-
                 <div class="place__header-content">
-
                     <div class="place__header-exit">
-
                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
                             width="35px" height="60px" version="1.1"
-
                             style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                             viewBox="0 0 0.5 0.86"
-
                             xmlns:xlink="http://www.w3.org/1999/xlink">
-
     <g id="Слой_x0020_1">
-
     <metadata id="CorelCorpID_0Corel-Layer"/>
-
     <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "/>
-
     </g>
-
     </svg>
-
                     </div>
                     @php
                         $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
                         $fav = $product->favorite->where('user_id', isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->all();
                     @endphp
                     <div class="place__header-favorite check-favorites {{ count($fav) === 0 ? '' : 'active' }}" data_id="{{$product->id}}">
-
                         <div class="place__header-favorites-text">
-
                             {{__('В избранное')}}
-
-
                         </div>
-
                         <div class="place__header-favorites-logo">
-
                             <svg class="white-to-blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-
                                 version="1.1"
-
                                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                 viewBox="0 0 2.14 1.86"
-
                                 xmlns:xlink="http://www.w3.org/1999/xlink">
-
     <g id="Слой_x0020_1">
-
     <metadata id="CorelCorpID_0Corel-Layer"/>
-
     <path
-
         d="M1.07 1.76c-0.21,-0.16 -0.48,-0.37 -0.74,-0.62 -0.2,-0.19 -0.25,-0.36 -0.25,-0.54 0,-0.29 0.25,-0.52 0.55,-0.52 0.18,0 0.34,0.08 0.44,0.2 0.1,-0.12 0.26,-0.2 0.44,-0.2 0.31,0 0.56,0.23 0.56,0.52 0,0.18 -0.06,0.35 -0.25,0.54 -0.26,0.25 -0.54,0.46 -0.75,0.62z"/>
-
     </g>
-
     </svg>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
             <div class="place__content">
                 <div class="place__left-col">
@@ -1688,190 +1652,9 @@
                                             </div>
                                             @endforeach
                                         @endif
-    {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-    {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-    {{--                                                                               B--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-    {{--                                                                               $95 000--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-    {{--                                                                               $1254 / кв.м--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-    {{--                                                                               100 кв.м  <span>|</span>  2+1--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-    {{--                                                                               $936 / мес.--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
-    {{--                                                                               <img src="./img/scheme-2.png" alt="scheme">--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                   </div>--}}
-    {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-    {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-    {{--                                                                               C--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-    {{--                                                                               $120 000--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-    {{--                                                                               $1857 / кв.м--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-    {{--                                                                               156 кв.м  <span>|</span>  3+1--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-    {{--                                                                               $1 176 / мес.--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
-    {{--                                                                               <img src="./img/scheme-3.png" alt="scheme">--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                   </div>--}}
-    {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-    {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-    {{--                                                                               D--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-    {{--                                                                               $120 000--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-    {{--                                                                               $1857 / кв.м--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-    {{--                                                                               156 кв.м  <span>|</span>  4+2 penthouse--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-    {{--                                                                               $1 276 / мес.--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
-    {{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-da3a6813d6c6e79a" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-4.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           1 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           2 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           3 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="true" bis_skin_checked="1">--}}
-    {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-    {{--															<g id="Слой_x0020_1">--}}
-    {{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-    {{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-    {{--                                                            </g>--}}
-    {{--														</svg>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="false" bis_skin_checked="1">--}}
-    {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-    {{--														<g id="Слой_x0020_1">--}}
-    {{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-    {{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-    {{--                                                        </g>--}}
-    {{--													</svg>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                   </div>--}}
-    {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-    {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-    {{--                                                                               E--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-    {{--                                                                               $178 000--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-    {{--                                                                               $2257 / кв.м--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-    {{--                                                                               170 кв.м  <span>|</span>  5+2 penthouse--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-    {{--                                                                               $1 642 / мес.--}}
-    {{--                                                                           </div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
-    {{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
-    {{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-6eef4dd6ab635e4c" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-6.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           1 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           2 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
-    {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-    {{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-    {{--                                                                                           3 этаж--}}
-    {{--                                                                                       </div>--}}
-    {{--                                                                                   </div>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="true" bis_skin_checked="1">--}}
-    {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-    {{--															<g id="Слой_x0020_1">--}}
-    {{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-    {{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-    {{--                                                            </g>--}}
-    {{--														</svg>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="false" bis_skin_checked="1">--}}
-    {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-    {{--														<g id="Слой_x0020_1">--}}
-    {{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-    {{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-    {{--                                                        </g>--}}
-    {{--													</svg>--}}
-    {{--                                                                               </div>--}}
-    {{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
-    {{--                                                                       </div>--}}
-    {{--                                                                   </div>--}}
                                     </div>
                                 </div>
                             </div>
-
-
-
                             <div class="object__peculiarities">
                                 <div class="object__peculiarities-title place__title">
                                     {{__('Особенности')}}
@@ -1888,7 +1671,6 @@
                                     @endif
                                 </div>
                             </div>
-
                             <div class="object__description">
                                 <div class="object__description-title place__title">
                                     {{__('Описание')}}
@@ -2389,7 +2171,7 @@
                 },
                 on: {
                     init: function () {
-                        swiperObject.update()
+                        // swiperObject.update()
                     },
                 },
                 breakpoints: {
@@ -2995,230 +2777,7 @@
 
                 this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 
-            })), document.querySelectorAll("#map-country1").length && ymaps.ready((function() {
-
-                var mapCountry;
-                var script;
-
-                function init(ymaps) {
-
-                mapCountry = new ymaps.Map("map-country", {
-
-                        center: [<?php echo $country->lat .','.$country->long?>],
-
-                        zoom: 6,
-
-                        controls: [],
-
-                        behaviors: ["default", "scrollZoom"]
-
-                    }, {
-
-                        searchControlProvider: "yandex#search"
-
-                    }),
-
-                    t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-
-                        build: function() {
-
-                            this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-
-                        },
-
-                        clear: function() {
-
-                            this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-
-                        },
-
-                        onSublayoutSizeChange: function() {
-
-                            t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-
-                        },
-
-                        applyElementOffset: function() {
-
-                            this._$element.css({
-
-                                left: -this._$element[0].offsetWidth / 2,
-
-                                top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-
-                            })
-
-                        },
-
-                        onCloseClick: function(e) {
-
-                            e.preventDefault(), this.events.fire("userclose")
-
-                        },
-
-                        getShape: function() {
-
-                            if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-
-                            var e = this._$element.position();
-
-                            return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-
-                                [e.left, e.top],
-
-                                [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-
-                            ]))
-
-                        },
-
-                        _isElement: function(e) {
-
-                            return e && e[0] && e.find(".arrow")[0]
-
-                        }
-
-                    }),
-
-                    o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-
-                        build: function() {
-
-                            o.superclass.build.call(this);
-
-                            var e = this.getParentElement().getElementsByClassName("placemark")[0],
-
-                                t = this.isActive ? 60 : 34,
-
-                                c = {
-
-                                    type: "Circle",
-
-                                    coordinates: [0, 0],
-
-                                    radius: t / 2
-
-                                },
-
-                                l = {
-
-                                    type: "Circle",
-
-                                    coordinates: [0, -30],
-
-                                    radius: t / 2
-
-                                };
-
-                            this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function(t) {
-
-                                var o = document.querySelectorAll(".placemark");
-
-                                if (e.classList.contains("active")) e.classList.remove("active");
-
-                                else {
-
-                                    for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
-                                    e.classList.add("active")
-
-                                }
-
-                            }), this))
-
-                        }
-
-                    }),
-
-
-
-                    c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="https://dev.one-team.pro/city/city_id=$[properties.city_id]">  $[properties.balloonContent]</a> </div>'),
-
-                    s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-
-                        balloonContent: ["Турция, Анталия123123123123, 236 объектов"].join("")
-
-                    }, {
-
-                        balloonPanelMaxMapArea: 431520,
-
-                        balloonShadow: !1,
-
-                        balloonLayout: t,
-
-                        iconLayout: o,
-
-                        balloonContentLayout: c,
-
-                        hideIconOnBalloonOpen: !1,
-
-                        balloonOffset: [-110, -50]
-
-                    });
-
-
-
-                locations.forEach(function (Location) {
-
-
-
-                    var placemark = new ymaps.Placemark(Location.coordinates, {
-
-                        balloonContent: Location.balloonContent,
-
-                        city_id:Location.city_id
-
-                    },{
-
-                        balloonPanelMaxMapArea: 431520,
-
-                        balloonShadow: !1,
-
-                        balloonLayout: t,
-
-                        iconLayout: o,
-
-                        balloonContentLayout: c,
-
-                        hideIconOnBalloonOpen: !1,
-
-                        balloonOffset: [-110, -50]
-
-                    });
-                    mapCountry.behaviors.disable("scrollZoom"),
-                    mapCountry.geoObjects.add(placemark);
-
-                })
-            }
-            var head = document.getElementsByTagName('head')[0];
-            function changeLangMap(lang) {
-                // Получим значение выбранного языка.
-                // var language = 'en'
-                var language = lang
-                // Если карта уже была создана, то удалим её.
-                if (mapCountry) {
-                    mapCountry.destroy();
-                }
-                // Создадим элемент 'script'.
-                script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.charset = 'utf-8';
-                // Запишем ссылку на JS API Яндекс.Карт с выбранным языком в атрибут 'src'.
-                script.src = 'https://api-maps.yandex.ru/2.1/?onload=init_' + language + '&lang=' + language +
-                    '_RU&ns=ymaps_' + language;
-                // Добавим элемент 'script' на страницу.
-                head.appendChild(script);
-                // Использование пространства имен позволяет избежать пересечения названий функций
-                // и прочих программных компонентов.
-                window['init_' + language] = function () {
-                    init(window['ymaps_' + language]);
-                }
-            }
-            let mapLang = "<?php echo app()->getLocale() ?>";
-            changeLangMap(mapLang)
-
             }))
-
         })();
 
 
