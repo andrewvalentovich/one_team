@@ -15,7 +15,6 @@ Route::get('/', function ($subdomain) {
 
             abort_if(!isset($filter), 404);
 
-            $filter = $filter->get();
             $categories =
                 DB::table('products')->select(['photo_categories.id', 'photo_categories.name'])
                     ->where('products.id', $landing['filter_' . $landing->template->path])
@@ -23,7 +22,6 @@ Route::get('/', function ($subdomain) {
                     ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
                     ->distinct('name')
                     ->get();
-
             return view("landings/{$landing->template->path}", compact('landing', 'filter', 'categories'));
         }
 
