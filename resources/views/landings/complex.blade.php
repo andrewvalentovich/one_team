@@ -247,11 +247,13 @@
                         <div class="gallery__item changeGallery active" data-category-id="0">
                             Все
                         </div>
-                        @foreach($categories as $category)
-                            <div class="gallery__item changeGallery" data-category-id="{{ $category->id }}">
-                                {{ $category->name }}
-                            </div>
-                        @endforeach
+                        @if(isset($categories))
+                            @foreach($categories as $category)
+                                <div class="gallery__item changeGallery" data-category-id="{{ $category->id }}">
+                                    {{ $category->name }}
+                                </div>
+                            @endforeach
+                        @endif
 						<div class="gallery__all sort close-out " style="width: 200px;">
 							<span class="sort__title btn" style="width: 100%;">
 								<span>
@@ -261,11 +263,13 @@
 							</span>
 							<div class="sort__list">
 								<div class="sort__list-body">
-                                    @foreach($categories as $category)
-                                        <div class="sort__list-item changeGallery" data-category-id="{{ $category->id }}">
-                                            <span>{{ $category->name }}</span>
-                                        </div>
-                                    @endforeach
+                                    @if(isset($categories))
+                                        @foreach($categories as $category)
+                                            <div class="sort__list-item changeGallery" data-category-id="{{ $category->id }}">
+                                                <span>{{ $category->name }}</span>
+                                            </div>
+                                        @endforeach
+                                    @endif
 									<div class="sort__list-item changeGallery" data-category-id="0">
 										<span>Все</span>
 									</div>
