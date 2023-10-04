@@ -503,19 +503,19 @@
     // });
 
 
-    $(document).ready(function() {
-        $(".close-dropdown").each(function() {
-            $(this).on("click", function(event) {
-                event.stopPropagation();
-                const searchItem = $(this).closest(".search-nav__list-item");
-                const dropDown = searchItem.find('.search-nav__item-dropdown');
-                console.log(searchItem);
-                console.log(dropDown);
-                searchItem.removeClass('active');
-                dropDown.removeClass('active');
-            });
-        });
-    });
+    // $(document).ready(function() {
+    //     $(".close-dropdown").each(function() {
+    //         $(this).on("click", function(event) {
+    //             event.stopPropagation();
+    //             const searchItem = $(this).closest(".search-nav__list-item");
+    //             const dropDown = searchItem.find('.search-nav__item-dropdown');
+    //             console.log(searchItem);
+    //             console.log(dropDown);
+    //             searchItem.removeClass('active');
+    //             dropDown.removeClass('active');
+    //         });
+    //     });
+    // });
 
 
 </script>

@@ -51,7 +51,7 @@
                             </div>
                         </a>
                     @else
-                        <div class="popular-locations__item">
+                        <div class="popular-locations__item _close-opening">
                             <div class="popular-locations__item-img">
                                 <img style="max-width: 50px" src="{{asset("uploads/$country->photo")}}" alt="gr">
                             </div>

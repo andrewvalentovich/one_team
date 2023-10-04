@@ -1164,3 +1164,13 @@ if(document.querySelectorAll('._regions').length) {
 }
 
 
+if(document.querySelectorAll('#map_city').length) {
+    const is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    if(!is_safari) {
+        const map = document.querySelector('#map_city')
+        map.classList.add('safari')
+    }
+
+}
+
+ 

@@ -1322,7 +1322,6 @@ body {
   /* transform: translate(-17px, -17px); */
   cursor: pointer;
 }
-
 .placemark.active {
   background: #64e664;
 }
@@ -1951,13 +1950,23 @@ body {
   flex: 0 0 calc(25% - 15px);
   display: flex !important;
   gap: 10px;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  pointer-events: none;
 }
-
-
+.popular-locations__item:hover .popular-locations__item-text {
+  color: #508cfa;
+}
+.popular-locations__item._close-opening .popular-locations__item-text {
+  pointer-events: none;
+}
+.popular-locations__item._close-opening .popular-locations__item-img  {
+  pointer-events: none;
+}
 .popular-locations__item-img {
   /* margin-right: 14px; */
   cursor: pointer;
+  pointer-events: all;
+
 }
 
 .popular-locations__item-text {
@@ -1966,6 +1975,8 @@ body {
   cursor: pointer;
   white-space: nowrap;
   align-items: center;
+  pointer-events: all;
+
 }
 @media (max-width: 539px) {
   .popular-locations__item-text._close-opening span {
@@ -7270,5 +7281,10 @@ body.scroll_fixed {
 @media (max-width: 539px) {
   .city-col__slider i {
     display: none;
+  }
+}
+@media (max-width: 539px) {
+  #map_city.safari {
+    height: calc(100vh - 114px - 38px) !important;
   }
 }
