@@ -226,7 +226,7 @@
                         </div>
                         <div class="header__nav-item-dropdown header__about-dropdown">
                             <div class="header__about-list header__dropdown-list">
-                                @foreach($company_pages as $pages)v
+                                @foreach($company_pages as $pages)
                                     <a href="{{route('company_page',$pages->id)}}" class="header__list-item header__about-list-item">
                                         {{__($pages->name)}}
                                     </a>

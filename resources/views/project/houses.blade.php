@@ -2837,7 +2837,6 @@ function P(e) {
                 });
                 placemark.events.add('mouseleave', function (e) {
                     var targetGeoObject = e.get('target'); // Получаем геообъект, на который наведен курсор мыши
-                    console.log(targetGeoObject)
                 })
 
             });
