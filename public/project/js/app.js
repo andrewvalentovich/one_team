@@ -1173,7 +1173,7 @@ if(document.querySelectorAll('#map_city').length) {
             safariExpression.test(navigator.userAgent);
     };
     if (isAppleSafari()) {
-        const map = document.querySelector('#map_city')
+        const map = document.querySelector('.city__content.city_map')
         const test = document.querySelector('.city-col__btn-changer-text')
         test.innerHTML = 'списокк'
         map.classList.add('safari')
