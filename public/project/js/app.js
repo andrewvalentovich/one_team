@@ -1165,8 +1165,14 @@ if(document.querySelectorAll('._regions').length) {
 
 
 if(document.querySelectorAll('#map_city').length) {
-    const is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-    if(!is_safari) {
+    const appleExpression = /Apple/i;
+    const safariExpression = /Safari/i;
+
+    const isAppleSafari = () => {
+        return appleExpression.test(navigator.vendor) && 
+            safariExpression.test(navigator.userAgent);
+    };
+    if (isAppleSafari()) {
         const map = document.querySelector('#map_city')
         map.classList.add('safari')
     }
