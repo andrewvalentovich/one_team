@@ -1174,6 +1174,8 @@ if(document.querySelectorAll('#map_city').length) {
     };
     if (isAppleSafari()) {
         const map = document.querySelector('#map_city')
+        const test = document.querySelector('.city-col__btn-changer-text')
+        test.innerHTML = 'списокк'
         map.classList.add('safari')
     }
 

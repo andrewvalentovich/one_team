@@ -7285,6 +7285,6 @@ body.scroll_fixed {
 }
 @media (max-width: 539px) {
   #map_city.safari {
-    height: calc(100vh - 114px - 38px) !important;
+    height: calc(100vh - 114px - 88px) !important;
   }
 }
