@@ -5419,7 +5419,7 @@ body.scroll_fixed {
   }
 
   .city__content.city_map.safari {
-    height: calc(100vh - 174px);
+    height: calc(100vh - 251px);
     height: calc(var(--vh, 1vh) * 100 - 251px) !important;
   }
 
