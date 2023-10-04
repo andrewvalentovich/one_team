@@ -2,6 +2,10 @@
   --vh: 1vh;
 }
 
+:root {
+  --app-height: 100%;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -137,7 +141,7 @@ body {
 
 #map_city {
   flex: 0 0 58.3%;
-  height: calc(100vh - 114px - 18px) !important;
+  height: calc(100vh - 114px - 18px);
 }
 
 #map_city .ymaps-2-1-79-map-copyrights-promo {
@@ -7289,7 +7293,12 @@ body.scroll_fixed {
   }
 }
 @media (max-width: 539px) {
-  #map_city.safari {
-    height: calc(100vh - 114px - 88px) !important;
+  #map_city {
+    height: 100%;
+  }
+  .city__content {
+    height: calc(100vh - 134px);
+    height: calc(var(--app-height) - 134px) !important;
   }
 }
+
