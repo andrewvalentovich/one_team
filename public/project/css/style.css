@@ -7420,7 +7420,7 @@ body.scroll_fixed {
     flex: 0 0 auto;
   }
   .object__photo-popup {
-    padding: 55px 53px;
+    padding: 55px 20px;
   }
   .object__photo-popup-block {
     width: 100%;
