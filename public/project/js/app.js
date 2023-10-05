@@ -1069,6 +1069,7 @@ if(document.querySelectorAll('.place-w').length) {
             const target = e.target
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
+                url.searchParams.delete('object_id');
             }
             if(target.classList.contains('_country')) {
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
@@ -1077,7 +1078,6 @@ if(document.querySelectorAll('.place-w').length) {
                 placeTopImg.setAttribute('src', '')
                 
             }
-            url.searchParams.delete('object_id');
             // Получение обновленного URL
             var updatedUrl = url.toString();
             // Обновление URL в адресной строке
