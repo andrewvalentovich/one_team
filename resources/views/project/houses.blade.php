@@ -2008,6 +2008,7 @@ function P(e) {
                     const containerItem = this.closest('.kompleks__layout-item')
                     const chemePopup = document.querySelector(".object__photo");
                     const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+                    const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
                     swiperWrapper.innerHTML = ''
                     //если много фото
                     if(typeof(object.apartment_layout_image) === 'object') {
@@ -2018,6 +2019,9 @@ function P(e) {
                             slide.appendChild(slidePic)
                             slidePic.setAttribute('src', `/uploads/${element}`)
                             swiperWrapper.appendChild(slide)
+                            objectSwiperNav.forEach(btn => {
+                                btn.style.display = 'flex'
+                            });
                         });
                     } else {// если одна фотка
                         const slide = document.createElement('div')
@@ -2026,6 +2030,9 @@ function P(e) {
                         slide.appendChild(slidePic)
                         slidePic.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
                         swiperWrapper.appendChild(slide)
+                        objectSwiperNav.forEach(btn => {
+                            btn.style.display = 'none'
+                        });
                     }
 
                     objectSwiper.update()

@@ -7345,6 +7345,7 @@ body.scroll_fixed {
   max-width: 700px;
   width: 700px;
   border-right: 1px solid #969696;
+  padding: 50px;
 }
 .object__swiper-slide {
   padding: 50px;
@@ -7422,12 +7423,33 @@ body.scroll_fixed {
     padding: 55px 53px;
   }
   .object__photo-popup-block {
-    width: 130%;
+    width: 100%;
   }
   .object__photo-text-header {
     padding: 20px 30px 30px;
   }
   .object__photo-info {
     padding: 20px 30px 30px;
+  }
+  .object__swiper {
+    padding: 20px 30px;
+  }
+  .object__photo-text-header .btn {
+    padding: 10px 5px;
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 539px) {
+  .object__photo-text-header {
+    padding: 20px 10px 20px;
+  }
+  .object__photo-info {
+    padding: 10px 10px 20px;
+  }
+  .object__photo-text-header p {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
 }
