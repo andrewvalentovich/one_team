@@ -2793,7 +2793,7 @@ function P(e) {
                     }),
                     balloonContentLayout: c,
                     hideIconOnBalloonOpen: false,
-                    balloonOffset: [-120, -80],
+                    balloonOffset: [-120, -60],
                 });
 
                 mapCountry.geoObjects.add(placemark);
@@ -2836,9 +2836,15 @@ function P(e) {
                     }, 0);
                 });
                 placemark.events.add('mouseleave', function (e) {
-                    var targetGeoObject = e.get('target'); // Получаем геообъект, на который наведен курсор мыши
-                })
+                    const relatedTarget = e.get('domEvent').originalEvent.relatedTarget
+                    if(!relatedTarget) {
+                        placemark.balloon.close();
+                    } else {
+                        if(relatedTarget.classList.contains('.ballon-city')) {
 
+                        }
+                    }
+                })
             });
 
             let startBounds = mapCountry.getBounds();
