@@ -5418,13 +5418,12 @@ body.scroll_fixed {
   .city__content.city_map {
     height: calc(100vh - 134px);
     height:  calc(var(--vh, 1vh) * 100 - 134px);
-    min-height: -webkit-fill-available;
     overflow: hidden;
   }
 
   .city__content.city_map.safari {
     height: calc(100vh - 251px);
-    height: calc(var(--vh, 1vh) * 100 - 251px) !important;
+    height: calc(var(--vh, 1vh) * 100 - 135px) !important;
   }
 
   .city-col {
@@ -6760,7 +6759,7 @@ body.scroll_fixed {
   width: 100%;
   max-width: 962px;
   height: calc(100% - 20px);
-  object-fit: cover;
+  object-fit: contain;
   height: 100%;
 }
 
