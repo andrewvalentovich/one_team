@@ -7143,12 +7143,6 @@ body.scroll_fixed {
   margin-top: 30px;
 }
 
-
-.city {
-  min-height: -webkit-fill-available;
-}
-
-
 .object__photo {
   display: none;
   width: 100%;
