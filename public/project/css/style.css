@@ -7180,15 +7180,20 @@ body.scroll_fixed {
   height: 100%;
 }
 
+.object__photo-content {
+  display: flex;
+}
+
 .object__photo-popup-block {
   width: fit-content;
   position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
   z-index: 201;
   opacity: 1;
   height: 100%;
+  max-height: 700px;
+  min-height: 400px;
 }
 
 @media (max-width: 539px) {
@@ -7295,3 +7300,134 @@ body.scroll_fixed {
   }
 }
 
+.object__photo-text {
+  flex: 0 0 400px;
+  background: #fff;
+}
+.object__photo-text-header {
+  padding: 20px 50px 30px;
+  background: #95cae042;
+}
+.object__photo-text-header p {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.object__photo-text-header .btn {
+  border: 2px solid #508cfa;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  padding: 20px 5px;
+  background: #508cfa;
+  cursor: pointer;
+  transition: 0.2s;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+  font-size: 19px;
+}
+.object__photo-text-header .btn:hover {
+  background: #ffffff;
+}
+.object__photo-info {
+  padding: 20px 50px 30px;
+}
+
+.object__photo-pic {
+  background: #fff;
+}
+.object__photo-pic img{
+  width: 100%;
+}
+.object__swiper {
+  background: #fff;
+  max-width: 700px;
+  width: 700px;
+  border-right: 1px solid #969696;
+}
+.object__swiper-slide {
+  padding: 50px;
+}
+.object__swiper-nav {
+  position: absolute;
+  z-index: 163;
+  cursor: pointer;
+  top: 50%;
+  padding: 5px;
+  transform: translate(0, -50%);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #00A0E3;
+  cursor: pointer;
+  transition: .2s;
+}
+.object__swiper-nav:hover {
+  background: #037db1;
+}
+.object__swiper-nav svg {
+  width: 35px;
+  height: 35px;
+}
+.object__swiper-prev {
+  left: 10px;
+}
+
+
+.object__swiper-next {
+  right: 10px;
+  transform: translate(0, -50%) rotate(180deg);
+}
+.object__swiper-pagination {
+  bottom: 20px !important; 
+}
+
+.object__swiper-pagination .swiper-pagination-bullet{
+  width: 10px;
+  height: 10px;
+}
+
+.object__swiper-pagination .swiper-pagination-bullet-active{
+
+}
+
+@media (max-width: 1023px) {
+  .object__swiper {
+    width: 500px;
+  }
+  .object__photo-text {
+    flex: 0 0 300px;
+  }
+}
+
+@media (max-width: 767px) {
+  .object__photo-content {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .object__swiper {
+    width: 100%;
+  }
+
+  .object__photo-text {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  .object__photo-popup {
+    padding: 55px 53px;
+  }
+  .object__photo-popup-block {
+    width: 130%;
+  }
+  .object__photo-text-header {
+    padding: 20px 30px 30px;
+  }
+  .object__photo-info {
+    padding: 20px 30px 30px;
+  }
+}

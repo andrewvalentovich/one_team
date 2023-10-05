@@ -924,7 +924,29 @@
     <section class="object__photo">
         <div class="object__photo-popup">
             <div class="object__photo-popup-block">
-                <img src="" alt="Картинка">
+                <div class="object__photo-content">
+                    <div class="object__swiper swiper">
+                        <div class="object__swiper-wrapper swiper-wrapper">
+                            <div class="object__swiper-slide swiper-slide"></div>
+                        </div>
+                        <div class="object__swiper-pagination swiper-pagination"></div>
+                        <div class="object__swiper-prev object__swiper-nav">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                        </div>
+                        <div class="object__swiper-next object__swiper-nav">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                        </div>
+                    </div>
+                    <div class="object__photo-text">
+                        <div class="object__photo-text-header">
+                            <p>Свободно</p>
+                            <button class="btn">Оставить заявку</button>
+                        </div>
+                        <div class="object__photo-info">
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="object__photo-popup-close">
                 <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -1348,6 +1370,28 @@ function P(e) {
 
     let previousSwiperInstance = null;
     let ballons = []
+    const objectSwiper = new Swiper('.object__swiper', {
+        slidesPerView: 1,
+        navigation: {
+            nextEl: '.object__swiper-next',
+            prevEl: '.object__swiper-prev',
+        },
+        pagination: {
+            el: ".object__swiper-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            320: {
+
+            },
+            480: {
+
+            },
+            640: {
+
+            }
+        }
+    })
     const dictionary = {
         rooms_bedroom: {
             ru: 'спальни',
@@ -1959,11 +2003,39 @@ function P(e) {
 
                 let divChemePic = document.createElement('div')
                 divChemePic.classList.add('kompleks__layout-img')
+
                 divChemePic.addEventListener('click', function(e) {
+                    const containerItem = this.closest('.kompleks__layout-item')
                     const chemePopup = document.querySelector(".object__photo");
-                    const img = chemePopup.querySelector('img')
-                    img.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
+                    const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+                    swiperWrapper.innerHTML = ''
+                    //если много фото
+                    if(typeof(object.apartment_layout_image) === 'object') {
+                        object.apartment_layout_image.forEach(element => {
+                            const slide = document.createElement('div')
+                            const slidePic = document.createElement('img')
+                            slide.classList.add('swiper-slide')
+                            slide.appendChild(slidePic)
+                            slidePic.setAttribute('src', `/uploads/${element}`)
+                            swiperWrapper.appendChild(slide)
+                        });
+                    } else {// если одна фотка
+                        const slide = document.createElement('div')
+                        const slidePic = document.createElement('img')
+                        slide.classList.add('swiper-slide')
+                        slide.appendChild(slidePic)
+                        slidePic.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
+                        swiperWrapper.appendChild(slide)
+                    }
+
+                    objectSwiper.update()
+                    objectSwiper.updateSlides()
+                    objectSwiper.slideTo(0)
+                    const text = document.querySelector(".object__photo-info")
+                    const infoForTextBlock = containerItem.querySelector(".kompleks__layout-info")
+                    text.innerHTML = infoForTextBlock.innerHTML
                     chemePopup.classList.add('active')
+
                 })
 
 
