@@ -1454,7 +1454,11 @@ function P(e) {
             wrapperDiv.classList.add('city__wrapper', 'swiper-wrapper');
             swiperDiv.appendChild(wrapperDiv);
 
-            cityElement.photo.forEach(photo => {
+            const maxIterations = 5
+
+            const hasMoreThanFivePhotos = cityElement.photo.length > maxIterations;
+
+            cityElement.photo.slice(0, maxIterations).forEach((photo, index, array) => {
                 const slideDiv = document.createElement('div');
                 slideDiv.classList.add('city__slide', 'swiper-slide');
 
@@ -1463,7 +1467,7 @@ function P(e) {
 
                 const img = document.createElement('img');
 
-                if(photo.preview !== null && photo.preview) {
+                if (photo.preview !== null && photo.preview) {
                     img.setAttribute('src', `${photo.preview}`);
                 } else {
                     img.setAttribute('src', `uploads/${photo.photo}`);
@@ -1473,8 +1477,21 @@ function P(e) {
                 imgDiv.appendChild(img);
 
                 slideDiv.appendChild(imgDiv);
+
+                // Проверяем, является ли текущий элемент последним
+                if (index === array.length - 1 && hasMoreThanFivePhotos) {
+                    slideDiv.classList.add('last-slide');
+                    const span = document.createElement('span');
+                    span.classList.add('quantity');
+                    span.innerHTML = `+ еще ${cityElement.photo.length - maxIterations} фото`;
+                    slideDiv.appendChild(span);
+                }
+
                 wrapperDiv.appendChild(slideDiv);
             });
+
+
+
 
             const scrollbarDiv = document.createElement('div');
             scrollbarDiv.classList.add('city__scrollbar');
