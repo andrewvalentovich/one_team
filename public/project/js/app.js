@@ -574,7 +574,7 @@ async function getData() {
 
         var e = new ymaps.Map("map-country", {
 
-                center: [39.475851, 30.815585],
+                center: [38.475851, 30.815585],
 
                 zoom: 6,
 
@@ -745,119 +745,6 @@ async function getData() {
             }),
 
             c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
-
-            // l = window.myPlacemark = new ymaps.Placemark([40.93824, 29.26059], {
-
-            //     balloonContent: ["Турция, Анталия, 236 объектов"].join("")
-
-            // }, {
-
-            //     balloonPanelMaxMapWidth: 431520,
-
-            //     balloonShadow: !1,
-
-            //     balloonLayout: t,
-
-            //     iconLayout: o,
-
-            //     balloonContentLayout: c,
-
-            //     hideIconOnBalloonOpen: !1,
-
-            //     balloonOffset: [-110, -50]
-
-            // }),
-
-            // n = window.myPlacemark = new ymaps.Placemark([38.227547, 27.22873], {
-
-            //     balloonContent: ["Турция, Анталия, 236 объектов"].join("")
-
-            // }, {
-
-            //     balloonPanelMaxMapArea: 431520,
-
-            //     balloonShadow: !1,
-
-            //     balloonLayout: t,
-
-            //     iconLayout: o,
-
-            //     balloonContentLayout: c,
-
-            //     hideIconOnBalloonOpen: !1,
-
-            //     balloonOffset: [-110, -50]
-
-            // }),
-
-            // i = window.myPlacemark = new ymaps.Placemark([37.256168, 28.286126], {
-
-            //     balloonContent: ["Турция, Анталия, 236 объектов"].join("")
-
-            // }, {
-
-            //     balloonPanelMaxMapArea: 431520,
-
-            //     balloonShadow: !1,
-
-            //     balloonLayout: t,
-
-            //     iconLayout: o,
-
-            //     balloonContentLayout: c,
-
-            //     hideIconOnBalloonOpen: !1,
-
-            //     balloonOffset: [-110, -50]
-
-            // }),
-
-            // a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-
-            //     balloonContent: ["Турция, Анталия, 236 объектов"].join("")
-
-            // }, {
-
-            //     balloonPanelMaxMapArea: 431520,
-
-            //     balloonShadow: !1,
-
-            //     balloonLayout: t,
-
-            //     iconLayout: o,
-
-            //     balloonContentLayout: c,
-
-            //     hideIconOnBalloonOpen: !1,
-
-            //     balloonOffset: [-110, -50]
-
-            // }),
-
-            s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-
-                balloonContent: ["Турция, Анталия123123123123, 236 объектов"].join("")
-
-            }, {
-
-                balloonPanelMaxMapArea: 431520,
-
-                balloonShadow: !1,
-
-                balloonLayout: t,
-
-                iconLayout: o,
-
-                balloonContentLayout: c,
-
-                hideIconOnBalloonOpen: !1,
-
-                balloonOffset: [-110, -50]
-
-            });
-
-
-
         locations.forEach(function (Location) {
             var placemark = new ymaps.Placemark(Location.coordinates, {
                 balloonContent: Location.balloonContent,

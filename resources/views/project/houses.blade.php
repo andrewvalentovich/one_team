@@ -2972,11 +2972,6 @@ function P(e) {
                     long: newBounds[1][1]
                 };
 
-                // center = {
-                //     lat: (top_left.lat + bottom_right.lat) / 2,
-                //     long: (top_left.long + bottom_right.long) / 2
-                // };
-
                 getData(top_left, bottom_right);
                 currentCoordinateMapLeft = top_left
                 currentCoordinateMapRight = bottom_right
@@ -2985,13 +2980,8 @@ function P(e) {
             });
             mapCountry.events.add('boundschange', function(e){
                 if (e.get('newZoom') !== e.get('oldZoom')) {
-                    // mapCountry.container.fitToViewport()
                 }
             })
-
-            // ymaps.geocode(center).then(function (res) {
-            //     var firstGeoObject = res.geoObjects.get(0);
-            // });
 
         }
         let moveWas = 0
