@@ -1617,10 +1617,13 @@ body {
   display: block;
   font-size: 17px;
   position: relative;
+  padding: 10px 0px;
 }
-.header__nav-item:hover .header__nav-title{
+
+.header__nav-title:hover {
   color: #508cfa;
 }
+
 .header__nav-item:hover .header__nav-item-dropdown {
   display: block;
 }
