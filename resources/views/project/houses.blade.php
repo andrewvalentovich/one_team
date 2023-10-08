@@ -1713,12 +1713,9 @@ function P(e) {
     }
 
     function setCountObjectsPerPage() {
-        const subtitle = document.querySelector('.city-col__subtitle')
         const nothing = document.querySelector('.nothing')
         const pagination = document.querySelector('.city-col__bottom-btns')
-        const span = subtitle.querySelector('span')
         const objects = document.querySelectorAll('.city-col__item')
-        span.innerHTML = objects.length
 
         if(objects.length == 0) {
             nothing.classList.add('active')
@@ -2535,6 +2532,11 @@ function P(e) {
                     dataType: 'json',
                     data: params,
                     success: function (data) {
+                        if(data.length) {
+                            const subtitle = document.querySelector('.city-col__subtitle')
+                            const span = subtitle.querySelector('span')
+                            span.innerHTML = data.length
+                        }
                         resolve(data);
                     },
                     error: function (error) {

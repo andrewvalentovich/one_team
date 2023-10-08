@@ -3750,9 +3750,6 @@ body.scroll_fixed {
   flex: 0 0 15.2%;
 }
 
-.search-nav__more.active .search-nav__more-title::after {
-  transform: rotate(0deg);
-}
 
 .search-nav__find {
   position: relative;
@@ -4176,19 +4173,6 @@ body.scroll_fixed {
   position: relative;
 }
 
-.search-nav__more-title::after {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  background: url(../img/svg/arrow-down.svg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  right: 18px;
-  top: 8px;
-  transition: 0.2s;
-}
 
 .search-w {
   width: 100%;

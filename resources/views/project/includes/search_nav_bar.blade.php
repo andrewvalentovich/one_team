@@ -118,7 +118,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="search-nav__list-item search-nav__more search-nav__list-item_b " data_id="more">
+                <div class="search-nav__list-item search-nav__more search-nav__list-item_b search-nav__list-item_arrow" data_id="more">
                     <div class="search-nav__list-item-title search-nav__more-title">{{ __('Еще') }}</div>
                     <div class="search-nav__item-dropdown search-nav__more-dropdown ">
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
