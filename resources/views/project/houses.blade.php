@@ -823,7 +823,6 @@
                             <button class="btn">Оставить заявку</button>
                         </div>
                         <div class="object__photo-info">
-                            
                         </div>
                     </div>
                 </div>
@@ -1539,7 +1538,7 @@ function P(e) {
         placeW.classList.add('active')
         $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
         $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
-        currentHouse = {...object} 
+        currentHouse = {...object}
         const topPic = placeW.querySelector('.place__left-top').querySelector('img')
         topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
 
@@ -2273,6 +2272,7 @@ function P(e) {
                         // Выводим название страны при загрузке страницы
                         $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
                         // Выводим страны в dropdown
+                        $('.search-nav__countries-list').empty();
                         $.each(data.countries, function (index, value) {
                             $('.search-nav__countries-list').append('<div data_id="' + value.id + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
                         });
