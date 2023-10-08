@@ -1,37 +1,14 @@
 
 @extends('project.includes.layouts')
 <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
-
-
-
 @section('header')
     @include('project.includes.header')
 @endsection
-
-
-
-<style>
-
-
-</style>
-
-
-
 @section('content')
-
-
-
     @include('project.includes.search_nav_bar')
-
-
-
     <script>
-
-
         let product_id_is = '';
-
     </script>
-
     <?php $filter = \App\Models\Peculiarities::all() ?>
     <section class="city">
         <div class="city__content">
@@ -60,10 +37,7 @@
                 <div class="map_city__btn-changer-text">
                     {{__('Список')}}
                 </div>
-
             </div>
-
-
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
@@ -104,7 +78,6 @@
                     </div>
                     <div class="city-col__subtitle">
                         <span>
-
                         </span>
                         {{__('объявлений')}}
                     </div>
@@ -124,50 +97,7 @@
                         </div>
                         <div class="city-col__list">
                             @foreach($get_product as $product)
-                                <!-- <div class="city-col__item" data_id="{{$product->id}}">
-                                    <div class="city-col__slider">
-                                        <div class="city__swiper swiper">
-                                            <div class="city__wrapper swiper-wrapper">
-                                                @foreach($product->photo as $photo)
-                                                    <div class="city__slide swiper-slide">
-                                                        <div class="city-col__item-img">
-                                                            <img src="{{asset("uploads/".$photo->photo)}}" alt="place">
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            <div class="city__scrollbar"></div>
-                                        </div>
-                                    </div>
-                                    <div class="city-col__item-text">
-                                        <div class="city-col__item-price">
-                                            {{ number_format($product->price, 0, '.', ' ') }} {{ get_exchange_rate_symbol($product->price_code) }}
-                                        </div>
-                                        <div class="city-col__item-rooms">
-                                            {{$product->size}} {{__('кв.м')}}
-                                            <span>|</span> @foreach($product->ProductCategory->where('type', 'Спальни') as $spalni)  {{str_replace('+','',$spalni->category->name) }}  @endforeach
-                                            {{__('спальни')}}
-                                            <span>|</span> @foreach($product->ProductCategory->where('type', 'Ванные') as $spalni)  {{str_replace('+','',$spalni->category->name) }} @endforeach
-                                            {{__('ванна')}}
-                                        </div>
-                                        <div class="city-col__item-address">
-                                            {{$product->address}}
-                                        </div>
-                                    </div>
                                     <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                                    <div class="objects__slide-favorites check-favorites {{ $get == null ? '' : 'active' }}" data_id="{{$product->id}}">
-                                        <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"
-                                            width="73px" height="64px" version="1.1"
-                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                                            viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Слой_x0020_1">
-                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                            <path class="fil0 str0"
-                                            d="M1.16 1.88c-0.22,-0.16 -0.5,-0.38 -0.77,-0.65 -0.2,-0.19 -0.26,-0.37 -0.26,-0.55 0,-0.31 0.26,-0.55 0.58,-0.55 0.18,0 0.35,0.08 0.45,0.21 0.11,-0.13 0.28,-0.21 0.46,-0.21 0.32,0 0.58,0.24 0.58,0.55 0,0.18 -0.06,0.36 -0.26,0.55 -0.27,0.27 -0.56,0.49 -0.78,0.65z"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div> -->
                             @endforeach
                         </div>
                         <div class="place-w _country">
@@ -331,13 +261,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="object__id">
-
                                                     </div>
                                                     <div class="place__address">
-
                                                     </div>
                                                     <div class="place__square">
-
                                                     </div>
                                                 </div>
                                                 <div class="place__buy">
@@ -785,78 +712,33 @@
                         <div class="city-col__bottom-btns">
                             <style>
                                 .page-item {
-
                                     margin: 0 5px;
-
                                 }
-
                                 .pagination {
-
                                     display: flex;
-
                                     justify-content: space-between;
-
                                     margin: 0 35px;
-
                                 }
-
                                 .page-link {
-
                                     color: #002850;
-
                                     padding: 11px 22px;
-
                                     border-radius: 5px;
-
                                     border: 1px solid #e3e9f6;
-
                                     display: flex;
-
                                     justify-content: center;
-
                                     align-items: center;
-
                                     max-width: 50px;
-
                                     transition: .2s;
-
                                     cursor: pointer;
-
                                 }
-
                                 .active > span {
-
                                     color: #fff;
-
                                     border: none;
-
                                     background: #508cfa;
-
                                 }
-
                             </style>
                             <div class="city-col__bottom-pages" style="display:none">
 
-                            </div>
-                            <div class="city-col__pages_m">
-
-                                {{--                            <div class="city-col__item_m favorites__page-number">--}}
-
-                                {{--                                1--}}
-
-                                {{--                            </div>--}}
-
-                                {{--                            <div class="city-col__item_m favorites__page-from">--}}
-
-                                {{--                                из--}}
-
-                                {{--                            </div>--}}
-
-                                {{--                            <div class="city-col__item_m favorites__page-number">--}}
-
-                                {{--                                30--}}
-
-                                {{--                            </div>--}}
                             </div>
                         </div>
                     </div>
@@ -917,9 +799,7 @@
         </div>
     </section>
     <style>
-
-
-        .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
+    .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
     </style>
     <section class="object__photo">
         <div class="object__photo-popup">
@@ -969,13 +849,8 @@
             </div>
         </div>
     </section>
-
-
 @endsection
-
-
 @section('scripts')
-
     <script>
         function changerActive(list) {
             for(let i = 0; i < list.length; i++) {
@@ -1103,41 +978,6 @@
 
             document.querySelectorAll(".contact__form-phone-country").length && (document.querySelector(".contact__form-phone-country").onclick = function () {
                 this.classList.toggle("active"), document.querySelector(".contact__phone-dropdown").classList.toggle("active")
-            }), new Swiper(".objects__swiper", {
-                slidesPerView: 4,
-                spaceBetween: 20,
-                pagination: {
-                    el: ".objects__pagination",
-                    clickable: !0
-                },
-                navigation: {
-                    nextEl: ".objects__prev",
-                    prevEl: ".objects__next"
-                },
-                breakpoints: {
-                    0: {
-                        slidesPerView: 1,
-                        spaceBetween: 20
-                    },
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20
-                    },
-                    900: {
-                        slidesPerView: 3,
-                        spaceBetween: 20
-                    },
-                    1199: {
-                        slidesPerView: 4,
-                        spaceBetween: 20
-                    }
-                }
-            }), new Swiper(".city__swiper", {
-                slidesPerView: 1,
-                scrollbar: {
-                    el: ".city__scrollbar",
-                    hide: !0
-                }
             })
 
             let n = document.querySelectorAll(".search-nav__rooms-dropdown-bedrooms-button");
@@ -1165,20 +1005,6 @@
                 e(s), s[t].classList.add("active")
 
             }));
-
-
-
-// let r = document.querySelectorAll(".search-nav__price-currency-item");
-
-// for (let t = 0; t < s.length; t++) r[t].addEventListener("click", (function (o) {
-
-//     e(r), r[t].classList.add("active")
-
-// }));
-
-//
-
-
 
             function m() {
 
@@ -1226,16 +1052,6 @@
 
             }));
 
-            // let p = document.querySelectorAll(".city-col__btn");
-            // for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-            //     console.log(p[t].getAttribute('data_id'));
-            //     var ot_zastroishika = p[t].getAttribute('data_id');
-            //     e(p), p[t].classList.add("active");
-            //     history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
-            //     let allMarks = await getDataMarks()
-            //     createMapCity(allMarks)
-            // }));
-
             let h = document.querySelectorAll(".favorite-item-btn");
 
             for (let e = 0; e < h.length; e++) h[e].addEventListener("click", (function (t) {
@@ -1282,25 +1098,7 @@
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
-            }),
-            new Swiper(".scheme__swiper", {
-                slidesPerView: 1,
-                navigation: {
-                    nextEl: ".scheme__prev",
-                    prevEl: ".scheme__next"
-                },
-                breakpoints: {
-                    0: {
-                        slidesPerView: 1
-                    },
-                    540: {
-                        slidesPerView: 2
-                    },
-                    767: {
-                        slidesPerView: 1
-                    }
-                }
-            });
+            })
 
             let S = document.querySelectorAll(".place__collage-item_clickable"),
                 L = document.querySelectorAll(".place__slide_clickable"),
@@ -1318,17 +1116,6 @@
                     })
                 });
             }
-
-
-
-            // if (L.length)
-            //     for (let e = 0; e < L.length; e++) L[e].addEventListener("click", (function (event) {
-            //         const target = event.target
-            //         const placeW = target.closest('.place-w')
-            //         const id = placeW.getAttribute('data_id')
-            //         const placeCollage = document.querySelector('.place-popup-collage[data_id="' + id + '"]');
-            //         placeCollage.classList.add("active")
-            //     }));
 
             if (document.querySelectorAll('.place-popup-collage__exit').length) {
                 const placeCollageExitBtn = document.querySelectorAll('.place-popup-collage__exit')
@@ -1583,12 +1370,6 @@ function P(e) {
                     mark.classList.add('active')
                 });
                 currentBallon.balloon.open();
-                // setTimeout(() => {
-                //     let balloonContentElement = document.querySelector('.balloon-city');
-                //     balloonContentElement.addEventListener('click', function () {
-                //         setNewPopupHouseData(id)
-                //     });
-                // }, 0);
             })
             cityItem.addEventListener('mouseout', function() {
                 mapCountry.balloon.close()
@@ -2384,11 +2165,6 @@ function P(e) {
                 placemark.balloon.open(); // Открываем балун при наведении мыши
                 setTimeout(function () {
                     var balloonContentElement = document.querySelector('.balloon-city');
-
-                    // document.querySelector('.ballon-city__content').addEventListener('click', function() {
-                    //     var city_id = document.querySelector('.balloon-city').id;
-                    //     document.getElementById(`card_object-${city_id}`).scrollIntoView();
-                    // });
                     if (balloonContentElement) {
                         var mouseLeaveListener = function () {
                             placemark.balloon.close();
@@ -2648,10 +2424,6 @@ function P(e) {
         cityCol.addEventListener('scroll', function() {
             onScrollToFooter()
         });
-
-
-
-
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
@@ -2668,15 +2440,6 @@ function P(e) {
                 searchControlProvider: "yandex#search"
             });
 
-
-            // const test = [
-            //     {id: 16, coordinate: '37.014527998549,30.617296728445', vanie: '4+', spalni: '1+'},
-            //     {id: 17, coordinate: '37.060684082444,31.423120336413', vanie: '4+', spalni: '1+'},
-            //     {id: 18, coordinate: '37.056043486724,31.470336235632', vanie: '4+', spalni: '1+'},
-            //     {id: 19, coordinate: '37.437609897727,31.151629175749', vanie: '4+', spalni: '1+'},
-            //     {id: 20, coordinate: '36.817809294999,31.335206738751', vanie: '4+', spalni: '1+'},
-            //     {id: 21, coordinate: '36.377069537195,30.121689529195', vanie: '4+', spalni: '1+'},
-            // ]
             let minLat = Infinity;
             let maxLat = -Infinity;
             let minLon = Infinity;
@@ -3035,8 +2798,6 @@ function P(e) {
                 window.history.replaceState({}, '', updatedUrl);
             });
         });
-
-
 
     </script>
 @endsection
