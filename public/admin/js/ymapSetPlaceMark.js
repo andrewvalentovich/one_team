@@ -13,8 +13,30 @@ function init() {
     // Слушаем клик на карте.
     myMap.events.add('click', function (e) {
         var coords = e.get('coords');
-        document.getElementById('long').setAttribute("value", coords[1]);
-        document.getElementById('lat').setAttribute("value", coords[0]);
+        $('#long').val( coords[1]);
+        $('#lat').val(coords[0]);
+        // Если метка уже создана – просто передвигаем ее.
+        if (myPlacemark) {
+            myPlacemark.geometry.setCoordinates(coords);
+        }
+        // Если нет – создаем.
+        else {
+            myPlacemark = createPlacemark(coords);
+            myMap.geoObjects.add(myPlacemark);
+            // Слушаем событие окончания перетаскивания на метке.
+            myPlacemark.events.add('dragend', function () {
+                getAddress(myPlacemark.geometry.getCoordinates());
+            });
+        }
+        getAddress(coords);
+    });
+
+    $('#long, #lat').on('keyup', function (e) {
+        var long = $('#long').val();
+        var lat = $('#lat').val();
+
+        var coords = [Number(lat), Number(long)];
+
         // Если метка уже создана – просто передвигаем ее.
         if (myPlacemark) {
             myPlacemark.geometry.setCoordinates(coords);

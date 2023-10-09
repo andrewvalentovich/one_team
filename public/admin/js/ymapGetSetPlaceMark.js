@@ -47,6 +47,28 @@ function init() {
         getAddress(coords);
     });
 
+    $('#long, #lat').on('keyup', function (e) {
+        var long = $('#long').val();
+        var lat = $('#lat').val();
+
+        var coords = [Number(lat), Number(long)];
+
+        // Если метка уже создана – просто передвигаем ее.
+        if (myPlacemark) {
+            myPlacemark.geometry.setCoordinates(coords);
+        }
+        // Если нет – создаем.
+        else {
+            myPlacemark = createPlacemark(coords);
+            myMap.geoObjects.add(myPlacemark);
+            // Слушаем событие окончания перетаскивания на метке.
+            myPlacemark.events.add('dragend', function () {
+                getAddress(myPlacemark.geometry.getCoordinates());
+            });
+        }
+        getAddress(coords);
+    });
+
     // Создание метки.
     function createPlacemark(coords) {
         return new ymaps.Placemark(coords, {

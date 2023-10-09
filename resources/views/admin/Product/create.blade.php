@@ -330,17 +330,17 @@
 
                         <div class="form-group pt-3" bis_skin_checked="1">
                             <label for="">Адрес</label>
-                            <input name="address" type="text" class="form-control" id="" placeholder="Адрес" required >
+                            <input name="address" type="text" class="form-control" id="" placeholder="Адрес" required>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Названия </label>
-                            <input name="name" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input name="name" type="text" class="form-control" id="" placeholder="Названия" required>
                         </div>
 
                         <div class="form-group d-flex" bis_skin_checked="1">
                             <div class="form-group row col-md-3" bis_skin_checked="1">
                                 <label for="">Цена</label>
-                                <input name="price" type="number" class="form-control" id="" placeholder="Цена" required >
+                                <input name="price" type="number" class="form-control" id="" placeholder="Цена" >
                             </div>
                             <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
                                 <label>Валюта</label>
@@ -355,17 +355,16 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Общая площадь (кв.м)</label>
-                            <input name="size" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input name="size" type="text" class="form-control" id="" placeholder="Названия" required>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Площадь застройки (кв.м)</label>
-                            <input name="size_home" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input name="size_home" type="text" class="form-control" id="" placeholder="Названия" required>
                         </div>
 
                         <input type="hidden" name="category_id" value="{{$category->id}}">
-                        <input name="long" type="hidden" class="form-control" id="long" placeholder="Долгота">
-                        <input name="lat" type="hidden" class="form-control" id="lat" placeholder="Широта">
+
 
                         <style>
                             #set_placemark_map {
@@ -373,47 +372,58 @@
                                 height: 400px;
                             }
                         </style>
-                        <label for="set_placemark_map">Выберите координаты объекта</label>
+                        <label for="set_placemark_map" class="pt-3">Выберите координаты объекта</label>
                         <div id="set_placemark_map"></div>
 
-                        <div class="form-group pt-3" bis_skin_checked="1">
+                        <div class="row pt-3">
+                            <div class="form-group col-sm-12 col-md-6" bis_skin_checked="1">
+                                <label for="">Широта (вводить через точку)</label>
+                                <input name="lat" type="text" class="form-control" id="lat" placeholder="Широта">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6" bis_skin_checked="1">
+                                <label for="">Долгота (вводить через точку)</label>
+                                <input name="long" type="text" class="form-control" id="long" placeholder="Долгота">
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-5" bis_skin_checked="1">
                             <label for="">Расположение на Русском</label>
-                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположение" required></textarea>
+                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположение"></textarea>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположение на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположение на Англиском" required></textarea>
+                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположение на Англиском"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположение на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположение на Турецком" required></textarea>
+                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположение на Турецком"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположение на Немецком</label>
-                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположение на Немецком" required></textarea>
+                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположение на Немецком"></textarea>
                         </div>
 
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
-                            <textarea name="description"  class="form-control" id="" placeholder="Описание" required></textarea>
+                            <textarea name="description"  class="form-control" id="" placeholder="Описание"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Англиском</label>
-                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском" required></textarea>
+                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Турецком</label>
-                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком" required></textarea>
+                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Немецком</label>
-                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком" required></textarea>
+                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком"></textarea>
                         </div>
 
 

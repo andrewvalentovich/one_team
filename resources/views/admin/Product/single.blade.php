@@ -367,7 +367,7 @@
                                                                 <div class="form-group d-flex" bis_skin_checked="1">
                                                                     <div class="form-group row col-md-3" bis_skin_checked="1">
                                                                         <label for="">Цена</label>
-                                                                        <input name="add_price{{ $object->id }}" value="{{ $object->price }}" type="number" class="form-control" id="" placeholder="Цена" required>
+                                                                        <input name="add_price{{ $object->id }}" value="{{ $object->price }}" type="number" class="form-control" id="" placeholder="Цена">
                                                                     </div>
                                                                     <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
                                                                         <label>Валюта</label>
@@ -460,18 +460,18 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Адрес</label>
-                            <input value="{{$get->address}}" name="address" type="text" class="form-control" id="" placeholder="Адрес" required >
+                            <input value="{{$get->address}}" name="address" type="text" class="form-control" id="" placeholder="Адрес" >
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Названия </label>
-                            <input value="{{$get->name}}" name="name" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input value="{{$get->name}}" name="name" type="text" class="form-control" id="" placeholder="Названия" >
                         </div>
 
                         <div class="form-group d-flex" bis_skin_checked="1">
                             <div class="form-group row col-md-3" bis_skin_checked="1">
                                 <label for="">Цена</label>
-                                <input name="price" type="number" value="{{ $get->price }}" class="form-control" placeholder="Цена" required >
+                                <input name="price" type="number" value="{{ $get->price }}" class="form-control" placeholder="Цена" >
                             </div>
                             <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
                                 <label>Валюта</label>
@@ -492,16 +492,13 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Общая площадь (кв.м)</label>
-                            <input value="{{$get->size}}" name="size" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input value="{{$get->size}}" name="size" type="text" class="form-control" id="" placeholder="Названия" >
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Площадь застройки (кв.м)</label>
-                            <input value="{{$get->size_home}}" name="size_home" type="text" class="form-control" id="" placeholder="Названия" required >
+                            <input value="{{$get->size_home}}" name="size_home" type="text" class="form-control" id="" placeholder="Названия" >
                         </div>
-
-                        <input value="{{$get->long}}"  name="long" type="hidden" class="form-control" id="long" placeholder="Долгота">
-                        <input value="{{$get->lat}}"  name="lat" type="hidden" class="form-control" id="lat" placeholder="Широта">
 
                         <style>
                             #set_placemark_map {
@@ -509,46 +506,58 @@
                                 height: 400px;
                             }
                         </style>
+                        <label for="set_placemark_map" class="pt-5">Выберите координаты объекта</label>
                         <div id="set_placemark_map"></div>
 
-                        <div class="form-group pt-4" bis_skin_checked="1">
+                        <div class="row pt-3">
+                            <div class="form-group col-sm-12 col-md-6" bis_skin_checked="1">
+                                <label for="">Широта (вводить через точку)</label>
+                                <input name="lat" value="{{$get->lat}}" type="text" class="form-control" id="lat" placeholder="Широта">
+                            </div>
+                            <div class="form-group col-sm-12 col-md-6" bis_skin_checked="1">
+                                <label for="">Долгота (вводить через точку)</label>
+                                <input name="long" value="{{$get->long}}" type="text" class="form-control" id="long" placeholder="Долгота">
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-5" bis_skin_checked="1">
                             <label for="">Расположения на Русском</label>
-                            <textarea  name="disposition"  class="form-control" id="" placeholder="Расположения" required>{{$get->disposition}}</textarea>
+                            <textarea  name="disposition"  class="form-control" id="" placeholder="Расположения">{{$get->disposition}}</textarea>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположения на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположения на Англиском" required>{{$get->disposition_en}}</textarea>
+                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположения на Англиском">{{$get->disposition_en}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположения на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположения на Турецком" required>{{$get->disposition_tr}}</textarea>
+                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположения на Турецком">{{$get->disposition_tr}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположения на Немецком</label>
-                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположения на Немецком" required>{{$get->disposition_de}}</textarea>
+                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположения на Немецком">{{$get->disposition_de}}</textarea>
                         </div>
 
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
-                            <textarea name="description"  class="form-control" id="" placeholder="Описание" required>{{$get->description}}</textarea>
+                            <textarea name="description"  class="form-control" id="" placeholder="Описание">{{$get->description}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Англиском</label>
-                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском" required>{{$get->description_en}}</textarea>
+                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском">{{$get->description_en}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Турецком</label>
-                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком" required>{{$get->description_tr}}</textarea>
+                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком">{{$get->description_tr}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Немецком</label>
-                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком" required>{{$get->description_de}}</textarea>
+                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком">{{$get->description_de}}</textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
