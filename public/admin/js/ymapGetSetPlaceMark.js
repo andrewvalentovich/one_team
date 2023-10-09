@@ -29,8 +29,8 @@ function init() {
     myMap.events.add('click', function (e) {
         var coords = e.get('coords');
         console.log(coords);
-        document.getElementById('long').setAttribute("value", coords[1]);
-        document.getElementById('lat').setAttribute("value", coords[0]);
+        $('#lat').val(coords[0]);
+        $('#long').val(coords[1]);
         // Если метка уже создана – просто передвигаем ее.
         if (myPlacemark) {
             myPlacemark.geometry.setCoordinates(coords);
