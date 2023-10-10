@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Products\StoreRequest;
+use App\Http\Requests\Admin\Products\UpdateRequest;
 use App\Models\ExchangeRate;
+use App\Models\Layouts;
 use App\Models\Option;
 use App\Services\CurrencyService;
 use App\Services\PreviewImageService;
@@ -38,9 +41,7 @@ class ProductController extends Controller
         }
 
         $get = ProductCategory::where('peculiarities_id', $id)->get()->pluck('product_id')->toarray();
-
         $product = Product::wherein('id', $get)->where('sale_or_rent','sale')->orderBy('id', 'desc')->paginate(10);
-
         return view('admin.Product.all',compact('category','product'));
     }
 
@@ -53,9 +54,7 @@ class ProductController extends Controller
         }
 
         $get = ProductCategory::where('peculiarities_id', $id)->get()->pluck('product_id')->toarray();
-
         $product = Product::wherein('id', $get)->where('sale_or_rent','rent')->orderBy('id', 'desc')->paginate(10);
-
         return view('admin.Product.all',compact('category','product'));
     }
 
@@ -71,66 +70,39 @@ class ProductController extends Controller
         return view('admin.Product.create', compact('category','categorys','country','options', 'photo_categories', 'exchanges'));
     }
 
-    public function create_product(Request $request)
+    public function create_product(StoreRequest $request)
     {
-        $objects = [];
+        $data = $request->validated();
+        // Планировки
+        $layouts = $request->layouts;
 
-        for($i = 0; $i < $request->objects_count; $i++) {
-            $objects[$i]['id'] = $request['add_id'.$i];
-            $objects[$i]['building'] = $request['add_building'.$i];
-            $objects[$i]['price'] = $this->currencyService->convertPriceToEur($request['add_price'.$i], $request['add_price_code'.$i]);
-            $objects[$i]['price_code'] = $request['add_price_code'.$i];
-            $objects[$i]['size'] = $request['add_size'.$i];
-            $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
-            $objects[$i]['floor'] = $request['add_floor'.$i];
 
-            // Добавление фотографий
-            if (isset($request['add_apartment_layout_image'.$i])) {
-                if (is_array($request['add_apartment_layout_image'.$i])) {
-                    foreach ($request['add_apartment_layout_image'.$i] as $image) {
-                        $fileName = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
-                        $filePath = $image->move('uploads', $fileName);
-                        $objects[$i]['apartment_layout_image'][] = $fileName;
-                    }
-                } else {
-                    $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' . $request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
-                    $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
-                    $objects[$i]['apartment_layout_image'][] = $fileName;
-                }
-            }
-        }
+//        for($i = 0; $i < count($layouts); $i++) {
+//            // Добавление фотографий
+//            if (isset($layouts[$i]['photos'])) {
+//                if (is_array($layouts[$i]['photos'])) {
+//                    foreach ($layouts[$i]['photos'] as $image) {
+//                        // Перебор массива с картинками планировки
+//                    }
+//                } else {
+//                    // работа с 1 картинкой планировки
+//                }
+//            }
+//        }
 
-        $create =  Product::create([
-            'complex_or_not' => $request->complex_or_not,
-            'city_id' => $request->city_id,
-            'sale_or_rent' => $request->sale_or_rent,
-            'country_id' => $request->country_id,
-            'name' => $request->name,
-            'price'=> $this->currencyService->convertPriceToEur($request->price, $request->price_code),
-            'price_code'=> $request->price_code,
-            'size' => $request->size,
-            'size_home' => $request->size_home,
-            'address' => $request->address,
-            'disposition' => $request->disposition,
-            'disposition_en' => $request->disposition_en,
-            'disposition_tr' => $request->disposition_tr,
-            'disposition_de' => $request->disposition_de,
-            'description' => $request->description,
-            'description_en' => $request->description_en,
-            'description_tr' => $request->description_tr,
-            'description_de' => $request->description_de,
-            'parking' => $request->parking,
-            'cryptocurrency' => $request->cryptocurrency,
-            'owner' => $request->owner,
-            'vnj' => $request->vnj,
-            'grajandstvo' => $request->grajandstvo,
-            'commissions' => $request->commissions,
-            'long' => isset($request->long) ? preg_replace( '/[^0-9.]+$/',  '',  $request->long) : null,
-            'lat' => isset($request->lat) ? preg_replace( '/[^0-9.]+$/',  '',  $request->lat) : null,
-            'objects' => json_encode($objects),
-            'option_id' => (is_numeric($request->option_id) && $request->option_id > 0) ? $request->option_id : null,
-        ]);
+        // Конвертируем цену
+        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        // Настраиваем option_id (для лендингов)
+        $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
+        $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
+        $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
+        $create =  Product::create($data);
+
+        // Создаём планировки для созданного объекта
+        $this->createLayouts($layouts, $create->id);
+
+        // Закрепляем особенности за созданным объектом
         if (isset($request->osobenosti)){
             foreach ($request->osobenosti as $item) {
                 $get_category = Peculiarities::where('id', $item)->first();
@@ -144,18 +116,6 @@ class ProductController extends Controller
 
         // Добавление фотографий
         $time = time();
-//        if (isset($request->other_photo_two)){
-//            $other_photo = $request->other_photo_two;
-//            foreach ($other_photo as $item) {
-//                $fileName = $time++.'.'.$item->getClientOriginalExtension();
-//                $filePath = $item->move('uploads', $fileName);
-//                ProductDrawing::create([
-//                    'product_id' => $create->id,
-//                    'photo' => $fileName
-//                ]);
-//            }
-//        }
-
         if (isset($request->photo)){
             foreach ($request->photo as $key => $photo){
                 $file =  $photo;
@@ -167,7 +127,7 @@ class ProductController extends Controller
                     'parent_id' => $create->id,
                     'photo' => $fileName,
                     'preview' => $this->previewImageService->update($fileName),
-                    'category_id' => (isset($request->photo_categories) && $request->photo_categories["new_".$key] > 0) ? $request->photo_categories["new_".$key] : null
+                    'category_id' => (isset($request->photo_categories) && $request->photo_categories["new_" . $key] > 0) ? $request->photo_categories["new_" . $key] : null
                 ]);
             }
         }
@@ -175,16 +135,14 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Product Created',
-            'url' => route('all_product',$request->category_id)
+            'url' => route('all_product', $request->category_id)
         ],200);
     }
-
-
 
     public function single_page_product($id)
     {
         // Получаем элемент
-        $get = Product::where('id', $id)->first();
+        $get = Product::with('layouts')->where('id', $id)->first();
 
         // Выводим корректную цену в соответствии с указанной валютой
         $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
@@ -208,21 +166,18 @@ class ProductController extends Controller
         $get_new_category = Peculiarities::whereNotIn('id', $get->ProductCategory->pluck('peculiarities_id'))->where('type','Особенности')->get();
         $categorys =  Peculiarities::get();
         $options =  Option::all();
-        $exchanges = [];
 
+        $exchanges = [];
         foreach (ExchangeRate::all() as $exchange) {
             $exchanges[] = $exchange->relative;
         }
         $exchanges[] = "RUB";
 
         $photo_categories = \App\Models\PhotoCategory::all();
-
         $get_old_category = ProductCategory::where('product_id', $get->id)->where('type', 'Особенности')->get();
 
         return view('admin.Product.single', compact('city','country','get','get_new_category', 'categorys', 'product_category','get_old_category','options', 'photo_categories', 'exchanges'));
     }
-
-
 
     public function delete_osobenosti($id)
     {
@@ -245,75 +200,31 @@ class ProductController extends Controller
         return redirect()->back()->with('true', 'Фотография удалена');
     }
 
-
-    public function update_product(Request $request)
+    public function update_product(UpdateRequest $request)
     {
-        $objects = [];
+        $data = $request->validated();
+        $layouts = $request->layouts;
 
-        $product = Product::find($request->product_id);
-        $json_objects = json_decode($product->objects);
+        $product = Product::with('layouts')->find($request->product_id);
 
-        for($i = 0; $i < $request->objects_count; $i++) {
-            $objects[$i]['id'] = $request['add_id'.$i];
-            $objects[$i]['building'] = $request['add_building'.$i];
-            $objects[$i]['price'] = $this->currencyService->convertPriceToEur($request['add_price'.$i], $request['add_price_code'.$i]);
-            $objects[$i]['price_code'] = $request['add_price_code'.$i];
-            $objects[$i]['size'] = $request['add_size'.$i];
-            $objects[$i]['apartment_layout'] = $request['add_apartment_layout'.$i];
-            $objects[$i]['floor'] = $request['add_floor'.$i];
+        // Конвертируем цену
+        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        // Настраиваем option_id (для лендингов)
+        $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
+        $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
+        $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
-            // Добавление фотографий
-            if (isset($request['add_apartment_layout_image'.$i])) {
-                if (is_array($request['add_apartment_layout_image'.$i])) {
-                    foreach ($request['add_apartment_layout_image'.$i] as $image) {
-                        $fileName = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
-                        $filePath = $image->move('uploads', $fileName);
-                        $objects[$i]['apartment_layout_image'][] = $fileName;
-                    }
-                } else {
-                    $fileName = md5(Carbon::now() . '_' . $request['add_apartment_layout_image'.$i]->getClientOriginalName()) . '.' . $request['add_apartment_layout_image'.$i]->getClientOriginalExtension();
-                    $filePath = $request['add_apartment_layout_image'.$i]->move('uploads', $fileName);
-                    $objects[$i]['apartment_layout_image'][] = $fileName;
-                }
-            } else {
-                $objects[$i]['apartment_layout_image'] = $json_objects[$i]->apartment_layout_image;
-            }
-        }
+        // Обновляем данные
+        $product->update($data);
 
-        $create =  $product->update([
-            'complex_or_not' => $request->complex_or_not,
-            'city_id' => $request->city_id,
-            'sale_or_rent' => $request->sale_or_rent,
-            'country_id' => $request->country_id,
-            'name' => $request->name,
-            'price'=> $this->currencyService->convertPriceToEur($request->price, $request->price_code),
-            'price_code'=> $request->price_code,
-            'size' => $request->size,
-            'size_home' => $request->size_home,
-            'address' => $request->address,
-            'disposition' => $request->disposition,
-            'disposition_en' => $request->disposition_en,
-            'disposition_tr' => $request->disposition_tr,
-            'disposition_de' => $request->disposition_de,
-            'description' => $request->description,
-            'description_en' => $request->description_en,
-            'description_tr' => $request->description_tr,
-            'description_de' => $request->description_de,
-            'parking' => $request->parking,
-            'cryptocurrency' => $request->cryptocurrency,
-            'owner' => $request->owner,
-            'vnj' => $request->vnj,
-            'grajandstvo' => $request->grajandstvo,
-            'commissions' => $request->commissions,
-            'long' => preg_replace( '/[^0-9.]+$/',  '',  $request->long) ,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
-            'objects' => json_encode($objects),
-            'option_id' => (is_numeric($request->option_id) && $request->option_id > 0) ? $request->option_id : null
-        ]);
+        // Обновляем или удаляем планировки для созданного объекта
+        $this->updateLayouts($layouts, $product);
 
+        // Закрепление особенностей за обновлённым объектом
         if (isset($request->osobenosti)){
-            ProductCategory::where('product_id',$request->product_id)->delete();
+            ProductCategory::where('product_id', $request->product_id)->delete();
             $uniqueArray = array_unique($request->osobenosti);
+
             foreach ($uniqueArray as $item) {
                 $get_category = Peculiarities::where('id', $item)->first();
                 if ($get_category != null){
@@ -332,7 +243,7 @@ class ProductController extends Controller
            ]);
         }
 
-
+        // Создание фото для обновлённого объекта
         if (isset($request->photo)) {
             $time = time();
             foreach ($request->photo as $key => $photo){
@@ -350,6 +261,7 @@ class ProductController extends Controller
             }
         }
 
+        // Добавление категорий для фото обновлённого объекта
         if (isset($request->photo_categories)) {
             foreach ($request->photo_categories as $key => $category) {
                 if (gettype($key) != "string") {
@@ -357,7 +269,7 @@ class ProductController extends Controller
                     PhotoTable::whereId($key)->update($data);
                     unset($data);
                 } else {
-                    if (strripos($key, "new_")) {
+                    if (strripos($key, "new_") !== false) {
                         $data['category_id'] = $category > 0 ? $category : null;
                         PhotoTable::whereId($key)->update($data);
                         unset($data);
@@ -369,7 +281,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Product Updated',
-            'url' => route('single_page_product',$request->product_id)
+            'url' => route('single_page_product', $request->product_id)
         ],200);
     }
 
@@ -395,17 +307,72 @@ class ProductController extends Controller
 
     }
 
-
     public function delete_drawing($id){
-         $get = ProductDrawing::where('id', $id)->first();
-        if ($get == null){
+        $get = ProductDrawing::where('id', $id)->first();
+        if ($get == null) {
             return redirect()->back();
         }
-            $image_path = public_path("uploads/{$get->photo}");
-            if (File::exists($image_path)) {
-                unlink($image_path);
+
+        $image_path = public_path("uploads/{$get->photo}");
+        if (File::exists($image_path)) {
+            unlink($image_path);
         }
-            $get->delete();
-            return redirect()->back();
+
+        $get->delete();
+        return redirect()->back();
+    }
+
+
+    private function createLayouts($layouts, $product_id)
+    {
+        foreach ($layouts as $key => $layout) {
+            $this->createLayout($layout, $product_id);
+        }
+    }
+
+    private function updateLayouts($layouts, $product)
+    {
+        // Выбираем колонку id всех планировок, которые пришли
+        $columns = array_column($layouts, 'id');
+
+        // Проверим, если в layouts отсутствуют те планировки, которые есть в $products, то удалим их
+        foreach ($product->layouts as $layout) {
+            if (!in_array($layout->id, $columns)) {
+                Layouts::destroy($layout->id);
+                Log::info('Destroyed layout - ' . $layout->id);
+            }
+        }
+
+        // Создадим или обновим колонки
+        foreach ($layouts as $key => $layout) {
+//          $this->updateLayout($layout, $product->id);
+            Log::info('Updated layout - ' . $this->updateLayout($layout, $product->id));
+        }
+    }
+
+    private function createLayout($data, $product_id)
+    {
+        // Добавим поле для связи
+        $data['complex_id'] = $product_id;
+        unset($data['id']);
+
+        return Layouts::create($data);
+    }
+
+    private function updateLayout($data, $product_id)
+    {
+        $layout = Layouts::find($data['id']);
+
+        if (!is_null($layout)) {
+            // Добавим поле для связи
+            $data['complex_id'] = $product_id;
+            unset($data['id']);
+
+            $layout->update($data);
+        } else {
+            $this->createLayout($data, $product_id);
+        }
+
+        return $layout;
     }
 }

@@ -112,7 +112,7 @@ function getAccordion(id, exchange_rates) {
                     "<p class='btn btn-link' data-toggle='collapse' data-target='#collapse" + id + "' aria-expanded='true' aria-controls='collapse" + id + "'>"+
                         "Объект #" + id +
                     "</p>"+
-                    "<input name='add_id"+id+"' type='hidden' value='"+id+"'>"+
+                    "<input name='layouts["+id+"][id]' type='hidden' value='new_"+id+"'>"+
                 "</h5>"+
             "</div>"+
             "<div id='collapse" + id + "' class='collapse show' aria-labelledby='heading" + id + "' data-parent='#accordion" + id + "'>"+
@@ -120,12 +120,12 @@ function getAccordion(id, exchange_rates) {
                     "<div class='form-group' bis_skin_checked='1' style='display: block;'>"+
                         "<div class='form-group' bis_skin_checked='1'>"+
                             "<label for='add_building"+id+"'>Копрус</label>"+
-                            "<input name='add_building"+id+"' type='text' class='form-control' id='add_building"+id+"' placeholder='А'>"+
+                            "<input name='layouts["+id+"][building]' type='text' class='form-control' id='add_building"+id+"' placeholder='А'>"+
                         "</div>"+
                         "<div class='form-group d-flex' bis_skin_checked='1'>\n" +
                             "<div class='form-group row col-md-6' bis_skin_checked='1'>\n" +
                                 "<label for='add_price"+id+"'>Цена</label>"+
-                                "<input name='add_price"+id+"' type='number' class='form-control' id='add_price"+id+"' placeholder='Цена' required >\n" +
+                                "<input name='layouts["+id+"][price]' type='number' class='form-control' id='add_price"+id+"' placeholder='Цена' required>\n" +
                             "</div>\n" +
                             "<div class='form-group row col-md-6 ml-2' bis_skin_checked='1'>\n" +
                                 "<label>Валюта</label>\n"+
@@ -134,22 +134,22 @@ function getAccordion(id, exchange_rates) {
                         "</div>\n" +
                         "<div class='form-group' bis_skin_checked='1'>"+
                             "<label for='add_size"+id+"'>Общая площадь (кв.м)</label>"+
-                            "<input name='add_size"+id+"' type='text' class='form-control' id='add_size"+id+"' placeholder='40'>"+
+                            "<input name='layouts["+id+"][total_size]' type='text' class='form-control' id='add_size"+id+"' placeholder='40'>"+
                         "</div>"+
                         "<div class='form-group' bis_skin_checked='1'>"+
                             "<label for='add_apartment_layout"+id+"'>Планировка</label>"+
-                            "<input name='add_apartment_layout"+id+"' type='text' class='form-control' id='add_apartment_layout"+id+"' placeholder='1+1'>"+
+                            "<input name='layouts["+id+"][number_rooms]' type='text' class='form-control' id='add_apartment_layout"+id+"' placeholder='1+1'>"+
                         "</div>"+
                         "<div class='form-group' bis_skin_checked='1'>"+
                             "<label for='add_floor"+id+"'>Этаж</label>"+
-                            "<input name='add_floor"+id+"' type='text' class='form-control' id='add_floor"+id+"' placeholder='5'>"+
+                            "<input name='layouts["+id+"][floor]' type='text' class='form-control' id='add_floor"+id+"' placeholder='5'>"+
                         "</div>"+
                         "<div class='form-group' bis_skin_checked='1'>"+
                         "\n" +
-                        "                <div class=\"form-main__label\" for=\"add_apartment_layout_image\">Прикрепить фотографию планировки</div>\n" +
-                        "                <label class=\"input-file\">\n" +
-                        "                    <span class=\"input-file-text form-control files_text\" type=\"text\"></span>\n" +
-                        "                    <input class=\"add_apartment_layout_image\" type=\"file\" name=\"add_apartment_layout_image"+id+"[]\" accept=\"image/*\"  multiple>\n" +
+                        "                <div class='form-main__label' for='add_apartment_layout_image'>Прикрепить фотографию планировки</div>\n" +
+                        "                <label class='input-file'>\n" +
+                        "                    <span class='input-file-text form-control files_text' type='text'></span>\n" +
+                        "                    <input class='add_apartment_layout_image' type='file' name='layouts["+id+"][photos][]' accept='image/*' multiple>\n" +
                         "                </label>"+
                         "</div>"+
                         "<p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='"+ id +"'>Удалить квартиру</p>"+
@@ -206,7 +206,7 @@ $('#object_module_add').on('click', function () {
 
     $('.add_apartment_layout_image').on('change', function() {
         let file = this.files;
-        if (file[0].size > 2000000){
+        if (file[0].size > 2000000) {
             $(this).closest('.input-file').find('.files_text').html("Максимальный размер фотографии не должен превышать 2 Мб");
         } else {
             $(this).closest('.input-file').find('.files_text').html(file[0].name);
@@ -445,7 +445,7 @@ function displayPhoto(data, select_id) {
 }
 
 function displayExchangeRatesSelect(data, select_id) {
-    var select = `<select class='form-control' name="add_price_code${select_id}" style='color: #e2e8f0'>`;
+    var select = `<select class='form-control' name="layouts[${select_id}][price_code]" style='color: #e2e8f0'>`;
     $.each(data, function (key, value) {
         if (value.name == "EUR") {
             select += `<option value="${value.name}" selected>${value.name}</option>`;
