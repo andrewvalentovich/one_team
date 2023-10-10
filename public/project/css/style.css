@@ -921,6 +921,7 @@ body {
 
 .objects__wrapper {
   padding-bottom: 25px;
+  height: auto !important;
 }
 
 .objects__slide-favorites.active svg .fil0 {
@@ -1617,6 +1618,7 @@ body {
   display: block;
   font-size: 17px;
   position: relative;
+  padding: 10px 0;
 }
 
 .header__nav-title:hover {
@@ -1983,6 +1985,7 @@ body {
   gap: 10px;
   box-sizing: border-box;
   pointer-events: none;
+  align-items: center;
 }
 .popular-locations__item:hover .popular-locations__item-text {
   color: #508cfa;

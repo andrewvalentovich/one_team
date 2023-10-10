@@ -1,11 +1,5 @@
 let locations = [];
-
-
-
-
-
 async function getData() {
-
     await fetch('/city_from_map')
         .then(response => response.json())
         .then(data => {
@@ -23,40 +17,24 @@ async function getData() {
             console.error('Error:', error);
         });
 }
-
-
 (async () => {
-
     "use strict";
-
     await getData();
-
     if(window.innerWidth <=1003) {
         if(document.querySelectorAll("#map_city").length) {
             document.querySelector("#map_city").classList.add("map_city_active");
             document.querySelector(".city__content").classList.add("city_map");
         }
     }
-
-
     function e(e) {
-
         for (let t = 0; t < e.length; t++) e[t].classList.remove("active");
-
         e = 0
-
     }
-
-
-
     window.addEventListener("resize", (function (e) {
         vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-
         window.innerWidth > 1199 && (document.querySelector(".header-m").classList.remove("active"), document.querySelector("#nav-icon").classList.remove("open"), document.querySelector(".header-w").classList.remove("fixed")), document.querySelectorAll(".search-nav-w").length && (window.innerWidth > 899 && !document.querySelector(".search-nav__more-dropdown").classList.contains("active") && (document.querySelector(".search-w").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active")), window.innerWidth <= 899 && (document.querySelector(".search-nav__more-dropdown").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active"), document.querySelector(".search-nav__price-dropdown").classList.remove("active"), document.querySelector(".search-nav__price").classList.remove("active"), document.querySelector(".search-nav__types-dropdown").classList.remove("active"), document.querySelector(".search-nav__types").classList.remove("active")), window.innerWidth <= 1199 && (document.querySelector(".search-nav__rooms-dropdown").classList.remove("active"), document.querySelector(".search-nav__rooms").classList.remove("active"))), document.querySelectorAll(".place-w").length && (window.innerWidth <= 1023 && document.querySelector(".place-w").classList.contains("active") && document.querySelector(".header-w").classList.add("fixed"), window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.innerWidth > 540 && (document.querySelector(".place__currency-preview-item").textContent = "Валюта"))
-
     })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
-
         if (document.querySelectorAll("#map_city").length) {
             if (window.innerWidth > 1003) {
                 document.querySelector(".city__content").classList.remove("city_map");
@@ -65,7 +43,6 @@ async function getData() {
                 document.querySelector(".city-col__btn-changer").classList.add("active");
                 document.querySelector("#map_city").classList.remove("map_city_active");
                 document.querySelector(".city__content").classList.remove("city_map");
-
                 document.querySelector("#map_city").style.height = window.innerWidth > 1199 ?
                     window.innerHeight - 18 - 161 + "px" :
                     window.innerHeight - 88 - 60 + "px";
@@ -75,149 +52,65 @@ async function getData() {
             }
         }
     })), document.querySelector(".header__top-lang").onclick = function () {
-
         document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
-
     }, document.querySelector(".header__top-phone-menu").onclick = function () {
-
         document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
-
     }
-    const headerNavItem = document.querySelectorAll(".header__nav-item")
-    // headerNavItem.forEach(btn => {
-    //     btn.addEventListener('test', function() {
-    //         console.log($('.search-nav__list-item'))
-    //         $('.search-nav__list-item').removeClass('active')
-    //         $('.search-nav__item-dropdown').removeClass('active')
-    //         if(this.querySelector('.header__nav-title').classList.contains('active')) {
-    //             $('.header__nav-title').removeClass('active')
-    //             $('.header__nav-item-dropdown').removeClass('active')
-    //         } else {
-    //             $('.header__nav-title').removeClass('active')
-    //             $('.header__nav-item-dropdown').removeClass('active')
-    //             this.querySelector('.header__nav-title').classList.add("active")
-    //             if(this.querySelector('.header__nav-item-dropdown'))
-    //             this.querySelector('.header__nav-item-dropdown').classList.add("active")
-    //         }
-    //     })
-    // })
-
     let t = document.querySelectorAll(".header-m__langs-item");
-
     for (let o = 0; o < t.length; o++) t[o].addEventListener("click", (function (c) {
-
         e(t), t[o].classList.add("active")
-
     }));
-
     let o = document.querySelectorAll(".index-map__button");
-
     for (let t = 0; t < o.length; t++) o[t].addEventListener("click", (function (c) {
-
         e(o), o[t].classList.add("active")
-
     }));
-
     let c, l = document.querySelectorAll(".contact__top-item");
-
     for (let t = 0; t < l.length; t++) l[t].addEventListener("click", (function (o) {
-
         e(l), l[t].classList.add("active")
-
     }));
-
     document.querySelectorAll(".contact__form-phone-country").length && (document.querySelector(".contact__form-phone-country").onclick = function () {
-
         this.classList.toggle("active"), document.querySelector(".contact__phone-dropdown").classList.toggle("active")
-
     }), new Swiper(".city__swiper", {
-
         slidesPerView: 1,
-
         scrollbar: {
-
             el: ".city__scrollbar",
-
             hide: !0
-
         }
-
     })
     let n = document.querySelectorAll(".search-nav__rooms-dropdown-bedrooms-button");
-
     for (let t = 0; t < n.length; t++) n[t].addEventListener("click", (function (o) {
-
         e(n), n[t].classList.add("active")
-
     }));
-
     let i = document.querySelectorAll(".search-nav__rooms-dropdown-bathrooms-button");
-
     for (let t = 0; t < i.length; t++) i[t].addEventListener("click", (function (o) {
-
         e(i), i[t].classList.add("active")
-
     }));
-
     let a = document.querySelectorAll(".search-nav__view-button");
-
     for (let t = 0; t < a.length; t++) a[t].addEventListener("click", (function (o) {
-
         e(a), a[t].classList.add("active")
-
     }));
-
     let s = document.querySelectorAll(".search-nav__sea-button");
-
     for (let t = 0; t < s.length; t++) s[t].addEventListener("click", (function (o) {
-
         e(s), s[t].classList.add("active")
-
     }));
-
      document.querySelector(".city-col__filter") && (document.querySelector(".city-col__filter").onclick = function () {
-
         this.classList.toggle("active"), document.querySelector(".city-col__filter-list").classList.toggle("active")
-
     }), document.querySelector(".favorites__top-filter") && (document.querySelector(".favorites__top-filter").onclick = function () {
-
         this.classList.toggle("active"), document.querySelector(".favorites__top-filter-list").classList.toggle("active")
-
     }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place__btns-call-preview").onclick = function () {
-
-        // document.querySelector(".place__btns-call-list").classList.toggle("active")
-
     }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place-w").onscroll = function () {
-
         window.innerWidth < 640 && (document.querySelector(".place-w").scrollTop > 620 ? document.querySelector(".place__btns").style.position = "fixed" : document.querySelector(".place__btns").style.position = "static")
-
     }, window.addEventListener("resize", (function (e) {
-
         window.innerWidth >= 640 && (document.querySelector(".place__btns").style.position = "static")
-
     })));
-
-    let _ = document.querySelectorAll(".favorites__list-item"),
-
-        y = document.querySelectorAll(".favorites__item-exit");
-
-
     let v = document.querySelectorAll(".favorites__pages-item");
-
     for (let t = 0; t < v.length; t++) v[t].addEventListener("click", (function (o) {
-
         e(v), v[t].classList.add("active")
-
     }));
-
     let p = document.querySelectorAll(".city-col__btn");
-
     for (let t = 0; t < p.length; t++) p[t].addEventListener("click", (function (o) {
-
         e(p), p[t].classList.add("active")
-
     }));
-
     let h = document.querySelectorAll(".favorite-item-btn");
 
     for (let e = 0; e < h.length; e++) h[e].addEventListener("click", (function (t) {
@@ -1021,8 +914,6 @@ if(document.querySelectorAll('.object__photo-popup-close').length) {
         objectChemePopup.classList.remove('active')
     })
 }
-
-
 if(document.querySelectorAll('.search-nav__more').length) {
     const navMore = document.querySelector('.search-nav__more')
     const searchW = document.querySelector('.search-w')
@@ -1036,7 +927,6 @@ if(document.querySelectorAll('.search-nav__more').length) {
         searchW.classList.remove('active')
     })
 }
-
 if(document.querySelectorAll('._regions').length) {
     const navRegions = document.querySelector('._regions')
     const dropdown = navRegions.querySelector('.search-nav__item-dropdown')
@@ -1051,8 +941,6 @@ if(document.querySelectorAll('._regions').length) {
         dropdown.classList.remove('active')
     })
 }
-
-
 if(document.querySelectorAll('#map_city').length) {
     const appleExpression = /Apple/i;
     const safariExpression = /Safari/i;
@@ -1066,10 +954,7 @@ if(document.querySelectorAll('#map_city').length) {
         const test = document.querySelector('.city-col__btn-changer-text')
         map.classList.add('safari')
     }
-
 }
-
-
 const appHeight = () => {
     const doc = document.documentElement
     doc.style.setProperty('--app-height', `${window.innerHeight}px`)

@@ -1,34 +1,8 @@
 @extends('project.includes.layouts')
 <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
-
-
-
 @section('header')
-
     @include('project.includes.header')
-
 @endsection
-
-
-
-<style>
-
-    /*.objects__slide{*/
-
-    /*    max-height: 360px;*/
-
-    /*}*/
-
-    .objects__wrapper {
-
-        height: auto !important;
-
-    }
-
-</style>
-
-
-
 @section('content')
     @if(app()->getLocale() == 'ru')
         <?php $country->name = $country->name ?>
@@ -37,39 +11,20 @@
 
     @elseif(app()->getLocale() == 'tr')
         <?php $country->name = $country->name_tr ?>
-
     @endif
-
-{{--    @include('project.includes.search_nav_bar')--}}
-
-
-
     <section class="country-map">
-
         <div class="country-map__content">
-
             <div id="map-country">
-
             </div>
-
         </div>
-
     </section>
-
     <section class="realty container">
-
         <div class="realty__title title">
-
           {{__('Недвижимость')}}  {{__('в')}}@if($country->name == 'Турция') Турции  @else {{$country->name}} @endif
-
         </div>
-
         <div class="realty__subtitle">
-
           {{__('Всего')}}  {{ numbers_graduation($country->product_country->count()) }}
-
         </div>
-
         <!-- 9 блоков -->
         @if($count >= 8)
         <div class="realty__content" style="display:flex !important">
@@ -209,7 +164,6 @@
             </div>
         </div>
         @endif
-
         <!-- 8 блоков -->
         @if($count == 7)
         <div class="realty__content">
@@ -1553,56 +1507,26 @@
                                 </div>
                                 <div class="place__location-map">
                                     <div class="">
-
-    {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
-
-    {{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
-
-
-
                                         <script>
                                             product_id_is = <?php echo $product->id?>
 
                                             function createYandexMap(latitude, longitude) {
-
-                                                                let div_id = 'place-map'+product_id_is.toString();
-
+                                            let div_id = 'place-map'+product_id_is.toString();
                                                 ymaps.ready(function() {
-
                                                     let map = new ymaps.Map(div_id, {
-
                                                         center: [latitude, longitude],
-
                                                         zoom: 10,
                                                     });
-
                                                     let placemark = new ymaps.Placemark([latitude, longitude]);
-
                                                     map.geoObjects.add(placemark);
-
                                                 });
-
                                             }
-
                                             createYandexMap(<?php echo $product->lat.','.$product->long?>);
-
                                         </script>
-
                                         <div id="place-map{{$product->id}}" style="width: 100%; height: 165px;"></div>
-
                                     </div>
-
-    {{--                                                               <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A15349a58da6ee371b08cfe1844f44da9977d839e450577ee6442deeb8dca9bb8&amp;source=constructor"--}}
-
-    {{--                                                                       frameborder="0">--}}
-
-    {{--                                                               </iframe>--}}
-
                                 </div>
-
                             </div>
-
-
                             <div class="kompleks__layout" bis_skin_checked="1">
                                 <div class="kompleks__layout-content" bis_skin_checked="1">
                                     <div class="kompleks__layout-title place__title" bis_skin_checked="1">

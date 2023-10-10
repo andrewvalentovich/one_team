@@ -1,24 +1,15 @@
+<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+
 @extends('project.includes.layouts')
-
-
-
 @section('header')
-
     @include('project.includes.header')
-
 @endsection
-
 @section('content')
-
-
-
     <section class="favorites">
         <div class="favorites__title">
-
             {{__('Избранное')}}
         </div>
         <div class="favorites__subtitle">
-
        <span class="count">   {{\App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->count()}}</span>      {{__('Объявления')}}
         </div>
         <div class="favorites__content">
@@ -35,7 +26,6 @@
                                     @elseif($_GET['order_by'] == 'id_desc')
                                     {{__('Сначала новые')}}
                                     @endif
-
                                 @else
                                 {{__('Сначала дешевые')}}
                             @endif
@@ -797,79 +787,35 @@
                             @endif
 
                             <div class="place__location">
-
                                 <div class="place__location-title place__title">
-
                                     {{__('Расположение и инфраструктура')}}
-
-
                                 </div>
-
                                 <div class="place__location-info">
-
                                     @if(app()->getLocale() == 'en') <?php $product->product->disposition = $product->product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->product->disposition = $product->product->disposition_tr ?>  @endif
-                            {{$product->product->disposition}}
-
+                                    {{$product->product->disposition}}
                                 </div>
-
                                 <div class="place__location-map">
-
                                     <div class="">
-
-
-
-    {{--                                                                   <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>--}}
-
-    {{--                                                                   <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
-
-
-
                                         <script>
-
                                             product_id_is = <?php echo $product->product->id?>
-
-
-
+                                            
                                             function createYandexMap(latitude, longitude) {
-
-                                                                let div_id = 'place-map'+product_id_is.toString();
-
+                                            let div_id = 'place-map'+product_id_is.toString();
                                                 ymaps.ready(function() {
-
                                                     let map = new ymaps.Map(div_id, {
-
                                                         center: [latitude, longitude],
-
                                                         zoom: 10,
                                                     });
-
                                                     let placemark = new ymaps.Placemark([latitude, longitude]);
-
                                                     map.geoObjects.add(placemark);
-
                                                 });
-
                                             }
-
                                             createYandexMap(<?php echo $product->product->lat.','.$product->product->long?>);
-
                                         </script>
-
                                         <div id="place-map{{$product->product->id}}" style="width: 100%; height: 165px;"></div>
-
                                     </div>
-
-    {{--                                                               <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A15349a58da6ee371b08cfe1844f44da9977d839e450577ee6442deeb8dca9bb8&amp;source=constructor"--}}
-
-    {{--                                                                       frameborder="0">--}}
-
-    {{--                                                               </iframe>--}}
-
                                 </div>
-
                             </div>
-
-
                             <div class="kompleks__layout" bis_skin_checked="1">
                                 <div class="kompleks__layout-content" bis_skin_checked="1">
                                     <div class="kompleks__layout-title place__title" bis_skin_checked="1">
@@ -2044,10 +1990,6 @@
             }), L.length && window.addEventListener("resize", (function(e) {
 
                 window.innerWidth <= 766 && q.classList.contains("active") && (x.classList.add("active"), q.classList.remove("active")), window.innerWidth > 766 && x.classList.contains("active") && (x.classList.remove("active"), q.classList.add("active"))
-
-            })), P(E = window.innerWidth > 1003 ? 0 : 1 / 0), window.addEventListener("resize", (function(e) {
-
-                this.document.querySelectorAll(".city-col__item").length && (window.innerWidth > 1003 && 0 == E && (C.destroy(), P(0), E = 1 / 0), window.innerWidth <= 1003 && E == 1 / 0 && (C.destroy(), P(1 / 0), E = 0))
 
             })), document.querySelectorAll("#map-country").length && ymaps.ready((function() {
 
