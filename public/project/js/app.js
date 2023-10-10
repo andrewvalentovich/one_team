@@ -966,9 +966,10 @@ appHeight()
 if(document.querySelectorAll('.close-dropdown').length) {
     const closeMenuCountrys = document.querySelectorAll('.close-dropdown')
     closeMenuCountrys.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(event) {
             const dropdown = this.closest('.search-nav__item-dropdown')
             dropdown.classList.remove('active')
+            event.stopImmediatePropagation()
         })
     });
 }

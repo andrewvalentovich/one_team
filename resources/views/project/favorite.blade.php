@@ -357,7 +357,7 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price))
+                                @if (!is_null(json_decode($product->product->objects)) && !empty(json_decode($product->product->objects)) && isset($product->product->min_price))
                                     <div
                                         class="place__price-value lira"
                                         data-price-rub="{{ __("от") . " " . $product->product->min_price["RUB"] }}"

@@ -1695,8 +1695,13 @@ function P(e) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
                 const spanPriceBlock = currencyCodePrice.querySelector('span')
                 const bPriceBlock = currencyCodePrice.querySelector('b')
-
-                let currentPrice = `${dictionary.from[langSite]} ` + currentHouse.min_price[currencyCode];
+                let currentPrice
+                const chemes = JSON.parse(currentHouse.objects)
+                if(chemes.length > 1) {
+                    currentPrice = `${dictionary.from[langSite]} ` + currentHouse.min_price[currencyCode];
+                } else {
+                    currentPrice = currentHouse.min_price[currencyCode];
+                }
                 const valuteSymbol = currentPrice[currentPrice.length - 1];
                 currentPrice = currentPrice.slice(0, -1);
 
