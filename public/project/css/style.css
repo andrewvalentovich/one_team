@@ -6890,6 +6890,7 @@ body.scroll_fixed {
 
 .input-wrapper input {
   transition: .2s;
+  background: transparent;
 }
 
 .input-wrapper input::placeholder {
