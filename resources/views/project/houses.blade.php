@@ -818,12 +818,102 @@
                         </div>
                     </div>
                     <div class="object__photo-text">
-                        <div class="object__photo-text-header">
-                            <p>Свободно</p>
-                            <button class="btn">Оставить заявку</button>
-                        </div>
                         <div class="object__photo-info">
                         </div>
+                        <form class="default-form" id="">
+                            <div class="title">Заявка на бронь</div>
+                            <label class="field name input-wrapper" bis_skin_checked="1">
+                                <span class="text">
+                                    ФИО
+                                </span>
+                                <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
+                            </label>
+                            <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
+                                <div class="contact__form-phone-country close-out" bis_skin_checked="1">
+                                    <div class="contact__form-country-item" bis_skin_checked="1">
+                                        <div class="contact__form-country-item-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
+                                    <div class="contact__phone-list" bis_skin_checked="1">
+                                        <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                Россия (Russia) <span>+7</span>
+                                            </div>
+                                        </div>
+                                        <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                США (United States)  <span>+1</span>
+                                            </div>
+                                        </div>
+                                        <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                Германия (Germany) <span>+49</span>
+                                            </div>
+                                        </div>
+                                        <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                Польша (Poland) <span>+48</span>
+                                            </div>
+                                        </div>
+                                        <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                Швеция (Sweden) <span>+46</span>
+                                            </div>
+                                        </div>
+                                        <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
+                                            <div class="contact__phone-img" bis_skin_checked="1">
+                                                <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                            </div>
+                                            <div class="contact__phone-title" bis_skin_checked="1">
+                                                Италия (Italy) <span>+39</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text">
+                                    Номер телефона
+                                </span>
+                                <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
+                            </div>
+                            <label class="contact__form-politic">
+                                <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
+                                <div class="contact__form-custom-checkbox one_check"></div>
+                                <div class="contact__form-checkbox-text">
+                                    Ознакомлен с <span>политикой конфеденциальности </span>
+                                </div>
+                            </label>
+                            <label class="contact__form-data">
+                                <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
+                                <div class="contact__form-custom-checkbox two_check"></div>
+                                <div class="contact__form-checkbox-text">
+                                    Согласен на обработку <span>персональных данных </span>
+                                </div>
+                            </label>
+                            <button type="submit" class="btn">
+                                Перезвонить мне
+                            </button>
+                            <input type="hidden" name="product_id" value="">
+                            <input type="hidden" name="country" value="">
+                            <!--а-->
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1684,12 +1774,9 @@ function P(e) {
         const currentMap = document.querySelector('.current-map')
         const currentMapID = document.querySelector('#place-map')
         const div_id = 'place-map'
-
-        if (placeMap) {
-            placeMap.destroy(); // Уничтожаем текущую карту, если она существует
-            currentMapID.innerHTML = ''
-        }
         ymaps.ready(function() {
+            console.log(placeMap)
+            currentMapID.innerHTML = ''
             placeMap = new ymaps.Map(div_id, {
                 center: [currentHouse.lat, currentHouse.long],
                 zoom: 10,
