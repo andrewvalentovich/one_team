@@ -1055,10 +1055,18 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
         const chemePopup = document.querySelector(".object__photo");
         const slide = document.querySelector('.object__swiper-slide')
         const slideImg = slide.querySelector('img')
+
+        const text = document.querySelector(".object__photo-info")
         chemePic.forEach(pic => {
             pic.addEventListener('click', function(e) {
+                const containerBlock = this.closest('.kompleks__layout-item')
+
                 const srcPic = pic.querySelector('img').getAttribute('src')
                 slideImg.setAttribute('src', `${srcPic}`)
+                chemePopup.classList.add('active')
+
+                const infoForTextBlock = containerBlock.querySelector(".kompleks__layout-info")
+                text.innerHTML = infoForTextBlock.innerHTML
                 chemePopup.classList.add('active')
             })
         });
