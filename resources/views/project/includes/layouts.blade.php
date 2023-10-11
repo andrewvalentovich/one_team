@@ -58,19 +58,13 @@
 
     <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
         <div class="popup__body" bis_skin_checked="1">
-            <form class="popup__content" id="city_form">
-                <!-- <div class="popup__subtitle" bis_skin_checked="1">
-                    ФИО
-                </div> -->
+            <form class="popup__content default-form" id="city_form">
                 <label class="field name input-wrapper" bis_skin_checked="1">
                     <span class="text">
                         ФИО
                     </span>
                     <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
                 </label>
-                <!-- <div class="popup__subtitle" bis_skin_checked="1">
-                    Номер телефона
-                </div> -->
                 <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
                     <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                         <div class="contact__form-country-item" bis_skin_checked="1">
@@ -136,6 +130,20 @@
                     </span>
                     <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
                 </div>
+                <label class="contact__form-politic">
+                    <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
+                    <div class="contact__form-custom-checkbox one_check"></div>
+                    <div class="contact__form-checkbox-text">
+                        Ознакомлен с <span>политикой конфеденциальности </span>
+                    </div>
+                </label>
+                <label class="contact__form-data">
+                    <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
+                    <div class="contact__form-custom-checkbox two_check"></div>
+                    <div class="contact__form-checkbox-text">
+                        Согласен на обработку <span>персональных данных </span>
+                    </div>
+                </label>
                 <button type="submit" class="btn">
                     Перезвонить мне
                 </button>

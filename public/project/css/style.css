@@ -7384,6 +7384,8 @@ body.scroll_fixed {
   width: 100%;
   color: #fff;
   font-size: 19px;
+}
+.default-form .btn {
   margin-top: 10px;
 }
 .object__photo-content .btn:hover {
