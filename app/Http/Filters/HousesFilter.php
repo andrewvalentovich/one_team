@@ -5,13 +5,14 @@ namespace App\Http\Filters;
 
 
 use App\Models\ExchangeRate;
+use App\Models\Layouts;
 use Illuminate\Database\Eloquent\Builder;
 
 class HousesFilter extends AbstractFilter
 {
     // Имена переменных присваиваем константам
     const SALE_OR_RENT = 'sale_or_rent';
-    const ORDER_BY = 'order_by';
+//    const ORDER_BY = 'order_by';
     const TOP_LEFT = 'top_left';
     const BOTTOM_RIGHT = 'bottom_right';
     const COUNTRY = 'country_id';
@@ -30,7 +31,7 @@ class HousesFilter extends AbstractFilter
         // Прописываем переменные ($this) и методы в 'метод'
         return [
             self::SALE_OR_RENT => [$this, 'sale_or_rent'],
-            self::ORDER_BY => [$this, 'order_by'],
+//            self::ORDER_BY => [$this, 'order_by'],
             self::TOP_LEFT => [$this, 'top_left'],
             self::BOTTOM_RIGHT => [$this, 'bottom_right'],
             self::BEDROOMS => [$this, 'peculiarities_by_id'],
@@ -65,15 +66,6 @@ class HousesFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->where('sale_or_rent', $value);
-        }
-    }
-
-    protected function order_by(Builder $builder, $value)
-    {
-        if(isset($value)) {
-            // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
-            $val_arr = explode('-', $value);
-            $builder->orderBy($val_arr[0], $val_arr[1]);
         }
     }
 
@@ -131,20 +123,18 @@ class HousesFilter extends AbstractFilter
 
     protected function price(Builder $builder, $value)
     {
-        $exchange_rates = "";
-
-        if (isset($value['code']) && $value['code'] != "RUB") {
-            $exchange_rates = ExchangeRate::where('direct', 'RUB')->where('relative', $value['code'])->first();
-        }
-
         if (isset($value['min_price'])) {
-            $value['min_price'] = (isset($value['code']) && $value['code'] != "RUB") ? (int) $value['min_price'] / $exchange_rates->value : $value['min_price'];
-            $builder->where('price', ">=", $value['min_price']);
+            $builder->where('products.price', '>=', (int)$value['min_price'])
+                ->orWhereHas('layouts', function (Builder $query) use ($value) {
+                    $query->where('layouts.price', '>=', (int)$value['min_price']);
+                });
         }
 
         if (isset($value['max_price'])) {
-            $value['max_price'] = (isset($value['code']) && $value['code'] != "RUB") ? (int) $value['max_price'] / $exchange_rates->value : $value['max_price'];
-            $builder->where('price', "<=", $value['max_price']);
+            $builder->where('products.price', '<=', (int)$value['max_price'])
+                ->orWhereHas('layouts', function (Builder $query) use ($value) {
+                    $query->where('layouts.price', '<=', (int)$value['max_price']);
+                });
         }
     }
 
@@ -158,4 +148,11 @@ class HousesFilter extends AbstractFilter
             $builder->where('size', "<=", $value['max']);
         }
     }
+
+//    protected function order_by(Builder $builder, $value)
+//    {
+//            // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
+//            $val_arr = explode('-', $value);
+//            $builder->orderBy($val_arr[0], $val_arr[1]);
+//    }
 }
