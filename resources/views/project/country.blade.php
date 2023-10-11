@@ -829,15 +829,22 @@
                         </div>
 
                         <div class="objects__slide-text">
-
                             <div class="objects__slide-price">
-                                @if(!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price["EUR"]))
-                                    {{ __("от") . " " . $product->min_price["EUR"] }}
-                                @else
-                                    {{ $product->price["EUR"] }}
+                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)))
+                                    @if (isset($product->min_price["EUR"]))
+                                        @php
+                                        $euroPrice = str_replace(' €', '', $product->min_price["EUR"]);
+                                        @endphp
+                                        @if (count(json_decode($product->objects)) > 1)
+                                            {{ "€ " . $euroPrice . " +" }}
+                                        @else
+                                            {{ "€ " . $euroPrice }}
+                                        @endif
+                                    @else
+                                        {{ "€ " . str_replace(' €', '', $product->price["EUR"]) }}
+                                    @endif
                                 @endif
                             </div>
-
                             <div class="objects__slide-rooms">
                                 @if(!is_null(json_decode($product->objects)) && count(json_decode($product->objects)) > 0 && $product->layouts !== "" && $product->layouts !== " " && !is_null($product->layouts))
                                     {{ $product->layouts }}
@@ -1083,7 +1090,7 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price))
+                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price) && count(json_decode($product->objects)) > 1)
                                     <div
                                         class="place__price-value lira"
                                         data-price-rub="{{ __("от") . " " . $product->min_price["RUB"] }}"
@@ -1529,13 +1536,30 @@
                             </div>
                             <div class="kompleks__layout" bis_skin_checked="1">
                                 <div class="kompleks__layout-content" bis_skin_checked="1">
-                                    <div class="kompleks__layout-title place__title" bis_skin_checked="1">
-                                        Планировки квартир
+                                    <div class="kompleks__header">
+                                        <div class="kompleks__layout-title place__title" bis_skin_checked="1">
+                                            {{__('Планировки квартир')}}
+                                        </div>
+                                        <div class="kompleks__layout-sort">
+                                        @php
+                                            $displayedLayouts = [];
+                                        @endphp
+                                        @foreach(json_decode($product->objects) as $object)
+                                            @if (!in_array($object->apartment_layout, $displayedLayouts))
+                                                <div class="kompleks__sort-item" data-cheme="{{ $object->apartment_layout }}">
+                                                    {{ $object->apartment_layout }}
+                                                </div>
+                                                @php
+                                                $displayedLayouts[] = $object->apartment_layout;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        </div>
                                     </div>
                                     <div class="kompleks__layout-list" bis_skin_checked="1">
                                         @if(!is_null(json_decode($product->objects)))
                                             @foreach(json_decode($product->objects) as $object)
-                                            <div class="kompleks__layout-item" bis_skin_checked="1">
+                                            <div class="kompleks__layout-item" bis_skin_checked="1" data-cheme="{{ $object->apartment_layout }}">
                                                 <div class="kompleks__layout-info" bis_skin_checked="1">
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
                                                         {{ $object->building }}

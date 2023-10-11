@@ -983,7 +983,7 @@ if(document.querySelectorAll('.close-dropdown').length) {
         })
     });
 }
-
+//сортировка схем объектов
 if(document.querySelectorAll('.kompleks__layout-content').length) {
     const kompleksLayoutContent = document.querySelectorAll('.kompleks__layout-content')
     kompleksLayoutContent.forEach(container => {
@@ -1012,5 +1012,17 @@ if(document.querySelectorAll('.kompleks__layout-content').length) {
                 }
             }
         })
+    });
+}
+
+if(document.querySelectorAll('.kompleks__layout-content').length) {
+    const kompleksSort = document.querySelectorAll('.kompleks__layout-sort')
+    kompleksSort.forEach(sortBlock => {
+        const counterChemes = sortBlock.querySelectorAll('.kompleks__sort-item')
+        if(counterChemes.length <=1) {
+            sortBlock.style.display = 'none'
+        } else {
+
+        }
     });
 }
