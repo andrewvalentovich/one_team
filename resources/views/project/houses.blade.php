@@ -1046,7 +1046,7 @@
             }
 
             window.addEventListener("resize", (function (e) {
-            })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
+            })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function (e) {
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
             })), document.querySelector(".header__top-lang").onclick = function () {
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
@@ -1792,11 +1792,6 @@ function P(e) {
             });
             placeMap.controls.remove('geolocationControl'); // удаляем геолокацию
             placeMap.controls.remove('searchControl'); // удаляем поиск
-            // placeMap.controls.remove('trafficControl'); // удаляем контроль трафика
-            // placeMap.controls.remove('typeSelector'); // удаляем тип
-            // placeMap.controls.remove('fullscreenControl'); // удаляем кнопку перехода в полноэкранный режим
-            // placeMap.controls.remove('zoomControl'); // удаляем контрол зуммирования
-            // placeMap.controls.remove('rulerControl'); // удаляем контрол правил
             let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
             placeMap.geoObjects.add(placemark);
         });

@@ -7335,6 +7335,14 @@ body.scroll_fixed {
   display: none !important;
 }
 
+.place__location-map .ymaps-2-1-79-map-copyrights-promo {
+  display: none !important;
+}
+
+.place__location-map .ymaps-2-1-79-copyright.ymaps-2-1-79-copyright_logo_no {
+  display: none !important;
+}
+
 .city-col__slider i {
   position: absolute;
   height: 100%;

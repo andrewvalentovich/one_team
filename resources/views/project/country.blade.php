@@ -1524,6 +1524,8 @@
                                                         center: [latitude, longitude],
                                                         zoom: 10,
                                                     });
+                                                    map.controls.remove('geolocationControl'); // удаляем геолокацию
+                                                    map.controls.remove('searchControl'); // удаляем поиск
                                                     let placemark = new ymaps.Placemark([latitude, longitude]);
                                                     map.geoObjects.add(placemark);
                                                 });
@@ -2060,7 +2062,7 @@
 
             window.addEventListener("resize", (function(e) {
 
-            })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function(e) {
+            })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function(e) {
 
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
 
