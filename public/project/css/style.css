@@ -6929,6 +6929,7 @@ body.scroll_fixed {
 .input-wrapper input {
   transition: .2s;
   background: transparent;
+  width: 100%;
 }
 
 .input-wrapper input::placeholder {
@@ -7313,8 +7314,6 @@ body.scroll_fixed {
 @media (max-width: 899px) {
   .search-nav__list-item._regions:hover .search-nav__item-dropdown {
     display: none;
-  }
-  .search-nav__list-item._regions:hover .search-nav__list-item-title{
   }
   .search-nav__list-item._regions .search-nav__item-dropdown.active {
     position: fixed;

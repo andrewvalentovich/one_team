@@ -1922,7 +1922,120 @@
 <section class="object__photo">
     <div class="object__photo-popup">
         <div class="object__photo-popup-block">
-            <img src="" alt="Картинка">
+            <div class="object__photo-content">
+                <div class="object__swiper swiper _preload">
+                    <div class="object__swiper-wrapper swiper-wrapper">
+                        <div class="object__swiper-slide swiper-slide">
+                            <img src alt>
+                        </div>
+                    </div>
+                    <!-- <div class="object__swiper-pagination swiper-pagination"></div>
+                    <div class="object__swiper-prev object__swiper-nav">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                    <div class="object__swiper-next object__swiper-nav">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div> -->
+                </div>
+                <div class="object__photo-text">
+                    <div class="object__photo-info">
+                    </div>
+                    <form class="default-form" id="">
+                        <div class="title">Заявка на бронь</div>
+                        <label class="field name input-wrapper" bis_skin_checked="1">
+                            <span class="text">
+                                ФИО
+                            </span>
+                            <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
+                        </label>
+                        <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
+                            <div class="contact__form-phone-country close-out" bis_skin_checked="1">
+                                <div class="contact__form-country-item" bis_skin_checked="1">
+                                    <div class="contact__form-country-item-img" bis_skin_checked="1">
+                                        <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
+                                <div class="contact__phone-list" bis_skin_checked="1">
+                                    <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            Россия (Russia) <span>+7</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            США (United States)  <span>+1</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            Германия (Germany) <span>+49</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            Польша (Poland) <span>+48</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            Швеция (Sweden) <span>+46</span>
+                                        </div>
+                                    </div>
+                                    <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
+                                        <div class="contact__phone-img" bis_skin_checked="1">
+                                            <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                        </div>
+                                        <div class="contact__phone-title" bis_skin_checked="1">
+                                            Италия (Italy) <span>+39</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="text">
+                                Номер телефона
+                            </span>
+                            <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
+                        </div>
+                        <label class="contact__form-politic">
+                            <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
+                            <div class="contact__form-custom-checkbox one_check"></div>
+                            <div class="contact__form-checkbox-text">
+                                Ознакомлен с <span>политикой конфеденциальности </span>
+                            </div>
+                        </label>
+                        <label class="contact__form-data">
+                            <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
+                            <div class="contact__form-custom-checkbox two_check"></div>
+                            <div class="contact__form-checkbox-text">
+                                Согласен на обработку <span>персональных данных </span>
+                            </div>
+                        </label>
+                        <button type="submit" class="btn">
+                            Перезвонить мне
+                        </button>
+                        <input type="hidden" name="product_id" value="">
+                        <input type="hidden" name="country" value="">
+                        <!--а-->
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="object__photo-popup-close">
             <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -2912,19 +3025,7 @@
         });
     }
 
-    if(document.querySelectorAll('.kompleks__layout-img').length) {
-        const chemePic = document.querySelectorAll('.kompleks__layout-img')
-        const chemePopup = document.querySelector(".object__photo");
-        chemePic.forEach(pic => {
-            pic.addEventListener('click', function(e) {
-                const img = chemePopup.querySelector('img')
-                const srcPic = pic.querySelector('img').getAttribute('src')
-                img.setAttribute('src', `${srcPic}`)
-                chemePopup.classList.add('active')
-            })
-        });
 
-    }
 }
 </script>
 {{--    <script src="{{asset('project/js/app.js')}} "></script>--}}
