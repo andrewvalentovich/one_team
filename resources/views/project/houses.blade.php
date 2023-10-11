@@ -450,12 +450,11 @@
                                                     </div>
                                                     <div class="kompleks__layout" bis_skin_checked="1">
                                                         <div class="kompleks__layout-content" bis_skin_checked="1">
-                                                            <div class="kompleks__layout-title place__title" bis_skin_checked="1">
-                                                                {{__('Планировки квартир')}}
-                                                            </div>
-                                                            <div class="kompleks__layout-sort">
-                                                                <div class="kompleks__sort-item">
-                                                                    1 + 1
+                                                            <div class="kompleks__header">
+                                                                <div class="kompleks__layout-title place__title" bis_skin_checked="1">
+                                                                    {{__('Планировки квартир')}}
+                                                                </div>
+                                                                <div class="kompleks__layout-sort">
                                                                 </div>
                                                             </div>
                                                             <div class="kompleks__layout-list" bis_skin_checked="1">
@@ -1834,6 +1833,11 @@ function P(e) {
             }
         });
 
+        if(chemesSet.size <=1) {
+            kompleksLayoutSort.style.display = 'none'
+        } else {
+            kompleksLayoutSort.style.display = 'flex'
+        }
         // планировки квартир
         const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
         kompleksLayoutList.innerHTML = ''

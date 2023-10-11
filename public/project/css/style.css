@@ -3275,8 +3275,11 @@ body.scroll_fixed {
   padding-bottom: 20px;
 }
 
-.kompleks__layout-sort {
+.kompleks__header {
   border-bottom: 1px solid #e3e9f6;
+}
+
+.kompleks__layout-sort {
   padding-left: 20px;
   padding-bottom: 27px;
   display: flex;
