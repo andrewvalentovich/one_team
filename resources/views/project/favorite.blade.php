@@ -812,7 +812,7 @@
                                             }
                                             createYandexMap(<?php echo $product->product->lat.','.$product->product->long?>);
                                         </script>
-                                        <div id="place-map{{$product->product->id}}" style="width: 100%; height: 165px;"></div>
+                                        <div id="place-map{{$product->product->id}}" style="width: 100%; height: 195px;"></div>
                                     </div>
                                 </div>
                             </div>

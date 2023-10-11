@@ -2814,7 +2814,7 @@ body.scroll_fixed {
 .place__currency {
   cursor: pointer;
   position: relative;
-  padding: 8px 0px 8px 0px;
+  /* padding: 8px 0px 8px 0px; */
 }
 
 .place__currency.open .place__currency-preview-arrow svg {
@@ -3270,9 +3270,30 @@ body.scroll_fixed {
 }
 
 .kompleks__layout-title {
+  /* border-bottom: 1px solid #e3e9f6; */
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+.kompleks__layout-sort {
   border-bottom: 1px solid #e3e9f6;
   padding-left: 20px;
   padding-bottom: 27px;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.kompleks__sort-item {
+  border-radius: 15px;
+  border: 1px solid #508cfa;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.kompleks__sort-item.active {
+  background: #508cfa;
+  color: #fff;
 }
 
 .kompleks__layout-item {
@@ -3700,10 +3721,13 @@ body.scroll_fixed {
   position: relative;
 }
 
-.search-nav__list-item.active .search-nav__list-item-title {
-  border: 1px solid #e3eeff;
-  padding: 11px 0px 10px 17px;
+@media (min-width: 540px) {
+  .search-nav__list-item.active .search-nav__list-item-title {
+    border: 1px solid #e3eeff;
+    padding: 11px 0px 10px 17px;
+  }
 }
+
 
 .search-nav__list-item.active .search-nav__list-item-title::after {
   transform: rotate(180deg);
@@ -3785,9 +3809,12 @@ body.scroll_fixed {
   border-right: 2px solid #508cfa;
 }
 
-.search-nav__list-item_arrow.active::after {
-  transform: rotate(180deg);
+@media (min-width: 540px) {
+  .search-nav__list-item_arrow.active::after {
+    transform: rotate(180deg);
+  }
 }
+
 
 .search-nav__list-item_arrow::after {
   content: "";
@@ -7272,10 +7299,6 @@ body.scroll_fixed {
     display: none;
   }
   .search-nav__list-item._regions:hover .search-nav__list-item-title{
-    border-left: 2px solid #508cfa;
-    border-top: 2px solid #508cfa;
-    border-bottom: 2px solid #508cfa;
-    padding: 12px 0px 9px 18px;
   }
   .search-nav__list-item._regions .search-nav__item-dropdown.active {
     position: fixed;
@@ -7530,3 +7553,4 @@ body.scroll_fixed {
 .default-form .contact__form-data::before{
   display: none;
 }
+

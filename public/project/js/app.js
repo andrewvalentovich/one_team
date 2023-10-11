@@ -33,8 +33,8 @@ async function getData() {
     window.addEventListener("resize", (function (e) {
         vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-        window.innerWidth > 1199 && (document.querySelector(".header-m").classList.remove("active"), document.querySelector("#nav-icon").classList.remove("open"), document.querySelector(".header-w").classList.remove("fixed")), document.querySelectorAll(".search-nav-w").length && (window.innerWidth > 899 && !document.querySelector(".search-nav__more-dropdown").classList.contains("active") && (document.querySelector(".search-w").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active")), window.innerWidth <= 899 && (document.querySelector(".search-nav__more-dropdown").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active"), document.querySelector(".search-nav__price-dropdown").classList.remove("active"), document.querySelector(".search-nav__price").classList.remove("active"), document.querySelector(".search-nav__types-dropdown").classList.remove("active"), document.querySelector(".search-nav__types").classList.remove("active")), window.innerWidth <= 1199 && (document.querySelector(".search-nav__rooms-dropdown").classList.remove("active"), document.querySelector(".search-nav__rooms").classList.remove("active"))), document.querySelectorAll(".place-w").length && (window.innerWidth <= 1023 && document.querySelector(".place-w").classList.contains("active") && document.querySelector(".header-w").classList.add("fixed"), window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.innerWidth > 540 && (document.querySelector(".place__currency-preview-item").textContent = "Валюта"))
-    })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
+        window.innerWidth > 1199 && (document.querySelector(".header-m").classList.remove("active"), document.querySelector("#nav-icon").classList.remove("open"), document.querySelector(".header-w").classList.remove("fixed")), document.querySelectorAll(".search-nav-w").length && (window.innerWidth > 899 && !document.querySelector(".search-nav__more-dropdown").classList.contains("active") && (document.querySelector(".search-w").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active")), window.innerWidth <= 899 && (document.querySelector(".search-nav__more-dropdown").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active"), document.querySelector(".search-nav__price-dropdown").classList.remove("active"), document.querySelector(".search-nav__price").classList.remove("active"), document.querySelector(".search-nav__types-dropdown").classList.remove("active"), document.querySelector(".search-nav__types").classList.remove("active")), window.innerWidth <= 1199 && (document.querySelector(".search-nav__rooms-dropdown").classList.remove("active"), document.querySelector(".search-nav__rooms").classList.remove("active"))), document.querySelectorAll(".place-w").length && (window.innerWidth <= 1023 && document.querySelector(".place-w").classList.contains("active") && document.querySelector(".header-w").classList.add("fixed"))
+    })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function (e) {
         if (document.querySelectorAll("#map_city").length) {
             if (window.innerWidth > 1003) {
                 document.querySelector(".city__content").classList.remove("city_map");
@@ -970,6 +970,37 @@ if(document.querySelectorAll('.close-dropdown').length) {
             const dropdown = this.closest('.search-nav__item-dropdown')
             dropdown.classList.remove('active')
             event.stopImmediatePropagation()
+        })
+    });
+}
+
+if(document.querySelectorAll('.kompleks__layout-content').length) {
+    const kompleksLayoutContent = document.querySelectorAll('.kompleks__layout-content')
+    kompleksLayoutContent.forEach(container => {
+        container.addEventListener('click', function(e) {
+            const target = e.target
+            if(target.classList.contains('kompleks__sort-item') || target.closest('.kompleks__sort-item')) {
+                const sortItem = target.closest('.kompleks__sort-item')
+                const sortItems = container.querySelectorAll('.kompleks__sort-item')
+                const kompleksLayoutItem = container.querySelectorAll('.kompleks__layout-item')
+                kompleksLayoutItem.forEach(chemeItem => {
+                    chemeItem.style.display = 'flex'
+                });
+                if(sortItem.classList.contains('active')) {
+                    sortItem.classList.remove('active')
+                } else {
+                    changerActive(sortItems)  
+                    sortItem.classList.add('active')
+                    kompleksLayoutItem.forEach(chemeItem => {
+                        const dataCheme = chemeItem.getAttribute('data-cheme')
+                        if(dataCheme === sortItem.getAttribute('data-cheme')) {
+                            chemeItem.style.display = 'flex'
+                        } else {
+                            chemeItem.style.display = 'none'
+                        }
+                    });
+                }
+            }
         })
     });
 }

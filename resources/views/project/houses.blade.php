@@ -444,7 +444,7 @@
                                                         </div>
                                                         <div class="place__location-map">
                                                             <div class="current-map">
-                                                                <div id="place-map" style="width: 100%; height: 165px;"></div>
+                                                                <div id="place-map" style="width: 100%; height: 195px;"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -452,6 +452,11 @@
                                                         <div class="kompleks__layout-content" bis_skin_checked="1">
                                                             <div class="kompleks__layout-title place__title" bis_skin_checked="1">
                                                                 {{__('Планировки квартир')}}
+                                                            </div>
+                                                            <div class="kompleks__layout-sort">
+                                                                <div class="kompleks__sort-item">
+                                                                    1 + 1
+                                                                </div>
                                                             </div>
                                                             <div class="kompleks__layout-list" bis_skin_checked="1">
 
@@ -1042,7 +1047,6 @@
             }
 
             window.addEventListener("resize", (function (e) {
-                window.innerWidth > 1199 && (document.querySelector(".header-m").classList.remove("active"), document.querySelector("#nav-icon").classList.remove("open"), document.querySelector(".header-w").classList.remove("fixed")), document.querySelectorAll(".search-nav-w").length && (window.innerWidth > 899 && !document.querySelector(".search-nav__more-dropdown").classList.contains("active") && (document.querySelector(".search-w").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active")), window.innerWidth <= 899 && (document.querySelector(".search-nav__more-dropdown").classList.remove("active"), document.querySelector(".search-nav__more").classList.remove("active"), document.querySelector(".search-nav__price-dropdown").classList.remove("active"), document.querySelector(".search-nav__price").classList.remove("active"), document.querySelector(".search-nav__types-dropdown").classList.remove("active"), document.querySelector(".search-nav__types").classList.remove("active")), window.innerWidth <= 1199 && (document.querySelector(".search-nav__rooms-dropdown").classList.remove("active"), document.querySelector(".search-nav__rooms").classList.remove("active"))), document.querySelectorAll(".place-w").length && (window.innerWidth <= 1023 && document.querySelector(".place-w").classList.contains("active") && document.querySelector(".header-w").classList.add("fixed"), window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.innerWidth > 540 && (document.querySelector(".place__currency-preview-item").textContent = "Валюта"))
             })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && (document.querySelector(".place__currency-preview-item").textContent = "$"), window.addEventListener("resize", (function (e) {
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
             })), document.querySelector(".header__top-lang").onclick = function () {
@@ -1811,13 +1815,30 @@ function P(e) {
             objectPeculiarities.appendChild(div)
         });
 
+        // сортиторвка квартир
+        const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')
+        kompleksLayoutSort.innerHTML = ''
+
+        const objects = JSON.parse(currentHouse.objects)
+        let chemesSet = new Set()
+        
+        objects.forEach(object => {
+            const div = document.createElement('div')
+            div.classList.add('kompleks__sort-item')
+            div.innerHTML = object.apartment_layout
+            div.setAttribute('data-cheme',object.apartment_layout)
+            if(!chemesSet.has(object.apartment_layout)) {
+                chemesSet.add(object.apartment_layout)
+                kompleksLayoutSort.appendChild(div)
+            }
+        });
+
         // планировки квартир
         const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
         kompleksLayoutList.innerHTML = ''
 
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
-        const objects = JSON.parse(currentHouse.objects)
 
         if(currentHouse.objects !== null && currentHouse.objects !== '[]')
         if(objects.length !== 0) {
@@ -1827,6 +1848,7 @@ function P(e) {
             objects.forEach((object, index) => {
                 let divItem = document.createElement('div')
                 divItem.classList.add('kompleks__layout-item')
+                divItem.setAttribute('data-cheme',object.apartment_layout)
 
                 let divInfo = document.createElement('div')
                 divInfo.classList.add('kompleks__layout-info')
