@@ -1407,11 +1407,12 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            if (cityElement.layouts_count > 0) {
-                priceDiv.textContent = `${dictionary.from[langSite]} ${cityElement.min_price.EUR}`;
+            if (cityElement.layouts_count > 1) {
+                priceDiv.textContent = `€ ${cityElement.min_price.EUR.slice(0, -1)} +`;
             } else {
-                priceDiv.textContent = `${cityElement.price.EUR}`;
+                priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)}`;
             }
+
             textDiv.appendChild(priceDiv);
 
             //комнаты в карточке превью
