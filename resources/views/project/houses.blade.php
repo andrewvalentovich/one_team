@@ -1425,7 +1425,15 @@ function P(e) {
 
 
             if (layouts && layouts.length > 0) {
-                roomsDiv.innerHTML = ` ${layouts}`;
+                let list = new Set()
+                layouts.forEach(layout => {
+                    if(list.has(layout.number_rooms)) {
+
+                    } else {
+                        list.add(layout.number_rooms)
+                        roomsDiv.innerHTML += ` ${layout.number_rooms},`;
+                    }
+                });
             } else {
                 roomsDiv.innerHTML = `${cityElement.size} кв.м`
 
@@ -1614,7 +1622,6 @@ function P(e) {
             });
     }
     const objectIdFromUrl = searchParams.get('object_id');
-    console.log(searchParams)
     if(objectIdFromUrl) {
         getObjectById(objectIdFromUrl)
     }
@@ -2485,20 +2492,20 @@ function P(e) {
                         maxPage = data.last_page
                         houseData.length = 0;
                         houseData = { ...data }
-                        data.data.forEach(object => {
+                        data.forEach(object => {
                             if (!objectsListSet.has(object.id)) {
                                 objectsListSet.add(object.id);
                                 objectsListMap.set(object.id, object);
                             }
                         });
-                        checkFavorites(data.data)
+                        checkFavorites(data)
                         let site_url = `{{config('app.url')}}`;
 
                         // setBallons(data.data);
                         if(!paramsCustom) {
-                            setCityItem(data.data, true);
+                            setCityItem(data, true);
                         } else {
-                            setCityItem(data.data, false);
+                            setCityItem(data, false);
                         }
                         setCountObjectsPerPage()
                         // setListenersToOpenPopup();

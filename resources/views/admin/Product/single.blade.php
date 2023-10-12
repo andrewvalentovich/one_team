@@ -345,38 +345,37 @@
                             <div class="card">
                                 <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
-                                    @if(!is_null(json_decode($get->objects)))
-                                        @foreach(json_decode($get->objects) as $object)
-                                            <div class='accordion' data-identificator='{{ $object->id }}' id='accordion{{ $object->id }}'>
+                                    @if(isset($get->layouts))
+                                        @foreach($get->layouts as $layout)
+                                            <div class='accordion' data-identificator='{{ $loop->index }}' id='accordion{{ $loop->index }}'>
                                                 <div class="card">
-                                                    <div class="card-header" id='heading{{ $object->id }}'>
+                                                    <div class="card-header" id='heading{{ $loop->index }}'>
                                                         <h5 class='mb-0'>
-                                                            <p class='btn btn-link' data-toggle='collapse' data-target='#collapse{{ $object->id }}' aria-expanded='true' aria-controls='collapse{{ $object->id }}'>
-                                                                Объект #{{ $object->id }}
+                                                            <p class='btn btn-link' data-toggle='collapse' data-target='#collapse{{ $loop->index }}' aria-expanded='true' aria-controls='collapse{{ $loop->index }}'>
+                                                                Объект #{{ $loop->index }}
                                                             </p>
-                                                            <input name='add_id{{ $object->id }}' type='hidden' value='{{ $object->id }}'>
+                                                            <input name='layouts[{{ $loop->index }}][id]' type='hidden' value='{{ $layout->id }}'>
                                                         </h5>
                                                     </div>
-                                                    <div id='collapse{{ $object->id }}' class='collapse show' aria-labelledby='heading{{ $object->id }}' data-parent='#accordion{{ $object->id }}'>
+                                                    <div id='collapse{{ $loop->index }}' class='collapse show' aria-labelledby='heading{{ $loop->index }}' data-parent='#accordion{{ $loop->index }}'>
                                                         <div class='card-body'>
                                                             <div class='form-group' bis_skin_checked='1' style='display: block;'>
                                                                 <div class='form-group' bis_skin_checked='1'>
-                                                                    <label for='add_building{{ $object->id }}'>Копрус</label>
-                                                                    <input name='add_building{{ $object->id }}' type='text' class='form-control' value="{{ $object->building }}" id='add_building{{ $object->id }}' placeholder='А'>
+                                                                    <label for='add_building{{ $loop->index }}'>Копрус</label>
+                                                                    <input name='layouts[{{ $loop->index }}][building]' type='text' class='form-control' value="{{ $layout->building }}" id='add_building{{ $loop->index }}' placeholder='А'>
                                                                 </div>
                                                                 <div class="form-group d-flex" bis_skin_checked="1">
                                                                     <div class="form-group row col-md-3" bis_skin_checked="1">
                                                                         <label for="">Цена</label>
-                                                                        <input name="add_price{{ $object->id }}" value="{{ $object->price }}" type="number" class="form-control" id="" placeholder="Цена">
+                                                                        <input name="layouts[{{ $loop->index }}][price]" value="{{ $layout->price }}" type="number" class="form-control" id="" placeholder="Цена">
                                                                     </div>
                                                                     <div class="form-group row col-md-3 ml-2" bis_skin_checked="1">
                                                                         <label>Валюта</label>
-                                                                        <select class="form-control" name="add_price_code{{ $object->id }}" style="color: #e2e8f0">
-                                                                            <option value="RUB" selected>RUB</option>
+                                                                        <select class="form-control" name="layouts[{{ $loop->index }}][price_code]" style="color: #e2e8f0">
                                                                             @foreach($exchanges as $exchange)
                                                                                 <option value="{{ $exchange }}"
-                                                                                    @if(isset($object->price_code))
-                                                                                        {{ $exchange === $object->price_code ? "selected" : "" }}
+                                                                                    @if(isset($layout->price_code))
+                                                                                        {{ $exchange === $layout->price_code ? "selected" : "" }}
                                                                                     @else
                                                                                         {{ $exchange === "EUR" ? "selected" : "" }}
                                                                                     @endif
@@ -386,39 +385,39 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
-                                                                    <label for='add_size{{ $object->id }}'>Общая площадь (кв.м)</label>
-                                                                    <input name='add_size{{ $object->id }}' type='text' class='form-control' value="{{ $object->size }}" id='add_size{{ $object->id }}' placeholder='40'>
+                                                                    <label for='add_size{{ $loop->index }}'>Общая площадь (кв.м)</label>
+                                                                    <input name='layouts[{{ $loop->index }}][total_size]' type='text' class='form-control' value="{{ $layout->total_size }}" id='add_size{{ $loop->index }}' placeholder='40'>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
-                                                                    <label for='add_apartment_layout{{ $object->id }}'>Планировка</label>
-                                                                    <input name='add_apartment_layout{{ $object->id }}' type='text' class='form-control' value="{{ $object->apartment_layout }}" id='add_apartment_layout{{ $object->id }}' placeholder='1+1'>
+                                                                    <label for='add_apartment_layout{{ $loop->index }}'>Планировка</label>
+                                                                    <input name='layouts[{{ $loop->index }}][number_rooms]' type='text' class='form-control' value="{{ $layout->number_rooms }}" id='add_apartment_layout{{ $loop->index }}' placeholder='1+1'>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
-                                                                    <label for='add_floor{{ $object->id }}'>Этаж</label>
-                                                                    <input name='add_floor{{ $object->id }}' type='text' class='form-control' value="{{ $object->floor }}" id='add_floor{{ $object->id }}' placeholder='5'>
+                                                                    <label for='add_floor{{ $loop->index }}'>Этаж</label>
+                                                                    <input name='layouts[{{ $loop->index }}][floor]' type='text' class='form-control' value="{{ $layout->floor }}" id='add_floor{{ $loop->index }}' placeholder='5'>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
                                                                     <div class="form-main__label" for="add_apartment_layout_image">Прикрепить фотографию планировки</div>
                                                                         <label class="input-file">
-                                                                            @if(isset($object->apartment_layout_image))
-                                                                                @if(is_countable($object->apartment_layout_image))
+                                                                            @if(isset($layout->photos))
+                                                                                @if(is_countable($layout->photos))
                                                                                     <span class="input-file-text form-control files_text" type="text">
-                                                                                        @foreach($object->apartment_layout_image as $image)
-                                                                                            @if(isset($image))
-                                                                                                {{ $loop->last ? $image : $image . ", " }}
+                                                                                        @foreach($layout->photos as $photo)
+                                                                                            @if(isset($photo))
+                                                                                                {{ $loop->last ? $photo->url : $photo->url . ", " }}
                                                                                             @endif
                                                                                         @endforeach
                                                                                     </span>
                                                                                 @else
-                                                                                    <span class="input-file-text form-control files_text" type="text">{{ isset($object->apartment_layout_image) ? $object->apartment_layout_image : '' }}</span>
+                                                                                    <span class="input-file-text form-control files_text" type="text">{{ isset($layout->photos[0]) ? $layout->photos[0] : '' }}</span>
                                                                                 @endif
                                                                             @else
                                                                                 <span class="input-file-text form-control files_text" type="text"></span>
                                                                             @endif
-                                                                            <input class="add_apartment_layout_image" type="file" value="" name="add_apartment_layout_image{{ $object->id }}[]" accept="image/*" multiple>
+                                                                            <input class="add_apartment_layout_image" type="file" value="" name="layouts[{{ $loop->index }}][photos][]" accept="image/*" multiple>
                                                                         </label>
                                                                     </div>
-                                                                <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $object->id }}'>Удалить квартиру</p>
+                                                                <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $loop->index }}'>Удалить квартиру</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -656,7 +655,7 @@
                     accordions[i].id = "accordion"+i;
 
                     // accordions[i].childNodes[1].childNodes[1] нашли .card-header
-                    // console.log(accordions[i].childNodes[1].childNodes[1]);
+                    console.log(accordions[i].childNodes[1]);
                     accordions[i].childNodes[1].childNodes[1].id = "heading"+i;
 
                     // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1] нашли .btn
@@ -667,8 +666,12 @@
 
                     // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3] нашли input[type='hidden'] add_id
                     console.log(accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "add_id"+i;
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value = i;
+                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "layouts["+i+"][id]";
+                    var layout_id = accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value;
+                    // Если больше, либо равен порядковому номеру (больше на единицу, т.к. при удалении все элементы смещаются на 1 вниз)
+                    if (layout_id == i+1) {
+                        accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value = i;
+                    }
                     accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_id"+i;
 
                     // accordions[i].childNodes[1].childNodes[3] нашли .collapse
@@ -685,35 +688,40 @@
                     console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[1].for = "add_building"+i;
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_building"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "add_building"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "layouts["+i+"][building]";
 
                     // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3] нашли add_price
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].for = "add_price"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].id = "add_price"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].name = "add_price"+i;
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3].id = "add_price"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3].name = "layouts["+i+"][price]";
+
+                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3] нашли add_price_code
+                    console.log("price_code");
+                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3]);
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].id = "add_price_code"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].name = "layouts["+i+"][price_code]";
 
                     // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3] нашли add_size
                     console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3]);
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[1].for = "add_size"+i;
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].id = "add_size"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].name = "add_size"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].name = "layouts["+i+"][total_size]";
 
                     // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3] нашли add_apartment_layout
                     console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3]);
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[1].for = "add_apartment_layout"+i;
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].id = "add_apartment_layout"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].name = "add_apartment_layout"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].name = "layouts["+i+"][number_rooms]";
 
                     // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3] нашли add_floor
                     console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3]);
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[1].for = "add_floor"+i;
                     accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].id = "add_floor"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].name = "add_floor"+i;
+                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].name = "layouts["+i+"][floor]";
 
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1] нашли add_apartment_layout_image
                     // console.log(accordions[i].childNodes[1].childNodes[3].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1]);
-                    $('#accordion'+i+' input.add_apartment_layout_image').attr('name', 'add_apartment_layout_image'+i);
+                    $('#accordion'+i+' input.add_apartment_layout_image').attr('name', "layouts["+i+"][photos][]");
                     console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1].for = "add_apartment_layout_image"+;
                     // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].id = "add_apartment_layout_image"+i;

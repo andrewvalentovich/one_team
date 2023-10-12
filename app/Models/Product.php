@@ -22,6 +22,11 @@ class Product extends Model
         return $this->hasMany(ProductCategory::class,'product_id');
     }
 
+    // Привязка планировок к объекту (много планировок к одному объекту)
+    public function layouts() {
+        return $this->hasMany(Layout::class,'complex_id');
+    }
+
     public function peculiarities() {
         return $this->belongsToMany(Peculiarities::class, 'product_categories', 'product_id', 'peculiarities_id');
     }
