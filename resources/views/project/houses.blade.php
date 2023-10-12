@@ -1412,8 +1412,8 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
-            if (cityElement.layouts_count > 1) {
-                priceDiv.textContent = `€ ${cityElement.min_price.EUR.slice(0, -1)} +`;
+            if (cityElement.layouts.length > 1) {
+                priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)} +`;
             } else {
                 priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)}`;
             }
@@ -1713,17 +1713,18 @@ function P(e) {
         })
 
         //цена в попапе
-        if (currentHouse.layouts_count && currentHouse.layouts_count > 0) {
-            Object.keys(currentHouse.min_price).forEach(function (currencyCode, price) {
+        console.log(currentHouse.layouts.length)
+        if (currentHouse.layouts && currentHouse.layouts.length > 0) {
+            Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
                 const spanPriceBlock = currencyCodePrice.querySelector('span')
                 const bPriceBlock = currencyCodePrice.querySelector('b')
                 let currentPrice
                 const chemes = JSON.parse(currentHouse.objects)
-                if(chemes.length > 1) {
-                    currentPrice = `${dictionary.from[langSite]} ` + currentHouse.min_price[currencyCode];
+                if(currentHouse.layouts.length > 1) {
+                    currentPrice = `${dictionary.from[langSite]} ` + currentHouse.price[currencyCode];
                 } else {
-                    currentPrice = currentHouse.min_price[currencyCode];
+                    currentPrice = currentHouse.price[currencyCode];
                 }
                 const valuteSymbol = currentPrice[currentPrice.length - 1];
                 currentPrice = currentPrice.slice(0, -1);
@@ -1920,7 +1921,7 @@ function P(e) {
 
                 let divMonth = document.createElement('div')
                 divMonth.classList.add('kompleks__layout-price-month')
-                
+                console.log(object)
                 Object.entries(object.price_credit).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
