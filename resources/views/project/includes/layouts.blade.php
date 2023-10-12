@@ -208,14 +208,13 @@
             kompleksBlockMeterPrice.forEach(block => {
                 changeExchange(block, exchange)
             });
-
             if(kompleksBlockPriceSquare !== null)
             kompleksBlockPriceSquare.forEach(block => {
                 changeExchange(block, exchange)
             });
 
-            if(kompleksBlockPriceCredit !== null)
             kompleksBlockPriceCredit.forEach(block => {
+                console.log('test')
                 changeExchange(block, exchange)
             });
 
@@ -224,7 +223,6 @@
     });
 
     $(".place__currency-preview").bind('click', function () {
-        console.log($(".place__currency"))
         $(".place__currency").toggleClass("open");
     });
 
@@ -262,7 +260,6 @@
 
         const lengthPhone = phoneInput.data('phone-pattern').length;
         if(lengthPhone !== phone.length) {
-        console.log(lengthPhone)
             $('.field-phone').closest('.input-wrapper').addClass('border');
         }
         else {
@@ -308,14 +305,15 @@
 
 function changeExchange (blockPrice, currentExchange) {
     const prices = blockPrice.querySelectorAll('[data-exchange]')
-    console.log(prices)
     prices.forEach(element => {
         element.classList.remove('active')
         element.style.display = ('none')
     });
     const currentPrice = blockPrice.querySelector(`[data-exchange="${currentExchange}"]`);
-    currentPrice.classList.add('active')
-    currentPrice.style.display = ('block')
+    if(currentPrice) {
+        currentPrice.classList.add('active')
+        currentPrice.style.display = ('block')
+    }
 }
 </script>
 <script>

@@ -163,25 +163,30 @@ async function getData() {
         e.target.classList.contains("favorite-item-btn") || (document.body.classList.add("scroll_fixed"), document.querySelector(".header-w").classList.add("fixed"), b.classList.add("active"))
 
     }));
+    const exitBtn = document.querySelectorAll(".place__header-exit")
+    exitBtn.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const currentUrl = window.location.href;
 
+            // Создание объекта URL
+            const url = new URL(currentUrl);
+    
+            url.searchParams.delete('object_id');
+            // Получение обновленного URL
+            var updatedUrl = url.toString();
+            // Обновление URL в адресной строке
+            window.history.replaceState({}, '', updatedUrl);
+        })
+    });
     document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
         document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"),                 $('.header-w').removeClass('fixed');
 
 
     }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
 
+
         document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
-        
-        const currentUrl = window.location.href;
 
-        // Создание объекта URL
-        const url = new URL(currentUrl);
-
-        url.searchParams.delete('object_id');
-        // Получение обновленного URL
-        var updatedUrl = url.toString();
-        // Обновление URL в адресной строке
-        window.history.replaceState({}, '', updatedUrl);
     }), new Swiper(".place__swiper", {
 
         slidesPerView: 2,

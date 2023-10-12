@@ -853,7 +853,11 @@
 
                                                         </div>
                                                         <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                            {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
+                                                            
+                                                            <span data-exchange="eur" class="valute active">{{ $layout->price_credit['EUR'] }} / {{ __('мес') }}</span>
+                                                            <span data-exchange="usd" class="valute">{{ $layout->price_credit['USD'] }} / {{ __('мес') }}</span>
+                                                            <span data-exchange="rub" class="valute">{{ $layout->price_credit['RUB'] }} / {{ __('мес') }}</span>
+                                                            <span data-exchange="try" class="valute lira">{{ $layout->price_credit['TRY'] }} / {{ __('мес') }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
@@ -934,7 +938,7 @@
 
                                     <div class="place__btns-item place__btns-call">
 
-                                        <div class="place__btns-call-preview">
+                                        <div class="place__btns-call-preview"></div>
 
                                             <svg version="1.1" id="Capa_1"
 
@@ -1287,7 +1291,9 @@
             <div class="object__photo-content">
                 <div class="object__swiper swiper _preload">
                     <div class="object__swiper-wrapper swiper-wrapper">
-
+                        <!-- <div class="object__swiper-slide swiper-slide">
+                            <img src alt>
+                        </div> -->
                     </div>
                     <div class="object__swiper-pagination swiper-pagination"></div>
                     <div class="object__swiper-prev object__swiper-nav">
