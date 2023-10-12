@@ -1437,10 +1437,10 @@ function P(e) {
 
                     } else {
                         list.add(layout.number_rooms);
-                        if (index === 0) {
+                        if (index === 0 ) {
                             roomsDiv.innerHTML += `${layout.number_rooms}`;
                         } else if (index === layouts.length - 1) {
-                            roomsDiv.innerHTML += ` ${layout.number_rooms}`;
+                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
                         } else {
                             roomsDiv.innerHTML += `, ${layout.number_rooms}`;
                         }
