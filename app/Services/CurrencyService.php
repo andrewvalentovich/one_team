@@ -182,4 +182,34 @@ class CurrencyService
             ];
         }
     }
+
+    /**
+     * Get array with exchange rates and its value by 1 sq.m.
+     * Look like ["EUR" => 0.01, "RUB" => 1,..]
+     *
+     * @param int $price
+     * @param int|int $size
+     * @param string|null $price_code
+     * @return array|string[]
+     */
+    public function getPriceCreditFromDB(int $price = null): array
+    {
+        $base_code = "EUR";
+
+        if(is_null($price)) {
+            return [
+                "RUB" => "0 ₽",
+                "USD" => "0 $",
+                "EUR" => "0 €",
+                "TRY" => "0 ₺",
+            ];
+        } else {
+            return [
+                "RUB" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["RUB"] / 24, 0, '.', ' ')." ₽",
+                "USD" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["USD"] / 24, 0, '.', ' ')." $",
+                "EUR" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["EUR"] / 24, 0, '.', ' ')." €",
+                "TRY" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["TRY"] / 24, 0, '.', ' ')." ₺",
+            ];
+        }
+    }
 }
