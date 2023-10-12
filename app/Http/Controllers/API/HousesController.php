@@ -80,7 +80,7 @@ class HousesController extends Controller
 
         // Меняем параметры (для фронта)
         foreach ($sorted as $key => $object) {
-            $object->size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
             $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
 
             // Получаем уникальные планировки

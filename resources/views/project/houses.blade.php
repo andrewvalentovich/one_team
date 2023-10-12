@@ -1261,13 +1261,13 @@ function P(e) {
         },
         breakpoints: {
             320: {
-    
+
             },
             480: {
-    
+
             },
             640: {
-    
+
             }
         }
     })
@@ -1427,8 +1427,6 @@ function P(e) {
             const spalni = cityElement.spalni
             const vannie = cityElement.vanie
             const layouts = cityElement.layouts
-
-
 
             if (layouts && layouts.length > 0) {
                 let list = new Set();
