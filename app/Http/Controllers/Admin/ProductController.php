@@ -356,9 +356,11 @@ class ProductController extends Controller
 
         // Создадим или обновим колонки
         foreach ($layouts as $key => $layout) {
-//          $this->updateLayout($layout, $product->id);
-
-            Log::info('Updated layout - ' . $this->updateLayout($layout, $product->id));
+            if (stripos($layout['id'], "new_") !== false) {
+                $this->createLayout($layout, $product->id);
+            } else {
+                $this->updateLayout($layout, $product->id);
+            }
         }
     }
 
@@ -411,8 +413,6 @@ class ProductController extends Controller
                 }
             }
 
-        } else {
-            $this->createLayout($data, $product_id);
         }
 
         return $layout;
