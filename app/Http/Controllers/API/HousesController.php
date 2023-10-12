@@ -30,7 +30,7 @@ class HousesController extends Controller
         $data = $request->validated();
 
         // Число отображаемых записей (пока что магическое число)
-        $limit = 1;
+        $limit = 12;
         // Отступ для выборки записей
         $offset = isset($data['page']) ? (int)$data['page'] * $limit : 0;
 
@@ -46,7 +46,7 @@ class HousesController extends Controller
                 if (isset($data['price']['max_price'])) {
                     $query->where('layouts.price', '<=', $data['price']['max_price']);
                 }
-
+                $query->with('photos');
                 $query->orderBy('price', 'asc');
             }])
             ->with('photo')
@@ -55,8 +55,6 @@ class HousesController extends Controller
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
             }])
             ->filter($filter)
-            ->offset($offset)
-            ->limit($limit)
             ->get();
 
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
@@ -106,7 +104,7 @@ class HousesController extends Controller
             $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
         }
 
-        return response()->json($sorted);
+        return response()->json(array_slice($sorted, $offset, $limit));
     }
 
     public function getSimple(GetOneRequest $request)
