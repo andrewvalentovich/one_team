@@ -183,6 +183,10 @@
             const kompleksBlockPriceSquare = popupBlock.querySelectorAll('.place__square')
 
             const kompleksBlockPriceSquarePrice = popupBlock.querySelector('.place__price_country')
+
+            const kompleksBlockPriceCredit = popupBlock.querySelectorAll('.kompleks__layout-price-month')
+
+
             if(kompleksBlockPriceSquarePrice) {
                 const price = kompleksBlockPriceSquarePrice.querySelector('.place__price-value')
                 const valute = price.getAttribute(`data-price-${exchange}`)
@@ -210,6 +214,10 @@
                 changeExchange(block, exchange)
             });
 
+            if(kompleksBlockPriceCredit !== null)
+            kompleksBlockPriceCredit.forEach(block => {
+                changeExchange(block, exchange)
+            });
 
 
         }

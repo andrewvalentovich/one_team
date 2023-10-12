@@ -7091,6 +7091,14 @@ body.scroll_fixed {
 .kompleks__layout-price-meter span.active {
   display: block;
 }
+
+.kompleks__layout-price-month span {
+  display: none;
+}
+
+.kompleks__layout-price-month span.active {
+  display: block;
+}
 .balloon-city {
   cursor: pointer;
   background: #fff;

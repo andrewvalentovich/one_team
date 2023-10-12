@@ -1232,8 +1232,8 @@ function P(e) {
     const searchParams = url.searchParams;
     let currentCoordinateMapLeft = null
     let currentCoordinateMapRight = null
-    let maxPage = null
-    let currentPage = 1
+    let currentPage = 0
+    let lustPageReached = false
     let mapCountry;
     var script;
     var head = document.getElementsByTagName('head')[0];
@@ -1295,6 +1295,12 @@ function P(e) {
             en: 'from',
             tr: 'itibaren',
             de: 'aus',
+        },
+        month: {
+            ru: 'мес',
+            en: 'month',
+            tr: 'aylar',
+            de: 'monate',
         }
     }
 
@@ -1425,15 +1431,21 @@ function P(e) {
 
 
             if (layouts && layouts.length > 0) {
-                let list = new Set()
-                layouts.forEach(layout => {
-                    if(list.has(layout.number_rooms)) {
+                    let list = new Set();
+                    layouts.forEach((layout, index) => {
+                        if (list.has(layout.number_rooms)) {
 
-                    } else {
-                        list.add(layout.number_rooms)
-                        roomsDiv.innerHTML += ` ${layout.number_rooms},`;
-                    }
-                });
+                        } else {
+                            list.add(layout.number_rooms);
+                            if (index === 0) {
+                                roomsDiv.innerHTML += `${layout.number_rooms}`;
+                            } else if (index === layouts.length - 1) {
+                                roomsDiv.innerHTML += `, ${layout.number_rooms}`;
+                            } else {
+                                roomsDiv.innerHTML += ` ${layout.number_rooms},`;
+                            }
+                        }
+                    });
             } else {
                 roomsDiv.innerHTML = `${cityElement.size} кв.м`
 
@@ -1791,7 +1803,6 @@ function P(e) {
         const currentMapID = document.querySelector('#place-map')
         const div_id = 'place-map'
         ymaps.ready(function() {
-            console.log(placeMap)
             currentMapID.innerHTML = ''
             placeMap = new ymaps.Map(div_id, {
                 center: [currentHouse.lat, currentHouse.long],
@@ -1823,7 +1834,6 @@ function P(e) {
 
         const objects = [...currentHouse.layouts]
         let chemesSet = new Set()
-        console.log('test',objects)
         objects.forEach(object => {
             const div = document.createElement('div')
             div.classList.add('kompleks__sort-item')
@@ -1855,7 +1865,7 @@ function P(e) {
             objects.forEach((object, index) => {
                 let divItem = document.createElement('div')
                 divItem.classList.add('kompleks__layout-item')
-                divItem.setAttribute('data-cheme',object.apartment_layout)
+                divItem.setAttribute('data-cheme',object.number_rooms)
 
                 let divInfo = document.createElement('div')
                 divInfo.classList.add('kompleks__layout-info')
@@ -1866,8 +1876,8 @@ function P(e) {
                 divInfo.appendChild(divOption)
 
                 let divPrice = document.createElement('div')
+
                 divPrice.classList.add('kompleks__layout-price')
-                console.log('(object', object)
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
@@ -1910,9 +1920,23 @@ function P(e) {
 
                 let divMonth = document.createElement('div')
                 divMonth.classList.add('kompleks__layout-price-month')
-                divMonth.innerHTML = `$645 / мес.`
-                divInfo.appendChild(divMonth)
+                
+                Object.entries(object.price_credit).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.classList.add('lira')
+                    span.innerHTML = `${((currencyPrice))} / ${dictionary.month[langSite]}`
 
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divMonth.appendChild(span)
+
+                })
+
+                divInfo.appendChild(divMonth)
                 let divCheme = document.createElement('div')
                 divCheme.classList.add('kompleks__layout-scheme')
 
@@ -1926,27 +1950,24 @@ function P(e) {
                     const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
                     swiperWrapper.innerHTML = ''
                     //если много фото
-                    if(typeof(object.apartment_layout_image) === 'object') {
-                        object.apartment_layout_image.forEach(element => {
-                            const slide = document.createElement('div')
-                            const slidePic = document.createElement('img')
-                            slide.classList.add('swiper-slide')
-                            slide.appendChild(slidePic)
-                            slidePic.setAttribute('src', `/uploads/${element}`)
-                            swiperWrapper.appendChild(slide)
-                            objectSwiperNav.forEach(btn => {
-                                btn.style.display = 'flex'
-                            });
-                        });
-                    } else {// если одна фотка
+                    object.photos.forEach(photo => {
                         const slide = document.createElement('div')
                         const slidePic = document.createElement('img')
+
                         slide.classList.add('swiper-slide')
                         slide.appendChild(slidePic)
-                        slidePic.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
+                        slidePic.setAttribute('src', `/${photo.url}`)
                         swiperWrapper.appendChild(slide)
+
+                    });
+
+                    if(object.photos.length <= 1) {
                         objectSwiperNav.forEach(btn => {
                             btn.style.display = 'none'
+                        });
+                    } else {
+                        objectSwiperNav.forEach(btn => {
+                            btn.style.display = 'flex'
                         });
                     }
 
@@ -1962,7 +1983,7 @@ function P(e) {
 
 
                 let divChemeImg = document.createElement('img')
-                divChemeImg.setAttribute('src', `/uploads/${object.apartment_layout_image}`)
+                divChemeImg.setAttribute('src', `/${object.photos[0].url}`)
 
                 divChemePic.appendChild(divChemeImg)
                 divCheme.appendChild(divChemePic)
@@ -2489,9 +2510,12 @@ function P(e) {
                     success: function (data) {
                         console.log('data',data);
                         locationsCity.length = 0;
-                        maxPage = data.last_page
                         houseData.length = 0;
                         houseData = { ...data }
+                        console.log('test', paramsCustom)
+                        if(data.length !== 12 && paramsCustom) {
+                            lustPageReached = true
+                        }
                         data.forEach(object => {
                             if (!objectsListSet.has(object.id)) {
                                 objectsListSet.add(object.id);
@@ -2530,7 +2554,8 @@ function P(e) {
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
 
             if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
-                if (canLoadData && currentPage <= maxPage) {
+                console.log(lustPageReached)
+                if (canLoadData && !lustPageReached) {
                     currentPage++
                     canLoadData = false;
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
@@ -2843,7 +2868,7 @@ function P(e) {
             getData(top_left, bottom_right);
             currentCoordinateMapLeft = top_left
             currentCoordinateMapRight = bottom_right
-            currentPage = 1
+            currentPage = 0
             // let center = [];
             mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                 let newBounds = event.get('newBounds');
@@ -2861,7 +2886,8 @@ function P(e) {
                 getData(top_left, bottom_right);
                 currentCoordinateMapLeft = top_left
                 currentCoordinateMapRight = bottom_right
-                currentPage = 1
+                currentPage = 0
+                lustPageReached = false
                 mapCountry.container.fitToViewport()
             });
             mapCountry.events.add('boundschange', function(e){
