@@ -275,6 +275,8 @@ class ProductController extends Controller
                     unset($data);
                 } else {
                     if (strripos($key, "new_") !== false) {
+                        Log::info($category);
+                        Log::info(strripos($key, "new_"));
                         $data['category_id'] = $category > 0 ? $category : null;
                         PhotoTable::whereId($key)->update($data);
                         unset($data);
@@ -364,18 +366,20 @@ class ProductController extends Controller
     {
         // Добавим поле для связи
         $data['complex_id'] = $product_id;
-        $photos = $data['photos'];
+        $photos = isset($data['photos']) ? $data['photos'] : null;
         unset($data['id']);
         unset($data['photos']);
 
         $created_layout = Layout::create($data);
 
-        // Создание фото планировок
-        foreach ($photos as $key => $photo) {
-            LayoutPhoto::create([
-                'url' => $this->imageService->saveWebp($photo, 'layout_'),
-                'layout_id' => $created_layout->id
-            ]);
+        if (!is_null($photos)) {
+            // Создание фото планировок
+            foreach ($photos as $key => $photo) {
+                LayoutPhoto::create([
+                    'url' => $this->imageService->saveWebp($photo, 'layout_'),
+                    'layout_id' => $created_layout->id
+                ]);
+            }
         }
 
         return $created_layout;
