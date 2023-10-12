@@ -830,12 +830,12 @@
 
                         <div class="objects__slide-text">
                             <div class="objects__slide-price">
-                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)))
-                                    @if (isset($product->min_price["EUR"]))
+                                @if (isset($product->layouts))
+                                    @if (isset($product->price["EUR"]))
                                         @php
-                                        $euroPrice = str_replace(' €', '', $product->min_price["EUR"]);
+                                          $euroPrice = str_replace(' €', '', $product->price["EUR"]);
                                         @endphp
-                                        @if (count(json_decode($product->objects)) > 1)
+                                        @if (count($product->layouts) > 1)
                                             {{ "€ " . $euroPrice . " +" }}
                                         @else
                                             {{ "€ " . $euroPrice }}
@@ -846,17 +846,10 @@
                                 @endif
                             </div>
                             <div class="objects__slide-rooms">
-                                @if(!is_null(json_decode($product->objects)) && count(json_decode($product->objects)) > 0 && $product->layouts !== "" && $product->layouts !== " " && !is_null($product->layouts))
-                                    {{ $product->layouts }}
+                                @if($product->number_rooms_unique != "")
+                                    {{ $product->number_rooms_unique }}
                                 @else
-                                    <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
-                                    <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
-
-                                    {{ $product->size }} {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
-                                    {{__($spalni->category->name )}}
-                                    @endforeach{{__('Спальни')}} <span>|</span> @foreach($category_vannie as $spalni)  {{__($spalni->category->name)}}
-
-                                    @endforeach {{__('Ванна')}}
+                                    {{ $product->size }} {{__('кв.м')}} <span>|</span> {{ str_replace('+', '', $product->spalni) }} <span>|</span> {{ str_replace('+', '', $product->vanie) }}
                                 @endif
                             </div>
                             <div class="objects__slide-address">
@@ -944,7 +937,6 @@
     @endif
 <section class="popuuups">
 @foreach($citizenship_product as $product)
-
 <div class="place-w" data_id="{{$product->id}}">
     <div class="place-popup">
         <section class="object place">
@@ -1090,23 +1082,16 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)) && isset($product->min_price) && count(json_decode($product->objects)) > 1)
                                     <div
                                         class="place__price-value lira"
-                                        data-price-rub="{{ __("от") . " " . $product->min_price["RUB"] }}"
-                                        data-price-eur="{{ __("от") . " " . $product->min_price["EUR"] }}"
-                                        data-price-usd="{{ __("от") . " " . $product->min_price["USD"] }}"
-                                        data-price-try="{{ __("от") . " " . $product->min_price["TRY"] }}"
+                                        data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
+                                        data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
+                                        data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
+                                        data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
                                     >
-                                    {{ __("от") . " " . $product->min_price["EUR"] }}
+                                @if (count($product->layouts) > 1)
+                                    {{ __("от") . " " . $product->price["EUR"] }}
                                 @else
-                                    <div
-                                        class="place__price-value lira"
-                                        data-price-rub="{{ $product->price["RUB"] }}"
-                                        data-price-eur="{{ $product->price["EUR"] }}"
-                                        data-price-usd="{{ $product->price["USD"] }}"
-                                        data-price-try="{{ $product->price["TRY"] }}"
-                                    >
                                     {{ $product->price["EUR"] }}
                                 @endif
                                 </div>
@@ -1164,139 +1149,68 @@
                             </div>
                         </div>
                         <div class="place__buy">
-
                             <div class="place__buy-btn" data_id="{{$product->id}}">
-
                                 <div class="place__buy-text">
-
                                     {{__('Купить в рассрочку')}}
-
-
                                 </div>
-
                                 <div class="place__buy-img">
-
                                     <svg xmlns="http://www.w3.org/2000/svg"
-
                                         xml:space="preserve" version="1.1"
-
                                         style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-
                                         viewBox="0 0 1.34 1.29"
-
                                         xmlns:xlink="http://www.w3.org/1999/xlink">
-
             <g id="Слой_x0020_1">
-
                 <metadata id="CorelCorpID_0Corel-Layer"/>
-
                 <path class="fil0 str0"
-
                     d="M1.29 0.15l0 1c0,0.05 -0.04,0.09 -0.09,0.09l-1.06 0c-0.05,0 -0.09,-0.04 -0.09,-0.09l0 -1 1.24 0z"/>
-
                 <path class="fil0 str0" d="M1.03 0l0 0.31m-0.72 -0.31l0 0.31"/>
-
                 <line class="fil0 str0" x1="0.05" y1="0.41" x2="1.29" y2="0.41"/>
-
                 <line class="fil0 str0" x1="0.75" y1="0.62" x2="0.59" y2="0.62"/>
-
                 <line class="fil0 str0" x1="0.44" y1="0.62" x2="0.28" y2="0.62"/>
-
                 <line class="fil0 str0" x1="1.06" y1="0.62" x2="0.9" y2="0.62"/>
-
                 <line class="fil0 str0" x1="0.75" y1="0.82" x2="0.59" y2="0.82"/>
-
                 <line class="fil0 str0" x1="0.44" y1="0.82" x2="0.28" y2="0.82"/>
-
                 <line class="fil0 str0" x1="1.06" y1="0.82" x2="0.9" y2="0.82"/>
-
                 <line class="fil0 str0" x1="0.75" y1="1.03" x2="0.59" y2="1.03"/>
-
                 <line class="fil0 str0" x1="0.44" y1="1.03" x2="0.28" y2="1.03"/>
-
                 <line class="fil0 str0" x1="1.06" y1="1.03" x2="0.9" y2="1.03"/>
-
             </g>
-
         </svg>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="place__scroll-content">
-
                             <div class="place__advantages">
-
                                 @if($product->vnj == 'Да')
-
                                 <div class="place__advantages-item">
-
-
-
                                     <div class="place__advantages-img">
-
                                         <svg width="71" height="57" viewBox="0 0 71 57" fill="none" xmlns="http://www.w3.org/2000/svg">
-
                                             <g clip-path="url(#clip0_890_2)">
-
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M28.0208 7.95917V37.8774H8.03809V7.95917H28.0208Z" stroke="#508CFA" stroke-width="4.01887" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M0 56.0739C4.1305 56.0739 4.80031 51.8318 8.81918 51.8318C12.9497 51.8318 13.6195 56.0739 17.75 56.0739C21.7689 56.0739 22.5503 51.8318 26.5692 51.8318C30.6997 51.8318 31.3695 56.0739 35.5 56.0739C39.5189 56.0739 40.3003 51.8318 44.3192 51.8318C48.4497 51.8318 49.1195 56.0739 53.25 56.0739C57.2689 56.0739 58.0503 51.8318 62.0692 51.8318C66.1997 51.8318 66.8695 56.0739 71 56.0739" stroke="#508CFA" stroke-width="2.00943" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M0 48.0362C4.1305 48.0362 4.80031 43.7941 8.81918 43.7941C12.9497 43.7941 13.6195 48.0362 17.75 48.0362C21.7689 48.0362 22.5503 43.7941 26.5692 43.7941C30.6997 43.7941 31.3695 48.0362 35.5 48.0362C39.5189 48.0362 40.3003 43.7941 44.3192 43.7941C48.4497 43.7941 49.1195 48.0362 53.25 48.0362C57.2689 48.0362 58.0503 43.7941 62.0692 43.7941C66.1997 43.7941 66.8695 48.0362 71 48.0362" stroke="#508CFA" stroke-width="2.00943" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M71 37.8774H0" stroke="#508CFA" stroke-width="4.01887" stroke-miterlimit="22.9256"></path>
-
                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M43.9843 21.9136V37.8774H28.0205V21.9136H43.9843Z" stroke="#508CFA" stroke-width="4.01887" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M58.9434 18.0063V37.8774" stroke="#508CFA" stroke-width="2.00943" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M58.943 18.118C63.3821 18.118 66.9807 14.5193 66.9807 10.0802C66.9807 5.6411 63.3821 2.04248 58.943 2.04248C54.5039 2.04248 50.9053 5.6411 50.9053 10.0802C50.9053 14.5193 54.5039 18.118 58.943 18.118Z" stroke="#508CFA" stroke-width="4.01887" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M20.9873 15.9969H14.959" stroke="#508CFA" stroke-width="2.00943" stroke-miterlimit="22.9256"></path>
-
                                                 <path d="M20.9873 24.0346H14.959" stroke="#508CFA" stroke-width="2.00943" stroke-miterlimit="22.9256"></path>
-
                                             </g>
-
                                             <defs>
-
                                                 <clipPath id="clip0_890_2">
-
                                                     <rect width="71" height="57" fill="white"></rect>
-
                                                 </clipPath>
-
                                             </defs>
-
                                         </svg>
-
                                     </div>
-
-
-
                                     <div class="place__advantages-text">
-
                                         {{__('ВНЖ в подарок')}}
-
-
                                     </div>
-
-
-
                                 </div>
-
                                 @endif
-
                                     @if($product->cryptocurrency == 'Да')
-
                                 <div class="place__advantages-item">
-
                                     <div class="place__advantages-img">
-
                                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 
                                             <g clip-path="url(#clip0_890_23)">
@@ -1467,36 +1381,36 @@
                                             {{__('Общая площадь')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                        {{$product->size}} {{__('кв.м')}}
+                                        {{ $product->size }} {{__('кв.м')}}
                                         </div>
                                     </div>
-                                    @if(isset($product->peculiarities->where('type', 'Спальни')->first()->name))
+                                    @if(isset($product->spalni))
                                         <div class="object__rooms-item">
                                             <div class="object__rooms-subtitle">
                                                 {{__('Спален')}}
                                             </div>
                                             <div class="object__rooms-value">
-                                                {{ str_replace('+','',$product->peculiarities->where('type', 'Спальни')->first()->name) }}
+                                                {{ str_replace('+', '', $product->spalni) }}
                                             </div>
                                         </div>
                                     @endif
-                                    @if(isset($product->peculiarities->where('type', 'Гостиные')->first()->name))
+                                    @if(isset($product->gostinnie))
                                     <div class="object__rooms-item">
                                         <div class="object__rooms-subtitle">
                                             {{__('Гостиные')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Гостиные')->first()->name) }}
+                                            {{ str_replace('+', '', $product->gostinnie) }}
                                         </div>
                                     </div>
                                     @endif
-                                    @if(isset($product->peculiarities->where('type', 'Ванные')->first()->name))
+                                    @if(isset($product->vanie))
                                     <div class="object__rooms-item">
                                         <div class="object__rooms-subtitle">
                                             {{__('Ванные')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                            {{ str_replace('+', '', $product->peculiarities->where('type', 'Ванные')->first()->name) }}
+                                            {{ str_replace('+', '', $product->vanie) }}
                                         </div>
                                     </div>
                                     @endif
@@ -1546,56 +1460,52 @@
                                         @php
                                             $displayedLayouts = [];
                                         @endphp
-                                        @foreach(json_decode($product->objects) as $object)
-                                            @if (!in_array($object->apartment_layout, $displayedLayouts))
-                                                <div class="kompleks__sort-item" data-cheme="{{ $object->apartment_layout }}">
-                                                    {{ $object->apartment_layout }}
+                                        @foreach($product->layouts as $layout)
+                                            @if (!in_array($layout->number_rooms, $displayedLayouts))
+                                                <div class="kompleks__sort-item" data-cheme="{{ $layout->number_rooms }}">
+                                                    {{ $layout->number_rooms }}
                                                 </div>
                                                 @php
-                                                $displayedLayouts[] = $object->apartment_layout;
+                                                $displayedLayouts[] = $layout->number_rooms;
                                                 @endphp
                                             @endif
                                         @endforeach
                                         </div>
                                     </div>
                                     <div class="kompleks__layout-list" bis_skin_checked="1">
-                                        @if(!is_null(json_decode($product->objects)))
-                                            @foreach(json_decode($product->objects) as $object)
-                                            <div class="kompleks__layout-item" bis_skin_checked="1" data-cheme="{{ $object->apartment_layout }}">
+                                        @if(isset($product->layouts))
+                                            @foreach($product->layouts as $layout)
+                                            <div class="kompleks__layout-item" bis_skin_checked="1" data-cheme="{{ $layout->number_rooms }}">
                                                 <div class="kompleks__layout-info" bis_skin_checked="1">
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                        {{ $object->building }}
+                                                        {{ $layout->building }}
                                                     </div>
                                                     <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active">{{ $object->price->EUR }}</span>
-                                                        <span data-exchange="usd" class="valute">{{ $object->price->USD }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price->RUB }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price->TRY }}</span>
+                                                        <span data-exchange="eur" class="valute active">{{ $layout->price['EUR'] }}</span>
+                                                        <span data-exchange="usd" class="valute">{{ $layout->price['USD'] }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $layout->price['RUB'] }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $layout->price['TRY'] }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active">{{ $object->price_size->EUR }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="usd" class="valute">{{ $object->price_size->USD }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute">{{ $object->price_size->RUB }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute lira">{{ $object->price_size->TRY }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="eur" class="valute active">{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="usd" class="valute">{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="rub" class="valute">{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
+                                                        <span data-exchange="try" class="valute lira">{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
                                                     </div>
                                                     <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                        {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
+                                                        {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span>  {{ $layout->number_rooms }}
 
                                                     </div>
                                                     <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                        $645 / мес.
+                                                        {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
                                                     </div>
                                                 </div>
                                                 <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                     <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
-                                                        @if(isset($object->apartment_layout_image))
-                                                            @if(is_countable($object->apartment_layout_image))
-                                                                @foreach($object->apartment_layout_image as $image)
-                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $image) }}" alt="scheme">
-                                                                @endforeach
-                                                            @else
-                                                                <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $object->apartment_layout_image) }}" alt="scheme">
-                                                            @endif
+                                                        @if(isset($layout->photos))
+                                                            @foreach($layout->photos as $photo)
+                                                                <img data-objectid="{{ $layout->id }}" style="max-width: 100px;" src="{{ asset($photo->url) }}" alt="scheme">
+                                                            @endforeach
                                                         @endif
                                                     </div>
                                                 </div>
@@ -1610,12 +1520,14 @@
                                     {{__('Особенности')}}
                                 </div>
                                 <div class="object__peculiarities-content">
-                                    @if(!is_null($product->peculiarities->where('type', 'Особенности')))
-                                        @foreach($product->peculiarities->where('type', 'Особенности') as $osob)
-                                            <div class="object__peculiarities-item">
-                                                {{__($osob->name)}}
-                                            </div>
-                                        @endforeach
+                                    @if(!is_array($product->peculiarities) && !is_null($product->peculiarities))
+                                        @if(!is_null($product->peculiarities->where('type', 'Особенности')))
+                                            @foreach($product->peculiarities->where('type', 'Особенности') as $osob)
+                                                <div class="object__peculiarities-item">
+                                                    {{__($osob->name)}}
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     @else
                                         {{ __('Нет') }}
                                     @endif
@@ -2255,7 +2167,7 @@
                 }
 
             })
-            
+
             document.querySelectorAll(".search-nav__rooms-title").length && (document.querySelector(".search-nav__rooms-title").onclick = function() {
 
             document.querySelector(".search-nav__rooms").classList.toggle("active"), document.querySelector(".search-nav__rooms-dropdown").classList.toggle("active")
