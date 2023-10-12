@@ -1019,7 +1019,7 @@ if(document.querySelectorAll('.kompleks__layout-content').length) {
     const kompleksSort = document.querySelectorAll('.kompleks__layout-sort')
     kompleksSort.forEach(sortBlock => {
         const counterChemes = sortBlock.querySelectorAll('.kompleks__sort-item')
-        if(counterChemes.length <=1) {
+        if(counterChemes.length < 1) {
             sortBlock.style.display = 'none'
         } else {
 

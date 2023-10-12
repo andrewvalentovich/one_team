@@ -1431,21 +1431,21 @@ function P(e) {
 
 
             if (layouts && layouts.length > 0) {
-                    let list = new Set();
-                    layouts.forEach((layout, index) => {
-                        if (list.has(layout.number_rooms)) {
+                let list = new Set();
+                layouts.forEach((layout, index) => {
+                    if (list.has(layout.number_rooms)) {
 
+                    } else {
+                        list.add(layout.number_rooms);
+                        if (index === 0) {
+                            roomsDiv.innerHTML += `${layout.number_rooms}`;
+                        } else if (index === layouts.length - 1) {
+                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
                         } else {
-                            list.add(layout.number_rooms);
-                            if (index === 0) {
-                                roomsDiv.innerHTML += `${layout.number_rooms}`;
-                            } else if (index === layouts.length - 1) {
-                                roomsDiv.innerHTML += `, ${layout.number_rooms}`;
-                            } else {
-                                roomsDiv.innerHTML += ` ${layout.number_rooms},`;
-                            }
+                            roomsDiv.innerHTML += ` ${layout.number_rooms},`;
                         }
-                    });
+                    }
+                });
             } else {
                 roomsDiv.innerHTML = `${cityElement.size} кв.м`
 

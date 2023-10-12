@@ -813,11 +813,11 @@
                                             {{__('Планировки квартир')}}
                                         </div>
                                         <div class="kompleks__layout-sort">
-                                            @php
-                                                $displayedLayouts = [];
+                                        @php
+                                            $displayedLayouts = [];
                                             @endphp
                                             @foreach($product->layouts as $layout)
-                                                @if (!in_array($layout->apartment_layout, $displayedLayouts))
+                                                @if (!in_array($layout->number_rooms, $displayedLayouts))
                                                     <div class="kompleks__sort-item" data-cheme="{{ $layout->number_rooms }}">
                                                         {{ $layout->number_rooms }}
                                                     </div>
