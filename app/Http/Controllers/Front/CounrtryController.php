@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CompanySelect;
 use App\Models\ExchangeRate;
 use App\Services\CurrencyService;
+use App\Services\LayoutService;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use App\Models\CountryAndCity;
@@ -16,11 +17,13 @@ class CounrtryController extends Controller
 {
     private $currencyService;
     private $sortService;
+    private $layoutService;
 
-    public function __construct(CurrencyService $currencyService, SortService $sortService)
+    public function __construct(CurrencyService $currencyService, SortService $sortService, LayoutService $layoutService)
     {
         $this->currencyService = $currencyService;
         $this->sortService = $sortService;
+        $this->layoutService = $layoutService;
     }
 
     public function country($id)
@@ -36,80 +39,48 @@ class CounrtryController extends Controller
             ->with('photo')
             ->with('ProductCategory')
             ->with('peculiarities')
+            ->with(['layouts' => function($query) {
+                $query->with('photos');
+                $query->orderBy('price', 'asc');
+            }])
             ->has('photo')
             ->inRandomOrder()
             ->limit(10)
-            ->get()
-            ->transform(function ($row) {
-                $objects = [];
-                $layouts_result = null;
-                $min_price = 0;
+            ->get();
 
-                if (is_countable(json_decode($row->objects))) {
+        // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
+        for ($i = 0; $i < count($citizenship_product); $i++) {
+            if (isset($citizenship_product[$i]->layouts) && count($citizenship_product[$i]->layouts) > 0) {
+                $citizenship_product[$i]->price = $citizenship_product[$i]->layouts[0]->price;
+            }
+        }
 
-                    // Создаём индекс
-                    $i = 0;
-                    foreach (json_decode($row->objects) as $object) {
-                        // Формируем новое поле price_size
-                        $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+        // Меняем параметры (для фронта)
+        foreach ($citizenship_product as $key => $object) {
+            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
 
-                        // Ищем минимальную цену
-                        if ($i === 0) {
-                            $min_price = $object->price;
-                        } else {
-                            $min_price = $object->price < $min_price ? $object->price : $min_price;
-                        }
+            // Получаем уникальные планировки
+            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
 
-                        // Меняем цену
-                        $price = $object->price;
-                        $object->price = $this->currencyService->getPriceFromDB($price);
-                        unset($price);
-
-                        // Присваиваем объект временной переменой
-                        $objects[] = $object;
-                        // Увеличиваем индекс
-                        $i++;
-                    }
-                    // Очищаем индекс
-                    unset($i);
-
-                    // Возвращаем минимальную цену с валютами
-                    $min_price = $this->currencyService->getPriceFromDB($min_price);
-
-                    // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
-                    $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
-
-                    // массив для сортировки
-                    $layouts_sort_arr = [];
-                    foreach ($layouts as $layout) {
-                        if($layout === "" || $layout === " ") {
-                            continue;
-                        } else {
-                            $layouts_sort_arr[] = explode("+", $layout);
-                        }
-                    }
-
-                    // Сортировка
-                    $sort = $this->sortService->quicksort($layouts_sort_arr);
-
-                    // Вывод планировок (1+2, 2+2 и пр.)
-                    foreach ($sort as $layout) {
-                        $layouts_result .= !next($sort) ? implode("+", $layout) : implode("+", $layout) . ", ";
-                    }
-                    unset($layouts);
-
-
-                    $row->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
-                    unset($objects);
-
-                    $row->min_price = !is_null($row->objects) ? $min_price : 0;
-                    $row->layouts = $layouts_result;
+            // Цена за квартиру и за метр для планировок
+            if (isset($object->layouts)) {
+                foreach ($object->layouts as $index => $layout) {
+                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
+                    $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
+                    $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
                 }
+            }
 
-                $row->price_size = $this->currencyService->getPriceSizeFromDB((int)$row->price, (int)$row->size);
-                $row->price = $this->currencyService->getPriceFromDB($row->price);
-                return $row;
-            });
+            // Особенности
+            // Можно использовать Scopes!!!
+            $object->gostinnie = !empty($object->peculiarities->whereIn('type', "Гостиные")->first()) ? $object->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
+            $object->vanie = !empty($object->peculiarities->whereIn('type', "Ванные")->first()) ? $object->peculiarities->whereIn('type', "Ванные")->first()->name : null;
+            $object->spalni = !empty($object->peculiarities->whereIn('type', "Спальни")->first()) ? $object->peculiarities->whereIn('type', "Спальни")->first()->name : null;
+            $object->do_more = !empty($object->peculiarities->whereIn('type', "До моря")->first()) ? $object->peculiarities->whereIn('type', "До моря")->first()->name : null;
+            $object->type_vid = !empty($object->peculiarities->whereIn('type', "Вид")->first()) ? $object->peculiarities->whereIn('type', "Вид")->first()->name : null;
+            $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
+        }
 
         return view('project.country', compact('get','country', 'citizenship_product', 'count', 'get_footer_link'));
     }
