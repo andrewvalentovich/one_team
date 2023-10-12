@@ -1686,7 +1686,7 @@ function P(e) {
         // цена площади
         let divSquare = document.querySelector('.place__square')
         divSquare.innerHTML = ''
-        Object.entries(currentHouse.price_size).forEach(function([currencyCode, currencyPrice]) {
+        Object.entries(currentHouse.size).forEach(function([currencyCode, currencyPrice]) {
             let div = document.createElement('div')
             div.classList.add('place__square-item')
             div.setAttribute('data-exchange', currencyCode)
@@ -1821,16 +1821,16 @@ function P(e) {
         const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')
         kompleksLayoutSort.innerHTML = ''
 
-        const objects = JSON.parse(currentHouse.objects)
+        const objects = [...currentHouse.layouts]
         let chemesSet = new Set()
-        
+        console.log('test',objects)
         objects.forEach(object => {
             const div = document.createElement('div')
             div.classList.add('kompleks__sort-item')
-            div.innerHTML = object.apartment_layout
-            div.setAttribute('data-cheme',object.apartment_layout)
-            if(!chemesSet.has(object.apartment_layout)) {
-                chemesSet.add(object.apartment_layout)
+            div.innerHTML = object.number_rooms
+            div.setAttribute('data-cheme',object.number_rooms)
+            if(!chemesSet.has(object.number_rooms)) {
+                chemesSet.add(object.number_rooms)
                 kompleksLayoutSort.appendChild(div)
             }
         });
@@ -1867,7 +1867,7 @@ function P(e) {
 
                 let divPrice = document.createElement('div')
                 divPrice.classList.add('kompleks__layout-price')
-
+                console.log('(object', object)
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
@@ -1905,7 +1905,7 @@ function P(e) {
 
                 let divSquare = document.createElement('div')
                 divSquare.classList.add('kompleks__layout-square')
-                divSquare.innerHTML = `${object.size} ${dictionary.square_m[langSite]} <span>|</span> ${object.apartment_layout}`
+                divSquare.innerHTML = `${object.total_size} ${dictionary.square_m[langSite]} <span>|</span> ${object.number_rooms}`
                 divInfo.appendChild(divSquare)
 
                 let divMonth = document.createElement('div')
