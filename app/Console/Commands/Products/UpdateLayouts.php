@@ -43,7 +43,7 @@ class UpdateLayouts extends Command
                         'price_code' => $object->price_code ?? null,
                         'total_size' => (int)$object->size ?? null,
                         'number_rooms' => $object->apartment_layout ?? null,
-                        'floor' => $object->floor ?? null,
+                        'floor' => (int)$object->floor ?? null,
                         'complex_id' => $product->id
                     ]);
 
