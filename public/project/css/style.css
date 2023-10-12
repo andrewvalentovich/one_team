@@ -3346,8 +3346,9 @@ body.scroll_fixed {
   line-height: 24px;
   border-radius: 5px;
   background-color: #fa0064;
-  max-width: 104px;
   text-align: center;
+  width: fit-content;
+  padding: 0 7px;
 }
 
 .kompleks__layout-scheme {
@@ -7433,11 +7434,14 @@ body.scroll_fixed {
 .object__swiper {
   background: #fff;
   border-right: 1px solid #969696;
-  padding: 50px;
   width: 100%;
 }
+.object__swiper-wrapper {
+}
 .object__swiper-slide {
-  padding: 50px;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 29px 55px;
 }
 .object__swiper-nav {
   position: absolute;
@@ -7473,7 +7477,7 @@ body.scroll_fixed {
   transform: translate(0, -50%) rotate(180deg);
 }
 .object__swiper-pagination {
-  bottom: 20px !important; 
+  bottom: 13px !important; 
 }
 
 .object__swiper-pagination .swiper-pagination-bullet{
@@ -7529,7 +7533,6 @@ body.scroll_fixed {
   .object__photo-info {
   }
   .object__swiper {
-    padding: 20px 20px;
   }
   .object__photo-content .btn {
     padding: 10px 5px;

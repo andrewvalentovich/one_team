@@ -1440,9 +1440,9 @@ function P(e) {
                         if (index === 0) {
                             roomsDiv.innerHTML += `${layout.number_rooms}`;
                         } else if (index === layouts.length - 1) {
-                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
+                            roomsDiv.innerHTML += ` ${layout.number_rooms}`;
                         } else {
-                            roomsDiv.innerHTML += ` ${layout.number_rooms},`;
+                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
                         }
                     }
                 });
@@ -1858,8 +1858,8 @@ function P(e) {
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
 
-        if(currentHouse.objects !== null && currentHouse.objects !== '[]')
-        if(objects.length !== 0) {
+        if(currentHouse.layouts !== null && currentHouse.layouts !== '[]')
+        if(objects.layouts !== 0) {
 
             kompleks__layout.style.display = 'block'
 
@@ -1956,6 +1956,7 @@ function P(e) {
                         const slidePic = document.createElement('img')
 
                         slide.classList.add('swiper-slide')
+                        slide.classList.add('object__swiper-slide')
                         slide.appendChild(slidePic)
                         slidePic.setAttribute('src', `/${photo.url}`)
                         swiperWrapper.appendChild(slide)
@@ -2513,7 +2514,6 @@ function P(e) {
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }
-                        console.log('test', paramsCustom)
                         if(data.length !== 12 && paramsCustom) {
                             lustPageReached = true
                         }

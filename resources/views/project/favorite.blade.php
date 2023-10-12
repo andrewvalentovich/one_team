@@ -858,10 +858,20 @@
                                                     </div>
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                         <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
-                                                            @if(isset($layout->photos))
-                                                                @foreach($layout->photos as $photo)
-                                                                    <img data-objectid="{{ $layout->id }}" style="max-width: 100px;" src="{{ asset($photo->url) }}" alt="scheme">
-                                                                @endforeach
+                                                            @if(isset($layout->photos) && count($layout->photos) > 0)
+                                                                @php
+                                                                    $photoPaths = [];
+                                                                    foreach($layout->photos as $photo) {
+                                                                        $photoPaths[] = asset($photo->url);
+                                                                    }
+                                                                    $jsonPhotoPaths = json_encode($photoPaths);
+                                                                @endphp
+                                                                <div class="srs-for-photos" data-src-photos='{{ $jsonPhotoPaths }}'>
+                                                                    @foreach($layout->photos as $photo)
+                                                                        <img data-objectid="{{ $layout->id }}" style="max-width: 100px;" src="{{ asset($photo->url) }}" alt="scheme">
+                                                                        @break
+                                                                    @endforeach
+                                                                </div>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -1277,17 +1287,15 @@
             <div class="object__photo-content">
                 <div class="object__swiper swiper _preload">
                     <div class="object__swiper-wrapper swiper-wrapper">
-                        <div class="object__swiper-slide swiper-slide">
-                            <img src alt>
-                        </div>
+
                     </div>
-                    <!-- <div class="object__swiper-pagination swiper-pagination"></div>
+                    <div class="object__swiper-pagination swiper-pagination"></div>
                     <div class="object__swiper-prev object__swiper-nav">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
                     </div>
                     <div class="object__swiper-next object__swiper-nav">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="object__photo-text">
                     <div class="object__photo-info">

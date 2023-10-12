@@ -1053,19 +1053,46 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
     if(document.querySelectorAll('.kompleks__layout-img').length) {
         const chemePic = document.querySelectorAll('.kompleks__layout-img')
         const chemePopup = document.querySelector(".object__photo");
-        const slide = document.querySelector('.object__swiper-slide')
-        const slideImg = slide.querySelector('img')
 
         const text = document.querySelector(".object__photo-info")
+
+        const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+        const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
+
         chemePic.forEach(pic => {
             pic.addEventListener('click', function(e) {
-                const containerBlock = this.closest('.kompleks__layout-item')
+                swiperWrapper.innerHTML = ''
+                const container = this.closest('.kompleks__layout-item')
+                let srsForPhotos = container.querySelector('.srs-for-photos').getAttribute('data-src-photos')
+                srsForPhotos = JSON.parse(srsForPhotos)
 
-                const srcPic = pic.querySelector('img').getAttribute('src')
-                slideImg.setAttribute('src', `${srcPic}`)
-                chemePopup.classList.add('active')
+                srsForPhotos.forEach(photo => {
+                    const slide = document.createElement('div')
+                    const slidePic = document.createElement('img')
 
-                const infoForTextBlock = containerBlock.querySelector(".kompleks__layout-info")
+                    slide.classList.add('swiper-slide')
+                    slide.classList.add('object__swiper-slide')
+                    slide.appendChild(slidePic)
+                    slidePic.setAttribute('src', photo)
+                    swiperWrapper.appendChild(slide)
+
+                });
+
+                if(srsForPhotos.length <= 1) {
+                    objectSwiperNav.forEach(btn => {
+                        btn.style.display = 'none'
+                    });
+                } else {
+                    objectSwiperNav.forEach(btn => {
+                        btn.style.display = 'flex'
+                    });
+                }
+
+                objectSwiper.update()
+                objectSwiper.updateSlides()
+                objectSwiper.slideTo(0)
+                const text = document.querySelector(".object__photo-info")
+                const infoForTextBlock = container.querySelector(".kompleks__layout-info")
                 text.innerHTML = infoForTextBlock.innerHTML
                 chemePopup.classList.add('active')
             })
