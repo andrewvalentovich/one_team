@@ -3534,7 +3534,6 @@ body.scroll_fixed {
 
 .place__slider_p-img img {
   width: 100%;
-  max-width: 674px;
 }
 
 .place-popup-collage {
@@ -6824,7 +6823,7 @@ body.scroll_fixed {
 
 .place__slider_p-img img {
   width: 100%;
-  max-width: 962px;
+  max-width: calc(100% - 155px);
   height: calc(100% - 20px);
   object-fit: contain;
   height: 100%;
