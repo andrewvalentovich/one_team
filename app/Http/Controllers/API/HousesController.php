@@ -89,7 +89,6 @@ class HousesController extends Controller
             // Цена за квартиру и за метр для планировок
             if (isset($object->layouts)) {
                 foreach ($object->layouts as $index => $layout) {
-                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
                     $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
                     $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
                 }
@@ -141,6 +140,7 @@ class HousesController extends Controller
         // Цена за квартиру и за метр для планировок
         if (isset($product->layouts)) {
             foreach ($product->layouts as $index => $layout) {
+                $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
                 $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
                 $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
             }
