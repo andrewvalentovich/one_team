@@ -1186,9 +1186,7 @@
                 </div>
 
             </div>
-        </section>
-
-        <div class="place__exit">
+            <div class="place__exit">
             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
                 style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                 viewBox="0 0 0.37 0.37"
@@ -1200,6 +1198,8 @@
                 </g>
             </svg>
         </div>
+        </section>
+
     </div>
 
     </div>
