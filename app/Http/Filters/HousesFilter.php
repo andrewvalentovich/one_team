@@ -123,18 +123,50 @@ class HousesFilter extends AbstractFilter
 
     protected function price(Builder $builder, $value)
     {
-        if (isset($value['min_price'])) {
-            $builder->where('products.price', '>=', (int)$value['min_price'])
-                ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                    $query->where('layouts.price', '>=', (int)$value['min_price']);
+        if (isset($value['min_price']) && isset($value['max_price'])) {
+            $builder->where(function ($query) use ($value) {
+                $query->where('complex_or_not', 'Нет')
+                    ->where(function ($query) use ($value) {
+                        $query->where('products.price', '>=', (int)$value['min_price']);
+                        $query->where('products.price', '<=', (int)$value['max_price']);
+                    })
+                    ->orWhereHas('layouts', function (Builder $query) use ($value) {
+                        $query->where('layouts.price', '>=', (int)$value['min_price']);
+                        $query->where('layouts.price', '<=', (int)$value['max_price']);
+                    });
+            });
+        } else {
+            if (isset($value['min_price'])) {
+//            $builder->where('products.price', '>=', (int)$value['min_price'])
+//                ->orWhere(function($query) use ($value) {
+//                    $query->where('complex_or_not', 'Да')->whereHas('layouts', function (Builder $query) use ($value) {
+//                        $query->where('layouts.price', '>=', (int)$value['min_price']);
+//                    });
+//                });'products.price', '>=', (int)$value['min_price']
+                $builder->where(function ($query) use ($value) {
+                    $query->where('complex_or_not', 'Нет')
+                        ->where('products.price', '>=', (int)$value['min_price'])
+                        ->orWhereHas('layouts', function (Builder $query) use ($value) {
+                            $query->where('layouts.price', '>=', (int)$value['min_price']);
+                        });
                 });
-        }
+            }
 
-        if (isset($value['max_price'])) {
-            $builder->where('products.price', '<=', (int)$value['max_price'])
-                ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                    $query->where('layouts.price', '<=', (int)$value['max_price']);
+            if (isset($value['max_price'])) {
+//            $builder->where('products.price', '<=', (int)$value['max_price'])
+//                ->orWhere(function($query) use ($value) {
+//                    $query->where('complex_or_not', 'Да')->whereHas('layouts', function (Builder $query) use ($value) {
+//                        $query->where('layouts.price', '<=', (int)$value['max_price']);
+//                    });
+//                });
+                $builder->where(function ($query) use ($value) {
+                    $query->where('complex_or_not', 'Нет')
+                        ->where('products.price', '<=', (int)$value['max_price'])
+                        ->orWhereHas('layouts', function (Builder $query) use ($value) {
+                            $query->where('layouts.price', '<=', (int)$value['max_price']);
+                        });
                 });
+            }
         }
     }
 
