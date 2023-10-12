@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Layouts extends Model
+class Layout extends Model
 {
     use HasFactory;
     protected $guarded = [];
@@ -14,5 +14,10 @@ class Layouts extends Model
     public function complex()
     {
         return $this->belongsTo(Product::class, 'complex_id', 'id');
+    }
+
+    // Привязка фотографий к планировке (много фотографий к одной планировке)
+    public function photos() {
+        return $this->hasMany(LayoutPhoto::class,'layout_id');
     }
 }

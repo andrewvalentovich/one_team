@@ -10,19 +10,19 @@ use App\Http\Requests\House\FilterRequest;
 use App\Models\Product;
 use App\Models\Peculiarities;
 use App\Services\CurrencyService;
-use App\Services\LayoutsService;
+use App\Services\LayoutService;
 
 class HousesController extends Controller
 {
     private $peculiarities;
     private $currencyService;
-    private $layoutsService;
+    private $layoutService;
 
-    public function __construct(CurrencyService $currencyService, LayoutsService $layoutsService)
+    public function __construct(CurrencyService $currencyService, LayoutService $layoutService)
     {
         $this->peculiarities = Peculiarities::all();
         $this->currencyService = $currencyService;
-        $this->layoutsService = $layoutsService;
+        $this->layoutService = $layoutService;
     }
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
@@ -70,7 +70,12 @@ class HousesController extends Controller
         if (isset($data['order_by'])) {
             // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
             $value = explode('-', $data['order_by']);
-            $sorted = $houses->sortBy('price')->values()->all();
+
+            if ($value[1] === 'desc') {
+                $sorted = $houses->sortByDesc($value[0])->values()->all();
+            } else {
+                $sorted = $houses->sortBy($value[0])->values()->all();
+            }
         } else {
             $sorted = $houses->sortByDesc('created_at')->values()->all();
         }
@@ -81,7 +86,7 @@ class HousesController extends Controller
             $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
 
             // Получаем уникальные планировки
-            $object->number_rooms_unique = $this->layoutsService->getUniqueNumberRooms($object->layouts);
+            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
 
             // Цена за квартиру и за метр для планировок
             if (isset($object->layouts)) {
@@ -111,6 +116,7 @@ class HousesController extends Controller
         // Выбор объектов, запрос к базе через Eloquent
         $product = Product::whereId($data['id'])
             ->with(['layouts' => function($query) use ($data) {
+                $query->with('photos');
                 $query->orderBy('price', 'asc');
             }])
             ->with('photo')
@@ -131,7 +137,7 @@ class HousesController extends Controller
         $product->price = $this->currencyService->getPriceFromDB((int)$product->price);
 
         // Получаем уникальные планировки
-        $product->number_rooms_unique = $this->layoutsService->getUniqueNumberRooms($product->layouts);
+        $product->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($product->layouts);
 
         // Цена за квартиру и за метр для планировок
         if (isset($product->layouts)) {

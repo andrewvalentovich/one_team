@@ -24,7 +24,7 @@ class Product extends Model
 
     // Привязка планировок к объекту (много планировок к одному объекту)
     public function layouts() {
-        return $this->hasMany(Layouts::class,'complex_id');
+        return $this->hasMany(Layout::class,'complex_id');
     }
 
     public function peculiarities() {

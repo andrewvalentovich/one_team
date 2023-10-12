@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\StoreRequest;
 use App\Http\Requests\Admin\Products\UpdateRequest;
 use App\Models\ExchangeRate;
-use App\Models\Layouts;
+use App\Models\Layout;
+use App\Models\LayoutPhoto;
 use App\Models\Option;
 use App\Services\CurrencyService;
+use App\Services\ImageService;
 use App\Services\PreviewImageService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,12 +26,14 @@ use Illuminate\Support\Facades\Log;
 class ProductController extends Controller
 {
     private $previewImageService;
+    private $imageService;
     private $currencyService;
 
-    public function __construct(PreviewImageService $service, CurrencyService $currency)
+    public function __construct(PreviewImageService $previewImageService, CurrencyService $currencyService, ImageService $imageService)
     {
-        $this->previewImageService = $service;
-        $this->currencyService = $currency;
+        $this->previewImageService = $previewImageService;
+        $this->imageService = $imageService;
+        $this->currencyService = $currencyService;
     }
 
     public function all_product($id)
@@ -75,7 +79,6 @@ class ProductController extends Controller
         $data = $request->validated();
         // Планировки
         $layouts = $request->layouts;
-
 
 //        for($i = 0; $i < count($layouts); $i++) {
 //            // Добавление фотографий
@@ -264,6 +267,8 @@ class ProductController extends Controller
         // Добавление категорий для фото обновлённого объекта
         if (isset($request->photo_categories)) {
             foreach ($request->photo_categories as $key => $category) {
+                $data = [];
+
                 if (gettype($key) != "string") {
                     $data['category_id'] = $category > 0 ? $category : null;
                     PhotoTable::whereId($key)->update($data);
@@ -338,7 +343,11 @@ class ProductController extends Controller
         // Проверим, если в layouts отсутствуют те планировки, которые есть в $products, то удалим их
         foreach ($product->layouts as $layout) {
             if (!in_array($layout->id, $columns)) {
-                Layouts::destroy($layout->id);
+                $tmp = Layout::find($layout->id);
+                $tmp->photos()->delete();
+                $tmp->delete();
+                unset($tmp);
+
                 Log::info('Destroyed layout - ' . $layout->id);
             }
         }
@@ -346,6 +355,7 @@ class ProductController extends Controller
         // Создадим или обновим колонки
         foreach ($layouts as $key => $layout) {
 //          $this->updateLayout($layout, $product->id);
+
             Log::info('Updated layout - ' . $this->updateLayout($layout, $product->id));
         }
     }
@@ -354,14 +364,28 @@ class ProductController extends Controller
     {
         // Добавим поле для связи
         $data['complex_id'] = $product_id;
+        $photos = $data['photos'];
         unset($data['id']);
+        unset($data['photos']);
 
-        return Layouts::create($data);
+        $created_layout = Layout::create($data);
+
+        // Создание фото планировок
+        foreach ($photos as $key => $photo) {
+            LayoutPhoto::create([
+                'url' => $this->imageService->saveWebp($photo, 'layout_'),
+                'layout_id' => $created_layout->id
+            ]);
+        }
+
+        return $created_layout;
     }
 
     private function updateLayout($data, $product_id)
     {
-        $layout = Layouts::find($data['id']);
+        $layout = Layout::find($data['id']);
+        $photos = isset($data['photos']) ? $data['photos'] : null;
+        unset($data['photos']);
 
         if (!is_null($layout)) {
             // Добавим поле для связи
@@ -369,6 +393,20 @@ class ProductController extends Controller
             unset($data['id']);
 
             $layout->update($data);
+
+            if (!is_null($photos)) {
+                // Удаление фото планировок
+                $layout->photos()->delete();
+
+                // Создание фото планировок
+                foreach ($photos as $key => $photo) {
+                    LayoutPhoto::create([
+                        'url' => $this->imageService->saveWebp($photo, 'layout_'),
+                        'layout_id' => $layout->id
+                    ]);
+                }
+            }
+
         } else {
             $this->createLayout($data, $product_id);
         }

@@ -5,7 +5,7 @@ namespace App\Http\Filters;
 
 
 use App\Models\ExchangeRate;
-use App\Models\Layouts;
+use App\Models\Layout;
 use Illuminate\Database\Eloquent\Builder;
 
 class HousesFilter extends AbstractFilter

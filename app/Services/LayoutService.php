@@ -7,7 +7,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
-class LayoutsService
+class LayoutService
 {
     private $sortService;
 

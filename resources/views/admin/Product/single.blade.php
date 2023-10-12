@@ -404,7 +404,7 @@
                                                                                     <span class="input-file-text form-control files_text" type="text">
                                                                                         @foreach($layout->photos as $photo)
                                                                                             @if(isset($photo))
-                                                                                                {{ $loop->last ? $photo : $photo . ", " }}
+                                                                                                {{ $loop->last ? $photo->url : $photo->url . ", " }}
                                                                                             @endif
                                                                                         @endforeach
                                                                                     </span>
