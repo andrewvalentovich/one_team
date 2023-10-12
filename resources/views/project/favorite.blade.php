@@ -61,36 +61,36 @@
             @endif
             <div class="favorites__list">
                 @foreach($get_product as $product)
-                    @if(isset($product->product->photo[0]->photo))
-                <div class="favorites__list-item open-place-popup" data_id="{{$product->product->id}}">
+                    @if(isset($product->photo[0]->photo))
+                <div class="favorites__list-item open-place-popup" data_id="{{$product->id}}">
                     <div class="favorites__item-img">
-                        <img src="{{asset('uploads/'.$product->product->photo[0]->photo)}}" alt="place">
+                        <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="place">
                     </div>
                     <div class="favorites__item-text">
                         <div class="favorites__item-price">
-                            @if (!is_null(json_decode($product->product->objects)) && !empty(json_decode($product->product->objects)))
-                                @if (isset($product->product->min_price["EUR"]))
+                            @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)))
+                                @if (isset($product->price["EUR"]))
                                     @php
-                                    $euroPrice = str_replace(' €', '', $product->product->min_price["EUR"]);
+                                    $euroPrice = str_replace(' €', '', $product->price["EUR"]);
                                     @endphp
-                                    @if (count(json_decode($product->product->objects)) > 1)
+                                    @if (count(json_decode($product->objects)) > 1)
                                         {{ "€ " . $euroPrice . " +" }}
                                     @else
                                         {{ "€ " . $euroPrice }}
                                     @endif
                                 @else
-                                    {{ "€ " . str_replace(' €', '', $product->product->price["EUR"]) }}
+                                    {{ "€ " . str_replace(' €', '', $product->price["EUR"]) }}
                                 @endif
                             @endif
                         </div>
                         <div class="favorites__item-rooms">
-                            @if(!is_null(json_decode($product->product->objects)) && count(json_decode($product->product->objects)) > 0 && $product->product->layouts !== "" && $product->product->layouts !== " " && !is_null($product->product->layouts))
-                                {{ $product->product->layouts }}
+                            @if($product->number_rooms_unique != "")
+                                {{ $product->number_rooms_unique }}
                             @else
-                                <?php $category_spalni =  $product->product->ProductCategory->where('type', 'Спальни')?>
-                                <?php $category_vannie =  $product->product->ProductCategory->where('type', 'Ванные')?>
+                                <?php $category_spalni =  $product->ProductCategory->where('type', 'Спальни')?>
+                                <?php $category_vannie =  $product->ProductCategory->where('type', 'Ванные')?>
 
-                                {{ $product->product->size }} {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
+                                {{ $product->size }} {{__('кв.м')}}<span>|</span>    @foreach($category_spalni as $spalni)
                                     {{__($spalni->category->name )}}
                                 @endforeach{{__('Спальни')}} <span>|</span> @foreach($category_vannie as $spalni)  {{__($spalni->category->name)}}
 
@@ -98,10 +98,10 @@
                             @endif
                         </div>
                         <div class="favorites__item-address">
-                           {{$product->product->address}}
+                           {{$product->address}}
                         </div>
                     </div>
-                    <div class="favorites__item-exit" data_id="{{$product->product_id}}">
+                    <div class="favorites__item-exit" data_id="{{$product->id}}">
                         <img src="{{asset('project/img/svg/exit_w.svg')}}" alt="exit">
                     </div>
                 </div>
@@ -182,7 +182,7 @@
     </section>
     <section class="popuuups">
 @foreach($get_product as $product)
-<div class="place-w" data_id="{{$product->product->id}}">
+<div class="place-w" data_id="{{$product->id}}">
 
     <div class="place-popup">
 
@@ -262,11 +262,11 @@
                     <div class="place__left-content">
                         <div class="place__left-top">
                             <div class="place__top-img place__collage-item_clickable">
-                                <img src="{{asset('uploads/'.$product->product->photo[0]->photo)}}" alt="object">
+                                <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="object">
                             </div>
                         </div>
                         <div class="place__left-collage">
-                            @foreach($product->product->photo->where('id','!=',$product->product->photo[0]->id) as $photo)
+                            @foreach($product->photo->where('id','!=',$product->photo[0]->id) as $photo)
                             <div class="place__collage-item place__collage-item_clickable">
                                 <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
                             </div>
@@ -276,7 +276,7 @@
                     <div class="place__slider">
                         <div class="place__swiper swiper">
                             <div class="place__wrapper swiper-wrapper">
-                                @foreach($product->product->photo as $photo)
+                                @foreach($product->photo as $photo)
                                 <div class="place__slide swiper-slide place__slide_clickable open-collage">
                                     <img src="{{asset('uploads/'.$photo->photo)}}" alt="object">
                                 </div>
@@ -326,8 +326,8 @@
 
                         </a>
 
-                        <?php  $get_product = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->product->id)->first() ?>
-                        <div class="place__top-favorites check-favorites {{ $get_product == null ? '' : 'active' }}" data_id="{{$product->product->id}}">
+                        <?php  $get_product = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
+                        <div class="place__top-favorites check-favorites {{ $get_product == null ? '' : 'active' }}" data_id="{{$product->id}}">
 
                             <div class="place__top-favorites-text">
 
@@ -366,25 +366,18 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                @if (!is_null(json_decode($product->product->objects)) && !empty(json_decode($product->product->objects)) && isset($product->product->min_price) && count(json_decode($product->product->objects)) > 1)
                                     <div
                                         class="place__price-value lira"
-                                        data-price-rub="{{ __("от") . " " . $product->product->min_price["RUB"] }}"
-                                        data-price-eur="{{ __("от") . " " . $product->product->min_price["EUR"] }}"
-                                        data-price-usd="{{ __("от") . " " . $product->product->min_price["USD"] }}"
-                                        data-price-try="{{ __("от") . " " . $product->product->min_price["TRY"] }}"
+                                        data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
+                                        data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
+                                        data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
+                                        data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
                                     >
-                                        {{ __("от") . " " . $product->product->min_price["EUR"] }}
-                                @else
-                                    <div
-                                        class="place__price-value lira"
-                                        data-price-rub="{{ $product->product->price["RUB"] }}"
-                                        data-price-eur="{{ $product->product->price["EUR"] }}"
-                                        data-price-usd="{{ $product->product->price["USD"] }}"
-                                        data-price-try="{{ $product->product->price["TRY"] }}"
-                                    >
-                                        {{ $product->product->price["EUR"] }}
-                                @endif
+                                    @if (isset($product->layouts))
+                                        {{ __("от") . " " . $product->price["EUR"] }}
+                                    @else
+                                        {{ $product->price["EUR"] }}
+                                    @endif
                                     </div>
                                         <div class="place__currency">
                                             <div class="place__currency-preview">
@@ -416,9 +409,9 @@
                                                     ₽
                                                 </div>
                                                 <div class="place__currency-item" data-exchange="try">
-                                        <span class="lira">
-                                            ₺
-                                        </span>
+                                                    <span class="lira">
+                                                        ₺
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -431,18 +424,18 @@
                                     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                                 </div>
                                 <div class="place__square place__square_country lira"
-                                     data-price-rub="{{ $product->product->price_size["RUB"] }}"
-                                     data-price-eur="{{ $product->product->price_size["EUR"] }}"
-                                     data-price-usd="{{ $product->product->price_size["USD"] }}"
-                                     data-price-try="{{ $product->product->price_size["TRY"] }}"
+                                     data-price-rub="{{ $product->price_size["RUB"] }}"
+                                     data-price-eur="{{ $product->price_size["EUR"] }}"
+                                     data-price-usd="{{ $product->price_size["USD"] }}"
+                                     data-price-try="{{ $product->price_size["TRY"] }}"
                                 >
-                                    {{ $product->product->price_size["EUR"] }}
+                                    {{ $product->price_size["EUR"] }}
                                 </div>
                             </div>
 
                         <div class="place__buy">
 
-                            <div class="place__buy-btn" data_id="{{$product->product->id}}">
+                            <div class="place__buy-btn" data_id="{{$product->id}}">
 
                                 <div class="place__buy-text">
 
@@ -507,7 +500,7 @@
 
                             <div class="place__advantages">
 
-                                @if($product->product->vnj == 'Да')
+                                @if($product->vnj == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -568,7 +561,7 @@
 
                                 @endif
 
-                                    @if($product->product->cryptocurrency == 'Да')
+                                    @if($product->cryptocurrency == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -621,7 +614,7 @@
 
                                     @endif
 
-                                    @if($product->product->commissions == 'Да')
+                                    @if($product->commissions == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -656,7 +649,7 @@
 
                                     @endif
 
-                                    @if($product->product->parking == 'Да')
+                                    @if($product->parking == 'Да')
 
                                 <div class="place__advantages-item">
 
@@ -736,7 +729,7 @@
                                 </div>
 
                             </div>
-                        @if($product->product->complex_or_not == 'Нет' || $product->product->complex_or_not == null)
+                            @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
                             <div class="object__rooms">
                                 <div class="object__rooms-content">
                                     <div class="object__rooms-item">
@@ -744,54 +737,40 @@
                                             {{__('Общая площадь')}}
                                         </div>
                                         <div class="object__rooms-value">
-                                        {{$product->product->size}} {{__('кв.м')}}
+                                            {{ $product->size }} {{__('кв.м')}}
                                         </div>
                                     </div>
-                                    <div class="object__rooms-item">
-                                        <div class="object__rooms-subtitle">
-                                            {{__('Спален')}}
+                                    @if(isset($product->spalni))
+                                        <div class="object__rooms-item">
+                                            <div class="object__rooms-subtitle">
+                                                {{__('Спален')}}
+                                            </div>
+                                            <div class="object__rooms-value">
+                                                {{ str_replace('+', '', $product->spalni) }}
+                                            </div>
                                         </div>
-                                        <div class="object__rooms-value">
-                                        <?php $spalni = \App\Models\ProductCategory::where('type', 'Спальни')->where('product_id', $product->product->id)->first(); ?>
-                                            {{str_replace('+','',$spalni->category->name)}}
+                                    @endif
+                                    @if(isset($product->gostinnie))
+                                        <div class="object__rooms-item">
+                                            <div class="object__rooms-subtitle">
+                                                {{__('Гостиные')}}
+                                            </div>
+                                            <div class="object__rooms-value">
+                                                {{ str_replace('+', '', $product->gostinnie) }}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="object__rooms-item">
-                                        <div class="object__rooms-subtitle">
-                                            {{__('Гостиные')}}
+                                    @endif
+                                    @if(isset($product->vanie))
+                                        <div class="object__rooms-item">
+                                            <div class="object__rooms-subtitle">
+                                                {{__('Ванные')}}
+                                            </div>
+                                            <div class="object__rooms-value">
+                                                {{ str_replace('+', '', $product->vanie) }}
+                                            </div>
                                         </div>
-
-                                        <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Гостиные')->where('product_id', $product->product->id)->first(); ?>
-
-                                            {{str_replace('+','',__($spalni->category->name))}}
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="object__rooms-item">
-
-                                        <div class="object__rooms-subtitle">
-
-                                            {{__('Ванные')}}
-
-
-                                        </div>
-
-                                        <div class="object__rooms-value">
-
-                                            <?php $spalni = \App\Models\ProductCategory::where('type', 'Ванные')->where('product_id', $product->product->id)->first(); ?>
-
-                                            {{str_replace('+','', __($spalni->category->name))}}
-
-                                        </div>
-
-                                    </div>
-
+                                    @endif
                                 </div>
-
                             </div>
                             @endif
 
@@ -800,14 +779,14 @@
                                     {{__('Расположение и инфраструктура')}}
                                 </div>
                                 <div class="place__location-info">
-                                    @if(app()->getLocale() == 'en') <?php $product->product->disposition = $product->product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->product->disposition = $product->product->disposition_tr ?>  @endif
-                                    {{$product->product->disposition}}
+                                    @if(app()->getLocale() == 'en') <?php $product->disposition = $product->disposition_en ?> @elseif(app()->getLocale() == 'tr')  <?php $product->disposition = $product->disposition_tr ?>  @endif
+                                    {{$product->disposition}}
                                 </div>
                                 <div class="place__location-map">
                                     <div class="">
                                         <script>
-                                            product_id_is = <?php echo $product->product->id?>
-                                            
+                                            product_id_is = <?php echo $product->id?>
+
                                             function createYandexMap(latitude, longitude) {
                                             let div_id = 'place-map'+product_id_is.toString();
                                                 ymaps.ready(function() {
@@ -821,9 +800,9 @@
                                                     map.geoObjects.add(placemark);
                                                 });
                                             }
-                                            createYandexMap(<?php echo $product->product->lat.','.$product->product->long?>);
+                                            createYandexMap(<?php echo $product->lat.','.$product->long?>);
                                         </script>
-                                        <div id="place-map{{$product->product->id}}" style="width: 100%; height: 195px;"></div>
+                                        <div id="place-map{{$product->id}}" style="width: 100%; height: 195px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -837,240 +816,58 @@
                                             @php
                                                 $displayedLayouts = [];
                                             @endphp
-                                            @foreach(json_decode($product->product->objects) as $object)
-                                                @if (!in_array($object->apartment_layout, $displayedLayouts))
-                                                    <div class="kompleks__sort-item" data-cheme="{{ $object->apartment_layout }}">
-                                                        {{ $object->apartment_layout }}
+                                            @foreach($product->layouts as $layout)
+                                                @if (!in_array($layout->apartment_layout, $displayedLayouts))
+                                                    <div class="kompleks__sort-item" data-cheme="{{ $layout->number_rooms }}">
+                                                        {{ $layout->number_rooms }}
                                                     </div>
                                                     @php
-                                                    $displayedLayouts[] = $object->apartment_layout;
+                                                    $displayedLayouts[] = $layout->number_rooms;
                                                     @endphp
                                                 @endif
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="kompleks__layout-list" bis_skin_checked="1">
-                                        @if(!is_null(json_decode($product->product->objects)))
-                                            @foreach(json_decode($product->product->objects) as $object)
-                                                <div class="kompleks__layout-item" bis_skin_checked="1" data-cheme="{{ $object->apartment_layout }}">
+                                        @if(isset($product->layouts))
+                                            @foreach($product->layouts as $layout)
+                                                <div class="kompleks__layout-item" bis_skin_checked="1" data-cheme="{{ $layout->number_rooms }}">
                                                     <div class="kompleks__layout-info" bis_skin_checked="1">
                                                         <div class="kompleks__layout-option" bis_skin_checked="1">
-                                                            {{ $object->building }}
+                                                            {{ $layout->building }}
                                                         </div>
                                                         <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                            <span data-exchange="eur" class="valute active">{{ $object->price->EUR }}</span>
-                                                            <span data-exchange="usd" class="valute">{{ $object->price->USD }}</span>
-                                                            <span data-exchange="rub" class="valute">{{ $object->price->RUB }}</span>
-                                                            <span data-exchange="try" class="valute lira">{{ $object->price->TRY }}</span>
+                                                            <span data-exchange="eur" class="valute active">{{ $layout->price['EUR'] }}</span>
+                                                            <span data-exchange="usd" class="valute">{{ $layout->price['USD'] }}</span>
+                                                            <span data-exchange="rub" class="valute">{{ $layout->price['RUB'] }}</span>
+                                                            <span data-exchange="try" class="valute lira">{{ $layout->price['TRY'] }}</span>
                                                         </div>
                                                         <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                            <span data-exchange="eur" class="valute active">{{ $object->price_size->EUR }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="usd" class="valute">{{ $object->price_size->USD }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="rub" class="valute">{{ $object->price_size->RUB }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="try" class="valute lira">{{ $object->price_size->TRY }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="eur" class="valute active">{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="usd" class="valute">{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="rub" class="valute">{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="try" class="valute lira">{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
                                                         </div>
                                                         <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                            {{ $object->size }} {{ __('кв.м') }} <span>|</span>  {{ $object->apartment_layout }}
+                                                            {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span> {{ $layout->number_rooms }}
 
                                                         </div>
                                                         <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                            $645 / мес.
+                                                            {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
                                                         </div>
                                                     </div>
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                         <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
-                                                            @if(isset($object->apartment_layout_image))
-                                                                @if(is_countable($object->apartment_layout_image))
-                                                                    @foreach($object->apartment_layout_image as $image)
-                                                                        <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $image) }}" alt="scheme">
-                                                                    @endforeach
-                                                                @else
-                                                                    <img data-objectid="{{ $object->id }}" style="max-width: 100px;" src="{{ asset('uploads/' . $object->apartment_layout_image) }}" alt="scheme">
-                                                                @endif
+                                                            @if(isset($layout->photos))
+                                                                @foreach($layout->photos as $photo)
+                                                                    <img data-objectid="{{ $layout->id }}" style="max-width: 100px;" src="{{ asset($photo->url) }}" alt="scheme">
+                                                                @endforeach
                                                             @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         @endif
-                                        {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-                                        {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-                                        {{--                                                                               B--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-                                        {{--                                                                               $95 000--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1254 / кв.м--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-                                        {{--                                                                               100 кв.м  <span>|</span>  2+1--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-                                        {{--                                                                               $936 / мес.--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
-                                        {{--                                                                               <img src="./img/scheme-2.png" alt="scheme">--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                   </div>--}}
-                                        {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-                                        {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-                                        {{--                                                                               C--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-                                        {{--                                                                               $120 000--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1857 / кв.м--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-                                        {{--                                                                               156 кв.м  <span>|</span>  3+1--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1 176 / мес.--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                       <div class="kompleks__layout-scheme" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-img" bis_skin_checked="1">--}}
-                                        {{--                                                                               <img src="./img/scheme-3.png" alt="scheme">--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                   </div>--}}
-                                        {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-                                        {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-                                        {{--                                                                               D--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-                                        {{--                                                                               $120 000--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1857 / кв.м--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-                                        {{--                                                                               156 кв.м  <span>|</span>  4+2 penthouse--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1 276 / мес.--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
-                                        {{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-da3a6813d6c6e79a" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-4.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           1 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           2 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           3 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="true" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-                                        {{--															<g id="Слой_x0020_1">--}}
-                                        {{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-                                        {{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-                                        {{--                                                            </g>--}}
-                                        {{--														</svg>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-da3a6813d6c6e79a" aria-disabled="false" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-                                        {{--														<g id="Слой_x0020_1">--}}
-                                        {{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-                                        {{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-                                        {{--                                                        </g>--}}
-                                        {{--													</svg>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                   </div>--}}
-                                        {{--                                                                   <div class="kompleks__layout-item" bis_skin_checked="1">--}}
-                                        {{--                                                                       <div class="kompleks__layout-info" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="kompleks__layout-option" bis_skin_checked="1">--}}
-                                        {{--                                                                               E--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price" bis_skin_checked="1">--}}
-                                        {{--                                                                               $178 000--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-meter" bis_skin_checked="1">--}}
-                                        {{--                                                                               $2257 / кв.м--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-square" bis_skin_checked="1">--}}
-                                        {{--                                                                               170 кв.м  <span>|</span>  5+2 penthouse--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                           <div class="kompleks__layout-price-month" bis_skin_checked="1">--}}
-                                        {{--                                                                               $1 642 / мес.--}}
-                                        {{--                                                                           </div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                       <div class="kompleks__layout-scheme kompleks__layout-scheme-swiper" bis_skin_checked="1">--}}
-                                        {{--                                                                           <div class="scheme__swiper swiper swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden" bis_skin_checked="1">--}}
-                                        {{--                                                                               <div class="scheme__wrapper swiper-wrapper" id="swiper-wrapper-6eef4dd6ab635e4c" aria-live="polite" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-active" bis_skin_checked="1" role="group" aria-label="1 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-6.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           1 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide swiper-slide-next" bis_skin_checked="1" role="group" aria-label="2 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-5.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           2 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                                   <div class="scheme__slide swiper-slide" bis_skin_checked="1" role="group" aria-label="3 / 3" style="width: 243px;">--}}
-                                        {{--                                                                                       <div class="scheme__slide-img" bis_skin_checked="1">--}}
-                                        {{--                                                                                           <img src="./img/scheme-1.png" alt="scheme">--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                       <div class="scheme__slide-floor" bis_skin_checked="1">--}}
-                                        {{--                                                                                           3 этаж--}}
-                                        {{--                                                                                       </div>--}}
-                                        {{--                                                                                   </div>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <div class="scheme__prev scheme-btn swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="true" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-                                        {{--															<g id="Слой_x0020_1">--}}
-                                        {{--                                                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-                                        {{--                                                                <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-                                        {{--                                                            </g>--}}
-                                        {{--														</svg>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <div class="scheme__next scheme-btn" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-6eef4dd6ab635e4c" aria-disabled="false" bis_skin_checked="1">--}}
-                                        {{--                                                                                   <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="35px" height="60px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.5 0.86" xmlns:xlink="http://www.w3.org/1999/xlink">--}}
-                                        {{--														<g id="Слой_x0020_1">--}}
-                                        {{--                                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>--}}
-                                        {{--                                                            <polyline class="fil0 str0" points="0.46,0.04 0.07,0.43 0.46,0.82 "></polyline>--}}
-                                        {{--                                                        </g>--}}
-                                        {{--													</svg>--}}
-                                        {{--                                                                               </div>--}}
-                                        {{--                                                                               <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>--}}
-                                        {{--                                                                       </div>--}}
-                                        {{--                                                                   </div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -1087,7 +884,7 @@
                                 </div>
 
                                 <div class="object__peculiarities-content">
-                                    <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->product->id)->get() ?>
+                                    <?php $osobenosty = \App\Models\ProductCategory::where('type', 'Особенности')->where('product_id', $product->id)->get() ?>
                                     @foreach($osobenosty as $osob)
                                     <div class="object__peculiarities-item">
                                 {{__($osob->category->name)}}
@@ -1107,8 +904,8 @@
 
                                 <div class="object__description-text">
 
-                                    @if(app()->getLocale() == 'en') <?php $product->product->description = $product->product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->product->description = $product->product->description_tr ?> @endif
-                                    {{$product->product->description}}
+                                    @if(app()->getLocale() == 'en') <?php $product->description = $product->description_en ?> @elseif(app()->getLocale() == 'tr') <?php $product->description = $product->description_tr ?> @endif
+                                    {{$product->description}}
 
                                 </div>
 

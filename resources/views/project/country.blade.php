@@ -1373,7 +1373,7 @@
                                 </div>
 
                             </div>
-                        @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
+                            @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
                             <div class="object__rooms">
                                 <div class="object__rooms-content">
                                     <div class="object__rooms-item">

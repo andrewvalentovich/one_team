@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Services\CurrencyService;
+use App\Services\LayoutService;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use App\Models\favorite;
@@ -11,11 +13,13 @@ class FavoriteController extends Controller
 {
     private $currencyService;
     private $sortService;
+    private $layoutService;
 
-    public function __construct(CurrencyService $currencyService, SortService $sortService)
+    public function __construct(CurrencyService $currencyService, SortService $sortService, LayoutService $layoutService)
     {
         $this->currencyService = $currencyService;
         $this->sortService = $sortService;
+        $this->layoutService = $layoutService;
     }
 
     public function deleteFavorite(Request $request){
@@ -35,99 +39,75 @@ class FavoriteController extends Controller
 
 
     public function my_favorites(Request $request){
-        $gets = favorite::query();
+//        $gets = favorite::query();
+//
+//        $gets->where('user_id',  $_COOKIE["user_id"])->with('product');
+//
+//        if (isset($request->order_by)){
+//            if ($request->order_by == 'price_asc') {
+//                $gets->join('products', 'favorites.product_id', '=', 'products.id')
+//                    ->orderBy('products.price', 'asc');
+//            }
+//
+//            if ($request->order_by == 'price_desc') {
+//                $gets->join('products', 'favorites.product_id', '=', 'products.id')
+//                    ->orderBy('products.price', 'desc');
+//            }
+//            if ($request->order_by == 'id_desc') {
+//                $gets->orderby('product_id', 'desc');
+//            }
+//        }
+//        $get_product = $gets->with('product')->paginate(9);
 
-        $gets->where('user_id',  $_COOKIE["user_id"])->with('product');
+        $user_id = $_COOKIE["user_id"];
 
-        if (isset($request->order_by)){
-            if ($request->order_by == 'price_asc'){
-                $gets->join('products', 'favorites.product_id', '=', 'products.id')
-                    ->orderBy('products.price', 'asc');
-            }
+        $get_product = Product::whereHas('favorite', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('photo')
+            ->with('ProductCategory')
+            ->with('peculiarities')
+            ->with(['layouts' => function($query) {
+                $query->with('photos');
+                $query->orderBy('price', 'asc');
+            }])
+            ->paginate(9);
 
-            if ($request->order_by == 'price_desc'){
-                $gets->join('products', 'favorites.product_id', '=', 'products.id')
-                    ->orderBy('products.price', 'desc');
-            }
-            if ($request->order_by == 'id_desc'){
-                $gets->orderby('product_id', 'desc');
+        // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
+        for ($i = 0; $i < count($get_product); $i++) {
+            if (isset($get_product[$i]->layouts) && count($get_product[$i]->layouts) > 0) {
+                $get_product[$i]->price = $get_product[$i]->layouts[0]->price;
             }
         }
-        $get_product = $gets->with('product')->paginate(9)
-            ->through(function ($row) {
-                $objects = [];
-                $layouts_result = null;
-                $min_price = 0;
 
-                if (is_countable(json_decode($row->product->objects))) {
+        // Меняем параметры (для фронта)
+        foreach ($get_product as $key => $object) {
+            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
 
-                    // Создаём индекс
-                    $i = 0;
-                    foreach (json_decode($row->product->objects) as $object) {
-                        // Формируем новое поле price_size
-                        $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+            // Получаем уникальные планировки
+            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
 
-                        // Ищем минимальную цену
-                        if ($i === 0) {
-                            $min_price = $object->price;
-                        } else {
-                            $min_price = $object->price < $min_price ? $object->price : $min_price;
-                        }
-
-                        // Меняем цену
-                        $price = $object->price;
-                        $object->price = $this->currencyService->getPriceFromDB($price);
-                        unset($price);
-
-                        // Присваиваем объект временной переменой
-                        $objects[] = $object;
-
-                        // Увеличиваем индекс
-                        $i++;
-                    }
-                    // Очищаем индекс
-                    unset($i);
-
-                    // Возвращаем минимальную цену с валютами
-                    $min_price = $this->currencyService->getPriceFromDB($min_price);
-
-                    // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
-                    $layouts = array_unique(array_column(json_decode($row->product->objects), 'apartment_layout'), SORT_STRING);
-
-                    // массив для сортировки
-                    $layouts_sort_arr = [];
-                    foreach ($layouts as $layout) {
-                        if($layout === "" || $layout === " ") {
-                            continue;
-                        } else {
-                            $layouts_sort_arr[] = explode("+", $layout);
-                        }
-                    }
-
-                    // Сортировка
-                    $sort = $this->sortService->quicksort($layouts_sort_arr);
-
-                    // Вывод планировок (1+2, 2+2 и пр.)
-                    foreach ($sort as $layout) {
-                        $layouts_result .= !next($sort) ? implode("+", $layout) : implode("+", $layout) . ", ";
-                    }
-                    unset($layouts);
-
-
-                    $row->product->objects = json_encode($objects, JSON_UNESCAPED_UNICODE);
-                    unset($objects);
-
-                    $row->product->min_price = !is_null($row->product->objects) ? $min_price : 0;
-                    $row->product->layouts = $layouts_result;
+            // Цена за квартиру и за метр для планировок
+            if (isset($object->layouts)) {
+                foreach ($object->layouts as $index => $layout) {
+                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
+                    $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
+                    $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
                 }
+            }
 
-                $row->product->price_size = $this->currencyService->getPriceSizeFromDB((int)$row->product->price, (int)$row->product->size);
-                $row->product->price = $this->currencyService->getPriceFromDB($row->product->price);
-                return $row;
-            });
+            // Особенности
+            // Можно использовать Scopes!!!
+            $object->gostinnie = !empty($object->peculiarities->whereIn('type', "Гостиные")->first()) ? $object->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
+            $object->vanie = !empty($object->peculiarities->whereIn('type', "Ванные")->first()) ? $object->peculiarities->whereIn('type', "Ванные")->first()->name : null;
+            $object->spalni = !empty($object->peculiarities->whereIn('type', "Спальни")->first()) ? $object->peculiarities->whereIn('type', "Спальни")->first()->name : null;
+            $object->do_more = !empty($object->peculiarities->whereIn('type', "До моря")->first()) ? $object->peculiarities->whereIn('type', "До моря")->first()->name : null;
+            $object->type_vid = !empty($object->peculiarities->whereIn('type', "Вид")->first()) ? $object->peculiarities->whereIn('type', "Вид")->first()->name : null;
+            $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
+        }
 
-
-        $count =  favorite::where('user_id',  $_COOKIE["user_id"])->count();
+        $count = count($get_product);
         return view('project.favorite', compact('get_product', 'count'));
     }
 
