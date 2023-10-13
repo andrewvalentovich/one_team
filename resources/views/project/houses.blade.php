@@ -2450,15 +2450,33 @@ function P(e) {
                             en: 'All types',
                             tr: 'Tüm türler',
                             de: 'Alle Typen',
+                        },
+                        real_estate: {
+                            ru: 'Недвижимость',
+                            en: 'Real estate',
+                            tr: 'Emlak',
+                            de: 'Immobilie',
                         }
+                    }
+
+                    if (url_country_id !== null) {
+                        if (url_city_id !== null) {
+                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.cities.find(x => x.id == url_city_id).name);
+                        } else {
+                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.countries.find(x => x.id == url_country_id).name);
+                        }
+
+                    } else {
+                        $('.city-col__title.title').html(dictionary.real_estate[langSite]);
                     }
 
                     // если задан параметр country_id, то выводим регионы
                     if (url_country_id !== null) {
+
                         $('.search-nav__list-item[data_id="city"]').show();
                         $('.search-nav__list-item[data_id="country"]').hide();
                         // Выводим регионы при загрузке страницы
-                        $(".city_select").text((url_city_id != null) ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
+                        $(".city_select").text((url_city_id !== null) ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
                         // Выводим страны в dropdown
                         $('.search-nav__cities-list').empty();
 
