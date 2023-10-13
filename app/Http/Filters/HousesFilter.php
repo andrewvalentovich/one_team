@@ -6,6 +6,7 @@ namespace App\Http\Filters;
 
 use App\Models\ExchangeRate;
 use App\Models\Layout;
+use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Builder;
 
 class HousesFilter extends AbstractFilter
@@ -25,6 +26,14 @@ class HousesFilter extends AbstractFilter
     const TO_SEA = 'to_sea';
     const SIZE = 'size';
     const CITY = 'city_id';
+
+    protected $currencyService;
+
+    public function __construct(array $queryParams, CurrencyService $currencyService)
+    {
+        parent::__construct($queryParams, $currencyService);
+        $this->currencyService = $currencyService;
+    }
 
     protected function getCallbacks(): array
     {
@@ -127,43 +136,31 @@ class HousesFilter extends AbstractFilter
             $builder->where(function ($query) use ($value) {
                 $query->where('complex_or_not', 'Нет')
                     ->where(function ($query) use ($value) {
-                        $query->where('products.price', '>=', (int)$value['min_price']);
-                        $query->where('products.price', '<=', (int)$value['max_price']);
+                        $query->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min_price'], $value['code'] ?? null));
+                        $query->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max_price'], $value['code'] ?? null));
                     })
                     ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                        $query->where('layouts.price', '>=', (int)$value['min_price']);
-                        $query->where('layouts.price', '<=', (int)$value['max_price']);
+                        $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($value['min_price'], $value['code'] ?? null));
+                        $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($value['max_price'], $value['code'] ?? null));
                     });
             });
         } else {
             if (isset($value['min_price'])) {
-//            $builder->where('products.price', '>=', (int)$value['min_price'])
-//                ->orWhere(function($query) use ($value) {
-//                    $query->where('complex_or_not', 'Да')->whereHas('layouts', function (Builder $query) use ($value) {
-//                        $query->where('layouts.price', '>=', (int)$value['min_price']);
-//                    });
-//                });'products.price', '>=', (int)$value['min_price']
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '>=', (int)$value['min_price'])
+                        ->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min_price'], $value['code'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.price', '>=', (int)$value['min_price']);
+                            $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($value['min_price'], $value['code'] ?? null));
                         });
                 });
             }
 
             if (isset($value['max_price'])) {
-//            $builder->where('products.price', '<=', (int)$value['max_price'])
-//                ->orWhere(function($query) use ($value) {
-//                    $query->where('complex_or_not', 'Да')->whereHas('layouts', function (Builder $query) use ($value) {
-//                        $query->where('layouts.price', '<=', (int)$value['max_price']);
-//                    });
-//                });
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '<=', (int)$value['max_price'])
+                        ->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max_price'], $value['code'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.price', '<=', (int)$value['max_price']);
+                            $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($value['max_price'], $value['code'] ?? null));
                         });
                 });
             }
