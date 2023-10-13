@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="search-nav__list-item _regions search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="city">
-                    <div class="search-nav__list-item-title city_select dropdown__title">{{ __('Регионы') }}</div>
+                    <div class="search-nav__list-item-title city_select dropdown__title">{{ __('Все регионы') }}</div>
                     <input name="city_id" type="hidden" value="">
                     <div class="search-nav__item-dropdown " style="   padding: 26px 20px 29px 29px;
                         min-width: 100%;
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="search-nav__list-item search-nav__types search-nav__list-item_b search-nav__list-item_arrow" data_id="type">
-                    <div class="search-nav__list-item-title search-nav__types-title type_select">{{ __('Тип объекта') }}</div>
+                    <div class="search-nav__list-item-title search-nav__types-title type_select">{{ __('Все типы') }}</div>
                     <div class="search-nav__item-dropdown search-nav__types-dropdown closert_div_parent">
                         <div class="search-nav__types-list"></div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -149,7 +149,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="search-nav__list-item search-nav__find search-nav__list-item_b form_button header_search_button">
+                <div class="search-nav__list-item search-nav__find search-nav__list-item_b form_button header_search_button btn-filter-houses">
                     <div class="search-nav__list-item-title search-nav__find-title btn-filter-houses">{{ __('Найти') }}</div>
                     <svg class="search-nav__icon"  xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="59px" height="59px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
                          viewBox="0 0 1.61 1.61"
@@ -238,7 +238,7 @@
             </div>
 
             <div class="search__filter-bottom form_button header_search_two_button">
-                <div class="search__filter-bottom-btn">{{ __('Найти') }}</div>
+                <div class="search__filter-bottom-btn btn-filter-houses">{{ __('Найти') }}</div>
             </div>
         </div>
     </form>
@@ -260,7 +260,23 @@
         },
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
-            console.log(data);
+            const langSite = `{{ app()->getLocale() }}`
+
+            const dictionary = {
+                all_regions: {
+                    ru: 'Все регионы',
+                    en: 'All regions',
+                    tr: 'Tüm bölgeler',
+                    de: 'Alle Regionen',
+                },
+                all_types: {
+                    ru: 'Все типы',
+                    en: 'All types',
+                    tr: 'Tüm türler',
+                    de: 'Alle Typen',
+                }
+            }
+
             // Выводим валюту в dropdown
             $.each(data.currency, function (index, value) {
                 $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item ' + (($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '') + ' currency_type" currency_type="' + index + '">' + value + '</div>');
@@ -296,8 +312,10 @@
             })
 
             // Выводим название типа при загрузке страницы
-            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? data.types.find(x => x.id == $.query.get('type')).name : "{{ __('Тип объекта') }}");
+            $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? data.types.find(x => x.id == $.query.get('type')).name : dictionary.all_types[langSite]);
 
+            // Выводим пункт Все типы в dropdown с data_id=""
+            $('.search-nav__types-list,.search__filter-types-list').append('<div data_id="" class="search-nav__types-item type closert_div">' + dictionary.all_types[langSite] + '</div>');
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
                 $('.search-nav__types-list,.search__filter-types-list').append('<div data_id="' + value.id + '" class="search-nav__types-item type closert_div">' + value.name + '</div>');
@@ -308,12 +326,19 @@
                 e.stopPropagation();
                 e.preventDefault();
 
-                var name = $(this).attr('data_id');
+                var type = $(this).attr('data_id');
                 $(this).addClass('active');
                 $('.search-nav__item-dropdown').removeClass('active');
                 $('.search-nav__types').removeClass('active');
 
-                history.pushState(null, null, $.query.SET('type', name)); // подстановка параметров
+                if (type === "") {
+                    const url = new URL(document.location);
+                    const searchParams = url.searchParams;
+                    searchParams.delete("type"); // удалить параметр "test"
+                    window.history.pushState({}, '', url.toString());
+                } else {
+                    history.pushState(null, null, $.query.SET('type', type)); // подстановка параметров
+                }
 
                 var html = $(this).html();
                 $('.type_select').html(html);
@@ -330,11 +355,11 @@
                 $('.search-nav__list-item[data_id="city"]').show();
                 $('.search-nav__list-item[data_id="country"]').hide();
                 // Выводим регионы при загрузке страницы
-                $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : "{{ __('Регионы') }}");
+                $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
                 // Выводим страны в dropdown
-                console.log("data.cities");
-                console.log(data.cities);
                 $('.search-nav__cities-list').html();
+                // Выводим пункт все регионы с data_id=""
+                $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element">' + dictionary.all_regions[langSite] + '</div>');
                 $.each(data.cities, function (index, value) {
                     $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
                 });
@@ -345,7 +370,21 @@
                     e.preventDefault();
                     var city_id = $(this).attr('data_id');
 
-                    history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
+                    var url = new URL(document.location);
+                    if (city_id === "") {
+                        url.searchParams.delete('city_id');
+                        // Получение обновленного URL
+                        var updatedUrl = url.toString();
+                        // Обновление URL в адресной строке
+                        window.history.replaceState({}, '', updatedUrl);
+                    } else {
+                        // Добавление нового параметра
+                        url.searchParams.set('city_id', city_id);
+                        // Получение обновленного URL
+                        var updatedUrl = url.toString();
+                        // Обновление URL в адресной строке
+                        window.history.replaceState({}, '', updatedUrl);
+                    }
 
                     var html = $(this).html();
                     $('.city_select').html(html);

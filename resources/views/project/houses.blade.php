@@ -2413,14 +2413,33 @@ function P(e) {
                 },
                 method: 'get',                                              /* Метод запроса (post или get) */
                 success: function(data) {
+                    const langSite = `{{ app()->getLocale() }}`
+
+                    const dictionary = {
+                        all_regions: {
+                            ru: 'Все регионы',
+                            en: 'All regions',
+                            tr: 'Tüm bölgeler',
+                            de: 'Alle Regionen',
+                        },
+                        all_types: {
+                            ru: 'Все типы',
+                            en: 'All types',
+                            tr: 'Tüm türler',
+                            de: 'Alle Typen',
+                        }
+                    }
+
                     // если задан параметр country_id, то выводим регионы
                     if ((typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") || (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ")) {
                         $('.search-nav__list-item[data_id="city"]').show();
                         $('.search-nav__list-item[data_id="country"]').hide();
                         // Выводим регионы при загрузке страницы
-                        $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : "{{ __('Регионы') }}");
+                        $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
                         // Выводим страны в dropdown
                         $('.search-nav__cities-list').empty();
+
+                        $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element">' + dictionary.all_regions[langSite] + '</div>');
                         $.each(data.cities, function (index, value) {
                             $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
                         });
@@ -2431,7 +2450,14 @@ function P(e) {
                             e.preventDefault();
                             var city_id = $(this).attr('data_id');
 
-                            history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
+                            if (city_id === "") {
+                                const url = new URL(document.location);
+                                const searchParams = url.searchParams;
+                                searchParams.delete("city_id"); // удалить параметр "test"
+                                window.history.pushState({}, '', url.toString());
+                            } else {
+                                history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
+                            }
 
                             var html = $(this).html();
                             $('.city_select').html(html);
