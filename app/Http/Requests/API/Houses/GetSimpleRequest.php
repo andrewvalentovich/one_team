@@ -4,7 +4,7 @@ namespace App\Http\Requests\API\Houses;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetOneRequest extends FormRequest
+class GetSimpleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,7 @@ class GetOneRequest extends FormRequest
     {
         return [
             'id' => 'required|numeric|min:1',
+            'price' => 'nullable|array',
         ];
     }
 }

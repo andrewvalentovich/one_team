@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
 use App\Http\Requests\API\Houses\GetOneRequest;
+use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\House\FilterRequest;
 use App\Models\Product;
 use App\Models\Peculiarities;
@@ -118,7 +119,7 @@ class HousesController extends Controller
         return response()->json(array_slice($sorted, $offset, $limit));
     }
 
-    public function getSimple(GetOneRequest $request)
+    public function getSimple(GetSimpleRequest $request)
     {
         $data = $request->validated();
         // Фильтр элементов
