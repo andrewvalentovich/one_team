@@ -86,10 +86,10 @@
                         <div class="city-col__btn city-col__all" data_id="">
                             {{__('Все')}}
                         </div>
-                        <div style="padding: 10px 27px;" class="city-col__btn city-col__not_secondary" data_id="false">
+                        <div  class="city-col__btn city-col__not_secondary" data_id="false">
                             {{__('От застройщика')}}
                         </div>
-                        <div style="padding: 10px 27px;" class="city-col__btn city-col__is_secondary" data_id="true">
+                        <div  class="city-col__btn city-col__is_secondary" data_id="true">
                             {{__('Вторичка')}}
                         </div>
                     </div>

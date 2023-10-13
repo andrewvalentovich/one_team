@@ -314,6 +314,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5 10px;
+}
+
+@media (max-width: 539px) {
+  .city-col__btn {
+    padding: 5 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .city-col__btns {
+    width: 100%;
+    overflow: auto;
+  }
 }
 
 .city-col__btn.active {
@@ -4261,7 +4274,8 @@ body.scroll_fixed {
   display: flex;
   flex-wrap: wrap;
   max-width: 538px;
-  flex-wrap: wrap;
+  gap: 5px;
+  flex-direction: column;
 }
 
 .search__filter-types-item {
@@ -6031,6 +6045,7 @@ body.scroll_fixed {
 
   .search-nav__list-item-title {
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .search-nav__icon {
