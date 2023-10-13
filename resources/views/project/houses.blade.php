@@ -2432,7 +2432,7 @@ function P(e) {
                 url: '/api/houses/filter_params',       /* Куда отправить запрос */
                 data: {
                     locale: `{{ app()->getLocale() }}`,
-                    country_id: (typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") ? url_country_id : null
+                    country_id: url_country_id
                 },
                 method: 'get',                                              /* Метод запроса (post или get) */
                 success: function(data) {
@@ -2452,9 +2452,9 @@ function P(e) {
                             de: 'Alle Typen',
                         }
                     }
-                    // city-col__title title
+
                     // если задан параметр country_id, то выводим регионы
-                    if ((typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") || (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ")) {
+                    if (url_country_id !== null) {
                         $('.search-nav__list-item[data_id="city"]').show();
                         $('.search-nav__list-item[data_id="country"]').hide();
                         // Выводим регионы при загрузке страницы
