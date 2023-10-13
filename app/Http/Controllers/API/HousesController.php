@@ -33,17 +33,7 @@ class HousesController extends Controller
         $limit = 12;
         // Отступ для выборки записей
         $offset = isset($data['page']) ? (int)$data['page'] * $limit : 0;
-
-//        // Если в фильтре передали валюту
-//        if (isset($data['price']['code'])) {
-//            if (isset($data['price']['min_price'])) {
-//                $data['price']['min_price'] = $this->currencyService->convertPriceToEur((int)$data['price']['min_price'], $data['price']['code']);
-//            }
-//            if (isset($data['price']['max_price'])) {
-//                $data['price']['max_price'] = $this->currencyService->convertPriceToEur((int)$data['price']['max_price'], $data['price']['code']);
-//            }
-//        }
-
+        
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
 
