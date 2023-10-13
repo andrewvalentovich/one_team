@@ -1314,7 +1314,9 @@ function P(e) {
             setNewPopupHouseData(object)
         })
     }
+
     setListenersToOpenPopup()
+
     function setCityItem(data, clearList) {
         const cityList = document.querySelector('.city-col__list')
         if(clearList) cityList.innerHTML = ''
@@ -1482,43 +1484,47 @@ function P(e) {
                 });
                 currentBallon.balloon.open();
             })
-            cityItem.addEventListener('mouseout', function() {
+            const objectSwiper = cityItem.querySelector('.city__swiper')
+            const previousSwiperInstance = new Swiper(objectSwiper, {
+                slidesPerView: 1,
+                scrollbar: {
+                    el: ".city__scrollbar",
+                    hide: true
+                }
+            });
+            addHoverMouseSwiper(previousSwiperInstance)
+            cityItem.addEventListener('mouseleave', function() {
                 mapCountry.balloon.close()
                 const marks = document.querySelectorAll(`[mark-id]`);
+                const swiperWrapper = this.querySelector('.city__wrapper')
+                const idSwiper = swiperWrapper.getAttribute('id')
                 marks.forEach(element => {
                     element.classList.remove('active')
                 });
+                previousSwiperInstance.slideTo(0, 400)
             })
         });
-        previousSwiperInstance = new Swiper(".city__swiper", {
-            slidesPerView: 1,
-            scrollbar: {
-                el: ".city__scrollbar",
-                hide: true
-            }
-        });
+
         if(data.length !== 0) {
             addHoverMouseSwiper(previousSwiperInstance)
         }
     }
 
     //свайп при ховере мышки
-    function addHoverMouseSwiper (swipers) {
-        if(swipers.length) {
-            swipers.forEach(swiper => {
-                const slidesLength =swiper.slides.length
-                const width = 1 / slidesLength * 100
-                if(!swiper.el.querySelectorAll('i').length)
-                for(let i = 0; i < slidesLength; i++) {
-                    let newDiv = document.createElement("i");
-                    swiper.el.append(newDiv)
-                    newDiv.style.width = width + '%'
-                    newDiv.style.left = width * i + '%'
-                    newDiv.addEventListener('mouseover', function() {
-                        swiper.slideTo(i, 400)
-                    })
-                }
-            });
+    function addHoverMouseSwiper (swiper) {
+        const slidesLength = swiper.slides.length
+        const width = 1 / slidesLength * 100
+        if(!swiper.el.querySelectorAll('i').length)
+        for(let i = 0; i < slidesLength; i++) {
+            let newDiv = document.createElement("i");
+            newDiv.classList.add('i')
+            swiper.el.append(newDiv)
+            newDiv.style.width = width + '%'
+            newDiv.style.left = width * i + '%'
+            newDiv.addEventListener('mouseover', function() {
+                console.log('swiper',swiper)
+                swiper.slideTo(i, 400)
+            })
         }
     }
 
@@ -1711,7 +1717,6 @@ function P(e) {
         })
 
         //цена в попапе
-        console.log(currentHouse.layouts.length)
         if (currentHouse.layouts && currentHouse.layouts.length > 0) {
             Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
@@ -1919,7 +1924,6 @@ function P(e) {
 
                 let divMonth = document.createElement('div')
                 divMonth.classList.add('kompleks__layout-price-month')
-                console.log(object)
                 Object.entries(object.price_credit).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
                     span.setAttribute('data-exchange', currencyCode)
@@ -2553,7 +2557,6 @@ function P(e) {
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
 
             if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
-                console.log(lustPageReached)
                 if (canLoadData && !lustPageReached) {
                     currentPage++
                     canLoadData = false;
