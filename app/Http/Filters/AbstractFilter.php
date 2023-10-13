@@ -4,15 +4,18 @@
 namespace App\Http\Filters;
 
 
+use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbstractFilter implements FilterInterface
 {
     private $queryParams = [];
+    private $currencyService;
 
-    public function __construct(array $queryParams)
+    public function __construct(array $queryParams, CurrencyService $currencyService)
     {
         $this->queryParams = $queryParams;
+        $this->currencyService = $currencyService;
     }
 
     abstract protected function getCallbacks(): array;

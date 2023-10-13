@@ -49,10 +49,6 @@
                     <div class="search-nav__item-dropdown " style="   padding: 26px 20px 29px 29px;
                         min-width: 100%;
                         border-radius: 0px 5px 5px 5px;">
-                        <div class="search__filter-item search__filter-types">
-                            <div class="search__filter-title">{{ __('Регионы') }}</div>
-                            <div class="search__filter-types-list"></div>
-                        </div>
                         <div class="search-nav__cities-list"></div>
                         <svg class="close-dropdown" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px" height="26px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 0.37 0.37" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <g id="Слой_x0020_1">
@@ -304,7 +300,7 @@
 
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
-                $('.search-nav__types-list').append('<div data_id="' + value.id + '" class="search-nav__types-item type closert_div">' + value.name + '</div>');
+                $('.search-nav__types-list,.search__filter-types-list').append('<div data_id="' + value.id + '" class="search-nav__types-item type closert_div">' + value.name + '</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown

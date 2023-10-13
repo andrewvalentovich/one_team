@@ -34,17 +34,27 @@ class HousesController extends Controller
         // Отступ для выборки записей
         $offset = isset($data['page']) ? (int)$data['page'] * $limit : 0;
 
+//        // Если в фильтре передали валюту
+//        if (isset($data['price']['code'])) {
+//            if (isset($data['price']['min_price'])) {
+//                $data['price']['min_price'] = $this->currencyService->convertPriceToEur((int)$data['price']['min_price'], $data['price']['code']);
+//            }
+//            if (isset($data['price']['max_price'])) {
+//                $data['price']['max_price'] = $this->currencyService->convertPriceToEur((int)$data['price']['max_price'], $data['price']['code']);
+//            }
+//        }
+
         // Фильтр элементов
-        $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
+        $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
 
         // Выбор объектов, запрос к базе через Eloquent
         $houses = Product::with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
                 if (isset($data['price']['min_price'])) {
-                    $query->where('layouts.price', '>=', $data['price']['min_price']);
+                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min_price'], $data['price']['code'] ?? null));
                 }
                 if (isset($data['price']['max_price'])) {
-                    $query->where('layouts.price', '<=', $data['price']['max_price']);
+                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max_price'], $data['price']['code'] ?? null));
                 }
                 $query->with('photos');
                 $query->orderBy('price', 'asc');
@@ -115,6 +125,13 @@ class HousesController extends Controller
         // Выбор объектов, запрос к базе через Eloquent
         $product = Product::whereId($data['id'])
             ->with(['layouts' => function($query) use ($data) {
+                // Ограничиваем вывод, только те у которых цена соответствует
+                if (isset($data['price']['min_price'])) {
+                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min_price'], $data['price']['code'] ?? null));
+                }
+                if (isset($data['price']['max_price'])) {
+                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max_price'], $data['price']['code'] ?? null));
+                }
                 $query->with('photos');
                 $query->orderBy('price', 'asc');
             }])
