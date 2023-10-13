@@ -44,7 +44,7 @@ class UpdateRequest extends FormRequest
             'description_de' => 'nullable|string',
             'parking' => 'nullable|string',
             'cryptocurrency' => 'nullable|string',
-            'owner' => 'nullable|string',
+            'is_secondary' => 'nullable|boolean',
             'vnj' => 'nullable|string',
             'grajandstvo' => 'nullable|string',
             'commissions' => 'nullable|string',

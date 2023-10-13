@@ -202,12 +202,12 @@
                         </div>
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
-                                <label class="col-sm-3 col-form-label">Застройщик или Владелец
+                                <label class="col-sm-3 col-form-label">От застройщика или Вторичка
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select class="form-control"  name="owner" style="color: #e2e8f0">
-                                            <option value="Застройщик">Застройщик</option>
-                                            <option value="Владелец">Владелец</option>
+                                    <select class="form-control" name="is_secondary" style="color: #e2e8f0">
+                                            <option value="0">От застройщика</option>
+                                            <option value="1">Вторичка</option>
                                     </select>
                                 </div>
                             </div>
@@ -273,7 +273,7 @@
 
                         <div class="form-group col-md-6" bis_skin_checked="1" id="objects_module" style="display: none;">
                             <div class="card">
-                                <div class="card-header" id="objects_module_field">
+                                <div class="card-header" id="objects_module_field">d
                                     <!-- Начало аккардеона -->
 {{--                                    <div id="accordion1">--}}
 {{--                                        <div class="card">--}}

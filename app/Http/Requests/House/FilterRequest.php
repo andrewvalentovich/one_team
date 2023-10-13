@@ -29,7 +29,7 @@ class FilterRequest extends FormRequest
             'bottom_right' => 'nullable|array',
             'page' => 'nullable|numeric',
             'sale_or_rent' => 'nullable|string',
-            'ot_zastroishika' => 'nullable|string',
+            'is_secondary' => 'nullable|string',
             'order_by' => 'nullable|string',
             'price' => 'nullable|array',
             'bedrooms' => 'nullable|numeric|min:0',

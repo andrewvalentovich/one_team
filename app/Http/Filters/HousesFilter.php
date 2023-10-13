@@ -26,6 +26,7 @@ class HousesFilter extends AbstractFilter
     const TO_SEA = 'to_sea';
     const SIZE = 'size';
     const CITY = 'city_id';
+    const IS_SECONDARY = 'is_secondary';
 
     protected $currencyService;
 
@@ -53,7 +54,15 @@ class HousesFilter extends AbstractFilter
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
             self::CITY => [$this, 'city_by_id'],
+            self::IS_SECONDARY => [$this, 'is_secondary'],
         ];
+    }
+
+    protected function is_secondary(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->where('is_secondary', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
     }
 
     protected function city_by_id(Builder $builder, $value)

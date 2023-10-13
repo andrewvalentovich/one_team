@@ -259,19 +259,12 @@
                             </div>
                         </div>
                         <div class="col-md-6" bis_skin_checked="1">
-                            <div class="form-group row" bis_skin_checked="1">
-                                <label class="col-sm-3 col-form-label">Застройщик или Владелец
+                            <div class="form-group row" bis_skin_checked="1"> <label class="col-sm-3 col-form-label">От застройщика или Вторичка
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select class="form-control"  name="owner" style="color: #e2e8f0">
-                                        @if($get->owner == 'Застройщик')
-                                        <option value="Застройщик">Застройщик</option>
-                                        <option value="Владелец">Владелец</option>
-                                            @else
-                                            <option value="Владелец">Владелец</option>
-                                            <option value="Застройщик">Застройщик</option>
-                                        @endif
-
+                                    <select class="form-control" name="is_secondary" style="color: #e2e8f0">
+                                        <option value="0" {{ !$get->is_secondary ? 'select' : ''}}>От застройщика</option>
+                                        <option value="1" {{ $get->is_secondary ? 'select' : ''}}>Вторичка</option>
                                     </select>
                                 </div>
                             </div>

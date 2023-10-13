@@ -83,13 +83,13 @@
                     </div>
 
                     <div class="city-col__btns" style="font-size:16px;">
-                        <div class="city-col__btn city-col__all" data_id="false">
+                        <div class="city-col__btn city-col__all" data_id="">
                             {{__('Все')}}
                         </div>
-                        <div style="padding: 10px 27px;" class="city-col__btn" data_id="true">
+                        <div style="padding: 10px 27px;" class="city-col__btn city-col__not_secondary" data_id="false">
                             {{__('От застройщика')}}
                         </div>
-                        <div style="padding: 10px 27px;" class="city-col__btn" data_id="true">
+                        <div style="padding: 10px 27px;" class="city-col__btn city-col__is_secondary" data_id="true">
                             {{__('Вторичка')}}
                         </div>
                     </div>
@@ -985,10 +985,14 @@
             $('.city-cil__filter-title').text(`{{ __('Сначала новые') }}`);
         }
 
-        if ($.query.get('ot_zastroishika') === "true" || $.query.get('ot_zastroishika') === true) {
-            $('.city-col__btn:not(.city-col__all)').addClass("active");
-        } else {
-            $('.city-col__all').addClass("active");
+        if ($.query.get('is_secondary') === "true") {
+            $('.city-col__is_secondary').addClass("active").closest('city-col__btn').removeClass("active");
+        }
+        if ($.query.get('is_secondary') === "false") {
+            $('.city-col__not_secondary').addClass("active").closest('city-col__btn').removeClass("active");
+        }
+        if ($.query.get('is_secondary') === "") {
+            $('.city-col__all').addClass("active").closest('city-col__btn').removeClass("active");
         }
 
         $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">{{ __("Сначала дорогие")}}</div>');
@@ -2381,9 +2385,19 @@ function P(e) {
 
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-            var ot_zastroishika = p[t].getAttribute('data_id');
+            var is_secondary = p[t].getAttribute('data_id');
             // e(p), p[t].classList.add("active");
-            history.pushState(null, null, $.query.SET('ot_zastroishika', ot_zastroishika)); // подстановка параметров
+            if (is_secondary === "") {
+                var url = new URL(window.location.href);
+                url.searchParams.delete('is_secondary');
+                // Получение обновленного URL
+                var updatedUrl = url.toString();
+                // Обновление URL в адресной строке
+                window.history.replaceState({}, '', updatedUrl);
+            } else {
+                history.pushState(null, null, $.query.SET('is_secondary', is_secondary)); // подстановка параметров
+            }
+
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         }));
@@ -2536,7 +2550,11 @@ function P(e) {
             });
 
             params.user_id = user_id;
-
+            if (!params.is_secondary) {
+                params.is_secondary = null;
+            } else {
+                params.is_secondary = (params.is_secondary.toLowerCase() === 'true') ? 1 : 0;
+            }
             if (params.country === true) params.country = null;
             if (params.city_id === true) params.city_id = null;
             if (params.type === true) params.type = null;
@@ -2549,7 +2567,7 @@ function P(e) {
 
             if (params.size && params.size.min === true) params.size.min = null;
             if (params.size && params.size.max === true) params.size.max = null;
-
+            console.log(params.is_secondary);
             return params;
         }
 
