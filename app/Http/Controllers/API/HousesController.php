@@ -33,7 +33,7 @@ class HousesController extends Controller
         $limit = 12;
         // Отступ для выборки записей
         $offset = isset($data['page']) ? (int)$data['page'] * $limit : 0;
-        
+
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
 

@@ -2423,8 +2423,10 @@ function P(e) {
 
         function changeCountryField() {
             // Получаем GET параметр country_id из url
-            var url_country_id = $.query.get('country_id');
-            var url_city_id = $.query.get('city_id');
+            var url = new URL(window.location.href);
+
+            var url_country_id = url.searchParams.get('country_id');
+            var url_city_id = url.searchParams.get('city_id');
 
             $.ajax({
                 url: '/api/houses/filter_params',       /* Куда отправить запрос */
@@ -2450,13 +2452,13 @@ function P(e) {
                             de: 'Alle Typen',
                         }
                     }
-
+                    // city-col__title title
                     // если задан параметр country_id, то выводим регионы
                     if ((typeof url_country_id !== "boolean" && url_country_id !== "" && url_country_id !== " ") || (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ")) {
                         $('.search-nav__list-item[data_id="city"]').show();
                         $('.search-nav__list-item[data_id="country"]').hide();
                         // Выводим регионы при загрузке страницы
-                        $(".city_select").text((url_city_id.toString() && url_city_id.toString() != "true") ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
+                        $(".city_select").text((url_city_id != null) ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
                         // Выводим страны в dropdown
                         $('.search-nav__cities-list').empty();
 
