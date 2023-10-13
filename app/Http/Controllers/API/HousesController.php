@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
-use App\Http\Requests\API\Houses\GetOneRequest;
 use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\House\FilterRequest;
 use App\Models\Product;

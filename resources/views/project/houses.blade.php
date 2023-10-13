@@ -89,6 +89,9 @@
                         <div style="padding: 10px 27px;" class="city-col__btn" data_id="true">
                             {{__('От застройщика')}}
                         </div>
+                        <div style="padding: 10px 27px;" class="city-col__btn" data_id="true">
+                            {{__('Вторичка')}}
+                        </div>
                     </div>
                 </div>
                     <div class="city-col__content">
