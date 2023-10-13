@@ -289,7 +289,11 @@
                     $(this).addClass("active");
 
                     var name = $(this).attr('currency_type');
-                    history.pushState(null, null, $.query.SET('price[code]', name)); // подстановка параметров
+
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('price[code]', name);
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
                 });
             });
 
@@ -299,7 +303,11 @@
             // При изменении минимальной цены
             $('input[name="price[min_price]"]').on('change input', function () {
                 var min_price = $(this).val();
-                history.pushState(null, null, $.query.SET('price[min_price]', min_price)); // подстановка параметров
+
+                var url = new URL(window.location.href);
+                url.searchParams.set('price[min_price]', min_price);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // Подстановка максимальной цены в input
@@ -308,7 +316,11 @@
             // При изменении максимальной цены
             $('input[name="price[max_price]"]').on('change input', function () {
                 var max_price = $(this).val();
-                history.pushState(null, null, $.query.SET('price[max_price]', max_price)); // подстановка параметров
+
+                var url = new URL(window.location.href);
+                url.searchParams.set('price[max_price]', max_price);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // Выводим название типа при загрузке страницы
@@ -333,11 +345,13 @@
 
                 if (type === "") {
                     const url = new URL(document.location);
-                    const searchParams = url.searchParams;
-                    searchParams.delete("type"); // удалить параметр "test"
-                    window.history.pushState({}, '', url.toString());
+                    url.searchParams.delete("type"); // удалить параметр "test"
+                    window.history.pushState(null, null, url.toString());
                 } else {
-                    history.pushState(null, null, $.query.SET('type', type)); // подстановка параметров
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('type', type);
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
                 }
 
                 var html = $(this).html();
@@ -373,17 +387,13 @@
                     var url = new URL(document.location);
                     if (city_id === "") {
                         url.searchParams.delete('city_id');
-                        // Получение обновленного URL
-                        var updatedUrl = url.toString();
                         // Обновление URL в адресной строке
-                        window.history.replaceState({}, '', updatedUrl);
+                        window.history.pushState({}, '', url.toString());
                     } else {
                         // Добавление нового параметра
                         url.searchParams.set('city_id', city_id);
-                        // Получение обновленного URL
-                        var updatedUrl = url.toString();
                         // Обновление URL в адресной строке
-                        window.history.replaceState({}, '', updatedUrl);
+                        window.history.pushState({}, '', url.toString());
                     }
 
                     var html = $(this).html();
@@ -411,7 +421,10 @@
                     e.preventDefault();
                     var country_id = $(this).attr('data_id');
 
-                    history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('country_id', country_id);
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
 
                     var html = $(this).html();
                     $('.country_select').html(html);
@@ -435,7 +448,10 @@
                 $(this).closest('.search-nav__rooms-dropdown-bedrooms-button').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('bedrooms', bedrooms)); // подстановка параметров
+                var url = new URL(window.location.href);
+                url.searchParams.set('bedrooms', bedrooms);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // Выводим ванные в dropdown
@@ -450,7 +466,10 @@
                 $(this).closest('.search-nav__rooms-dropdown-bathrooms-button').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('bathrooms', bathrooms)); // подстановка параметров
+                var url = new URL(window.location.href);
+                url.searchParams.set('bathrooms', bathrooms);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // Выводим особенности в dropdown
@@ -472,9 +491,15 @@
                 var name = $(this).attr('name');
 
                 if(checked) {
-                    history.pushState(null, null, $.query.SET(name, checked.toString())); // подстановка параметров
+                    var url = new URL(window.location.href);
+                    url.searchParams.set(name, checked.toString());
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
                 } else {
-                    history.pushState(null, null, $.query.REMOVE(name, "true")); // подстановка параметров
+                    var url = new URL(window.location.href);
+                    url.searchParams.delete(name);
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
                 }
             })
 
@@ -489,7 +514,10 @@
                 $(this).closest('.more-dropdown__view-item').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('view', id)); // подстановка параметров
+                var url = new URL(window.location.href);
+                url.searchParams.set('view', id);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             });
 
 
@@ -504,7 +532,10 @@
                 $(this).closest('.more-dropdown__sea-item').removeClass('active');
                 $(this).addClass('active');
 
-                history.pushState(null, null, $.query.SET('to_sea', id)); // подстановка параметров
+                var url = new URL(window.location.href);
+                url.searchParams.set('to_sea', id);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // Выводим площадь в dropdown
@@ -514,13 +545,21 @@
             // При изменении size площади
             $('input[name="size[min]"]').on('change input', function () {
                 var min = $(this).val();
-                history.pushState(null, null, $.query.SET('size[min]', min)); // подстановка параметров
+
+                var url = new URL(window.location.href);
+                url.searchParams.set('size[min]', min);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
             // При изменении size_home площади
             $('input[name="size[max]"]').on('change input', function () {
                 var max = $(this).val();
-                history.pushState(null, null, $.query.SET('size[max]', max)); // подстановка параметров
+
+                var url = new URL(window.location.href);
+                url.searchParams.set('size[max]', max);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             })
 
         }

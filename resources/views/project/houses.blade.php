@@ -1005,7 +1005,10 @@
 
 
             $('.city-cil__filter-title').text(text);
-            history.pushState(null, null, $.query.SET('order_by', value)); // подстановка параметров
+            var url = new URL(window.location.href);
+            url.searchParams.set('order_by', value);
+            // Обновление URL в адресной строке
+            window.history.pushState(null, null, url.toString());
         });
 
         let g = document.querySelectorAll(".kompleks__layout-img"),
@@ -1682,7 +1685,7 @@ function P(e) {
         var updatedUrl = url.toString();
 
         // Обновление URL в адресной строке
-        window.history.replaceState({}, '', updatedUrl);
+        window.history.pushState({}, '', updatedUrl);
 
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
@@ -2390,12 +2393,13 @@ function P(e) {
             if (is_secondary === "") {
                 var url = new URL(window.location.href);
                 url.searchParams.delete('is_secondary');
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
                 // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
+                window.history.pushState(null, null, url.toString());
             } else {
-                history.pushState(null, null, $.query.SET('is_secondary', is_secondary)); // подстановка параметров
+                var url = new URL(window.location.href);
+                url.searchParams.set('is_secondary', is_secondary);
+                // Обновление URL в адресной строке
+                window.history.pushState(null, null, url.toString());
             }
 
             let allMarks = await getDataMarks()
@@ -2469,11 +2473,13 @@ function P(e) {
 
                             if (city_id === "") {
                                 const url = new URL(document.location);
-                                const searchParams = url.searchParams;
-                                searchParams.delete("city_id"); // удалить параметр "test"
+                                url.searchParams.delete("city_id"); // удалить параметр "test"
                                 window.history.pushState({}, '', url.toString());
                             } else {
-                                history.pushState(null, null, $.query.SET('city_id', city_id)); // подстановка параметров
+                                var url = new URL(window.location.href);
+                                url.searchParams.set('city_id', city_id);
+                                // Обновление URL в адресной строке
+                                window.history.pushState(null, null, url.toString());
                             }
 
                             var html = $(this).html();
@@ -2502,7 +2508,10 @@ function P(e) {
                             e.preventDefault();
                             var country_id = $(this).attr('data_id');
 
-                            history.pushState(null, null, $.query.SET('country_id', country_id)); // подстановка параметров
+                            var url = new URL(window.location.href);
+                            url.searchParams.set('country_id', country_id);
+                            // Обновление URL в адресной строке
+                            window.history.pushState(null, null, url.toString());
 
                             var html = $(this).html();
                             $('.country_select').html(html);
@@ -3025,7 +3034,7 @@ function P(e) {
                 var updatedUrl = url.toString();
 
                 // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
+                window.history.pushState({}, '', updatedUrl);
             });
         });
 
