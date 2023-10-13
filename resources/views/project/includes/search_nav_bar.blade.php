@@ -274,6 +274,12 @@
                     en: 'All types',
                     tr: 'Tüm türler',
                     de: 'Alle Typen',
+                },
+                doesnt_matter: {
+                    ru: 'Неважно',
+                    en: 'Doesn\'t matter',
+                    tr: 'önemli değil',
+                    de: 'Nicht wichtig',
                 }
             }
 
@@ -441,6 +447,8 @@
             $.each(data.bedrooms, function (index, value) {
                 $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+value.id+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(($.query.get('bedrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
+            // Выводим пункт НЕВАЖНО в спальни в dropdown
+            $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(($.query.get('bedrooms').toString()  === "") ? 'active' : '')+'">'+dictionary.doesnt_matter[langSite]+'</div>');
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.bedrooms').click(function () {
@@ -448,16 +456,24 @@
                 $(this).closest('.search-nav__rooms-dropdown-bedrooms-button').removeClass('active');
                 $(this).addClass('active');
 
-                var url = new URL(window.location.href);
-                url.searchParams.set('bedrooms', bedrooms);
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
+                if(bedrooms !== "") {
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('bedrooms', bedrooms.toString());
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
+                } else {
+                    var url = new URL(window.location.href);
+                    url.searchParams.delete('bedrooms');
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
+                }
             })
 
             // Выводим ванные в dropdown
             $.each(data.bathrooms, function (index, value) {
                 $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+value.id+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(($.query.get('bathrooms').toString() === value.name.toString()) ? 'active' : '')+'">'+value.name+'</div>');
             });
+            $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(($.query.get('bathrooms').toString() === "") ? 'active' : '')+'">'+dictionary.doesnt_matter[langSite]+'</div>');
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.bathrooms').click(function () {
@@ -466,10 +482,17 @@
                 $(this).closest('.search-nav__rooms-dropdown-bathrooms-button').removeClass('active');
                 $(this).addClass('active');
 
-                var url = new URL(window.location.href);
-                url.searchParams.set('bathrooms', bathrooms);
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
+                if(bathrooms !== "") {
+                    var url = new URL(window.location.href);
+                    url.searchParams.set('bathrooms', bathrooms.toString());
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
+                } else {
+                    var url = new URL(window.location.href);
+                    url.searchParams.delete('bathrooms');
+                    // Обновление URL в адресной строке
+                    window.history.pushState(null, null, url.toString());
+                }
             })
 
             // Выводим особенности в dropdown
