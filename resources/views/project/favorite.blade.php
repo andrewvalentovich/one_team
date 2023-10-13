@@ -2002,8 +2002,15 @@
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
                 url.searchParams.set('object_id', this.getAttribute('data_id'));
+                // Получение текущего URL
+                var url = new URL(window.location.href);
+
+                // Добавление нового параметра
+                url.searchParams.set('object_id', object.id);
+
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
+
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
                 if(window.innerWidth < 1023)

@@ -1522,7 +1522,6 @@ function P(e) {
             newDiv.style.width = width + '%'
             newDiv.style.left = width * i + '%'
             newDiv.addEventListener('mouseover', function() {
-                console.log('swiper',swiper)
                 swiper.slideTo(i, 400)
             })
         }
@@ -1625,28 +1624,59 @@ function P(e) {
     }
 
     let placeMap = null;
-    async function getObjectById (id) {
+    async function getObjectById(id) {
+        // Получение текущего URL
+        var url = new URL(window.location.href);
+
+        // Извлечение параметров из URL, если они существуют
+        var minPrice = url.searchParams.get('price[min_price]');
+        var maxPrice = url.searchParams.get('price[max_price]');
+        var code = url.searchParams.get('price[code]');
+
+        // Создание объекта с параметрами для отправки в запрос
+        var requestData = {
+            id: id,
+        };
+
+        // Добавление параметров из URL, если они существуют
+        if (minPrice !== null) {
+            requestData.min_price = minPrice;
+        }
+        if (maxPrice !== null) {
+            requestData.max_price = maxPrice;
+        }
+        if (code !== null) {
+            requestData.code = code;
+        }
+
+        // Выполнение AJAX-запроса с параметрами
         $.ajax({
-                url: '/api/houses/simple',
-                data: {
-                    id: id
-                },
-                method: 'get',
-                success: function(data) {
-                    setNewPopupHouseData(data)
-                }
-            });
+            url: '/api/houses/simple',
+            data: requestData,
+            method: 'get',
+            success: function (data) {
+                setNewPopupHouseData(data);
+            }
+        });
     }
+
     const objectIdFromUrl = searchParams.get('object_id');
     if(objectIdFromUrl) {
         getObjectById(objectIdFromUrl)
     }
     function setNewPopupHouseData(object) {
+        // Получение текущего URL
+        var url = new URL(window.location.href);
+
+        // Добавление нового параметра
         url.searchParams.set('object_id', object.id);
+
         // Получение обновленного URL
         var updatedUrl = url.toString();
+
         // Обновление URL в адресной строке
         window.history.replaceState({}, '', updatedUrl);
+
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
         const placeLeftCol = document.querySelector('.place__left-col')
@@ -2940,9 +2970,13 @@ function P(e) {
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
                 $('.header-w').removeClass('fixed');
+                var url = new URL(window.location.href);
+
                 url.searchParams.delete('object_id');
+
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
+
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
             });

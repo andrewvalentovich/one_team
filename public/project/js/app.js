@@ -168,12 +168,13 @@ async function getData() {
         btn.addEventListener('click', function() {
             const currentUrl = window.location.href;
 
-            // Создание объекта URL
-            const url = new URL(currentUrl);
-    
+            var url = new URL(window.location.href);
+
             url.searchParams.delete('object_id');
+
             // Получение обновленного URL
             var updatedUrl = url.toString();
+
             // Обновление URL в адресной строке
             window.history.replaceState({}, '', updatedUrl);
         })
@@ -864,10 +865,13 @@ if(document.querySelectorAll('.place-w').length) {
             const target = e.target
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
-                console.log('test')
+                var url = new URL(window.location.href);
+
                 url.searchParams.delete('object_id');
+
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
+
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
             }
