@@ -55,6 +55,15 @@
                                         <td>{{ $landing->template->name }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{ route('panel.landings.edit', $landing->id) }}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Редактировать') }}</a>
+                                            <div>
+                                                <form id="delete_landing_form-{{ $landing->id }}" style="display: none;" action="{{ route('panel.landings.destroy', $landing->id) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                </form>
+                                                <a class="btn btn-inverse-danger btn-fw ml-1" onclick="if(confirm('Вы уверены, что хотите удалить лендинг {{ rtrim(preg_replace ('/https:\/\/|http:\/\//', '', $landing->domain, 1), '/') }}?')) document.getElementById('delete_landing_form-{{ $landing->id }}').submit(); return false;">
+                                                    Удалить
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
