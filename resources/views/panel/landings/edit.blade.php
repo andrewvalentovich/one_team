@@ -93,7 +93,7 @@
                                     <select class="form-control" {{ $landing->template->path === "complex" ? "name=relation_id" : "" }} style="color: #e2e8f0">
                                         <option value="">{{ __('Выбор ЖК') }}</option>
                                         @foreach($complexes as $complex)
-                                            <option value="{{ $complex->id }}" {{ $landing->relation_id === $complex->id ? "selected" : "" }}>{{ $complex->name }}</option>
+                                            <option value="{{ $complex->id }}" {{ $landing->relation_id === $complex->id ? "selected" : "" }}>{{ $complex->id }} - {{ $complex->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

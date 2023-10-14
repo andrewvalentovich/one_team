@@ -87,7 +87,7 @@
                                 <select class="form-control" style="color: #e2e8f0">
                                     <option value="">{{ __('Выбор ЖК') }}</option>
                                     @foreach($complexes as $complex)
-                                        <option value="{{ $complex->id }}">{{ $complex->name }}</option>
+                                        <option value="{{ $complex->id }}">{{ $complex->id }} - {{ $complex->name }}</option>
                                     @endforeach
                                 </select>
                                 <label class="text-danger font-weight-normal" for="relation_id" id="relation_id_error"></label>
