@@ -141,42 +141,44 @@
                     @endif
 				</div>
 			</div>
-			<div class="about container" id="about">
-				<div class="title">
-                    {{ $landing->about_title ?? null }}
-				</div>
-				<div class="title title_grey">
-                    {{ $landing->about_subtitle ?? null }}
-				</div>
-				<div class="about__swiper swiper">
-					<div class="about__swiper-wrapper swiper-wrapper">
-                        @foreach(json_decode($landing->about_description) as $about_description)
-                            <div class="about__slide swiper-slide">
-                                <div class="about__slide-pic">
-                                    <img src="{{ asset($about_description->photo ?? null) }}" alt="">
-                                </div>
-                                <div class="about__slide-text">
-                                    <div class="about__slide-title">
-                                        {{ $about_description->title ?? null }}
+            @if(!is_null($landing->about_description))
+                <div class="about container" id="about">
+                    <div class="title">
+                        {{ $landing->about_title ?? null }}
+                    </div>
+                    <div class="title title_grey">
+                        {{ $landing->about_subtitle ?? null }}
+                    </div>
+                    <div class="about__swiper swiper">
+                        <div class="about__swiper-wrapper swiper-wrapper">
+                            @foreach(json_decode($landing->about_description) as $about_description)
+                                <div class="about__slide swiper-slide">
+                                    <div class="about__slide-pic">
+                                        <img src="{{ asset($about_description->photo ?? null) }}" alt="">
                                     </div>
-                                    <p class="about__slide-lead">
-                                        {!! $about_description->content ?? null !!}
-                                    </p>
+                                    <div class="about__slide-text">
+                                        <div class="about__slide-title">
+                                            {{ $about_description->title ?? null }}
+                                        </div>
+                                        <p class="about__slide-lead">
+                                            {!! $about_description->content ?? null !!}
+                                        </p>
+                                    </div>
                                 </div>
+                            @endforeach
+                        </div>
+                        <div class="about__swiper-action">
+                            <div class="about__prev about__swiper-btn">
+                                <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка назад">
                             </div>
-                        @endforeach
-					</div>
-					<div class="about__swiper-action">
-						<div class="about__prev about__swiper-btn">
-							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка назад">
-						</div>
-						<div class="about__pagination "></div>
-						<div class="about__next about__swiper-btn">
-							<img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка вперед">
-						</div>
-					</div>
-				</div>
-			</div>
+                            <div class="about__pagination "></div>
+                            <div class="about__next about__swiper-btn">
+                                <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка вперед">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 			<div class="infrastructure container" id="infrastructure">
 				<div class="title">
 					Территория
