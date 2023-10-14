@@ -52,7 +52,7 @@ class LandingController extends Controller
     {
         $countries = CountryAndCity::whereNull('parent_id')->get();
         $cities = CountryAndCity::whereNotNull('parent_id')->with('country')->get();
-        $complexes = Product::where('complex_or_not', 'Да')->get();
+        $complexes = Product::has('layouts')->orderBy('name')->get();
         $templates = Template::all();
         return view('panel.landings.create', compact('templates', 'countries', 'cities', 'complexes'));
     }
@@ -128,7 +128,7 @@ class LandingController extends Controller
     {
         $countries = CountryAndCity::whereNull('parent_id')->get();
         $cities = CountryAndCity::whereNotNull('parent_id')->with('country')->get();
-        $complexes = Product::where('complex_or_not', 'Да')->get();
+        $complexes = Product::has('layouts')->orderBy('name')->get();
         $templates = Template::all();
         return view('panel.landings.edit', compact('landing', 'countries', 'cities', 'complexes', 'templates'));
     }
