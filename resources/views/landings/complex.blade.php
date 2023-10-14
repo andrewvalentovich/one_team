@@ -196,25 +196,21 @@
 					</div>
 					<div class="layouts__swiper swiper">
 						<div class="layouts__swiper-wrapper swiper-wrapper">
-                            @if(isset($filter->objects))
-                                @foreach(json_decode($filter->objects) as $object)
+                            @if(isset($filter->layouts))
+                                @foreach($filter->layouts as $layout)
                                     <div class="layouts__slide swiper-slide" btn-popup="popup-house">
                                         <div class="layouts__slide-pic">
-                                            @if(isset($object->apartment_layout_image))
-                                                @if(is_countable($object->apartment_layout_image))
-                                                    <img src="{{ asset("uploads/".$object->apartment_layout_image[0] ?? null) }}" alt="схема">
-                                                @else
-                                                    <img src="{{ asset("uploads/".$image ?? null) }}" alt="схема">
-                                                @endif
+                                            @if(isset($layout->photos))
+                                                <img src="{{ asset($layout->photos[0]->url ?? null) }}" alt="схема">
                                             @endif
                                         </div>
                                         <div class="layouts__slide-text">
                                             <div class="layouts__slide-price">
-                                                {{ $object->price ?? null }} €
+                                                {{ $layout->price ?? null }} €
                                             </div>
                                             <div class="layouts__slide-info">
                                                 <div class="layouts__slide-lead">
-                                                    {{ $object->size ?? null }} кв.м., {{ $object->apartment_layout ?? null }}
+                                                    {{ $layout->total_size ?? null }} кв.м., {{ $layout->number_rooms ?? null }}
                                                 </div>
                                                 <div class="layouts__slide-btn btn btn_grey">
                                                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
