@@ -270,8 +270,9 @@ class ProductController extends Controller
                 $data = [];
 
                 if (gettype($key) != "string") {
+                    Log::info("PhotoCategory $key is not string");
                     $data['category_id'] = $category > 0 ? $category : null;
-                    PhotoTable::whereId($key)->update($data);
+                    PhotoTable::whereId($key)->create($data);
                     unset($data);
                 } else {
                     if (strripos($key, "new_") !== false) {

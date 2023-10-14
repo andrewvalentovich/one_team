@@ -315,37 +315,39 @@
 					frameborder="0">
 				</iframe>
 			</div>
-			<div class="conditions container">
-				<div class="conditions__title title">
-					УСЛОВИЯ ПОКУПКИ
-				</div>
-				<div class="conditions__list">
-                    @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
-                        <div class="conditions__list-item">
-                            <div class="conditions__item-info">
-                                <div class="">
-                                    <div class="conditions__item-subtitle">
-                                        {{ $purchase_terms->title ?? null }}
+            @if(!is_null($landing->purchase_terms))
+                <div class="conditions container">
+                    <div class="conditions__title title">
+                        УСЛОВИЯ ПОКУПКИ
+                    </div>
+                    <div class="conditions__list">
+                        @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
+                            <div class="conditions__list-item">
+                                <div class="conditions__item-info">
+                                    <div class="">
+                                        <div class="conditions__item-subtitle">
+                                            {{ $purchase_terms->title ?? null }}
+                                        </div>
+                                        <p>{!! $purchase_terms->content !!}</p>
+                                        @if($loop->last)
+                                            <button class="conditions__item-btn-more" btn-popup="popup-vnj">
+                                                Подробнее о ВНЖ
+                                            </button>
+                                        @endif
                                     </div>
-                                    <p>{!! $purchase_terms->content !!}</p>
-                                    @if($loop->last)
-                                        <button class="conditions__item-btn-more" btn-popup="popup-vnj">
-                                            Подробнее о ВНЖ
-                                        </button>
-                                    @endif
+                                    <button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
+                                        Оставить заявку
+                                        <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
+                                    </button>
                                 </div>
-                                <button class="conditions__item-btn btn btn_grey-dark btn_arrow" btn-popup="popup-record">
-                                    Оставить заявку
-                                    <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
-                                </button>
+                                <div class="conditions__item-number">
+                                    {{ $loop->iteration }}
+                                </div>
                             </div>
-                            <div class="conditions__item-number">
-                                {{ $loop->iteration }}
-                            </div>
-                        </div>
-                    @endforeach
-				</div>
-			</div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
 		</main>
 		<footer class="footer-w">
     <div class="header container">

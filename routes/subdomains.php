@@ -11,17 +11,17 @@ Route::get('/', function ($subdomain) {
         $landing = $currentLanding[0];
 
         if($landing->template->path === "complex") {
-            $filter = \App\Models\Product::whereId($landing['relation_id'])->with('photo.category')->first();
+            $filter = \App\Models\Product::with('photo.category')->find($landing['relation_id']);
 
             abort_if(!isset($filter), 404);
 
             $categories =
                 DB::table('products')->select(['photo_categories.id', 'photo_categories.name'])
-                    ->where('products.id', $landing['filter_' . $landing->template->path])
+                    ->where('products.id', $filter->id)
                     ->join('photo_tables', 'photo_tables.parent_id', '=', 'products.id')
                     ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
-                    ->distinct('name')
                     ->get();
+
             return view("landings/complex", compact('landing', 'filter', 'categories'));
         }
 

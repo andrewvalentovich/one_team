@@ -111,7 +111,7 @@
                             <h3 class="col-12 pt-5 region country complex" style="display: none;">Главный экран</h3>
                             <div class="col-12 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>
-                                <input name="main_location" type="text" class="form-control" id="main_location" placeholder="{{ __('Локация/регион для главного блока') }}">
+                                <input name="main_location" type="text" class="form-control" value="{{ $landing->main_location }}" id="main_location" placeholder="{{ __('Локация/регион для главного блока') }}">
                                 <label class="text-danger font-weight-normal" for="main_location" id="main_location_error"></label>
                             </div>
 
@@ -965,7 +965,7 @@
                 success: function (data) {
                     alert("Success");
                     console.log(data);
-                    window.location.href = "{{ route('panel.landings.index') }}";
+{{--                    window.location.href = "{{ route('panel.landings.index') }}";--}}
                 },
                 error: function (reject) {
                     if( reject.status == 422 ) {

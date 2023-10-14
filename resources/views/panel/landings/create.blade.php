@@ -783,7 +783,7 @@
                 success: function (data) {
                     alert("Success");
                     console.log(data);
-                    window.location.href = "{{ route('panel.landings.index') }}";
+{{--                    window.location.href = "{{ route('panel.landings.index') }}";--}}
                 },
                 error: function (reject) {
                     if( reject.status == 422 ) {
