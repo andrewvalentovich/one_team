@@ -335,12 +335,13 @@ body {
   }
 }
 
-@media (max-width: 352px) {
+@media (max-width: 449px) {
   .city-col__btns {
     width: 100%;
     overflow: auto;
   }
 }
+
 
 .city-col__btn.active {
   background: #ffffff;
