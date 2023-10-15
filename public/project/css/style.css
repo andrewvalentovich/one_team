@@ -322,19 +322,23 @@ body {
 
 @media (max-width: 439px) {
   .city-col__btn {
-    padding: 10px 29px;
+    padding: 10px 18px;
     font-size: 13px;
     white-space: nowrap;
   }
-  .city-col__btns {
-    width: 100%;
-    overflow: auto;
-  }
+
   .city-col__filter {
     width: 100%;
   }
   .search-nav__list-item_arrow::after {
     top: 12px !important;
+  }
+}
+
+@media (max-width: 352px) {
+  .city-col__btns {
+    width: 100%;
+    overflow: auto;
   }
 }
 
