@@ -380,7 +380,7 @@
                 // Выводим страны в dropdown
                 $('.search-nav__cities-list').html();
                 // Выводим пункт все регионы с data_id=""
-                $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element">' + dictionary.all_regions[langSite] + '</div>');
+                $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element search__filter-title">' + dictionary.all_regions[langSite] + '</div>');
                 $.each(data.cities, function (index, value) {
                     $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
                 });
