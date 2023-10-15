@@ -333,10 +333,10 @@
             $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? data.types.find(x => x.id == $.query.get('type')).name : dictionary.all_types[langSite]);
 
             // Выводим пункт Все типы в dropdown с data_id=""
-            $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox"><input name="type_object" type="radio">' + dictionary.all_types[langSite] + '</label>');
+            $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox _custom-radio"><input name="type_object" type="radio" checked> <span class="radio"></span>' + dictionary.all_types[langSite] + '</label>');
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
-                $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="' + value.id + '" class="search-nav__types-item type closert_div checkbox"> <input name="type_object" type="radio">' + value.name + '</label>');
+                $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="' + value.id + '" class="search-nav__types-item type closert_div checkbox _custom-radio"> <input name="type_object" type="radio"> <span class="radio"></span>' + value.name + '</label>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
