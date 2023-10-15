@@ -4195,6 +4195,12 @@ body.scroll_fixed {
   align-items: flex-start;
 }
 
+.search-nav__types-item.checkbox {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 .search-nav__types-item {
   transition: 0.2s;
   cursor: pointer;
@@ -5015,7 +5021,7 @@ body.scroll_fixed {
   }
 
   .city-col__subtitle {
-    margin-bottom: 20px;
+    margin-bottom: 13px;
   }
 
   .city-col__filter {
@@ -5329,7 +5335,7 @@ body.scroll_fixed {
     flex-direction: column;
   }
   .city-col__subtitle {
-    margin-top: 15px;
+    margin-top: 9px;
   }
   .city-col__filter {
     order: 1;

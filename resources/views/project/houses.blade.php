@@ -1522,6 +1522,7 @@ function P(e) {
 
     //свайп при ховере мышки
     function addHoverMouseSwiper (swiper) {
+        if(!swiper) return
         const slidesLength = swiper.slides.length
         const width = 1 / slidesLength * 100
         if(!swiper.el.querySelectorAll('i').length)
@@ -2556,11 +2557,7 @@ function P(e) {
                     dataType: 'json',
                     data: params,
                     success: function (data) {
-                        if(data.length) {
-                            const subtitle = document.querySelector('.city-col__subtitle')
-                            const span = subtitle.querySelector('span')
-                            span.innerHTML = data.length
-                        }
+
                         resolve(data);
                     },
                     error: function (error) {
@@ -2710,15 +2707,25 @@ function P(e) {
                     }
                 }
             });
-
-            mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
-                checkZoomRange: true,
-            }).then(function() {
-                mapCountry.container.fitToViewport()
-            }, function(err) {
-                // Обработка ошибок
-            }, this);
-
+            const subtitle = document.querySelector('.city-col__subtitle')
+            const span = subtitle.querySelector('span')
+            span.innerHTML = allmarks.length
+            const nothing = document.querySelector('.nothing')
+            if(allmarks.length == 0) {
+                nothing.classList.add('active')
+            } else {
+                nothing.classList.remove('active')
+            }
+            if(allmarks.length) {
+                console.log('test')
+                mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+                    checkZoomRange: true,
+                }).then(function() {
+                    mapCountry.container.fitToViewport()
+                }, function(err) {
+                    // Обработка ошибок
+                }, this);
+            }
 
             ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
@@ -2892,11 +2899,58 @@ function P(e) {
                             };
 
                         this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
+
+                        // placemark.events.add('mouseenter', function (e) {
+                        //     if (userAgent.match(/(android|iphone|ipad|ipod|blackberry|windows phone)/)) return
+                        //     placemark.balloon.open(); // Открываем балун при наведении мыши
+                        //     setTimeout(function () {
+                        //         var balloonContentElement = document.querySelector('.balloon-city');
+                        //         const id = balloonContentElement.getAttribute('id')
+                        //         const marks = document.querySelectorAll(`.placemark`);
+                        //         const mark = document.querySelector(`[mark-id="${id}"]`);
+                        //         if(mark.classList.contains('active')) {
+                        //             mark.classList.remove('active')
+                        //             placemark.balloon.close();
+                        //             return
+                        //         }
+                        //         marks.forEach(mark => {
+                        //             mark.classList.remove('active')
+                        //         });
+                        //         mark.classList.add('active')
+                        //         if (balloonContentElement) {
+                        //             var mouseLeaveListener = function () {
+                        //                 placemark.balloon.close();
+                        //                 mark.classList.remove('active')
+                        //                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
+                        //                 balloonContentElement.removeEventListener('click', clickListener);
+                        //             };
+                        //             balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
+
+                        //             var clickListener = function (event) {
+                        //                 const id = balloonContentElement.getAttribute('id')
+                        //                 //запрос новый на объект
+                        //                 getObjectById(id)
+                        //             };
+                        //             balloonContentElement.addEventListener('click', clickListener);
+                        //         }
+                        //     }, 0);
+                        // });
                             if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+
                                 var t = document.querySelectorAll(".placemark");
                                 for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
                             }
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
+                            const balloonContentElement = document.querySelector('.balloon-city');
+                            if(!balloonContentElement) {
+                                console.log('test1')    
+                                // const listenerClickBallon = balloonContentElement.addEventListener('click', function() {
+                                //     const id = balloonContentElement.getAttribute('id')
+                                //     getObjectById(id)
+                                // })
+                            } else {
+                                console.log('test2')    
+                            }
                             var o = document.querySelectorAll(".placemark");
                             if (e.classList.contains("active")) e.classList.remove("active");
                             else {
@@ -2937,16 +2991,8 @@ function P(e) {
                                 placemark.balloon.close();
                                 mark.classList.remove('active')
                                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
-                                balloonContentElement.removeEventListener('click', clickListener);
                             };
                             balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
-
-                            var clickListener = function (event) {
-                                const id = balloonContentElement.getAttribute('id')
-                                //запрос новый на объект
-                                getObjectById(id)
-                            };
-                            balloonContentElement.addEventListener('click', clickListener);
                         }
                     }, 0);
                 });
@@ -3002,7 +3048,16 @@ function P(e) {
                 if (e.get('newZoom') !== e.get('oldZoom')) {
                 }
             })
+            mapCountry.events.add('balloonopen', function(e){
+                var balloonContentElement = document.querySelector('.balloon-city');
+                balloonContentElement.addEventListener('click', function(e) {
+                    const id = balloonContentElement.getAttribute('id')
+                    getObjectById(id)
+                });
+            })
+            mapCountry.events.add('balloonclose', function(e){
 
+            })
         }
         let moveWas = 0
         document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {

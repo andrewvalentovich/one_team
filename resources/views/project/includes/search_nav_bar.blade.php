@@ -333,17 +333,18 @@
             $(".type_select").text(($.query.get('type').toString() && $.query.get('type').toString() != "true") ? data.types.find(x => x.id == $.query.get('type')).name : dictionary.all_types[langSite]);
 
             // Выводим пункт Все типы в dropdown с data_id=""
-            $('.search-nav__types-list,.search__filter-types-list').append('<div data_id="" class="search-nav__types-item type closert_div">' + dictionary.all_types[langSite] + '</div>');
+            $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox"><input name="type_object" type="radio">' + dictionary.all_types[langSite] + '</label>');
             // Выводим типы в dropdown
             $.each(data.types, function (index, value) {
-                $('.search-nav__types-list,.search__filter-types-list').append('<div data_id="' + value.id + '" class="search-nav__types-item type closert_div">' + value.name + '</div>');
+                $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="' + value.id + '" class="search-nav__types-item type closert_div checkbox"> <input name="type_object" type="radio">' + value.name + '</label>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown
             $('.type').click(function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-
+                if(!this.classList.contains('checkbox')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 var type = $(this).attr('data_id');
                 $(this).addClass('active');
                 $('.search-nav__item-dropdown').removeClass('active');
