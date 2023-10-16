@@ -7357,7 +7357,6 @@ body.scroll_fixed {
   z-index: 202;
   opacity: 1;
   width: 100%;
-  height: 100%;
   object-fit: contain;
 }
 
@@ -7499,7 +7498,6 @@ body.scroll_fixed {
   background: #fff;
   border-right: 1px solid #969696;
   width: 100%;
-  height: fit-content;
 }
 .object__swiper-wrapper {
   height: auto !important;
@@ -7592,6 +7590,7 @@ body.scroll_fixed {
 
   .object__photo-popup-block {
     width: 100%;
+    max-height: 100%;
   }
   .object__photo-text-header {
     padding: 20px 30px 30px;
