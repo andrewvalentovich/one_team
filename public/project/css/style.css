@@ -7299,10 +7299,11 @@ body.scroll_fixed {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 165;
+  justify-content: center;
 }
 
 .object__photo.active {
-  display: block;
+  display: flex;
 }
 
 .object__photo:before {
@@ -7499,9 +7500,12 @@ body.scroll_fixed {
   border-right: 1px solid #969696;
   width: 100%;
 }
-.object__swiper-wrapper {
-  height: auto !important;
+@media (max-width: 767px) {
+  .object__swiper-wrapper {
+    height: auto !important;
+  }
 }
+
 .object__swiper-slide {
   width: 100% !important;
   max-width: 100% !important;
