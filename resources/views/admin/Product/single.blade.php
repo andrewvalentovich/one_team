@@ -251,7 +251,7 @@
                                 <label class="col-sm-3 col-form-label">Гражданства за инвестиции
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select class="form-control"  name="grajandstvo" style="color: #e2e8f0">
+                                    <select class="form-control" name="grajandstvo" style="color: #e2e8f0">
                                         <option value="Да">Да</option>
                                         <option value="Нет">Нет</option>
                                     </select>

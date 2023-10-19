@@ -42,13 +42,13 @@ use Illuminate\Support\Facades\Session;
 //
 //});
 
-Route::get('/set', function(){
-    Session::put('session', 'working');
-});
+//Route::get('/set', function(){
+//    Session::put('session', 'working');
+//});
 
-Route::get('/get', function(){
-    return Session::get('session');
-});
+//Route::get('/get', function(){
+//    return Session::get('session');
+//});
 
 Route::domain('panel.'.config('app.domain'))->group(function () {
     Route::group(['as' => 'panel.'], function () {
