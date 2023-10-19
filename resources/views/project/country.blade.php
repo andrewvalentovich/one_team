@@ -1,5 +1,4 @@
 @extends('project.includes.layouts')
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 @section('header')
     @include('project.includes.header')
 @endsection

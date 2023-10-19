@@ -24,7 +24,7 @@ class SearchController extends Controller
 
         $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
 
-        $countries = CountryAndCity::select('id', $nameField)
+        $countries = CountryAndCity::select('id', $nameField, 'lat', 'long')
             ->where('parent_id', null)
             ->get()
             ->transform(function ($row) use ($nameField) {
@@ -34,7 +34,7 @@ class SearchController extends Controller
                 ];
             });
 
-        $regions = CountryAndCity::select('id', $nameField, 'parent_id')
+        $regions = CountryAndCity::select('id', $nameField, 'parent_id', 'lat', 'long')
             ->has('product_city')
             ->whereNotNull('parent_id')
             ->get()

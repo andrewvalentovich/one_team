@@ -1,6 +1,4 @@
-
 @extends('project.includes.layouts')
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 @section('header')
     @include('project.includes.header')
 @endsection
@@ -99,9 +97,7 @@
                             {{__('Объявлений не найдено')}}
                         </div>
                         <div class="city-col__list">
-                            @foreach($get_product as $product)
-                                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                            @endforeach
+
                         </div>
                         <div class="place-w _country">
                             <div class="place-popup" data-exchange="EUR">
@@ -1021,32 +1017,11 @@
             })
         })
 
-
-
-
         let spal = "<?php echo __('спал') ?>";
         let van = "<?php echo __('ван') ?>";
         let kvm = "<?php echo __('кв.м') ?>";
 
-            @if(isset($_GET['city_id']))
-
-            <?php $id = $_GET['city_id'];?>
-
-            @else
-
-            <?php $id = $country->id;?>
-
-            @endif
-
-
-
-
-        let ids = {{ $id }};
-
-
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-
 
         (async () => {
 
@@ -2943,13 +2918,13 @@ function P(e) {
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                             const balloonContentElement = document.querySelector('.balloon-city');
                             if(!balloonContentElement) {
-                                console.log('test1')    
+                                console.log('test1')
                                 // const listenerClickBallon = balloonContentElement.addEventListener('click', function() {
                                 //     const id = balloonContentElement.getAttribute('id')
                                 //     getObjectById(id)
                                 // })
                             } else {
-                                console.log('test2')    
+                                console.log('test2')
                             }
                             var o = document.querySelectorAll(".placemark");
                             if (e.classList.contains("active")) e.classList.remove("active");

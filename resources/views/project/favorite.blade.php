@@ -1,5 +1,3 @@
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
-
 @extends('project.includes.layouts')
 @section('header')
     @include('project.includes.header')
@@ -853,7 +851,7 @@
 
                                                         </div>
                                                         <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                            
+
                                                             <span data-exchange="eur" class="valute active">{{ $layout->price_credit['EUR'] }} / {{ __('мес') }}</span>
                                                             <span data-exchange="usd" class="valute">{{ $layout->price_credit['USD'] }} / {{ __('мес') }}</span>
                                                             <span data-exchange="rub" class="valute">{{ $layout->price_credit['RUB'] }} / {{ __('мес') }}</span>
