@@ -3767,8 +3767,8 @@ body.scroll_fixed {
 
 @media (min-width: 540px) {
   .search-nav__list-item.active .search-nav__list-item-title {
-    border: 1px solid #e3eeff;
-    padding: 11px 0px 10px 17px;
+    border: 2px solid #e3eeff;
+    /* padding: 11px 0px 10px 17px; */
   }
 }
 
@@ -6093,10 +6093,7 @@ body.scroll_fixed {
     display: none;
   }
 
-  .search-nav__list-item-title {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+
 
   .search-nav__icon {
     display: block;
@@ -7228,6 +7225,9 @@ body.scroll_fixed {
 .zoom-control__zoom-in:hover svg path, .zoom-control__zoom-out:hover svg path{
   fill: #000;  
 }
+.zoom-control__icon {
+  height: 30px;
+}
 .zoom-control__icon svg path {
   fill: #969696;
 }
@@ -7692,4 +7692,10 @@ body.scroll_fixed {
 
 ._custom-radio input:checked + .radio::after {
   opacity: 1;
+}
+
+
+.search-nav__list-item-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
