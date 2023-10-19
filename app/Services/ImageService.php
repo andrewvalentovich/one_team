@@ -34,6 +34,20 @@ class ImageService
         return "uploads/" . $prefix . $filenametostore;
     }
 
+    public function saveFromRemote(string $image)
+    {
+        $filenametostore = null;
+
+        if ($image){
+            $img = file_get_contents("https://crm.one-team.pro/storage/request_files/2023/08/10/tWdJmx14ZAUAM7Mj6PcVVGZEouaswYM3jQR2nyEJ.jpg");
+//            $img = Image::make("https://crm.one-team.pro/storage/request_files/2023/08/10/tWdJmx14ZAUAM7Mj6PcVVGZEouaswYM3jQR2nyEJ.jpg");
+            dump($img);
+//            $img->save($thumbnailpath);
+        }
+
+        return "uploads/" . $filenametostore;
+    }
+
 //    public function update($image = null, $prefix = null)
 //    {
 //        $prefix = is_null($prefix) ? "" : $prefix;

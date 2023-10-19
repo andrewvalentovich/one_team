@@ -62,6 +62,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | API access
+    |--------------------------------------------------------------------------
+    |
+    |   Авторизация
+    |   во всех запросах в параметре token передавать токен
+    |   Пример /api/external/properties?token={token}
+    |   Endpoints
+    |   GET /api/external/complexes - Список комплексов
+    |   GET /api/external/complexes/{complex_id}/blocks - Список блоков в комплексе
+    |   GET /api/external/blocks/{block_id}/layouts - Список планировок в блоке
+    |   GET /api/external/properties/{property_id} - Объект недвижимости
+    |   GET /api/external/properties - Список объектов недвижимости
+    |   Фильтрация объектов (только для /api/external/properties): В параметры запроса передать название поля,
+    |   по которому нужна фильтрация и значение. Работает только с полями которые не имеют множественных значений.
+    |   Пример /api/external/properties?token={token}&country_name=Турция
+    |
+    */
+
+    'api_crm_token' => env('API_CRM_TOKEN', 'wjP0OxkzUPx0KG9wIkyQrS15BT3FvoVt'),
+    'api_crm_url_complexes' => env('API_CRM_URL_COMPLEXES', '/api/external/complexes'),
+    'api_crm_url_blocks' => env('API_CRM_URL_BLOCKS', '/api/external/complexes/{complex_id}/blocks'),
+    'api_crm_url_layouts' => env('API_CRM_URL_LAYOUTS', '/api/external/blocks/{block_id}/layouts'),
+    'api_crm_url_properties_id' => env('API_CRM_URL_PROPERTIES_ID', '/api/external/properties/{property_id}'),
+    'api_crm_url_properties' => env('API_CRM_URL_PROPERTIES', '/api/external/properties/'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
