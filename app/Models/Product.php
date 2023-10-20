@@ -12,6 +12,16 @@ class Product extends Model
     use HasFactory, Filterable;
     protected $guarded = [];
 
+    public function scopeForSale($query)
+    {
+        return $query->where('sale_or_rent', 'sale');
+    }
+
+    public function scopeForRent($query)
+    {
+        return $query->where('sale_or_rent', 'rent');
+    }
+
     // Привязка продукта к опции (много продуктов к одной опции)
     public function option()
     {
