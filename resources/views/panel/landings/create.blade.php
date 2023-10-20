@@ -153,7 +153,7 @@
                             <h3 class="col-12 pt-5 region country" style="display: none;">Блок с объектами</h3>
                             <div class="col-12 form-group pt-3 region country" style="display: none;">
                                 <label for="objects_title">{{ __('Заголовок блока с объектами') }}</label>
-                                <input name="objects_title" type="text" class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
+                                <input name="objects_title" type="text" value="НОВОСТРОЙКИ В " class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
                                 <label class="text-danger font-weight-normal" for="objects_title" id="objects_title_error"></label>
                             </div>
 
@@ -199,7 +199,9 @@
                             <div class="col-12 form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
-                                    <textarea class="form-control" rows="10" id="map" name="map"></textarea>
+                                    <textarea class="form-control" rows="10" id="map" name="map">
+                                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false" width="100%" height="500" frameborder="0"></iframe>
+                                    </textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
@@ -209,6 +211,68 @@
                                 <label for="card">{{ __('Карточки с условиями покупки') }}</label>
                                 <div class="card">
                                     <div class="card-header row" id="purchase_terms_field">
+                                        <div class='purchase_terms_accordion col-sm-12 col-md-6' data-identificator='0' id='purchase_terms_accordion0'>
+                                            <div class='card'>
+                                                <div class='card-header' id='purchase_terms_heading0'>
+                                                    <h5 class='mb-0'>
+                                                        <p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse0' aria-expanded='true' aria-controls='purchase_terms_collapse0'>
+                                                            Карточка #0
+                                                        </p>
+                                                        <input name='purchase_terms[0][id]' type='hidden' value='0'>
+                                                    </h5>
+                                                </div>
+                                                <div id='purchase_terms_collapse0' class='collapse show' aria-labelledby='purchase_terms_heading0' data-parent='#purchase_terms_accordion0'>
+                                                    <div class='card-body'>
+                                                        <div class='form-group region country complex' bis_skin_checked='1' style='display: block;'>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_title0'>Заголовок</label>
+                                                                <input name='purchase_terms[0][title]' value="Беспроцентная рассрочка" type='text' class='form-control' id='purchase_terms_title0' placeholder='310'>
+                                                            </div>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_content0'>Текст</label>
+                                                            <div>
+                                                                <textarea id='purchase_terms' class='textarea' name='purchase_terms[0][content]'>
+                                                                    <p>Рассрочка на период строительства</p><p>Первоначальный платеж 30% от стоимости квартиры</p><ul class="list_point"><li>Возможна удалённая сделка</li><li>Помощь по вариантам оплаты</li></ul><p>Вид на жительство можете получить после внесения последнего платежа</p>
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                            <p class='btn btn-outline-danger delete_purchase_terms_accordion' onclick='delete_accordion("purchase_terms", this);' data-identificator='0'>Удалить элемент списка</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='purchase_terms_accordion col-sm-12 col-md-6' data-identificator='1' id='purchase_terms_accordion1'>
+                                            <div class='card'>
+                                                <div class='card-header' id='purchase_terms_heading1'>
+                                                    <h5 class='mb-0'>
+                                                        <p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse1' aria-expanded='true' aria-controls='purchase_terms_collapse1'>
+                                                            Карточка #1
+                                                        </p>
+                                                        <input name='purchase_terms[1][id]' type='hidden' value='1'>
+                                                    </h5>
+                                                </div>
+                                                <div id='purchase_terms_collapse1' class='collapse show' aria-labelledby='purchase_terms_heading1' data-parent='#purchase_terms_accordion1'>
+                                                    <div class='card-body'>
+                                                        <div class='form-group region country complex' bis_skin_checked='1' style='display: block;'>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_title1'>Заголовок</label>
+                                                                <input name='purchase_terms[1][title]' value="Оплата 100%" type='text' class='form-control' id='purchase_terms_title1' placeholder='310'>
+                                                            </div>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_content1'>Текст</label>
+                                                            <div>
+                                                                <textarea id='purchase_terms' class='textarea' name='purchase_terms[1][content]'>
+                                                                    <ul class="list_point"><li>Возможна удалённая сделка</li><li>Помощь по вариантам оплаты</li></ul>
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                            <p class='btn btn-outline-danger delete_purchase_terms_accordion' onclick='delete_accordion("purchase_terms", this);' data-identificator='1'>Удалить элемент списка</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <p class="btn btn-outline-primary accordion_add" data-type="purchase_terms" id="purchase_terms_add">{{ __('Добавить карточку') }}</p>
@@ -240,7 +304,7 @@
                             <h3 class="col-12 pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
                             <div class="col-12 form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="sight_title">{{ __('Заголовок') }}</label>
-                                <input name="sight_title" type="text" class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
+                                <input name="sight_title" type="text" value="ДОСТОПРИЧАТЕЛЬНОСТИ " class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
                                 <label class="text-danger font-weight-normal" for="sight_title" id="sight_title_error"></label>
                             </div>
 
