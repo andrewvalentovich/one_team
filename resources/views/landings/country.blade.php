@@ -164,7 +164,7 @@
                                 <div class="sort__list-item city" data-id="0">
                                     <span>Все регионы</span>
                                 </div>
-                                @foreach($filter->cities as $city)
+                                @foreach($cities as $city)
                                     <div class="sort__list-item city" data-id="{{ $city->id }}">
                                         <span>{{ $city->name }}</span>
                                     </div>
@@ -177,7 +177,7 @@
 					<div class="gallery__item building-select all" data-id="0">
 						Все
 					</div>
-                    @foreach($filter->cities as $city)
+                    @foreach($cities as $city)
                         <div class="gallery__item building-select" data-id="{{ $city->id }}">
                             {{ $city->name }}
                         </div>

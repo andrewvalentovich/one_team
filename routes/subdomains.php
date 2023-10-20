@@ -32,15 +32,16 @@ Route::get('/', function ($subdomain) {
             if ($landing->template->path === "region") {
                 $filter = \App\Models\CountryAndCity::find($landing['relation_id']);
                 abort_if(!isset($filter), 404);
-                $types = \App\Models\Peculiarities::where('type', 'Типы')->get();
+                $types = \App\Models\Peculiarities::where('type', 'Типы')->has('product')->get();
                 return view("landings/region", compact('landing', 'filter', 'types'));
             }
 
             if ($landing->template->path === "country") {
                 $filter = \App\Models\CountryAndCity::find($landing['relation_id']);
                 abort_if(!isset($filter), 404);
-                $types = \App\Models\Peculiarities::where('type', 'Типы')->get();
-                return view("landings/country", compact('landing', 'filter', 'types'));
+                $cities = \App\Models\CountryAndCity::whereNotNull('parent_id')->has('product_city')->get();
+                $types = \App\Models\Peculiarities::where('type', 'Типы')->has('product')->get();
+                return view("landings/country", compact('landing', 'filter', 'types', 'cities'));
             }
         }
 
