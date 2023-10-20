@@ -29,6 +29,7 @@ class LandingsController extends Controller
             ->with('photo')
             ->with('option')
             ->with('peculiarities')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->transform(function ($row) {
                 if (!empty(json_decode($row->objects))) {

@@ -199,9 +199,7 @@
                             <div class="col-12 form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
-                                    <textarea class="form-control" rows="10" id="map" name="map">
-                                        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false" width="100%" height="500" frameborder="0"></iframe>
-                                    </textarea>
+                                    <textarea class="form-control" rows="10" id="map" name="map"><iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false" width="100%" height="500" frameborder="0"></iframe></textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
