@@ -103,7 +103,9 @@ class ProductController extends Controller
         $create =  Product::create($data);
 
         // Создаём планировки для созданного объекта
-        $this->createLayouts($layouts, $create->id);
+        if(!is_null($layouts)) {
+            $this->createLayouts($layouts, $create->id);
+        }
 
         // Закрепляем особенности за созданным объектом
         if (isset($request->osobenosti)){
@@ -221,7 +223,14 @@ class ProductController extends Controller
         $product->update($data);
 
         // Обновляем или удаляем планировки для созданного объекта
-        $this->updateLayouts($layouts, $product);
+        if(!is_null($layouts)) {
+            $this->updateLayouts($layouts, $product);
+        } else {
+            foreach ($product->layouts as $layout) {
+                $layout->delete();
+            }
+            $product->update(['complex_or_not' => "Нет"]);
+        }
 
         // Закрепление особенностей за обновлённым объектом
         if (isset($request->osobenosti)){
