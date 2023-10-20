@@ -7226,7 +7226,7 @@ body.scroll_fixed {
   fill: #000;  
 }
 .zoom-control__icon {
-  height: 30px;
+  height: 30px !important;
 }
 .zoom-control__icon svg path {
   fill: #969696;
