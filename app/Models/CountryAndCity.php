@@ -24,6 +24,7 @@ class CountryAndCity extends Model
     {
         return $this->hasMany(Product::class, 'city_id');
     }
+
     public function product_country()
     {
         return $this->hasMany(Product::class, 'country_id');
