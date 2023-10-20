@@ -963,8 +963,8 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    alert("Success");
                     console.log(data);
+                    alert("Success");
                     window.location.href = "{{ route('panel.landings.index') }}";
                 },
                 error: function (reject) {

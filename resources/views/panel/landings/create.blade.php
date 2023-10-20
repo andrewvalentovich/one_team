@@ -95,7 +95,7 @@
 
                             <div class="col-sm-12 col-md-6 form-group region country complex" style="display: none;">
                                 <label for="phone">{{ __('Номер телефона') }}</label>
-                                <input name="phone" type="text" class="form-control" id="phone" placeholder="{{ __('Номер телефона') }}">
+                                <input name="phone" type="text" class="form-control" value="8 800 700 55 55" id="phone" placeholder="{{ __('Номер телефона') }}">
                                 <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
                             </div>
 
@@ -731,7 +731,7 @@
                 "<div class='form-group' bis_skin_checked='1'>"+
                     "<label for='sight_cards_content"+id+"'>Текст</label>"+
                     "<div>"+
-                        "<textarea id='main_content' class='textarea' name='sight_cards["+id+"][content]'></textarea>"+
+                        "<textarea class='textarea' name='sight_cards["+id+"][content]'></textarea>"+
                     "</div>"+
                 "</div>"+
                 "<div class='form-group'>\n" +
@@ -850,8 +850,8 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    alert("Success");
                     console.log(data);
+                    alert("Success");
                     window.location.href = "{{ route('panel.landings.index') }}";
                 },
                 error: function (reject) {
