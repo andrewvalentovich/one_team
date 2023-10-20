@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\API;
+namespace App\Console\Commands\CRM;
 
 use App\Services\ImportCrmDataService;
 use Carbon\Carbon;
