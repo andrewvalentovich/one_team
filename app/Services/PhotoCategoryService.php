@@ -18,6 +18,7 @@ class PhotoCategoryService
         $category = PhotoCategory::all();
 
         return [
+            "common"            => null,
             "interior"          => $category->where('name', 'Интерьер')->values()->all()[0]['id'],
             "exterior"          => $category->where('name', 'Экстерьер')->values()->all()[0]['id'],
             "infrastructure"    => $category->where('name', 'Инфраструктура')->values()->all()[0]['id'],

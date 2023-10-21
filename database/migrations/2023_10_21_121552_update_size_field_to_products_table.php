@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('layouts', function (Blueprint $table) {
-            $table->bigInteger('id_in_crm')->nullable()->unique();
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('size')->nullable(true)->change();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('layouts', function (Blueprint $table) {
-            $table->dropColumn('id_in_crm');
+        Schema::table('products', function (Blueprint $table) {
+            $table->integer('size')->nullable(false)->change();
         });
     }
 };

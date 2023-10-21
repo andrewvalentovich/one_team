@@ -17,6 +17,8 @@ class ImportCrmDataService
     private $photoCategories;
     private $previewImageService;
     private $imageService;
+    private $ids_in_crm_for_complexes;
+    private $ids_in_crm_for_layouts;
 
     public function __construct(
         CurrencyService $currencyService,
@@ -29,18 +31,35 @@ class ImportCrmDataService
         $this->previewImageService = $previewImageService;
         $this->imageService = $imageService;
         $this->photoCategories = $photoCategoryService->getArray();
+
+        // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
+        $this->ids_in_crm_for_complexes = Product::select('id')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+            return $row->id;
+        })->toArray();
+        $this->ids_in_crm_for_layouts = Layout::select('id')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+            return $row->id;
+        })->toArray();
     }
 
-    public function getData(array $data)
+    /**
+     * Check complexes, after this check all objects (external)
+     *
+     * @param array $data
+     */
+    public function handle(array $data)
     {
-        foreach ($data as $id => $object) {
-            // Проверка на наличие комплекса в объекте
-            if (is_null($object['complex_id'])) {
-                $this->no_complex($object);
-            } else {
-                $this->with_complex($object);
-            }
-        }
+        // Если id совпал
+
+        // Если id - не совпал
+
+//        foreach ($data as $id => $object) {
+//            // Проверка на наличие комплекса в объекте
+//            if (is_null($object['complex_id'])) {
+//                $this->no_complex($object);
+//            } else {
+//                $this->with_complex($object);
+//            }
+//        }
     }
 
     private function no_complex($data)
@@ -60,36 +79,45 @@ class ImportCrmDataService
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::where('id_in_crm', $data['complex_id'])->firstOr(function () use ($complexParams, $complexPhotos) {
-//            return Product::create($complexParams);
-            // Фотографий пока нет
-//
-//            foreach ($complexPhotos as $key => $category) {
-//                foreach ($category as $index => $photo) {
-//                    $this->imageService->saveFromRemote($photo);
-//                    PhotoTable::create([
-//                        'parent_model'=> '\App\Models\Product',
-//                        'parent_id' => $complex->id,
-//                        'photo' => ,
-//                        'preview' => $this->previewImageService->update(),
-//                        'category_id' => $this->photoCategories[$key]
-//                    ]);
-//                }
-//            }
+            $complex = Product::create($complexParams);
+
+            foreach ($complexPhotos as $key => $category) {
+                foreach ($category as $index => $photo) {
+                    $filename = $this->imageService->saveFromRemote($photo);
+                    PhotoTable::create([
+                        'parent_model'=> '\App\Models\Product',
+                        'parent_id' => $complex->id,
+                        'photo' => $filename,
+                        'preview' => $this->previewImageService->update($filename),
+                        'category_id' => $this->photoCategories[$key]
+                    ]);
+                }
+            }
+
+            return $complex;
         });
 
         // Получаем фотографии планировки (квартиры)
         $layoutPhotos = $data['photos'];
-        $this->imageService->saveFromRemote("ewfwef");
+
         // Получаем параметры для создания планировки (квартиры)
-//        $layoutParams = $this->validateDataForLayout($data, $complex->id);
+        $layoutParams = $this->validateDataForLayout($data, $complex->id);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-//        $layout = Layout::where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos) {
-//            $layout = Layout::create($layoutParams);
-//            $this->createLayoutPhotos($layoutPhotos, $layout->id);
-//        });
+        $layout = Layout::where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos) {
+            $layout = Layout::create($layoutParams);
+            $this->createLayoutPhotos($layoutPhotos, $layout->id);
+
+            return $layout;
+        });
     }
 
+    /**
+     * Validate all parameters for complex and return array with it (params)
+     *
+     * @param $data
+     * @return array
+     */
     private function validateDataForComplex($data) : array
     {
         $country = CountryAndCity::select('id')->whereNull('parent_id')->where('name', $data['complex']['country_name'])->firstOr(function () {
@@ -128,7 +156,7 @@ class ImportCrmDataService
             'lat'               => $data['complex']['lat'],
             'long'              => $data['complex']['lon'],
             'citizenship'       => $citizenship,
-            'grajandtstvo'      => $citizenship,
+            'grajandstvo'       => $citizenship,
             'status'            => null,
             'disposition'       => null,
             'parking'           => $parking,
@@ -140,6 +168,13 @@ class ImportCrmDataService
         ];
     }
 
+    /**
+     * Validate all parameters for layout and return array with it
+     *
+     * @param $data
+     * @param $complex_id
+     * @return array
+     */
     private function validateDataForLayout($data, $complex_id) : array
     {
         return [
@@ -160,6 +195,12 @@ class ImportCrmDataService
         ];
     }
 
+    /**
+     * Create n-photos given $data to layout with given $layout_id
+     *
+     * @param $data
+     * @param $layout_id
+     */
     private function createLayoutPhotos($data, $layout_id) {
         foreach ($data as $key => $category) {
             // Если категория не пустая - запускаем foreach

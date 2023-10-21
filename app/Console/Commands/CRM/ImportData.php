@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\CRM;
 
+use App\Services\API\CRM\ComplexService;
 use App\Services\ImportCrmDataService;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -17,7 +18,7 @@ class ImportData extends Command
      *
      * @var string
      */
-    protected $signature = 'app:import-data';
+    protected $signature = 'crm:import-data';
 
     /**
      * The console command description.
@@ -31,7 +32,14 @@ class ImportData extends Command
      *
      * @var string
      */
-    private $endpoint;
+    private $endpoint_complexes;
+
+    /**
+     * Url for creating Http request
+     *
+     * @var string
+     */
+    private $endpoint_layouts;
 
     /**
      * Token for API access
@@ -47,12 +55,16 @@ class ImportData extends Command
      */
     private $importCrmDataService;
 
-    public function __construct(ImportCrmDataService $importCrmDataService)
+    private $complexService;
+
+    public function __construct(ImportCrmDataService $importCrmDataService, ComplexService $complexService)
     {
         parent::__construct();
-        $this->endpoint = config('app.api_crm_url_properties');
+        $this->endpoint_complexes = config('app.api_crm_url_complexes');
+        $this->endpoint_layouts = config('app.api_crm_url_properties');
         $this->token = config('app.api_crm_token');
         $this->importCrmDataService = $importCrmDataService;
+        $this->complexService = $complexService;
     }
 
     /**
@@ -60,28 +72,31 @@ class ImportData extends Command
      */
     public function handle()
     {
-        try {
-            $client = new \GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $this->token]]);
-
-            $guzzleResponse = $client->get('https://crm.one-team.pro' . $this->endpoint . '?token=' . $this->token);
-
-            // Логирование статуса ответа
-            Log::info(Carbon::now()." Get data from API " . $guzzleResponse->getStatusCode());
-
-            if($guzzleResponse->getStatusCode() == 200) {
-                $response = json_decode($guzzleResponse->getBody(),true);
-                // perform your action with $response
-                $this->importCrmDataService->getData($response);
-            }
-        }
-        catch(\GuzzleHttp\Exception\RequestException $e) {
-            // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . " Catch API request error with status code - " . $guzzleResponse->getStatusCode());
-            Log::info(Carbon::now() . $e->getMessage());
-        } catch(Exception $e) {
-            // other errors
-            Log::info(Carbon::now() . " Catch API request error with status code - " . $guzzleResponse->getStatusCode());
-            Log::info(Carbon::now() . $e->getMessage());
-        }
+        $this->complexService->handle($this->endpoint_complexes, $this->token);
+//        try {
+//            $client = new \GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $this->token]]);
+//
+//            $guzzleResponse = $client->get('https://crm.one-team.pro' . $this->endpoint . '?token=' . $this->token);
+//
+//            // Логирование статуса ответа
+//            Log::info(Carbon::now()." Get data from API " . $guzzleResponse->getStatusCode());
+//
+//            if($guzzleResponse->getStatusCode() == 200) {
+//                $response = json_decode($guzzleResponse->getBody(),true);
+//                // perform your action with $response
+//                $this->importCrmDataService->handle($response);
+//            }
+//        }
+//        catch(\GuzzleHttp\Exception\RequestException $e) {
+//            // you can catch here 40X response errors and 500 response errors
+//            Log::info(Carbon::now() . " Catch API request error with status code - " . $guzzleResponse->getStatusCode());
+//            $this->error(Carbon::now() . $e->getMessage());
+//            Log::info(Carbon::now() . $e->getMessage());
+//        } catch(Exception $e) {
+//            // other errors
+//            Log::info(Carbon::now() . " Catch API request error with status code - " . $guzzleResponse->getStatusCode());
+//            $this->error(Carbon::now() . $e->getMessage());
+//            Log::info(Carbon::now() . $e->getMessage());
+//        }
     }
 }
