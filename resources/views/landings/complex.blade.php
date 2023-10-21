@@ -83,7 +83,7 @@
     </div>
 </div>
 			<div class="preview">
-				<img class="preview__pic" src="{{ asset('lands/img/pic/sky.jpg') }}" alt="">
+				<img class="preview__pic" src="{{ asset($landing->main_photo ?? null) }}" alt="Главная картинка">
 				<div class="preview__content container">
 					<div class="preview__place">
 						<div class="preview__place-address">
