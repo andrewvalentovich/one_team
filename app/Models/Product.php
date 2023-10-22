@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     // У objects image может быть массивом или текстовым полем, аккуратно!
-    use HasFactory, Filterable;
+    use HasFactory, Filterable, SoftDeletes;
     protected $guarded = [];
 
     // Привязка продукта к опции (много продуктов к одной опции)

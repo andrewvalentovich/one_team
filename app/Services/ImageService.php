@@ -93,7 +93,7 @@ class ImageService
                 // Если расширение не webp - конвертируем в webp
                 if ($explode[1] !== "webp") {
                     $img = Image::make(public_path("uploads/" . $filenametostore))->encode('webp', 100);
-                    $img->save(public_path($new_name . ".webp"));
+                    $img->save(public_path("uploads/" . $new_name . ".webp"));
                     $filenametostore = $img->basename;
                 }
             } else {

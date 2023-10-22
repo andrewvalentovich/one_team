@@ -72,7 +72,11 @@ class ImportData extends Command
      */
     public function handle()
     {
+        $this->info('Start handle complexes');
+
         $this->complexService->handle($this->endpoint_complexes, $this->token);
+
+        $this->info('Finish handle complexes');
 //        try {
 //            $client = new \GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $this->token]]);
 //
