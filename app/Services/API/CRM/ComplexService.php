@@ -5,11 +5,9 @@ namespace App\Services\API\CRM;
 
 
 use App\Models\CountryAndCity;
-use App\Models\ExchangeRate;
-use App\Models\Layout;
-use App\Models\LayoutPhoto;
 use App\Models\PhotoTable;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Services\ImageService;
 use App\Services\PhotoCategoryService;
 use App\Services\PreviewImageService;
@@ -23,16 +21,19 @@ class ComplexService
     private $previewImageService;
     private $imageService;
     private $ids_in_crm_for_complexes;
+    private $categoriesService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
         PreviewImageService $previewImageService,
-        ImageService $imageService
+        ImageService $imageService,
+        CategoriesService $categoriesService
     )
     {
         $this->previewImageService = $previewImageService;
         $this->imageService = $imageService;
         $this->photoCategories = $photoCategoryService->getArray();
+        $this->categoriesService = $categoriesService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
         $this->ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -76,7 +77,7 @@ class ComplexService
         }
     }
 
-    private function updateOrDelete($data)
+    public function updateOrDelete($data)
     {
         $updated_at = $data['updated_at'];
 
@@ -85,10 +86,11 @@ class ComplexService
 
             // Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
 //            if (strtotime('now') - strtotime($updated_at) <= 86400) {
-            $this->update($data);
+                $this->update($data);
 //            }
         } else {
-            $complex = Product::where('id_in_crm', $data['id'])->firts()->delete();
+            $complex = Product::where('id_in_crm', $data['id'])->firts();
+            $complex->delete();
         }
     }
 
@@ -109,6 +111,13 @@ class ComplexService
             $photo->delete();
         }
 
+        // Обновление категорий
+        $categories = ProductCategory::where('product_id', $complex->id)->get();
+        foreach ($categories as $key => $category) {
+            $category->delete();
+        }
+        $this->addCategoriesForProduct($data, $complex->id);
+
         foreach ($complexPhotos as $key => $category) {
             foreach ($category as $index => $photo) {
                 $filename = $this->imageService->saveFromRemote($photo);
@@ -126,16 +135,17 @@ class ComplexService
         return $complex;
     }
 
-    private function create($data)
+    public function create($data)
     {
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
         // Получаем параметры для создания комплекса
         $complexParams = $this->validateDataForComplex($data);
-
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $complex = Product::where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos) {
+        $complex = Product::where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
+
+            $this->addCategoriesForProduct($data, $complex->id);
 
             foreach ($complexPhotos as $key => $category) {
                 foreach ($category as $index => $photo) {
@@ -153,6 +163,8 @@ class ComplexService
 
             return $complex;
         });
+
+        return $complex;
     }
 
     /**
@@ -209,10 +221,62 @@ class ComplexService
             'disposition'       => null,
             'parking'           => $parking,
             'vnj'               => $residence_permit,
+            'sale_or_rent'      => "sale",
             'complex_or_not'    => "Да",
             'video'             => null,
             'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
             'id_in_crm'         => $data['id']
         ];
+    }
+
+
+    private function getCategories($data)
+    {
+        $category_ids = [];
+
+        // Вид
+        $category_ids[$this->categoriesService->getToSea($data["to_sea"])] = 'До моря';
+
+        // Особенности
+        $peculiarities = [];
+        foreach ($data['internal_features'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['external_features'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['nearliness'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['transportation'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+
+        // id => type
+        $getPeculiarities = $this->categoriesService->getPeculiarities();
+        foreach ($peculiarities as $i => $name) {
+            if (key_exists($name, $getPeculiarities)) {
+                $category_ids[$getPeculiarities[$name]] = $name;
+            }
+        }
+
+        // Тип недвижимости
+        $type = $this->categoriesService->getTypes();
+        $category_ids[$type['apartment']] = "Типы";
+
+        return $category_ids;
+    }
+
+    private function addCategoriesForProduct($data, $complex_id)
+    {
+        foreach ($this->getCategories($data) as $id => $type) {
+            ProductCategory::create([
+                "product_id"        => $complex_id,
+                "peculiarities_id"  => $id,
+                "type"              => $type,
+                "created_at"        => date('Y-m-d H:i:s', strtotime("now")),
+                "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
+            ]);
+        }
     }
 }

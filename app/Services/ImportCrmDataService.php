@@ -17,7 +17,7 @@ class ImportCrmDataService
     private $photoCategories;
     private $previewImageService;
     private $imageService;
-    private $ids_in_crm_for_complexes;
+    private $ids_in_crm_for_products;
     private $ids_in_crm_for_layouts;
 
     public function __construct(
@@ -33,7 +33,7 @@ class ImportCrmDataService
         $this->photoCategories = $photoCategoryService->getArray();
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
-        $this->ids_in_crm_for_complexes = Product::select('id')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $this->ids_in_crm_for_products = Product::select('id')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id;
         })->toArray();
         $this->ids_in_crm_for_layouts = Layout::select('id')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -48,26 +48,37 @@ class ImportCrmDataService
      */
     public function handle(array $data)
     {
-        // Если id совпал
-
-        // Если id - не совпал
-
-//        foreach ($data as $id => $object) {
-//            // Проверка на наличие комплекса в объекте
-//            if (is_null($object['complex_id'])) {
-//                $this->no_complex($object);
-//            } else {
-//                $this->with_complex($object);
-//            }
-//        }
+        foreach ($data as $index => $object) {
+            if (is_null($object['complex_id'])) {
+                // Дом, вилла, отдельная квартира, самостоятельный объект
+                $this->handleProduct($object);
+            } else {
+                // Планировка комплекса
+                $this->handleLayout($object);
+            }
+        }
     }
 
-    private function no_complex($data)
+    public function handleProduct($object)
     {
-        // create
-        // or
-        // update
-        dump('no_complex');
+        if (in_array($object['id'], $this->ids_in_crm_for_products)) {
+            $this->updateOrDeleteProduct($object);
+        } else {
+            $this->createProduct($object);
+        }
+    }
+
+    public function handleLayout($object)
+    {
+        if (!in_array($object['complex']['id'], $this->ids_in_crm_for_products)) {
+            $this->createProduct($object);
+        }
+
+        if (in_array($object['id'], $this->ids_in_crm_for_layouts)) {
+            $this->updateOrDeleteLayout($object);
+        } else {
+            $this->createLayout($object);
+        }
     }
 
     private function with_complex($data)
