@@ -33,6 +33,19 @@ class CategoriesService
         return $tmpArray;
     }
 
+    public function getView(array $value)
+    {
+        $types = Peculiarities::query()->select('id', 'name_en')->where('type', 'Вид');
+
+        foreach($value as $view){
+            $types->orWhereRaw('LOWER(`name_en`) LIKE ? ',['%'.$view.'%']);
+        }
+
+        $types->get()->toArray();
+
+        return $types;
+    }
+
     public function getToSea($value) : int
     {
         $to_sea = Peculiarities::where('type', 'До моря')->get();
@@ -96,6 +109,35 @@ class CategoriesService
             }
         }
 
+        return $tmpCategoryId;
+    }
+
+    public function getRooms($type, $value) : int
+    {
+        $bedrooms = Peculiarities::where('type', $type)->get();
+        $tmpArr = [];
+        $tmpCategoryId = null;
+
+        foreach ($bedrooms as $item) {
+            if ($item->name_en === "Doesn't matter") {
+                continue;
+            }
+
+            $tmpArr[$item->id] = (int)$item->name;
+        }
+
+        arsort($tmpArr);
+
+        if ($tmpCategoryId === null) {
+            foreach ($tmpArr as $i => $el) {
+                if ($value >= $el) {
+                    $tmpCategoryId = $i;
+                    break;
+                }
+            }
+        }
+
+        unset($tmpArr);
         return $tmpCategoryId;
     }
 }

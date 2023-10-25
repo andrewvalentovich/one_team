@@ -3,6 +3,7 @@
 namespace App\Console\Commands\CRM;
 
 use App\Services\API\CRM\ComplexService;
+use App\Services\API\CRM\LayoutsService;
 use App\Services\API\CRM\ObjectsService;
 use App\Services\ImportCrmDataService;
 use Carbon\Carbon;
@@ -33,14 +34,14 @@ class ImportData extends Command
      *
      * @var string
      */
-    private $endpoint_complexes;
+    private $endpoint_objects;
 
     /**
      * Url for creating Http request
      *
      * @var string
      */
-    private $endpoint_objects;
+    private $endpoint_layouts;
 
     /**
      * Token for API access
@@ -56,22 +57,22 @@ class ImportData extends Command
      */
     private $importCrmDataService;
 
-    private $complexService;
-    private $objectService;
+    private $objectsService;
+    private $layoutsService;
 
     public function __construct(
         ImportCrmDataService $importCrmDataService,
-        ComplexService $complexService,
-        ObjectsService $objectService
+        ObjectsService $objectsService,
+        LayoutsService $layoutsService
     )
     {
         parent::__construct();
-        $this->endpoint_complexes = config('app.api_crm_url_complexes');
-        $this->endpoint_objects = config('app.api_crm_url_properties');
+        $this->endpoint_objects = config('app.api_crm_url_complexes');
+        $this->endpoint_layouts = config('app.api_crm_url_properties');
         $this->token = config('app.api_crm_token');
         $this->importCrmDataService = $importCrmDataService;
-        $this->complexService = $complexService;
-        $this->objectService = $objectService;
+        $this->objectsService = $objectsService;
+        $this->layoutsService = $layoutsService;
     }
 
     /**
@@ -80,11 +81,11 @@ class ImportData extends Command
     public function handle()
     {
         $this->info('Start handle complexes');
-        $this->complexService->handle($this->endpoint_complexes, $this->token);
+        $this->objectsService->handle($this->endpoint_objects, $this->token);
         $this->info('Finish handle complexes');
 
-//        $this->info('Start handle object');
-//        $this->objectService->handle($this->endpoint_objects, $this->token);
-//        $this->info('Finish handle object');
+        $this->info('Start handle object');
+        $this->layoutsService->handle($this->endpoint_layouts, $this->token);
+        $this->info('Finish handle object');
     }
 }
