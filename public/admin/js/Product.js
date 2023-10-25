@@ -144,13 +144,27 @@ function getAccordion(id, exchange_rates) {
                             "<label for='add_floor"+id+"'>Этаж</label>"+
                             "<input name='layouts["+id+"][floor]' type='text' class='form-control' id='add_floor"+id+"' placeholder='5'>"+
                         "</div>"+
-                        "<div class='form-group' bis_skin_checked='1'>"+
-                        "\n" +
-                        "                <div class='form-main__label' for='add_apartment_layout_image'>Прикрепить фотографию планировки</div>\n" +
-                        "                <label class='input-file'>\n" +
-                        "                    <span class='input-file-text form-control files_text' type='text'></span>\n" +
-                        "                    <input class='add_apartment_layout_image' type='file' name='layouts["+id+"][photos][]' accept='image/*' multiple>\n" +
-                        "                </label>"+
+                        "<div class='form-group' bis_skin_checked='1'>\n" +
+                            "<div class=\"card\">\n" +
+                                "<div class=\"card-header d-flex align-content-center\">\n" +
+                                    "<div class=\"form-main__label mr-2\" for=\"add_apartment_layout_image\">Прикрепить фотографии планировки</div>\n" +
+                                    "<p class=\"btn btn-outline-primary layout_photo_add\" data-id=\""+ id +"\">Добавить фотографию планировки</p>\n" +
+                                "</div>\n" +
+                            "<div class=\"card-body row photo_parent_block\">\n" +
+                                "<div class='form-group col-md-6 col-sm-12 photo_block' data-id=\"0\">\n" +
+                                    "<p>Фото 0</p>\n" +
+                                    "<label class=\"input-file\">\n" +
+                                        "<span class=\"input-file-text form-control files_text\" type=\"text\">\n" +
+                                            "Добавить фото\n" +
+                                        "</span>\n" +
+                                        "<input class=\"add_apartment_layout_image\" type=\"file\" value=\"\" name=\"layouts["+ id +"][photos][0][file]\" accept=\"image/*\" placeholder=\"\">\n" +
+                                        "<input class=\"add_apartment_layout_id\" type=\"hidden\" value=\"new_0\" name=\"layouts["+ id +"][photos][0][id]\">\n" +
+                                    "</label>\n" +
+                                    "<input class=\"add_apartment_layout_name form-control mb-2\" type=\"text\" value=\"\" name=\"layouts["+ id +"][photos][0][name]\" placeholder=\"Название фото\">\n" +
+                                    "<p class='d-flex btn btn-outline-danger delete_photo' onclick='deletePhoto(this);' data-identificator=\""+ id +"\">Удалить фото</p>\n" +
+                                    "</div>\n" +
+                                "</div>\n" +
+                            "</div>\n" +
                         "</div>"+
                         "<p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='"+ id +"'>Удалить квартиру</p>"+
                     "</div>"+
@@ -158,6 +172,22 @@ function getAccordion(id, exchange_rates) {
             "</div>"+
         "</div>"+
     "</div>";
+}
+
+// Get Accordion
+function getPhotoCard(layout_index, id) {
+    return "<div class='form-group col-md-6 col-sm-12 photo_block' data-id='"+id+"'>\n" +
+                "<p>Фото "+id+"</p>\n" +
+                "<label class=\"input-file\">\n" +
+                    "<span class=\"input-file-text form-control files_text\" type=\"text\">\n" +
+                        "Добавить фото\n" +
+                    "</span>\n" +
+                    "<input class=\"add_apartment_layout_image\" type=\"file\" value=\"\" name=\"layouts["+layout_index+"][photos]["+id+"][file]\" accept=\"image/*\" placeholder=\"\">\n" +
+                    "<input class=\"add_apartment_layout_id\" type=\"hidden\" value=\"new_"+id+"\" name=\"layouts["+layout_index+"][photos]["+id+"][id]\">\n" +
+                "</label>\n" +
+                "<input class=\"add_apartment_layout_name form-control mb-2\" type=\"text\" value=\"\" name=\"layouts["+layout_index+"][photos]["+id+"][name]\" placeholder=\"Название фото\">\n" +
+                "<p class='d-flex btn btn-outline-danger delete_photo' onclick='deletePhoto(this);' data-identificator='"+layout_index+"'>Удалить фото</p>\n" +
+            "</div>";
 }
 
 // function accordionOnChange(data) {
@@ -203,6 +233,34 @@ function getAccordion(id, exchange_rates) {
 $('#object_module_add').on('click', function () {
     let accordionCount = $('.accordion').length;
     $('#objects_module_field').append(getAccordion(accordionCount, exchange_rates));
+
+    $('.layout_photo_add').on('click', function () {
+        var data_id = $(this).attr('data-id');
+        var accordion = $('#accordion' + data_id);
+        var photo_parent_block = accordion.find('.photo_parent_block')
+
+        let photo_parent_block_length = photo_parent_block.children().length;
+        photo_parent_block.append(getPhotoCard(data_id, photo_parent_block_length));
+    });
+
+    $('.add_apartment_layout_image').on('change', function() {
+        let file = this.files;
+        if (file[0].size > 2000000) {
+            $(this).closest('.input-file').find('.files_text').html("Максимальный размер фотографии не должен превышать 2 Мб");
+        } else {
+            $(this).closest('.input-file').find('.files_text').html(file[0].name);
+        }
+    });
+});
+
+// objects_module
+$('.layout_photo_add').on('click', function () {
+    var data_id = $(this).attr('data-id');
+    var accordion = $('#accordion'+data_id);
+    var photo_parent_block = accordion.find('.photo_parent_block')
+
+    let photo_parent_block_length = photo_parent_block.children().length;
+    photo_parent_block.append(getPhotoCard(data_id, photo_parent_block_length));
 
     $('.add_apartment_layout_image').on('change', function() {
         let file = this.files;

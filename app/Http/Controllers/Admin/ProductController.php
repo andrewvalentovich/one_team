@@ -279,7 +279,6 @@ class ProductController extends Controller
                 $data = [];
 
                 if (gettype($key) != "string") {
-                    Log::info("PhotoCategory $key is not string");
                     $data['category_id'] = $category > 0 ? $category : null;
                     PhotoTable::whereId($key)->update($data);
                     unset($data);
@@ -375,16 +374,17 @@ class ProductController extends Controller
         unset($data['photos']);
 
         $created_layout = Layout::create($data);
-
-        if (!is_null($photos)) {
-            // Создание фото планировок
-            foreach ($photos as $key => $photo) {
-                LayoutPhoto::create([
-                    'url' => $this->imageService->saveWebp($photo, 'layout_'),
-                    'layout_id' => $created_layout->id
-                ]);
-            }
-        }
+        $this->handleLayoutPhotos($photos, $created_layout);
+//        if (!is_null($photos)) {
+//            // Создание фотографий планировок
+//            foreach ($photos as $key => $photo) {
+//                LayoutPhoto::create([
+//                    'url' => $this->imageService->saveWebp($photo['file'], 'layout_'),
+//
+//                    'layout_id' => $created_layout->id
+//                ]);
+//            }
+//        }
 
         return $created_layout;
     }
@@ -400,23 +400,76 @@ class ProductController extends Controller
             $data['complex_id'] = $product_id;
             unset($data['id']);
 
+            // Обновление планировки
             $layout->update($data);
 
-            if (!is_null($photos)) {
-                // Удаление фото планировок
-                $layout->photos()->delete();
-
-                // Создание фото планировок
-                foreach ($photos as $key => $photo) {
-                    LayoutPhoto::create([
-                        'url' => $this->imageService->saveWebp($photo, 'layout_'),
-                        'layout_id' => $layout->id
-                    ]);
-                }
-            }
+            // Обработка фотографий
+            $this->handleLayoutPhotos($photos, $layout);
+//            if (!is_null($photos)) {
+//                // Удаление фото планировок
+//                $layout->photos()->delete();
+//
+//                // Создание фото планировок
+//                foreach ($photos as $key => $photo) {
+//                    LayoutPhoto::create([
+//                        'url' => $this->imageService->saveWebp($photo, 'layout_'),
+//                        'layout_id' => $layout->id
+//                    ]);
+//                }
+//            }
 
         }
 
         return $layout;
+    }
+
+    private function handleLayoutPhotos($photos, $layout)
+    {
+        // Выбираем колонку id всех планировок, которые пришли
+        $columns = array_column($photos, 'id');
+
+        // Если фотографии находящиеся в layout не пришли - удалим их
+        foreach ($layout->photos as $photo) {
+            if (!in_array($photo->id, $columns)) {
+                $tmp = LayoutPhoto::find($photo->id);
+                $tmp->delete();
+                unset($tmp);
+
+                Log::info('Destroyed layout photo - ' . $photo->id);
+            }
+        }
+
+        // Создадим или обновим фотографии
+        foreach ($photos as $key => $photo) {
+            if (stripos($photo['id'], "new_") !== false) {
+                if (isset($photo['file'])) {
+                    Log::info($photo);
+                    Log::info(isset($photo['name']) ? $photo['name'] : null);
+                    LayoutPhoto::create([
+                        'url'       => $this->imageService->saveWebp($photo['file'], 'layout_'),
+                        'layout_id' => $layout->id,
+                        'name'      => isset($photo['name']) ? $photo['name'] : null,
+                    ]);
+                }
+            } else {
+                $layoutPhoto = LayoutPhoto::find($photo['id']);
+
+                // Обновляем только если существуют: $layoutPhoto и layout->id
+                if (!is_null($layoutPhoto) && isset($layout->id)) {
+                    $tmp = [];
+
+                    // Валидация массива
+                    if (isset($photo['file'])) {
+                        $tmp['url'] = $this->imageService->saveWebp($photo['file'], 'layout_');
+                    }
+                    $tmp['name'] = isset($photo['name']) ? $photo['name'] : null;
+                    $tmp['layout_id'] = isset($layout->id) ? $layout->id : null;
+
+                    // Обновление
+                    $layoutPhoto->update($tmp);
+                    unset($tmp);
+                }
+            }
+        }
     }
 }

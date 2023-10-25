@@ -340,6 +340,9 @@
                                     <!-- Начало аккардеона -->
                                     @if(isset($get->layouts))
                                         @foreach($get->layouts as $layout)
+                                            @php
+                                                $layout_index = $loop->index;
+                                            @endphp
                                             <div class='accordion' data-identificator='{{ $loop->index }}' id='accordion{{ $loop->index }}'>
                                                 <div class="card">
                                                     <div class="card-header" id='heading{{ $loop->index }}'>
@@ -390,27 +393,47 @@
                                                                     <input name='layouts[{{ $loop->index }}][floor]' type='text' class='form-control' value="{{ $layout->floor }}" id='add_floor{{ $loop->index }}' placeholder='5'>
                                                                 </div>
                                                                 <div class='form-group' bis_skin_checked='1'>
-                                                                    <div class="form-main__label" for="add_apartment_layout_image">Прикрепить фотографию планировки</div>
-                                                                        <label class="input-file">
+                                                                    <div class="card">
+                                                                        <div class="card-header d-flex align-content-center">
+                                                                            <div class="form-main__label mr-2" for="add_apartment_layout_image">Прикрепить фотографии планировки</div>
+                                                                            <p class="btn btn-outline-primary layout_photo_add" data-id="{{ $loop->index }}">Добавить фотографию планировки</p>
+                                                                        </div>
+                                                                        <div class="card-body row photo_parent_block">
                                                                             @if(isset($layout->photos))
-                                                                                @if(is_countable($layout->photos))
-                                                                                    <span class="input-file-text form-control files_text" type="text">
-                                                                                        @foreach($layout->photos as $photo)
-                                                                                            @if(isset($photo))
-                                                                                                {{ $loop->last ? $photo->url : $photo->url . ", " }}
-                                                                                            @endif
-                                                                                        @endforeach
-                                                                                    </span>
+                                                                                @if(count($layout->photos) > 0)
+                                                                                    @foreach($layout->photos as $key => $photo)
+                                                                                        <div class='form-group col-md-6 col-sm-12 photo_block' data-id="{{ $photo->id }}">
+                                                                                            <p>Фото {{ $loop->index }}</p>
+                                                                                            <label class="input-file">
+                                                                                                <span class="input-file-text form-control files_text" type="text">
+                                                                                                    {{ $photo->url ?? "" }}
+                                                                                                </span>
+                                                                                                <input class="add_apartment_layout_image" type="file" value="" name="layouts[{{ $layout_index }}][photos][{{ $loop->index }}][file]" accept="image/*" placeholder="">
+                                                                                                <input class="add_apartment_layout_id" type="hidden" value="{{ $photo->id }}" name="layouts[{{ $layout_index }}][photos][{{ $loop->index }}][id]">
+                                                                                            </label>
+                                                                                            <input class="add_apartment_layout_name form-control mb-2" type="text" value="{{ $photo->name ?? null }}" name="layouts[{{ $layout_index }}][photos][{{ $loop->index }}][name]" placeholder="Название фото">
+                                                                                            <p class='d-flex btn btn-outline-danger delete_photo' onclick='deletePhoto(this);' data-identificator="{{ $layout_index }}">Удалить фото</p>
+                                                                                        </div>
+                                                                                    @endforeach
                                                                                 @else
-                                                                                    <span class="input-file-text form-control files_text" type="text">{{ isset($layout->photos[0]) ? $layout->photos[0] : '' }}</span>
+                                                                                    <div class='form-group col-md-6 col-sm-12 photo_block' data-id="0">
+                                                                                        <p>Фото 0</p>
+                                                                                        <label class="input-file">
+                                                                                            <span class="input-file-text form-control files_text" type="text">
+                                                                                                Добавить фото
+                                                                                            </span>
+                                                                                            <input class="add_apartment_layout_image" type="file" value="" name="layouts[{{ $layout_index }}][photos][0][file]" accept="image/*" placeholder="">
+                                                                                            <input class="add_apartment_layout_id" type="hidden" value="new_0" name="layouts[{{ $layout_index }}][photos][0][id]">
+                                                                                        </label>
+                                                                                        <input class="add_apartment_layout_name form-control mb-2" type="text" value="" name="layouts[{{ $layout_index }}][photos][0][name]" placeholder="Название фото">
+                                                                                        <p class='d-flex btn btn-outline-danger delete_photo' onclick='deletePhoto(this);' data-identificator="{{ $layout_index }}">Удалить фото</p>
+                                                                                    </div>
                                                                                 @endif
-                                                                            @else
-                                                                                <span class="input-file-text form-control files_text" type="text"></span>
                                                                             @endif
-                                                                            <input class="add_apartment_layout_image" type="file" value="" name="layouts[{{ $loop->index }}][photos][]" accept="image/*" multiple>
-                                                                        </label>
+                                                                        </div>
                                                                     </div>
-                                                                <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $loop->index }}'>Удалить квартиру</p>
+                                                                </div>
+                                                                <p class='btn btn-outline-danger delete_accordion' onclick='deleteAccordion(this);' data-identificator='{{ $layout_index }}'>Удалить квартиру</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -626,6 +649,16 @@
             }
         }
 
+        // Delete Photo
+        function deletePhoto(el) {
+            if (confirm("Вы уверены, что хотите удалить фотографию? Если да, то нажимите ОК")) {
+                $(el).parent().remove();
+                console.log("el.dataset.identificator");
+                console.log(el.dataset.identificator);
+                check_layout_photos(el.dataset.identificator);
+            }
+        }
+
         // Check Accordions count
         function checkAccordions() {
             let accordions = document.querySelectorAll('.accordion');
@@ -647,82 +680,133 @@
                     accordions[i].dataset.identificator = i;
                     accordions[i].id = "accordion"+i;
 
-                    // accordions[i].childNodes[1].childNodes[1] нашли .card-header
-                    console.log(accordions[i].childNodes[1]);
-                    accordions[i].childNodes[1].childNodes[1].id = "heading"+i;
+                    var accordion_card = accordions[i].childNodes[1];
 
-                    // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1] нашли .btn
-                    console.log(accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].dataset.target = "#collapse"+i;
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].ariaControls = "collapse"+i; // ?
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[1].textContent  = "Объект #"+i;
+                    // accordion_card.childNodes[1] нашли .card-header
+                    console.log(accordion_card);
+                    accordion_card.childNodes[1].id = "heading"+i;
 
-                    // accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3] нашли input[type='hidden'] add_id
-                    console.log(accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "layouts["+i+"][id]";
-                    var layout_id = accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value;
+                    // accordion_card.childNodes[1].childNodes[1].childNodes[1] нашли .btn
+                    console.log(accordion_card.childNodes[1].childNodes[1].childNodes[1]);
+                    accordion_card.childNodes[1].childNodes[1].childNodes[1].dataset.target = "#collapse"+i;
+                    accordion_card.childNodes[1].childNodes[1].childNodes[1].ariaControls = "collapse"+i; // ?
+                    accordion_card.childNodes[1].childNodes[1].childNodes[1].textContent  = "Объект #"+i;
+
+                    // accordion_card.childNodes[1].childNodes[1].childNodes[3] нашли input[type='hidden'] add_id
+                    console.log(accordion_card.childNodes[1].childNodes[1].childNodes[3]);
+                    accordion_card.childNodes[1].childNodes[1].childNodes[3].name = "layouts["+i+"][id]";
+                    var layout_id = accordion_card.childNodes[1].childNodes[1].childNodes[3].value;
                     // Если больше, либо равен порядковому номеру (больше на единицу, т.к. при удалении все элементы смещаются на 1 вниз)
                     if (layout_id == i+1) {
-                        accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].value = i;
+                        accordion_card.childNodes[1].childNodes[1].childNodes[3].value = i;
                     }
-                    accordions[i].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_id"+i;
+                    accordion_card.childNodes[1].childNodes[1].childNodes[3].id = "add_id"+i;
 
-                    // accordions[i].childNodes[1].childNodes[3] нашли .collapse
-                    console.log(accordions[i].childNodes[1].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].id = "collapse"+i;
-                    accordions[i].childNodes[1].childNodes[3].ariaLabelledby = "heading"+i;
-                    accordions[i].childNodes[1].childNodes[3].dataset.parent = "#accordion"+i;
+                    // accordion_card.childNodes[3] нашли .collapse
+                    console.log(accordion_card.childNodes[3]);
+                    accordion_card.childNodes[3].id = "collapse"+i;
+                    accordion_card.childNodes[3].ariaLabelledby = "heading"+i;
+                    accordion_card.childNodes[3].dataset.parent = "#accordion"+i;
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[13].dataset.identificator = i;
+                    var common_form_group = accordion_card.childNodes[3].childNodes[1].childNodes[1];
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3] нашли add_building
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[1].for = "add_building"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].id = "add_building"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[1].childNodes[3].name = "layouts["+i+"][building]";
+                    // common_form_group.childNodes[13] нашли .delete_accordion
+                    console.log(common_form_group.childNodes[13]);
+                    common_form_group.childNodes[13].dataset.identificator = i;
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3] нашли add_price
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3].id = "add_price"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[1].childNodes[3].name = "layouts["+i+"][price]";
+                    // common_form_group.childNodes[1].childNodes[3] нашли add_building
+                    console.log(common_form_group.childNodes[1].childNodes[3]);
+                    common_form_group.childNodes[1].childNodes[1].for = "add_building"+i;
+                    common_form_group.childNodes[1].childNodes[3].id = "add_building"+i;
+                    common_form_group.childNodes[1].childNodes[3].name = "layouts["+i+"][building]";
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3] нашли add_price_code
+                    // common_form_group.childNodes[3].childNodes[3] нашли add_price
+                    console.log(common_form_group.childNodes[3].childNodes[1].childNodes[3]);
+                    common_form_group.childNodes[3].childNodes[1].childNodes[3].id = "add_price"+i;
+                    common_form_group.childNodes[3].childNodes[1].childNodes[3].name = "layouts["+i+"][price]";
+
+                    // common_form_group.childNodes[3].childNodes[3] нашли add_price_code
                     console.log("price_code");
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].id = "add_price_code"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].name = "layouts["+i+"][price_code]";
+                    console.log(common_form_group.childNodes[3].childNodes[3].childNodes[3]);
+                    common_form_group.childNodes[3].childNodes[3].childNodes[3].id = "add_price_code"+i;
+                    common_form_group.childNodes[3].childNodes[3].childNodes[3].name = "layouts["+i+"][price_code]";
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3] нашли add_size
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[1].for = "add_size"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].id = "add_size"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[5].childNodes[3].name = "layouts["+i+"][total_size]";
+                    // common_form_group.childNodes[5].childNodes[3] нашли add_size
+                    console.log(common_form_group.childNodes[5].childNodes[3]);
+                    common_form_group.childNodes[5].childNodes[1].for = "add_size"+i;
+                    common_form_group.childNodes[5].childNodes[3].id = "add_size"+i;
+                    common_form_group.childNodes[5].childNodes[3].name = "layouts["+i+"][total_size]";
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3] нашли add_apartment_layout
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[1].for = "add_apartment_layout"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].id = "add_apartment_layout"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[7].childNodes[3].name = "layouts["+i+"][number_rooms]";
+                    // common_form_group.childNodes[7].childNodes[3] нашли add_apartment_layout
+                    console.log(common_form_group.childNodes[7].childNodes[3]);
+                    common_form_group.childNodes[7].childNodes[1].for = "add_apartment_layout"+i;
+                    common_form_group.childNodes[7].childNodes[3].id = "add_apartment_layout"+i;
+                    common_form_group.childNodes[7].childNodes[3].name = "layouts["+i+"][number_rooms]";
 
-                    // accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3] нашли add_floor
-                    console.log(accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3]);
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[1].for = "add_floor"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].id = "add_floor"+i;
-                    accordions[i].childNodes[1].childNodes[3].childNodes[1].childNodes[1].childNodes[9].childNodes[3].name = "layouts["+i+"][floor]";
+                    // common_form_group.childNodes[9].childNodes[3] нашли add_floor
+                    console.log(common_form_group.childNodes[9].childNodes[3]);
+                    common_form_group.childNodes[9].childNodes[1].for = "add_floor"+i;
+                    common_form_group.childNodes[9].childNodes[3].id = "add_floor"+i;
+                    common_form_group.childNodes[9].childNodes[3].name = "layouts["+i+"][floor]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[1] нашли add_apartment_layout_image
-                    // console.log(accordions[i].childNodes[1].childNodes[3].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1]);
-                    $('#accordion'+i+' input.add_apartment_layout_image').attr('name', "layouts["+i+"][photos][]");
-                    console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[1].for = "add_apartment_layout_image"+;
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].id = "add_apartment_layout_image"+i;
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[5].childNodes[2].childNodes[2].name = "add_apartment_layout_image"+i;
+                    //  нашли add_apartment_layout_image
+                    console.log("img");
+
+                    //  нашли layout_photo_add (button)
+                    common_form_group.childNodes[11].childNodes[1].childNodes[1].childNodes[3].dataset.id = i;
+
+                    var photo_count = $('#accordion'+i+'.photo_parent_block').length;
+                    console.log(photo_count);
+                    //  нашли card-body с фотографиями
+                    var photo_card_body = common_form_group.childNodes[11].childNodes[1].childNodes[3];
+
+                    for (var n = 0; n < photo_count; n++) {
+                        // Надпись Фото N
+                        photo_card_body.childNodes[2*n + 1].childNodes[1].textContent = "Фото " + n;
+                        // label->input[file]
+                        photo_card_body.childNodes[2*n + 1].childNodes[3].childNodes[3].name = "layouts["+i+"][photos]["+n+"][file]";
+                        // label->input[id]
+                        photo_card_body.childNodes[2*n + 1].childNodes[3].childNodes[5].name = "layouts["+i+"][photos]["+n+"][id]";
+                        // label->input[id]
+                        photo_card_body.childNodes[2*n + 1].childNodes[5].name = "layouts["+i+"][photos]["+n+"][name]";
+                    }
+
+                    // console.log($('#accordion'+i+' input.add_apartment_layout_image').attr('name'));
+                    // $('#accordion'+i+' input.add_apartment_layout_image').attr('name', "layouts["+i+"][photos][]");
                 }
             }
 
             console.log("==== checkAccordions end ====");
+        }
+
+        function check_layout_photos(accordion_index) {
+            let accordions = document.querySelectorAll('.accordion');
+            var accordion_card = accordions[accordion_index].children[0];
+            var common_form_group = accordion_card.children[1].children[0].children[0];
+            console.log(common_form_group);
+
+            //  нашли card-body с фотографиями
+            var photo_card_body = common_form_group.children[5].children[0].children[1];
+            console.log(photo_card_body);
+            var photo_children = photo_card_body.children;
+            console.log(photo_card_body.children);
+
+            for (var n = 0; n < photo_children.length; n++) {
+                // Надпись Фото N
+                photo_children[n].children[0].textContent = "Фото " + n;
+                // label->input[file]
+                photo_children[n].children[1].children[1].name = "layouts["+accordion_index+"][photos]["+n+"][file]";
+                // label->input[id]
+                photo_children[n].children[1].children[2].name = "layouts["+accordion_index+"][photos]["+n+"][id]";
+
+                var photo_id = photo_children[n].children[1].children[2].value;
+                if(photo_id.indexOf("new") !== -1) {
+                    photo_children[n].children[1].children[2].value = "new_"+n;
+                }
+
+                // label->input[id]
+                photo_children[n].children[2].name = "layouts["+accordion_index+"][photos]["+n+"][name]";
+            }
         }
     </script>
 @endsection

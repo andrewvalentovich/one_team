@@ -273,7 +273,7 @@
 
                         <div class="form-group col-md-6" bis_skin_checked="1" id="objects_module" style="display: none;">
                             <div class="card">
-                                <div class="card-header" id="objects_module_field">d
+                                <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
 {{--                                    <div id="accordion1">--}}
 {{--                                        <div class="card">--}}
