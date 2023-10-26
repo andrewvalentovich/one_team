@@ -32,7 +32,8 @@ class PolicyAndPrivice extends Controller
             $get->police_content = $get->police_content_tr;
         }
 
-        return view('project.pages.police', compact('get'));
+        $title = "Пользовательское соглашение при использовании сайта";
+        return view('project.pages.police', compact('get', 'title'));
     }
 
 
@@ -59,6 +60,7 @@ class PolicyAndPrivice extends Controller
         if (app()->getLocale() == 'tr'){
             $get->privice_content = $get->privice_content_tr;
         }
-        return view('project.pages.privice', compact('get'));
+        $title = "Политика обработки персональных данных";
+        return view('project.pages.privice', compact('get', 'title'));
     }
 }
