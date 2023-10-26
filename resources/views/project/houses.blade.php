@@ -1986,6 +1986,14 @@ function P(e) {
                         const slide = document.createElement('div')
                         const slidePic = document.createElement('img')
 
+                        if(photo.name) {
+                            const floor = document.createElement('div')
+                            floor.classList.add('object__swiper-slide-floor')
+                            floor.innerHTML = photo.name
+                            slide.appendChild(floor)
+                        }
+
+
                         slide.classList.add('swiper-slide')
                         slide.classList.add('object__swiper-slide')
                         slide.appendChild(slidePic)
@@ -2378,7 +2386,6 @@ function P(e) {
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
             var is_secondary = p[t].getAttribute('data_id');
-            // e(p), p[t].classList.add("active");
             if (is_secondary === "") {
                 var url = new URL(window.location.href);
                 url.searchParams.delete('is_secondary');

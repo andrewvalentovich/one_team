@@ -2787,16 +2787,14 @@
         openPlacePopupBtn.forEach(blockBtn => {
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
-                url.searchParams.set('object_id', this.getAttribute('data_id'));
-                // Получение обновленного URL
                 var url = new URL(window.location.href);
-
-                // Добавление нового параметра
-                url.searchParams.set('object_id', object.id);
+                url.searchParams.set('object_id', this.getAttribute('data_id'));
+                // Получение текущего URL
 
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
-
+                console.log(this.getAttribute('data_id'))
+                console.log(url.searchParams)
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
                 if(window.innerWidth < 1023)

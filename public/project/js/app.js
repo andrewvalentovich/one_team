@@ -1080,6 +1080,13 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
                     const slide = document.createElement('div')
                     const slidePic = document.createElement('img')
 
+                    if(photo.name) {
+                        const floor = document.createElement('div')
+                        floor.classList.add('object__swiper-slide-floor')
+                        floor.innerHTML = photo.name
+                        slide.appendChild(floor)
+                    }
+                    
                     slide.classList.add('swiper-slide')
                     slide.classList.add('object__swiper-slide')
                     slide.appendChild(slidePic)

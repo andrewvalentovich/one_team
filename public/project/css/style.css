@@ -8241,3 +8241,14 @@ body.scroll_fixed {
     margin-bottom: 17px;
   }
 }
+
+.object__swiper-slide-floor {
+  position: absolute;
+  left: 50%;
+  top: 30px;
+  transform: translate(-50%,0);
+  background: transparent;
+  padding: 6px 15px;
+  border-radius: 15px;
+  z-index: 203;
+}
