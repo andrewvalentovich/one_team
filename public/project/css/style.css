@@ -7511,6 +7511,7 @@ body.scroll_fixed {
   max-width: 100% !important;
   padding: 29px 55px;
   display: flex;
+  height: auto;
 }
 .object__swiper-nav {
   position: absolute;
@@ -8245,9 +8246,9 @@ body.scroll_fixed {
 .object__swiper-slide-floor {
   position: absolute;
   left: 50%;
-  top: 30px;
+  top: 3px;
   transform: translate(-50%,0);
-  background: transparent;
+  background: #faeeee;
   padding: 6px 15px;
   border-radius: 15px;
   z-index: 203;
