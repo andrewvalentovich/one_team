@@ -1611,40 +1611,53 @@ function P(e) {
 
     let placeMap = null;
     async function getObjectById(id) {
-        // Получение текущего URL
-        var url = new URL(window.location.href);
+    // Получение текущего URL
+    var url = new URL(window.location.href);
 
-        // Извлечение параметров из URL, если они существуют
-        var minPrice = url.searchParams.get('price[min_price]');
-        var maxPrice = url.searchParams.get('price[max_price]');
-        var code = url.searchParams.get('price[code]');
+    // Извлечение параметров из URL
+    var cityId = url.searchParams.get('city_id');
+    var minPrice = url.searchParams.get('price[min_price]');
+    var maxPrice = url.searchParams.get('price[max_price]');
+    var code = url.searchParams.get('price[code]');
+    var objectId = url.searchParams.get('object_id');
 
-        // Создание объекта с параметрами для отправки в запрос
-        var requestData = {
-            id: id,
-        };
+    // Создание объекта с параметрами для отправки в запрос
+    var requestData = {
+        id: id,
+    };
 
-        // Добавление параметров из URL, если они существуют
-        if (minPrice !== null) {
-            requestData.min_price = minPrice;
-        }
-        if (maxPrice !== null) {
-            requestData.max_price = maxPrice;
-        }
-        if (code !== null) {
-            requestData.code = code;
-        }
-
-        // Выполнение AJAX-запроса с параметрами
-        $.ajax({
-            url: '/api/houses/simple',
-            data: requestData,
-            method: 'get',
-            success: function (data) {
-                setNewPopupHouseData(data);
-            }
-        });
+    // Добавление параметров из URL, если они существуют и не являются пустыми
+    if (cityId !== null) {
+        requestData.city_id = cityId;
     }
+    if (minPrice !== null && minPrice !== '') {
+        requestData.price = requestData.price || {};
+        requestData.price.min_price = minPrice;
+    }
+    if (maxPrice !== null && maxPrice !== '') {
+        requestData.price = requestData.price || {};
+        requestData.price.max_price = maxPrice;
+    }
+    if (code !== null && code !== '') {
+        requestData.price = requestData.price || {};
+        requestData.price.code = code;
+    }
+    if (objectId !== null) {
+        requestData.object_id = objectId;
+    }
+
+    // Выполнение AJAX-запроса с параметрами
+    $.ajax({
+        url: '/api/houses/simple',
+        data: requestData,
+        method: 'get',
+        success: function (data) {
+            setNewPopupHouseData(data);
+        }
+    });
+}
+
+
 
     const objectIdFromUrl = searchParams.get('object_id');
     if(objectIdFromUrl) {
