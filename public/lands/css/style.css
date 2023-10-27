@@ -5260,31 +5260,46 @@ input[type='number'] {
 }
 
 .popup-house .popup__content{
-  max-width: 723px;
+  max-width: 1023px;
   background: #fff;
   display: flex;
   column-gap: 50px;
   row-gap: 10px;
-  justify-content: center;
   padding: 30px 15px;
 }
 
 
 .popup__house-price {
-  color: #000;
-  font-size: 20px;
-  margin-bottom: 4px;
+  color: #002850;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.popup__house-month {
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 24px;
+  border-radius: 5px;
+  background-color: #fa0064;
+  text-align: center;
+  width: fit-content;
+  padding: 0 7px;
+  margin-bottom: 20px;
 }
 
 .popup__house-lead {
-  color: #000;
-  margin-bottom: 30px;
+  color: #002850;
+  line-height: 24px;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .popup-house .preview__form {
   border-radius: 0px;
-  padding: 0px;
-  flex: 0 0 250px;
+  padding: 35px 25px;
+  flex: 1 0 250px;
 }
 .popup__house-info {
   display: flex;
@@ -5296,7 +5311,7 @@ input[type='number'] {
   }
   .popup-house .preview__form {
     margin: 0 auto;
-    flex: 0 0 340px;
+    flex: 1 0 340px;
   }
 
   .popup__house-pic  {
@@ -5305,7 +5320,7 @@ input[type='number'] {
 
   .popup__house-info {
     margin: 0 auto;
-    flex: 0 0 340px;
+    width: 100%;
   }
 }
 @media (max-width: 405px) {
@@ -5714,3 +5729,16 @@ input:placeholder {
     padding: 4px 15px;
   }
 }
+
+.popup-house .popup__content {
+  padding: 0px;
+}
+
+.popup-house .preview__form {
+  background: #f5f2f2;
+}
+
+.popup-house .popup__house-info{
+  padding: 30px 0 30px 0px;
+}
+

@@ -392,9 +392,20 @@ function createHouseInfoPopup(house) {
   const srsForPhotos = pic.getAttribute('data-photos')
   const popupPrice = popup.querySelector('.popup__house-price')
   const popupLead = popup.querySelector('.popup__house-lead')
+  const month = popup.querySelector('.popup__house-month')
 
+
+  const priceWithoutEuro = parseFloat(price.replace('€', ''));
+  const priceMonth = priceWithoutEuro / 48;
+  
+  const formattedPrice = addThousandSeparators(priceMonth.toFixed(2));
+  
+  
+
+  
   popupPrice.innerHTML = price
   popupLead.innerHTML = lead
+  month.innerHTML = `${formattedPrice}  € / мес`
 
   const photoArray = JSON.parse(srsForPhotos);
   console.log(photoArray)
@@ -434,12 +445,10 @@ function createHouseInfoPopup(house) {
   objectSwiper.slideTo(0)
 }
 
-// //галерея
-// $(document).ready(function() {
-//   $('[data-fancybox]').fancybox({
-//     // Настройки Fancybox, если необходимо
-//   });
-// });
+function addThousandSeparators(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
 
 
 //анимация инпутов

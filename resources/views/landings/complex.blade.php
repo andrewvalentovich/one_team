@@ -524,6 +524,9 @@
                 <div class="popup__house-lead">
 
                 </div>
+                <div class="popup__house-month">
+
+                </div>
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
