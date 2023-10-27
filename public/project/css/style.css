@@ -7719,7 +7719,7 @@ body.scroll_fixed {
 }
 
 .about__preview-text {
-  text-align: center;
+  text-align: justify;
   max-width: 1000px;
   margin: 0 auto 40px;
   color: #000;
@@ -7788,6 +7788,7 @@ body.scroll_fixed {
   background: #F6F8FC;
   padding: 20px 25px;
   max-width: 392px;
+  text-align: justify;
 }
 
 .about__text img {
@@ -8056,6 +8057,19 @@ body.scroll_fixed {
   flex-direction: column;
 }
 
+.advantages__item:first-child p{
+  text-align: start;
+}
+
+.advantages__item:nth-child(3) p{
+  text-align: justify;
+}
+
+.advantages__item:nth-child(4) p{
+  text-align: justify;
+}
+
+
 .advantages__item b {
   color: #000;
   font-family: Montserrat;
@@ -8277,3 +8291,8 @@ body.scroll_fixed {
   }
 
 }
+
+.about__text-desc {
+  text-align: justify;
+}
+
