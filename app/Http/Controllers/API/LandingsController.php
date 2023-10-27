@@ -8,16 +8,19 @@ use App\Http\Filters\LandingFilter;
 use App\Http\Requests\Landing\FilterRequest;
 use App\Models\Product;
 use App\Models\Peculiarities;
+use App\Services\LayoutService;
 
 class LandingsController extends Controller
 {
     private $exchanges = [];
     private $peculiarities = [];
+    private $layoutService = [];
 
-    public function __construct()
+    public function __construct(LayoutService $layoutService)
     {
         // Получаем массив с кодом валюты и коэффициентом
         $this->peculiarities = Peculiarities::all();
+        $this->layoutService = $layoutService;
     }
 
     public function getWithFilter(FilterRequest $request)
@@ -29,23 +32,24 @@ class LandingsController extends Controller
             ->with('photo')
             ->with('option')
             ->with('peculiarities')
+            ->with('layouts')
             ->orderBy('created_at', 'desc')
             ->get()
             ->transform(function ($row) {
-                if (!empty(json_decode($row->objects))) {
-                    // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)
-                    $layouts = array_unique(array_column(json_decode($row->objects), 'apartment_layout'), SORT_STRING);
-
-                    // Вывод планировок (1+2, 2+2 и пр.)
-                    $layouts_result = "";
-                    foreach ($layouts as $key => $layout) {
-                        $layouts_result .= (count($layouts)-1 == $key) ? $layout : $layout . ", ";
-                    }
+                if (isset($row->layouts)) {
+                    // Получаем уникальные планировки
+                    $layouts_result = $this->layoutService->getUniqueNumberRooms($row->layouts);
 
                     // Выборка из полей: size
-                    $size = array_column(json_decode($row->objects), 'size');
-                    $min_size = min($size);
-                    $max_size = max($size);
+                    $size = [];
+                    $price = [];
+                    foreach ($row->layouts as $key => $layout) {
+                        $size[] = $layout->total_size;
+                        $price[] = $layout->price;
+                    }
+
+                    $min_size = count($size) >= 1 ? min($size) : 0;
+                    $max_size = count($size) >= 1 ? max($size) : 0;
                     $size_result = ($min_size == $max_size) ? $max_size : $min_size."-".$max_size;
 
                     // Возврат значений
@@ -53,11 +57,11 @@ class LandingsController extends Controller
                         "id" => $row->id,
                         "name" => $row->name,
                         "address" => $row->address,
-                        "price" => min(array_column(json_decode($row->objects), 'price'))." €",
+                        "price" => count($price) >= 1 ? number_format(max($price), 0, '.', ' ') . " €" : 0 . " €",
                         "layouts" => $layouts_result,
                         "size" => $size_result." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
-                        "photo" => $row->photo ?? null,
+                        "photo" => isset($row->photo) ? $row->photo : null,
                         "option" => $row->option->name ?? null,
                     ];
                 } else {
@@ -65,11 +69,11 @@ class LandingsController extends Controller
                         "id" => $row->id,
                         "name" => $row->name,
                         "address" => $row->address,
-                        "price" => $row->price." €",
+                        "price" => number_format($row->price, 0, '.', ' ') . " €",
                         "layouts" => (int) $row->peculiarities->where('type', 'Спальни')->pluck('name')->all() . "+" . (int) $row->peculiarities->where('type', 'Гостиные')->pluck('name')->all(),
                         "size" => $row->size." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,
-                        "photo" => $row->photo ?? null,
+                        "photo" => isset($row->photo) ? $row->photo : null,
                         "option" => $row->option->name ?? null,
                     ];
                 }
