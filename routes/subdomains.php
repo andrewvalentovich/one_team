@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function ($subdomain) {
     if ($subdomain === "www") {
-        $url = (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443 ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+        $url = $protocol . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        unset($protocol);
         return redirect(str_replace('www.', '', $url));
     } else {
         $currentLanding = Landing::where('subdomain', $subdomain)->get();
