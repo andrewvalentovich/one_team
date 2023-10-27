@@ -398,7 +398,7 @@ function createHouseInfoPopup(house) {
   const priceWithoutEuro = parseFloat(price.replace('€', ''));
   const priceMonth = priceWithoutEuro / 48;
   
-  const formattedPrice = addThousandSeparators(priceMonth.toFixed(2));
+  const formattedPrice = addThousandSeparators(priceMonth.toFixed(0));
   
   
 
