@@ -7827,6 +7827,7 @@ body.scroll_fixed {
   
   .about__preview-text {
     margin: 0 auto 20px;
+    text-align: justify;
   }
 
   .about__preview-pic {
