@@ -208,7 +208,7 @@
                                         </div>
                                         <div class="layouts__slide-text">
                                             <div class="layouts__slide-price">
-                                                {{ $layout->price ?? null }} €
+                                                {{ number_format($layout->price, 0, '', ' ') ?? null }} €
                                             </div>
                                             <div class="layouts__slide-info">
                                                 <div class="layouts__slide-lead">
