@@ -2015,6 +2015,7 @@ function P(e) {
                     objectSwiper.update()
                     objectSwiper.updateSlides()
                     objectSwiper.slideTo(0)
+                    objectSwiper.updateProgress()
                     const text = document.querySelector(".object__photo-info")
                     const infoForTextBlock = containerItem.querySelector(".kompleks__layout-info")
                     text.innerHTML = infoForTextBlock.innerHTML

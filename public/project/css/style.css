@@ -8254,3 +8254,26 @@ body.scroll_fixed {
   border-radius: 15px;
   z-index: 203;
 }
+
+.police {
+  padding-top: 70px;
+  padding-bottom: 50px
+}
+
+@media (max-width: 1023px) {
+
+  .police {
+    padding-top: 50px;
+    padding-bottom: 40px;
+  }
+
+}
+
+@media (max-width: 539px) {
+
+  .police {
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+
+}

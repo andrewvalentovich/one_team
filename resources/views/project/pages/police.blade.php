@@ -15,7 +15,9 @@
 </style>
 
 @section('content')
-    <?php echo json_decode($get->police_content )  ?>
+    <div class="maxContainer police">
+        <?php echo json_decode($get->police_content )  ?>
+    </div>
 
 @endsection
 
