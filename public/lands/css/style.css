@@ -4363,7 +4363,7 @@ ul.list_point li {
   position: relative;
   background: #fff;
   border-radius: 8px;
-  padding: 35px 15px 20px;
+  padding: 35px 15px;
   width: 95%;
   max-width: 450px;
   z-index: 105;
@@ -5620,5 +5620,14 @@ input[type='number'] {
 }
 
 .gallery__text {
+  color: #000;
+}
+
+
+.popup-thanks__body {
+  color: #000;
+}
+
+input:placeholder {
   color: #000;
 }

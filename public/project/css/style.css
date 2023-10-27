@@ -7452,7 +7452,7 @@ body.scroll_fixed {
 
 .object__photo-text {
   flex: 0 0 400px;
-  background: #fff;
+  background: #f5f2f2;
   padding: 20px 30px 30px;
 }
 .object__photo-text-header {
@@ -7497,7 +7497,6 @@ body.scroll_fixed {
 }
 .object__swiper {
   background: #fff;
-  border-right: 1px solid #969696;
   width: 100%;
 }
 @media (max-width: 767px) {

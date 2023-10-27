@@ -108,14 +108,14 @@
 							<span class="text">
 							Имя
 							</span>
-							<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+							<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 						</label>
                         <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input name="phone" type="number" value="" placeholder="+7" >
+							<input name="phone" type="number" value="" required="true">
 						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
@@ -207,7 +207,9 @@
                                     <div class="layouts__slide swiper-slide" btn-popup="popup-house">
                                         <div class="layouts__slide-pic">
                                             @if(isset($layout->photos))
-                                                <img src="{{ asset($layout->photos[0]->url ?? null) }}" alt="схема">
+                                                @foreach($layout->photos as $photo)
+                                                    <img src="{{ asset($photo->url) }}" alt="схема">
+                                                @endforeach
                                             @endif
                                         </div>
                                         <div class="layouts__slide-text">
@@ -419,16 +421,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input name="phone" type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" required="true">
 				</label>
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -466,16 +468,16 @@
 						<span class="text">
 						Имя
 						</span>
-						<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+						<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 					</label>
                     <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input name="phone" type="number" value="" placeholder="+7" >
+						<input name="phone" type="number" value="" required="true">
 					</label>
-                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>
@@ -524,16 +526,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input name="phone" type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" required="true">
 				</label>
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>

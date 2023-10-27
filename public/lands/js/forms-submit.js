@@ -1,4 +1,5 @@
 $('.request__form').on('submit', function (e) {
+    const form = this
     e.preventDefault();
 
     var landings_lead_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/requests/lead` : `https://dev.${window.domain}/api/requests/lead`;
@@ -7,6 +8,13 @@ $('.request__form').on('submit', function (e) {
 
     for (const [key, value] of formData.entries()) {
         console.log(key, value);
+    }
+
+    const phoneInput = this.querySelector('input[name="phone"]');
+
+
+    if(phoneInput.value.length <= 5) {
+        return
     }
 
     $.ajax({
@@ -18,8 +26,14 @@ $('.request__form').on('submit', function (e) {
         success: function (data) {
             $("input[name='name']").val("");
             $("input[name='phone']").val("");
-            alert("Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время!");
-            location.reload();
+            $('.popup-thanks').addClass('active')
+            const popup = form.closest('.popup')
+            if(popup) {
+                popup.classList.remove('active')
+                bodyScrollLock.enableBodyScroll(popup);
+            }
+            bodyScrollLock.disableBodyScroll($('.popup-thanks'));
+
         },
         error: function (reject) {
             if( reject.status == 422 ) {
@@ -28,8 +42,13 @@ $('.request__form').on('submit', function (e) {
                 $.each(errors.errors, function (key, val) {
                     $("#" + key + "_error").text(val[0]);
                 });
-
-                alert("К сожалению, при отправке заявки возникла ошибка! Вы можете связаться с нами по номеру телефона!");
+                $('.popup-error').addClass('active')
+                const popup = form.closest('.popup')
+                if(popup) {
+                    popup.classList.remove('active')
+                    bodyScrollLock.enableBodyScroll(popup);
+                }
+                bodyScrollLock.disableBodyScroll($('.popup-thanks'));
             }
         }
     });

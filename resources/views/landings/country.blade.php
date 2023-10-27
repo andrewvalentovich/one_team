@@ -94,13 +94,13 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+							<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" name="phone" value="" placeholder="+7" >
+							<input type="number" name="phone" value="" required="true">
 						</label>
                         <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
@@ -331,16 +331,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" name="phone" value="" placeholder="+7" >
+					<input type="number" name="phone" value="" required="true">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow">
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -378,16 +378,16 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+						<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" name="phone" value="" placeholder="+7" >
+						<input type="number" name="phone" value="" required="true" >
 					</label>
                     <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>

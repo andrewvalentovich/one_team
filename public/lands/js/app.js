@@ -428,8 +428,7 @@ inputWrappers.forEach(function(wrapper) {
     input.addEventListener('blur', function() {
         if(input.value) {
             if(input.getAttribute('name') === 'phone') {
-                const lengthPhone = input.getAttribute('data-phone-pattern').length
-                if(lengthPhone !== input.value.length) {
+                if(input.value.length <= 5) {
                     wrapper.classList.remove('confirm');
                     return
                 }
@@ -629,4 +628,10 @@ function changeContentGallerySwiper(id) {
     galleryText.style.display = 'none'
     gallery.style.overflow = 'hidden'
   }
+}
+
+
+function validate(inputElement) {
+  console.log(inputElement);
+  inputElement.value = inputElement.value.replace(/[0-9]+/g, '');
 }
