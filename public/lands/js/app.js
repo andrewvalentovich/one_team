@@ -381,7 +381,7 @@ const objectSwiper = new Swiper('.object__swiper', {
   }
 })
 function createHouseInfoPopup(house) {
-  const price = house.querySelector('.layouts__slide-price').innerHTML
+  const price = house.querySelector('.layouts__slide-price').getAttribute('data-price')
   const lead = house.querySelector('.layouts__slide-lead').innerHTML
   const pic = house.querySelector('.layouts__slide-pic')
 
