@@ -183,11 +183,7 @@
 				<div class="title">
 					Территория
 				</div>
-                @if(isset($landing->territory))
-				    <img src="{{ asset($landing->territory) }}" alt="территория">
-                @else
-				    <img src="{{ asset('lands/img/pic/territoriya.png') }}" alt="территория">
-                @endif
+				<img src="{{ asset($landing->territory ?? null) }}" alt="инфраструктура">
 			</div>
 			<div class="layouts container" id="layouts">
 				<div class="title">
@@ -205,16 +201,14 @@
                             @if(isset($filter->layouts))
                                 @foreach($filter->layouts as $layout)
                                     <div class="layouts__slide swiper-slide" btn-popup="popup-house">
-                                        <div class="layouts__slide-pic">
-                                            @if(isset($layout->photos))
-                                                @foreach($layout->photos as $photo)
-                                                    <img src="{{ asset($photo->url) }}" alt="схема">
-                                                @endforeach
+                                        <div class="layouts__slide-pic" data-photos="{{ json_encode($layout->photos) }}">
+                                            @if($layout->photos->isNotEmpty())
+                                                <img src="{{ asset($layout->photos[0]->url) }}" alt="схема">
                                             @endif
                                         </div>
                                         <div class="layouts__slide-text">
                                             <div class="layouts__slide-price">
-                                                {{ number_format($layout->price, 0, '.', ' ') ?? null }} €
+                                                {{ $layout->price ?? null }} €
                                             </div>
                                             <div class="layouts__slide-info">
                                                 <div class="layouts__slide-lead">
@@ -508,17 +502,28 @@
     <div class="popup__body">
         <div class="popup__content">
 			<div class="popup__house-info">
-				<div class="popup__house-pic">
-					<img src="">
-				</div>
-				<div class="popup__house-price">
+                <div class="object__swiper swiper">
+                    <div class="object__swiper-wrapper swiper-wrapper">
+                        <div class="object__swiper-slide swiper-slide">
 
-				</div>
-				<div class="popup__house-lead">
-
-				</div>
+                        </div>
+                    </div>
+                    <div class="object__swiper-pagination swiper-pagination"></div>
+                    <div class="object__swiper-prev object__swiper-nav">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                    <div class="object__swiper-next object__swiper-nav">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                </div>
 			</div>
             <div class="preview__form">
+                <div class="popup__house-price">
+
+                </div>
+                <div class="popup__house-lead">
+
+                </div>
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
