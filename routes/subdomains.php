@@ -13,8 +13,9 @@ Route::get('/', function ($subdomain) {
 
         if (!$currentLanding->isEmpty()) {
             $landing = $currentLanding[0];
+            $path = $landing->template->path;
 
-            if ($landing->template->path === "complex") {
+            if ($path === "complex") {
                 $filter = \App\Models\Product::with('photo.category')->find($landing['relation_id']);
 
                 abort_if(!isset($filter), 404);
@@ -24,25 +25,29 @@ Route::get('/', function ($subdomain) {
                         ->where('products.id', $filter->id)
                         ->join('photo_tables', 'photo_tables.parent_id', '=', 'products.id')
                         ->join('photo_categories', 'photo_categories.id', '=', 'photo_tables.category_id')
+                        ->groupBy('id')
+                        ->orderBy('id')
                         ->get();
 
-                return view("landings/complex", compact('landing', 'filter', 'categories'));
+                return view("landings/$path", compact('landing', 'filter', 'categories'));
             }
 
-            if ($landing->template->path === "region") {
+            if ($path === "region") {
                 $filter = \App\Models\CountryAndCity::find($landing['relation_id']);
                 abort_if(!isset($filter), 404);
                 $types = \App\Models\Peculiarities::where('type', 'Типы')->has('product')->get();
-                return view("landings/region", compact('landing', 'filter', 'types'));
+                return view("landings/$path", compact('landing', 'filter', 'types'));
             }
 
-            if ($landing->template->path === "country") {
+            if ($path === "country") {
                 $filter = \App\Models\CountryAndCity::find($landing['relation_id']);
                 abort_if(!isset($filter), 404);
                 $cities = \App\Models\CountryAndCity::whereNotNull('parent_id')->has('product_city')->get();
                 $types = \App\Models\Peculiarities::where('type', 'Типы')->has('product')->get();
-                return view("landings/country", compact('landing', 'filter', 'types', 'cities'));
+                return view("landings/$path", compact('landing', 'filter', 'types', 'cities'));
             }
+
+            unset($path);
         }
 
         abort_if(!isset($landing), 404);

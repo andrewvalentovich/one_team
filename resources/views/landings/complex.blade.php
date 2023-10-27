@@ -183,7 +183,11 @@
 				<div class="title">
 					Территория
 				</div>
-				<img src="{{ asset($landing->territory ?? null) }}" alt="инфраструктура">
+                @if(isset($landing->territory))
+				    <img src="{{ asset($landing->territory) }}" alt="территория">
+                @else
+				    <img src="{{ asset('lands/img/pic/territoriya.png') }}" alt="территория">
+                @endif
 			</div>
 			<div class="layouts container" id="layouts">
 				<div class="title">

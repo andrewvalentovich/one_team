@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Template;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class LandingController extends Controller
@@ -139,6 +140,7 @@ class LandingController extends Controller
     public function update(UpdateRequest $request, Landing $landing)
     {
         $data = $request->validated();
+        Log::info($data);
         $domain = explode("//", config('app.url'));
         $domain[0] = $domain[0]."//{$data['subdomain']}.";
         $data['domain'] = implode($domain);
