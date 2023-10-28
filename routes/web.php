@@ -71,7 +71,9 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
     });
 
     Route::middleware(['panel.auth'])->group(function () {
-        Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
+        Route::get('/', function () {
+            return redirect()->route('panel.landings.index');
+        })->name('panel.index');
 
         Route::group(['as' => 'panel.'], function () {
             Route::resource('templates', \App\Http\Controllers\Panel\TemplateController::class); // CRUD model Template

@@ -111,7 +111,7 @@ class RequestsController extends Controller
         return $result;
     }
 
-    // Получаем заявки
+    // Сохраняем заявки
     public function lead(Request $request)
     {
         // Валидация

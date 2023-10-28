@@ -29,7 +29,7 @@ class PanelLoginController extends Controller
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->route('panel.index')
+            return redirect()->route('panel.landings.index')
                 ->withSuccess('Signed in');
         }
 
@@ -38,7 +38,7 @@ class PanelLoginController extends Controller
 
     public function index()
     {
-        return view('panel.index');
+        return redirect()->route('panel.landings.index');
     }
 
     public function logoutAdmin()
