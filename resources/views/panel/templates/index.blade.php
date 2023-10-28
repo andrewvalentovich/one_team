@@ -46,7 +46,7 @@
                                     <tbody>
                                     <tr>
                                         <td></td>
-                                        <td>Общий токен (заявки со всех лендингов)</td>
+                                        <td>Общий</td>
                                         <td>{{ route('api.requests.export', config('app.templates_token')) }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                         </td>
