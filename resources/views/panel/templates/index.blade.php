@@ -47,7 +47,7 @@
                                     <tr>
                                         <td></td>
                                         <td>Общий токен (заявки со всех лендингов)</td>
-                                        <td>{{ $_SERVER['APP_URL'] . "api/requests/export?token=" . config('app.templates_token') }}</td>
+                                        <td>{{ route('api.requests.export', config('app.templates_token')) }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                         </td>
                                     </tr>
@@ -57,7 +57,7 @@
                                     <tr>
                                         <td>{{ $template->id }}</td>
                                         <td>{{ $template->name }}</td>
-                                        <td>{{ $_SERVER['APP_URL'] . "api/requests/export?token={$template->token}" }}</td>
+                                        <td>{{ route('api.requests.export', $template->token) }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{ route('panel.templates.edit', $template->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Редактировать') }}</a>
                                         </td>
