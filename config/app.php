@@ -125,7 +125,7 @@ return [
 
     'key' => env('APP_KEY','dywegye0a4nevledtew9amxoe8u9oyft'),
     'token' => env('APP_TOKEN','4b66-afa1-dd72a4c43515'),
-    'flats_token' => env('APP_FLATS_TOKEN','4487-8209-2f3ecd682e7c'),
+    'templates_token' => env('APP_TEMPLATES','4487-8209-2f3ecd682e7c'),
 
     'cipher' => 'AES-256-CBC',
 

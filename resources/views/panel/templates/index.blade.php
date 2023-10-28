@@ -1,6 +1,6 @@
 @extends('panel.layouts.default')
 @section('title')
-    {{ __('Шаблоны лендингов') }}
+    {{ __('Токены') }}
 @endsection
 
 @section('content')
@@ -30,29 +30,34 @@
                             </div>
                         @endif
                         <div style="display: flex; justify-content: space-between">
-
-                            <h4 class="card-title">{{ __('Шаблоны лендингов') }}</h4>
+                            <h4 class="card-title">{{ __('Токены') }}</h4>
                             <a href="{{ route('panel.templates.create') }}" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">{{ __('Добавить') }}</a>
                         </div>
-
                         <div class="table-responsive" bis_skin_checked="1">
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th style="width:50px;">#</th>
-                                    <th style="">{{ __('Название') }}</th>
-                                    <th style="">{{ __('Путь шаблона') }}</th>
+                                    <th style="">{{ __('Тип') }}</th>
                                     <th style="">{{ __('Токен') }}</th>
-                                    <th>{{ __('Действие') }}</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>Общий токен (заявки со всех лендингов)</td>
+                                        <td>{{ $_SERVER['APP_URL'] . "api/requests/export?token=" . config('app.templates_token') }}</td>
+                                        <td style="display: flex; justify-content: flex-end;">
+                                        </td>
+                                    </tr>
+                                    </tbody>
                                 @foreach($templates as $template)
                                     <tbody>
                                     <tr>
-                                        <td>{{$template->id}}</td>
-                                        <td>{{$template->name}}</td>
-                                        <td>{{$template->path}}</td>
-                                        <td>{{$template->token}}</td>
+                                        <td>{{ $template->id }}</td>
+                                        <td>{{ $template->name }}</td>
+                                        <td>{{ $_SERVER['APP_URL'] . "api/requests/export?token={$template->token}" }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{ route('panel.templates.edit', $template->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">{{ __('Редактировать') }}</a>
                                         </td>
