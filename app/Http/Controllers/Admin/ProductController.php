@@ -77,8 +77,14 @@ class ProductController extends Controller
     public function create_product(StoreRequest $request)
     {
         $data = $request->validated();
-        // Планировки
-        $layouts = $request->layouts;
+
+        // Получаем планировки
+        $layouts = isset($data['layouts']) ? $data['layouts'] : null;
+        unset($data['layouts']);
+
+        // Получаем фото для Product
+        $photos = isset($data['photo']) ? $data['photo'] : null;
+        unset($data['photo']);
 
 //        for($i = 0; $i < count($layouts); $i++) {
 //            // Добавление фотографий
@@ -121,11 +127,9 @@ class ProductController extends Controller
 
         // Добавление фотографий
         $time = time();
-        if (isset($request->photo)){
-            foreach ($request->photo as $key => $photo){
-                $file =  $photo;
-                $fileName = $time++.'.'.$file->getClientOriginalExtension();
-                $filePath = $file->move('uploads', $fileName);
+        if (isset($photos)){
+            foreach ($photos as $key => $photo){
+                $fileName = $this->imageService->saveWebp($photo);
 
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',
@@ -208,7 +212,14 @@ class ProductController extends Controller
     public function update_product(UpdateRequest $request)
     {
         $data = $request->validated();
-        $layouts = $request->layouts;
+
+        // Получаем планировки
+        $layouts = isset($data['layouts']) ? $data['layouts'] : null;
+        unset($data['layouts']);
+
+        // Получаем фото для Product
+        $photos = isset($data['photo']) ? $data['photo'] : null;
+        unset($data['photo']);
 
         $product = Product::with('layouts')->find($request->product_id);
 
@@ -256,12 +267,10 @@ class ProductController extends Controller
         }
 
         // Создание фото для обновлённого объекта
-        if (isset($request->photo)) {
+        if (!is_null($photos)) {
             $time = time();
-            foreach ($request->photo as $key => $photo){
-                $file = $photo;
-                $fileName = $time++.'.'.$file->getClientOriginalExtension();
-                $filePath = $file->move('uploads', $fileName);
+            foreach ($photos as $key => $photo){
+                $fileName = $this->imageService->saveWebp($photo);
 
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',

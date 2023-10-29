@@ -51,6 +51,8 @@ class StoreRequest extends FormRequest
             'lat' => 'nullable|string',
             'long' => 'nullable|string',
             'option_id' => 'nullable|numeric',
+            'layouts' => 'nullable|array',
+            'photo' => ['required'],
         ];
     }
 

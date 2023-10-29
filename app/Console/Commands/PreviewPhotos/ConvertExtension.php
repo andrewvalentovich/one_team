@@ -14,7 +14,7 @@ class ConvertExtension extends Command
      *
      * @var string
      */
-    protected $signature = 'app:convert-photo-preview-extension';
+    protected $signature = 'preview-photo:convert-to-webp';
 
     /**
      * The console command description.
@@ -29,6 +29,9 @@ class ConvertExtension extends Command
     public function handle()
     {
         $photos = PhotoTable::all();
+
+        $progressBar = $this->output->createProgressBar(count($photos));
+        $progressBar->start();
 
         foreach ($photos as $photo) {
             if (!is_null($photo->preview) && $photo->preview !== "" && $photo->preview !== " ") {
@@ -49,6 +52,11 @@ class ConvertExtension extends Command
                     dump($exception->getMessage());
                 }
             }
+
+            // Шаг для прогрессбара
+            $progressBar->advance();
         }
+
+        $progressBar->finish();
     }
 }

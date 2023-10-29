@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -54,7 +55,9 @@ class PreviewImageService
     {
         if (!is_null($image)){
             $thumbnailpath = 'uploads'."/".$image;
+            Log::info("update1 - ".$thumbnailpath);
             $img = Image::make(public_path($thumbnailpath));
+            Log::info("update2");
             $preview_image_path = 'uploads'."/preview_".$image;
 
             $height = $img->height();
