@@ -26,6 +26,7 @@ class SearchController extends Controller
 
         $countries = CountryAndCity::select('id', $nameField, 'lat', 'long')
             ->where('parent_id', null)
+            ->has('product_country')
             ->get()
             ->transform(function ($row) use ($nameField) {
                 return [
