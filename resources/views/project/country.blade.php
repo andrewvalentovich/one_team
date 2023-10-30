@@ -2045,46 +2045,12 @@
 
         let ids = <?php echo $country->id?>
 
-
-
-        async function getData() {
-
-            await fetch(`/city_from_map/${ids}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status) {
-                        data.data.forEach(city => {
-                            locations.push({
-                                coordinates: city.coordinate.split(',').map(parseFloat),
-                                balloonContent: `${city.name}, ${city.count}  ${obect} `,
-                                city_id: city.id
-                            });
-
-                        });
-
-                    }
-
-                })
-
-                .catch(error => {
-
-                    console.error('Error:', error);
-
-                });
-
-        }
-
-
-
-
-
-        // getData();
+        getData(ids);
 
         (async() => {
 
             "use strict";
 
-            await getData();
 
             function e(e) {
 
