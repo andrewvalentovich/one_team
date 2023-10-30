@@ -2,7 +2,7 @@ let locations = [];
 async function getData(idCountry) {
     let url = '/city_from_map'
     if(idCountry) {
-        url = `/city_from_map${idCountry}`
+        url = `/city_from_map/${idCountry}`
     }
     await fetch(url)
         .then(response => response.json())
