@@ -2,13 +2,13 @@ let locations = [];
 async function getData(idCountry) {
     let url = '/city_from_map'
     if(idCountry) {
-        url = `/city_from_map/${idCountry}`
+        // url = `/city_from_map/${idCountry}`
+        url = `/city_from_map/`
     }
     await fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.status) {
-            console.log('tttttest')
                 data.data.forEach(city => {
                     locations.push({
                         coordinates: city.coordinate.split(',').map(parseFloat),
@@ -510,7 +510,7 @@ async function getData(idCountry) {
                 }
 
             }),
-
+            console.log(locations)
             c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
         locations.forEach(function (Location) {
             var placemark = new ymaps.Placemark(Location.coordinates, {

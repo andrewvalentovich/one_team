@@ -2043,9 +2043,7 @@
         let obect =  "<?php echo __('объектов')?>";
 
 
-        let ids = <?php echo $country->id?>
 
-        getData(ids);
 
         (async() => {
 
@@ -2738,7 +2736,6 @@
 
 
 
-        getData();
 
     </script>
 
@@ -2920,7 +2917,6 @@
 
 }
 </script>
-{{--    <script src="{{asset('project/js/app.js')}} "></script>--}}
 <script>
 //сохранение url объектов такой же код на странице country удаление из url в app.js при клике на темную область и тут на крестик
 // Получение текущего URL
@@ -2940,5 +2936,8 @@ if(objectIdFromUrl) {
         popupObject.classList.add('active')
     }
 }
+
+let ids = <?php echo $country->id?>;
+getData(ids);
 </script>
 @endsection
