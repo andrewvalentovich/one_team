@@ -571,7 +571,7 @@
                                 <a href="{{route('houses.index', ['city_id' => $country->cities[3]->id])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[3]->name_de}}  @endif </a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('houses.index', ['city_id' => $country->cities[3]->id])}}" style="color: white">   {numbers_graduation({$country->cities[3]->product_city->count())}}  </a>
+                                <a href="{{route('houses.index', ['city_id' => $country->cities[3]->id])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
