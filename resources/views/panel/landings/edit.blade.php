@@ -362,27 +362,27 @@
                                     <div class="card-header" id="sight_cards_field">
                                         @if(!is_null(json_decode($landing->sight_cards)))
                                             @foreach(json_decode($landing->sight_cards) as $sight_card)
-                                                <div class="sight_cards_accordion" data-identificator="{{ $loop->id }}" id="sight_cards_accordion{{ $loop->id }}">
+                                                <div class="sight_cards_accordion" data-identificator="{{ $loop->index }}" id="sight_cards_accordion{{ $loop->index }}">
                                                     <div class="card">
-                                                        <div class="card-header" id="sight_cards_heading{{ $loop->id }}">
+                                                        <div class="card-header" id="sight_cards_heading{{ $loop->index }}">
                                                             <h5 class="mb-0">
-                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#sight_cards_collapse{{ $loop->id }}" aria-expanded="true" aria-controls="sight_cards_collapse{{ $loop->id }}">
-                                                                    Карточка #{{ $loop->id }}
+                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#sight_cards_collapse{{ $loop->index }}" aria-expanded="true" aria-controls="sight_cards_collapse{{ $loop->index }}">
+                                                                    Карточка #{{ $loop->index }}
                                                                 </p>
-                                                                <input name="sight_cards[{{ $loop->id }}][id]" type="hidden" value="{{ $sight_card->id }}">
+                                                                <input name="sight_cards[{{ $loop->index }}][id]" type="hidden" value="{{ $sight_card->id }}">
                                                             </h5>
                                                         </div>
-                                                        <div id="sight_cards_collapse{{ $loop->id }}" class="collapse show" aria-labelledby="sight_cards_heading{{ $loop->id }}" data-parent="#sight_cards_accordion{{ $loop->id }}">
+                                                        <div id="sight_cards_collapse{{ $loop->index }}" class="collapse show" aria-labelledby="sight_cards_heading{{ $loop->index }}" data-parent="#sight_cards_accordion{{ $loop->index }}">
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="sight_cards_title{{ $loop->id }}">Заголовок</label>
-                                                                        <input name="sight_cards[{{ $loop->id }}][title]" type="text" class="form-control" value="{{ $sight_card->title ?? null }}" id="sight_cards_title{{ $loop->id }}" placeholder="Большая закрытая территория с двумя бассейнами">
+                                                                        <label for="sight_cards_title{{ $loop->index }}">Заголовок</label>
+                                                                        <input name="sight_cards[{{ $loop->index }}][title]" type="text" class="form-control" value="{{ $sight_card->title ?? null }}" id="sight_cards_title{{ $loop->index }}" placeholder="Большая закрытая территория с двумя бассейнами">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="sight_cards_content{{ $loop->id }}">Текст</label>
+                                                                        <label for="sight_cards_content{{ $loop->index }}">Текст</label>
                                                                         <div>
-                                                                            <textarea class="textarea" name="sight_cards[{{ $loop->id }}][content]">{!! $sight_card->content !!}</textarea>
+                                                                            <textarea class="textarea" name="sight_cards[{{ $loop->index }}][content]">{!! $sight_card->content !!}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group unfilterable">
@@ -392,11 +392,11 @@
                                                                                 <img class="py-3" src="{{ asset($sight_card->photo) ?? null }}" alt="" style="max-width: 300px; max-height: 300px;">
                                                                             </div>
                                                                             <label class="d-block" for="sight_cards_photo">Фотография достопримечательности</label>
-                                                                            <input type="file" name="sight_cards[{{ $loop->id }}][photo]" value="{{ $sight_card->photo ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="sight_cards_photo">
+                                                                            <input type="file" name="sight_cards[{{ $loop->index }}][photo]" value="{{ $sight_card->photo ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="sight_cards_photo">
                                                                         </div>
                                                                     </div>
 
-                                                                    <p class="btn btn-outline-danger delete_sight_cards_accordion" onclick="delete_accordion('sight_cards', this);" data-identificator="{{ $loop->id }}">Удалить элемент списка</p>
+                                                                    <p class="btn btn-outline-danger delete_sight_cards_accordion" onclick="delete_accordion('sight_cards', this);" data-identificator="{{ $loop->index }}">Удалить элемент списка</p>
                                                                 </div>
                                                             </div>
                                                         </div>
