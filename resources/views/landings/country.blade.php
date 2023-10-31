@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>Страна</title>
+    @if(!is_null($landing->metric_code)){!! $landing->metric_code !!}@endif
 </head>
 <body>
 	<div class="wrapper">

@@ -24,6 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'metric_code' => 'nullable|string|max:16777215',
+
             'subdomain' => 'nullable|string|max:255',
             'domain' => 'nullable|string|max:255',
             'template_id' => 'nullable|numeric|min:1',

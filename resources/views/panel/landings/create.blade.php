@@ -99,6 +99,15 @@
                                 <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
                             </div>
 
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Метрика</h3>
+                            <div class="col-12 form-group pt-3 region country complex" style="display: none;">
+                                <label for="metric_code">{{ __('Скрипт метрики') }}</label>
+                                <div>
+                                    <textarea id="metric_code" class="form-control" name="metric_code" rows="5"></textarea>
+                                </div>
+                                <label class="text-danger font-weight-normal" for="metric_code" id="metric_code_error"></label>
+                            </div>
+
                             <h3 class="col-12 pt-5 region country complex" style="display: none;">Главный экран</h3>
                             <div class="col-12 form-group pt-3 complex" style="display: none;">
                                 <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>

@@ -24,6 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'metric_code' => 'nullable|string|max:16777215',
+
             'subdomain' => 'required|string|max:255',
             'domain' => 'nullable|string|max:255',
             'template_id' => 'required|numeric|min:1',

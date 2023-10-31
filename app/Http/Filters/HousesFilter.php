@@ -8,6 +8,7 @@ use App\Models\ExchangeRate;
 use App\Models\Layout;
 use App\Services\CurrencyService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class HousesFilter extends AbstractFilter
 {
@@ -189,8 +190,15 @@ class HousesFilter extends AbstractFilter
 
 //    protected function order_by(Builder $builder, $value)
 //    {
-//            // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
-//            $val_arr = explode('-', $value);
-//            $builder->orderBy($val_arr[0], $val_arr[1]);
+//        // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
+//        $val_arr = explode('-', $value);
+//        $builder->addSelect('products.*', DB::raw('(CASE WHEN complex_or_not = "Да" THEN layouts.price ELSE products.price END) as price_common'))
+//            ->join('layouts', function($join) {
+//                $join->on('products.id', '=', 'layouts.complex_id')
+//                    ->where('products.complex_or_not', 'Да');
+//            })->orderBy('price_common');
+//
+//
+//        // $builder->orderBy($val_arr[0], $val_arr[1]);
 //    }
 }
