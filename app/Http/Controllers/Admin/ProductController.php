@@ -455,7 +455,7 @@ class ProductController extends Controller
                     Log::info($photo);
                     Log::info(isset($photo['name']) ? $photo['name'] : null);
                     LayoutPhoto::create([
-                        'url'       => $this->imageService->saveWebp($photo['file'], 'layout_'),
+                        'url'       => 'uploads/' . $this->imageService->saveWebp($photo['file'], 'layout_'),
                         'layout_id' => $layout->id,
                         'name'      => isset($photo['name']) ? $photo['name'] : null,
                     ]);
@@ -469,7 +469,7 @@ class ProductController extends Controller
 
                     // Валидация массива
                     if (isset($photo['file'])) {
-                        $tmp['url'] = $this->imageService->saveWebp($photo['file'], 'layout_');
+                        $tmp['url'] = 'uploads/' . $this->imageService->saveWebp($photo['file'], 'layout_');
                     }
                     $tmp['name'] = isset($photo['name']) ? $photo['name'] : null;
                     $tmp['layout_id'] = isset($layout->id) ? $layout->id : null;
