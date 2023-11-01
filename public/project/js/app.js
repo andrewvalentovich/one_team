@@ -2,8 +2,8 @@ let locations = [];
 async function getData(idCountry) {
     let url = '/city_from_map'
     if(idCountry) {
-        // url = `/city_from_map/${idCountry}`
-        url = `/city_from_map/`
+        url = `/city_from_map/${idCountry}`
+        // url = `/city_from_map/`
     }
     await fetch(url)
         .then(response => response.json())
@@ -595,7 +595,7 @@ document.addEventListener("click", function(event) {
       changerActive(test)
     }
 
-    //закрытие блоков close-out по клику вне 
+    //закрытие блоков close-out по клику вне
     if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
         let closeOutBlock = document.querySelectorAll('.close-out')
         changerActive(closeOutBlock)
@@ -721,7 +721,7 @@ if(document.querySelectorAll('.place-w').length) {
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
-                
+
             }
 
         })
@@ -806,7 +806,7 @@ if(document.querySelectorAll('#map_city').length) {
     const safariExpression = /Safari/i;
 
     const isAppleSafari = () => {
-        return appleExpression.test(navigator.vendor) && 
+        return appleExpression.test(navigator.vendor) &&
             safariExpression.test(navigator.userAgent);
     };
     if (isAppleSafari()) {
@@ -849,7 +849,7 @@ if(document.querySelectorAll('.kompleks__layout-content').length) {
                 if(sortItem.classList.contains('active')) {
                     sortItem.classList.remove('active')
                 } else {
-                    changerActive(sortItems)  
+                    changerActive(sortItems)
                     sortItem.classList.add('active')
                     kompleksLayoutItem.forEach(chemeItem => {
                         const dataCheme = chemeItem.getAttribute('data-cheme')
@@ -890,13 +890,13 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
         },
         breakpoints: {
             320: {
-    
+
             },
             480: {
-    
+
             },
             640: {
-    
+
             }
         }
     })
@@ -926,7 +926,7 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
                         floor.innerHTML = photo.name
                         slide.appendChild(floor)
                     }
-                    
+
                     slide.classList.add('swiper-slide')
                     slide.classList.add('object__swiper-slide')
                     slide.appendChild(slidePic)
@@ -954,6 +954,6 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
                 chemePopup.classList.add('active')
             })
         });
-        
+
     }
 }

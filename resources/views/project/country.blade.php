@@ -2945,7 +2945,7 @@ if(objectIdFromUrl) {
     }
 }
 
-let ids = <?php echo $country->id?>;
+let ids = {{ $country->id }};
 getData(ids);
 </script>
 @endsection

@@ -34,76 +34,33 @@ class HomePageController extends Controller
     }
 
 
-    public function city_from_map(Request $request, $id = null){
-        if( isset($id) ) {
-            $get_turkey_city = CountryAndCity::where('id', $id)->get();
-            $get_products = $get_turkey_city[0]->product_city;
+    public function city_from_map(int $id = null)
+    {
+        // Выбираем поле с названием в зависимости от языка
+        $nameField = app()->getLocale() == 'ru' ? 'name' : 'name' . app()->getLocale();
 
-            $spalni = [];
-            $vanie = [];
-            foreach ($get_products as $product) {
-                $spalni[] = $product->spalni[0]->peculiarities_id;
-                $vanie[] = $product->vanie[0]->peculiarities_id;
+        // 17 - id страны (Турции)
+        $id = is_null($id) ? 17 : $id;
+
+        // Получаем города Турции
+        $cities = CountryAndCity::select('id', $nameField, 'lat', 'long')->where('parent_id', $id)->has('product_city')->get();
+
+        $data = array();
+        foreach ($cities as $city){
+            if (app()->getLocale() == 'en'){
+                $city->name = $city->name_en;
             }
-
-            $args = array_unique(array_merge($spalni, $vanie));
-            $get_peculiarities = DB::table('peculiarities')->whereIn('id', $args)->get();
-
-            $data = array();
-            foreach ($get_products as $product){
-                if (app()->getLocale() == 'en'){
-//                    $city->name = $product->name_en;
-                }
-                if (app()->getLocale() == 'tr'){
-//                    $city->name = $product->name_tr;
-                }
-                foreach ($get_peculiarities as $peciliarity) {
-                    if ($peciliarity->id = $product->spalni[0]->peculiarities_id) {
-                        $spalni = $peciliarity->name;
-                    }
-                }
-                 foreach ($get_peculiarities as $peciliarity) {
-                     if ($peciliarity->id = $product->vanie[0]->peculiarities_id) {
-                         $vanie = $peciliarity->name;
-                     }
-                 }
-
-                $data[] =
-                    [
-                        'id' => $product->id,
-                        'coordinate' => $product->lat.','.$product->long,
-                        'price' => $product->price,
-                        'spalni' => $spalni,
-                        'vannie' => $vanie,
-                        'kv' => $product->size,
-                        'address' => $product->name,
-                        'image' => 'uploads/'.$product->photo[0]->photo,
-                    ];
+            if (app()->getLocale() == 'tr'){
+                $city->name = $city->name_tr;
             }
-        } else {
-            // Получаем Страну Турция
-            $get_turkey = CountryAndCity::where('name', 'Турция')->first();
-
-            // Получаем города Турции
-            $get_turkey_city = CountryAndCity::where('parent_id', $get_turkey->id)->has('product_city')->get();
-
-            $data = array();
-            foreach ($get_turkey_city as $city){
-                if (app()->getLocale() == 'en'){
-                    $city->name = $city->name_en;
-                }
-                if (app()->getLocale() == 'tr'){
-                    $city->name = $city->name_tr;
-                }
-                // Получаем id, координаты, название города Турции и количество объектов которые ему принадлежат
-                $data[] =
-                    [
-                        'id' => $city->id,
-                        'coordinate' => $city->lat.','.$city->long,
-                        'name' => $city->name,
-                        'count' => $city->product_city->count()
-                    ];
-            }
+            // Получаем id, координаты, название города Турции и количество объектов которые ему принадлежат
+            $data[] =
+                [
+                    'id' => $city->id,
+                    'coordinate' => $city->lat . ',' . $city->long,
+                    'name' => $city->name,
+                    'count' => $city->product_city->count()
+                ];
         }
 
 
