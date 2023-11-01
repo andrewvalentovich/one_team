@@ -219,8 +219,9 @@
                                                         <div class="place__price-value">
                                                             <div class="place__exchange-EUR"><span></span><b></b></div>
                                                             <div class="place__exchange-USD" style="display: none;"><span></span><b></b></div>
-                                                            <div class="place__exchange-RUB" style="display: none;"><span></span><b></b></div>
+                                                            <div class="place__exchange-GBP" style="display: none;"><span></span><b></b></div>
                                                             <div class="place__exchange-TRY" style="display: none;"><span></span><b class="lira"></b></div>
+                                                            <div class="place__exchange-RUB" style="display: none;"><span></span><b></b></div>
                                                         </div>
                                                         <div class="place__currency">
                                                             <div class="place__currency-preview">
@@ -248,13 +249,16 @@
                                                                 <div class="place__currency-item" data-exchange="USD">
                                                                     $
                                                                 </div>
-                                                                <div class="place__currency-item" data-exchange="RUB">
-                                                                    ₽
+                                                                <div class="place__currency-item" data-exchange="GBP">
+                                                                    ₤
                                                                 </div>
                                                                 <div class="place__currency-item" data-exchange="TRY">
                                                                     <span class="lira">
                                                                         ₺
                                                                     </span>
+                                                                </div>
+                                                                <div class="place__currency-item" data-exchange="RUB">
+                                                                    ₽
                                                                 </div>
                                                             </div>
                                                         </div>

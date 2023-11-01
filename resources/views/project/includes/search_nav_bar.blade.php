@@ -285,7 +285,7 @@
 
             // Выводим валюту в dropdown
             $.each(data.currency, function (index, value) {
-                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item ' + (($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '') + ' currency_type" currency_type="' + index + '">' + value + '</div>');
+                $('.search-nav__price-filter-currency').append('<div class="search-nav__price-currency-item ' + (($.query.get('price[code]').toString() === index.toString() || ((!$.query.get('price[code]').toString() || $.query.get('price[code]').toString() === true) && index.toString() === "EUR")) ? 'active' : '') + ' currency_type '+ (index == "TRY" ? 'lira' : '') +'" currency_type="' + index + '">' + value + '</div>');
             });
 
             // Вешаем событие на добавленные элементы в dropdown

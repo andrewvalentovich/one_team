@@ -12,7 +12,6 @@ class ExchangeRate extends Model
     protected $table = 'exchange_rates';
     protected $guarded = [];
     protected $fillable = [];
-    public static $names = ["RUB", "EUR", "USD", "TRY"];
 
     // Пример: рубль (direct) к евро (relative), то есть сколько евро в одном рубле
 
@@ -23,6 +22,13 @@ class ExchangeRate extends Model
 
     static function getExchangeNames()
     {
-        return self::$names;
+        $exchanges = ExchangeRate::all();
+
+        $names[] = "RUB";
+        foreach ($exchanges as $exchange) {
+            $names[] = $exchange->relative;
+        }
+
+        return $names;
     }
 }

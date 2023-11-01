@@ -69,7 +69,7 @@ class SearchController extends Controller
                 ];
             });
 
-        $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
+        $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₺", "GBP" => "₤"]; // ₺
 
         $data = [
             "countries" => $countries,
