@@ -42,11 +42,15 @@
                         </div>
                     @endif
                     <h4 class="card-title">Редактирование  страницы</h4>
-                    <form class="forms-sample" action="{{route('update_select_page')}}" method="post" enctype="multipart/form-data">
+                    <form class="forms-sample" action="{{ route('update_select_page') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1" class="">Названия страницы</label>
-                            <input value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия страницы" required="">
+                            <label for="exampleInputName1" class="">Название страницы</label>
+                            <input value="{{ $get->name }}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название страницы" required="">
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="slug" class="">Название страницы в url (* поле должно быть уникальным и записано латинскими буквами)</label>
+                            <input name="slug" value="{{ $get->slug }}" type="text" class="form-control" id="slug" placeholder="Например - team" required="">
                         </div>
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">

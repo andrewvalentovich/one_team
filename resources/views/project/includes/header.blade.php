@@ -87,7 +87,7 @@
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
                             @foreach($company_pages  as $pages)
-                                <a href="{{route('company_page', $pages->id)}}"><div class="header-m__aboute-item">
+                                <a href="{{ route('about', $pages->slug) }}"><div class="header-m__aboute-item">
                              {{$pages->name}}
                             </div>
                                 </a>
@@ -226,7 +226,7 @@
                         <div class="header__nav-item-dropdown header__about-dropdown">
                             <div class="header__about-list header__dropdown-list">
                                 @foreach($company_pages as $pages)
-                                    <a href="{{route('company_page',$pages->id)}}" class="header__list-item header__about-list-item">
+                                    <a href="{{ route('about', $pages->slug) }}" class="header__list-item header__about-list-item">
                                         {{__($pages->name)}}
                                     </a>
                                 @endforeach

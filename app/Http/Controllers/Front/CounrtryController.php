@@ -26,14 +26,14 @@ class CounrtryController extends Controller
         $this->layoutService = $layoutService;
     }
 
-    public function country($id)
+    public function countries($name_en)
     {
-        $get = CountryAndCity::where('parent_id', $id)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-        $country = CountryAndCity::where('id', $id)->with('product_country')->with('cities.product_city')->first();
+        $get = CountryAndCity::where('name_en', $name_en)->withCount('product_city')->orderby('product_city_count','DESC')->get();
+        $country = CountryAndCity::where('name_en', $name_en)->with('product_country')->with('cities.product_city')->first();
         $count = CountryAndCity::where('parent_id', $country->id)->has('product_city')->get()->count();
         $get_footer_link =  CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get();
 
-        $citizenship_product = Product::where('country_id', $id)
+        $citizenship_product = Product::where('country_id', $country->id)
             ->where('grajandstvo','Да')
             ->with('favorite')
             ->with('photo')

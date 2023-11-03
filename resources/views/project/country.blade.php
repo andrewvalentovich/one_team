@@ -1724,7 +1724,7 @@
 
                                             <div class="footer__nav-list">
                                                 @foreach($get_footer_link as $link)
-                                                        <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                                        <a href="{{ route('about', $link->slug) }}" class="footer__nav-item">
                                                             {{__($link->name)}}
                                                         </a>
                                                 @endforeach

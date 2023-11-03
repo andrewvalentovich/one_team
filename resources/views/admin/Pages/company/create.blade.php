@@ -45,8 +45,12 @@
                     <form class="forms-sample" action="{{route('all_company_select_page_create')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1" class="">Названия страницы</label>
+                            <label for="exampleInputName1" class="">Название страницы</label>
                             <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия страницы" required="">
+                        </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="slug" class="">Название страницы в url (* поле должно быть уникальным и записано латинскими буквами)</label>
+                            <input name="slug" type="text" class="form-control" id="slug" placeholder="Например - team" required="">
                         </div>
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">

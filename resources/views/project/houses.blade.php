@@ -594,7 +594,7 @@
                                                                     <div class="footer__nav-list">
                                                                         <?php $get_footer_link =  \App\Models\CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get(); ?>
                                                                         @foreach($get_footer_link as $link)
-                                                                                <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                                                                <a href="{{ route('about', $link->slug) }}" class="footer__nav-item">
                                                                                     {{__($link->name)}}
                                                                                 </a>
                                                                         @endforeach
@@ -761,7 +761,7 @@
                                     <div class="footer__nav-list">
                                         <?php $get_footer_link = \App\Models\CompanySelect::orderby('status', 'asc')->orderby('updated_at', 'desc')->get(); ?>
                                         @foreach($get_footer_link as $link)
-                                            <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                            <a href="{{route('about', $link->slug)}}" class="footer__nav-item">
                                                 {{__($link->name)}}
                                             </a>
                                         @endforeach

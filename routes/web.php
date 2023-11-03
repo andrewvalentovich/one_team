@@ -96,8 +96,8 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
     Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
     Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
-    Route::get('all_location',[AllLocationController::class, 'all_location'])->name('all_location');
-    Route::get('country/country_id={id}',[CounrtryController::class,'country'])->name('country');
+    Route::get('countries/all',[AllLocationController::class, 'all_location'])->name('all_location');
+    Route::get('countries/{name_en}',[CounrtryController::class, 'countries'])->name('countries');
     Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
 
     Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
@@ -108,7 +108,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
     Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
     Route::get('installment_plan',[RasrochkaController::class,'installment_plan'])->name('installment_plan');
-    Route::get('company_page/page_id={id}', [CompanySelectController::class, 'company_page'])->name('company_page');
+    Route::get('about/{slug}', [CompanySelectController::class, 'about'])->name('about');
     Route::get('contacts', [ContactsController::class,'contacts'])->name('contacts');
     Route::get('my_favorites', [FavoriteController::class,'my_favorites'])->name('my_favorites');
     Route::get('delete_my_all_favorite', [FavoriteController::class,'delete_my_all_favorite'])->name('delete_my_all_favorite');

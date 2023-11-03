@@ -9,7 +9,7 @@
         <div class="footer__nav">
             <div class="footer__nav-list">
                 @foreach($company_pages as $pages)
-                <a href="{{route('company_page',$pages->id)}}" class="footer__nav-item">
+                <a href="{{ route('about', $pages->slug) }}" class="footer__nav-item">
                     {{__($pages->name)}}
 {{--                   {{}}--}}
                 </a>
