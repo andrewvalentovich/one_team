@@ -30,7 +30,6 @@ class HousesController extends Controller
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
         $data = $request->validated();
-
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
         // Отступ для выборки записей
@@ -100,11 +99,11 @@ class HousesController extends Controller
 //        return response()->json($houses);
         $houses = Product::with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
-                if (isset($data['price']['min_price'])) {
-                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min_price'], $data['price']['code'] ?? null));
+                if (isset($data['price']['min'])) {
+                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
                 }
-                if (isset($data['price']['max_price'])) {
-                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max_price'], $data['price']['code'] ?? null));
+                if (isset($data['price']['max'])) {
+                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
                 }
                 $query->with('photos');
                 $query->orderBy('price', 'asc');
@@ -176,11 +175,11 @@ class HousesController extends Controller
         $product = Product::whereId($data['id'])
             ->with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
-                if (isset($data['price']['min_price'])) {
-                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min_price'], $data['price']['code'] ?? null));
+                if (isset($data['price']['min'])) {
+                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
                 }
-                if (isset($data['price']['max_price'])) {
-                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max_price'], $data['price']['code'] ?? null));
+                if (isset($data['price']['max'])) {
+                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
                 }
                 $query->with('photos');
                 $query->orderBy('price', 'asc');

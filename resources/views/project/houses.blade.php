@@ -71,6 +71,7 @@
                         @endif
                     </div>
                     <div class="city-col__filter">
+                        <input type="hidden" name="order">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>
                         <div class="city-col__filter-list"></div>
                     </div>
@@ -84,12 +85,13 @@
                         <div class="city-col__btn city-col__all" data_id="">
                             {{__('Все')}}
                         </div>
-                        <div  class="city-col__btn city-col__not_secondary" data_id="false">
+                        <div  class="city-col__btn city-col__not_secondary" data_id="new">
                             {{__('От застройщика')}}
                         </div>
-                        <div  class="city-col__btn city-col__is_secondary" data_id="true">
+                        <div  class="city-col__btn city-col__is_secondary" data_id="secondary">
                             {{__('Вторичка')}}
                         </div>
+                        <input type="hidden" name="is_secondary">
                     </div>
                 </div>
                     <div class="city-col__content">
@@ -948,6 +950,9 @@
 @endsection
 @section('scripts')
     <script>
+        handleIsSecondary();
+        handleOrder();
+
         function changerActive(list) {
             for(let i = 0; i < list.length; i++) {
                 list[i].classList.remove('active')
@@ -971,45 +976,6 @@
                 })
             });
         }
-
-        // Сортировка
-        if ($.query.get('order_by').toString() === "price-desc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала дешёвые') }}`);
-        }
-
-        if ($.query.get('order_by').toString() === "price-asc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала дорогие') }}`);
-        }
-
-        if ($.query.get('order_by').toString() === "created_at-desc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала новые') }}`);
-        }
-
-        if ($.query.get('is_secondary') === "true") {
-            $('.city-col__is_secondary').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-        if ($.query.get('is_secondary') === "false") {
-            $('.city-col__not_secondary').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-        if ($.query.get('is_secondary') === "") {
-            $('.city-col__all').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">{{ __("Сначала дорогие")}}</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-asc") ? 'active' : '')+'" data_id="price-asc">{{ __("Сначала дешёвые")}}</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "created_at-desc") ? 'active' : '')+'" data_id="created_at-desc">{{ __("Сначала новые")}}</div>');
-
-        $('.city-col__filter-item').on('click', function() {
-            var value = $(this).attr('data_id');
-            var text = $(this).text();
-
-
-            $('.city-cil__filter-title').text(text);
-            var url = new URL(window.location.href);
-            url.searchParams.set('order_by', value);
-            // Обновление URL в адресной строке
-            window.history.pushState(null, null, url.toString());
-        });
 
         let g = document.querySelectorAll(".kompleks__layout-img"),
             b = document.querySelectorAll(".object__photo");
@@ -1344,9 +1310,9 @@ function P(e) {
                 const img = document.createElement('img');
 
                 if (photo.preview !== null && photo.preview) {
-                    img.setAttribute('src', `${photo.preview}`);
+                    img.setAttribute('src', `/${photo.preview}`);
                 } else {
-                    img.setAttribute('src', `uploads/${photo.photo}`);
+                    img.setAttribute('src', `/uploads/${photo.photo}`);
                 }
 
                 img.setAttribute('alt', 'place');
@@ -1578,7 +1544,7 @@ function P(e) {
                         url = window.location + "?page=" + page;
                     }
 
-                    pagination += `<li class="page-item"><a class="page-link" href="${url}">${page}</a></li>`;
+                    pagination += `<li class="page-item"><a class="page-link" href="/${url}">${page}</a></li>`;
                 }
             }
         });
@@ -2387,27 +2353,35 @@ function P(e) {
     changeLangMap(mapLang);
 
     async function init(ymaps) {
-
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-            var is_secondary = p[t].getAttribute('data_id');
-            if (is_secondary === "") {
-                var url = new URL(window.location.href);
-                url.searchParams.delete('is_secondary');
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
-            } else {
-                var url = new URL(window.location.href);
-                url.searchParams.set('is_secondary', is_secondary);
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
-            }
+            var new_is_secondary = p[t].getAttribute('data_id');
+
+            var prev_is_secondary = $("input[name='is_secondary']").val();
+            $("input[name='is_secondary']").val(new_is_secondary);
+
+            var urlParams = handleUrlParams(prev_is_secondary.toLowerCase(), new_is_secondary.toLowerCase());
+            updateUrl(window.filter_params_data, urlParams);
 
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         }));
 
         $('.city-col__filter-item').on('click', async function() {
+            var new_order = $(this).attr('data_id');
+            var text = $(this).text();
+
+            var prev_order = $("input[name='order']").val();
+            $("input[name='order']").val(new_order);
+
+            $('.city-cil__filter-title').text(text);
+
+            $('.city-col__filter-item.active').removeClass('active');
+            $(this).addClass('active');
+
+            var urlParams = handleUrlParams(prev_order.toLowerCase(), new_order.toLowerCase());
+            updateUrl(window.filter_params_data, urlParams);
+
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         });
@@ -2424,128 +2398,7 @@ function P(e) {
 
         function changeCountryField() {
             // Получаем GET параметр country_id из url
-            var url = new URL(window.location.href);
-
-            var url_country_id = url.searchParams.get('country_id');
-            var url_city_id = url.searchParams.get('city_id');
-
-            $.ajax({
-                url: '/api/houses/filter_params',       /* Куда отправить запрос */
-                data: {
-                    locale: `{{ app()->getLocale() }}`,
-                    country_id: url_country_id
-                },
-                method: 'get',                                              /* Метод запроса (post или get) */
-                success: function(data) {
-                    const langSite = `{{ app()->getLocale() }}`
-
-                    const dictionary = {
-                        all_regions: {
-                            ru: 'Все регионы',
-                            en: 'All regions',
-                            tr: 'Tüm bölgeler',
-                            de: 'Alle Regionen',
-                        },
-                        all_types: {
-                            ru: 'Все типы',
-                            en: 'All types',
-                            tr: 'Tüm türler',
-                            de: 'Alle Typen',
-                        },
-                        real_estate: {
-                            ru: 'Недвижимость',
-                            en: 'Real estate',
-                            tr: 'Emlak',
-                            de: 'Immobilie',
-                        }
-                    }
-
-                    if (url_country_id !== null) {
-                        if (url_city_id !== null) {
-                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.cities.find(x => x.id == url_city_id).name);
-                        } else {
-                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.countries.find(x => x.id == url_country_id).name);
-                        }
-
-                    } else {
-                        $('.city-col__title.title').html(dictionary.real_estate[langSite]);
-                    }
-
-                    // если задан параметр country_id, то выводим регионы
-                    if (url_country_id !== null) {
-
-                        $('.search-nav__list-item[data_id="city"]').show();
-                        $('.search-nav__list-item[data_id="country"]').hide();
-                        // Выводим регионы при загрузке страницы
-                        $(".city_select").text((url_city_id !== null) ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
-                        // Выводим страны в dropdown
-                        $('.search-nav__cities-list').empty();
-
-                        $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element">' + dictionary.all_regions[langSite] + '</div>');
-                        $.each(data.cities, function (index, value) {
-                            $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
-                        });
-
-                        // Вешаем событие на добавленные элементы в dropdown
-                        $('.search_city').click(function (e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            var city_id = $(this).attr('data_id');
-
-                            if (city_id === "") {
-                                const url = new URL(document.location);
-                                url.searchParams.delete("city_id"); // удалить параметр "test"
-                                window.history.pushState({}, '', url.toString());
-                            } else {
-                                var url = new URL(window.location.href);
-                                url.searchParams.set('city_id', city_id);
-                                // Обновление URL в адресной строке
-                                window.history.pushState(null, null, url.toString());
-                            }
-
-                            var html = $(this).html();
-                            $('.city_select').html(html);
-
-                            const parentBlock = this.closest('.search-nav__list-item')
-                            const dropDown = this.closest('.search-nav__item-dropdown')
-
-                            parentBlock.classList.remove('active')
-                            dropDown.classList.remove('active')
-                        });
-                    } else {
-                        $('.search-nav__list-item[data_id="city"]').hide();
-                        $('.search-nav__list-item[data_id="country"]').show();
-                        // Выводим название страны при загрузке страницы
-                        $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
-                        // Выводим страны в dropdown
-                        $('.search-nav__countries-list').empty();
-                        $.each(data.countries, function (index, value) {
-                            $('.search-nav__countries-list').append('<div data_id="' + value.id + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
-                        });
-
-                        // Вешаем событие на добавленные элементы в dropdown
-                        $('.search_country').click(function (e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            var country_id = $(this).attr('data_id');
-
-                            var url = new URL(window.location.href);
-                            url.searchParams.set('country_id', country_id);
-                            // Обновление URL в адресной строке
-                            window.history.pushState(null, null, url.toString());
-
-                            var html = $(this).html();
-                            $('.country_select').html(html);
-
-                            const parentBlock = this.closest('.search-nav__list-item')
-                            const dropDown = this.closest('.search-nav__item-dropdown')
-
-                            parentBlock.classList.remove('active')
-                            dropDown.classList.remove('active')
-                        });
-                    }
-                }
-            });
+            handleCountries(window.filter_params_data);
         }
 
         function getDataMarks() {
@@ -2568,24 +2421,24 @@ function P(e) {
         }
 
         function createParams() {
-            let urlParams = new URLSearchParams(window.location.search);
-            let params = {};
+            // let urlParams = new URLSearchParams(window.location.search);
+            // let params = {};
 
-            urlParams.forEach((value, key) => {
-                params[key] = value;
-            });
+            let params = createParamsForFilterFromUrl();
+
+            // urlParams.forEach((value, key) => {
+            //     params[key] = value;
+            // });
 
             params.user_id = user_id;
-            if (!params.is_secondary) {
-                params.is_secondary = null;
-            } else {
-                params.is_secondary = (params.is_secondary.toLowerCase() === 'true') ? 1 : 0;
-            }
             if (params.country === true) params.country = null;
+            if (params.country_id === true) params.country_id = null;
+            if (params.city === true) params.city = null;
             if (params.city_id === true) params.city_id = null;
             if (params.type === true) params.type = null;
-            if (params.price && params.price.price_min === true) params.price.price_min = null;
-            if (params.price && params.price.price_max === true) params.price.price_max = null;
+            if (params.type_id === true) params.type_id = null;
+            if (params.price && params.price.min === true) params.price.min = null;
+            if (params.price && params.price.max === true) params.price.max = null;
             if (params.bedrooms === true) params.bedrooms = null;
             if (params.bathrooms === true) params.bathrooms = null;
             if (params.view === true) params.view = null;
@@ -2593,7 +2446,8 @@ function P(e) {
 
             if (params.size && params.size.min === true) params.size.min = null;
             if (params.size && params.size.max === true) params.size.max = null;
-            console.log(params.is_secondary);
+            console.log(params);
+
             return params;
         }
 
@@ -2682,8 +2536,9 @@ function P(e) {
                 mapCountry.destroy()
             }
             mapCountry = new ymaps.Map("map_city", {
-                center: [<?php echo $country->lat . ',' . $country->long ?>],
-                zoom: 6,
+                // По стандарту указаны координаты Турции (если не установлена страна)
+                center: {{ !is_null($country) ? "[" . $country->lat . ", " . $country->long . "]" : "[39, 32]" }},
+                zoom: 4,
                 controls: [],
                 behaviors: ["default", "scrollZoom"],
                 autoFitToViewport: 'always'
@@ -2865,7 +2720,7 @@ function P(e) {
                                                 <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                                                 <div class="balloon-city__square">${mark.kv} ${kvm}</div>
                                             </div>
-                                            <div class="balloon-city__img"> <img src="${mark.image}"></div>
+                                            <div class="balloon-city__img"><img src="/${mark.image}"></div>
                                         </div>
                                     </div>`,
                     city_id: mark.id

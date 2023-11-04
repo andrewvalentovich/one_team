@@ -123,7 +123,6 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     Route::get('personal_data_processing_policy', [PolicyAndPrivice::class,'personal_data_processing_policy'])->name('personal_data_processing_policy');
     Route::get('user_agreement_when_using_the_site', [PolicyAndPrivice::class,'user_agreement_when_using_the_site'])->name('user_agreement_when_using_the_site');
 
-
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
             Route::get('/login', [AdminLoginController::class, 'login'])->name('login');
@@ -212,4 +211,12 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::post('update_product', [ProductController::class, 'update_product'])->name('update_product');
         });
     });
+
+    // Route to closure
+    Route::get('/{categories?}', function($categories)
+    {
+        return $categories;
+    })->where('categories', '(.*)');
+    // Route to controller method
+    Route::get('/{categories?}', [HousesController::class, 'realty'])->where('categories', '(.*)')->name('realty');
 });

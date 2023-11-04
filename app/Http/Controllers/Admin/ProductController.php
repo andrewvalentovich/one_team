@@ -12,6 +12,7 @@ use App\Models\Option;
 use App\Services\CurrencyService;
 use App\Services\ImageService;
 use App\Services\PreviewImageService;
+use App\Services\SlugService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
@@ -28,12 +29,19 @@ class ProductController extends Controller
     private $previewImageService;
     private $imageService;
     private $currencyService;
+    private $slugService;
 
-    public function __construct(PreviewImageService $previewImageService, CurrencyService $currencyService, ImageService $imageService)
+    public function __construct(
+        PreviewImageService $previewImageService,
+        CurrencyService $currencyService,
+        ImageService $imageService,
+        SlugService $slugService
+    )
     {
         $this->previewImageService = $previewImageService;
         $this->imageService = $imageService;
         $this->currencyService = $currencyService;
+        $this->slugService = $slugService;
     }
 
     public function all_product($id)
@@ -86,19 +94,6 @@ class ProductController extends Controller
         $photos = isset($data['photo']) ? $data['photo'] : null;
         unset($data['photo']);
 
-//        for($i = 0; $i < count($layouts); $i++) {
-//            // Добавление фотографий
-//            if (isset($layouts[$i]['photos'])) {
-//                if (is_array($layouts[$i]['photos'])) {
-//                    foreach ($layouts[$i]['photos'] as $image) {
-//                        // Перебор массива с картинками планировки
-//                    }
-//                } else {
-//                    // работа с 1 картинкой планировки
-//                }
-//            }
-//        }
-
         // Конвертируем цену
         $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         // Настраиваем option_id (для лендингов)
@@ -106,7 +101,14 @@ class ProductController extends Controller
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
-        $create =  Product::create($data);
+        $create = Product::create($data);
+
+        // Создаём slug для объекта
+        if (is_null($create->slug)) {
+            $create->update([
+                'slug' => $this->slugService->make($create->id)
+            ]);
+        }
 
         // Создаём планировки для созданного объекта
         if(!is_null($layouts)) {
@@ -222,6 +224,11 @@ class ProductController extends Controller
         unset($data['photo']);
 
         $product = Product::with('layouts')->find($request->product_id);
+
+        // Создаём slug для объекта
+        if (is_null($product->slug)) {
+            $data['slug'] = $this->slugService->make($product->id);
+        }
 
         // Конвертируем цену
         $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);

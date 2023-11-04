@@ -174,10 +174,10 @@
                     </a>
                     <div class="header__nav-item-dropdown header__buy-dropdown">
                         <div class="header__buy-list header__dropdown-list">
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'sale']) }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'sale']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'sale']) }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'sale']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
@@ -189,10 +189,10 @@
                     </a>
                     <div class="header__nav-item-dropdown header__rent-dropdown">
                         <div class="header__rent-list header__dropdown-list">
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'rent']) }}" class="header__list-item header__rent-list-item">
+                            <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'rent']) }}" class="header__list-item header__rent-list-item">
+                            <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
