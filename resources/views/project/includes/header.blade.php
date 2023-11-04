@@ -50,16 +50,16 @@
                     </div>
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'sale']) }}">
+                            <a href="{{ route('realty', ['categories' => 'sale']) }}">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index', ['sale_or_rent' => 'sale']) }}">
+                            <a href="{{ route('realty', ['categories' => 'sale']) }}">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('houses.index', ['sale_or_rent' => 'rent']) }}" class="header-m__item">
+                <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header-m__item">
                     <div class="header-m__item-text">
                        {{__('Снять')}}
                     </div>
