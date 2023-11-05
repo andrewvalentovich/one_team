@@ -50,10 +50,10 @@
                     </div>
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
-                            <a href="{{ route('realty', ['categories' => 'sale']) }}">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('realty', ['categories' => 'sale']) }}">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
@@ -174,10 +174,10 @@
                     </a>
                     <div class="header__nav-item-dropdown header__buy-dropdown">
                         <div class="header__buy-list header__dropdown-list">
-                            <a href="{{ route('realty', ['categories' => 'sale']) }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('realty', ['categories' => 'sale']) }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>

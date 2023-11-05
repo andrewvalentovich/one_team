@@ -2726,7 +2726,7 @@ function P(e) {
                                                 <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                                                 <div class="balloon-city__square">${mark.kv} ${kvm}</div>
                                             </div>
-                                            <div class="balloon-city__img"><img src="/${mark.image}"></div>
+                                            <div class="balloon-city__img"><img style="height: 54px;" src="/${mark.image}"></div>
                                         </div>
                                     </div>`,
                     city_id: mark.id

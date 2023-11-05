@@ -96,8 +96,8 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
     Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
     Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
     Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
-    Route::get('countries/all',[AllLocationController::class, 'all_location'])->name('all_location');
-    Route::get('countries/{name_en}',[CounrtryController::class, 'countries'])->name('countries');
+    Route::get('locations/all',[AllLocationController::class, 'all_location'])->name('all_location');
+    Route::get('locations/{name_en}',[CounrtryController::class, 'countries'])->name('countries');
     Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
 
     Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру

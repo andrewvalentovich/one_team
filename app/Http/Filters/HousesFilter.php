@@ -139,7 +139,8 @@ class HousesFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->whereHas('peculiarities', function ($query) use ($value) {
-                $query->where('peculiarities.name_en', "$value");
+//                $query->where('peculiarities.name_en', "$value");
+                $query->whereRaw('LOWER(`name_en`) LIKE ? ',['%'.$value.'%']);
             });
         }
     }
