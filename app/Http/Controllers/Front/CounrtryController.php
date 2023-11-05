@@ -29,7 +29,10 @@ class CounrtryController extends Controller
     public function countries($name_en)
     {
         $get = CountryAndCity::where('name_en', $name_en)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-        $country = CountryAndCity::where('name_en', $name_en)->with('product_country')->with('cities.product_city')->first();
+
+        $name_en = str_replace('_', ' ', $name_en);
+        $country = CountryAndCity::whereRaw('`name_en` LIKE ? ', ['%'.$name_en.'%'])->with('product_country')->with('cities.product_city')->first();
+
         $count = CountryAndCity::where('parent_id', $country->id)->has('product_city')->get()->count();
         $get_footer_link =  CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get();
 

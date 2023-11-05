@@ -98,7 +98,8 @@ class HousesFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->whereHas('country', function ($query) use ($value) {
-                $query->where('name_en', "$value");
+//                $query->where('name_en', "$value");
+                $query->whereRaw('`name_en` LIKE ? ',['%'.str_replace(' ', '_', $value).'%']);
             });
         }
     }

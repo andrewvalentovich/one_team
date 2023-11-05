@@ -129,14 +129,18 @@ function updateUrl(data, urlValues) {
 
     var buy = false;
     urlValues.forEach(function (value, index) {
-        if (data.sale_or_rent.includes(value)) {
+        if (value === "buy") {
+            buy = value;
+        }
+        if (value === "sale") {
+            buy = value;
+        }
+        if (value === "rent") {
             buy = value;
         }
     })
     if (buy) {
         url += (buy == "sale") ? "/buy" : "/" + buy;
-    } else {
-        url += "/buy"
     }
 
     var city = getMatch(urlValues, data.cities);

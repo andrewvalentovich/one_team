@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CountryAndCity\StoreRequest;
+use App\Http\Requests\Admin\CountryAndCity\UpdateRequest;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use App\Models\CountryAndCity;
 use Illuminate\Support\Facades\File;
 use App\Models\Metric;
 class CountryAndCityController extends Controller
 {
+    private $imageService;
 
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
 
     public function get_city(Request $request){
         $get = CountryAndCity::where('parent_id', $request->country_id)->get();
@@ -19,7 +27,6 @@ class CountryAndCityController extends Controller
             'data' => $get
         ],200);
     }
-
 
     public function all_country(){
       $get =   CountryAndCity::where('parent_id', null)->orderBy('name')->paginate(10);
@@ -32,30 +39,21 @@ class CountryAndCityController extends Controller
     }
 
 
-    public function create_country(Request $request){
+    public function create_country(StoreRequest $request)
+    {
+        $data = $request->validated();
+        $photo = null;
+        $flag = null;
 
-        if (isset($request->photo)){
-            $file = $request->photo;
-            $fileName = time().'.'.$request->photo->getClientOriginalExtension();
-            $filePath = $file->move('uploads', $fileName);
+        if (isset($data['photo'])){
+            $data['photo'] = $this->imageService->saveWebp($data['photo']);
         }
 
+        if (isset($data['flag'])){
+            $data['flag'] = $this->imageService->saveWebp($data['flag']);
+        }
 
-        CountryAndCity::create([
-            'metric_id' => $request->metric_id,
-            'parent_id' => $request->parent_id,
-            'name' => $request->name,
-            'name_en' => $request->name_en,
-            'name_tr' => $request->name_tr,
-            'name_de' => $request->name_de,
-            'photo' => $fileName,
-            'div' => $request->citizenship,
-            'div_en' => $request->citizenship_en,
-            'div_tr' => $request->citizenship_tr,
-            'div_de' => $request->citizenship_de,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
-            'long' =>  preg_replace( '/[^0-9.]+$/',  '',  $request->long)
-        ]);
+        CountryAndCity::create($data);
         return redirect()->back()->with('true', 'Вы успешно завершили добавления');
     }
 
@@ -70,33 +68,28 @@ class CountryAndCityController extends Controller
         return view('admin.Country.single', compact('get','metric'));
     }
 
-    public function update_country(Request $request){
-        $get = CountryAndCity::where('id', $request->country_id)->first();
+    public function update_country(UpdateRequest $request){
+        $data = $request->validated();
+
+        $get = CountryAndCity::find($data['id']);
         if ($get == null){
             return redirect()->back();
         }
+        unset($data['id']);
 
-        if (isset($request->photo)){
-            $file = $request->photo;
-            $fileName = time().'.'.$request->photo->getClientOriginalExtension();
-            $filePath = $file->move('uploads', $fileName);
+        $photo = null;
+        $flag = null;
+
+        if (isset($data['photo'])){
+            $data['photo'] = $this->imageService->saveWebp($data['photo']);
         }
 
-        $get->update([
-            'metric_id' => $request->metric_id,
-            'name' => $request->name,
-            'photo' => $fileName??$get->photo,
-            'name_en' => $request->name_en,
-            'name_tr' => $request->name_tr,
-            'name_de' => $request->name_de,
-            'div' => $request->citizenship,
-            'div_en' => $request->citizenship_en,
-            'div_tr' => $request->citizenship_tr,
-            'div_de' => $request->citizenship_de,
-            'lat' => preg_replace( '/[^0-9.]+$/',  '',  $request->lat) ,
-            'long' =>  preg_replace( '/[^0-9.]+$/',  '',  $request->long)
-        ]);
-        return redirect()->back()->with('true','Вы успешно завершили редактирования');
+        if (isset($data['flag'])){
+            $data['flag'] = $this->imageService->saveWebp($data['flag']);
+        }
+
+        $get->update($data);
+        return redirect()->back()->with('true','Вы успешно завершили редактирование');
 
     }
 

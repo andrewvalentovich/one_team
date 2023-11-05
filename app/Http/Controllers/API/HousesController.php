@@ -241,7 +241,12 @@ class HousesController extends Controller
             }
             $query->with('photos');
             $query->orderBy('price', 'asc');
-        }])->with('photo')->with('peculiarities')->get()->transform(function ($row) {
+        }])
+            ->with('photo')
+            ->with('peculiarities')
+            ->filter($filter)
+            ->get()
+            ->transform(function ($row) {
             if (isset($row->layouts) && count($row->layouts) > 0) {
                 $row->price = $row->layouts[0]->price;
             }

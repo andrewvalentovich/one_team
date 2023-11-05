@@ -35,7 +35,7 @@ class SearchController extends Controller
                 return [
                     'id' => $row->id,
                     'name' => $row[$nameField],
-                    'name_en' => strtolower($row->name_en),
+                    'name_en' => str_replace(' ', '_', mb_strtolower($row->name_en)),
                     'cities' => $row->cities
                 ];
             });
