@@ -159,13 +159,10 @@ class ProductController extends Controller
         $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
 
         // Выводим корректную цену в соответствии с указанной валютой в планировках
-        $objects = json_decode($get->objects);
-        if(!is_null($objects)) {
-            foreach ($objects as $key => $object) {
-                $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
+        if (isset($get->layouts)) {
+            foreach ($get->layouts as $layout) {
+                $layout->price = $this->currencyService->displayWithCurrency($layout->price, $layout->price_code);
             }
-            $get->objects = json_encode($objects);
-            unset($objects);
         }
 
         if ($get == null){
@@ -389,6 +386,11 @@ class ProductController extends Controller
         unset($data['id']);
         unset($data['photos']);
 
+        // Обрабатываем цену
+        if (isset($data['price']) && isset($data['price_code'])) {
+            $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        }
+
         $created_layout = Layout::create($data);
         $this->handleLayoutPhotos($photos, $created_layout);
 //        if (!is_null($photos)) {
@@ -408,6 +410,12 @@ class ProductController extends Controller
     private function updateLayout($data, $product_id)
     {
         $layout = Layout::find($data['id']);
+
+        // Обрабатываем цену
+        if (isset($data['price']) && isset($data['price_code'])) {
+            $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        }
+
         $photos = isset($data['photos']) ? $data['photos'] : null;
         unset($data['photos']);
 

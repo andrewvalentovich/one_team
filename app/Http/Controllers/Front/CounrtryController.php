@@ -33,6 +33,9 @@ class CounrtryController extends Controller
         $name_en = str_replace('_', ' ', $name_en);
         $country = CountryAndCity::whereRaw('`name_en` LIKE ? ', ['%'.$name_en.'%'])->with('product_country')->with('cities.product_city')->first();
 
+        $title = $this->generateTitle($country);
+        $citizenship_for_invesment = $this->citizenship_for_invesment($country);
+
         $count = CountryAndCity::where('parent_id', $country->id)->has('product_city')->get()->count();
         $get_footer_link =  CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get();
 
@@ -85,6 +88,74 @@ class CounrtryController extends Controller
             $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
         }
 
-        return view('project.country', compact('get','country', 'citizenship_product', 'count', 'get_footer_link'));
+        return view('project.country', compact('get','country', 'citizenship_product', 'count', 'get_footer_link', 'title', 'citizenship_for_invesment'));
+    }
+
+    private function generateTitle($country)
+    {
+        // Формируем заголовок
+        $name = __('Недвижимость');
+        if(app()->getLocale() == 'ru') {
+            if ($country->name == 'Турция') {
+                $name .= ' в Турции';
+            }
+            if ($country->name == 'Северный Кипр') {
+                $name .= ' на Северном Кипре';
+            }
+            if ($country->name == 'Черногория') {
+                $name .= ' в Черногории';
+            }
+            if ($country->name == 'ОАЭ') {
+                $name .= ' в ОАЭ';
+            }
+            if ($country->name == 'Катар') {
+                $name .= ' в Катаре';
+            }
+        }
+        $title = 'Oneteam / ';
+        if (app()->getLocale() == 'en'){
+            $name .= __('в') . ' '. $country->name_en;
+        } elseif (app()->getLocale() == 'tr') {
+            $name .= __('в') . ' '. $country->name_tr;
+        } elseif (app()->getLocale() == 'de') {
+            $name .= __('в') . ' '. $country->name_de;
+        }
+        $title .= $name;
+
+        return $title;
+    }
+
+    private function citizenship_for_invesment($country)
+    {
+        // Формируем заголовок
+        $name = "";
+        if(app()->getLocale() == 'ru') {
+            if ($country->name == 'Турция') {
+                $name = 'Турции';
+            }
+            if ($country->name == 'Северный Кипр') {
+                $name = 'Северного Кипра';
+            }
+            if ($country->name == 'Черногория') {
+                $name = 'Черногории';
+            }
+            if ($country->name == 'ОАЭ') {
+                $name = 'ОАЭ';
+            }
+            if ($country->name == 'Катар') {
+                $name = 'Катара';
+            }
+        }
+
+        if (app()->getLocale() == 'en') {
+            $name = $country->name_en;
+        } elseif (app()->getLocale() == 'tr') {
+            $name = $country->name_tr;
+        } elseif (app()->getLocale() == 'de') {
+            $name = $country->name_de;
+        }
+        $text = __('Объекты для получения гражданства :name за инвестиции', ['name' => $name]);
+
+        return $text;
     }
 }

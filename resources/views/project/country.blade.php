@@ -812,9 +812,7 @@
     <section class="objects-slider container">
 
         <div class="objects-slider__title title">
-            {{__("Объекты для получения гражданства :name за инвестиции" ,['name' => ($country->name == 'Турция') ? "Турции" : $country->name ])}}
-
-
+            {{ $citizenship_for_invesment }}
         </div>
 
         <div class="objects-slider__content">

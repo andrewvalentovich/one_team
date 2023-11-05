@@ -22,15 +22,19 @@ class HomePageController extends Controller
             ->get();
 
         $citizenship_div = CountryAndCity::where('name', 'Турция')->first();
+        $title = 'Oneteam — лицензированное агентство недвижимости';
         if (app()->getLocale() == 'en'){
+            $title = 'Oneteam — licensed real estate agency';
             $citizenship_div->div = $citizenship_div->div_en;
         } elseif (app()->getLocale() == 'tr') {
+            $title = 'Oneteam — lisanslı emlak acentesi';
             $citizenship_div->div = $citizenship_div->div_tr;
         } elseif (app()->getLocale() == 'de') {
+            $title = 'Oneteam — lizenzierte Immobilienagentur';
             $citizenship_div->div = $citizenship_div->div_de;
         }
 
-        return view('project.index', compact('all_country','citizenship_div'));
+        return view('project.index', compact('all_country','citizenship_div', 'title'));
     }
 
 

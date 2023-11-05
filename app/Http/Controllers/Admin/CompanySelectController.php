@@ -17,15 +17,24 @@ class CompanySelectController extends Controller
             return redirect()->back();
         }
 
+        $title = "Oneteam / О проекте";
         if (app()->getLocale() == 'en'){
+            $title = "Oneteam / About project";
             $get->content = $get->content_en;
         }
 
         if (app()->getLocale() == 'tr'){
+            $title = "Oneteam / Proje hakkında";
             $get->content = $get->content_tr;
         }
 
-        return view('project.pages.company_page', compact('get'));
+        if (app()->getLocale() == 'de'){
+            $title = "Oneteam / Über das projekt";
+            $get->content = $get->content_tr;
+        }
+
+
+        return view('project.pages.company_page', compact('get', 'title'));
      }
 
     public function all_company_select(){
