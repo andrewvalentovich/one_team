@@ -50,6 +50,69 @@ function handleUrlNumParams(new_value, separator = '-') {
     return urlParams;
 }
 
+function findObjectParams(data) {
+    var urlValues = getValuesFromUrl();
+
+    var params = {
+        price: {}
+    };
+
+    var country = getMatch(urlValues, data.countries);
+    if (country) {
+        params.country = country;
+    }
+
+    var city = getMatch(urlValues, data.cities);
+    if (city) {
+        params.city = city;
+    }
+
+    var min_price = checkPosition(urlValues, "minprice");
+    if (min_price) {
+        params.price.min = min_price;
+    }
+
+    var max_price = checkPosition(urlValues, "maxprice");
+    if (max_price) {
+        params.price.max = max_price;
+    }
+
+    var currency = getMatchCurrency(urlValues, data.currency);
+    if (currency) {
+        params.price.currency = currency;
+    }
+
+    var object = checkPosition(urlValues, "object-");
+    if (object) {
+        var tmpArr = object.split('-');
+        params.id = parseInt(tmpArr[1]);
+    }
+
+    return params;
+}
+
+function replaceUrlWithObject(data, object) {
+    var urlValues = getValuesFromUrl();
+    var url = "";
+
+    var country = getMatch(urlValues, data.countries);
+    if (country) {
+        url += "/"+country;
+    }
+
+    if (object) {
+        url += "/"+object;
+    }
+
+    window.history.pushState(null, null, url);
+}
+
+function checkObjectParamsInUrl() {
+    var urlValues = getValuesFromUrl();
+
+    return checkPosition(urlValues, "object-");
+}
+
 function updateUrl(data, urlValues) {
     // Шаблон - /country/buy/city/type/2bedroom/price/size/peculiarities/to_sea/ и пр.
     var url = "";
@@ -59,93 +122,98 @@ function updateUrl(data, urlValues) {
         url += "/" + country;
     }
 
-    var buy = false;
-    urlValues.forEach(function (value, index) {
-        if (data.sale_or_rent.includes(value)) {
-            buy = value;
+    var object = checkPosition(urlValues, "object-");
+    if (object) {
+        url += "/" + object;
+    } else {
+        var buy = false;
+        urlValues.forEach(function (value, index) {
+            if (data.sale_or_rent.includes(value)) {
+                buy = value;
+            }
+        })
+        if (buy) {
+            url += "/" + buy;
         }
-    })
-    if (buy) {
-        url += "/" + buy;
-    }
 
-    var city = getMatch(urlValues, data.cities);
-    if (city) {
-        url += "/" + city;
-    }
-
-    var type = getMatch(urlValues, data.types);
-    if (type) {
-        url += "/" + type;
-    }
-
-    var bedroom = getMatchRoom(urlValues, data.bedrooms, "bedroom");
-    if (bedroom) {
-        url += "/" + bedroom;
-    }
-
-    var bathroom = getMatchRoom(urlValues, data.bathrooms, "bathroom");
-    if (bathroom) {
-        url += "/" + bathroom;
-    }
-
-    var peculiarities = getMatches(urlValues, data.peculiarities);
-    if (peculiarities.length > 0) {
-        for(var i = 0; i < peculiarities.length; i++) {
-            url += "/" + peculiarities[i];
+        var city = getMatch(urlValues, data.cities);
+        if (city) {
+            url += "/" + city;
         }
-    }
 
-    var view = getMatch(urlValues, data.views);
-    if (view) {
-        url += "/" + view;
-    }
+        var type = getMatch(urlValues, data.types);
+        if (type) {
+            url += "/" + type;
+        }
 
-    var to_sea = getMatch(urlValues, data.to_sea);
-    if (to_sea) {
-        url += "/" + to_sea;
-    }
+        var bedroom = getMatchRoom(urlValues, data.bedrooms, "bedroom");
+        if (bedroom) {
+            url += "/" + bedroom;
+        }
 
-    var min_price = checkPosition(urlValues, "minprice");
-    if (min_price) {
-        url += "/" + min_price;
-    }
+        var bathroom = getMatchRoom(urlValues, data.bathrooms, "bathroom");
+        if (bathroom) {
+            url += "/" + bathroom;
+        }
 
-    var max_price = checkPosition(urlValues, "maxprice");
-    if (max_price) {
-        url += "/" + max_price;
-    }
+        var peculiarities = getMatches(urlValues, data.peculiarities);
+        if (peculiarities.length > 0) {
+            for (var i = 0; i < peculiarities.length; i++) {
+                url += "/" + peculiarities[i];
+            }
+        }
 
-    var currency = getMatchCurrency(urlValues, data.currency);
-    if (currency) {
-        url += "/" + currency;
-    }
+        var view = getMatch(urlValues, data.views);
+        if (view) {
+            url += "/" + view;
+        }
 
-    var min_size = checkPosition(urlValues, "minsize");
-    if (min_size) {
-        url += "/" + min_size;
-    }
+        var to_sea = getMatch(urlValues, data.to_sea);
+        if (to_sea) {
+            url += "/" + to_sea;
+        }
 
-    var max_size = checkPosition(urlValues, "maxsize");
-    if (max_size) {
-        url += "/" + max_size;
-    }
+        var min_price = checkPosition(urlValues, "minprice");
+        if (min_price) {
+            url += "/" + min_price;
+        }
 
-    if (urlValues.includes("new")) {
-        url += "/new";
-    }
-    if (urlValues.includes("secondary")) {
-        url += "/secondary";
-    }
+        var max_price = checkPosition(urlValues, "maxprice");
+        if (max_price) {
+            url += "/" + max_price;
+        }
 
-    if (urlValues.includes("new-first")) {
-        url += "/new-first";
-    }
-    if (urlValues.includes("cheap-first")) {
-        url += "/cheap-first";
-    }
-    if (urlValues.includes("expensive-first")) {
-        url += "/expensive-first";
+        var currency = getMatchCurrency(urlValues, data.currency);
+        if (currency) {
+            url += "/" + currency;
+        }
+
+        var min_size = checkPosition(urlValues, "minsize");
+        if (min_size) {
+            url += "/" + min_size;
+        }
+
+        var max_size = checkPosition(urlValues, "maxsize");
+        if (max_size) {
+            url += "/" + max_size;
+        }
+
+        if (urlValues.includes("new")) {
+            url += "/new";
+        }
+        if (urlValues.includes("secondary")) {
+            url += "/secondary";
+        }
+
+        if (urlValues.includes("new-first")) {
+            url += "/new-first";
+        }
+        if (urlValues.includes("cheap-first")) {
+            url += "/cheap-first";
+        }
+        if (urlValues.includes("expensive-first")) {
+            url += "/expensive-first";
+        }
     }
 
     window.history.pushState(null, null, url);

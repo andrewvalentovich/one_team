@@ -170,17 +170,12 @@ async function getData(idCountry) {
     const exitBtn = document.querySelectorAll(".place__header-exit")
     exitBtn.forEach(btn => {
         btn.addEventListener('click', function() {
-            const currentUrl = window.location.href;
-
-            var url = new URL(window.location.href);
-
-            url.searchParams.delete('object_id');
-
-            // Получение обновленного URL
-            var updatedUrl = url.toString();
-
-            // Обновление URL в адресной строке
-            window.history.replaceState({}, '', updatedUrl);
+            var urlParams = getValuesFromUrl();
+            var object = checkPosition(urlParams, 'object-');
+            if (object) {
+                urlParams = deleteUrlParameter(object, urlParams);
+            }
+            updateUrl(window.filter_params_data, urlParams);
         })
     });
     document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
@@ -706,15 +701,13 @@ if(document.querySelectorAll('.place-w').length) {
             const target = e.target
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
-                var url = new URL(window.location.href);
 
-                url.searchParams.delete('object_id');
-
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
-
-                // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
+                var urlParams = getValuesFromUrl();
+                var object = checkPosition(urlParams, 'object-');
+                if (object) {
+                    urlParams = deleteUrlParameter(object, urlParams);
+                }
+                updateUrl(window.filter_params_data, urlParams);
             }
             if(target.classList.contains('_country')) {
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')

@@ -230,7 +230,21 @@ class HousesController extends Controller
         $data = $request->validated();
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
-        $houses = Product::filter($filter)->with('photo')->with('peculiarities')->get()->transform(function ($row) {
+
+        $houses = Product::with(['layouts' => function($query) use ($data) {
+            // Ограничиваем вывод, только те у которых цена соответствует
+            if (isset($data['price']['min'])) {
+                $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
+            }
+            if (isset($data['price']['max'])) {
+                $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
+            }
+            $query->with('photos');
+            $query->orderBy('price', 'asc');
+        }])->with('photo')->with('peculiarities')->get()->transform(function ($row) {
+            if (isset($row->layouts) && count($row->layouts) > 0) {
+                $row->price = $row->layouts[0]->price;
+            }
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
