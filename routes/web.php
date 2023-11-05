@@ -85,7 +85,7 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 
 
 
-Route::domain('dev.'.config('app.domain'))->group(function () {
+Route::domain(config('app.domain'))->group(function () {
     Route::view('test','test2');
 
 

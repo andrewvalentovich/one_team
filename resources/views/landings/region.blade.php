@@ -401,7 +401,7 @@
     <script>
         window.domain = `{{ config('app.domain') }}`;
 
-        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://${window.domain}:8879/api/landings/with_filter` : `https://${window.domain}/api/landings/with_filter`;
     </script>
     <script src="{{ asset('lands/js/objects-filter.js') }}"></script>
     <script src="{{ asset('lands/js/forms-submit.js') }}"></script>

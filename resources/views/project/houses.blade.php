@@ -829,7 +829,7 @@
                     <div class="object__photo-text">
                         <div class="object__photo-info">
                         </div>
-                        <form class="default-form" id="">
+                        <form class="default-form" id="object_form">
                             <div class="title">Заявка на бронь</div>
                             <label class="field name input-wrapper" bis_skin_checked="1">
                                 <span class="text">
@@ -841,7 +841,7 @@
                                 <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                                     <div class="contact__form-country-item" bis_skin_checked="1">
                                         <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                            <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                         </div>
                                     </div>
                                 </div>
@@ -849,7 +849,7 @@
                                     <div class="contact__phone-list" bis_skin_checked="1">
                                         <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                                <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Россия (Russia) <span>+7</span>
@@ -857,7 +857,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                                <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 США (United States)  <span>+1</span>
@@ -865,7 +865,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                                <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Германия (Germany) <span>+49</span>
@@ -873,7 +873,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                                <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Польша (Poland) <span>+48</span>
@@ -881,7 +881,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                                <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Швеция (Sweden) <span>+46</span>
@@ -889,7 +889,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                                <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Италия (Italy) <span>+39</span>
@@ -2588,7 +2588,7 @@ function P(e) {
                 }, this);
             }
 
-            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
                 // Переопределяем методы макета, чтобы выполнять дополнительные действия
                 // при построении и очистке макета.

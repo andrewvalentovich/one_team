@@ -367,33 +367,31 @@
                         </div>
                     </div>
                 </div>
-                <label class="contact__form-politic">
-                    <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox"
-                           id="contact__form-politic" checked>
+                <label class="contact__form-politic" for="contact__form_politic_on_index_page">
+                    <input class="contact__form-politic-checkbox contact__form-checkbox" type="checkbox"
+                           id="contact__form_politic_on_index_pagee" checked>
                     <div class="contact__form-custom-checkbox one_check"></div>
                     <div class="contact__form-checkbox-text">
                         {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}} </span>
                     </div>
                 </label>
-                <label class="contact__form-data">
+                <label class="contact__form-data" for="contact__form_data_on_index_page">
                     <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox"
-                           id="contact__form-data">
+                           id="contact__form_data_on_index_page">
                     <div class="contact__form-custom-checkbox two_check"></div>
                     <div class="contact__form-checkbox-text">
                         {{__('Согласен на обработку')}} <span>{{__('персональных данных')}} </span>
                     </div>
                 </label>
                 <div class="contact__form-footer">
-                    <button style="    width: 100%;" class="contact__form-footer-button">
+                    <button type="submit" style="width: 100%;" class="contact__form-footer-button">
                         {{__('Связаться')}}
                     </button>
-
                 </div>
             </div>
         </section>
         <input type="hidden" name="contact__phone-title" value="Россия (Russia)">
     </form>
-
     <script>
         $('.contact__top-item').click(function () {
             $("input[name='contact_type']").val($(this).html())
@@ -404,11 +402,11 @@
         $('.contact__form-phone-input').on('keydown', function () {
             $('.contact__form-phone').css('border', '2px solid #508cfa')
         });
-        $('#index_page_form').submit(function () {
+        $('#index_page_form').submit(function (event) {
             event.preventDefault()
             let phone = $("input[name='phone']").val();
             let country = $("input[name='contact__phone-title']").val();
-            let messanger = $("input[name='contact_type']").val();
+            let message = $("input[name='contact_type']").val();
             let phone_val = false;
 
             if (phone.length == 0) {
@@ -417,34 +415,38 @@
                 phone_val = true;
             }
             let check_one = false;
-            if ($('.contact__form-politic-checkbox').not(':checked').length) {
+            if ($(this).find('.contact__form-politic-checkbox').not(':checked').length) {
                 $('.one_check').css('border', '2px solid red')
             } else {
                 check_one = true;
             }
             let check_two = false;
-            if ($('.contact__form-data-checkbox').not(':checked').length) {
+            if ($(this).find('.contact__form-data-checkbox').not(':checked').length) {
                 $('.two_check').css('border', '2px solid red')
             } else {
                 check_two = true;
             }
-            if (check_two === true && check_one === true && phone_val === true) {
+            if (check_two == true && check_one == true && phone_val == true) {
                 let formData = new FormData();
                 formData.append('phone', phone);
                 formData.append('country', country);
-                formData.append('messanger', messanger);
+                formData.append('message', message);
+                formData.append('_token', '{{ csrf_token() }}');
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 $.ajax({
-                    url: "<?php echo route('send_request') ?>",
+                    url: "{{ route('send_request') }}",
                     type: 'POST',
                     data: formData,
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        console.log("response");
+                        console.log(response);
                         // Handle the response from the server
                         Swal.fire({
                             position: 'center',

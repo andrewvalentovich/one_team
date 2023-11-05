@@ -45,7 +45,7 @@
                     <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                         <div class="contact__form-country-item" bis_skin_checked="1">
                             <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="contact__phone-list" bis_skin_checked="1">
                             <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                    <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     Россия (Russia) <span>+7</span>
@@ -61,7 +61,7 @@
                             </div>
                             <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                    <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     США (United States)  <span>+1</span>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                    <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     Германия (Germany) <span>+49</span>
@@ -77,7 +77,7 @@
                             </div>
                             <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                    <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     Польша (Poland) <span>+48</span>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                    <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     Швеция (Sweden) <span>+46</span>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
                                 <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                    <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
                                 </div>
                                 <div class="contact__phone-title" bis_skin_checked="1">
                                     Италия (Italy) <span>+39</span>
@@ -246,29 +246,45 @@
     });
 
 
-    $('#city_form').submit(function () {
+    $('#city_form,#object_form').submit(function (event) {
         event.preventDefault()
-        let name =  $("input[name='fio']").val();
-        let phone =   $("input[name='phone']").val()
-        let phoneInput =   $("input[name='phone']")
+        let product_id = $(this).find("input[name='product_id']").val();
+        let name = $(this).find("input[name='fio']").val();
+        let phoneInput = $(this).find("input[name='phone']");
+        let phone = phoneInput.val();
+
         let name_valid = false;
         if (name.length == 0){
             $('.name').closest('.input-wrapper').addClass('border');
-        }else{
+        } else{
             name_valid = true;
         }
 
         let phone_valid = false
-
         const lengthPhone = phoneInput.data('phone-pattern').length;
         if(lengthPhone !== phone.length) {
             $('.field-phone').closest('.input-wrapper').addClass('border');
-        }
-        else {
+        } else {
             phone_valid = true;
         }
-        if (phone_valid == true && name_valid == true){
+
+        let check_one = false;
+        if ($(this).find('.contact__form-politic-checkbox').not(':checked').length) {
+            $('.one_check').css('border', '2px solid red')
+        } else {
+            check_one = true;
+        }
+
+        let check_two = false;
+        if ($(this).find('.contact__form-data-checkbox').not(':checked').length) {
+            $('.two_check').css('border', '2px solid red')
+        } else {
+            check_two = true;
+        }
+
+        if (phone_valid == true && name_valid == true && check_one == true && check_two == true){
             let formData = new FormData();
+            formData.append('product_id', product_id);
             formData.append('phone', phone);
             formData.append('name', name);
             formData.append('product_id', $("input[name='product_id']").val());
