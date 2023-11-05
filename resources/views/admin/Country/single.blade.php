@@ -105,18 +105,18 @@
                         <div bis_skin_checked="1">
                             <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/$get->photo")}}" alt="">
                             <br>
-                            <input name="photo" id="file-photo" type="file" style="opacity: 0">
+                            <input name="photo" id="file-photo-city" type="file" style="opacity: 0">
                             <br>
-                            <label style="width: 200px" for="file-photo" class="btn btn-outline-success">
+                            <label style="width: 200px" for="file-photo-city" class="btn btn-outline-success">
                                 Выберите фото
                             </label>
                         </div>
                         <div bis_skin_checked="1">
                             <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/$get->flag")}}" alt="">
                             <br>
-                            <input name="flag" id="file-logo" type="file" style="opacity: 0">
+                            <input name="flag" id="file-logo-city" type="file" style="opacity: 0">
                             <br>
-                            <label style="width: 200px" for="file-logo" class="btn btn-outline-success">
+                            <label style="width: 200px" for="file-logo-city" class="btn btn-outline-success">
                                 Выберите флаг
                             </label>
                         </div>
@@ -151,36 +151,30 @@
                             <label for="exampleInputName1">Название   города  на Немецком</label>
                             <input value="" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  города  на Немецком" required >
                         </div>
-
-
                         <input type="hidden" name="id" value="{{$get->id}}">
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Longitude</label>
                             <input  name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Longitude" required>
                         </div>
-
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Latitude</label>
                             <input   name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
                         </div>
-
-
-
                         <div bis_skin_checked="1">
-                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%; display: none;" src="{{asset("uploads/$get->photo")}}" alt="" id="blaha">
+                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/")}}" alt="">
                             <br>
-                            <input accept="image/*" style="display: none" name="photo" id="file-logo" class="btn btn-outline-success" type="file" >
+                            <input name="photo" id="file-photo" type="file" style="opacity: 0">
                             <br>
-                            <label style="width: 200px" for="file-logo" class="custom-file-upload btn btn-outline-success">
-                                Выберети фотографию
+                            <label style="width: 200px" for="file-photo" class="btn btn-outline-success">
+                                Выберите фото
                             </label>
                         </div>
                         <div bis_skin_checked="1">
-                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/$get->flag")}}" alt="" id="blahas" >
+                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/")}}" alt="">
                             <br>
-                            <input accept="image/*" style="display: none" name="flag" id="file-logos" class="btn btn-outline-success" type="file">
+                            <input name="flag" id="file-logo" type="file" style="opacity: 0">
                             <br>
-                            <label style="width: 200px" for="file-logos" class="custom-file-upload btn btn-outline-success">
+                            <label style="width: 200px" for="file-logo" class="btn btn-outline-success">
                                 Выберите флаг
                             </label>
                         </div>
