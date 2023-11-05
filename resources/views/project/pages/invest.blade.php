@@ -1,6 +1,6 @@
 @extends('project.includes.layouts')
 
-<?php $title = 'Oneteam / ' . __('О проекте') ?>
+<?php $title = 'Oneteam / ' . __('Инвестиции') ?>
 @section('header')
     @include('project.includes.header')
 @endsection
