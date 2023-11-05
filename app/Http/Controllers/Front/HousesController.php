@@ -22,7 +22,20 @@ class HousesController extends Controller
     public function realty(Request $request, $categories)
     {
         $categories_array = explode('/', $categories);
+
         $country = null;
+        foreach ($categories_array as $category) {
+            $country_name = str_replace('_', ' ', $category);
+            $country = CountryAndCity::whereRaw('`name_en` LIKE ? ', ['%'.$country_name.'%'])->first();
+            unset($country_name);
+
+            if (!is_null($country)) {
+                break;
+            }
+        }
+
+        // Генерация заголовка
+        $title = $this->generateTitle($country);
 
         $countries = CountryAndCity::all('name_en', 'lat', 'long');
         foreach ($countries as $index => $item) {
@@ -31,39 +44,43 @@ class HousesController extends Controller
             }
         }
 
-        return view('project.houses', compact('country'));
+        return view('project.houses', compact('country', 'title'));
     }
 
     private function generateTitle($country)
     {
-        // Формируем заголовок
-        $name = __('Недвижимость');
-        if(app()->getLocale() == 'ru') {
-            if ($country->name == 'Турция') {
-                $name .= ' в Турции';
+        if (!is_null($country)) {
+            // Формируем заголовок
+            $name = __('Покупка недвижимости');
+            if (app()->getLocale() == 'ru') {
+                if ($country->name == 'Турция') {
+                    $name .= ' в Турции';
+                }
+                if ($country->name == 'Северный Кипр') {
+                    $name .= ' на Северном Кипре';
+                }
+                if ($country->name == 'Черногория') {
+                    $name .= ' в Черногории';
+                }
+                if ($country->name == 'ОАЭ') {
+                    $name .= ' в ОАЭ';
+                }
+                if ($country->name == 'Катар') {
+                    $name .= ' в Катаре';
+                }
             }
-            if ($country->name == 'Северный Кипр') {
-                $name .= ' на Северном Кипре';
+            $title = 'Oneteam / ';
+            if (app()->getLocale() == 'en') {
+                $name .= __('в') . ' ' . $country->name_en;
+            } elseif (app()->getLocale() == 'tr') {
+                $name .= __('в') . ' ' . $country->name_tr;
+            } elseif (app()->getLocale() == 'de') {
+                $name .= __('в') . ' ' . $country->name_de;
             }
-            if ($country->name == 'Черногория') {
-                $name .= ' в Черногории';
-            }
-            if ($country->name == 'ОАЭ') {
-                $name .= ' в ОАЭ';
-            }
-            if ($country->name == 'Катар') {
-                $name .= ' в Катаре';
-            }
+            $title .= $name;
+        } else {
+            $title = null;
         }
-        $title = 'Oneteam / ';
-        if (app()->getLocale() == 'en'){
-            $name .= __('в') . ' '. $country->name_en;
-        } elseif (app()->getLocale() == 'tr') {
-            $name .= __('в') . ' '. $country->name_tr;
-        } elseif (app()->getLocale() == 'de') {
-            $name .= __('в') . ' '. $country->name_de;
-        }
-        $title .= $name;
 
         return $title;
     }
