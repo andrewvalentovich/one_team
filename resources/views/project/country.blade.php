@@ -1453,7 +1453,7 @@
                                                     map.geoObjects.add(placemark);
                                                 });
                                             }
-                                            createYandexMap(<?php echo $product->lat.','.$product->long?>);
+                                            createYandexMap({{ $country->lat }}, {{ $country->long }});
                                         </script>
                                         <div id="place-map{{$product->id}}" style="width: 100%; height: 195px;"></div>
                                     </div>
@@ -2464,7 +2464,7 @@
 
                     C = new ymaps.Map("map_city", {
 
-                        center: [<?php echo $country->lat .','.$country->long ?>],
+                        center: [{{ $country->lat .','.$country->long }}],
 
                         zoom: 6,
 
@@ -2947,8 +2947,12 @@ if(objectIdFromUrl) {
         popupObject.classList.add('active')
     }
 }
-
 let ids = {{ $country->id }};
+
+window.country = {
+    lat: {{ $country->lat }},
+    long: {{ $country->long }},
+};
 getData(ids);
 </script>
 @endsection

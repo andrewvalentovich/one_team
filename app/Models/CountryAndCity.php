@@ -14,11 +14,12 @@ class CountryAndCity extends Model
     public function cities()
     {
         return $this->hasMany(CountryAndCity::class, 'parent_id')->withCount('product_city')->orderby('product_city_count','DESC');
+//        return $this->hasMany(CountryAndCity::class, 'parent_id');
     }
 
     public function country()
     {
-        return $this->belongsto(CountryAndCity::class, 'parent_id');
+        return $this->belongsTo(CountryAndCity::class, 'parent_id');
     }
 
     public function product_city()

@@ -47,32 +47,36 @@ class HomePageController extends Controller
         $id = is_null($id) ? 17 : $id;
 
         // Получаем города Турции
-        $cities = CountryAndCity::select('id', $nameField, 'lat', 'long')->where('parent_id', $id)->has('product_city')->get();
+        $country = CountryAndCity::select('id', $nameField, 'slug', 'lat', 'long')->with(['cities' => function ($query) use ($nameField) {
+            $query->has('product_city');
+        }])->find($id);
 
-        $data = array();
-        foreach ($cities as $city){
+        $data = [];
+        foreach ($country->cities as $city){
             if (app()->getLocale() == 'en'){
                 $city->name = $city->name_en;
             }
             if (app()->getLocale() == 'tr'){
                 $city->name = $city->name_tr;
             }
+            if (app()->getLocale() == 'de'){
+                $city->name = $city->name_de;
+            }
             // Получаем id, координаты, название города Турции и количество объектов которые ему принадлежат
             $data[] =
-                [
-                    'id' => $city->id,
-                    'coordinate' => $city->lat . ',' . $city->long,
-                    'name' => $city->name,
-                    'count' => $city->product_city->count()
-                ];
+            [
+                'id' => $city->id,
+                'coordinate' => $city->lat . ',' . $city->long,
+                'name' => $city->name,
+                'link' => '/' . $country->slug . '/' . $city->slug,
+                'count' => $city->product_city->count()
+            ];
         }
-
 
         return response()->json([
            'status' => true,
            'data' => $data
         ],200);
-
     }
 
 
