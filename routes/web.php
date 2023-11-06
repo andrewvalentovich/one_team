@@ -97,7 +97,7 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
     Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
     Route::get('locations/',[AllLocationController::class, 'all_location'])->name('all_location');
-    Route::get('locations/{name_en}',[CounrtryController::class, 'countries'])->name('countries');
+    Route::get('locations/{slug}',[CounrtryController::class, 'countries'])->name('countries');
     Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
 
     Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
@@ -179,7 +179,7 @@ Route::domain(config('app.domain'))->group(function () {
             Route::get('new_country_page', [CountryAndCityController::class, 'new_country_page'])->name('new_country_page');
             Route::post('create_country', [CountryAndCityController::class, 'create_country'])->name('create_country');
             Route::get('single_country/country_id={id}', [CountryAndCityController::class, 'single_country'])->name('single_country');
-            Route::post('update_country', [CountryAndCityController::class, 'update_country'])->name('update_country');
+            Route::patch('update_country', [CountryAndCityController::class, 'update_country'])->name('update_country');
             Route::get('delete_country/country_id={id}', [CountryAndCityController::class, 'delete_country'])->name('delete_country');
             Route::post('get_city', [CountryAndCityController::class, 'get_city'])->name('get_city');
 

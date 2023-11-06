@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CountryAndCity\StoreRequest;
 use App\Http\Requests\Admin\CountryAndCity\UpdateRequest;
 use App\Services\ImageService;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use App\Models\CountryAndCity;
 use Illuminate\Support\Facades\File;
 use App\Models\Metric;
+use Illuminate\Support\Facades\Redirect;
+
 class CountryAndCityController extends Controller
 {
     private $imageService;
@@ -45,10 +48,12 @@ class CountryAndCityController extends Controller
         $photo = null;
         $flag = null;
 
+        // Если есть фото, создаём фото
         if (isset($data['photo'])){
             $data['photo'] = $this->imageService->saveWebp($data['photo']);
         }
 
+        // Если есть флаг, создаём флаг
         if (isset($data['flag'])){
             $data['flag'] = $this->imageService->saveWebp($data['flag']);
         }
@@ -76,6 +81,14 @@ class CountryAndCityController extends Controller
             return redirect()->back();
         }
         unset($data['id']);
+
+        // Проверка поля slug на уникальность
+        if (isset($data['slug'])) {
+            $country_and_city = CountryAndCity::where('slug', $data['slug'])->whereNot('id', $get->id)->first();
+            if (!is_null($country_and_city)) {
+                return Redirect::back()->withErrors(['slug' => ['The slug must be unique.']]);
+            }
+        }
 
         $photo = null;
         $flag = null;

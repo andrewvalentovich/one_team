@@ -26,12 +26,11 @@ class CounrtryController extends Controller
         $this->layoutService = $layoutService;
     }
 
-    public function countries($name_en)
+    public function countries($slug)
     {
-        $get = CountryAndCity::where('name_en', $name_en)->withCount('product_city')->orderby('product_city_count','DESC')->get();
+        $get = CountryAndCity::where('slug', $slug)->withCount('product_city')->orderby('product_city_count','DESC')->get();
 
-        $name_en = str_replace('_', ' ', $name_en);
-        $country = CountryAndCity::whereRaw('`name_en` LIKE ? ', ['%'.$name_en.'%'])->with('product_country')->with('cities.product_city')->first();
+        $country = CountryAndCity::where('slug', $slug)->with('product_country')->with('cities.product_city')->first();
 
         $title = $this->generateTitle($country);
         $citizenship_for_invesment = $this->citizenship_for_invesment($country);

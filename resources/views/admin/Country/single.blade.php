@@ -35,7 +35,10 @@
                     <h4 class="card-title">Редактирование    @if($get->parent_id == null) страны @else города @endif</h4>
                     <form class="forms-sample" action="{{route('update_country')}}" method="post" enctype="multipart/form-data">
                         @csrf
-
+                        @method('patch')
+                        @if($errors->any())
+                            <h4>{{$errors->first()}}</h4>
+                        @endif
                         @if($get->parent_id == null)
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
@@ -57,29 +60,55 @@
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif</label>
                             <input  value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif" required >
+                            @error('name')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                            @enderror
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Английском</label>
                             <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на английском" required >
+                            @error('name_en')
+                                <label class="text-danger font-weight-normal" for="name_en">{{ $message }}</label>
+                            @enderror
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Турецком</label>
-                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Турецком" required >
+                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Турецком">
+                            @error('name_tr')
+                                <label class="text-danger font-weight-normal" for="name_tr">{{ $message }}</label>
+                            @enderror
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Немецком</label>
-                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Немецком" required >
+                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Немецком">
+                            @error('name_de')
+                                <label class="text-danger font-weight-normal" for="name_de">{{ $message }}</label>
+                            @enderror
                         </div>
+                        <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif в url</label>
+                            <input value="{{$get->slug}}" name="slug" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif в url">
+                            @error('slug')
+                                <label class="text-danger font-weight-normal" for="slug">{{ $message }}</label>
+                            @enderror
+                        </div>
+
 
                         <input type="hidden" name="country_id" value="{{$get->id}}">
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Longitude</label>
                             <input value="{{$get->long}}" name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Longitude" required>
+                            @error('long')
+                                <label class="text-danger font-weight-normal" for="long">{{ $message }}</label>
+                            @enderror
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Latitude</label>
                             <input value="{{$get->lat}}" name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
+                            @error('lat')
+                                <label class="text-danger font-weight-normal" for="lat">{{ $message }}</label>
+                            @enderror
                         </div>
                         @if($get->parent_id == null)
                             <div class="form-group" bis_skin_checked="1">
@@ -110,6 +139,9 @@
                             <label style="width: 200px" for="file-photo-city" class="btn btn-outline-success">
                                 Выберите фото
                             </label>
+                            @error('photo')
+                                <label class="text-danger font-weight-normal" for="photo">{{ $message }}</label>
+                            @enderror
                         </div>
                         <div bis_skin_checked="1">
                             <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/$get->flag")}}" alt="">
@@ -119,6 +151,9 @@
                             <label style="width: 200px" for="file-logo-city" class="btn btn-outline-success">
                                 Выберите флаг
                             </label>
+                            @error('flag')
+                                <label class="text-danger font-weight-normal" for="flag">{{ $message }}</label>
+                            @enderror
                         </div>
                         <br>
                         <br>

@@ -29,7 +29,7 @@
             <div class="popular-locations__list">
                 @foreach($all_country as $country)
                     @if(count($country->product_country) > 0)
-                        <a href="{{route('countries', str_replace(' ', '_', mb_strtolower($country->name_en)))}}" class="popular-locations__item">
+                        <a href="{{route('countries', $country->slug)}}" class="popular-locations__item">
                             <div class="popular-locations__item-img">
                                 <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
                             </div>

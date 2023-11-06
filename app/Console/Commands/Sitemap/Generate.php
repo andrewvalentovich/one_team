@@ -45,7 +45,7 @@ class Generate extends Command
 
         // Статические страницы
         $staticLinks = [
-            "/all_location",
+            "/locations",
             "/investments",
             "/residence_and_citizenship",
             "/installment_plan",
@@ -65,7 +65,7 @@ class Generate extends Command
         // Добавляем url для страниц стран (country page)
         CountryAndCity::whereNull('parent_id')->has('product_country')->get()->each(function (CountryAndCity $country) use ($sitemap) {
             $sitemap->add(
-                Url::create("/country/country_id={$country->id}")
+                Url::create("/locations/{$country->slug}")
                     ->setPriority(0.9)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
             );
@@ -74,16 +74,16 @@ class Generate extends Command
         // Добавляем url для каталога по странам
         CountryAndCity::whereNull('parent_id')->has('product_country')->get()->each(function (CountryAndCity $country) use ($sitemap) {
             $sitemap->add(
-                Url::create("/houses/?country_id={$country->id}")
+                Url::create("/{$country->slug}")
                     ->setPriority(0.9)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
             );
         });
 
         // Добавляем url для каталога по регионам
-        CountryAndCity::whereNotNull('parent_id')->has('product_city')->get()->each(function (CountryAndCity $city) use ($sitemap) {
+        CountryAndCity::whereNotNull('parent_id')->with('country')->has('product_city')->get()->each(function (CountryAndCity $city) use ($sitemap) {
             $sitemap->add(
-                Url::create("/houses/?city_id={$city->id}")
+                Url::create("/{$city->country->slug}/{$city->slug}")
                     ->setPriority(0.9)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
             );
@@ -92,7 +92,7 @@ class Generate extends Command
         // Добавляем url для каталога по типам недвижимости
         Peculiarities::where('type', 'Типы')->has('product')->get()->each(function (Peculiarities $peculiarity) use ($sitemap) {
             $sitemap->add(
-                Url::create("/houses/?type={$peculiarity->id}")
+                Url::create("/{$peculiarity->name_en}")
                     ->setPriority(0.9)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
             );
@@ -100,20 +100,20 @@ class Generate extends Command
 
         // Добавляем url для каталога по типам сделки
         $sitemap->add(
-            Url::create("/houses/?sale_or_rent=sale")
+            Url::create("/buy")
                 ->setPriority(0.9)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
         );
-        $sitemap->add(
-            Url::create("/houses/?sale_or_rent=rent")
-                ->setPriority(0.9)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-        );
+//        $sitemap->add(
+//            Url::create("/rent")
+//                ->setPriority(0.9)
+//                ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
+//        );
 
         // Добавляем url для каталога по страницам (company_select)
         CompanySelect::orderBy('status' , 'asc')->get()->each(function (CompanySelect $page) use ($sitemap) {
             $sitemap->add(
-                Url::create("/company_page/page_id={$page->id}")
+                Url::create("/about/{$page->slug}")
                     ->setPriority(0.9)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
             );

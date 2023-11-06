@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\CountryAndCity;
 
+use App\Models\CountryAndCity;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
@@ -38,7 +39,11 @@ class UpdateRequest extends FormRequest
             'div_tr'    => 'nullable|string|max:4294967295',
             'div_de'    => 'nullable|string|max:4294967295',
             'lat'       => 'nullable|string|max:255',
-            'long'      =>  'nullable|string|max:255'
+            'long'      => 'nullable|string|max:255',
+            'slug'      => [
+                'nullable',
+                'string'
+            ],
         ];
     }
 

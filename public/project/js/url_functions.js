@@ -57,12 +57,12 @@ function findObjectParams(data) {
         price: {}
     };
 
-    var country = getMatch(urlValues, data.countries);
+    var country = getMatchSlug(urlValues, data.countries);
     if (country) {
         params.country = country;
     }
 
-    var city = getMatch(urlValues, data.cities);
+    var city = getMatchSlug(urlValues, data.cities);
     if (city) {
         params.city = city;
     }
@@ -95,7 +95,7 @@ function replaceUrlWithObject(data, object) {
     var urlValues = getValuesFromUrl();
     var url = "";
 
-    var country = getMatch(urlValues, data.countries);
+    var country = getMatchSlug(urlValues, data.countries);
     if (country) {
         url += "/"+country;
     }
@@ -117,7 +117,7 @@ function updateUrl(data, urlValues) {
     // Шаблон - /country/buy/city/type/2bedroom/price/size/peculiarities/to_sea/ и пр.
     var url = "";
 
-    var country = getMatch(urlValues, data.countries);
+    var country = getMatchSlug(urlValues, data.countries);
     if (country) {
         url += "/" + country;
     }
@@ -143,7 +143,7 @@ function updateUrl(data, urlValues) {
         url += (buy == "sale") ? "/buy" : "/" + buy;
     }
 
-    var city = getMatch(urlValues, data.cities);
+    var city = getMatchSlug(urlValues, data.cities);
     if (city) {
         url += "/" + city;
     }
@@ -229,14 +229,14 @@ function convertToCategoryValue(data) {
     var categories = [];
 
     $.each(data.countries, function (index, value) {
-        categories.push({category: "country", value: value.name_en});
+        categories.push({category: "country", value: value.slug});
     });
 
     categories.push({category: "sale_or_rent", value: "sale"});
     categories.push({category: "sale_or_rent", value: "rent"});
 
     $.each(data.cities, function (index, value) {
-        categories.push({category: "city", value: value.name_en});
+        categories.push({category: "city", value: value.slug});
     });
     $.each(data.types, function (index, value) {
         categories.push({category: "type", value: value.name_en});
@@ -311,11 +311,25 @@ function dictionary() {
 
 function getMatch(first, second) {
     var match = false;
-
     for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
         for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
             // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
             if(first[i].toLowerCase() === second[j].name_en.toLowerCase()){
+                match = first[i]; // если совпадаем делаем что либо с этим значением
+            }
+        }
+    }
+
+    return match;
+}
+
+function getMatchSlug(first, second) {
+    var match = false;
+
+    for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
+        for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
+            // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
+            if(first[i] === second[j].slug){
                 match = first[i]; // если совпадаем делаем что либо с этим значением
             }
         }
@@ -508,27 +522,27 @@ function handleTypes(data) {
 
 function handleCountries(data) {
     // если указана страна в url, то выводим регионы
-    var country_name_en = getMatch(getValuesFromUrl(), data.countries);
+    var country_slug = getMatchSlug(getValuesFromUrl(), data.countries);
 
-    if (country_name_en !== false) {
+    if (country_slug !== false) {
         $('.search-nav__list-item[data_id="city"]').show();
         $('.search-nav__list-item[data_id="country"]').hide();
 
         // Выводим регионы при загрузке страницы
-        var cities_array = data.countries.find(x => x.name_en == country_name_en).cities;
-        var city_name_en = getMatch(getValuesFromUrl(), cities_array);
+        var cities_array = data.countries.find(x => x.slug == country_slug).cities;
+        var city_slug = getMatchSlug(getValuesFromUrl(), cities_array);
 
-        var city_name = city_name_en !== false ? data.cities.find(x => x.name_en == city_name_en).name : dictionary().all_regions[window.locale];
+        var city_name = city_slug !== false ? data.cities.find(x => x.slug == city_slug).name : dictionary().all_regions[window.locale];
 
         $(".city_select").text(city_name);
-        $("input[name='city_id']").val(city_name_en);
+        $("input[name='city_id']").val(city_slug);
 
         // Выводим страны в dropdown
         $('.search-nav__cities-list').html("");
         // Выводим пункт все регионы с data_id=""
         $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element search__filter-title">' + dictionary().all_regions[window.locale] + '</div>');
         $.each(cities_array, function (index, value) {
-            $('.search-nav__cities-list').append('<div data_id="' + value.name_en + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+            $('.search-nav__cities-list').append('<div data_id="' + value.slug + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
         });
 
         // Вешаем событие на добавленные элементы в dropdown
@@ -558,11 +572,11 @@ function handleCountries(data) {
 
         // Выводим название страны при загрузке страницы
         $(".country_select").text(dictionary().all_countries[window.locale]);
-        $("input[name='country_id']").val(country_name_en);
+        $("input[name='country_id']").val(country_slug);
 
         // Выводим страны в dropdown
         $.each(data.countries, function (index, value) {
-            $('.search-nav__countries-list').append('<div data_id="' + value.name_en + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
+            $('.search-nav__countries-list').append('<div data_id="' + value.slug + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
         });
 
         // Вешаем событие на добавленные элементы в dropdown

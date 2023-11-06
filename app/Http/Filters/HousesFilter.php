@@ -53,13 +53,13 @@ class HousesFilter extends AbstractFilter
             self::VIEW => [$this, 'peculiarities_by_name'],
             self::TO_SEA => [$this, 'peculiarities_by_name'],
             self::COUNTRY_ID => [$this, 'country_by_id'],
-            self::COUNTRY => [$this, 'country_by_name'],
+            self::COUNTRY => [$this, 'country_by_slug'],
             self::TYPE => [$this, 'peculiarities_by_name'],
             self::PECULIARITIES => [$this, 'peculiarities'],
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
             self::CITY_ID => [$this, 'city_by_id'],
-            self::CITY => [$this, 'city_by_name'],
+            self::CITY => [$this, 'city_by_slug'],
             self::IS_SECONDARY => [$this, 'is_secondary'],
         ];
     }
@@ -78,11 +78,11 @@ class HousesFilter extends AbstractFilter
         }
     }
 
-    protected function city_by_name(Builder $builder, $value)
+    protected function city_by_slug(Builder $builder, $value)
     {
         if(isset($value)) {
             $builder->whereHas('city', function ($query) use ($value) {
-                $query->where('name_en', "$value");
+                $query->where('slug', $value);
             });
         }
     }
@@ -94,12 +94,12 @@ class HousesFilter extends AbstractFilter
         }
     }
 
-    protected function country_by_name(Builder $builder, $value)
+    protected function country_by_slug(Builder $builder, $value)
     {
         if(isset($value)) {
             $builder->whereHas('country', function ($query) use ($value) {
 //                $query->where('name_en', "$value");
-                $query->whereRaw('`name_en` LIKE ? ',['%'.str_replace(' ', '_', $value).'%']);
+                $query->where('slug', $value);
             });
         }
     }

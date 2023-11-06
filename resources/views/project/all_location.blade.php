@@ -33,11 +33,11 @@
                             @if(count($country->product_country) > 0)
                                <div class="locations__item">
                                     <div class="locations__item-img">
-                                        <a href="{{ route('countries', str_replace(' ', '_', mb_strtolower($country->name_en))) }}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->flag")}}" alt="hungary"> </a>
+                                        <a href="{{ route('countries', $country->slug) }}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->flag")}}" alt="hungary"> </a>
                                     </div>
                                     <div class="locations__item-title">
                                         @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?>  @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
-                                        <a href="{{ route('countries', str_replace(' ', '_', mb_strtolower($country->name_en))) }}">    {{$country->name}}
+                                        <a href="{{ route('countries', $country->slug) }}">    {{$country->name}}
                                             <span>{{$country->product_country->count()}}</span> </a>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="locations__item-title">
                                         @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
-                                        <p href="{{route('countries', str_replace(' ', '_', mb_strtolower($country->name_en))) }}">    {{$country->name}}
+                                        <p href="{{route('countries', $country->slug) }}">    {{$country->name}}
                                             <span>({{ __('скоро открытие') }})</span> </p>
                                     </div>
                                 </div>
