@@ -729,7 +729,7 @@
             <!-- 2 блоков -->
             @if($count == 1)
             <div class="realty__content">
-                <div class="realty__left-col">
+                <div class="realty__left-col" style="flex: 1 0 calc(50% - 10px)">
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
@@ -746,7 +746,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="realty__right-col">
+                <div class="realty__right-col" style="flex: 1 0 calc(50% - 10px)">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
                             <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
