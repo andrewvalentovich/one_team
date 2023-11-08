@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /
+Disallow: 
 
-Sitemap: https://dev.one-team.pro/sitemap.xml
+Sitemap: https://one-team.pro/sitemap.xml
