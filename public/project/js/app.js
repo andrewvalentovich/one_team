@@ -10,14 +10,18 @@ async function getData(idCountry) {
         .then(response => response.json())
         .then(data => {
             if (data.status) {
+                console.log(data.data);
+                console.log(data.data.length);
                 data.data.forEach(city => {
                     locations.push({
-                        coordinates: city.coordinate.split(',').map(parseFloat),
+                        coordinates: city.coordinate,
                         balloonContent: `${city.name}, ${city.count} объектов`,
                         city_id: city.id,
                         link: city.link
                     });
                 });
+                console.log(locations);
+                console.log(locations.length);
             }
         })
         .catch(error => {
@@ -339,14 +343,15 @@ async function getData(idCountry) {
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
         var country = (window.country === undefined) ? {lat: 38.475851, long: 30.815585} : window.country;
         var e = new ymaps.Map("map-country", {
-                center: [country.lat, country.long],
-                zoom: 6,
-                controls: [],
-                behaviors: ["default", "scrollZoom"]
-            }, {
-                searchControlProvider: "yandex#search"
-            }),
-            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button  type="button" class="button _view_air _size_medium  _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+            center: [country.lat, country.long],
+            zoom: 6,
+            controls: [],
+            behaviors: ["default", "scrollZoom"]
+        }, {
+            searchControlProvider: "yandex#search"
+        }),
+
+        ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button  type="button" class="button _view_air _size_medium  _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
             // Переопределяем методы макета, чтобы выполнять дополнительные действия
             // при построении и очистке макета.
@@ -382,103 +387,105 @@ async function getData(idCountry) {
                 var map = this.getData().control.getMap();
                 map.setZoom(map.getZoom() - 1, {checkZoomRange: true});
             }
-            }),
-            zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
-            e.controls.add(zoomControl, {
-                position: {
-                    right: 20,
-                    bottom: 20
-                }
-            });
-            t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
+        }),
+        zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
+        e.controls.add(zoomControl, {
+            position: {
+                right: 20,
+                bottom: 20
+            }
+        });
+        t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
 
-                build: function () {
+            build: function () {
 
-                    this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
+                this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
 
-                },
+            },
 
-                clear: function () {
+            clear: function () {
 
-                    this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
+                this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
 
-                },
+            },
 
-                onSublayoutSizeChange: function () {
+            onSublayoutSizeChange: function () {
 
-                    t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
+                t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
 
-                },
+            },
 
-                applyElementOffset: function () {
+            applyElementOffset: function () {
 
-                    this._$element.css({
+                this._$element.css({
 
-                        left: -this._$element[0].offsetWidth / 2,
+                    left: -this._$element[0].offsetWidth / 2,
 
-                        top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
+                    top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
 
-                    })
+                })
 
-                },
+            },
 
-                onCloseClick: function (e) {
+            onCloseClick: function (e) {
 
-                    e.preventDefault(), this.events.fire("userclose")
+                e.preventDefault(), this.events.fire("userclose")
 
-                },
+            },
 
-                getShape: function () {
+            getShape: function () {
 
-                    if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
+                if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
 
-                    var e = this._$element.position();
+                var e = this._$element.position();
 
-                    return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
+                return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
 
-                        [e.left, e.top],
+                    [e.left, e.top],
 
-                        [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
+                    [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
 
-                    ]))
+                ]))
 
-                },
+            },
 
-                _isElement: function (e) {
+            _isElement: function (e) {
 
-                    return e && e[0] && e.find(".arrow")[0]
+                return e && e[0] && e.find(".arrow")[0]
 
-                }
+            }
 
-            }),
+        }),
 
-            o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-                build: function () {
-                    o.superclass.build.call(this);
-                    var e = this.getParentElement().getElementsByClassName("placemark")[0],
-                        t = this.isActive ? 60 : 34,
-                        c = {
-                            type: "Circle",
-                            coordinates: [0, 0],
-                            radius: t / 2
-                        },
-                        l = {
-                            type: "Circle",
-                            coordinates: [0, -30],
-                            radius: t / 2
-                        };
-                    this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-                        var o = document.querySelectorAll(".placemark");
-                        if (e.classList.contains("active")) e.classList.remove("active");
-                        else {
-                            for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-                            e.classList.add("active")
-                        }
-                    }), this))
-                }
-            }),
-            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="$[properties.link]">$[properties.balloonContent]</a> </div>'),
-        locations.forEach(function (Location) {
+        o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
+            build: function () {
+                o.superclass.build.call(this);
+                var e = this.getParentElement().getElementsByClassName("placemark")[0],
+                    t = this.isActive ? 60 : 34,
+                    c = {
+                        type: "Circle",
+                        coordinates: [0, 0],
+                        radius: t / 2
+                    },
+                    l = {
+                        type: "Circle",
+                        coordinates: [0, -30],
+                        radius: t / 2
+                    };
+                this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
+                    var o = document.querySelectorAll(".placemark");
+                    if (e.classList.contains("active")) e.classList.remove("active");
+                    else {
+                        for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
+                        e.classList.add("active")
+                    }
+                }), this))
+            }
+        }),
+        c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="$[properties.link]">$[properties.balloonContent]</a> </div>');
+        console.log(locations);
+        console.log(locations.length);
+        locations.forEach(Location => {
             var placemark = new ymaps.Placemark(Location.coordinates, {
                 balloonContent: Location.balloonContent,
                 link: Location.link,
@@ -494,8 +501,7 @@ async function getData(idCountry) {
             });
             e.behaviors.disable("scrollZoom"),
             e.geoObjects.add(placemark);
-        })
-
+        });
         // e.behaviors.disable("scrollZoom"), e.geoObjects.add(l).add(n).add(i).add(a).add(s)
     }))
 })();

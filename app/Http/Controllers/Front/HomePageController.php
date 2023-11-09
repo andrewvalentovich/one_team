@@ -41,7 +41,7 @@ class HomePageController extends Controller
     public function city_from_map(int $id = null)
     {
         // Выбираем поле с названием в зависимости от языка
-        $nameField = app()->getLocale() == 'ru' ? 'name' : 'name' . app()->getLocale();
+        $nameField = app()->getLocale() == 'ru' ? 'name' : 'name_' . app()->getLocale();
 
         // 17 - id страны (Турции)
         $id = is_null($id) ? 17 : $id;
@@ -66,7 +66,7 @@ class HomePageController extends Controller
             $data[] =
             [
                 'id' => $city->id,
-                'coordinate' => $city->lat . ',' . $city->long,
+                'coordinate' => [$city->lat, $city->long],
                 'name' => $city->name,
                 'link' => '/' . $country->slug . '/' . $city->slug,
                 'count' => $city->product_city->count()
