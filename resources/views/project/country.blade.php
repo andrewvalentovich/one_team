@@ -2924,8 +2924,6 @@
             listImg.appendChild(collageItem)
         });
     }
-
-
 }
 </script>
 <script>
@@ -2953,6 +2951,7 @@ window.country = {
     lat: {{ $country->lat }},
     long: {{ $country->long }},
 };
+
 getData(ids);
 </script>
 @endsection

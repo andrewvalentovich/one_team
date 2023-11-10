@@ -22,13 +22,14 @@ async function getData(idCountry) {
                 });
                 console.log(locations);
                 console.log(locations.length);
+                renderMap();
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
-(async () => {
+async function renderMap() {
     "use strict";
     if(window.innerWidth <=1003) {
         if(document.querySelectorAll("#map_city").length) {
@@ -485,6 +486,7 @@ async function getData(idCountry) {
         c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="$[properties.link]">$[properties.balloonContent]</a> </div>');
         console.log(locations);
         console.log(locations.length);
+
         locations.forEach(Location => {
             var placemark = new ymaps.Placemark(Location.coordinates, {
                 balloonContent: Location.balloonContent,
@@ -504,7 +506,7 @@ async function getData(idCountry) {
         });
         // e.behaviors.disable("scrollZoom"), e.geoObjects.add(l).add(n).add(i).add(a).add(s)
     }))
-})();
+};
 
 function changerActive(list) {
     for(let i = 0; i < list.length; i++) {

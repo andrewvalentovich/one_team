@@ -684,6 +684,7 @@
                 }
             }
         });
+
         getData();
     </script>
 @endsection
