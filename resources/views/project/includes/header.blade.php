@@ -43,6 +43,16 @@
                             </div>
                         </a>
                     </div>
+{{--                    <div class="header-m__langs-item">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','ar')}}">--}}
+{{--                            <div class="header-m__langs-title">--}}
+{{--                                AR--}}
+{{--                            </div>--}}
+{{--                            <div class="header-m__langs-img">--}}
+{{--                                <img src="{{asset('project/img/countries/ar.png')}}" alt="tr">--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="header-m__item header-m__buy header-m__item-btn">
                     <div class="header-m__item-text">
