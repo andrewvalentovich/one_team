@@ -127,6 +127,9 @@ class HousesController extends Controller
         if (isset($data['order_by'])) {
             // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
             $value = explode('-', $data['order_by']);
+            if ($value[0] === 'price') {
+                $value[0] = 'base_price';
+            }
 
             if ($value[1] === 'desc') {
                 $sorted = $houses->sortByDesc($value[0])->values()->all();

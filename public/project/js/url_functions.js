@@ -927,6 +927,6 @@ function createParamsForFilterFromUrl() {
         }
 
     })
-
+    
     return params;
 }
