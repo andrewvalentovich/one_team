@@ -192,12 +192,12 @@ class HousesFilter extends AbstractFilter
             $builder->where(function ($query) use ($value) {
                 $query->where('complex_or_not', 'Нет')
                     ->where(function ($query) use ($value) {
-                        $query->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
-                        $query->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                        $query->where('products.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
+                        $query->where('products.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
                     })
                     ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                        $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
-                        $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                        $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
+                        $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
                     });
             });
         } else {
@@ -206,7 +206,7 @@ class HousesFilter extends AbstractFilter
                     $query->where('complex_or_not', 'Нет')
                         ->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
+                            $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
                         });
                 });
             }
@@ -216,7 +216,7 @@ class HousesFilter extends AbstractFilter
                     $query->where('complex_or_not', 'Нет')
                         ->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                            $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
                         });
                 });
             }

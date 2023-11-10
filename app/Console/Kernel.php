@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:get-rates')->daily();
+        $schedule->command('products:update-base-price')->daily();
+        $schedule->command('layouts:update-base-price')->daily();
         $schedule->command('sitemap:generate')->daily();
         Log::info(date('m/d/Y h:i:s a', time()) . " Schedule called");
     }

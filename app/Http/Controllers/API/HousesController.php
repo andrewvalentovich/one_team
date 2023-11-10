@@ -100,13 +100,13 @@ class HousesController extends Controller
         $houses = Product::with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
                 if (isset($data['price']['min'])) {
-                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
+                    $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
                 }
                 if (isset($data['price']['max'])) {
-                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
+                    $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
                 }
                 $query->with('photos');
-                $query->orderBy('price', 'asc');
+                $query->orderBy('base_price', 'asc');
             }])
             ->with('photo')
             ->with('peculiarities')
@@ -119,7 +119,7 @@ class HousesController extends Controller
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         for ($i = 0; $i < count($houses); $i++) {
             if (isset($houses[$i]->layouts) && count($houses[$i]->layouts) > 0) {
-                $houses[$i]->price = $houses[$i]->layouts[0]->price;
+                $houses[$i]->base_price = $houses[$i]->layouts[0]->base_price;
             }
         }
 
@@ -139,8 +139,8 @@ class HousesController extends Controller
 
         // Меняем параметры (для фронта)
         foreach ($sorted as $key => $object) {
-            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
-            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
+            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
+            $object->price = $this->currencyService->getPriceFromDB((int)$object->base_price);
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
@@ -148,9 +148,9 @@ class HousesController extends Controller
             // Цена за квартиру и за метр для планировок
             if (isset($object->layouts)) {
                 foreach ($object->layouts as $index => $layout) {
-                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
-                    $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
-                    $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
+                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
+                    $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
+                    $layout->price = $this->currencyService->getPriceFromDB((int)$layout->base_price);
                 }
             }
 
@@ -176,13 +176,13 @@ class HousesController extends Controller
             ->with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
                 if (isset($data['price']['min'])) {
-                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
+                    $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
                 }
                 if (isset($data['price']['max'])) {
-                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
+                    $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
                 }
                 $query->with('photos');
-                $query->orderBy('price', 'asc');
+                $query->orderBy('base_price', 'asc');
             }])
             ->with('photo')
             ->with('peculiarities')
@@ -194,12 +194,12 @@ class HousesController extends Controller
 
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         if (isset($product->layouts) && count($product->layouts) > 0) {
-            $product->price = $product->layouts[0]->price;
+            $product->base_price = $product->layouts[0]->base_price;
         }
 
         // Меняем параметры (для фронта)
-        $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->price, (int)$product->size);
-        $product->price = $this->currencyService->getPriceFromDB((int)$product->price);
+        $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->base_price, (int)$product->size);
+        $product->price = $this->currencyService->getPriceFromDB((int)$product->base_price);
 
         // Получаем уникальные планировки
         $product->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($product->layouts);
@@ -207,9 +207,9 @@ class HousesController extends Controller
         // Цена за квартиру и за метр для планировок
         if (isset($product->layouts)) {
             foreach ($product->layouts as $index => $layout) {
-                $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
-                $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
-                $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
+                $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
+                $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
+                $layout->price = $this->currencyService->getPriceFromDB((int)$layout->base_price);
             }
         }
 
@@ -234,13 +234,13 @@ class HousesController extends Controller
         $houses = Product::with(['layouts' => function($query) use ($data) {
             // Ограничиваем вывод, только те у которых цена соответствует
             if (isset($data['price']['min'])) {
-                $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
+                $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null));
             }
             if (isset($data['price']['max'])) {
-                $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
+                $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null));
             }
             $query->with('photos');
-            $query->orderBy('price', 'asc');
+            $query->orderBy('base_price', 'asc');
         }])
             ->with('photo')
             ->with('peculiarities')
@@ -253,7 +253,7 @@ class HousesController extends Controller
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
-                "price" => $this->currencyService->getPriceFromDB($row->price),
+                "price" => $this->currencyService->getPriceFromDB($row->base_price),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,

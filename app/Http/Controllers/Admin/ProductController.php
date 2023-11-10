@@ -95,7 +95,7 @@ class ProductController extends Controller
         unset($data['photo']);
 
         // Конвертируем цену
-        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         // Настраиваем option_id (для лендингов)
         $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
@@ -155,19 +155,20 @@ class ProductController extends Controller
         // Получаем элемент
         $get = Product::with('layouts')->where('id', $id)->first();
 
-        // Выводим корректную цену в соответствии с указанной валютой
-        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
-
-        // Выводим корректную цену в соответствии с указанной валютой в планировках
-        if (isset($get->layouts)) {
-            foreach ($get->layouts as $layout) {
-                $layout->price = $this->currencyService->displayWithCurrency($layout->price, $layout->price_code);
-            }
-        }
+//        // Выводим корректную цену в соответствии с указанной валютой
+//        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
+//
+//        // Выводим корректную цену в соответствии с указанной валютой в планировках
+//        if (isset($get->layouts)) {
+//            foreach ($get->layouts as $layout) {
+//                $layout->price = $this->currencyService->displayWithCurrency($layout->price, $layout->price_code);
+//            }
+//        }
 
         if ($get == null){
             return redirect()->back();
         }
+
         $country = CountryAndCity::orderbY('name','asc')->where('parent_id', null)->get();
         $city = CountryAndCity::orderBy('name','asc')->where('parent_id',$get->country_id)->get();
         $product_category = $get->ProductCategory->where('type', 'Типы');
@@ -228,7 +229,7 @@ class ProductController extends Controller
         }
 
         // Конвертируем цену
-        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         // Настраиваем option_id (для лендингов)
         $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
@@ -388,7 +389,7 @@ class ProductController extends Controller
 
         // Обрабатываем цену
         if (isset($data['price']) && isset($data['price_code'])) {
-            $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+            $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         }
 
         $created_layout = Layout::create($data);
@@ -413,7 +414,7 @@ class ProductController extends Controller
 
         // Обрабатываем цену
         if (isset($data['price']) && isset($data['price_code'])) {
-            $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+            $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         }
 
         $photos = isset($data['photos']) ? $data['photos'] : null;

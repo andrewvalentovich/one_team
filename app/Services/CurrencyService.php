@@ -63,8 +63,8 @@ class CurrencyService
      */
     public function displayWithCurrency(int $price = null, string $price_code = null) : int
     {
-        if (!is_null($price_code) && $price_code !== "EUR") {
-            $price = ($price_code === "RUB") ? ceil($price / $this->exchanges["EUR"]) : ceil($price / $this->exchanges["EUR"] * $this->exchanges[$price_code]);
+        if (!is_null($price_code) && $price_code !== "EUR" && !empty($price_code)) {
+            $price = round($price / $this->exchanges["EUR"] * $this->exchanges[$price_code], -2);
         }
 
         return (int) $price;
