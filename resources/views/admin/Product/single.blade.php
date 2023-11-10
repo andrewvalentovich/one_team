@@ -53,7 +53,6 @@
                                 <p>{{$old->category->name}} <a style="color: red" href="{{route('delete_osobenosti', $old->id)}}">Удалить</a></p>
                             @endforeach
                             <div class="form-group row" bis_skin_checked="1">
-
                                 <label class="col-sm-3 col-form-label">Особенности</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control" multiple name="osobenosti[]" style="color: #e2e8f0" >
@@ -263,8 +262,8 @@
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control" name="is_secondary" style="color: #e2e8f0">
-                                        <option value="0" {{ !$get->is_secondary ? 'select' : ''}}>От застройщика</option>
-                                        <option value="1" {{ $get->is_secondary ? 'select' : ''}}>Вторичка</option>
+                                        <option value="0" {{ $get->is_secondary == 0 ? 'selected' : ''}}>От застройщика</option>
+                                        <option value="1" {{ $get->is_secondary == 1 ? 'selected' : ''}}>Вторичка</option>
                                     </select>
                                 </div>
                             </div>
