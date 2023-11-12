@@ -309,7 +309,7 @@
                         </div>
                     </div>
                     <span class="text">
-                        Номер телефона
+                        {{__('Номер телефона')}}
                     </span>
                     <input data-phone-pattern="+7 (___) ___-__-__" class="contact__form-phone-input contact__phone-input"
                            placeholder="{{__('Ваш телефон')}} {{__('в')}} whatsApp" name="phone">
