@@ -1622,7 +1622,7 @@ function P(e) {
         },
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {
-            window.filter_params_data = data;              /* функция которая будет выполнена после успешного запроса.  */
+            window.filter_params_data = data;
             var requestData = findObjectParams(data);
 
             // Выполнение AJAX-запроса с параметрами
@@ -1833,7 +1833,14 @@ function P(e) {
 
             let div = document.createElement('div')
             div.classList.add('object__peculiarities-item')
-            div.innerHTML = element.name
+
+            var localedName = 'name';
+            if (window.locale) {
+                if (window.locale !== 'ru') {
+                    localedName += '_'+window.locale;
+                }
+            }
+            div.innerHTML = element[localedName];
             objectPeculiarities.appendChild(div)
         });
 
@@ -2361,6 +2368,8 @@ function P(e) {
     async function init(ymaps) {
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
+            $('.city-col__btn').removeClass('active');
+            $(this).addClass('active');
             var new_is_secondary = p[t].getAttribute('data_id');
 
             var prev_is_secondary = $("input[name='is_secondary']").val();
