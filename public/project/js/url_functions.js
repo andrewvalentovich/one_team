@@ -11,8 +11,6 @@ function deleteUrlParameter(preview_param, urlParams) {
     if (included_value) {
         // И если новое значение существует, удаляем старое и добавляем новое
         urlParams.forEach(function (v, i) {
-            // console.log(i);
-            // console.log(v);
             if (v === preview_param) {
                 urlParams.splice(i, 1);
             }
@@ -619,7 +617,6 @@ function handleBedrooms(data) {
     // Вешаем событие на добавленные элементы в dropdown
     $('.bedrooms').click(function () {
         var new_bedroom = $(this).attr('data_id');
-        console.log($('.bedrooms.search-nav__rooms-dropdown-bedrooms-button.active'));
         $('.bedrooms.search-nav__rooms-dropdown-bedrooms-button.active').removeClass('active');
         $(this).addClass('active');
 
@@ -927,6 +924,6 @@ function createParamsForFilterFromUrl() {
         }
 
     })
-    
+
     return params;
 }

@@ -830,12 +830,12 @@
                         <div class="object__photo-info">
                         </div>
                         <form class="default-form" id="object_form">
-                            <div class="title">Заявка на бронь</div>
+                            <div class="title">{{ __('Заявка на бронь') }}</div>
                             <label class="field name input-wrapper" bis_skin_checked="1">
                                 <span class="text">
-                                    ФИО
+                                    {{ __('ФИО') }}
                                 </span>
-                                <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
+                                <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
                             </label>
                             <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
                                 <div class="contact__form-phone-country close-out" bis_skin_checked="1">
@@ -898,7 +898,7 @@
                                     </div>
                                 </div>
                                 <span class="text">
-                                    Номер телефона
+                                    {{ __('Номер телефона') }}
                                 </span>
                                 <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
                             </div>
@@ -906,18 +906,18 @@
                                 <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                                 <div class="contact__form-custom-checkbox one_check"></div>
                                 <div class="contact__form-checkbox-text">
-                                    Ознакомлен с <span>политикой конфеденциальности </span>
+                                    {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}} </span>
                                 </div>
                             </label>
                             <label class="contact__form-data">
                                 <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
                                 <div class="contact__form-custom-checkbox two_check"></div>
                                 <div class="contact__form-checkbox-text">
-                                    Согласен на обработку <span>персональных данных </span>
+                                    {{__('Согласен на обработку')}} <span>{{__('персональных данных')}} </span>
                                 </div>
                             </label>
                             <button type="submit" class="btn">
-                                Перезвонить мне
+                                {{ __('Отправить заявку') }}
                             </button>
                             <input type="hidden" name="product_id" value="">
                             <input type="hidden" name="country" value="">
@@ -2484,7 +2484,6 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
-                        console.log('data',data);
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }

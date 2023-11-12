@@ -1,4 +1,9 @@
 {
+    "Вторичка": "Zweitwohnungen",
+    "Номер телефона": "Telefonnummer",
+    "Иванов Алексей Петрович": "Iwanow Alexej Petrowitsch",
+    "ФИО": "Ihr name",
+    "Заявка на бронь": "Reservierungsanfrage",
     "объектов" : "objekte",
     "Всего" : "Gesamt",
     "объявлений" : "anzeige",
@@ -131,7 +136,7 @@
     "Площади кв.м." : "Flächen in qm",
     "Общая" : "Gesamt",
     "Участок" : "Grundstück",
-    "Все " : "Alle",
+    "Все" : "Alle",
     "От застройщика" : "Vom Bauträger",
     "Найти" : "Finden",
     "Валюта" : "Währung",
