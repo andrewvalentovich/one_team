@@ -119,7 +119,8 @@ class HousesController extends Controller
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         for ($i = 0; $i < count($houses); $i++) {
             if (isset($houses[$i]->layouts) && count($houses[$i]->layouts) > 0) {
-                $houses[$i]->base_price = $houses[$i]->layouts[0]->base_price;
+                $houses[$i]->price = $houses[$i]->layouts[0]->price;
+                $houses[$i]->price_code = $houses[$i]->layouts[0]->price_code;
             }
         }
 
@@ -143,7 +144,7 @@ class HousesController extends Controller
         // Меняем параметры (для фронта)
         foreach ($sorted as $key => $object) {
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
-            $object->price = $this->currencyService->getPriceFromDB((int)$object->base_price);
+            $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
@@ -153,7 +154,7 @@ class HousesController extends Controller
                 foreach ($object->layouts as $index => $layout) {
                     $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
                     $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
-                    $layout->price = $this->currencyService->getPriceFromDB((int)$layout->base_price);
+                    $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
                 }
             }
 
@@ -197,12 +198,13 @@ class HousesController extends Controller
 
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         if (isset($product->layouts) && count($product->layouts) > 0) {
-            $product->base_price = $product->layouts[0]->base_price;
+            $product->price = $product->layouts[0]->price;
+            $product->price_code = $product->layouts[0]->price_code;
         }
 
         // Меняем параметры (для фронта)
         $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->base_price, (int)$product->size);
-        $product->price = $this->currencyService->getPriceFromDB((int)$product->base_price);
+        $product->price = $this->currencyService->exchangeGetAll((int)$product->price, $product->price_code);
 
         // Получаем уникальные планировки
         $product->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($product->layouts);
@@ -212,7 +214,7 @@ class HousesController extends Controller
             foreach ($product->layouts as $index => $layout) {
                 $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
                 $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
-                $layout->price = $this->currencyService->getPriceFromDB((int)$layout->base_price);
+                $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
             }
         }
 
@@ -256,7 +258,7 @@ class HousesController extends Controller
             return [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
-                "price" => $this->currencyService->getPriceFromDB($row->base_price),
+                "price" => $this->currencyService->exchangeGetAll($row->price, $row->price_code),
                 "vanie" => !empty($row->peculiarities->whereIn('type', "Ванные")->first()) ? $row->peculiarities->whereIn('type', "Ванные")->first()->name : null,
                 "spalni" => !empty($row->peculiarities->whereIn('type', "Спальни")->first()) ? $row->peculiarities->whereIn('type', "Спальни")->first()->name : null,
                 'kv' => $row->size,
