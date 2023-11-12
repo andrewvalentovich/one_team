@@ -124,11 +124,11 @@ class CurrencyService
         }
 
         return [
-            "RUB" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["RUB"], 0, '.', ' ') . " ₽",
-            "USD" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["USD"], 0, '.', ' ') . " $",
-            "EUR" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["EUR"], 0, '.', ' ') . " €",
-            "GBP" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["GBP"], 0, '.', ' ') . " £",
-            "TRY" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["TRY"], 0, '.', ' ') . " ₺",
+            "RUB" => number_format(round($price / $this->exchanges[$base_code] * $this->exchanges["RUB"]), 0, '.', ' ') . " ₽",
+            "USD" => number_format(round($price / $this->exchanges[$base_code] * $this->exchanges["USD"]), 0, '.', ' ') . " $",
+            "EUR" => number_format(round($price / $this->exchanges[$base_code] * $this->exchanges["EUR"]), 0, '.', ' ') . " €",
+            "GBP" => number_format(round($price / $this->exchanges[$base_code] * $this->exchanges["GBP"]), 0, '.', ' ') . " £",
+            "TRY" => number_format(round($price / $this->exchanges[$base_code] * $this->exchanges["TRY"]), 0, '.', ' ') . " ₺",
         ];
     }
 
