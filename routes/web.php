@@ -164,6 +164,7 @@ Route::domain(config('app.domain'))->group(function () {
 
             Route::group(['as' => 'admin.'], function () {
                 Route::resource('exchange_rates', \App\Http\Controllers\Admin\ExchangeRateController::class); // CRUD model ExchangeRate
+                Route::resource('locales', \App\Http\Controllers\Admin\LocaleController::class); // CRUD model Locale
             });
 
 

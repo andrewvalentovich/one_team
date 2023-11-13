@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('country_and_cities', function (Blueprint $table) {
-            $table->string('slug')->nullable()->after('metric_id');
+        Schema::create('locales', function (Blueprint $table) {
+            $table->id();
+            $table->string('code', 2);
+            $table->string('icon');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('country_and_cities', function (Blueprint $table) {
-            $table->dropColumn('slug');
-        });
+        Schema::dropIfExists('locales');
     }
 };
