@@ -664,6 +664,13 @@ if(document.querySelectorAll('.place-w').length) {
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
 
+                var url = new URL(window.location.href);
+                url.searchParams.delete('object_id');
+                // Получение обновленного URL
+                var updatedUrl = url.toString();
+                // Обновление URL в адресной строке
+                window.history.replaceState({}, '', updatedUrl);
+
                 var urlParams = getValuesFromUrl();
                 var object = checkPosition(urlParams, 'object-');
                 if (object) {
