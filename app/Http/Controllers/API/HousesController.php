@@ -39,28 +39,29 @@ class HousesController extends Controller
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
 
         // Выбор объектов, запрос к базе через Eloquent
-//        $houses = Product::addSelect('products.*', DB::raw('(CASE WHEN complex_or_not = "Да" THEN min(layouts.price) GROUP BY layouts.id ELSE products.price END) as min_price'))
+//        $houses = Product::addSelect('products.*', DB::raw('(CASE WHEN complex_or_not = "Да" THEN min(layouts.base_price) ELSE products.base_price END) as base_price'))
 //            ->leftJoin('layouts', function ($join) {
 //                $join->on('products.id', '=', 'layouts.complex_id')
-//                    ->where('products.complex_or_not', 'Да')
-//                    ->orderBy('layouts.price', 'asc');
+//                    ->where('products.complex_or_not', "Да")
+//                    ->orderBy('layouts.base_price', 'asc');
 //            })
 //            ->with(['layouts' => function($query) use ($data) {
 //            // Ограничиваем вывод, только те у которых цена соответствует
-//                if (isset($data['price']['min_price'])) {
-//                    $query->where('layouts.price', '>=', $this->currencyService->convertPriceToEur($data['price']['min_price'], $data['price']['code'] ?? null));
+//                if (isset($data['price']['min'])) {
+//                    $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['code'] ?? null));
 //                }
-//                if (isset($data['price']['max_price'])) {
-//                    $query->where('layouts.price', '<=', $this->currencyService->convertPriceToEur($data['price']['max_price'], $data['price']['code'] ?? null));
+//                if (isset($data['price']['max'])) {
+//                    $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['code'] ?? null));
 //                }
 //                $query->with('photos');
-//                $query->orderBy('price', 'asc');
+//                $query->orderBy('base_price', 'asc');
 //            }])
-//            ->with('photo')
-//            ->with('peculiarities')
-//            ->with(['favorite' => function ($query) use ($data) {
-//                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
-//            }])
+//            ->groupBy('products.id')
+////            ->with('photo')
+////            ->with('peculiarities')
+////            ->with(['favorite' => function ($query) use ($data) {
+////                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+////            }])
 //            ->filter($filter)
 //            ->get();
 //
@@ -71,29 +72,29 @@ class HousesController extends Controller
 //
 //        // Меняем параметры (для фронта)
 //        foreach ($houses as $key => $object) {
-//            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
-//            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
-//
-//            // Получаем уникальные планировки
-//            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
-//
-//            // Цена за квартиру и за метр для планировок
-//            if (isset($object->layouts)) {
-//                foreach ($object->layouts as $index => $layout) {
-//                    $layout->price_credit   = is_array($layout->price_credit) ? $layout->price_credit : $this->currencyService->getPriceCreditFromDB((int)$layout->price);
-//                    $layout->price_size     = is_array($layout->price_size) ? $layout->price_size : $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
-//                    $layout->price          = is_array($layout->price) ? $layout->price : $this->currencyService->getPriceFromDB((int)$layout->price);
-//                }
-//            }
+////            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
+////            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
+////
+////            // Получаем уникальные планировки
+////            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
+////
+////            // Цена за квартиру и за метр для планировок
+////            if (isset($object->layouts)) {
+////                foreach ($object->layouts as $index => $layout) {
+////                    $layout->price_credit   = is_array($layout->price_credit) ? $layout->price_credit : $this->currencyService->getPriceCreditFromDB((int)$layout->price);
+////                    $layout->price_size     = is_array($layout->price_size) ? $layout->price_size : $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
+////                    $layout->price          = is_array($layout->price) ? $layout->price : $this->currencyService->getPriceFromDB((int)$layout->price);
+////                }
+////            }
 //
 //            // Особенности
 //            // Можно использовать Scopes!!!
-//            $object->gostinnie = !empty($object->peculiarities->whereIn('type', "Гостиные")->first()) ? $object->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
-//            $object->vanie = !empty($object->peculiarities->whereIn('type', "Ванные")->first()) ? $object->peculiarities->whereIn('type', "Ванные")->first()->name : null;
-//            $object->spalni = !empty($object->peculiarities->whereIn('type', "Спальни")->first()) ? $object->peculiarities->whereIn('type', "Спальни")->first()->name : null;
-//            $object->do_more = !empty($object->peculiarities->whereIn('type', "До моря")->first()) ? $object->peculiarities->whereIn('type', "До моря")->first()->name : null;
-//            $object->type_vid = !empty($object->peculiarities->whereIn('type', "Вид")->first()) ? $object->peculiarities->whereIn('type', "Вид")->first()->name : null;
-//            $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
+////            $object->gostinnie = !empty($object->peculiarities->whereIn('type', "Гостиные")->first()) ? $object->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
+////            $object->vanie = !empty($object->peculiarities->whereIn('type', "Ванные")->first()) ? $object->peculiarities->whereIn('type', "Ванные")->first()->name : null;
+////            $object->spalni = !empty($object->peculiarities->whereIn('type', "Спальни")->first()) ? $object->peculiarities->whereIn('type', "Спальни")->first()->name : null;
+////            $object->do_more = !empty($object->peculiarities->whereIn('type', "До моря")->first()) ? $object->peculiarities->whereIn('type', "До моря")->first()->name : null;
+////            $object->type_vid = !empty($object->peculiarities->whereIn('type', "Вид")->first()) ? $object->peculiarities->whereIn('type', "Вид")->first()->name : null;
+////            $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
 //        }
 //
 //        return response()->json($houses);
