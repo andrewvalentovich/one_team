@@ -1142,6 +1142,8 @@
             }));
 
             document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
+                const cityCol = document.querySelector('.city-col')
+                cityCol.style.display = '';
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
@@ -1166,6 +1168,8 @@
                             urlParams = deleteUrlParameter(object, urlParams);
                         }
                         updateUrl(window.filter_params_data, urlParams);
+                        const cityCol = document.querySelector('.city-col')
+                        cityCol.style.display = '';
                     })
                 });
             }
@@ -2922,9 +2926,12 @@ function P(e) {
             mapCountry.events.add('balloonopen', function(e){
                 var balloonContentElement = document.querySelector('.balloon-city');
                 balloonContentElement.addEventListener('click', function(e) {
+                    console.log('test')
                     const id = balloonContentElement.getAttribute('id')
                     replaceUrlWithObject(window.filter_params_data, "object-" + id);
                     getObjectById("object-" + id)
+                    const cityCol = document.querySelector('.city-col')
+                    cityCol.style.display = 'block'
                 });
             })
             mapCountry.events.add('balloonclose', function(e){
@@ -2939,11 +2946,11 @@ function P(e) {
             document.querySelector("#map_city").classList.add("show");
             document.querySelector("#map_city").classList.add("map_city_active");
             document.querySelector(".city__content").classList.add("city_map");
-            // if(!moveWas) {
-            //     var position = mapCountry.getGlobalPixelCenter();
-            //     mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
-            //     moveWas = 1
-            // }
+            if(!moveWas) {
+                var position = mapCountry.getGlobalPixelCenter();
+                mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
+                moveWas = 1
+            }
         })
     }
 
@@ -2967,7 +2974,8 @@ function P(e) {
             const url = new URL(currentUrl);
             $('.place__exit').click(function () {
                 $(this).closest('.place-w').removeClass('active');
-
+                const cityCol = document.querySelector('.city-col')
+                cityCol.style.display = '';
                 var urlParams = getValuesFromUrl();
                 var object = checkPosition(urlParams, 'object-');
                 if (object) {
