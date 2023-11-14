@@ -4912,16 +4912,16 @@ body.scroll_fixed {
 
 @media (max-width: 1003px) {
   #map_city {
-    display: none;
-  }
-
-  #map_city.map_city_active {
     display: block;
     flex: 1;
     width: 100%;
     position: absolute;
     opacity: 0;
     pointer-events: none;
+  }
+
+  #map_city.map_city_active {
+    
   }
 
   #map_city.show {

@@ -1160,6 +1160,12 @@
                     btn.addEventListener('click', function () {
                         const placeW = this.closest('.place-w')
                         placeW.classList.remove('active')
+                        var urlParams = getValuesFromUrl();
+                        var object = checkPosition(urlParams, 'object-');
+                        if (object) {
+                            urlParams = deleteUrlParameter(object, urlParams);
+                        }
+                        updateUrl(window.filter_params_data, urlParams);
                     })
                 });
             }
@@ -2461,7 +2467,6 @@ function P(e) {
 
             if (params.size && params.size.min === true) params.size.min = null;
             if (params.size && params.size.max === true) params.size.max = null;
-            console.log(params);
 
             return params;
         }
@@ -2526,7 +2531,6 @@ function P(e) {
             const cityColTop = cityCol.getBoundingClientRect().top;
             const footerTop = cityColFooter.getBoundingClientRect().top;
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
-
             if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
                 if (canLoadData && !lustPageReached) {
                     currentPage++
@@ -2586,7 +2590,6 @@ function P(e) {
                 nothing.classList.remove('active')
             }
             if(allmarks.length) {
-                console.log('test')
                 mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                     checkZoomRange: true,
                 }).then(function() {
@@ -2812,13 +2815,11 @@ function P(e) {
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                             const balloonContentElement = document.querySelector('.balloon-city');
                             if(!balloonContentElement) {
-                                console.log('test1')
                                 // const listenerClickBallon = balloonContentElement.addEventListener('click', function() {
                                 //     const id = balloonContentElement.getAttribute('id')
                                 //     getObjectById(id)
                                 // })
                             } else {
-                                console.log('test2')
                             }
                             var o = document.querySelectorAll(".placemark");
                             if (e.classList.contains("active")) e.classList.remove("active");
@@ -2888,6 +2889,7 @@ function P(e) {
                 long: startBounds[1][1]
             };
 
+
             getData(top_left, bottom_right);
             currentCoordinateMapLeft = top_left
             currentCoordinateMapRight = bottom_right
@@ -2937,11 +2939,11 @@ function P(e) {
             document.querySelector("#map_city").classList.add("show");
             document.querySelector("#map_city").classList.add("map_city_active");
             document.querySelector(".city__content").classList.add("city_map");
-            if(!moveWas) {
-                var position = mapCountry.getGlobalPixelCenter();
-                mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
-                moveWas = 1
-            }
+            // if(!moveWas) {
+            //     var position = mapCountry.getGlobalPixelCenter();
+            //     mapCountry.setGlobalPixelCenter([ position[0] - 1, position[1] ]);
+            //     moveWas = 1
+            // }
         })
     }
 
