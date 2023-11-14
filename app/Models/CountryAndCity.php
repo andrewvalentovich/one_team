@@ -43,6 +43,11 @@ class CountryAndCity extends Model
         return $this->hasMany(RegionLocale::class, 'region_id', 'id');
     }
 
+    public function getNameByLocale($locale)
+    {
+        return $this->locale_fields->where("code", $locale)->first()->name;
+    }
+
     public function getNameOnEnAttribute()
     {
         $tr = new GoogleTranslate();

@@ -4,13 +4,13 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\HousesFilter;
-use App\Http\Requests\House\FilterRequest;
+use App\Http\Resources\FilterParams\CitiesResource;
+use App\Http\Resources\FilterParams\CountriesResource;
 use App\Models\CountryAndCity;
+use App\Models\Locale;
 use App\Models\Peculiarities;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+use function Symfony\Component\Routing\Loader\Configurator\collection;
 
 class SearchController extends Controller
 {
@@ -18,62 +18,51 @@ class SearchController extends Controller
     {
         // Валидация
         $data = $request->validate([
-            'locale' => 'nullable|string|max:5',
+            'locale' => 'nullable|string|max:2',
             'country_id' => 'nullable',
         ]);
 
-        $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
+        $locale = Locale::where('code', $data['locale'])->first();
+//        $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
 
-        $countries = CountryAndCity::select('id', $nameField, 'name_en', 'slug', 'lat', 'long')
-            ->where('parent_id', null)
-            ->has('product_country')
-            ->with('cities', function ($query) {
-                $query->has('product_city');
-            })
+//        $countries = CountryAndCity::where('parent_id', null)
+//            ->has('product_country')
+//            ->with('locale_fields.locale')
+//            ->get();
+
+
+//        $regions = CountryAndCity::select('id', 'name', 'slug', 'parent_id', 'lat', 'long')
+//            ->has('product_city')
+//            ->whereNotNull('parent_id')
+//            ->get()
+//            ->transform(function ($row) use ($data) {
+//                return [
+//                    'id' => $row->id,
+//                    'parent_id' => $row->parent_id,
+//                    'name' => $row->locale_fields->where("code", $data['locale'])->first(),
+//                    'slug' => $row->slug,
+//                ];
+//            });
+
+        $collections = Peculiarities::select('id', 'name', 'name_en', 'type')
             ->get()
-            ->transform(function ($row) use ($nameField) {
+            ->transform(function ($row) {
                 return [
                     'id' => $row->id,
-                    'name' => $row[$nameField],
-                    'name_en' => $row->slug,
-                    'slug' => $row->slug,
-                    'cities' => $row->cities
-                ];
-            });
-
-        $regions = CountryAndCity::select('id', $nameField, 'slug', 'parent_id', 'lat', 'long')
-            ->has('product_city')
-            ->whereNotNull('parent_id')
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'parent_id' => $row->parent_id,
-                    'name' => $row[$nameField],
-                    'name_en' => $row->slug,
-                    'slug' => $row->slug,
-                ];
-            });
-
-        $collections = Peculiarities::select('id', $nameField, 'name_en', 'type')
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row[$nameField],
+                    'name' => $row->name,
                     'name_en' => strtolower(str_replace(' ', '_', $row->name_en)),
                     'type' => $row->type
                 ];
             });
 
-        $types = Peculiarities::select('id', $nameField, 'name_en', 'type')
+        $types = Peculiarities::select('id', 'name', 'name_en', 'type')
             ->where('type', "Типы")
             ->has('product')
             ->get()
-            ->transform(function ($row) use ($nameField) {
+            ->transform(function ($row) {
                 return [
                     'id' => $row->id,
-                    'name' => $row[$nameField],
+                    'name' => $row->name,
                     'name_en' => strtolower($row->name_en),
                     'type' => $row->type
                 ];
@@ -88,8 +77,16 @@ class SearchController extends Controller
         ];
 
         $data = [
-            "countries" => $countries,
-            "cities" => $regions,
+            "countries" => CountriesResource::collection(
+                CountryAndCity::whereNull('parent_id')
+                    ->has('product_country')
+                    ->get()
+            )->setLocale($locale->id),
+            "cities" => CitiesResource::collection(
+                CountryAndCity::whereNotNull('parent_id')
+                    ->has('product_city')
+                    ->get()
+            )->setLocale($locale->id),
             "types" => $types,
             "bedrooms" => $collections->whereIn('type', "Спальни")->values()->all(),
             "bathrooms" => $collections->whereIn('type', "Ванные")->values()->all(),
