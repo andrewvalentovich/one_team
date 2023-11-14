@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front;
 
 
 use App\Http\Controllers\Admin\Peculiarities;
+use App\Http\Resources\Map\CitiesCollection;
+use App\Http\Resources\Map\CitiesResource;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\Controller;
@@ -17,6 +19,7 @@ class HomePageController extends Controller
         $all_country = CountryAndCity::where('parent_id', null)
             ->withCount('product_country')
             ->with('product_country')
+            ->with('locale_fields.locale')
             ->orderBy('product_country_count', 'desc')
             ->limit(15)
             ->get();
@@ -40,42 +43,15 @@ class HomePageController extends Controller
 
     public function city_from_map(int $id = null)
     {
-        // Выбираем поле с названием в зависимости от языка
-        $nameField = app()->getLocale() == 'ru' ? 'name' : 'name_' . app()->getLocale();
-
         // 17 - id страны (Турции)
         $id = is_null($id) ? 17 : $id;
 
-        // Получаем города Турции
-        $country = CountryAndCity::select('id', $nameField, 'slug', 'lat', 'long')->with(['cities' => function ($query) use ($nameField) {
-            $query->has('product_city');
-        }])->find($id);
-
-        $data = [];
-        foreach ($country->cities as $city){
-            if (app()->getLocale() == 'en'){
-                $city->name = $city->name_en;
-            }
-            if (app()->getLocale() == 'tr'){
-                $city->name = $city->name_tr;
-            }
-            if (app()->getLocale() == 'de'){
-                $city->name = $city->name_de;
-            }
-            // Получаем id, координаты, название города Турции и количество объектов которые ему принадлежат
-            $data[] =
-            [
-                'id' => $city->id,
-                'coordinate' => [$city->lat, $city->long],
-                'name' => $city->name,
-                'link' => '/' . $country->slug . '/' . $city->slug,
-                'count' => $city->product_city->count()
-            ];
-        }
+        // Получаем города выбранной страны
+        $cities = CountryAndCity::where('parent_id', $id)->with('locale_fields.locale')->has('product_city')->get();
 
         return response()->json([
            'status' => true,
-           'data' => $data
+           'data' => CitiesResource::collection($cities)->setLocale(app()->getLocale()),
         ],200);
     }
 

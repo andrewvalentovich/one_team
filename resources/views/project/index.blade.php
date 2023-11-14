@@ -34,8 +34,7 @@
                                 <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
                             </div>
                             <div class="popular-locations__item-text">
-                                @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?> @endif
-                                {{$country->name}}
+                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
                                 <span>{{$country->product_country->count()}}</span>
                             </div>
                         </a>
@@ -45,8 +44,7 @@
                                 <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
                             </div>
                             <div class="popular-locations__item-text _close-opening">
-                                @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?> @endif
-                                {{$country->name}}
+                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
                                 <span>({{ __('скоро открытие') }})</span>
                             </div>
                         </div>

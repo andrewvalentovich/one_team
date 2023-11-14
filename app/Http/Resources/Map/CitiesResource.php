@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Resources\FilterParams;
+namespace App\Http\Resources\Map;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CitiesResource extends JsonResource
 {
-    protected $locale_id;
+    protected $locale;
 
     public function setLocale($value){
-        $this->locale_id = $value;
+        $this->locale = $value;
         return $this;
     }
 
@@ -21,15 +21,18 @@ class CitiesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
-            'name' => $this->locale_fields->where('locale_id', $this->locale_id)->first()->name,
-            'slug' => $this->slug,
+            'coordinate' => [$this->lat, $this->long],
+            'name' => $this->locale_fields->where('locale.code', $this->locale)->first()->name,
+            'link' => '/' . $this->country->slug . '/' . $this->slug,
+            'count' => $this->product_city->count() . " " . __('объектов', [], $this->locale),
         ];
     }
 
-    public static function collection($resource){
+    public static function collection($resource)
+    {
         return new CitiesCollection($resource);
     }
 }

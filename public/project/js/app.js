@@ -15,7 +15,7 @@ async function getData(idCountry) {
                 data.data.forEach(city => {
                     locations.push({
                         coordinates: city.coordinate,
-                        balloonContent: `${city.name}, ${city.count} объектов`,
+                        balloonContent: `${city.name}, ${city.count}`,
                         city_id: city.id,
                         link: city.link
                     });

@@ -3,13 +3,6 @@
     @include('project.includes.header')
 @endsection
 @section('content')
-    @if(app()->getLocale() == 'en')
-        <?php $country->name = $country->name_en ?>
-    @elseif(app()->getLocale() == 'tr')
-        <?php $country->name = $country->name_tr ?>
-    @elseif(app()->getLocale() == 'tr')
-        <?php $country->name = $country->name_de ?>
-    @endif
     <section class="country-map">
         <div class="country-map__content">
             <div id="map-country">
@@ -20,10 +13,10 @@
         <div class="realty__title title">
           {{__('Недвижимость')}}  {{__('в')}}
             @if(app()->getLocale() == 'ru')
-                @if($country->name == 'Турция') Турции @endif
-                @if($country->name == 'Северный Кипр') Северном Кипре @endif
+                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Турция') Турции @endif
+                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Северный Кипр') Северном Кипре @endif
             @else
-                {{$country->name}}
+                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
             @endif
         </div>
         <div class="realty__subtitle">
@@ -41,7 +34,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -55,7 +48,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -68,7 +61,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
@@ -85,7 +78,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[3]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
@@ -100,7 +93,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[4]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
@@ -117,7 +110,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[5]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
@@ -133,7 +126,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[6]->name_de}}  @endif </a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
@@ -146,7 +139,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">  @if( app()->getLocale()  == 'ru' ) {{$country->cities[7]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[7]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[7]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[7]->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">{{ $country->cities[7]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">  {{numbers_graduation($country->cities[7]->product_city->count())}} </a>
@@ -159,7 +152,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{ route('realty', ['categories' => '/' . $country->slug]) }}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{ route('realty', ['categories' => '/' . $country->slug]) }}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{ route('realty', ['categories' => '/' . $country->slug]) }}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
@@ -180,7 +173,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -194,7 +187,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -207,7 +200,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
@@ -224,7 +217,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[3]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
@@ -239,7 +232,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[4]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
@@ -256,7 +249,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[5]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
@@ -272,7 +265,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[6]->name_de}}  @endif </a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
@@ -285,7 +278,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
@@ -307,7 +300,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -321,7 +314,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -334,7 +327,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
@@ -353,7 +346,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[4]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
@@ -370,7 +363,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[5]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[5]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[5]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[5]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
@@ -386,7 +379,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[6]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[6]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[6]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[6]->name_de}}  @endif </a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
@@ -399,7 +392,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
@@ -421,7 +414,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -435,7 +428,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -471,7 +464,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[3]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
@@ -487,7 +480,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[4]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[4]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[4]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[4]->name_de}}  @endif </a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">      {{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}}  </a>
@@ -500,7 +493,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
@@ -522,7 +515,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -540,7 +533,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -557,7 +550,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
@@ -573,7 +566,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">      @if( app()->getLocale()  == 'ru' ) {{$country->cities[3]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[3]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[3]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[3]->name_de}}  @endif </a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}}  </a>
@@ -586,7 +579,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
@@ -608,7 +601,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -626,7 +619,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
@@ -643,7 +636,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">       @if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
@@ -659,7 +652,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> {{numbers_graduation($country->product_country->count())}} </a>
@@ -680,7 +673,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
@@ -698,7 +691,7 @@
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[1]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[1]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[1]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[1]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
                                         <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}}</a>
@@ -715,7 +708,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
@@ -737,7 +730,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">     @if( app()->getLocale()  == 'ru' ) {{$country->cities[0]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[0]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[0]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[0]->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}}</a>
@@ -753,7 +746,7 @@
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>s
                             <div class="realty__item-text-subtitle">
                                 <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
@@ -775,7 +768,7 @@
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif @if( app()->getLocale()  == 'ru' ) {{$country->name}} @elseif(app()->getLocale() == 'en') {{$country->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->name_de}}  @endif</a>
+                                    <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
                                     <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
