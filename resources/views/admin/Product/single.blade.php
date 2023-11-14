@@ -533,46 +533,19 @@
                                 <input name="long" value="{{$get->long}}" type="text" class="form-control" id="long" placeholder="Долгота">
                             </div>
                         </div>
-
-                        <div class="form-group pt-5" bis_skin_checked="1">
-                            <label for="">Расположения на Русском</label>
-                            <textarea  name="disposition"  class="form-control" id="" placeholder="Расположения">{{$get->disposition}}</textarea>
+                        @foreach($locales as $locale)
+                        <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                            <label for="">Расположение ({{ $locale->code }})</label>
+                            <textarea rows="5" name="disposition[{{ $locale->code }}]" class="form-control" id="" placeholder="Расположение ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->description : "" }}</textarea>
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположения на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположения на Англиском">{{$get->disposition_en}}</textarea>
-                        </div>
+                        @endforeach
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположения на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположения на Турецком">{{$get->disposition_tr}}</textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположения на Немецком</label>
-                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположения на Немецком">{{$get->disposition_de}}</textarea>
-                        </div>
-
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Русском</label>
-                            <textarea name="description"  class="form-control" id="" placeholder="Описание">{{$get->description}}</textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Англиском</label>
-                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском">{{$get->description_en}}</textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Турецком</label>
-                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком">{{$get->description_tr}}</textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Немецком</label>
-                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком">{{$get->description_de}}</textarea>
-                        </div>
+                        @foreach($locales as $locale)
+                            <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                                <label for="">Описание ({{ $locale->code }})</label>
+                                <textarea rows="5" name="description[{{ $locale->code }}]" class="form-control" id="" placeholder="Описание ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->disposition : "" }}</textarea>
+                            </div>
+                        @endforeach
 
                         <div class="form-group" bis_skin_checked="1">
                             <label class="btn btn-outline-warning" for="file">Выберете фотографии</label>

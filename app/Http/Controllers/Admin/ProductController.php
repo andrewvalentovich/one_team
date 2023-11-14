@@ -8,7 +8,9 @@ use App\Http\Requests\Admin\Products\UpdateRequest;
 use App\Models\ExchangeRate;
 use App\Models\Layout;
 use App\Models\LayoutPhoto;
+use App\Models\Locale;
 use App\Models\Option;
+use App\Models\ProductLocale;
 use App\Services\CurrencyService;
 use App\Services\ImageService;
 use App\Services\PreviewImageService;
@@ -23,6 +25,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
 use Illuminate\Support\Facades\Log;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class ProductController extends Controller
 {
@@ -101,7 +104,15 @@ class ProductController extends Controller
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
+        // Создаём переменные
+        $disposition = $data['disposition'];
+        $description = $data['description'];
+
+        // Создание продукта
         $create = Product::create($data);
+
+        // Перевод и добавление полей описаний
+        $this->translateForNew($create->id, $description, $disposition);
 
         // Создаём slug для объекта
         if (is_null($create->slug)) {
@@ -153,7 +164,7 @@ class ProductController extends Controller
     public function single_page_product($id)
     {
         // Получаем элемент
-        $get = Product::with('layouts')->where('id', $id)->first();
+        $get = Product::with('layouts')->with('locale_fields.locale')->where('id', $id)->first();
 
 //        // Выводим корректную цену в соответствии с указанной валютой
 //        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
@@ -165,7 +176,7 @@ class ProductController extends Controller
 //            }
 //        }
 
-        if ($get == null){
+        if ($get == null) {
             return redirect()->back();
         }
 
@@ -234,6 +245,10 @@ class ProductController extends Controller
         $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
+
+        // Обновление текстовых полей description и disposition
+        $this->updateDescriptionAndDisposition($product, $data['description'], $data['disposition']);
+        unset($data['description'], $data['disposition']);
 
         // Обновляем данные
         $product->update($data);
@@ -307,6 +322,53 @@ class ProductController extends Controller
         ],200);
     }
 
+    private function translateForNew($product_id, $description, $disposition)
+    {
+        $locales = Locale::all();
+
+        foreach ($locales as $locale) {
+            $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
+
+            $tmp_description = !empty($description) ? $tr->trans($description, $locale->code, "ru") : null;
+            $tmp_disposition = !empty($disposition) ? $tr->trans($disposition, $locale->code, "ru") : null;
+
+            ProductLocale::create([
+                "product_id" => $product_id,
+                "locale_id" => $locale->id,
+                "description" => $tmp_description,
+                "disposition" => $tmp_disposition,
+            ]);
+
+            unset($tmp_description, $tmp_disposition);
+        }
+    }
+
+    private function updateDescriptionAndDisposition($product, $description, $disposition)
+    {
+        $locales = Locale::all();
+
+        foreach ($product->locale_fields as $key => $value) {
+            if (!is_null($locales->where('code', $value->locale->code)->first())) {
+                unset($locales[$locales->where('code', $value->locale->code)->first()->id - 1]);
+            }
+
+            $value->description = $description[$value->locale->code];
+            $value->disposition = $disposition[$value->locale->code];
+            $value->save();
+        }
+
+        // Не заполненные поля
+        if (!empty($locales)) {
+            foreach ($locales as $key => $locale) {
+                ProductLocale::create([
+                    "product_id" => $product->id,
+                    "locale_id" => $locale->id,
+                    "description" => $description[$locale->code],
+                    "disposition" => $disposition[$locale->code],
+                ]);
+            }
+        }
+    }
 
     public function delete_product($id){
         $get = Product::where('id', $id)->first();
@@ -343,7 +405,6 @@ class ProductController extends Controller
         $get->delete();
         return redirect()->back();
     }
-
 
     private function createLayouts($layouts, $product_id)
     {

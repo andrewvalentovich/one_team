@@ -2038,25 +2038,11 @@ function P(e) {
 
         //Расположение и инфраструктура
         const placeLocationInfo = document.querySelector('.place__location-info')
-        if(langSite === 'ru')
         placeLocationInfo.innerHTML = currentHouse.disposition
-
-        if(langSite === 'en')
-        placeLocationInfo.innerHTML = currentHouse.disposition_en
-
-        if(langSite === 'tr')
-        placeLocationInfo.innerHTML = currentHouse.disposition_tr
 
         //Описание
         const placeDescription = document.querySelector('.object__description-text')
-        if(langSite === 'ru')
         placeDescription.innerHTML = currentHouse.description
-
-        if(langSite === 'en')
-        placeDescription.innerHTML = currentHouse.description_en
-
-        if(langSite === 'tr')
-        placeDescription.innerHTML = currentHouse.description_tr
 
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
@@ -2454,6 +2440,7 @@ function P(e) {
             // let params = {};
 
             let params = createParamsForFilterFromUrl();
+            params.locale = window.locale;
 
             // urlParams.forEach((value, key) => {
             //     params[key] = value;

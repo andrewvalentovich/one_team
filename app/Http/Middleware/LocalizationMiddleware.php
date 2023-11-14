@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Locale;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,12 +16,10 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $locale = Locale::where('code', $request->session()->get('locale'))->first();
 
-        $locale = $request->session()->get('locale');
-
-        if ($locale && in_array($locale, ['ru', 'tr', 'en', 'de', 'ar'])) {
-
-            app()->setLocale($locale);
+        if (!is_null($locale)) {
+            app()->setLocale($locale->code);
         }
 
         return $next($request);

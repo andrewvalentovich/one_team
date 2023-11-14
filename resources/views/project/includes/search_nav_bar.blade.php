@@ -22,7 +22,7 @@
 </style>
 
 <div class="search-nav-w">
-    <form action="{{ route('houses.index') }}" class="header_search" method="get">
+    <form action="{{ route('realty') }}" class="header_search" method="get">
         <div class ="search-nav container">
             <div class="search-nav__list">
                 <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">
@@ -183,7 +183,7 @@
             <line class="fil0 str0" x1="0.36" y1="0.36" x2="0.02" y2= "0.02" />
         </g>
     </svg>
-    <form action="{{ route('houses.index') }}" class="header_search_two" method="get"/>
+    <form action="{{ route('realty') }}" class="header_search_two" method="get"/>
         <div class="search">
             <div class="search__content">
                 <div class="search__filter">

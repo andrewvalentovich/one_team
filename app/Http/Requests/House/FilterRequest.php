@@ -24,6 +24,7 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
+            'locale' => 'nullable',
             'user_id' => 'nullable|numeric|min:1',
             'top_left' => 'nullable|array',
             'bottom_right' => 'nullable|array',

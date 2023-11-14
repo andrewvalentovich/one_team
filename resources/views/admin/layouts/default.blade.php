@@ -95,7 +95,7 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
 
-                    <a class=" sidebar-brand brand-logo" style="color: white; text-decoration: none;" href="{{route('HomePage')}}">
+                    <a class=" sidebar-brand brand-logo" style="color: white; text-decoration: none;" href="{{ route('HomePage') }}">
                         <h3 style="color: #2f5687 !important">OneTime</h3>
                     </a>
 

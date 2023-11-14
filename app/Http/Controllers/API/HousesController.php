@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
 use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\House\FilterRequest;
+use App\Models\Locale;
 use App\Models\Product;
 use App\Models\Peculiarities;
 use App\Services\CurrencyService;
@@ -30,6 +31,8 @@ class HousesController extends Controller
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
         $data = $request->validated();
+        $locale = Locale::where('code', $data['locale'])->first();
+
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
         // Отступ для выборки записей
@@ -111,6 +114,7 @@ class HousesController extends Controller
             }])
             ->with('photo')
             ->with('peculiarities')
+            ->with('locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
             }])
@@ -146,6 +150,8 @@ class HousesController extends Controller
         foreach ($sorted as $key => $object) {
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
             $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
+            $object->description = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()) ? $object->locale_fields->where('locale_id', $locale->id)->first()->description : null;
+            $object->disposition = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()) ? $object->locale_fields->where('locale_id', $locale->id)->first()->disposition : null;
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);

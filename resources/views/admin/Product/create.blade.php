@@ -390,42 +390,11 @@
                             <label for="">Расположение на Русском</label>
                             <textarea name="disposition"  class="form-control" id="" placeholder="Расположение"></textarea>
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположение на Англиском"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположение на Турецком"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Немецком</label>
-                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположение на Немецком"></textarea>
-                        </div>
-
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
                             <textarea name="description"  class="form-control" id="" placeholder="Описание"></textarea>
                         </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Англиском</label>
-                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Турецком</label>
-                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Немецком</label>
-                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком"></textarea>
-                        </div>
-
 
                         <div class="form-group" bis_skin_checked="1">
                             <label class="btn btn-outline-warning" for="file">Выберете фотографии</label>

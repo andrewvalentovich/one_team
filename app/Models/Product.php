@@ -28,6 +28,20 @@ class Product extends Model
         return $this->belongsTo(Option::class, 'option_id', 'id');
     }
 
+    public function locales()
+    {
+        return $this->belongsToMany(Locale::class, 'product_locale', 'product_id', 'locale_id');
+    }
+
+    public function locale_fields()
+    {
+        return $this->hasMany(ProductLocale::class, 'product_id', 'id');
+    }
+
+    public function descriptions() {
+        return $this->hasMany(ProductLocale::class,'product_id');
+    }
+
     public function ProductCategory() {
         return $this->hasMany(ProductCategory::class,'product_id');
     }
