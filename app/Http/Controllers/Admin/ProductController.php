@@ -111,15 +111,16 @@ class ProductController extends Controller
         // Создание продукта
         $create = Product::create($data);
 
+        // Создаём slug для объекта
+//        if (is_null($create->slug)) {
+//            $create->update([
+//                'slug' => $this->slugService->make($create->id)
+//            ]);
+//        }
+
         // Перевод и добавление полей описаний
         $this->translateForNew($create->id, $description, $disposition);
 
-        // Создаём slug для объекта
-        if (is_null($create->slug)) {
-            $create->update([
-                'slug' => $this->slugService->make($create->id)
-            ]);
-        }
 
         // Создаём планировки для созданного объекта
         if(!is_null($layouts)) {
@@ -233,11 +234,6 @@ class ProductController extends Controller
         unset($data['photo']);
 
         $product = Product::with('layouts')->find($request->product_id);
-
-        // Создаём slug для объекта
-        if (is_null($product->slug)) {
-            $data['slug'] = $this->slugService->make($product->id);
-        }
 
         // Конвертируем цену
         $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);

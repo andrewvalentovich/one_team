@@ -57,34 +57,14 @@
                             </div>
                         </div>
                         @endif
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif</label>
-                            <input  value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif" required >
-                            @error('name')
-                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
-                            @enderror
+
+                        @foreach($locales as $locale)
+                        <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif {{ '(' . $locale->code . ')' }}</label>
+                            <input value="{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->name : "" }}" name="name[{{ $locale->code }}]" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif {{ '(' . $locale->code . ')' }}" >
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Английском</label>
-                            <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на английском" required >
-                            @error('name_en')
-                                <label class="text-danger font-weight-normal" for="name_en">{{ $message }}</label>
-                            @enderror
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Турецком</label>
-                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Турецком">
-                            @error('name_tr')
-                                <label class="text-danger font-weight-normal" for="name_tr">{{ $message }}</label>
-                            @enderror
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif на Немецком</label>
-                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif на Немецком">
-                            @error('name_de')
-                                <label class="text-danger font-weight-normal" for="name_de">{{ $message }}</label>
-                            @enderror
-                        </div>
+                        @endforeach
+
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название  @if($get->parent_id == null) страны @else города @endif в url</label>
                             <input value="{{$get->slug}}" name="slug" type="text" class="form-control" id="exampleInputName1" placeholder="Название  @if($get->parent_id == null) страны @else города @endif в url">
@@ -111,24 +91,12 @@
                             @enderror
                         </div>
                         @if($get->parent_id == null)
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="exampleInputName1">Гражданство на Русском</label>
-{{--                                <textarea style="color: white !important; height:  500px;" name="citizenship"  class="form-control" id="exampleInputName1" placeholder="Гражданство" >{{$get->div}}</textarea>--}}
-                                <textarea class="form-control" rows="20" id="" name="citizenship">{!!  $get->div  !!}</textarea>
-                            </div>
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="exampleInputName1">Гражданство на Английском</label>
-                                <textarea class="form-control" rows="20" id="" name="citizenship_en">{!!  $get->div_en  !!}</textarea>
-                            </div>
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="exampleInputName1">Гражданство на Турецком</label>
-                                <textarea class="form-control" rows="20" id="" name="citizenship_tr">{!!  $get->div_tr  !!}</textarea>
-                            </div>
-
-                            <div class="form-group" bis_skin_checked="1">
-                                <label for="exampleInputName1">Гражданство на Немецком</label>
-                                <textarea class="form-control" rows="20" id="" name="citizenship_de">{!!  $get->div_de  !!}</textarea>
-                            </div>
+                            @foreach($locales as $locale)
+                                <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                                    <label for="exampleInputName1">Гражданство ({{ $locale->code }})</label>
+                                    <textarea rows="5" name="div[{{ $locale->code }}]" class="form-control" placeholder="Гражданство ({{ $locale->code }})">{!! !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->div : "" !!}</textarea>
+                                </div>
+                            @endforeach
                         @endif
                         <input type="hidden" name="id" value="{{$get->id}}">
                         <div bis_skin_checked="1">
@@ -170,30 +138,39 @@
                     <form class="forms-sample" action="{{route('create_country')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="parent_id" value="{{$get->id}}">
+
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название города</label>
-                            <input   name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название города" required >
+                            <label for="exampleInputName1">Название города на русском</label>
+                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название города">
+                            @error('name')
+                            <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                            @enderror
                         </div>
+
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название   города  на Английском</label>
-                            <input value="" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название   города  на английском" required >
+                            <label for="exampleInputName1">Гражданство на русском</label>
+                            <textarea rows="5" class="form-control" name="div" placeholder="Гражданство на русском"></textarea>
+                            @error('div')
+                                <label class="text-danger font-weight-normal" for="div">{{ $message }}</label>
+                            @enderror
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название   города  на Турецком</label>
-                            <input value="" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название  города  на Турецком" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название   города  на Немецком</label>
-                            <input value="" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название  города  на Немецком" required >
-                        </div>
-                        <input type="hidden" name="id" value="{{$get->id}}">
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Longitude</label>
-                            <input  name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Longitude" required>
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Latitude</label>
-                            <input   name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
+
+                        <div class="row">
+                            <div class="form-group col-md-6" bis_skin_checked="1">
+                                <label for="exampleInputName1">Широта</label>
+                                <input name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Широта">
+                                @error('lat')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6" bis_skin_checked="1">
+                                <label for="exampleInputName1">Долгота</label>
+                                <input name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Долгота">
+                                @error('long')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                                @enderror
+                            </div>
                         </div>
                         <div bis_skin_checked="1">
                             <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="{{asset("uploads/")}}" alt="">

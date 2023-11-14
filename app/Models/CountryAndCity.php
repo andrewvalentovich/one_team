@@ -5,6 +5,7 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class CountryAndCity extends Model
 {
@@ -32,6 +33,22 @@ class CountryAndCity extends Model
         return $this->hasMany(Product::class, 'country_id');
     }
 
+    public function locales()
+    {
+        return $this->belongsToMany(Locale::class, 'region_locale', 'region_id', 'locale_id');
+    }
+
+    public function locale_fields()
+    {
+        return $this->hasMany(RegionLocale::class, 'region_id', 'id');
+    }
+
+    public function getNameOnEnAttribute()
+    {
+        $tr = new GoogleTranslate();
+        return $tr->trans($this->name, 'en', 'ru');
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *
@@ -41,7 +58,7 @@ class CountryAndCity extends Model
     {
         return [
             'slug' => [
-                'source' => 'name_en'
+                'source' => 'name_on_en'
             ]
         ];
     }

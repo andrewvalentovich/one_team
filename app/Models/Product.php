@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Models\Traits\Filterable;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     // У objects image может быть массивом или текстовым полем, аккуратно!
-    use HasFactory, Filterable;
+    use HasFactory, Filterable, Sluggable;
     protected $guarded = [];
 
     public function scopeForSale($query)
@@ -91,5 +92,24 @@ class Product extends Model
     }
     public function gostinnie() {
         return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
+    }
+
+    public function getSlugTemplateAttribute(): string
+    {
+        return 'object-' . $this->id;
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'slug_template'
+            ]
+        ];
     }
 }
