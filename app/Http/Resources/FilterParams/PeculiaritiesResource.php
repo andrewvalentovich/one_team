@@ -5,12 +5,12 @@ namespace App\Http\Resources\FilterParams;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CountriesResource extends JsonResource
+class PeculiaritiesResource extends JsonResource
 {
-    protected $locale_id;
+    protected $locale;
 
     public function setLocale($value){
-        $this->locale_id = $value;
+        $this->locale = $value;
         return $this;
     }
 
@@ -23,12 +23,13 @@ class CountriesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->locale_fields->where('locale_id', $this->locale_id)->first()->name,
+            'name' => $this->getTranslatedName($this->locale),
             'slug' => $this->slug,
+            'type' => $this->type
         ];
     }
 
     public static function collection($resource){
-        return new CountriesCollection($resource);
+        return new PeculiaritiesCollection($resource);
     }
 }

@@ -43,22 +43,10 @@
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название</label>
-                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название" required >
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Английском</label>
-                            <input name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Английском" required >
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Турецком</label>
-                            <input name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Турецком" required >
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Немецком</label>
-                            <input name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Немецком" required >
+                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название">
+                            @error('name')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                            @enderror
                         </div>
 
                         <input type="hidden" name="type" value="{{$string}}">

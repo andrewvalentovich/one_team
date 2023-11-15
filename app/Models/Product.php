@@ -94,6 +94,16 @@ class Product extends Model
         return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
     }
 
+    public function getTranslatedDescription($locale)
+    {
+        return $this->locale_fields->where('locale.code', $locale)->first()->description;
+    }
+
+    public function getTranslatedDisposition($locale)
+    {
+        return $this->locale_fields->where('locale.code', $locale)->first()->disposition;
+    }
+
     public function getSlugTemplateAttribute(): string
     {
         return 'object-' . $this->id;

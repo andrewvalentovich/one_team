@@ -6,6 +6,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FilterParams\CitiesResource;
 use App\Http\Resources\FilterParams\CountriesResource;
+use App\Http\Resources\FilterParams\PeculiaritiesResource;
+use App\Http\Resources\FilterParams\RoomsResource;
 use App\Models\CountryAndCity;
 use App\Models\Locale;
 use App\Models\Peculiarities;
@@ -23,50 +25,50 @@ class SearchController extends Controller
         ]);
 
         $locale = Locale::where('code', $data['locale'])->first();
-//        $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
 
-//        $countries = CountryAndCity::where('parent_id', null)
-//            ->has('product_country')
-//            ->with('locale_fields.locale')
-//            ->get();
+        $countries = CountriesResource::collection(
+            CountryAndCity::whereNull('parent_id')
+                ->has('product_country')
+                ->get()
+        )->setLocale($locale->id);
 
+        $cities = CitiesResource::collection(
+            CountryAndCity::whereNotNull('parent_id')
+                ->has('product_city')
+                ->get()
+        )->setLocale($locale->id);
 
-//        $regions = CountryAndCity::select('id', 'name', 'slug', 'parent_id', 'lat', 'long')
-//            ->has('product_city')
-//            ->whereNotNull('parent_id')
-//            ->get()
-//            ->transform(function ($row) use ($data) {
-//                return [
-//                    'id' => $row->id,
-//                    'parent_id' => $row->parent_id,
-//                    'name' => $row->locale_fields->where("code", $data['locale'])->first(),
-//                    'slug' => $row->slug,
-//                ];
-//            });
+        $peculiarities = Peculiarities::select('id', 'name', 'slug', 'type')
+            ->with('locale_fields.locale')
+            ->get();
 
-        $collections = Peculiarities::select('id', 'name', 'name_en', 'type')
-            ->get()
-            ->transform(function ($row) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row->name,
-                    'name_en' => strtolower(str_replace(' ', '_', $row->name_en)),
-                    'type' => $row->type
-                ];
-            });
+        $types = PeculiaritiesResource::collection(
+            Peculiarities::select('id', 'name', 'slug', 'type')
+                ->with('locale_fields.locale')
+                ->has('product')
+                ->where('type', 'Типы')
+                ->get()
+        )->setLocale($locale->code);
 
-        $types = Peculiarities::select('id', 'name', 'name_en', 'type')
-            ->where('type', "Типы")
-            ->has('product')
-            ->get()
-            ->transform(function ($row) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row->name,
-                    'name_en' => strtolower($row->name_en),
-                    'type' => $row->type
-                ];
-            });
+        $bedrooms = RoomsResource::collection(
+            $peculiarities->where('type', 'Спальни')
+        )->setLocale($locale->code);
+
+        $bathrooms = RoomsResource::collection(
+            $peculiarities->where('type', 'Ванные')
+        )->setLocale($locale->code);
+
+        $to_sea = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'До моря')
+        )->setLocale($locale->code);
+
+        $views = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'Вид')
+        )->setLocale($locale->code);
+
+        $peculiarities = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'Особенности')
+        )->setLocale($locale->code);
 
         $currency = [
             0 => ["currency" => "EUR", "symbol" => "€"],
@@ -77,24 +79,25 @@ class SearchController extends Controller
         ];
 
         $data = [
-            "countries" => CountriesResource::collection(
-                CountryAndCity::whereNull('parent_id')
-                    ->has('product_country')
-                    ->get()
-            )->setLocale($locale->id),
-            "cities" => CitiesResource::collection(
-                CountryAndCity::whereNotNull('parent_id')
-                    ->has('product_city')
-                    ->get()
-            )->setLocale($locale->id),
+            "countries" => $countries,
+            "cities" => $cities,
             "types" => $types,
-            "bedrooms" => $collections->whereIn('type', "Спальни")->values()->all(),
-            "bathrooms" => $collections->whereIn('type', "Ванные")->values()->all(),
-            "peculiarities" => $collections->whereIn('type', "Особенности")->values()->all(),
-            "views" => $collections->whereIn('type', "Вид")->values()->all(),
-            "to_sea" => $collections->whereIn('type', "До моря")->values()->all(),
+            "bedrooms" => $bedrooms,
+            "bathrooms" => $bathrooms,
+            "peculiarities" => $peculiarities,
+            "views" => $views,
+            "to_sea" => $to_sea,
             "currency" => $currency,
             "sale_or_rent" => ["sale", "rent"],
+            'dictionary' => [
+                'all_countries'     => __('Все страны', [], $locale->code),
+                'all_regions'       => __('Все регионы', [], $locale->code),
+                'all_types'         => __('Все типы', [], $locale->code),
+                'doesnt_matter'     => __('Неважно', [], $locale->code),
+                'cheap-first'       => __('Сначала дешёвые', [], $locale->code),
+                'expensive-first'   => __('Сначала дорогие', [], $locale->code),
+                'new-first'         => __('Сначала новые', [], $locale->code)
+            ]
         ];
 
         return response()->json($data);

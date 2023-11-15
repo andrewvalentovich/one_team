@@ -4,10 +4,6 @@
 @endsection
 @section('content')
     @include('project.includes.search_nav_bar')
-    <script>
-        let product_id_is = '';
-    </script>
-    <?php $filter = \App\Models\Peculiarities::all() ?>
     <section class="city">
         <div class="city__content">
             <div id="map_city" class="">
@@ -42,16 +38,7 @@
 {{--                        Временный костыль--}}
                         @if(isset($_GET['city_id']))
                             @if(app()->getLocale() == 'ru')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
-                            @endif
-                            @if(app()->getLocale() == 'en')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_en }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_en.")" }}
-                            @endif
-                            @if(app()->getLocale() == 'tr')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_tr }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_tr.")" }}
-                            @endif
-                            @if(app()->getLocale() == 'de')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_de }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_de.")" }}
+                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['city_id'])->first()->country->name }} {{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
                             @endif
                         @elseif(isset($_GET['country_id']))
                             @if(app()->getLocale() == 'ru')
@@ -951,7 +938,7 @@
 @section('scripts')
     <script>
         handleIsSecondary();
-        handleOrder();
+        handleOrder('{{ __('Сначала дешёвые') }}', '{{ __('Сначала дорогие') }}', '{{ __('Сначала новые') }}');
 
         function changerActive(list) {
             for(let i = 0; i < list.length; i++) {

@@ -45,7 +45,17 @@ class CountryAndCity extends Model
 
     public function getNameByLocale($locale)
     {
-        return $this->locale_fields->where("code", $locale)->first()->name;
+        return $this->locale_fields->where('code', $locale)->first()->name;
+    }
+
+    public function getTranslatedName($locale)
+    {
+        return $this->locale_fields->where('locale.code', $locale)->first()->name;
+    }
+
+    public function getTranslatedDiv($locale)
+    {
+        return $this->locale_fields->where('locale.code', $locale)->first()->div;
     }
 
     public function getNameOnEnAttribute()

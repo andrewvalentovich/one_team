@@ -155,12 +155,12 @@ function updateUrl(data, urlValues) {
             url += "/" + type;
         }
 
-        var bedroom = getMatchRoom(urlValues, data.bedrooms, "bedroom");
+        var bedroom = getMatch(urlValues, data.bedrooms, "bedroom");
         if (bedroom) {
             url += "/" + bedroom;
         }
 
-        var bathroom = getMatchRoom(urlValues, data.bathrooms, "bathroom");
+        var bathroom = getMatch(urlValues, data.bathrooms, "bathroom");
         if (bathroom) {
             url += "/" + bathroom;
         }
@@ -242,74 +242,26 @@ function convertToCategoryValue(data) {
         categories.push({category: "city", value: value.slug});
     });
     $.each(data.types, function (index, value) {
-        categories.push({category: "type", value: value.name_en});
+        categories.push({category: "type", value: value.slug});
     });
     $.each(data.bedrooms, function (index, value) {
-        categories.push({category: "bedrooms", value: parseInt(value.name_en)+'bedroom'});
+        categories.push({category: "bedrooms", value: value.slug});
     });
     $.each(data.bathrooms, function (index, value) {
-        categories.push({category: "bathrooms", value: parseInt(value.name_en)+'bathroom'});
+        categories.push({category: "bathrooms", value: value.slug});
     });
     $.each(data.peculiarities, function (index, value) {
-        categories.push({category: "peculiarities", value: value.name_en});
+        categories.push({category: "peculiarities", value: value.slug});
     });
     $.each(data.to_sea, function (index, value) {
-        categories.push({category: "to_sea", value: value.name_en});
+        categories.push({category: "to_sea", value: value.slug});
     });
     $.each(data.views, function (index, value) {
-        categories.push({category: "view", value: value.name_en});
+        categories.push({category: "view", value: value.slug});
     });
 
 
     return categories;
-}
-
-function dictionary() {
-
-    return {
-        all_countries: {
-            ru: 'Все страны',
-            en: 'All countries',
-            tr: 'Tüm ülkeler',
-            de: 'Alle Länder',
-        },
-        all_regions: {
-            ru: 'Все регионы',
-            en: 'All regions',
-            tr: 'Tüm bölgeler',
-            de: 'Alle Regionen',
-        },
-        all_types: {
-            ru: 'Все типы',
-            en: 'All types',
-            tr: 'Tüm türler',
-            de: 'Alle Typen',
-        },
-        doesnt_matter: {
-            ru: 'Неважно',
-            en: 'Doesn\'t matter',
-            tr: 'önemli değil',
-            de: 'Nicht wichtig',
-        },
-        cheap_first: {
-            ru: 'Сначала дешёвые',
-            en: 'Cheap first',
-            tr: 'Önce ucuz',
-            de: 'Zuerst die günstigen',
-        },
-        expensive_first: {
-            ru: 'Сначала дорогие',
-            en: 'Cheap first',
-            tr: 'Önce pahalı',
-            de: 'Zuerst die teuren',
-        },
-        new_first: {
-            ru: 'Сначала новые',
-            en: 'Cheap first',
-            tr: 'Önce yeni',
-            de: 'Zuerst die neuen',
-        }
-    }
 }
 
 function getMatch(first, second) {
@@ -317,7 +269,7 @@ function getMatch(first, second) {
     for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
         for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
             // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
-            if(first[i].toLowerCase() === second[j].name_en.toLowerCase()){
+            if(first[i].toLowerCase() === second[j].slug.toLowerCase()){
                 match = first[i]; // если совпадаем делаем что либо с этим значением
             }
         }
@@ -376,7 +328,7 @@ function getMatches(first, second) {
     for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
         for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
             // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
-            if(first[i].toLowerCase() === second[j].name_en.toLowerCase()){
+            if(first[i] === second[j].slug){
                 matches.push(first[i]); // если совпадаем делаем что либо с этим значением
             }
         }
@@ -478,21 +430,21 @@ function handleMaxPrice(data) {
 
 function handleTypes(data) {
     // если указан тип в url
-    var type_name_en = getMatch(getValuesFromUrl(), data.types);
+    var type_slug = getMatch(getValuesFromUrl(), data.types);
 
-    if (type_name_en) {
-        $("input[name='type_id']").val(type_name_en);
+    if (type_slug) {
+        $("input[name='type_id']").val(type_slug);
     }
 
     // Выводим пункт Все типы в dropdown с data_id=""
-    $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox _custom-radio"><input name="type_object" type="radio" checked> <span class="radio"></span>' + dictionary().all_types[window.locale] + '</label>');
+    $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox _custom-radio"><input name="type_object" type="radio" checked> <span class="radio"></span>' + data.dictionary.all_types + '</label>');
 
     // Выводим название типа при загрузке страницы
-    $(".type_select").text(type_name_en !== false ? data.types.find(x => x.name_en == type_name_en).name : dictionary().all_types[window.locale]);
+    $(".type_select").text(type_slug !== false ? data.types.find(x => x.slug == type_slug).name : data.dictionary.all_types);
 
     // Выводим типы в dropdown
     $.each(data.types, function (index, value) {
-        $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="' + value.name_en + '" class="search-nav__types-item type closert_div checkbox _custom-radio"> <input name="type_object" type="radio"> <span class="radio"></span>' + value.name + '</label>');
+        $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="' + value.slug + '" class="search-nav__types-item type closert_div checkbox _custom-radio"> <input name="type_object" type="radio"> <span class="radio"></span>' + value.name + '</label>');
     });
 
     // Вешаем событие на добавленные элементы в dropdown
@@ -509,7 +461,7 @@ function handleTypes(data) {
         var prev_type = $("input[name='type_id']").val();
         $("input[name='type_id']").val(new_type);
 
-        var urlParams = handleUrlParams(prev_type.toLowerCase(), new_type.toLowerCase());
+        var urlParams = handleUrlParams(prev_type, new_type);
         updateUrl(data, urlParams);
 
         var html = $(this).html();
@@ -532,10 +484,12 @@ function handleCountries(data) {
         $('.search-nav__list-item[data_id="country"]').hide();
 
         // Выводим регионы при загрузке страницы
-        var cities_array = data.countries.find(x => x.slug == country_slug).cities;
+        var country = data.countries.find(x => x.slug == country_slug);
+        var cities_array = data.cities.filter(x => x.parent_id === country.id);
+
         var city_slug = getMatchSlug(getValuesFromUrl(), cities_array);
 
-        var city_name = city_slug !== false ? data.cities.find(x => x.slug == city_slug).name : dictionary().all_regions[window.locale];
+        var city_name = city_slug !== false ? data.cities.find(x => x.slug == city_slug).name : data.dictionary.all_regions;
 
         $(".city_select").text(city_name);
         $("input[name='city_id']").val(city_slug);
@@ -543,7 +497,7 @@ function handleCountries(data) {
         // Выводим страны в dropdown
         $('.search-nav__cities-list').html("");
         // Выводим пункт все регионы с data_id=""
-        $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element search__filter-title">' + dictionary().all_regions[window.locale] + '</div>');
+        $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element search__filter-title">' + data.dictionary.all_regions + '</div>');
         $.each(cities_array, function (index, value) {
             $('.search-nav__cities-list').append('<div data_id="' + value.slug + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
         });
@@ -574,7 +528,7 @@ function handleCountries(data) {
         $('.search-nav__list-item[data_id="country"]').show();
 
         // Выводим название страны при загрузке страницы
-        $(".country_select").text(dictionary().all_countries[window.locale]);
+        $(".country_select").text(data.dictionary.all_countries);
         $("input[name='country_id']").val(country_slug);
 
         // Выводим страны в dropdown
@@ -610,14 +564,14 @@ function handleBedrooms(data) {
 
     // Выводим спальни в dropdown
     $.each(data.bedrooms, function (index, value) {
-        if (getValuesFromUrl().includes(parseInt(value.name_en)+'bedroom')) {
-            find_bedroom = parseInt(value.name_en)+'bedroom';
+        if (getValuesFromUrl().includes(value.slug)) {
+            find_bedroom = value.slug;
             $("input[name='bedroom']").val(find_bedroom);
         }
-        $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+parseInt(value.name_en)+'bedroom'+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(getValuesFromUrl().includes(parseInt(value.name_en)+'bedroom')  ? 'active' : '')+'">'+value.name+'</div>');
+        $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="'+value.slug+'" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(getValuesFromUrl().includes(value.slug) ? 'active' : '')+'">'+value.name+'</div>');
     });
     // Выводим пункт НЕВАЖНО в спальни в dropdown
-    $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(find_bedroom === false ? 'active' : '')+'">'+dictionary().doesnt_matter[window.locale]+'</div>');
+    $('.search-nav__rooms-dropdown-bedrooms-buttons').append('<div data_id="" class="bedrooms search-nav__rooms-dropdown-bedrooms-button '+(find_bedroom === false ? 'active' : '')+'">'+data.dictionary.doesnt_matter+'</div>');
 
     // Вешаем событие на добавленные элементы в dropdown
     $('.bedrooms').click(function () {
@@ -628,7 +582,7 @@ function handleBedrooms(data) {
         var prev_bedroom = $("input[name='bedroom']").val();
         $("input[name='bedroom']").val(new_bedroom);
 
-        var urlParams = handleUrlParams(prev_bedroom.toLowerCase(), new_bedroom.toLowerCase());
+        var urlParams = handleUrlParams(prev_bedroom, new_bedroom);
         updateUrl(data, urlParams);
     })
 }
@@ -638,12 +592,12 @@ function handleBathrooms(data) {
 
     // Выводим ванные в dropdown
     $.each(data.bathrooms, function (index, value) {
-        if (getValuesFromUrl().includes(parseInt(value.name_en)+'bathroom')) {
-            find_bathroom = parseInt(value.name_en)+'bathroom';
+        if (getValuesFromUrl().includes(value.slug)) {
+            find_bathroom = value.slug;
         }
-        $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+parseInt(value.name_en)+'bathroom'+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(getValuesFromUrl().includes(parseInt(value.name_en)+'bathroom') ? 'active' : '')+'">'+value.name+'</div>');
+        $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="'+value.slug+'" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(getValuesFromUrl().includes(value.slug) ? 'active' : '')+'">'+value.name+'</div>');
     });
-    $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(find_bathroom === false ? 'active' : '')+'">'+dictionary().doesnt_matter[window.locale]+'</div>');
+    $('.search-nav__rooms-dropdown-bathrooms-buttons').append('<div data_id="" class="bathrooms search-nav__rooms-dropdown-bathrooms-button '+(find_bathroom === false ? 'active' : '')+'">'+data.dictionary.doesnt_matter+'</div>');
 
     // Вешаем событие на добавленные элементы в dropdown
     $('.bathrooms').click(function () {
@@ -654,7 +608,7 @@ function handleBathrooms(data) {
         var prev_bathroom = $("input[name='bathroom']").val();
         $("input[name='bathroom']").val(new_bathroom);
 
-        var urlParams = handleUrlParams(prev_bathroom.toLowerCase(), new_bathroom.toLowerCase());
+        var urlParams = handleUrlParams(prev_bathroom, new_bathroom);
         updateUrl(data, urlParams);
     })
 }
@@ -664,9 +618,9 @@ function handlePeculiarities(data) {
     $.each(data.peculiarities, function (index, value) {
         $('.more-dropdown__peculiarities-list').append('<div class="more-dropdown__peculiarities-item">'+
             '<label class="more-dropdown__peculiarities peculiarities">'+
-            '<input data-name="'+value.name_en+'" name="peculiarities['+value.name_en+']" '+
+            '<input data-name="'+value.slug+'" name="peculiarities['+value.slug+']" '+
             'class="more-dropdown__peculiarities-tv-checkbox more-dropdown__peculiarities-checkbox" type="checkbox" '+
-            (getValuesFromUrl().includes(value.name_en) ? 'checked' : '')+'>'+
+            (getValuesFromUrl().includes(value.slug) ? 'checked' : '')+'>'+
             '<div class="more-dropdown-custom-checkbox"></div>'+
             '<div class="more-dropdown-checkbox-text">'+value.name+'</div>'+
             '</label>'+
@@ -689,10 +643,10 @@ function handlePeculiarities(data) {
 function handleViews(data) {
     // Выводим виды в dropdown
     $.each(data.views, function (index, value) {
-        if (getValuesFromUrl().includes(value.name_en)) {
-            $("input[name='view']").val(value.name_en);
+        if (getValuesFromUrl().includes(value.slug)) {
+            $("input[name='view']").val(value.slug);
         }
-        $('.more-dropdown__view-item').append('<div data_id="'+value.name_en+'" class="view search-nav__dropdown-button search-nav__view-button '+(getValuesFromUrl().includes(value.name_en) ? 'active' : '')+'">'+value.name+'</div>');
+        $('.more-dropdown__view-item').append('<div data_id="'+value.slug+'" class="view search-nav__dropdown-button search-nav__view-button '+(getValuesFromUrl().includes(value.slug) ? 'active' : '')+'">'+value.name+'</div>');
     });
 
     // Вешаем событие на добавленные элементы в dropdown
@@ -719,10 +673,10 @@ function handleViews(data) {
 function handleToSea(data) {
     // Выводим до моря в dropdown
     $.each(data.to_sea, function (index, value) {
-        if (getValuesFromUrl().includes(value.name_en)) {
-            $("input[name='to_sea']").val(value.name_en);
+        if (getValuesFromUrl().includes(value.slug)) {
+            $("input[name='to_sea']").val(value.slug);
         }
-        $('.more-dropdown__sea-item').append('<div data_id="'+value.name_en+'" class="to_sea search-nav__dropdown-button search-nav__sea-button ts '+(getValuesFromUrl().includes(value.name_en) ? 'active' : '')+'">'+value.name+'</div>');
+        $('.more-dropdown__sea-item').append('<div data_id="'+value.slug+'" class="to_sea search-nav__dropdown-button search-nav__sea-button ts '+(getValuesFromUrl().includes(value.slug) ? 'active' : '')+'">'+value.name+'</div>');
     });
 
     // Вешаем событие на добавленные элементы в dropdown
@@ -839,32 +793,32 @@ function handleIsSecondary() {
     // Обработка вторичка-не вторичка происходит в houses событие click на .city-col__btn
 }
 
-function handleOrder() {
+function handleOrder(cheap_first, expensive_first, new_first) {
     // Сортировка
     var urlParams = getValuesFromUrl();
     if (urlParams.includes("cheap-first")) {
         $("input[name='order']").val("cheap-first");
-        $('.city-cil__filter-title').text(dictionary().cheap_first[window.locale]);
+        $('.city-cil__filter-title').text(cheap_first);
     }
 
     if (urlParams.includes("expensive-first")) {
         $("input[name='order']").val("expensive-first");
-        $('.city-cil__filter-title').text(dictionary().expensive_first[window.locale]);
+        $('.city-cil__filter-title').text(expensive_first);
     }
 
     if (urlParams.includes("new-first")) {
         $("input[name='order']").val("new-first");
-        $('.city-cil__filter-title').text(dictionary().new_first[window.locale]);
+        $('.city-cil__filter-title').text(new_first);
     }
 
     if (!urlParams.includes("cheap-first") && !urlParams.includes("expensive-first") && !urlParams.includes("new-first")) {
         $("input[name='order']").val("");
-        $('.city-cil__filter-title').text(dictionary().new_first[window.locale]);
+        $('.city-cil__filter-title').text(new_first);
     }
 
-    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("cheap-first") ? 'active' : '')+'" data_id="cheap-first">'+dictionary().cheap_first[window.locale]+'</div>');
-    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("expensive-first") ? 'active' : '')+'" data_id="expensive-first">'+dictionary().expensive_first[window.locale]+'</div>');
-    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("new-first") ? 'active' : '')+'" data_id="new-first">'+dictionary().new_first[window.locale]+'</div>');
+    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("cheap-first") ? 'active' : '')+'" data_id="cheap-first">'+cheap_first+'</div>');
+    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("expensive-first") ? 'active' : '')+'" data_id="expensive-first">'+expensive_first+'</div>');
+    $('.city-col__filter-list').append('<div class="city-col__filter-item '+(urlParams.includes("new-first") ? 'active' : '')+'" data_id="new-first">'+new_first+'</div>');
 
     // Обработка вторичка-не вторичка происходит в houses событие click на .city-col__btn
 }

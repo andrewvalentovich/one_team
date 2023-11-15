@@ -40,13 +40,12 @@
                                 <thead>
                                 <tr>
                                     <th> Название</th>
-
                                 </tr>
                                 </thead>
                                 @foreach($get as $item)
                                     <tbody>
                                     <tr>
-                                        <td> {{$item->name}}</td>
+                                        <td> {{ $item->getTranslatedName('ru') }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{route('single_peculiarities',$item->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>
@@ -56,9 +55,6 @@
                             </table>
                         </div>
                         <div style="display: flex; justify-content: center;" bis_skin_checked="1">   {{$get->links()}} </div>
-
-
-
                     </div>
                 </div>
             </div>
