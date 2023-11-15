@@ -1789,6 +1789,7 @@ function P(e) {
 
         //комнаты
         const objectRooms = document.querySelector('.object__rooms')
+
         objectRooms.style.display = 'none'
         if(currentHouse.complex_or_not !== 'Нет' || currentHouse.complex_or_not !== null) {
             objectRooms.style.display = 'block'
@@ -1815,7 +1816,11 @@ function P(e) {
 
 
         }
+        const objects = [...currentHouse.layouts]
 
+        if(objects.length >= 2) {
+            objectRooms.style.display = 'none'
+        }
 
         //карта
         const currentMap = document.querySelector('.current-map')
@@ -1858,7 +1863,6 @@ function P(e) {
         const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')
         kompleksLayoutSort.innerHTML = ''
 
-        const objects = [...currentHouse.layouts]
         let chemesSet = new Set()
         objects.forEach(object => {
             const div = document.createElement('div')

@@ -917,10 +917,16 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
 
 
 //слушатель события на нажатия клаваши
-
 document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape') {
         const placeW = document.querySelector('.place__slider_p.active')
         placeW.classList.remove('active')
     }
 })
+
+
+// скрыть блок Общая площадь если больше 2 планировок
+
+// if(document.querySelectorAll('.object__rooms-content').length) {
+//     const 
+// }
