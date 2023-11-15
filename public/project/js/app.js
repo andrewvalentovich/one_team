@@ -521,13 +521,11 @@ if(document.querySelectorAll('.field-phone').length) {
     let phonesBtn
     fieldPhone.forEach(element => {
         phonesBtn = element.querySelectorAll('.contact__form-phone-country')
-
     });
     phonesBtn.forEach(btn => {
         btn.addEventListener('click', function() {
             const paranetField = btn.closest('.field-phone')
             const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-
             this.classList.toggle('active')
             dropdownList.classList.toggle('active')
         })
@@ -651,23 +649,7 @@ if(document.querySelectorAll('.contact__phone-list').length) {
         }
     });
 
-    if(document.querySelectorAll('.field-phone').length) {
-        const fieldPhone = document.querySelectorAll('.field-phone')
-        let phonesBtn
-        fieldPhone.forEach(element => {
-            phonesBtn = element.querySelectorAll('.contact__form-phone-country')
 
-        });
-        phonesBtn.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const paranetField = btn.closest('.field-phone')
-                const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-
-                this.classList.toggle('active')
-                dropdownList.classList.toggle('active')
-            })
-        });
-    }
 }
 
 
@@ -930,3 +912,15 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
 
     }
 }
+
+
+
+
+//слушатель события на нажатия клаваши
+
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+        const placeW = document.querySelector('.place__slider_p.active')
+        placeW.classList.remove('active')
+    }
+})
