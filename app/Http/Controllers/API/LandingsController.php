@@ -9,6 +9,7 @@ use App\Http\Requests\Landing\FilterRequest;
 use App\Models\Product;
 use App\Models\Peculiarities;
 use App\Services\LayoutService;
+use Illuminate\Support\Facades\Log;
 
 class LandingsController extends Controller
 {
@@ -36,7 +37,7 @@ class LandingsController extends Controller
             ->orderBy('created_at', 'desc')
             ->get()
             ->transform(function ($row) {
-                if (isset($row->layouts)) {
+                if (count($row->layouts) > 0) {
                     // Получаем уникальные планировки
                     $layouts_result = $this->layoutService->getUniqueNumberRooms($row->layouts);
 
@@ -45,7 +46,7 @@ class LandingsController extends Controller
                     $price = [];
                     foreach ($row->layouts as $key => $layout) {
                         $size[] = $layout->total_size;
-                        $price[] = $layout->price;
+                        $price[] = $layout->base_price;
                     }
 
                     $min_size = count($size) >= 1 ? min($size) : 0;
@@ -69,7 +70,7 @@ class LandingsController extends Controller
                         "id" => $row->id,
                         "name" => $row->name,
                         "address" => $row->address,
-                        "price" => number_format($row->price, 0, '.', ' ') . " €",
+                        "price" => number_format($row->base_price, 0, '.', ' ') . " €",
                         "layouts" => (int) $row->peculiarities->where('type', 'Спальни')->pluck('name')->all() . "+" . (int) $row->peculiarities->where('type', 'Гостиные')->pluck('name')->all(),
                         "size" => $row->size." м2",
                         "to_sea" => $row->peculiarities->where('type', 'До моря')->pluck('name')->all()[0] ?? null,

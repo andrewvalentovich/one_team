@@ -16,7 +16,13 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{asset('project/css/swiper-bundle.min.css')}} "> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{asset('project/files/fonts/stylesheet.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('project/css/style.css')}}">
+
+    @if(app()->getLocale() == "ar" || app()->getLocale() == "fa")
+        <link rel="stylesheet" type="text/css" href="{{asset('project/css/style-rlt.css')}}">
+    @else
+        <link rel="stylesheet" type="text/css" href="{{asset('project/css/style.css')}}">
+    @endif
+
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <title>{{ isset($title) ? __($title) : "One-team" }}</title>
     <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>

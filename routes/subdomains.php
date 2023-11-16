@@ -44,7 +44,7 @@ Route::get('/', function ($subdomain) {
             if ($path === "country") {
                 $filter = \App\Models\CountryAndCity::find($landing['relation_id']);
                 abort_if(!isset($filter), 404);
-                $cities = \App\Models\CountryAndCity::whereNotNull('parent_id')->has('product_city')->get();
+                $cities = \App\Models\CountryAndCity::where('parent_id', $landing['relation_id'])->has('product_city')->get();
                 $types = \App\Models\Peculiarities::where('type', 'Типы')->has('product')->get();
                 return view("landings/$path", compact('landing', 'filter', 'types', 'cities'));
             }

@@ -26,7 +26,7 @@ class LandingController extends Controller
             ->transform(function ($row) {
                 if ($row->template->path === "region") {
                     $filter = \App\Models\CountryAndCity::find($row->relation_id);
-                    $row->relation_name = isset($filter->name) ? $filter->name : "Ну выбрано";
+                    $row->relation_name = isset($filter->name) ? $filter->name : "Не выбрано";
                 }
 
                 if ($row->template->path === "country") {

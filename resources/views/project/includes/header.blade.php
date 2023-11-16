@@ -258,58 +258,58 @@
                         </div>
                         <div class="header__lang-list-dropdown">
                             <div class="header__lang-list">
-                                @foreach($locales as $locale)
+{{--                                @foreach($locales as $locale)--}}
+{{--                                <div class="header__lang-list-item">--}}
+{{--                                    <a style="display: flex;" href="{{route('setLocale', $locale->code)}}">--}}
+{{--                                        <div class="header__lang-text">--}}
+{{--                                            {{ $locale->code }}--}}
+{{--                                        </div>--}}
+{{--                                        <div class="header__lang-img">--}}
+{{--                                            <img style="width: 24px; height: 18px;" src="{{ asset(isset($locale->icon) ? $locale->icon_path : null) }}" alt="{{ $locale->code }}">--}}
+{{--                                        </div>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                @endforeach--}}
                                 <div class="header__lang-list-item">
-                                    <a style="display: flex;" href="{{route('setLocale', $locale->code)}}">
+                                    <a style="display: flex;" href="{{route('setLocale','en')}}">
                                         <div class="header__lang-text">
-                                            {{ $locale->code }}
+                                            EN
                                         </div>
                                         <div class="header__lang-img">
-                                            <img style="width: 24px; height: 18px;" src="{{ asset(isset($locale->icon) ? $locale->icon_path : null) }}" alt="{{ $locale->code }}">
+                                            <img src="{{asset('project/img/countries/us.png')}}" alt="en">
                                         </div>
                                     </a>
                                 </div>
-                                @endforeach
-{{--                                <div class="header__lang-list-item">--}}
-{{--                                    <a style="display: flex;" href="{{route('setLocale','ru')}}">--}}
-{{--                                    <div class="header__lang-text">--}}
-{{--                                        RU--}}
-{{--                                    </div>--}}
-{{--                                    <div class="header__lang-img">--}}
-{{--                                        <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">--}}
-{{--                                    </div>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
-{{--                                <div class="header__lang-list-item">--}}
-{{--                                    <a style="display: flex;" href="{{route('setLocale','tr')}}">--}}
-{{--                                    <div class="header__lang-text">--}}
-{{--                                        TR--}}
-{{--                                    </div>--}}
-{{--                                    <div class="header__lang-img">--}}
-{{--                                        <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">--}}
-{{--                                    </div>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
-{{--                                <div class="header__lang-list-item">--}}
-{{--                                    <a style="display: flex;" href="{{route('setLocale','de')}}">--}}
-{{--                                    <div class="header__lang-text">--}}
-{{--                                        DE--}}
-{{--                                    </div>--}}
-{{--                                    <div class="header__lang-img">--}}
-{{--                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">--}}
-{{--                                    </div>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
-{{--                                <div class="header__lang-list-item">--}}
-{{--                                    <a style="display: flex;" href="{{route('setLocale','ar')}}">--}}
-{{--                                    <div class="header__lang-text">--}}
-{{--                                        AR--}}
-{{--                                    </div>--}}
-{{--                                    <div class="header__lang-img">--}}
-{{--                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">--}}
-{{--                                    </div>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
+                                <div class="header__lang-list-item">
+                                    <a style="display: flex;" href="{{route('setLocale','ru')}}">
+                                    <div class="header__lang-text">
+                                        RU
+                                    </div>
+                                    <div class="header__lang-img">
+                                        <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
+                                    </div>
+                                    </a>
+                                </div>
+                                <div class="header__lang-list-item">
+                                    <a style="display: flex;" href="{{route('setLocale','tr')}}">
+                                    <div class="header__lang-text">
+                                        TR
+                                    </div>
+                                    <div class="header__lang-img">
+                                        <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
+                                    </div>
+                                    </a>
+                                </div>
+                                <div class="header__lang-list-item">
+                                    <a style="display: flex;" href="{{route('setLocale','de')}}">
+                                    <div class="header__lang-text">
+                                        DE
+                                    </div>
+                                    <div class="header__lang-img">
+                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">
+                                    </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

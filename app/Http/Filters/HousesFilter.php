@@ -50,12 +50,12 @@ class HousesFilter extends AbstractFilter
             self::BOTTOM_RIGHT => [$this, 'bottom_right'],
             self::BEDROOMS => [$this, 'peculiarities_bedrooms'],
             self::BATHROOMS => [$this, 'peculiarities_bathrooms'],
-            self::VIEW => [$this, 'peculiarities_by_name'],
-            self::TO_SEA => [$this, 'peculiarities_by_name'],
+            self::VIEW => [$this, 'peculiarities_by_slug'],
+            self::TO_SEA => [$this, 'peculiarities_by_slug'],
             self::COUNTRY_ID => [$this, 'country_by_id'],
             self::COUNTRY => [$this, 'country_by_slug'],
-            self::TYPE => [$this, 'peculiarities_by_name'],
-            self::PECULIARITIES => [$this, 'peculiarities'],
+            self::TYPE => [$this, 'peculiarities_by_slug'],
+            self::PECULIARITIES => [$this, 'peculiarities_by_slug'],
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
             self::CITY_ID => [$this, 'city_by_id'],
@@ -142,6 +142,16 @@ class HousesFilter extends AbstractFilter
             $builder->whereHas('peculiarities', function ($query) use ($value) {
 //                $query->where('peculiarities.name_en', "$value");
                 $query->whereRaw('LOWER(`name_en`) LIKE ? ',['%'.$value.'%']);
+            });
+        }
+    }
+
+    protected function peculiarities_by_slug(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->whereHas('peculiarities', function ($query) use ($value) {
+                $query->where('peculiarities.slug', "$value");
+//                $query->whereRaw('LOWER(`name_en`) LIKE ? ',['%'.$value.'%']);
             });
         }
     }

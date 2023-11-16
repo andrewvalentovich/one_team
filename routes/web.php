@@ -86,43 +86,6 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 
 
 Route::domain(config('app.domain'))->group(function () {
-    Route::view('test','test2');
-
-
-    Route::get('setLocale/{local}', [SetLocaleController::class,'setLocale'])->name('setLocale');
-
-
-    //Route::prefix(app()->getLocale())->group(function () {
-    Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
-    Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
-    Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
-    Route::get('locations/',[AllLocationController::class, 'all_location'])->name('all_location');
-    Route::get('locations/{slug}',[CounrtryController::class, 'countries'])->name('countries');
-    Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
-
-//    Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
-
-//    Route::get('/houses', [HousesController::class, 'index'])->name('houses.index'); // Новая карта
-
-    Route::post('product_from_map/{id}',[CityController::class,'product_from_map'])->name('product_from_map');
-    Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
-    Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
-    Route::get('installment_plan',[RasrochkaController::class,'installment_plan'])->name('installment_plan');
-    Route::get('about/{slug}', [CompanySelectController::class, 'about'])->name('about');
-    Route::get('contacts', [ContactsController::class,'contacts'])->name('contacts');
-    Route::get('my_favorites', [FavoriteController::class,'my_favorites'])->name('my_favorites');
-    Route::get('delete_my_all_favorite', [FavoriteController::class,'delete_my_all_favorite'])->name('delete_my_all_favorite');
-    Route::post('deleteFavorite', [FavoriteController::class,'deleteFavorite'])->name('deleteFavorite');
-    Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
-    //});
-
-    Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
-
-    Route::post('send_request', [RequestController::class,'send_request'])->name('send_request');
-
-    Route::get('personal_data_processing_policy', [PolicyAndPrivice::class,'personal_data_processing_policy'])->name('personal_data_processing_policy');
-    Route::get('user_agreement_when_using_the_site', [PolicyAndPrivice::class,'user_agreement_when_using_the_site'])->name('user_agreement_when_using_the_site');
-
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
             Route::get('/login', [AdminLoginController::class, 'login'])->name('login');
@@ -213,11 +176,53 @@ Route::domain(config('app.domain'))->group(function () {
         });
     });
 
-    // Route to closure
-    Route::get('/{categories?}', function($categories)
-    {
-        return $categories;
-    })->where('categories', '(.*)');
-    // Route to controller method
-    Route::get('/{categories?}', [HousesController::class, 'realty'])->where('categories', '(.*)')->name('realty');
+//    Route::group([
+//        'prefix' => '{locale}',
+//        'where' => ['locale' => '[a-zA-Z]{2}'],
+//        'middleware' => 'locale'
+//    ], function() {
+        Route::view('test', 'test2');
+
+        Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
+
+
+        //Route::prefix(app()->getLocale())->group(function () {
+        Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
+        Route::get('city_from_map/{id?}', [HomePageController::class, 'city_from_map'])->name('city_from_map');
+        Route::get('products_from_map', [HomePageController::class, 'products_from_map'])->name('products_from_map');
+        Route::get('locations/', [AllLocationController::class, 'all_location'])->name('all_location');
+        Route::get('locations/{slug}', [CounrtryController::class, 'countries'])->name('countries');
+        Route::get('city/city_id={id}', [CityController::class, 'city'])->name('city');
+
+        //    Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
+
+        //    Route::get('/houses', [HousesController::class, 'index'])->name('houses.index'); // Новая карта
+
+        Route::post('product_from_map/{id}', [CityController::class, 'product_from_map'])->name('product_from_map');
+        Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
+        Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
+        Route::get('installment_plan', [RasrochkaController::class, 'installment_plan'])->name('installment_plan');
+        Route::get('about/{slug}', [CompanySelectController::class, 'about'])->name('about');
+        Route::get('contacts', [ContactsController::class, 'contacts'])->name('contacts');
+        Route::get('my_favorites', [FavoriteController::class, 'my_favorites'])->name('my_favorites');
+        Route::get('delete_my_all_favorite', [FavoriteController::class, 'delete_my_all_favorite'])->name('delete_my_all_favorite');
+        Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
+        Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
+        //});
+
+        Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
+
+        Route::post('send_request', [RequestController::class, 'send_request'])->name('send_request');
+
+        Route::get('personal_data_processing_policy', [PolicyAndPrivice::class, 'personal_data_processing_policy'])->name('personal_data_processing_policy');
+        Route::get('user_agreement_when_using_the_site', [PolicyAndPrivice::class, 'user_agreement_when_using_the_site'])->name('user_agreement_when_using_the_site');
+
+
+        // Route to closure
+        Route::get('/{categories?}', function ($categories) {
+            return $categories;
+        })->where('categories', '(.*)');
+        // Route to controller method
+        Route::get('/{categories?}', [HousesController::class, 'realty'])->where('categories', '(.*)')->name('realty');
+//    });
 });
