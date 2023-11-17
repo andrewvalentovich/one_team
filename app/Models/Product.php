@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    // У objects image может быть массивом или текстовым полем, аккуратно!
-    use HasFactory, Filterable, Sluggable;
+    use HasFactory, Filterable;
     protected $guarded = [];
 
     public function scopeForSale($query)
@@ -102,24 +101,5 @@ class Product extends Model
     public function getTranslatedDisposition($locale)
     {
         return $this->locale_fields->where('locale.code', $locale)->first()->disposition;
-    }
-
-    public function getSlugTemplateAttribute(): string
-    {
-        return 'object-' . $this->id;
-    }
-
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'slug_template'
-            ]
-        ];
     }
 }

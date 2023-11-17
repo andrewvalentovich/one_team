@@ -24,10 +24,20 @@ class LocalizationMiddleware
 //        }
 //
 //        return $next($request);
-        app()->setLocale($request->segment(1));
+        $locale = Locale::where('code', $request->segment(1))->first();
 
-        URL::defaults(['locale' => $request->segment(1)]);
-
-        return $next($request);
+        if ($request->segment(1) === "admin") {
+            return $next($request);
+        } else {
+            if (!is_null($locale)) {
+                app()->setLocale($locale->code);
+                URL::defaults(['locale' => $request->segment(1)]);
+                return $next($request);
+            } else {
+                app()->setLocale("ru");
+                URL::defaults(['locale' => "ru"]);
+                return redirect()->to(str_replace($request->segment(1), "ru", $request->url()));
+            }
+        }
     }
 }

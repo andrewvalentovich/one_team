@@ -31,7 +31,7 @@ class HousesController extends Controller
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
         $data = $request->validated();
-        $locale = Locale::where('code', $data['locale'])->first();
+        $locale = Locale::where('code', isset($data['locale']) ? $data['locale'] : 'ru')->first();
 
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
@@ -126,6 +126,7 @@ class HousesController extends Controller
             if (isset($houses[$i]->layouts) && count($houses[$i]->layouts) > 0) {
                 $houses[$i]->price = $houses[$i]->layouts[0]->price;
                 $houses[$i]->price_code = $houses[$i]->layouts[0]->price_code;
+                $houses[$i]->base_price = $houses[$i]->layouts[0]->base_price;
             }
         }
 

@@ -30,26 +30,39 @@ class TranslateContent extends Command
     public function handle()
     {
         $this->line("Start command");
-        $peculiarities = Peculiarities::doesntHave('locale_fields')->get();
+        $peculiarities = Peculiarities::with('locale_fields.locale')->get();
         $locales = Locale::all();
 
         $progressBar = $this->output->createProgressBar(count($peculiarities));
         $progressBar->start();
+
         foreach ($peculiarities as $peculiarity) {
-            $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
+            $tmp_locales = $locales;
+            // Проходимся по полям продукта
+            foreach ($tmp_locales as $key => $value) {
+                // Если существует язык для которого выполнен перевод, то удаляем его из массива $locales
+                if (!is_null($peculiarity->locale_fields->where('locale.code', $value->code)->first())) {
+                    unset($tmp_locales[$key]);
+                }
+            }
 
-            $this->line("\n");
-            foreach ($locales as $locale) {
-                $this->line("- Translate for " . $locale->code);
-                $tmp_name = !empty($peculiarity->name) ? $tr->trans($peculiarity->name, $locale->code, "ru") : null;
+            // Если существуют языки, на которых нет перевода, выполняем перевод
+            if (!empty($tmp_locales)) {
+                $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
 
-                PeculiarityLocale::create([
-                    "peculiarity_id" => $peculiarity->id,
-                    "locale_id" => $locale->id,
-                    "name" => $tmp_name,
-                ]);
+                $this->line("\n");
+                foreach ($tmp_locales as $key => $locale) {
+                    $this->line("- Translate for " . $locale->code);
+                    $tmp_name = !empty($peculiarity->name) ? $tr->trans($peculiarity->name, $locale->code, "ru") : null;
 
-                unset($tmp_name);
+                    PeculiarityLocale::create([
+                        "peculiarity_id" => $peculiarity->id,
+                        "locale_id" => $locale->id,
+                        "name" => $tmp_name,
+                    ]);
+
+                    unset($tmp_name);
+                }
             }
 
             // Шаг для прогрессбара

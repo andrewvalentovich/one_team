@@ -29,6 +29,7 @@ class UpdateRequest extends FormRequest
             'country_id' => 'nullable|numeric|min:1',
             'sale_or_rent' => 'nullable|string',
             'name' => 'nullable|string',
+            'slug' => 'nullable|string',
             'price' => 'nullable|integer',
             'price_code' => 'nullable|string',
             'size' => 'nullable|integer',

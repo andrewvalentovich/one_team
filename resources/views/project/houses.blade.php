@@ -1366,6 +1366,12 @@ function P(e) {
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
+
+            if (window.locale == 'ar' || window.locale == 'fa') {
+                priceDiv.style.textAlign = "right";
+                priceDiv.style.direction = "ltr";
+            }
+
             if (cityElement.layouts.length > 1) {
                 priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)} +`;
             } else {
@@ -2713,7 +2719,7 @@ function P(e) {
                     balloonContent: `<div class="balloon-city-w">
                                         <div class="balloon-city" id="${mark.id}">
                                             <div class="balloon-city__text">
-                                                <div class="balloon-city__price">${mark.price.EUR}</div>
+                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>${mark.price.EUR}</div>
                                                 ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
                                                 <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
                                                 <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
@@ -2728,6 +2734,7 @@ function P(e) {
             let areaForBallon = 250000
             if(window.innerWidth <= 768) areaForBallon = 1000000
             locationsCity.forEach(function (location) {
+                var balloonOffset = (window.locale == 'ar' || window.locale == 'fa') ? [120, -60] : [-120, -60];
                 var placemark = new ymaps.Placemark(location.coordinates, {
                     balloonContent: location.balloonContent,
                 }, {
@@ -2814,7 +2821,7 @@ function P(e) {
                     }),
                     balloonContentLayout: c,
                     hideIconOnBalloonOpen: false,
-                    balloonOffset: [-120, -60],
+                    balloonOffset: balloonOffset,
                 });
 
                 mapCountry.geoObjects.add(placemark);

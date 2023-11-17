@@ -31,28 +31,43 @@ class TranslateContent extends Command
     public function handle()
     {
         $this->line("Start command");
-        $products = Product::doesntHave('locale_fields')->get();
+        $products = Product::with('locale_fields.locale')->get();
         $locales = Locale::all();
 
         $progressBar = $this->output->createProgressBar(count($products));
         $progressBar->start();
+
         foreach ($products as $product) {
-            $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
+            $tmp_locales = $locales;
+            // Проходимся по полям продукта
+            foreach ($tmp_locales as $key => $value) {
+                // Если существует язык для которого выполнен перевод, то удаляем его из массива $locales
+                if (!is_null($product->locale_fields->where('locale.code', $value->code)->first())) {
+                    unset($tmp_locales[$key]);
+                }
+//                if (!is_null($tmp_locales->where('code', $value->locale->code)->first())) {
+//                    unset($tmp_locales[$tmp_locales->where('code', $value->locale->code)->first()->id - 1]);
+//                }
+            }
 
-            $this->line("\n");
-            foreach ($locales as $locale) {
-                $this->line("- Translate for " . $locale->code);
-                $tmp_description = !empty($product->description) ? $tr->trans($product->description, $locale->code, "ru") : null;
-                $tmp_disposition = !empty($product->disposition) ? $tr->trans($product->disposition, $locale->code, "ru") : null;
+            // Если существуют языки, на которых нет перевода, выполняем перевод
+            if (!empty($tmp_locales)) {
+                $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
 
-                ProductLocale::create([
-                    "product_id" => $product->id,
-                    "locale_id" => $locale->id,
-                    "description" => $tmp_description,
-                    "disposition" => $tmp_disposition,
-                ]);
+                $this->line("\n");
+                foreach ($tmp_locales as $key => $locale) {
+                    $this->line("- Translate for " . $locale->code);
+                    $tmp_description = !empty($product->description) ? $tr->trans($product->description, $locale->code, "ru") : null;
+                    $tmp_disposition = !empty($product->disposition) ? $tr->trans($product->disposition, $locale->code, "ru") : null;
 
-                unset($tmp_description, $tmp_disposition);
+                    ProductLocale::create([
+                        "product_id" => $product->id,
+                        "locale_id" => $locale->id,
+                        "description" => $tmp_description,
+                        "disposition" => $tmp_disposition,
+                    ]);
+                    unset($tmp_description, $tmp_disposition);
+                }
             }
 
             // Шаг для прогрессбара

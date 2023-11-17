@@ -30,28 +30,41 @@ class TranslateContent extends Command
     public function handle()
     {
         $this->line("Start command");
-        $regions = CountryAndCity::doesntHave('locale_fields')->get();
+        $regions = CountryAndCity::with('locale_fields.locale')->get();
         $locales = Locale::all();
 
         $progressBar = $this->output->createProgressBar(count($regions));
         $progressBar->start();
+
         foreach ($regions as $region) {
-            $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
+            $tmp_locales = $locales;
+            // Проходимся по полям продукта
+            foreach ($tmp_locales as $key => $value) {
+                // Если существует язык для которого выполнен перевод, то удаляем его из массива $locales
+                if (!is_null($region->locale_fields->where('locale.code', $value->code)->first())) {
+                    unset($tmp_locales[$key]);
+                }
+            }
 
-            $this->line("\n");
-            foreach ($locales as $locale) {
-                $this->line("- Translate for " . $locale->code);
-                $tmp_name = !empty($region->name) ? $tr->trans($region->name, $locale->code, "ru") : null;
-                $tmp_div = !empty($region->div) ? $tr->trans($region->div, $locale->code, "ru") : null;
+            // Если существуют языки, на которых нет перевода, выполняем перевод
+            if (!empty($tmp_locales)) {
+                $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
 
-                RegionLocale::create([
-                    "region_id" => $region->id,
-                    "locale_id" => $locale->id,
-                    "name" => $tmp_name,
-                    "div" => $tmp_div,
-                ]);
+                $this->line("\n");
+                foreach ($tmp_locales as $key => $locale) {
+                    $this->line("- Translate for " . $locale->code);
+                    $tmp_name = !empty($region->name) ? $tr->trans($region->name, $locale->code, "ru") : null;
+                    $tmp_div = !empty($region->div) ? $tr->trans($region->div, $locale->code, "ru") : null;
 
-                unset($tmp_name, $tmp_div);
+                    RegionLocale::create([
+                        "region_id" => $region->id,
+                        "locale_id" => $locale->id,
+                        "name" => $tmp_name,
+                        "div" => $tmp_div,
+                    ]);
+
+                    unset($tmp_name, $tmp_div);
+                }
             }
 
             // Шаг для прогрессбара

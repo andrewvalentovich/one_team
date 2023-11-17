@@ -388,12 +388,12 @@
 
                         <div class="form-group pt-5" bis_skin_checked="1">
                             <label for="">Расположение на Русском</label>
-                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположение"></textarea>
+                            <textarea name="disposition" class="form-control" id="" placeholder="Расположение"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
-                            <textarea name="description"  class="form-control" id="" placeholder="Описание"></textarea>
+                            <textarea name="description" class="form-control" id="" placeholder="Описание"></textarea>
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">

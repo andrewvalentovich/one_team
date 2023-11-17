@@ -112,11 +112,11 @@ class ProductController extends Controller
         $create = Product::create($data);
 
         // Создаём slug для объекта
-//        if (is_null($create->slug)) {
-//            $create->update([
-//                'slug' => $this->slugService->make($create->id)
-//            ]);
-//        }
+        if (is_null($create->slug)) {
+            $create->update([
+                'slug' => $this->slugService->make($create->id)
+            ]);
+        }
 
         // Перевод и добавление полей описаний
         $this->translateForNew($create->id, $description, $disposition);
@@ -245,6 +245,15 @@ class ProductController extends Controller
         // Обновление текстовых полей description и disposition
         $this->updateDescriptionAndDisposition($product, $data['description'], $data['disposition']);
         unset($data['description'], $data['disposition']);
+
+        // Проверка поля slug на уникальность
+        if (isset($data['slug'])) {
+            $check = Product::where('slug', $data['slug'])->whereNot('id', $product->id)->first();
+            if (!is_null($check)) {
+                return Redirect::back()->withErrors(['slug' => ['Название продукта в url не уникально']]);
+            }
+            unset($check);
+        }
 
         // Обновляем данные
         $product->update($data);

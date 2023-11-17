@@ -472,6 +472,14 @@
 {{--                        </div>--}}
 
 
+                        <div class="form-group" bis_skin_checked="1" style="display: none">
+                            <label for="">Slug (название в url)</label>
+                            <input value="{{$get->slug}}" name="slug" type="text" class="form-control" id="" placeholder="slug">
+                            @error('slug')
+                                <label class="text-danger font-weight-normal" for="slug">{{ $message }}</label>
+                            @enderror
+                        </div>
+
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Адрес</label>
                             <input value="{{$get->address}}" name="address" type="text" class="form-control" id="" placeholder="Адрес" >
@@ -536,14 +544,14 @@
                         @foreach($locales as $locale)
                         <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
                             <label for="">Расположение ({{ $locale->code }})</label>
-                            <textarea rows="5" name="disposition[{{ $locale->code }}]" class="form-control" id="" placeholder="Расположение ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->description : "" }}</textarea>
+                            <textarea rows="5" name="disposition[{{ $locale->code }}]" class="form-control" id="" placeholder="Расположение ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->disposition : "" }}</textarea>
                         </div>
                         @endforeach
 
                         @foreach($locales as $locale)
                             <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
                                 <label for="">Описание ({{ $locale->code }})</label>
-                                <textarea rows="5" name="description[{{ $locale->code }}]" class="form-control" id="" placeholder="Описание ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->disposition : "" }}</textarea>
+                                <textarea rows="5" name="description[{{ $locale->code }}]" class="form-control" id="" placeholder="Описание ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->description : "" }}</textarea>
                             </div>
                         @endforeach
 
