@@ -9,19 +9,26 @@ use Illuminate\Support\Facades\Session;
 
 class SetLocaleController extends Controller
 {
-    public function setLocale(Request $request, $prev_locale, $new_locale)
+    public function setLocale(Request $request, $new_locale)
     {
         // Проверяем наличие новой локали в бд
-        $locale = Locale::where('code', $new_locale)->first();
 
-        if (!empty($locale)) {
+        if (in_array($new_locale, config('app.available_locales'))) {
             Session::put('locale', $new_locale);
             $request->session()->put('locale', $new_locale);
             app()->setLocale($new_locale);
 
             // Заменяме локаль в url
             $url = back()->getTargetUrl();
-            $url = str_replace($prev_locale, $new_locale, $url);
+            $segment = $request->segment(1);
+
+            if (in_array($segment, config('app.available_locales'))) {
+                $url = str_replace($segment, $new_locale, $url);
+            } else {
+                $new_locale .= '/';
+                $url = substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
+            }
+
             return redirect($url);
         } else {
             return redirect()->back();
