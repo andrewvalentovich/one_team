@@ -177,9 +177,8 @@ Route::domain(config('app.domain'))->group(function () {
     });
 
     Route::group([
-        'prefix' => '{locale}',
-        'where' => ['locale' => '[a-zA-Z]{2}'],
-        'middleware' => 'locale'
+        'prefix' => \App\Services\Localization\LocalizationService::locale(),
+        'middleware' => 'locale',
     ], function() {
         Route::view('test', 'test2');
 

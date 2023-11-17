@@ -17,27 +17,16 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        $locale = Locale::where('code', $request->session()->get('locale'))->first();
-//
-//        if (!is_null($locale)) {
-//            app()->setLocale($locale->code);
-//        }
-//
-//        return $next($request);
-        $locale = Locale::where('code', $request->segment(1))->first();
+        $locale = $request->segment(1);
 
-        if ($request->segment(1) === "admin") {
+        // Если язык есть в конфиге, то продолжаем маршрут
+        if (in_array($locale, config('app.available_locales'))) {
+            app()->setLocale($locale);
             return $next($request);
         } else {
-            if (!is_null($locale)) {
-                app()->setLocale($locale->code);
-                URL::defaults(['locale' => $request->segment(1)]);
-                return $next($request);
-            } else {
-                app()->setLocale("ru");
-                URL::defaults(['locale' => "ru"]);
-                return redirect()->to(str_replace($request->segment(1), "ru", $request->url()));
-            }
+            // Иначе устанавливаем язык - ru
+            app()->setLocale("ru");
+            return $next($request);
         }
     }
 }

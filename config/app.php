@@ -88,6 +88,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Available Locales Configuration
+    |--------------------------------------------------------------------------
+    |
+    | All available locales
+    |
+    */
+
+    'available_locales' => [
+        'en',
+        'ru',
+        'tr',
+        'de'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Fallback Locale
     |--------------------------------------------------------------------------
     |
@@ -172,7 +188,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        App\Providers\ViewServiceProvider::class
+        App\Providers\ViewServiceProvider::class,
+        \App\Services\Localization\LocalizationServiceProvider::class,
     ])->toArray(),
 
     /*
