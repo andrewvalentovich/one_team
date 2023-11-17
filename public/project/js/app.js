@@ -1,11 +1,15 @@
 let locations = [];
 
-async function getData(idCountry) {
-    let url = '/city_from_map'
+async function getData(locale, idCountry) {
+    let url = ``;
+
     if(idCountry) {
-        url = `/city_from_map/${idCountry}`
+        url = `/api/get_cities?locale=${locale}&country_id=${idCountry}`
         // url = `/city_from_map/`
+    } else {
+        url = `/api/get_cities?locale=${locale}`
     }
+
     await fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -935,5 +939,5 @@ document.addEventListener('keydown', (e) => {
 // скрыть блок Общая площадь если больше 2 планировок
 
 // if(document.querySelectorAll('.object__rooms-content').length) {
-//     const 
+//     const
 // }

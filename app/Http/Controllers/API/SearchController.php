@@ -6,13 +6,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FilterParams\CitiesResource;
 use App\Http\Resources\FilterParams\CountriesResource;
+use App\Http\Resources\FilterParams\LocalesResource;
 use App\Http\Resources\FilterParams\PeculiaritiesResource;
 use App\Http\Resources\FilterParams\RoomsResource;
 use App\Models\CountryAndCity;
 use App\Models\Locale;
 use App\Models\Peculiarities;
 use Illuminate\Http\Request;
-use function Symfony\Component\Routing\Loader\Configurator\collection;
 
 class SearchController extends Controller
 {
@@ -24,7 +24,8 @@ class SearchController extends Controller
             'country_id' => 'nullable',
         ]);
 
-        $locale = Locale::where('code', $data['locale'])->first();
+        $locales = Locale::all();
+        $locale = $locales->where('code', $data['locale'])->first();
 
         $countries = CountriesResource::collection(
             CountryAndCity::whereNull('parent_id')
@@ -70,6 +71,8 @@ class SearchController extends Controller
             $peculiarities->where('type', 'Особенности')
         )->setLocale($locale->code);
 
+        $locales_collection = LocalesResource::collection($locales);
+
         $currency = [
             0 => ["currency" => "EUR", "symbol" => "€"],
             1 => ["currency" => "USD", "symbol" => "$"],
@@ -88,6 +91,7 @@ class SearchController extends Controller
             "views" => $views,
             "to_sea" => $to_sea,
             "currency" => $currency,
+            "locales" => $locales_collection,
             "sale_or_rent" => ["sale", "rent"],
             'dictionary' => [
                 'all_countries'     => __('Все страны', [], $locale->code),

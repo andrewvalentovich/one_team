@@ -17,17 +17,17 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = Locale::where('code', $request->session()->get('locale'))->first();
-
-        if (!is_null($locale)) {
-            app()->setLocale($locale->code);
-        }
-
-        return $next($request);
-//        app()->setLocale($request->segment(1));
+//        $locale = Locale::where('code', $request->session()->get('locale'))->first();
 //
-//        URL::defaults(['locale' => $request->segment(1)]);
+//        if (!is_null($locale)) {
+//            app()->setLocale($locale->code);
+//        }
 //
 //        return $next($request);
+        app()->setLocale($request->segment(1));
+
+        URL::defaults(['locale' => $request->segment(1)]);
+
+        return $next($request);
     }
 }

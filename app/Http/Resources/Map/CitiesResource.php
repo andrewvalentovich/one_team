@@ -21,12 +21,11 @@ class CitiesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'coordinate' => [$this->lat, $this->long],
             'name' => $this->locale_fields->where('locale.code', $this->locale)->first()->name,
-            'link' => '/' . $this->country->slug . '/' . $this->slug,
+            'link' => '/' . $this->locale . '/' . $this->country->slug . '/' . $this->slug,
             'count' => $this->product_city->count() . " " . __('объектов', [], $this->locale),
         ];
     }

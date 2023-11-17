@@ -26,11 +26,10 @@ class CounrtryController extends Controller
         $this->layoutService = $layoutService;
     }
 
-    public function countries($slug)
+    public function countries($locale, $slug)
     {
         $get = CountryAndCity::where('slug', $slug)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-
-        $country = CountryAndCity::where('slug', $slug)->with('product_country')->with('cities.product_city')->first();
+        $country = CountryAndCity::find(17)->with('product_country')->with('locale_fields.locale')->with('cities.product_city')->first();
 
         $title = $this->generateTitle($country);
         $citizenship_for_invesment = $this->citizenship_for_invesment($country);
@@ -110,15 +109,10 @@ class CounrtryController extends Controller
             if ($country->name == 'Катар') {
                 $name .= ' в Катаре';
             }
+        } else {
+            $name .= ' ' . __('в') . ' '. $country->locale_fields->where('locale.code', app()->getLocale())->first()->name;
         }
         $title = 'Oneteam / ';
-        if (app()->getLocale() == 'en'){
-            $name .= __('в') . ' '. $country->name_en;
-        } elseif (app()->getLocale() == 'tr') {
-            $name .= __('в') . ' '. $country->name_tr;
-        } elseif (app()->getLocale() == 'de') {
-            $name .= __('в') . ' '. $country->name_de;
-        }
         $title .= $name;
 
         return $title;
@@ -144,15 +138,10 @@ class CounrtryController extends Controller
             if ($country->name == 'Катар') {
                 $name = 'Катара';
             }
+        } else {
+            $name .= __('в') . ' '. $country->locale_fields->where('locale.code', app()->getLocale())->first()->name;
         }
 
-        if (app()->getLocale() == 'en') {
-            $name = $country->name_en;
-        } elseif (app()->getLocale() == 'tr') {
-            $name = $country->name_tr;
-        } elseif (app()->getLocale() == 'de') {
-            $name = $country->name_de;
-        }
         $text = __('Объекты для получения гражданства :name за инвестиции', ['name' => $name]);
 
         return $text;

@@ -176,11 +176,11 @@ Route::domain(config('app.domain'))->group(function () {
         });
     });
 
-//    Route::group([
-//        'prefix' => '{locale}',
-//        'where' => ['locale' => '[a-zA-Z]{2}'],
-//        'middleware' => 'locale'
-//    ], function() {
+    Route::group([
+        'prefix' => '{locale}',
+        'where' => ['locale' => '[a-zA-Z]{2}'],
+        'middleware' => 'locale'
+    ], function() {
         Route::view('test', 'test2');
 
         Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
@@ -188,7 +188,6 @@ Route::domain(config('app.domain'))->group(function () {
 
         //Route::prefix(app()->getLocale())->group(function () {
         Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
-        Route::get('city_from_map/{id?}', [HomePageController::class, 'city_from_map'])->name('city_from_map');
         Route::get('products_from_map', [HomePageController::class, 'products_from_map'])->name('products_from_map');
         Route::get('locations/', [AllLocationController::class, 'all_location'])->name('all_location');
         Route::get('locations/{slug}', [CounrtryController::class, 'countries'])->name('countries');
@@ -224,5 +223,5 @@ Route::domain(config('app.domain'))->group(function () {
         })->where('categories', '(.*)');
         // Route to controller method
         Route::get('/{categories?}', [HousesController::class, 'realty'])->where('categories', '(.*)')->name('realty');
-//    });
+    });
 });

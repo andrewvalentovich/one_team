@@ -273,7 +273,7 @@
             </div>
         </div>
     </section>
-    <?php echo $citizenship_div->div ?>
+    {!! $citizenship_div !!}
     <form action="" id="index_page_form">
         <section class="contact">
             <div class="contact__title title">
@@ -683,6 +683,6 @@
             }
         });
 
-        getData();
+        getData('{{ app()->getLocale() }}');
     </script>
 @endsection

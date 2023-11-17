@@ -24,35 +24,11 @@ class HomePageController extends Controller
             ->limit(15)
             ->get();
 
-        $citizenship_div = CountryAndCity::where('name', 'Турция')->first();
-        $title = 'Oneteam — лицензированное агентство недвижимости';
-        if (app()->getLocale() == 'en'){
-            $title = 'Oneteam — licensed real estate agency';
-            $citizenship_div->div = $citizenship_div->div_en;
-        } elseif (app()->getLocale() == 'tr') {
-            $title = 'Oneteam — lisanslı emlak acentesi';
-            $citizenship_div->div = $citizenship_div->div_tr;
-        } elseif (app()->getLocale() == 'de') {
-            $title = 'Oneteam — lizenzierte Immobilienagentur';
-            $citizenship_div->div = $citizenship_div->div_de;
-        }
+        $citizenship_div = CountryAndCity::where('name', 'Турция')->with('locale_fields.locale')->first()->locale_fields->where('locale.code', app()->getLocale())->first()->div;
+
+        $title = __('Oneteam — лицензированное агентство недвижимости');
 
         return view('project.index', compact('all_country','citizenship_div', 'title'));
-    }
-
-
-    public function city_from_map(int $id = null)
-    {
-        // 17 - id страны (Турции)
-        $id = is_null($id) ? 17 : $id;
-
-        // Получаем города выбранной страны
-        $cities = CountryAndCity::where('parent_id', $id)->with('locale_fields.locale')->has('product_city')->get();
-
-        return response()->json([
-           'status' => true,
-           'data' => CitiesResource::collection($cities)->setLocale(app()->getLocale()),
-        ],200);
     }
 
 

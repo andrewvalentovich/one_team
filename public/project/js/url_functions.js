@@ -93,6 +93,11 @@ function replaceUrlWithObject(data, object) {
     var urlValues = getValuesFromUrl();
     var url = "";
 
+    var locale = getMatchCode(urlValues, data.locales);
+    if (locale) {
+        url += "/"+locale;
+    }
+
     var country = getMatchSlug(urlValues, data.countries);
     if (country) {
         url += "/"+country;
@@ -115,10 +120,16 @@ function updateUrl(data, urlValues) {
     // Шаблон - /country/buy/city/type/2bedroom/price/size/peculiarities/to_sea/ и пр.
     var url = "";
 
-    if (urlValues.length == 0) {
-        url = "/all";
+    var locale = getMatchCode(urlValues, data.locales);
+
+    if (urlValues.length == 1 && locale) {
+        url += "/" + locale;
+
+        url += "/all";
         window.history.pushState(null, null, url);
     } else {
+        url += "/" + locale;
+
         var country = getMatchSlug(urlValues, data.countries);
         if (country) {
             url += "/" + country;
@@ -259,9 +270,26 @@ function convertToCategoryValue(data) {
     $.each(data.views, function (index, value) {
         categories.push({category: "view", value: value.slug});
     });
+    $.each(data.locales, function (index, value) {
+        categories.push({category: "locales", value: value.code});
+    });
 
 
     return categories;
+}
+
+function getMatchCode(first, second) {
+    var match = false;
+    for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
+        for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
+            // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
+            if(first[i] === second[j].code) {
+                match = first[i]; // если совпадаем делаем что либо с этим значением
+            }
+        }
+    }
+
+    return match;
 }
 
 function getMatch(first, second) {
@@ -269,7 +297,7 @@ function getMatch(first, second) {
     for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
         for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
             // alert(first[i].toLowerCase() + " - " + second[j].name_en.toLowerCase());
-            if(first[i].toLowerCase() === second[j].slug.toLowerCase()){
+            if(first[i] === second[j].slug) {
                 match = first[i]; // если совпадаем делаем что либо с этим значением
             }
         }
@@ -300,20 +328,6 @@ function getMatchCurrency(first, second) {
         for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
             // alert(first[i].toLowerCase() + " - " + currency[j].name_en.toLowerCase());
             if(first[i] === second[j].currency.toLowerCase()){
-                match = first[i]; // если совпадаем делаем что либо с этим значением
-            }
-        }
-    }
-
-    return match;
-}
-
-function getMatchRoom(first, second, room) {
-    var match = false;
-
-    for (var i = 0; i < first.length; i++) { //проходимся по первому масиву
-        for (var j = 0; j < second.length; j++) { // ищем соотвествия во втором массиве
-            if (first[i] === (parseInt(second[j].name_en)+room)) {
                 match = first[i]; // если совпадаем делаем что либо с этим значением
             }
         }
@@ -859,6 +873,7 @@ function createParamsForFilterFromUrl() {
             var maxsize = value.split('-');
             params.size.max = parseInt(maxsize[1]);
         }
+
         window.filter_params_data.currency.forEach(function (v, i) {
             if (v.currency.toLowerCase() === value) {
                 params.price["currency"] = value.toUpperCase();

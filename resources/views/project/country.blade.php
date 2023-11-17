@@ -11,12 +11,12 @@
     </section>
     <section class="realty container">
         <div class="realty__title title">
-          {{__('Недвижимость')}}  {{__('в')}}
+          {{__('Недвижимость')}}
             @if(app()->getLocale() == 'ru')
-                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Турция') Турции @endif
-                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Северный Кипр') Северном Кипре @endif
+                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Турция')в Турции @endif
+                @if($country->locale_fields->where('locale.code', app()->getLocale())->first()->name == 'Северный Кипр')на Северном Кипре @endif
             @else
-                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
+                {{__('в')}} {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
             @endif
         </div>
         <div class="realty__subtitle">
@@ -30,41 +30,41 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__left-col_1-footer">
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
@@ -74,46 +74,46 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}">      <img  src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}">      <img  src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -122,40 +122,40 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}">  <img src="{{asset('uploads/'.$country->cities[7]->photo)}}" alt="{{$country->cities[7]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[7]->slug])}}">  <img src="{{asset('uploads/'.$country->cities[7]->photo)}}" alt="{{$country->cities[7]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">{{ $country->cities[7]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">{{ $country->cities[7]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">  {{numbers_graduation($country->cities[7]->product_city->count())}} </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[7]->slug])}}" style="color: white">  {{numbers_graduation($country->cities[7]->product_city->count())}} </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{ route('realty', ['categories' => '/' . $country->slug]) }}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{ route('realty', ['categories' => $country->slug]) }}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{ route('realty', ['categories' => '/' . $country->slug]) }}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
+                                <a href="{{ route('realty', ['categories' => $country->slug]) }}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -169,41 +169,41 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__left-col_1-footer">
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
@@ -213,46 +213,46 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}">      <img  src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}">      <img  src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -261,27 +261,27 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -296,41 +296,41 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__left-col_1-footer">
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">  <img src="{{asset("uploads/".$country->cities[2]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
@@ -340,33 +340,33 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">{{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[5]->photo)}}" alt="{{$country->cities[5]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">{{ $country->cities[5]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[5]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[5]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -375,27 +375,27 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[6]->photo)}}" alt="{{$country->cities[6]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">{{ $country->cities[6]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[6]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[6]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s">
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                             </div>
                         </div>
                     </div>
@@ -410,28 +410,28 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}"><img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}"><img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__left-col_1-footer">
                             <div class="realty__item realty__item_s">
                                 <div class="realty__img_s">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[1]->photo)}}" alt="antalya"></a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
@@ -441,33 +441,33 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">@if( app()->getLocale()  == 'ru' ) {{$country->cities[2]->name}} @elseif(app()->getLocale() == 'en') {{$country->cities[2]->name_en}} @elseif(app()->getLocale() == 'tr'){{$country->cities[2]->name_tr}} @elseif(app()->getLocale() == 'de'){{$country->cities[2]->name_de}}  @endif </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[3]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -476,27 +476,27 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[4]->photo)}}" alt="{{$country->cities[4]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">      {{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">      {{ $country->cities[4]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}}  </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[4]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[4]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -511,14 +511,14 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -527,33 +527,33 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[1]->photo)}}" alt="{{$country->cities[1]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -562,27 +562,27 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
+                            <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}">    <img src="{{asset('uploads/'.$country->cities[3]->photo)}}" alt="{{$country->cities[3]->name}}"> </a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">{{ $country->cities[3]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}}  </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[3]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[3]->product_city->count())}}  </a>
                             </div>
                         </div>
                     </div>
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -597,14 +597,14 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -613,33 +613,33 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[1]->photo)}}" alt="{{$country->cities[1]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}} </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="realty__item realty__item_m" >
                             <div class="realty__img_m">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
                             </div>
                             <div class="realty__img_m realty__img_mob">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}">     <img src="{{asset('uploads/'.$country->cities[2]->photo)}}" alt="{{$country->cities[2]->name}}"> </a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">{{ $country->cities[2]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[2]->slug])}}" style="color: white">      {{numbers_graduation($country->cities[2]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -648,14 +648,14 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}"><img src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}"><img src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> {{numbers_graduation($country->product_country->count())}} </a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> {{numbers_graduation($country->product_country->count())}} </a>
                             </div>
                         </div>
                     </div>
@@ -669,14 +669,14 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}} </a>
                                 </div>
                             </div>
                         </div>
@@ -685,16 +685,16 @@
                         <div class="realty__left-col_2-top" >
                             <div class="realty__item realty__item_s" >
                                 <div class="realty__img_s">
-                                    <a href="{{ route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}">
+                                    <a href="{{ route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}">
                                         <img src="{{asset('uploads/'.$country->cities[1]->photo)}}" alt="{{$country->cities[1]->name}}">
                                     </a>
                                 </div>
                                 <div class="realty__item-text">
                                     <div class="realty__item-text-title">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">{{ $country->cities[1]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                     </div>
                                     <div class="realty__item-text-subtitle">
-                                        <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}}</a>
+                                        <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[1]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[1]->product_city->count())}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -704,14 +704,14 @@
                 <div class="realty__right-col">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                             </div>
                         </div>
                     </div>
@@ -726,14 +726,14 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}">  <img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">{{ $country->cities[0]->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}" style="color: white">   {{numbers_graduation($country->cities[0]->product_city->count())}}</a>
                                 </div>
                             </div>
                         </div>
@@ -742,14 +742,14 @@
                 <div class="realty__right-col" style="flex: 1 0 calc(50% - 10px)">
                     <div class="realty__item realty__item_s" >
                         <div class="realty__img_s">
-                            <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                            <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                         </div>
                         <div class="realty__item-text">
                             <div class="realty__item-text-title">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white"> @if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                             </div>
                             <div class="realty__item-text-subtitle">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                             </div>
                         </div>
                     </div>
@@ -764,14 +764,14 @@
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
                             <div class="realty__img_b">
-                                <a href="{{route('realty', ['categories' => '/' . $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
+                                <a href="{{route('realty', ['categories' => $country->slug])}}">  <img  src="{{ asset('uploads/' . $country->photo ?? null) }}" alt="All-Turkey"></a>
                             </div>
                             <div class="realty__item-text">
                                 <div class="realty__item-text-title">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">@if(stripos($country->name, " ") !== false){{ __('Весь') }}@else{{__('Вся')}}@endif {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}</a>
                                 </div>
                                 <div class="realty__item-text-subtitle">
-                                    <a href="{{route('realty', ['categories' => '/' . $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
+                                    <a href="{{route('realty', ['categories' => $country->slug])}}" style="color: white">      {{numbers_graduation($country->product_country->count())}}</a>
                                 </div>
                             </div>
                         </div>
@@ -783,10 +783,9 @@
     </section>
 
     <section class="citizenship-investments ">
-
-        @if(app()->getLocale() == 'en') <?php $country->div = $country->div_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->div = $country->div_tr ?> @endif
-        <?php echo $country->div?>
-
+        @if(!is_null($country->locale_fields->where('locale.code', app()->getLocale())->first()))
+            {!! $country->locale_fields->where('locale.code', app()->getLocale())->first()->div !!}
+        @endif
         <div class="citizenship-investments__footer">
 
             <div class="citizenship-investments__footer-button">
@@ -2945,6 +2944,6 @@ window.country = {
     long: {{ $country->long }},
 };
 
-getData(ids);
+getData('{{ app()->getLocale() }}', ids);
 </script>
 @endsection

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class CompanySelectController extends Controller
 {
-    public function about($slug)
+    public function about($locale, $slug)
     {
         $get =  CompanySelect::where('slug', $slug)->first();
         if ($get == null){
