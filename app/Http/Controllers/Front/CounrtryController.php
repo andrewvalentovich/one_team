@@ -29,7 +29,7 @@ class CounrtryController extends Controller
     public function countries($slug)
     {
         $get = CountryAndCity::where('slug', $slug)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-        $country = CountryAndCity::find(17)->with('product_country')->with('locale_fields.locale')->with('cities.product_city')->first();
+        $country = CountryAndCity::where('slug', $slug)->with('product_country')->with('locale_fields.locale')->with('cities.product_city')->first();
 
         $title = $this->generateTitle($country);
         $citizenship_for_invesment = $this->citizenship_for_invesment($country);

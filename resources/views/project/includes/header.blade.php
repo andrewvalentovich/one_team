@@ -109,9 +109,10 @@
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
                             @foreach($company_pages  as $pages)
-                                <a href="{{ route('about', $pages->slug) }}"><div class="header-m__aboute-item">
-                             {{$pages->name}}
-                            </div>
+                                <a href="{{ route('about', $pages->slug) }}">
+                                    <div class="header-m__aboute-item">
+                                        {{__($pages->name)}}
+                                    </div>
                                 </a>
                             @endforeach
                         </div>

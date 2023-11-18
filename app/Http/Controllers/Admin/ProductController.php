@@ -105,8 +105,8 @@ class ProductController extends Controller
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
         // Создаём переменные
-        $disposition = $data['disposition'];
         $description = $data['description'];
+        $disposition = $data['disposition'];
 
         // Создание продукта
         $create = Product::create($data);
