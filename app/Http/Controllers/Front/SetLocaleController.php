@@ -23,7 +23,7 @@ class SetLocaleController extends Controller
             $segment = $request->segment(1);
 
             if (in_array($segment, config('app.available_locales'))) {
-                $url = str_replace($segment, $new_locale, $url);
+                $url = preg_replace("/$segment/", $new_locale, $url, 1);
             } else {
                 $new_locale .= '/';
                 $url = substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);

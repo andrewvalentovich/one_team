@@ -799,7 +799,7 @@
 
     </section>
 
-    @if(!$citizenship_product->isEMpty())
+    @if(!empty($citizenship_product))
 
     <section class="objects-slider container">
 

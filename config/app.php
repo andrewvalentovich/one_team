@@ -97,9 +97,20 @@ return [
 
     'available_locales' => [
         'en',
+        'uk',
         'ru',
         'tr',
-        'de'
+        'fa',
+        'ar',
+        'tg',
+        'uz',
+        'kk',
+        'de',
+        'fr',
+        'sv',
+        'no',
+        'nl',
+        'da'
     ],
 
     /*

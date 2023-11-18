@@ -25,8 +25,7 @@ class HousesController extends Controller
 
         $country = null;
         foreach ($categories_array as $category) {
-            $country_name = str_replace('_', ' ', $category);
-            $country = CountryAndCity::whereRaw('`name_en` LIKE ? ', ['%'.$country_name.'%'])->first();
+            $country = CountryAndCity::whereRaw('`slug` LIKE ? ', ['%'.$category.'%'])->first();
             unset($country_name);
 
             if (!is_null($country)) {
@@ -37,9 +36,9 @@ class HousesController extends Controller
         // Генерация заголовка
         $title = $this->generateTitle($country);
 
-        $countries = CountryAndCity::all('name_en', 'lat', 'long');
+        $countries = CountryAndCity::all('slug', 'lat', 'long');
         foreach ($countries as $index => $item) {
-            if (in_array(strtolower($item->name_en), $categories_array)) {
+            if (in_array(strtolower($item->slug), $categories_array)) {
                 $country = $item;
             }
         }
@@ -52,7 +51,7 @@ class HousesController extends Controller
         if (!is_null($country)) {
             // Формируем заголовок
             $name = __('Покупка недвижимости');
-            if (app()->getLocale() == 'ru') {
+            if(app()->getLocale() == 'ru') {
                 if ($country->name == 'Турция') {
                     $name .= ' в Турции';
                 }
@@ -68,15 +67,11 @@ class HousesController extends Controller
                 if ($country->name == 'Катар') {
                     $name .= ' в Катаре';
                 }
+            } else {
+                $name .= ' ' . __('в') . ' '. $country->locale_fields->where('locale.code', app()->getLocale())->first()->name;
             }
+
             $title = 'Oneteam / ';
-            if (app()->getLocale() == 'en') {
-                $name .= __('в') . ' ' . $country->name_en;
-            } elseif (app()->getLocale() == 'tr') {
-                $name .= __('в') . ' ' . $country->name_tr;
-            } elseif (app()->getLocale() == 'de') {
-                $name .= __('в') . ' ' . $country->name_de;
-            }
             $title .= $name;
         } else {
             $title = null;
