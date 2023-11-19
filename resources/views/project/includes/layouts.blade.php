@@ -165,6 +165,8 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HELZSG76GD"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
+        window.locale = '{{ app()->getLocale() }}';
+
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 

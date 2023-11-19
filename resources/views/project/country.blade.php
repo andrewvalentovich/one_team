@@ -1078,21 +1078,38 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                <div
-                                    @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif
-                                    class="place__price-value lira"
-                                    data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
-                                    data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
-                                    data-price-gbp="{{ __("от") . " " . $product->price["GBP"] }}"
-                                    data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
-                                    data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
-                                >
-                                    @if (count($product->layouts) > 1)
-                                        {{ __("от") . " " . $product->price["EUR"] }}
-                                    @else
-                                        {{ $product->price["EUR"] }}
-                                    @endif
-                                </div>
+                                @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')
+                                    <div
+                                        style="direction: ltr!important; text-align: right;"
+                                        class="place__price-value lira"
+                                        data-price-eur="{{ $product->price["EUR"] . " " . __('от') }}"
+                                        data-price-usd="{{ $product->price["USD"] . " " . __('от') }}"
+                                        data-price-gbp="{{ $product->price["GBP"] . " " . __('от') }}"
+                                        data-price-try="{{ $product->price["TRY"] . " " . __('от') }}"
+                                        data-price-rub="{{ $product->price["RUB"] . " " . __('от') }}"
+                                    >
+                                        @if (count($product->layouts) > 1)
+                                            {{ $product->price["EUR"] . " " . __("от") }}
+                                        @else
+                                            {{ $product->price["EUR"] }}
+                                        @endif
+                                    </div>
+                                @else
+                                    <div
+                                        class="place__price-value lira"
+                                        data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
+                                        data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
+                                        data-price-gbp="{{ __("от") . " " . $product->price["GBP"] }}"
+                                        data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
+                                        data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
+                                    >
+                                        @if (count($product->layouts) > 1)
+                                            {{ __("от") . " " . $product->price["EUR"] }}
+                                        @else
+                                            {{ $product->price["EUR"] }}
+                                        @endif
+                                    </div>
+                                @endif
                                 <div class="place__currency">
                                     <div class="place__currency-preview">
                                         <div class="place__currency-preview-item">
@@ -1484,27 +1501,51 @@
                                                     <div class="kompleks__layout-option" bis_skin_checked="1">
                                                         {{ $layout->building }}
                                                     </div>
-                                                    <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price['EUR'] }}</span>
-                                                        <span data-exchange="usd" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price['USD'] }}</span>
-                                                        <span data-exchange="gbp" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price['GBP'] }}</span>
-                                                        <span data-exchange="try" class="valute lira" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price['TRY'] }}</span>
-                                                        <span data-exchange="rub" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price['RUB'] }}</span>
-                                                    </div>
-                                                    <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                        <span data-exchange="eur" class="valute active" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="usd" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="gbp" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price_size['GBP'] }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="try" class="valute lira" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
-                                                        <span data-exchange="rub" class="valute" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
-                                                    </div>
-                                                    <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                        {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span>  {{ $layout->number_rooms }}
+                                                    @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')
+                                                        <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                            <span data-exchange="eur" class="valute active" style="direction: ltr!important; text-align: right;">{{ $layout->price['EUR'] }}</span>
+                                                            <span data-exchange="usd" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['USD'] }}</span>
+                                                            <span data-exchange="gbp" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['GBP'] }}</span>
+                                                            <span data-exchange="try" class="valute lira" style="direction: ltr!important; text-align: right;">{{ $layout->price['TRY'] }}</span>
+                                                            <span data-exchange="rub" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['RUB'] }}</span>
+                                                        </div>
+                                                        <div class="kompleks__layout-price-meter"bis_skin_checked="1">
+                                                            <span data-exchange="eur" class="valute active" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['EUR'] }}</span>
+                                                            <span data-exchange="usd" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['USD'] }}</span>
+                                                            <span data-exchange="gbp" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['GBP'] }}</span>
+                                                            <span data-exchange="try" class="valute lira" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['TRY'] }}</span>
+                                                            <span data-exchange="rub" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['RUB'] }}</span>
+                                                        </div>
+                                                        <div class="kompleks__layout-square" bis_skin_checked="1">
+                                                            {{ __('кв.м') }} {{ $layout->total_size }}  <span>|</span>  {{ $layout->number_rooms }}
 
-                                                    </div>
-                                                    <div class="kompleks__layout-price-month" bis_skin_checked="1" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>
-                                                        {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
-                                                    </div>
+                                                        </div>
+                                                        <div class="kompleks__layout-price-month" bis_skin_checked="1" style="direction: ltr!important; text-align: right;">
+                                                            {{ __('мес') }} / {{ $layout->price_credit['EUR'] }}
+                                                        </div>
+                                                    @else
+                                                        <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                            <span data-exchange="eur" class="valute active">{{ $layout->price['EUR'] }}</span>
+                                                            <span data-exchange="usd" class="valute">{{ $layout->price['USD'] }}</span>
+                                                            <span data-exchange="gbp" class="valute">{{ $layout->price['GBP'] }}</span>
+                                                            <span data-exchange="try" class="valute lira">{{ $layout->price['TRY'] }}</span>
+                                                            <span data-exchange="rub" class="valute">{{ $layout->price['RUB'] }}</span>
+                                                        </div>
+                                                        <div class="kompleks__layout-price-meter"bis_skin_checked="1">
+                                                            <span data-exchange="eur" class="valute active">{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="usd" class="valute">{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="gbp" class="valute">{{ $layout->price_size['GBP'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="try" class="valute lira">{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
+                                                            <span data-exchange="rub" class="valute">{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
+                                                        </div>
+                                                        <div class="kompleks__layout-square" bis_skin_checked="1">
+                                                            {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span>  {{ $layout->number_rooms }}
+
+                                                        </div>
+                                                        <div class="kompleks__layout-price-month" bis_skin_checked="1">
+                                                            {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                     <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">

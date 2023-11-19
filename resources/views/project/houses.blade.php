@@ -205,7 +205,7 @@
                                             <div class="place__right-mid">
                                                 <div class="place__info">
                                                     <div class="place__price">
-                                                        <div class="place__price-value">
+                                                        <div class="place__price-value" @if(app()->getLocale() === 'ar' || app()->getLocale() === 'fa')style="direction:ltr;"@endif>
                                                             <div class="place__exchange-EUR"><span></span><b></b></div>
                                                             <div class="place__exchange-USD" style="display: none;"><span></span><b></b></div>
                                                             <div class="place__exchange-GBP" style="display: none;"><span></span><b></b></div>
@@ -1733,7 +1733,11 @@ function P(e) {
                 let currentPrice
                 const chemes = JSON.parse(currentHouse.objects)
                 if(currentHouse.layouts.length > 1) {
-                    currentPrice = `${dictionary.from[langSite]} ` + currentHouse.price[currencyCode];
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        currentPrice = currentHouse.price[currencyCode] + ` {{ __('от') }}`;
+                    } else {
+                        currentPrice = `{{ __('от') }} ` + currentHouse.price[currencyCode];
+                    }
                 } else {
                     currentPrice = currentHouse.price[currencyCode];
                 }
@@ -1901,8 +1905,15 @@ function P(e) {
                 let divPrice = document.createElement('div')
 
                 divPrice.classList.add('kompleks__layout-price')
+
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
+
+                    if (window.locale === 'ar' || window.locale === 'fa') {
+                        span.style.direction = 'ltr';
+                        span.style.textAlign = 'right';
+                    }
+
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
@@ -1925,7 +1936,14 @@ function P(e) {
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
-                    span.innerHTML = `${((currencyPrice))} ${kvm}`
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('кв.м') }} ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} {{ __('кв.м') }}`
+                    }
 
                     if(currencyCode === dataExchange) {
                         span.classList.add('active')
@@ -1938,7 +1956,14 @@ function P(e) {
 
                 let divSquare = document.createElement('div')
                 divSquare.classList.add('kompleks__layout-square')
-                divSquare.innerHTML = `${object.total_size} ${dictionary.square_m[langSite]} <span>|</span> ${object.number_rooms}`
+
+                if(window.locale === 'fa' || window.locale === 'ar') {
+                    divSquare.style.textAlign = 'right';
+                    divSquare.style.direction = 'ltr';
+                    divSquare.innerHTML = `{{ __('кв.м') }} ${object.total_size} <span>|</span> ${object.number_rooms}`
+                } else {
+                    divSquare.innerHTML = `${object.total_size} {{ __('кв.м') }} <span>|</span> ${object.number_rooms}`
+                }
                 divInfo.appendChild(divSquare)
 
                 let divMonth = document.createElement('div')
@@ -1948,7 +1973,14 @@ function P(e) {
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
-                    span.innerHTML = `${((currencyPrice))} / ${dictionary.month[langSite]}`
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('мес') }} / ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} / {{ __('мес') }}`
+                    }
 
                     if(currencyCode === dataExchange) {
                         span.classList.add('active')

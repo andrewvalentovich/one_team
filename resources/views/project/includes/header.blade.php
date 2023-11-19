@@ -10,7 +10,7 @@
                             {{ $locale->code }}
                         </div>
                         <div class="header-m__langs-img">
-                            <img src="{{ asset(isset($locale->icon) ? $locale->icon_path : null)  }}" alt="{{ $locale->code }}">
+                            <img style="width: 24px;height: 18px;" src="{{ asset(isset($locale->icon) ? $locale->icon_path : null)  }}" alt="{{ $locale->code }}">
                         </div>
                         </a>
                     </div>

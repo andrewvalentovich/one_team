@@ -492,6 +492,7 @@ async function renderMap() {
         console.log(locations.length);
 
         locations.forEach(Location => {
+            var balloonOffset = (window.locale === 'ar' || window.locale === 'fa') ? [125, -50] : [-110, -50];
             var placemark = new ymaps.Placemark(Location.coordinates, {
                 balloonContent: Location.balloonContent,
                 link: Location.link,
@@ -503,7 +504,7 @@ async function renderMap() {
                 iconLayout: o,
                 balloonContentLayout: c,
                 hideIconOnBalloonOpen: !1,
-                balloonOffset: [-110, -50]
+                balloonOffset: balloonOffset
             });
             e.behaviors.disable("scrollZoom"),
             e.geoObjects.add(placemark);
