@@ -12,7 +12,6 @@ class SetLocaleController extends Controller
     public function setLocale(Request $request, $new_locale)
     {
         // Проверяем наличие новой локали в бд
-
         if (in_array($new_locale, config('app.available_locales'))) {
             Session::put('locale', $new_locale);
             $request->session()->put('locale', $new_locale);
