@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Filters\HousesFilter;
 use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\House\FilterRequest;
+use App\Models\CountryAndCity;
 use App\Models\Locale;
 use App\Models\Product;
 use App\Models\Peculiarities;
@@ -30,6 +31,7 @@ class HousesController extends Controller
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
+        $countries = CountryAndCity::all();
         $data = $request->validated();
         $locale = Locale::where('code', isset($data['locale']) ? $data['locale'] : 'ru')->first();
 
@@ -114,6 +116,8 @@ class HousesController extends Controller
             }])
             ->with('photo')
             ->with('peculiarities')
+            ->with('country.locale_fields.locale')
+            ->with('city.locale_fields.locale')
             ->with('locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
@@ -166,14 +170,16 @@ class HousesController extends Controller
                 }
             }
 
+            // Тэги
+            $object->tags = ['Рассрочка 0%', 'Гражданство', 'Новостройка', 'Вторичка'];
+
             // Особенности
-            // Можно использовать Scopes!!!
-            $object->gostinnie = !empty($object->peculiarities->whereIn('type', "Гостиные")->first()) ? $object->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
-            $object->vanie = !empty($object->peculiarities->whereIn('type', "Ванные")->first()) ? $object->peculiarities->whereIn('type', "Ванные")->first()->name : null;
-            $object->spalni = !empty($object->peculiarities->whereIn('type', "Спальни")->first()) ? $object->peculiarities->whereIn('type', "Спальни")->first()->name : null;
-            $object->do_more = !empty($object->peculiarities->whereIn('type', "До моря")->first()) ? $object->peculiarities->whereIn('type', "До моря")->first()->name : null;
-            $object->type_vid = !empty($object->peculiarities->whereIn('type', "Вид")->first()) ? $object->peculiarities->whereIn('type', "Вид")->first()->name : null;
-            $object->peculiarities = !empty($object->peculiarities->whereIn('type', "Особенности")->all()) ? $object->peculiarities->whereIn('type', "Особенности")->all() : null;
+            $object->gostinnie = $object->living_rooms();
+            $object->vanie = $object->bathrooms();
+            $object->spalni = $object->bedrooms();
+            $object->do_more = $object->to_sea();
+            $object->type_vid = $object->view();
+            $object->peculiarities = $object->peculiarities->whereIn('type', "Особенности")->all();
         }
 
         return response()->json(array_slice($sorted, $offset, $limit));

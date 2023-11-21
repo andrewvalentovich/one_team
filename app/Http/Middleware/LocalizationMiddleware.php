@@ -22,15 +22,18 @@ class LocalizationMiddleware
             // Получаем предпочитаемый пользователем язык
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
             $segment = $request->segment(1);
-
             // Если язык в url совпадает с предпочитаемым языком пользователя, то устанавливаем язык и продолжаем маршрут
             if ($locale === $segment) {
                 Session::put('locale', $locale);
                 app()->setLocale($locale);
                 return $next($request);
             } else {
-                $url = $this->changeUrl($request, $locale);
-                return redirect($url);
+                if (stripos($request->url(), '.') === false) {
+                    $url = $this->changeUrl($request, $locale);
+                    return redirect($url);
+                } else {
+                    return $next($request);
+                }
             }
         } else {
             // Получаем язык из url
@@ -60,7 +63,7 @@ class LocalizationMiddleware
             // Устанавливаем русский если нет совпадений
             $new_locale = 'ru';
             Session::put('locale', $new_locale);
-            $new_locale = '/'.  $new_locale;
+            $new_locale = '/' . $new_locale;
             $url = substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
         }
 

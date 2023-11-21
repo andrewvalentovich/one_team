@@ -77,20 +77,60 @@ class Product extends Model
         return $this->hasMany(ProductDrawing::class,'product_id');
     }
 
-    public function type_vid() {
-        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Вид');
+//    public function type_vid() {
+//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Вид');
+//    }
+//    public function do_more() {
+//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','До моря');
+//    }
+//    public function spalni() {
+//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Спальни');
+//    }
+//    public function vanie() {
+//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Ванные');
+//    }
+//    public function gostinnie() {
+//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
+//    }
+
+    public function bedrooms()
+    {
+        if (!empty($this->peculiarities->whereIn('type', "Гостиные")->first())) {
+            return $this->peculiarities->whereIn('type', "Гостиные")->first()->name;
+        }
+        return null;
     }
-    public function do_more() {
-        return $this->hasMany(ProductCategory::class,'product_id')->where('type','До моря');
+
+    public function bathrooms()
+    {
+        if (!empty($this->peculiarities->whereIn('type', "Ванные")->first())) {
+            return $this->peculiarities->whereIn('type', "Ванные")->first()->name;
+        }
+        return null;
     }
-    public function spalni() {
-        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Спальни');
+
+    public function living_rooms()
+    {
+        if (!empty($this->peculiarities->whereIn('type', "Гостиные")->first())) {
+            return $this->peculiarities->whereIn('type', "Гостиные")->first()->name;
+        }
+        return null;
     }
-    public function vanie() {
-        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Ванные');
+
+    public function to_sea()
+    {
+        if (!empty($this->peculiarities->whereIn('type', "До моря")->first())) {
+            return $this->peculiarities->whereIn('type', "До моря")->first()->name;
+        }
+        return null;
     }
-    public function gostinnie() {
-        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
+
+    public function view()
+    {
+        if (!empty($this->peculiarities->whereIn('type', "Вид")->first())) {
+            return $this->peculiarities->whereIn('type', "Вид")->first()->name;
+        }
+        return null;
     }
 
     public function getTranslatedDescription($locale)
