@@ -308,11 +308,15 @@
 				</div>
 			</div>
 			<div class="map wrapMap" id="map">
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
-					width="100%"
-					height="500"
-					frameborder="0">
-				</iframe>
+                @if(isset($landing->map))
+                    {!! $landing->map !!}
+                @else
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
+                        width="100%"
+                        height="500"
+                        frameborder="0">
+                    </iframe>
+                @endif
 			</div>
             @if(!is_null($landing->purchase_terms))
                 <div class="conditions container">
