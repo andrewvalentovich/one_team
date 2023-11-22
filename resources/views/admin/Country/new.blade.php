@@ -48,8 +48,8 @@
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select name="metric_id" class="form-control" style="color: white">
                                         @foreach($metric as $met)
-                                        <option value="{{$met->id}}">{{$met->name}}</option>
-                                            @endforeach
+                                            <option value="{{$met->id}}">{{$met->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

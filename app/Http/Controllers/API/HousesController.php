@@ -159,7 +159,7 @@ class HousesController extends Controller
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
             $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
             if(isset($object->country)) {
-                $object->price_credit = $this->currencyService->getPrice((int)($object->base_price / $object->country->inverse_credit_ratio));
+                $object->price_credit = $this->currencyService->getCreditPrice((int)$object->base_price, $object->country->inverse_credit_ratio);
             }
 
             if (!is_null($object->locale_fields->where('locale_id', $locale->id)->first())) {
@@ -175,7 +175,7 @@ class HousesController extends Controller
             if (isset($object->layouts)) {
                 foreach ($object->layouts as $index => $layout) {
                     if(isset($object->country)) {
-                        $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $object->country->inverse_credit_ratio));
+                        $layout->price_credit = $this->currencyService->getCreditPrice((int)$layout->base_price, $object->country->inverse_credit_ratio);
                     }
                     $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
                     $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
@@ -230,7 +230,7 @@ class HousesController extends Controller
         $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->base_price, (int)$product->size);
         $product->price = $this->currencyService->exchangeGetAll((int)$product->price, $product->price_code);
         if(isset($product->country)) {
-            $product->price_credit = $this->currencyService->getPrice((int)($product->base_price / $product->country->inverse_credit_ratio));
+            $product->price_credit = $this->currencyService->getCreditPrice((int)$product->base_price, $product->country->inverse_credit_ratio);
         }
 
         // Получаем уникальные планировки
@@ -242,7 +242,7 @@ class HousesController extends Controller
                 $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
                 $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
                 if(isset($product->country)) {
-                    $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $product->country->inverse_credit_ratio));
+                    $layout->price_credit = $this->currencyService->getCreditPrice((int)$layout->base_price, $product->country->inverse_credit_ratio);
                 }
             }
         }

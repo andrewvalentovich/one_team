@@ -79,7 +79,7 @@ class CounrtryController extends Controller
                 $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
                 $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
                 if(isset($object->country)) {
-                    $object->price_credit = $this->currencyService->getPrice((int)($object->base_price / $object->country->inverse_credit_ratio));
+                    $object->price_credit = $this->currencyService->getCreditPrice((int)$object->base_price, $object->country->inverse_credit_ratio);
                 }
 
                 // Получаем уникальные планировки
@@ -89,7 +89,7 @@ class CounrtryController extends Controller
                 if (isset($object->layouts)) {
                     foreach ($object->layouts as $index => $layout) {
                         if(isset($object->country)) {
-                            $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $object->country->inverse_credit_ratio));
+                            $layout->price_credit = $this->currencyService->getCreditPrice((int)$layout->base_price, $object->country->inverse_credit_ratio);
                         }
                         $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
                         $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);

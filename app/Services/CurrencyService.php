@@ -228,9 +228,10 @@ class CurrencyService
      * @param string|null $price_code
      * @return array|string[]
      */
-    public function getPrice(int $price = null): array
+    public function getCreditPrice(int $price = null, mixed $ratio): array
     {
         $base_code = "EUR";
+        $ratio = is_null($ratio) ? 1 : $ratio;
 
         if(is_null($price)) {
             return [
@@ -243,11 +244,11 @@ class CurrencyService
         } else {
             // price - 50% / 24 мес
             return [
-                "RUB" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["RUB"], 0, '.', ' ')." ₽",
-                "USD" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["USD"], 0, '.', ' ')." $",
-                "EUR" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["EUR"], 0, '.', ' ')." €",
-                "GBP" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["GBP"], 0, '.', ' ')." £",
-                "TRY" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["TRY"], 0, '.', ' ')." ₺",
+                "RUB" => number_format($price / $ratio / $this->exchanges[$base_code] * $this->exchanges["RUB"], 0, '.', ' ')." ₽",
+                "USD" => number_format($price / $ratio / $this->exchanges[$base_code] * $this->exchanges["USD"], 0, '.', ' ')." $",
+                "EUR" => number_format($price / $ratio / $this->exchanges[$base_code] * $this->exchanges["EUR"], 0, '.', ' ')." €",
+                "GBP" => number_format($price / $ratio / $this->exchanges[$base_code] * $this->exchanges["GBP"], 0, '.', ' ')." £",
+                "TRY" => number_format($price / $ratio / $this->exchanges[$base_code] * $this->exchanges["TRY"], 0, '.', ' ')." ₺",
             ];
         }
     }

@@ -88,7 +88,7 @@ class FavoriteController extends Controller
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
             $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
             if(isset($object->country)) {
-                $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $object->country->inverse_credit_ratio));
+                $object->price_credit = $this->currencyService->getPrice((int)($object->base_price / $object->country->inverse_credit_ratio));
             }
 
             // Получаем уникальные планировки
