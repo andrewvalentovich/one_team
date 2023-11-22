@@ -24,18 +24,16 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'metric_id' => 'nullable|string|max:255',
-            'parent_id' => 'nullable|numeric|min:1',
-            'name'      => 'nullable|string|max:255',
-            'photo'     => 'nullable',
-            'flag'      => 'nullable',
-            'div'       => 'nullable|string|max:4294967295',
-            'div_en'    => 'nullable|string|max:4294967295',
-            'div_tr'    => 'nullable|string|max:4294967295',
-            'div_de'    => 'nullable|string|max:4294967295',
-            'lat'       => 'nullable|string|max:255',
-            'long'      => 'nullable|string|max:255',
-            'slug'      => ['nullable', 'string', 'unique:country_and_cities,slug'],
+            'metric_id'             => 'nullable|string|max:255',
+            'parent_id'             => 'nullable|numeric|min:1',
+            'name'                  => 'nullable|string|max:255',
+            'inverse_credit_ratio'  => 'nullable|numeric',
+            'photo'                 => 'nullable',
+            'flag'                  => 'nullable',
+            'div'                   => 'nullable|string|max:4294967295',
+            'lat'                   => 'nullable|string|max:255',
+            'long'                  => 'nullable|string|max:255',
+            'slug'                  => ['nullable', 'string', 'unique:country_and_cities,slug'],
         ];
     }
 

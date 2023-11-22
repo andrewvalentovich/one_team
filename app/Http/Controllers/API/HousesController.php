@@ -158,6 +158,9 @@ class HousesController extends Controller
 
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
             $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
+            if(isset($object->country)) {
+                $object->price_credit = $this->currencyService->getPrice((int)($object->base_price / $object->country->inverse_credit_ratio));
+            }
 
             if (!is_null($object->locale_fields->where('locale_id', $locale->id)->first())) {
                 $object->description = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()->description) ? $object->locale_fields->where('locale_id', $locale->id)->first()->description : null;
@@ -171,7 +174,9 @@ class HousesController extends Controller
             // Цена за квартиру и за метр для планировок
             if (isset($object->layouts)) {
                 foreach ($object->layouts as $index => $layout) {
-                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
+                    if(isset($object->country)) {
+                        $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $object->country->inverse_credit_ratio));
+                    }
                     $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
                     $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
                 }
@@ -207,6 +212,7 @@ class HousesController extends Controller
                 $query->orderBy('base_price', 'asc');
             }])
             ->with('photo')
+            ->with('country')
             ->with('peculiarities')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
@@ -223,6 +229,9 @@ class HousesController extends Controller
         // Меняем параметры (для фронта)
         $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->base_price, (int)$product->size);
         $product->price = $this->currencyService->exchangeGetAll((int)$product->price, $product->price_code);
+        if(isset($product->country)) {
+            $product->price_credit = $this->currencyService->getPrice((int)($product->base_price / $product->country->inverse_credit_ratio));
+        }
 
         // Получаем уникальные планировки
         $product->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($product->layouts);
@@ -230,9 +239,11 @@ class HousesController extends Controller
         // Цена за квартиру и за метр для планировок
         if (isset($product->layouts)) {
             foreach ($product->layouts as $index => $layout) {
-                $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->base_price);
                 $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
                 $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
+                if(isset($product->country)) {
+                    $layout->price_credit = $this->currencyService->getPrice((int)($layout->base_price / $product->country->inverse_credit_ratio));
+                }
             }
         }
 

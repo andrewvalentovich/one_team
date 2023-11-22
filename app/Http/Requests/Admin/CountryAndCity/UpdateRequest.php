@@ -25,16 +25,17 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'        => 'nullable|numeric',
-            'metric_id' => 'nullable|string|max:255',
-            'parent_id' => 'nullable|numeric|min:1',
-            'name'      => 'nullable|array',
-            'div'       => 'nullable|array',
-            'photo'     => 'nullable',
-            'flag'      => 'nullable',
-            'lat'       => 'nullable|string|max:255',
-            'long'      => 'nullable|string|max:255',
-            'slug'      => 'nullable|string|max:255',
+            'id'                    => 'nullable|numeric',
+            'metric_id'             => 'nullable|string|max:255',
+            'parent_id'             => 'nullable|numeric|min:1',
+            'name'                  => 'nullable|array',
+            'inverse_credit_ratio'  => 'nullable|numeric',
+            'div'                   => 'nullable|array',
+            'photo'                 => 'nullable',
+            'flag'                  => 'nullable',
+            'lat'                   => 'nullable|string|max:255',
+            'long'                  => 'nullable|string|max:255',
+            'slug'                  => 'nullable|string|max:255',
         ];
     }
 

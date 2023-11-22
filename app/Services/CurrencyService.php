@@ -228,7 +228,7 @@ class CurrencyService
      * @param string|null $price_code
      * @return array|string[]
      */
-    public function getPriceCreditFromDB(int $price = null): array
+    public function getPrice(int $price = null): array
     {
         $base_code = "EUR";
 
@@ -243,11 +243,11 @@ class CurrencyService
         } else {
             // price - 50% / 24 мес
             return [
-                "RUB" => number_format(($price / 2) / $this->exchanges[$base_code] * $this->exchanges["RUB"] / 24, 0, '.', ' ')." ₽",
-                "USD" => number_format(($price / 2) / $this->exchanges[$base_code] * $this->exchanges["USD"] / 24, 0, '.', ' ')." $",
-                "EUR" => number_format(($price / 2) / $this->exchanges[$base_code] * $this->exchanges["EUR"] / 24, 0, '.', ' ')." €",
-                "GBP" => number_format(($price / 2) / $this->exchanges[$base_code] * $this->exchanges["GBP"] / 24, 0, '.', ' ')." £",
-                "TRY" => number_format(($price / 2) / $this->exchanges[$base_code] * $this->exchanges["TRY"] / 24, 0, '.', ' ')." ₺",
+                "RUB" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["RUB"], 0, '.', ' ')." ₽",
+                "USD" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["USD"], 0, '.', ' ')." $",
+                "EUR" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["EUR"], 0, '.', ' ')." €",
+                "GBP" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["GBP"], 0, '.', ' ')." £",
+                "TRY" => number_format($price / $this->exchanges[$base_code] * $this->exchanges["TRY"], 0, '.', ' ')." ₺",
             ];
         }
     }

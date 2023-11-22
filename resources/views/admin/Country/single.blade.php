@@ -73,6 +73,15 @@
                             @enderror
                         </div>
 
+                        @if(is_null($get->parent_id))
+                            <div class="form-group" bis_skin_checked="1">
+                                <label for="exampleInputName1">Обратный кредитный коэффициент (Например, 50% от цены на 24 мес = 48)</label>
+                                <input name="inverse_credit_ratio" value="{{ $get->inverse_credit_ratio }}" type="text" class="form-control" id="exampleInputName1" placeholder="Обратный кредитный коэффициент (Например, 48)">
+                                @error('inverse_credit_ratio')
+                                <label class="text-danger font-weight-normal" for="inverse_credit_ratio">{{ $message }}</label>
+                                @enderror
+                            </div>
+                        @endif
 
                         <input type="hidden" name="country_id" value="{{$get->id}}">
                         <div class="form-group" bis_skin_checked="1">
