@@ -113,28 +113,7 @@ class CounrtryController extends Controller
     private function generateTitle($country)
     {
         // Формируем заголовок
-        $name = __('Недвижимость');
-        if(app()->getLocale() == 'ru') {
-            if ($country->name == 'Турция') {
-                $name .= ' в Турции';
-            }
-            if ($country->name == 'Северный Кипр') {
-                $name .= ' на Северном Кипре';
-            }
-            if ($country->name == 'Черногория') {
-                $name .= ' в Черногории';
-            }
-            if ($country->name == 'ОАЭ') {
-                $name .= ' в ОАЭ';
-            }
-            if ($country->name == 'Катар') {
-                $name .= ' в Катаре';
-            }
-        } else {
-            $name .= ' ' . __('в') . ' '. $country->locale_fields->where('locale.code', app()->getLocale())->first()->name;
-        }
-        $title = 'Oneteam / ';
-        $title .= $name;
+        $title = __('Недвижимость в регионе :name', ['name' => $country->locale_fields->where('locale.code', app()->getLocale())->first()->name]);
 
         return $title;
     }

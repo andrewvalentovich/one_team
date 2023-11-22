@@ -23,7 +23,7 @@ class HousesController extends Controller
     {
         $categories_array = explode('/', $categories);
 
-        $country = null;
+        $region = null;
         foreach ($categories_array as $category) {
             $country = CountryAndCity::whereRaw('`slug` LIKE ? ', ['%'.$category.'%'])->first();
             unset($country_name);
@@ -36,43 +36,21 @@ class HousesController extends Controller
         // Генерация заголовка
         $title = $this->generateTitle($country);
 
-        $countries = CountryAndCity::all('slug', 'lat', 'long');
-        foreach ($countries as $index => $item) {
+        $regions = CountryAndCity::with('locale_fields.locale')->with('country.locale_fields.locale')->get();
+        foreach ($regions as $index => $item) {
             if (in_array(strtolower($item->slug), $categories_array)) {
-                $country = $item;
+                $region = $item;
             }
         }
 
-        return view('project.houses', compact('country', 'title'));
+        return view('project.houses', compact('region', 'title'));
     }
 
     private function generateTitle($country)
     {
         if (!is_null($country)) {
             // Формируем заголовок
-            $name = __('Покупка недвижимости');
-            if(app()->getLocale() == 'ru') {
-                if ($country->name == 'Турция') {
-                    $name .= ' в Турции';
-                }
-                if ($country->name == 'Северный Кипр') {
-                    $name .= ' на Северном Кипре';
-                }
-                if ($country->name == 'Черногория') {
-                    $name .= ' в Черногории';
-                }
-                if ($country->name == 'ОАЭ') {
-                    $name .= ' в ОАЭ';
-                }
-                if ($country->name == 'Катар') {
-                    $name .= ' в Катаре';
-                }
-            } else {
-                $name .= ' ' . __('в') . ' '. $country->locale_fields->where('locale.code', app()->getLocale())->first()->name;
-            }
-
-            $title = 'Oneteam / ';
-            $title .= $name;
+            $title = __('Покупка недвижимости в регионе :name', ['name' => $country->locale_fields->where('locale.code', app()->getLocale())->first()->name]);
         } else {
             $title = null;
         }

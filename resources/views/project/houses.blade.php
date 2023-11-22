@@ -35,26 +35,25 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-{{--                        Временный костыль--}}
-                        @if(isset($_GET['city_id']))
-                            @if(app()->getLocale() == 'ru')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['city_id'])->first()->country->name }} {{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                        @if(!is_null($region))
+                            @if(!is_null($region->locale_fileds))
+                                @if(!is_null($region->locale_fields->where('locale.code', app()->getLocale())->first()))
+                                    @if(!is_null($region->parent_id))
+                                        {{ __('Недвижимость в регионе :name (:country)', [
+                                                'name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name,
+                                                'country' => $region->country->locale_fields->where('locale.code', app()->getLocale()->first()->name)
+                                            ]) }}
+                                    @else
+                                        {{ __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name]) }}
+                                    @endif
+                                @else
+                                    {{ __('Вся недвижимость') }}
+                                @endif
+                            @else
+                                {{ __('Вся недвижимость') }}
                             @endif
-                        @elseif(isset($_GET['country_id']))
-                            @if(app()->getLocale() == 'ru')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name }}
-                            @endif
-                            @if(app()->getLocale() == 'en')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_en }}
-                            @endif
-                            @if(app()->getLocale() == 'tr')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_tr }}
-                            @endif
-                            @if(app()->getLocale() == 'de')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_de }}
-                            @endif
-                        @elseif(!isset($_GET['country_id']) && !isset($_GET['city_id']))
-                            {{__('Недвижимость')." " }}
+                        @else
+                            {{ __('Вся недвижимость') }}
                         @endif
                     </div>
                     <div class="city-col__filter">
@@ -2576,7 +2575,7 @@ function P(e) {
             }
             mapCountry = new ymaps.Map("map_city", {
                 // По стандарту указаны координаты Турции (если не установлена страна)
-                center: {{ !is_null($country) ? "[" . $country->lat . ", " . $country->long . "]" : "[39, 32]" }},
+                center: {{ !is_null($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
                 zoom: 4,
                 controls: [],
                 behaviors: ["default", "scrollZoom"],
