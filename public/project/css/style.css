@@ -8344,8 +8344,15 @@ body.scroll_fixed {
 }
 
 .die__list-item {
-  background: #fff;
-  border-radius: 8px;
-  padding: 3px 3px;
+  background: transparent;
+  border-radius: 4px;
+  padding: 0px 3px;
   font-size: 10px;
+  border: 1px solid #fff;
+  color: #fff;
+  line-height: 134%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
