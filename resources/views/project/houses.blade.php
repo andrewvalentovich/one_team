@@ -1604,7 +1604,6 @@ function P(e) {
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {
             window.filter_params_data = data;
-            console.log(data);
             var requestData = findObjectParams(data);
             requestData.locale = window.locale;
 
@@ -2320,7 +2319,7 @@ function P(e) {
                     </div>
                     <div class="balloon-city__img"> <img src="/uploads/${city.photo[0].photo}"></div>
                 </div>`,
-                city_id: city.id
+                city_id: city.id,
             });
         });
         locationsCity.forEach(function (location) {
@@ -2556,7 +2555,6 @@ function P(e) {
         });
 
         async function createMapCity(allmarks) {
-            console.log(allmarks);
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
             if(mapCountry) {
@@ -2578,7 +2576,15 @@ function P(e) {
             let minLon = Infinity;
             let maxLon = -Infinity;
 
+            // Фильтруем объекты по current_region
+            var currentmarks = [];
             allmarks.forEach(mark => {
+                if (mark.current_region === 1) {
+                    currentmarks.push(mark);
+                }
+            });
+
+            currentmarks.forEach(mark => {
                 if (mark.coordinate && mark.coordinate !== ',') {
                     const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
                     if (!isNaN(lat) && !isNaN(lon)) {
@@ -2749,12 +2755,19 @@ function P(e) {
                                             <div class="balloon-city__img"><img style="height: 54px;" src="/${mark.image}"></div>
                                         </div>
                                     </div>`,
-                    city_id: mark.id
+                    city_id: mark.id,
+                    current_region: mark.current_region
                 });
             });
             let areaForBallon = 250000
             if(window.innerWidth <= 768) areaForBallon = 1000000
             locationsCity.forEach(function (location) {
+                var placemarkClass;
+                if (location.current_region == 1) {
+                    placemarkClass = '';
+                } else {
+                    placemarkClass = 'placemark__white';
+                }
                 var balloonOffset = (window.locale == 'ar' || window.locale == 'fa') ? [120, -60] : [-120, -60];
                 var placemark = new ymaps.Placemark(location.coordinates, {
                     balloonContent: location.balloonContent,
@@ -2763,7 +2776,7 @@ function P(e) {
                     balloonShadow: false,
                     balloonLayout: t,
                     iconLayout: ymaps.templateLayoutFactory.createClass(
-                    `<div class="placemark" mark-id="${location.city_id}"></div>`, {
+                    `<div class="placemark ${placemarkClass}" mark-id="${location.city_id}"></div>`, {
                         build: function () {
                         o.superclass.build.call(this);
                         var e = this.getParentElement().getElementsByClassName("placemark")[0],

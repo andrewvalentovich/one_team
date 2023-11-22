@@ -1388,6 +1388,11 @@ body {
   background: #64e664;
 }
 
+.placemark__white {
+  background: #ffffff;
+  border: 2px solid #fa0064;
+}
+
 .popover {
   font-family: "Geometria";
 }

@@ -257,6 +257,10 @@ class HousesController extends Controller
     public function getAll(FilterRequest $request)
     {
         $data = $request->validated();
+
+        $filter_city = isset($data['city']) ? $data['city'] : null;
+        unset($data['city']);
+
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
 
@@ -272,14 +276,16 @@ class HousesController extends Controller
             $query->orderBy('base_price', 'asc');
         }])
             ->with('photo')
+            ->with('city')
             ->with('peculiarities')
             ->filter($filter)
             ->get()
-            ->transform(function ($row) {
+            ->transform(function ($row) use ($filter_city) {
             if (isset($row->layouts) && count($row->layouts) > 0) {
                 $row->price = $row->layouts[0]->price;
             }
-            return [
+
+            $return = [
                 'id' => $row->id,
                 'coordinate' => $row->lat.','.$row->long,
                 "price" => $this->currencyService->exchangeGetAll($row->price, $row->price_code),
@@ -289,6 +295,18 @@ class HousesController extends Controller
                 'address' => $row->address,
                 'image' => count($row->photo) > 0 ? $row->photo[0]->preview : null,
             ];
+
+            if (!is_null($filter_city)) {
+                if (!is_null($row->city)) {
+                    $return['current_region'] = $row->city->slug === $filter_city ? 1 : 0;
+                } else {
+                    $return['current_region'] = 1;
+                }
+            } else {
+                $return['current_region'] = 1;
+            }
+
+            return $return;
         });
 
         return response()->json($houses);
