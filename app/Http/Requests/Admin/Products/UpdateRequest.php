@@ -37,6 +37,7 @@ class UpdateRequest extends FormRequest
             'address' => 'nullable|string',
             'disposition' => 'nullable|array',
             'description' => 'nullable|array',
+            'deadline' => 'nullable|array',
             'parking' => 'nullable|string',
             'cryptocurrency' => 'nullable|string',
             'is_secondary' => 'nullable|boolean',

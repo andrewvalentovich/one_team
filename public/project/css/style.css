@@ -229,7 +229,7 @@ body {
     margin-bottom: 0px;
     flex: 1 0 40%;
   }
-  
+
 }
 .city-col__subtitle {
   color: #c2c2c2;
@@ -408,6 +408,11 @@ body {
 .city-col__item-rooms span {
   color: #c2c2c2;
   margin: 0 4px;
+}
+
+.city-col__item-deadline {
+  color: #898989;
+  font-size: 15px;
 }
 
 .city-col__item-address {
@@ -3121,6 +3126,31 @@ body.scroll_fixed {
   flex: 0 0 36%;
 }
 
+.place__deadline {
+    padding-left: 20px;
+    padding-right: 5px;
+    margin-bottom: 17px;
+    border-bottom: 1px #e3e9f6 solid;
+}
+
+.place__deadline-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.place__deadline-text {
+    padding-top: 26px;
+    margin-right: 10px;
+}
+
+.place__deadline-title {
+    margin-bottom: 6px;
+}
+
+.place__deadline-subtitle {
+    margin-bottom: 18px;
+}
+
 .place__location {
   border-bottom: 1px #e3e9f6 solid;
   margin-bottom: 25px;
@@ -4921,7 +4951,7 @@ body.scroll_fixed {
   }
 
   #map_city.map_city_active {
-    
+
   }
 
   #map_city.show {
@@ -7223,7 +7253,7 @@ body.scroll_fixed {
 
 }
 .zoom-control__zoom-in:hover svg path, .zoom-control__zoom-out:hover svg path{
-  fill: #000;  
+  fill: #000;
 }
 .zoom-control__icon {
   height: 30px !important;
@@ -7409,7 +7439,7 @@ body.scroll_fixed {
     width: 18px;
     cursor: pointer;
   }
-  
+
 }
 
 #place-map .ymaps-2-1-79-map-copyrights-promo {
@@ -7546,7 +7576,7 @@ body.scroll_fixed {
   transform: translate(0, -50%) rotate(180deg);
 }
 .object__swiper-pagination {
-  bottom: 13px !important; 
+  bottom: 13px !important;
 }
 
 .object__swiper-pagination .swiper-pagination-bullet{
@@ -7824,7 +7854,7 @@ body.scroll_fixed {
     height: 250px;
     object-fit: cover;
   }
-  
+
   .about__preview-text {
     margin: 0 auto 20px;
     text-align: justify;
@@ -8158,7 +8188,7 @@ body.scroll_fixed {
   .hello__content {
     flex-wrap: wrap;
   }
-  
+
   .hello__text {
     flex: 0 0 100%;
     max-width: none;
@@ -8172,7 +8202,7 @@ body.scroll_fixed {
   .advantages__footer {
     flex-wrap: wrap;
   }
-  
+
   .advantages__text {
     flex: 0 0 100%;
     max-width: none;
@@ -8196,7 +8226,7 @@ body.scroll_fixed {
 
 
 @media (max-width: 767px) {
-  
+
   .advantages__item {
     flex: 0 0 100%;
   }
@@ -8226,7 +8256,7 @@ body.scroll_fixed {
   .why {
     padding-bottom: 30px;
   }
-  
+
   .advantages__content {
     margin-bottom: 30px;
   }

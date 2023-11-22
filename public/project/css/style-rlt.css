@@ -410,6 +410,11 @@ body {
     margin: 0 4px;
 }
 
+.city-col__item-deadline {
+    color: #898989;
+    font-size: 15px;
+}
+
 .city-col__item-address {
     color: #c2c2c2;
     font-size: 15px;
@@ -3119,6 +3124,31 @@ body.scroll_fixed {
 .place__order-img {
     margin-top: -12px;
     flex: 0 0 36%;
+}
+
+.place__deadline {
+    padding-left: 20px;
+    padding-right: 5px;
+    margin-bottom: 17px;
+    border-bottom: 1px #e3e9f6 solid;
+}
+
+.place__deadline-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.place__deadline-text {
+    padding-top: 26px;
+    margin-right: 10px;
+}
+
+.place__deadline-title {
+    margin-bottom: 6px;
+}
+
+.place__deadline-subtitle {
+    margin-bottom: 18px;
 }
 
 .place__location {

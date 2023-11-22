@@ -155,8 +155,12 @@ class HousesController extends Controller
         foreach ($sorted as $key => $object) {
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
             $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
-            $object->description = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()) ? $object->locale_fields->where('locale_id', $locale->id)->first()->description : null;
-            $object->disposition = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()) ? $object->locale_fields->where('locale_id', $locale->id)->first()->disposition : null;
+
+            if (!is_null($object->locale_fields->where('locale_id', $locale->id)->first())) {
+                $object->description = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()->description) ? $object->locale_fields->where('locale_id', $locale->id)->first()->description : null;
+                $object->disposition = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()->diposition) ? $object->locale_fields->where('locale_id', $locale->id)->first()->disposition : null;
+                $object->deadline = !is_null($object->locale_fields->where('locale_id', $locale->id)->first()->deadline) ? __('Срок сдачи', [], $locale->code) . ': ' . $object->locale_fields->where('locale_id', $locale->id)->first()->deadline : null;
+            }
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
@@ -232,14 +236,20 @@ class HousesController extends Controller
             }
         }
 
+        $data['locale'] = isset($data['locale']) ? $data['locale'] : 'en';
+        if (!is_null($product->locale_fields->where('locale.code', $data['locale'])->first())) {
+            $product->description = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->description) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->description : null;
+            $product->disposition = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->diposition) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->disposition : null;
+            $product->deadline = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->deadline) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->deadline : null;
+        }
+
         // Особенности
-        // Можно использовать Scopes!!!
-        $product->gostinnie = !empty($product->peculiarities->whereIn('type', "Гостиные")->first()) ? $product->peculiarities->whereIn('type', "Гостиные")->first()->name : null;
-        $product->vanie = !empty($product->peculiarities->whereIn('type', "Ванные")->first()) ? $product->peculiarities->whereIn('type', "Ванные")->first()->name : null;
-        $product->spalni = !empty($product->peculiarities->whereIn('type', "Спальни")->first()) ? $product->peculiarities->whereIn('type', "Спальни")->first()->name : null;
-        $product->do_more = !empty($product->peculiarities->whereIn('type', "До моря")->first()) ? $product->peculiarities->whereIn('type', "До моря")->first()->name : null;
-        $product->type_vid = !empty($product->peculiarities->whereIn('type', "Вид")->first()) ? $product->peculiarities->whereIn('type', "Вид")->first()->name : null;
-        $product->peculiarities = !empty($product->peculiarities->whereIn('type', "Особенности")->all()) ? $product->peculiarities->whereIn('type', "Особенности")->all() : null;
+        $product->gostinnie = $product->living_rooms();
+        $product->vanie = $product->bathrooms();
+        $product->spalni = $product->bedrooms();
+        $product->do_more = $product->to_sea();
+        $product->type_vid = $product->view();
+        $product->peculiarities = $product->peculiarities->whereIn('type', "Особенности")->all();
 
         return response()->json($product);
     }

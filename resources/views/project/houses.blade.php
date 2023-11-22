@@ -392,6 +392,14 @@
                                                             {{__('Заказать просмотр')}}
                                                         </div>
                                                     </div>
+                                                    <div class="place__deadline">
+                                                        <div class="place__deadline-content">
+                                                            <div class="place__deadline-subtitle place__title">
+                                                                {{__('Срок сдачи')}}
+                                                            </div>
+                                                            <div class="place__deadline-title"></div>
+                                                        </div>
+                                                    </div>
                                                     <div class="object__rooms">
                                                         <div class="object__rooms-content">
                                                             <div class="object__rooms-item">
@@ -974,9 +982,9 @@
             })
         })
 
-        let spal = "<?php echo __('спал') ?>";
-        let van = "<?php echo __('ван') ?>";
-        let kvm = "<?php echo __('кв.м') ?>";
+        let spal = "{{ __('спал') }}";
+        let van = "{{ __('ван') }}";
+        let kvm = "{{ __('кв.м') }}";
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -1190,7 +1198,7 @@ function P(e) {
     var script;
     var head = document.getElementsByTagName('head')[0];
 
-    let site_url = `{{config('app.url')}}`;
+    let site_url = `{{ config('app.url') }}`;
     let locationsCity = [];
     let houseData = {}
     let objectsListSet = new Set()
@@ -1294,7 +1302,6 @@ function P(e) {
             swiperDiv.appendChild(wrapperDiv);
 
             const maxIterations = 5
-
             const hasMoreThanFivePhotos = cityElement.photo.length > maxIterations;
 
             cityElement.photo.slice(0, maxIterations).forEach((photo, index, array) => {
@@ -1405,7 +1412,7 @@ function P(e) {
                     }
                 });
             } else {
-                roomsDiv.innerHTML = `${cityElement.size} кв.м`
+                roomsDiv.innerHTML = `${cityElement.size}` + ' {{ __('кв.м') }}'
 
                 if (spalni && spalni.length > 0) {
                     roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
@@ -1418,6 +1425,11 @@ function P(e) {
 
 
             textDiv.appendChild(roomsDiv);
+
+            const deadlineDiv = document.createElement('div');
+            deadlineDiv.classList.add('city-col__item-deadline');
+            deadlineDiv.textContent = cityElement.deadline;
+            textDiv.appendChild(deadlineDiv);
 
             const addressDiv = document.createElement('div');
             addressDiv.classList.add('city-col__item-address');
@@ -1469,7 +1481,7 @@ function P(e) {
     }
 
     //свайп при ховере мышки
-    function addHoverMouseSwiper (swiper) {
+    function addHoverMouseSwiper(swiper) {
         if(!swiper) return
         const slidesLength = swiper.slides.length
         const width = 1 / slidesLength * 100
@@ -1584,40 +1596,6 @@ function P(e) {
 
     let placeMap = null;
     async function getObjectById() {
-    // Получение текущего URL
-    // var url = new URL(window.location.href);
-    //
-    // // Извлечение параметров из URL
-    // var cityId = url.searchParams.get('city_id');
-    // var minPrice = url.searchParams.get('price[min]');
-    // var maxPrice = url.searchParams.get('price[max]');
-    // var code = url.searchParams.get('price[currency]');
-    // var objectId = url.searchParams.get('object_id');
-    //
-    // // Создание объекта с параметрами для отправки в запрос
-    // var requestData = {
-    //     id: id,
-    // };
-    //
-    // // Добавление параметров из URL, если они существуют и не являются пустыми
-    // if (cityId !== null) {
-    //     requestData.city_id = cityId;
-    // }
-    // if (minPrice !== null && minPrice !== '') {
-    //     requestData.price = requestData.price || {};
-    //     requestData.price.min = minPrice;
-    // }
-    // if (maxPrice !== null && maxPrice !== '') {
-    //     requestData.price = requestData.price || {};
-    //     requestData.price.max = maxPrice;
-    // }
-    // if (code !== null && code !== '') {
-    //     requestData.price = requestData.price || {};
-    //     requestData.price.code = code;
-    // }
-    // if (objectId !== null) {
-    //     requestData.object_id = objectId;
-    // }
     $.ajax({
         url: '/api/houses/filter_params',       /* Куда отправить запрос */
         data: {
@@ -1626,7 +1604,9 @@ function P(e) {
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {
             window.filter_params_data = data;
+            console.log(data);
             var requestData = findObjectParams(data);
+            requestData.locale = window.locale;
 
             // Выполнение AJAX-запроса с параметрами
             $.ajax({
@@ -1724,7 +1704,7 @@ function P(e) {
             divSquare.appendChild(div)
         })
 
-        //цена в попапе
+        // цена в попапе
         if (currentHouse.layouts && currentHouse.layouts.length > 0) {
             Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
@@ -1784,6 +1764,16 @@ function P(e) {
             }
         });
 
+        // deadline - срок сдачи
+        const deadlineBlock = document.querySelector('.place__deadline');
+
+        if(currentHouse.deadline) {
+            const deadlineTitle = deadlineBlock.querySelector('.place__deadline-title')
+            deadlineTitle.innerHTML = currentHouse.deadline;
+        } else {
+            deadlineBlock.style.display = 'none';
+        }
+
         //комнаты
         const objectRooms = document.querySelector('.object__rooms')
 
@@ -1799,12 +1789,10 @@ function P(e) {
                 spalni.innerHTML = currentHouse.spalni.replace('+', '')
             }
 
-
             if(currentHouse.gostinnie) {
                 const gostinnie = objectRooms.querySelector('.gostinnie')
                 gostinnie.innerHTML = currentHouse.gostinnie.replace('+', '')
             }
-
 
             if(currentHouse.vanie) {
                 const vanie = objectRooms.querySelector('.vanie')
@@ -2450,7 +2438,6 @@ function P(e) {
                     dataType: 'json',
                     data: params,
                     success: function (data) {
-
                         resolve(data);
                     },
                     error: function (error) {
@@ -2567,7 +2554,9 @@ function P(e) {
         cityCol.addEventListener('scroll', function() {
             onScrollToFooter()
         });
+
         async function createMapCity(allmarks) {
+            console.log(allmarks);
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
             if(mapCountry) {

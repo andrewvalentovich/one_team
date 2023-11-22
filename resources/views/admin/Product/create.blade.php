@@ -387,6 +387,11 @@
                         </div>
 
                         <div class="form-group pt-5" bis_skin_checked="1">
+                            <label for="deadline">Дата сдачи объекта (на Русском)</label>
+                            <input name="deadline" type="text" class="form-control" id="deadline" placeholder="2 квартал 2044 года">
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположение на Русском</label>
                             <textarea name="disposition" class="form-control" id="" placeholder="Расположение"></textarea>
                         </div>

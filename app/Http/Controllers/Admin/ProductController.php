@@ -107,6 +107,8 @@ class ProductController extends Controller
         // Создаём переменные
         $description = $data['description'];
         $disposition = $data['disposition'];
+        $deadline = $data['deadline'];
+        unset($data['description'], $data['disposition'], $data['deadline']);
 
         // Создание продукта
         $create = Product::create($data);
@@ -119,7 +121,7 @@ class ProductController extends Controller
         }
 
         // Перевод и добавление полей описаний
-        $this->translateForNew($create->id, $description, $disposition);
+        $this->translateForNew($create->id, $description, $disposition, $deadline);
 
 
         // Создаём планировки для созданного объекта
@@ -243,8 +245,8 @@ class ProductController extends Controller
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
         // Обновление текстовых полей description и disposition
-        $this->updateDescriptionAndDisposition($product, $data['description'], $data['disposition']);
-        unset($data['description'], $data['disposition']);
+        $this->updateDescriptionAndDisposition($product, $data['description'], $data['disposition'], $data['deadline']);
+        unset($data['description'], $data['disposition'], $data['deadline']);
 
         // Проверка поля slug на уникальность
         if (isset($data['slug'])) {
@@ -327,7 +329,7 @@ class ProductController extends Controller
         ],200);
     }
 
-    private function translateForNew($product_id, $description, $disposition)
+    private function translateForNew($product_id, $description, $disposition, $deadline)
     {
         $locales = Locale::all();
 
@@ -336,19 +338,21 @@ class ProductController extends Controller
 
             $tmp_description = !empty($description) ? $tr->trans($description, $locale->code, "ru") : null;
             $tmp_disposition = !empty($disposition) ? $tr->trans($disposition, $locale->code, "ru") : null;
+            $tmp_deadline = !empty($deadline) ? $tr->trans($deadline, $locale->code, "ru") : null;
 
             ProductLocale::create([
                 "product_id" => $product_id,
                 "locale_id" => $locale->id,
                 "description" => $tmp_description,
                 "disposition" => $tmp_disposition,
+                "deadline" => $tmp_deadline,
             ]);
 
-            unset($tmp_description, $tmp_disposition);
+            unset($tmp_description, $tmp_disposition, $tmp_deadline);
         }
     }
 
-    private function updateDescriptionAndDisposition($product, $description, $disposition)
+    private function updateDescriptionAndDisposition($product, $description, $disposition, $deadline)
     {
         $locales = Locale::all();
 
@@ -359,6 +363,7 @@ class ProductController extends Controller
 
             $value->description = $description[$value->locale->code];
             $value->disposition = $disposition[$value->locale->code];
+            $value->deadline = $deadline[$value->locale->code];
             $value->save();
         }
 
@@ -370,6 +375,7 @@ class ProductController extends Controller
                     "locale_id" => $locale->id,
                     "description" => $description[$locale->code],
                     "disposition" => $disposition[$locale->code],
+                    "deadline" => $deadline[$locale->code],
                 ]);
             }
         }
@@ -392,7 +398,9 @@ class ProductController extends Controller
         $cat = ProductCategory::where('product_id', $id)->where('type', 'Типы')->first();
         $get->delete();
 
-        return redirect()->route('all_product',$cat->peculiarities_id)->with('true', "Удаления адреса $get->address завершено");
+        $category = !is_null($cat) ? $cat->peculiarities_id : 2;
+
+        return redirect()->route('all_product', $category)->with('true', "Удаления адреса $get->address завершено");
 
     }
 

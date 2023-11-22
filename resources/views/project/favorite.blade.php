@@ -752,6 +752,18 @@
                                 </div>
 
                             </div>
+                            @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()))
+                                @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()->deadline))
+                                    <div class="place__deadline">
+                                        <div class="place__deadline-content">
+                                            <div class="place__deadline-subtitle place__title">
+                                                {{__('Срок сдачи')}}
+                                            </div>
+                                            <div class="place__deadline-title">{{ $product->locale_fields->where('locale.code', app()->getLocale())->first()->deadline }}</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                             @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
                             <div class="object__rooms">
                                 <div class="object__rooms-content">

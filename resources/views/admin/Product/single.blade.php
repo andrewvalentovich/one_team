@@ -541,6 +541,14 @@
                                 <input name="long" value="{{$get->long}}" type="text" class="form-control" id="long" placeholder="Долгота">
                             </div>
                         </div>
+
+                        @foreach($locales as $locale)
+                        <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                            <label for="">Срок сдачи жилья ({{ $locale->code }})</label>
+                            <textarea rows="5" name="deadline[{{ $locale->code }}]" class="form-control" id="" placeholder="Срок сдачи жилья ({{ $locale->code }})">{{ !is_null($get->locale_fields->where('locale_id', $locale->id)->first()) ? $get->locale_fields->where('locale_id', $locale->id)->first()->deadline : "" }}</textarea>
+                        </div>
+                        @endforeach
+
                         @foreach($locales as $locale)
                         <div class="form-group @if($loop->first) pt-5 @endif @if($loop->last) pb-5 @endif" bis_skin_checked="1">
                             <label for="">Расположение ({{ $locale->code }})</label>

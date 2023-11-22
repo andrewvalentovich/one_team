@@ -16,7 +16,7 @@ class TranslateContent extends Command
      *
      * @var string
      */
-    protected $signature = 'products:translate-description-disposition';
+    protected $signature = 'products:translate-content';
 
     /**
      * The console command description.
@@ -59,14 +59,16 @@ class TranslateContent extends Command
                     $this->line("- Translate for " . $locale->code);
                     $tmp_description = !empty($product->description) ? $tr->trans($product->description, $locale->code, "ru") : null;
                     $tmp_disposition = !empty($product->disposition) ? $tr->trans($product->disposition, $locale->code, "ru") : null;
+                    $tmp_deadline = !empty($product->deadline) ? $tr->trans($product->deadline, $locale->code, "ru") : null;
 
                     ProductLocale::create([
                         "product_id" => $product->id,
                         "locale_id" => $locale->id,
                         "description" => $tmp_description,
                         "disposition" => $tmp_disposition,
+                        "deadline" => $tmp_deadline,
                     ]);
-                    unset($tmp_description, $tmp_disposition);
+                    unset($tmp_description, $tmp_disposition, $tmp_deadline);
                 }
             }
 

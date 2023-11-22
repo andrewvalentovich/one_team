@@ -24,6 +24,7 @@ class GetSimpleRequest extends FormRequest
     public function rules()
     {
         return [
+            'locale' => 'nullable|string',
             'id' => 'required|numeric|min:1',
             'price' => 'nullable|array',
         ];
