@@ -142,4 +142,19 @@ class Product extends Model
     {
         return $this->locale_fields->where('locale.code', $locale)->first()->disposition;
     }
+
+    public function getTags($locale)
+    {
+        $tags = [];
+
+        if ($this->grajandstvo === 'Да') {
+            $tags[] = __('Гражданство', [], $locale);
+        }
+        if ($this->commissions === 'Да') {
+            $tags[] = __('Рассрочка 0%', [], $locale);
+        }
+        $tags[] = $this->is_secondary === 0 ? __('Новостройка', [], $locale) : __('Вторичка', [], $locale);
+
+        $this->tags = $tags;
+    }
 }

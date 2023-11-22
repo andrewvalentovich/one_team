@@ -153,6 +153,9 @@ class HousesController extends Controller
 
         // Меняем параметры (для фронта)
         foreach ($sorted as $key => $object) {
+            // Тэги
+            $object->getTags($locale->code);
+
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
             $object->price = $this->currencyService->exchangeGetAll($object->price, $object->price_code);
 
@@ -173,9 +176,6 @@ class HousesController extends Controller
                     $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
                 }
             }
-
-            // Тэги
-            $object->tags = ['Рассрочка 0%', 'Гражданство', 'Новостройка', 'Вторичка'];
 
             // Особенности
             $object->gostinnie = $object->living_rooms();

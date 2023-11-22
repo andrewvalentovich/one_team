@@ -82,6 +82,9 @@ class FavoriteController extends Controller
 
         // Меняем параметры (для фронта)
         foreach ($get_product as $key => $object) {
+            // Тэги
+            $object->getTags(app()->getLocale());
+            
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
             $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
 
