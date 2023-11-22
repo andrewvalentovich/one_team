@@ -1852,7 +1852,7 @@ ul.list_point li {
 }
 
 .about__pagination {
-  width: fit-content;
+  width: max-content;
   font-size: 18px;
   font-weight: 500;
 }
@@ -1883,7 +1883,7 @@ ul.list_point li {
   border-radius: 30px;
   background: #d3d3d3;
   padding: 15px 24px;
-  width: 150px;
+  min-width: 150px;
   display: flex;
   align-items: center;
   gap: 11px;
