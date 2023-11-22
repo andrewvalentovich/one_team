@@ -1370,6 +1370,20 @@ function P(e) {
                 e.stopPropagation();
             })
 
+            //плашки
+            if(cityElement.tags) {
+                const die = document.createElement('div');
+                die.classList.add('die__list');
+                cityElement.tags.forEach(el => {
+                    const div = document.createElement('div');
+                    div.classList.add('die__list-item');
+                    div.innerHTML = el
+                    die.appendChild(div)
+                });
+                cityItem.appendChild(die);
+            }
+            
+
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');

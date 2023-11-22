@@ -875,7 +875,13 @@
 							</svg>
 
                         </div>
-
+                        <div class="die__list">
+                            @foreach($product->tags as $tag)
+                            <div class="die__list-item">
+                                    {{ $tag }}
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
 
                     @endforeach

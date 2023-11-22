@@ -8330,3 +8330,22 @@ body.scroll_fixed {
   text-align: justify;
 }
 
+
+
+.die__list {
+  position: absolute;
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  left: 8px;
+  top: 11px;
+  z-index: 5;
+  width: calc(100% - 38px);
+}
+
+.die__list-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 3px 3px;
+  font-size: 10px;
+}

@@ -102,6 +102,13 @@
                     <div class="favorites__item-exit" data_id="{{$product->id}}">
                         <img src="{{asset('project/img/svg/exit_w.svg')}}" alt="exit">
                     </div>
+                    <div class="die__list">
+                        @foreach($product->tags as $tag)
+                        <div class="die__list-item">
+                                {{ $tag }}
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
                     @endif
                 @endforeach
