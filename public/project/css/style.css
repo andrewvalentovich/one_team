@@ -8356,3 +8356,18 @@ body.scroll_fixed {
   align-items: center;
   text-align: center;
 }
+
+/* .city-col__slider {
+  position: relative;
+}
+.city-col__slider::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 3;
+  pointer-events: none;
+} */
