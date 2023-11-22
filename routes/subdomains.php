@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function ($subdomain) {
     if ($subdomain === "www") {
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-        $url = $protocol . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $url = $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         unset($protocol);
         return redirect(str_replace('www.', '', $url));
     } else {
