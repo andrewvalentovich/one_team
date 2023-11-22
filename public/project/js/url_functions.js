@@ -128,7 +128,9 @@ function updateUrl(data, urlValues) {
         url += "/all";
         window.history.pushState(null, null, url);
     } else {
-        url += "/" + locale;
+        if (locale) {
+            url += "/" + locale;
+        }
 
         var country = getMatchSlug(urlValues, data.countries);
         if (country) {

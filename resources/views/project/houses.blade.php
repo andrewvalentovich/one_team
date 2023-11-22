@@ -1382,7 +1382,7 @@ function P(e) {
                 });
                 cityItem.appendChild(die);
             }
-            
+
 
             //цена в карточке превью
             const priceDiv = document.createElement('div');
