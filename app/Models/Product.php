@@ -6,10 +6,14 @@ use App\Models\Traits\Filterable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory, Filterable;
+    // У objects image может быть массивом или текстовым полем, аккуратно!
+    use HasFactory, Filterable, SoftDeletes;
+    use HasFactory, Filterable, SoftDeletes;
+
     protected $guarded = [];
 
     public function scopeForSale($query)

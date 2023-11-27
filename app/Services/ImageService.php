@@ -35,6 +35,76 @@ class ImageService
         return $prefix . $filenametostore;
     }
 
+    public function saveFromRemoteString($image)
+    {
+        $thumbnailpath = null;
+
+        if ($image){
+            // Получаем имя_файла.расширение
+            $basename = basename($image);
+
+            // Получаем имя_файла и расширение в качестве элементов массива
+            $explode = explode('.', $basename);
+
+            // Устанавливаем новое имя для картинки
+            $new_name = "crm_" . $explode[0] . uniqid();
+            $filenametostore = $new_name . "." . $explode[1];
+
+            // Если расширение не webp - конвертируем в webp
+            $img = Image::make($image);
+            if ($explode[1] !== "webp") {
+                $img->encode('webp', 100);
+            }
+            $img->save(public_path("uploads/" . $new_name . ".webp"));
+            $filenametostore = $img->basename;
+            unset($img);
+        }
+
+        return $filenametostore;
+    }
+
+    /**
+     * @param string $image
+     *
+     * @return string
+     */
+    public function saveFromRemote(string $image)
+    {
+        $filenametostore = null;
+
+        if ($image) {
+            // Отключаем вывод ошибки для данной функции
+            $img = @file_get_contents($image);
+
+            // Если удалось получить файл
+            if ($img !== false) {
+                // Получаем имя_файла.расширение
+                $basename = basename($image);
+
+                // Получаем имя_файла и расширение в качестве элементов массива
+                $explode = explode('.', $basename);
+
+                // Устанавливаем новое имя для картинки
+                $new_name = "crm_" . $explode[0] . uniqid();
+                $filenametostore = $new_name . "." . $explode[1];
+
+                // Сохраняем картинку в хранилище
+                file_put_contents(public_path("uploads/" . $new_name . "." . $explode[1]), $img);
+
+                // Если расширение не webp - конвертируем в webp
+                if ($explode[1] !== "webp") {
+                    $img = Image::make(public_path("uploads/" . $filenametostore))->encode('webp', 100);
+                    $img->save(public_path("uploads/" . $new_name . ".webp"));
+                    $filenametostore = $img->basename;
+                }
+            } else {
+                $filenametostore = $this->saveFromRemoteString($image);
+            }
+        }
+
+        return $filenametostore;
+    }
+
 //    public function update($image = null, $prefix = null)
 //    {
 //        $prefix = is_null($prefix) ? "" : $prefix;

@@ -35,12 +35,12 @@ class PreviewImageService
 
             $height = $img->height();
             $width = $img->width();
-            if($height >= 400) {
+            if ($height >= 400) {
                 $img->resize(null, 350, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            if($width >= 601) {
+            if ($width >= 601) {
                 $img->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
@@ -53,26 +53,27 @@ class PreviewImageService
 
     public function update($image = null)
     {
-        if (!is_null($image)){
-            $thumbnailpath = 'uploads'."/".$image;
+        if (!is_null($image)) {
+            $thumbnailpath = 'uploads/'.$image;
             Log::info("update1 - ".$thumbnailpath);
+
             $img = Image::make(public_path($thumbnailpath));
             Log::info("update2");
             $preview_image_path = 'uploads'."/preview_".$image;
 
             $height = $img->height();
             $width = $img->width();
-            if($height >= 400) {
+            if ($height >= 400) {
                 $img->resize(null, 350, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            if($width >= 601) {
+            if ($width >= 601) {
                 $img->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            $img->save($preview_image_path);
+            $img->save(public_path($preview_image_path));
             return $preview_image_path;
         }
 
@@ -88,12 +89,12 @@ class PreviewImageService
 
             $height = $img->height();
             $width = $img->width();
-            if($height >= 400) {
+            if ($height >= 400) {
                 $img->resize(null, 350, function ($constraint) {
                     $constraint->aspectRatio();
                 });
             }
-            if($width >= 601) {
+            if ($width >= 601) {
                 $img->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
