@@ -5,26 +5,36 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CompanySelect;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+
 class CompanySelectController extends Controller
 {
-
-
-    public function company_page($id){
-        $get =  CompanySelect::where('id', $id)->first();
+    public function about($slug)
+    {
+        $get =  CompanySelect::where('slug', $slug)->first();
         if ($get == null){
             return redirect()->back();
         }
 
+        $title = "Oneteam / О проекте";
         if (app()->getLocale() == 'en'){
+            $title = "Oneteam / About project";
             $get->content = $get->content_en;
         }
 
         if (app()->getLocale() == 'tr'){
+            $title = "Oneteam / Proje hakkında";
+            $get->content = $get->content_tr;
+        }
+
+        if (app()->getLocale() == 'de'){
+            $title = "Oneteam / Über das projekt";
             $get->content = $get->content_tr;
         }
 
 
-        return view('project.pages.company_page', compact('get'));
+        return view('project.pages.company_page', compact('get', 'title'));
      }
 
     public function all_company_select(){
@@ -36,17 +46,25 @@ class CompanySelectController extends Controller
         return view('admin.Pages.company.create');
     }
 
-
     public function all_company_select_page_create(Request $request){
+        $slug = null;
+
+        if (!isset($request->slug)) {
+            $slug = Str::slug($request->title);
+        } else {
+            $slug = $request->slug;
+        }
+
         CompanySelect::create([
             'status' => $request->status,
             'name' => $request->name,
+            'slug' => $slug,
             'content' => json_encode($request->contents),
             'content_en' => json_encode($request->contents_en),
             'content_tr' => json_encode($request->contents_tr),
         ]);
 
-        return redirect()-> back();
+        return redirect()->route('all_company_select');
     }
 
 
@@ -61,15 +79,25 @@ class CompanySelectController extends Controller
     }
 
 
-    public function update_select_page(Request $request){
+    public function update_select_page(Request $request)
+    {
+        $slug = null;
+
+        if (!isset($request->slug)) {
+            $slug = Str::slug($request->title);
+        } else {
+            $slug = $request->slug;
+        }
+
         CompanySelect::where('id', $request->select_id)->update([
             'status' => $request->status,
             'name' => $request->name,
+            'slug' => $slug,
             'content' => json_encode($request->contents),
             'content_en' => json_encode($request->contents_en),
             'content_tr' => json_encode($request->contents_tr),
         ]);
-        return redirect()->back();
+        return redirect()->route('all_company_select');
     }
 
     public function delete_select_page($id){

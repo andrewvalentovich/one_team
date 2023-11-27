@@ -33,22 +33,22 @@
                             @if(count($country->product_country) > 0)
                                <div class="locations__item">
                                     <div class="locations__item-img">
-                                        <a href="{{route('country',$country->id )}}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->photo")}}" alt="hungary"> </a>
+                                        <a href="{{ route('countries', $country->slug) }}">     <img style="max-width: 26px;" src="{{asset("uploads/$country->flag")}}" alt="hungary"> </a>
                                     </div>
                                     <div class="locations__item-title">
-                                        @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?>  @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
-                                        <a href="{{route('country',$country->id )}}">    {{$country->name}}
+                                        <a href="{{ route('countries', $country->slug) }}">
+                                            {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
                                             <span>{{$country->product_country->count()}}</span> </a>
                                     </div>
                                 </div>
                             @else
                                 <div class="locations__item">
                                     <div class="locations__item-img">
-                                        <span><img style="max-width: 26px;" src="{{asset("uploads/$country->photo")}}" alt="hungary"></span>
+                                        <span><img style="max-width: 26px;" src="{{asset("uploads/$country->flag")}}" alt="hungary"></span>
                                     </div>
                                     <div class="locations__item-title">
-                                        @if(app()->getLocale() == 'en') <?php $country->name = $country->name_en ?> @elseif(app()->getLocale() == 'tr') <?php $country->name = $country->name_tr ?> @elseif(app()->getLocale() == 'de') <?php $country->name = $country->name_de ?>  @endif
-                                        <p href="{{route('country',$country->id )}}">    {{$country->name}}
+                                        <p href="{{route('countries', $country->slug) }}">
+                                            {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
                                             <span>({{ __('скоро открытие') }})</span> </p>
                                     </div>
                                 </div>

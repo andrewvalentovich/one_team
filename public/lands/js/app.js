@@ -358,28 +358,98 @@ if(document.querySelectorAll('[btn-popup]').length) {
     })
   });
 }
+const objectSwiper = new Swiper('.object__swiper', {
+  slidesPerView: 1,
+  navigation: {
+      nextEl: '.object__swiper-next',
+      prevEl: '.object__swiper-prev',
+  },
+  pagination: {
+      el: ".object__swiper-pagination",
+      clickable: true,
+  },
+  breakpoints: {
+      320: {
 
+      },
+      480: {
+
+      },
+      640: {
+
+      }
+  }
+})
 function createHouseInfoPopup(house) {
-  const picSrc = house.querySelector('.layouts__slide-pic').querySelector('img').getAttribute('src')
-  const price = house.querySelector('.layouts__slide-price').innerHTML
+  const price = house.querySelector('.layouts__slide-price').getAttribute('data-price')
+  const priceSpace = house.querySelector('.layouts__slide-price').innerHTML
   const lead = house.querySelector('.layouts__slide-lead').innerHTML
+  const pic = house.querySelector('.layouts__slide-pic')
+
+  const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+  const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
 
   const popup = document.querySelector('.popup-house')
-  const popupPic = popup.querySelector('.popup__house-pic').querySelector('img')
+  const srsForPhotos = pic.getAttribute('data-photos')
   const popupPrice = popup.querySelector('.popup__house-price')
   const popupLead = popup.querySelector('.popup__house-lead')
+  const month = popup.querySelector('.popup__house-month')
 
-  popupPic.setAttribute('src', picSrc)
-  popupPrice.innerHTML = price
+
+  const priceWithoutEuro = parseFloat(price.replace('€', ''));
+  const priceMonth = priceWithoutEuro / 48;
+  
+  const formattedPrice = addThousandSeparators(priceMonth.toFixed(0));
+  
+  
+
+  
+  popupPrice.innerHTML = priceSpace
   popupLead.innerHTML = lead
+  month.innerHTML = `${formattedPrice}  € / мес`
+
+  const photoArray = JSON.parse(srsForPhotos);
+  console.log(photoArray)
+
+  swiperWrapper.innerHTML = ''
+  photoArray.forEach(photo => {
+      const slide = document.createElement('div')
+      const slidePic = document.createElement('img')
+
+      if(photo.name) {
+          const floor = document.createElement('div')
+          floor.classList.add('object__swiper-slide-floor')
+          floor.innerHTML = photo.name
+          slide.appendChild(floor)
+      }
+      
+      slide.classList.add('swiper-slide')
+      slide.classList.add('object__swiper-slide')
+      slide.appendChild(slidePic)
+      slidePic.setAttribute('src', photo.url)
+      swiperWrapper.appendChild(slide)
+
+  });
+
+  if(photoArray.length <= 1) {
+    objectSwiperNav.forEach(btn => {
+        btn.style.display = 'none'
+    });
+  } else {
+    objectSwiperNav.forEach(btn => {
+        btn.style.display = 'flex'
+    });
+  }
+
+  objectSwiper.update()
+  objectSwiper.updateSlides()
+  objectSwiper.slideTo(0)
 }
 
-// //галерея
-// $(document).ready(function() {
-//   $('[data-fancybox]').fancybox({
-//     // Настройки Fancybox, если необходимо
-//   });
-// });
+function addThousandSeparators(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
 
 
 //анимация инпутов
@@ -428,8 +498,7 @@ inputWrappers.forEach(function(wrapper) {
     input.addEventListener('blur', function() {
         if(input.value) {
             if(input.getAttribute('name') === 'phone') {
-                const lengthPhone = input.getAttribute('data-phone-pattern').length
-                if(lengthPhone !== input.value.length) {
+                if(input.value.length <= 5) {
                     wrapper.classList.remove('confirm');
                     return
                 }
@@ -629,4 +698,10 @@ function changeContentGallerySwiper(id) {
     galleryText.style.display = 'none'
     gallery.style.overflow = 'hidden'
   }
+}
+
+
+function validate(inputElement) {
+  console.log(inputElement);
+  inputElement.value = inputElement.value.replace(/[0-9]+/g, '');
 }

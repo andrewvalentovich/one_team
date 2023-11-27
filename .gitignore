@@ -5,6 +5,7 @@
 /public/hot
 /public/storage
 /public/*.html
+/public/*.xml
 /storage/*.key
 /vendor
 /tmp

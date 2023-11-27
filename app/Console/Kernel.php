@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +15,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:get-rates')->daily();
+        $schedule->command('products:update-base-price')->daily();
+        $schedule->command('layouts:update-base-price')->daily();
+        $schedule->command('sitemap:generate')->daily();
+        Log::info(date('m/d/Y h:i:s a', time()) . " Schedule called");
     }
 
     /**

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" @if(app()->getLocale() == "ar" || app()->getLocale() == "fa")dir="rtl" @endif>
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -8,18 +8,141 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="yandex-verification" content="123fb47cd3c0e419" />
     <meta name="yandex-verification" content="668e2b3d8f338ae0" />
+    <link rel="canonical" href="{{ (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+    . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic,700italic&amp;subset=latin,latin-ext">
-    <link rel="stylesheet" type="text/css" href="{{asset('project/css/swiper-bundle.min.css')}} ">
+    <!-- <link rel="stylesheet" type="text/css" href="{{asset('project/css/swiper-bundle.min.css')}} "> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{asset('project/files/fonts/stylesheet.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('project/css/style.css')}}">
+
+    @if(app()->getLocale() == "ar" || app()->getLocale() == "fa")
+        <link rel="stylesheet" type="text/css" href="{{asset('project/css/style-rlt.css')}}">
+    @else
+        <link rel="stylesheet" type="text/css" href="{{asset('project/css/style.css')}}">
+    @endif
+
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <title>One-team</title>
+    <title>{{ isset($title) ? __($title) : "One-team" }}</title>
+    <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
     <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
-    <!-- <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+<div class="wrapper">
+
+    @yield('header')
+
+    @yield('content')
+
+    @yield('footer')
+
+    <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
+        <div class="popup__body" bis_skin_checked="1">
+            <form class="popup__content default-form" id="city_form">
+                <label class="field name input-wrapper" bis_skin_checked="1">
+                    <span class="text">
+                        {{__('ФИО')}}
+                    </span>
+                    <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
+                </label>
+                <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
+                    <div class="contact__form-phone-country close-out" bis_skin_checked="1">
+                        <div class="contact__form-country-item" bis_skin_checked="1">
+                            <div class="contact__form-country-item-img" bis_skin_checked="1">
+                                <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
+                        <div class="contact__phone-list" bis_skin_checked="1">
+                            <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    Россия (Russia) <span>+7</span>
+                                </div>
+                            </div>
+                            <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    США (United States)  <span>+1</span>
+                                </div>
+                            </div>
+                            <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    Германия (Germany) <span>+49</span>
+                                </div>
+                            </div>
+                            <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    Польша (Poland) <span>+48</span>
+                                </div>
+                            </div>
+                            <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    Швеция (Sweden) <span>+46</span>
+                                </div>
+                            </div>
+                            <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
+                                <div class="contact__phone-img" bis_skin_checked="1">
+                                    <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
+                                </div>
+                                <div class="contact__phone-title" bis_skin_checked="1">
+                                    Италия (Italy) <span>+39</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text">
+                        {{__('Номер телефона')}}
+                    </span>
+                    <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
+                </div>
+                <label class="contact__form-politic">
+                    <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
+                    <div class="contact__form-custom-checkbox one_check"></div>
+                    <div class="contact__form-checkbox-text">
+                        {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}}</span>
+                    </div>
+                </label>
+                <label class="contact__form-data">
+                    <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
+                    <div class="contact__form-custom-checkbox two_check"></div>
+                    <div class="contact__form-checkbox-text">
+                        {{__('Согласен на обработку')}} <span>{{__('персональных данных')}}</span>
+                    </div>
+                </label>
+                <button type="submit" class="btn">
+                    {{ __('Отправить заявку') }}
+                </button>
+                <div class="popup-close" bis_skin_checked="1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""></script>
+                        <path d="M1 1L13 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
+                        <path d="M13 1L1 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <input type="hidden" name="product_id" value="">
+                <input type="hidden" name="country" value="">
+                <!--а-->
+            </form>
+        </div>
+    </div>
+</div>
+
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -42,128 +165,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HELZSG76GD"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
+        window.locale = '{{ app()->getLocale() }}';
+
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', 'G-HELZSG76GD');
     </script>
-
-</head>
-<body>
-<div class="wrapper">
-
-    @yield('header')
-
-    @yield('content')
-
-    @yield('footer')
-
-    <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
-        <div class="popup__body" bis_skin_checked="1">
-            <form class="popup__content default-form" id="city_form">
-                <label class="field name input-wrapper" bis_skin_checked="1">
-                    <span class="text">
-                        ФИО
-                    </span>
-                    <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
-                </label>
-                <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
-                    <div class="contact__form-phone-country close-out" bis_skin_checked="1">
-                        <div class="contact__form-country-item" bis_skin_checked="1">
-                            <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
-                        <div class="contact__phone-list" bis_skin_checked="1">
-                            <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Россия (Russia) <span>+7</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    США (United States)  <span>+1</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Германия (Germany) <span>+49</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Польша (Poland) <span>+48</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Швеция (Sweden) <span>+46</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Италия (Italy) <span>+39</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="text">
-                        Номер телефона
-                    </span>
-                    <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
-                </div>
-                <label class="contact__form-politic">
-                    <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
-                    <div class="contact__form-custom-checkbox one_check"></div>
-                    <div class="contact__form-checkbox-text">
-                        Ознакомлен с <span>политикой конфеденциальности </span>
-                    </div>
-                </label>
-                <label class="contact__form-data">
-                    <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
-                    <div class="contact__form-custom-checkbox two_check"></div>
-                    <div class="contact__form-checkbox-text">
-                        Согласен на обработку <span>персональных данных </span>
-                    </div>
-                </label>
-                <button type="submit" class="btn">
-                    Перезвонить мне
-                </button>
-                <div class="popup-close" bis_skin_checked="1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""></script>
-                        <path d="M1 1L13 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M13 1L1 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <input type="hidden" name="product_id" value="">
-                <input type="hidden" name="country" value="">
-                <!--а-->
-            </form>
-        </div>
-    </div>
-</div>
-
-
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="{{asset('project/js/app.js')}} "></script>
 @yield('scripts')
@@ -246,29 +254,45 @@
     });
 
 
-    $('#city_form').submit(function () {
+    $('#city_form,#object_form').submit(function (event) {
         event.preventDefault()
-        let name =  $("input[name='fio']").val();
-        let phone =   $("input[name='phone']").val()
-        let phoneInput =   $("input[name='phone']")
+        let product_id = $(this).find("input[name='product_id']").val();
+        let name = $(this).find("input[name='fio']").val();
+        let phoneInput = $(this).find("input[name='phone']");
+        let phone = phoneInput.val();
+
         let name_valid = false;
         if (name.length == 0){
             $('.name').closest('.input-wrapper').addClass('border');
-        }else{
+        } else{
             name_valid = true;
         }
 
         let phone_valid = false
-
         const lengthPhone = phoneInput.data('phone-pattern').length;
         if(lengthPhone !== phone.length) {
             $('.field-phone').closest('.input-wrapper').addClass('border');
-        }
-        else {
+        } else {
             phone_valid = true;
         }
-        if (phone_valid == true && name_valid == true){
+
+        let check_one = false;
+        if ($(this).find('.contact__form-politic-checkbox').not(':checked').length) {
+            $('.one_check').css('border', '2px solid red')
+        } else {
+            check_one = true;
+        }
+
+        let check_two = false;
+        if ($(this).find('.contact__form-data-checkbox').not(':checked').length) {
+            $('.two_check').css('border', '2px solid red')
+        } else {
+            check_two = true;
+        }
+
+        if (phone_valid == true && name_valid == true && check_one == true && check_two == true){
             let formData = new FormData();
+            formData.append('product_id', product_id);
             formData.append('phone', phone);
             formData.append('name', name);
             formData.append('product_id', $("input[name='product_id']").val());

@@ -1,15 +1,9 @@
-
 @extends('project.includes.layouts')
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
 @section('header')
     @include('project.includes.header')
 @endsection
 @section('content')
     @include('project.includes.search_nav_bar')
-    <script>
-        let product_id_is = '';
-    </script>
-    <?php $filter = \App\Models\Peculiarities::all() ?>
     <section class="city">
         <div class="city__content">
             <div id="map_city" class="">
@@ -41,38 +35,29 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-{{--                        Временный костыль--}}
-                        @if(isset($_GET['city_id']))
-                            @if(app()->getLocale() == 'ru')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name.")" }}
+                        @if(!is_null($region))
+                            @if(!is_null($region->locale_fileds))
+                                @if(!is_null($region->locale_fields->where('locale.code', app()->getLocale())->first()))
+                                    @if(!is_null($region->parent_id))
+                                        {{ __('Недвижимость в регионе :name (:country)', [
+                                                'name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name,
+                                                'country' => $region->country->locale_fields->where('locale.code', app()->getLocale()->first()->name)
+                                            ]) }}
+                                    @else
+                                        {{ __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name]) }}
+                                    @endif
+                                @else
+                                    {{ __('Вся недвижимость') }}
+                                @endif
+                            @else
+                                {{ __('Вся недвижимость') }}
                             @endif
-                            @if(app()->getLocale() == 'en')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_en }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_en.")" }}
-                            @endif
-                            @if(app()->getLocale() == 'tr')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_tr }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_tr.")" }}
-                            @endif
-                            @if(app()->getLocale() == 'de')
-                                {{ __('Недвижимость')." " }}{{ $countries->where('id', $_GET['city_id'])->first()->country->name_de }}{{ " (".$countries->where('id', $_GET['city_id'])->first()->name_de.")" }}
-                            @endif
-                        @elseif(isset($_GET['country_id']))
-                            @if(app()->getLocale() == 'ru')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name }}
-                            @endif
-                            @if(app()->getLocale() == 'en')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_en }}
-                            @endif
-                            @if(app()->getLocale() == 'tr')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_tr }}
-                            @endif
-                            @if(app()->getLocale() == 'de')
-                                {{ __('Недвижимость')." " }} {{ $countries->where('id', $_GET['country_id'])->first()->name_de }}
-                            @endif
-                        @elseif(!isset($_GET['country_id']) && !isset($_GET['city_id']))
-                            {{__('Недвижимость')." " }}
+                        @else
+                            {{ __('Вся недвижимость') }}
                         @endif
                     </div>
                     <div class="city-col__filter">
+                        <input type="hidden" name="order">
                         <div class="city-cil__filter-title">{{__('Сначала новые')}}</div>
                         <div class="city-col__filter-list"></div>
                     </div>
@@ -86,12 +71,13 @@
                         <div class="city-col__btn city-col__all" data_id="">
                             {{__('Все')}}
                         </div>
-                        <div  class="city-col__btn city-col__not_secondary" data_id="false">
+                        <div  class="city-col__btn city-col__not_secondary" data_id="new">
                             {{__('От застройщика')}}
                         </div>
-                        <div  class="city-col__btn city-col__is_secondary" data_id="true">
+                        <div  class="city-col__btn city-col__is_secondary" data_id="secondary">
                             {{__('Вторичка')}}
                         </div>
+                        <input type="hidden" name="is_secondary">
                     </div>
                 </div>
                     <div class="city-col__content">
@@ -99,9 +85,7 @@
                             {{__('Объявлений не найдено')}}
                         </div>
                         <div class="city-col__list">
-                            @foreach($get_product as $product)
-                                    <?php  $get = \App\Models\favorite::where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : null)->where('product_id', $product->id)->first() ?>
-                            @endforeach
+
                         </div>
                         <div class="place-w _country">
                             <div class="place-popup" data-exchange="EUR">
@@ -220,11 +204,12 @@
                                             <div class="place__right-mid">
                                                 <div class="place__info">
                                                     <div class="place__price">
-                                                        <div class="place__price-value">
+                                                        <div class="place__price-value" @if(app()->getLocale() === 'ar' || app()->getLocale() === 'fa')style="direction:ltr;"@endif>
                                                             <div class="place__exchange-EUR"><span></span><b></b></div>
                                                             <div class="place__exchange-USD" style="display: none;"><span></span><b></b></div>
-                                                            <div class="place__exchange-RUB" style="display: none;"><span></span><b></b></div>
+                                                            <div class="place__exchange-GBP" style="display: none;"><span></span><b></b></div>
                                                             <div class="place__exchange-TRY" style="display: none;"><span></span><b class="lira"></b></div>
+                                                            <div class="place__exchange-RUB" style="display: none;"><span></span><b></b></div>
                                                         </div>
                                                         <div class="place__currency">
                                                             <div class="place__currency-preview">
@@ -252,13 +237,16 @@
                                                                 <div class="place__currency-item" data-exchange="USD">
                                                                     $
                                                                 </div>
-                                                                <div class="place__currency-item" data-exchange="RUB">
-                                                                    ₽
+                                                                <div class="place__currency-item" data-exchange="GBP">
+                                                                    ₤
                                                                 </div>
                                                                 <div class="place__currency-item" data-exchange="TRY">
                                                                     <span class="lira">
                                                                         ₺
                                                                     </span>
+                                                                </div>
+                                                                <div class="place__currency-item" data-exchange="RUB">
+                                                                    ₽
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -401,6 +389,14 @@
                                                         </div>
                                                         <div class="place__order-btn_m">
                                                             {{__('Заказать просмотр')}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="place__deadline">
+                                                        <div class="place__deadline-content">
+                                                            <div class="place__deadline-subtitle place__title">
+                                                                {{__('Срок сдачи')}}
+                                                            </div>
+                                                            <div class="place__deadline-title"></div>
                                                         </div>
                                                     </div>
                                                     <div class="object__rooms">
@@ -594,7 +590,7 @@
                                                                     <div class="footer__nav-list">
                                                                         <?php $get_footer_link =  \App\Models\CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get(); ?>
                                                                         @foreach($get_footer_link as $link)
-                                                                                <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                                                                <a href="{{ route('about', $link->slug) }}" class="footer__nav-item">
                                                                                     {{__($link->name)}}
                                                                                 </a>
                                                                         @endforeach
@@ -761,7 +757,7 @@
                                     <div class="footer__nav-list">
                                         <?php $get_footer_link = \App\Models\CompanySelect::orderby('status', 'asc')->orderby('updated_at', 'desc')->get(); ?>
                                         @foreach($get_footer_link as $link)
-                                            <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                            <a href="{{route('about', $link->slug)}}" class="footer__nav-item">
                                                 {{__($link->name)}}
                                             </a>
                                         @endforeach
@@ -827,19 +823,19 @@
                     <div class="object__photo-text">
                         <div class="object__photo-info">
                         </div>
-                        <form class="default-form" id="">
-                            <div class="title">Заявка на бронь</div>
+                        <form class="default-form" id="object_form">
+                            <div class="title">{{ __('Заявка на бронь') }}</div>
                             <label class="field name input-wrapper" bis_skin_checked="1">
                                 <span class="text">
-                                    ФИО
+                                    {{ __('ФИО') }}
                                 </span>
-                                <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
+                                <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
                             </label>
                             <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
                                 <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                                     <div class="contact__form-country-item" bis_skin_checked="1">
                                         <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                            <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                         </div>
                                     </div>
                                 </div>
@@ -847,7 +843,7 @@
                                     <div class="contact__phone-list" bis_skin_checked="1">
                                         <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                                <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Россия (Russia) <span>+7</span>
@@ -855,7 +851,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                                <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 США (United States)  <span>+1</span>
@@ -863,7 +859,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                                <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Германия (Germany) <span>+49</span>
@@ -871,7 +867,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                                <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Польша (Poland) <span>+48</span>
@@ -879,7 +875,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                                <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Швеция (Sweden) <span>+46</span>
@@ -887,7 +883,7 @@
                                         </div>
                                         <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
                                             <div class="contact__phone-img" bis_skin_checked="1">
-                                                <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                                <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
                                             </div>
                                             <div class="contact__phone-title" bis_skin_checked="1">
                                                 Италия (Italy) <span>+39</span>
@@ -896,7 +892,7 @@
                                     </div>
                                 </div>
                                 <span class="text">
-                                    Номер телефона
+                                    {{ __('Номер телефона') }}
                                 </span>
                                 <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
                             </div>
@@ -904,18 +900,18 @@
                                 <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                                 <div class="contact__form-custom-checkbox one_check"></div>
                                 <div class="contact__form-checkbox-text">
-                                    Ознакомлен с <span>политикой конфеденциальности </span>
+                                    {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}} </span>
                                 </div>
                             </label>
                             <label class="contact__form-data">
                                 <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
                                 <div class="contact__form-custom-checkbox two_check"></div>
                                 <div class="contact__form-checkbox-text">
-                                    Согласен на обработку <span>персональных данных </span>
+                                    {{__('Согласен на обработку')}} <span>{{__('персональных данных')}} </span>
                                 </div>
                             </label>
                             <button type="submit" class="btn">
-                                Перезвонить мне
+                                {{ __('Отправить заявку') }}
                             </button>
                             <input type="hidden" name="product_id" value="">
                             <input type="hidden" name="country" value="">
@@ -948,6 +944,9 @@
 @endsection
 @section('scripts')
     <script>
+        handleIsSecondary();
+        handleOrder('{{ __('Сначала дешёвые') }}', '{{ __('Сначала дорогие') }}', '{{ __('Сначала новые') }}');
+
         function changerActive(list) {
             for(let i = 0; i < list.length; i++) {
                 list[i].classList.remove('active')
@@ -972,45 +971,6 @@
             });
         }
 
-        // Сортировка
-        if ($.query.get('order_by').toString() === "price-desc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала дешёвые') }}`);
-        }
-
-        if ($.query.get('order_by').toString() === "price-asc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала дорогие') }}`);
-        }
-
-        if ($.query.get('order_by').toString() === "created_at-desc") {
-            $('.city-cil__filter-title').text(`{{ __('Сначала новые') }}`);
-        }
-
-        if ($.query.get('is_secondary') === "true") {
-            $('.city-col__is_secondary').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-        if ($.query.get('is_secondary') === "false") {
-            $('.city-col__not_secondary').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-        if ($.query.get('is_secondary') === "") {
-            $('.city-col__all').addClass("active").closest('city-col__btn').removeClass("active");
-        }
-
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-desc") ? 'active' : '')+'" data_id="price-desc">{{ __("Сначала дорогие")}}</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "price-asc") ? 'active' : '')+'" data_id="price-asc">{{ __("Сначала дешёвые")}}</div>');
-        $('.city-col__filter-list').append('<div class="city-col__filter-item '+(($.query.get('order_by').toString() === "created_at-desc") ? 'active' : '')+'" data_id="created_at-desc">{{ __("Сначала новые")}}</div>');
-
-        $('.city-col__filter-item').on('click', function() {
-            var value = $(this).attr('data_id');
-            var text = $(this).text();
-
-
-            $('.city-cil__filter-title').text(text);
-            var url = new URL(window.location.href);
-            url.searchParams.set('order_by', value);
-            // Обновление URL в адресной строке
-            window.history.pushState(null, null, url.toString());
-        });
-
         let g = document.querySelectorAll(".kompleks__layout-img"),
             b = document.querySelectorAll(".object__photo");
 
@@ -1021,32 +981,11 @@
             })
         })
 
-
-
-
-        let spal = "<?php echo __('спал') ?>";
-        let van = "<?php echo __('ван') ?>";
-        let kvm = "<?php echo __('кв.м') ?>";
-
-            @if(isset($_GET['city_id']))
-
-            <?php $id = $_GET['city_id'];?>
-
-            @else
-
-            <?php $id = $country->id;?>
-
-            @endif
-
-
-
-
-        let ids = {{ $id }};
-
+        let spal = "{{ __('спал') }}";
+        let van = "{{ __('ван') }}";
+        let kvm = "{{ __('кв.м') }}";
 
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-
 
         (async () => {
 
@@ -1057,7 +996,7 @@
 
             window.addEventListener("resize", (function (e) {
             })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function (e) {
-                document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
+                document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("show"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
             })), document.querySelector(".header__top-lang").onclick = function () {
                 document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
             },document.querySelector(".header__top-phone-menu").onclick = function () {
@@ -1178,7 +1117,7 @@
 
             }), document.querySelector(".map_city__btn-changer") && (document.querySelector(".map_city__btn-changer").onclick = function () {
 
-                this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
+                this.classList.remove("active"), document.querySelector(".city-col").classList.add("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("show"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")
 
             }), document.querySelectorAll(".place__currency-preview").length && (document.querySelector(".place__currency-preview").onclick = function () {
 
@@ -1197,6 +1136,8 @@
             }));
 
             document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
+                const cityCol = document.querySelector('.city-col')
+                cityCol.style.display = '';
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
             }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
@@ -1215,6 +1156,14 @@
                     btn.addEventListener('click', function () {
                         const placeW = this.closest('.place-w')
                         placeW.classList.remove('active')
+                        var urlParams = getValuesFromUrl();
+                        var object = checkPosition(urlParams, 'object-');
+                        if (object) {
+                            urlParams = deleteUrlParameter(object, urlParams);
+                        }
+                        updateUrl(window.filter_params_data, urlParams);
+                        const cityCol = document.querySelector('.city-col')
+                        cityCol.style.display = '';
                     })
                 });
             }
@@ -1248,7 +1197,7 @@ function P(e) {
     var script;
     var head = document.getElementsByTagName('head')[0];
 
-    let site_url = `{{config('app.url')}}`;
+    let site_url = `{{ config('app.url') }}`;
     let locationsCity = [];
     let houseData = {}
     let objectsListSet = new Set()
@@ -1352,7 +1301,6 @@ function P(e) {
             swiperDiv.appendChild(wrapperDiv);
 
             const maxIterations = 5
-
             const hasMoreThanFivePhotos = cityElement.photo.length > maxIterations;
 
             cityElement.photo.slice(0, maxIterations).forEach((photo, index, array) => {
@@ -1365,9 +1313,9 @@ function P(e) {
                 const img = document.createElement('img');
 
                 if (photo.preview !== null && photo.preview) {
-                    img.setAttribute('src', `${photo.preview}`);
+                    img.setAttribute('src', `/${photo.preview}`);
                 } else {
-                    img.setAttribute('src', `uploads/${photo.photo}`);
+                    img.setAttribute('src', `/uploads/${photo.photo}`);
                 }
 
                 img.setAttribute('alt', 'place');
@@ -1421,9 +1369,29 @@ function P(e) {
                 e.stopPropagation();
             })
 
+            //плашки
+            if(cityElement.tags) {
+                const die = document.createElement('div');
+                die.classList.add('die__list');
+                cityElement.tags.forEach(el => {
+                    const div = document.createElement('div');
+                    div.classList.add('die__list-item');
+                    div.innerHTML = el
+                    die.appendChild(div)
+                });
+                cityItem.appendChild(die);
+            }
+
+
             //цена в карточке превью
             const priceDiv = document.createElement('div');
             priceDiv.classList.add('city-col__item-price');
+
+            if (window.locale == 'ar' || window.locale == 'fa') {
+                priceDiv.style.textAlign = "right";
+                priceDiv.style.direction = "ltr";
+            }
+
             if (cityElement.layouts.length > 1) {
                 priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)} +`;
             } else {
@@ -1457,7 +1425,7 @@ function P(e) {
                     }
                 });
             } else {
-                roomsDiv.innerHTML = `${cityElement.size} кв.м`
+                roomsDiv.innerHTML = `${cityElement.size}` + ' {{ __('кв.м') }}'
 
                 if (spalni && spalni.length > 0) {
                     roomsDiv.innerHTML += `<span>|</span> ${spalni.replace('+', '')} ${dictionary.rooms_bedroom[langSite]}`;
@@ -1470,6 +1438,11 @@ function P(e) {
 
 
             textDiv.appendChild(roomsDiv);
+
+            const deadlineDiv = document.createElement('div');
+            deadlineDiv.classList.add('city-col__item-deadline');
+            deadlineDiv.textContent = cityElement.deadline;
+            textDiv.appendChild(deadlineDiv);
 
             const addressDiv = document.createElement('div');
             addressDiv.classList.add('city-col__item-address');
@@ -1521,7 +1494,7 @@ function P(e) {
     }
 
     //свайп при ховере мышки
-    function addHoverMouseSwiper (swiper) {
+    function addHoverMouseSwiper(swiper) {
         if(!swiper) return
         const slidesLength = swiper.slides.length
         const width = 1 / slidesLength * 100
@@ -1599,7 +1572,7 @@ function P(e) {
                         url = window.location + "?page=" + page;
                     }
 
-                    pagination += `<li class="page-item"><a class="page-link" href="${url}">${page}</a></li>`;
+                    pagination += `<li class="page-item"><a class="page-link" href="/${url}">${page}</a></li>`;
                 }
             }
         });
@@ -1635,58 +1608,44 @@ function P(e) {
     }
 
     let placeMap = null;
-    async function getObjectById(id) {
-        // Получение текущего URL
-        var url = new URL(window.location.href);
+    async function getObjectById() {
+    $.ajax({
+        url: '/api/houses/filter_params',       /* Куда отправить запрос */
+        data: {
+            locale: window.locale,
+        },
+        method: 'get',                                              /* Метод запроса (post или get) */
+        success: function(data) {
+            window.filter_params_data = data;
+            var requestData = findObjectParams(data);
+            requestData.locale = window.locale;
 
-        // Извлечение параметров из URL, если они существуют
-        var minPrice = url.searchParams.get('price[min_price]');
-        var maxPrice = url.searchParams.get('price[max_price]');
-        var code = url.searchParams.get('price[code]');
-
-        // Создание объекта с параметрами для отправки в запрос
-        var requestData = {
-            id: id,
-        };
-
-        // Добавление параметров из URL, если они существуют
-        if (minPrice !== null) {
-            requestData.min_price = minPrice;
+            // Выполнение AJAX-запроса с параметрами
+            $.ajax({
+                url: '/api/houses/simple',
+                data: requestData,
+                method: 'get',
+                success: function (data) {
+                    setNewPopupHouseData(data);
+                }
+            });
         }
-        if (maxPrice !== null) {
-            requestData.max_price = maxPrice;
-        }
-        if (code !== null) {
-            requestData.code = code;
-        }
+    });
+}
 
-        // Выполнение AJAX-запроса с параметрами
-        $.ajax({
-            url: '/api/houses/simple',
-            data: requestData,
-            method: 'get',
-            success: function (data) {
-                setNewPopupHouseData(data);
-            }
-        });
+
+
+    // const objectIdFromUrl = searchParams.get('object_id');
+    // if(objectIdFromUrl) {
+    //     getObjectById(objectIdFromUrl)
+    // }
+    var objectById = checkObjectParamsInUrl();
+    if (objectById) {
+        getObjectById(objectById);
     }
 
-    const objectIdFromUrl = searchParams.get('object_id');
-    if(objectIdFromUrl) {
-        getObjectById(objectIdFromUrl)
-    }
     function setNewPopupHouseData(object) {
-        // Получение текущего URL
-        var url = new URL(window.location.href);
-
-        // Добавление нового параметра
-        url.searchParams.set('object_id', object.id);
-
-        // Получение обновленного URL
-        var updatedUrl = url.toString();
-
-        // Обновление URL в адресной строке
-        window.history.pushState({}, '', updatedUrl);
+        replaceUrlWithObject(window.filter_params_data, object.slug);
 
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
@@ -1757,7 +1716,7 @@ function P(e) {
             divSquare.appendChild(div)
         })
 
-        //цена в попапе
+        // цена в попапе
         if (currentHouse.layouts && currentHouse.layouts.length > 0) {
             Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
                 const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
@@ -1766,7 +1725,11 @@ function P(e) {
                 let currentPrice
                 const chemes = JSON.parse(currentHouse.objects)
                 if(currentHouse.layouts.length > 1) {
-                    currentPrice = `${dictionary.from[langSite]} ` + currentHouse.price[currencyCode];
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        currentPrice = currentHouse.price[currencyCode] + ` {{ __('от') }}`;
+                    } else {
+                        currentPrice = `{{ __('от') }} ` + currentHouse.price[currencyCode];
+                    }
                 } else {
                     currentPrice = currentHouse.price[currencyCode];
                 }
@@ -1813,8 +1776,19 @@ function P(e) {
             }
         });
 
+        // deadline - срок сдачи
+        const deadlineBlock = document.querySelector('.place__deadline');
+
+        if(currentHouse.deadline) {
+            const deadlineTitle = deadlineBlock.querySelector('.place__deadline-title')
+            deadlineTitle.innerHTML = currentHouse.deadline;
+        } else {
+            deadlineBlock.style.display = 'none';
+        }
+
         //комнаты
         const objectRooms = document.querySelector('.object__rooms')
+
         objectRooms.style.display = 'none'
         if(currentHouse.complex_or_not !== 'Нет' || currentHouse.complex_or_not !== null) {
             objectRooms.style.display = 'block'
@@ -1827,12 +1801,10 @@ function P(e) {
                 spalni.innerHTML = currentHouse.spalni.replace('+', '')
             }
 
-
             if(currentHouse.gostinnie) {
                 const gostinnie = objectRooms.querySelector('.gostinnie')
                 gostinnie.innerHTML = currentHouse.gostinnie.replace('+', '')
             }
-
 
             if(currentHouse.vanie) {
                 const vanie = objectRooms.querySelector('.vanie')
@@ -1841,7 +1813,11 @@ function P(e) {
 
 
         }
+        const objects = [...currentHouse.layouts]
 
+        if(objects.length >= 2) {
+            objectRooms.style.display = 'none'
+        }
 
         //карта
         const currentMap = document.querySelector('.current-map')
@@ -1869,7 +1845,14 @@ function P(e) {
 
             let div = document.createElement('div')
             div.classList.add('object__peculiarities-item')
-            div.innerHTML = element.name
+
+            var localedName = 'name';
+            if (window.locale) {
+                if (window.locale !== 'ru') {
+                    localedName += '_'+window.locale;
+                }
+            }
+            div.innerHTML = element[localedName];
             objectPeculiarities.appendChild(div)
         });
 
@@ -1877,7 +1860,6 @@ function P(e) {
         const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')
         kompleksLayoutSort.innerHTML = ''
 
-        const objects = [...currentHouse.layouts]
         let chemesSet = new Set()
         objects.forEach(object => {
             const div = document.createElement('div')
@@ -1923,8 +1905,15 @@ function P(e) {
                 let divPrice = document.createElement('div')
 
                 divPrice.classList.add('kompleks__layout-price')
+
                 Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
                     let span = document.createElement('span')
+
+                    if (window.locale === 'ar' || window.locale === 'fa') {
+                        span.style.direction = 'ltr';
+                        span.style.textAlign = 'right';
+                    }
+
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
@@ -1947,7 +1936,14 @@ function P(e) {
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
-                    span.innerHTML = `${((currencyPrice))} ${kvm}`
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('кв.м') }} ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} {{ __('кв.м') }}`
+                    }
 
                     if(currencyCode === dataExchange) {
                         span.classList.add('active')
@@ -1960,7 +1956,14 @@ function P(e) {
 
                 let divSquare = document.createElement('div')
                 divSquare.classList.add('kompleks__layout-square')
-                divSquare.innerHTML = `${object.total_size} ${dictionary.square_m[langSite]} <span>|</span> ${object.number_rooms}`
+
+                if(window.locale === 'fa' || window.locale === 'ar') {
+                    divSquare.style.textAlign = 'right';
+                    divSquare.style.direction = 'ltr';
+                    divSquare.innerHTML = `{{ __('кв.м') }} ${object.total_size} <span>|</span> ${object.number_rooms}`
+                } else {
+                    divSquare.innerHTML = `${object.total_size} {{ __('кв.м') }} <span>|</span> ${object.number_rooms}`
+                }
                 divInfo.appendChild(divSquare)
 
                 let divMonth = document.createElement('div')
@@ -1970,7 +1973,14 @@ function P(e) {
                     span.setAttribute('data-exchange', currencyCode)
                     span.classList.add('valute')
                     span.classList.add('lira')
-                    span.innerHTML = `${((currencyPrice))} / ${dictionary.month[langSite]}`
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('мес') }} / ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} / {{ __('мес') }}`
+                    }
 
                     if(currencyCode === dataExchange) {
                         span.classList.add('active')
@@ -1998,6 +2008,14 @@ function P(e) {
                         const slide = document.createElement('div')
                         const slidePic = document.createElement('img')
 
+                        if(photo.name) {
+                            const floor = document.createElement('div')
+                            floor.classList.add('object__swiper-slide-floor')
+                            floor.innerHTML = photo.name
+                            slide.appendChild(floor)
+                        }
+
+
                         slide.classList.add('swiper-slide')
                         slide.classList.add('object__swiper-slide')
                         slide.appendChild(slidePic)
@@ -2019,6 +2037,7 @@ function P(e) {
                     objectSwiper.update()
                     objectSwiper.updateSlides()
                     objectSwiper.slideTo(0)
+                    objectSwiper.updateProgress()
                     const text = document.querySelector(".object__photo-info")
                     const infoForTextBlock = containerItem.querySelector(".kompleks__layout-info")
                     text.innerHTML = infoForTextBlock.innerHTML
@@ -2044,25 +2063,11 @@ function P(e) {
 
         //Расположение и инфраструктура
         const placeLocationInfo = document.querySelector('.place__location-info')
-        if(langSite === 'ru')
         placeLocationInfo.innerHTML = currentHouse.disposition
-
-        if(langSite === 'en')
-        placeLocationInfo.innerHTML = currentHouse.disposition_en
-
-        if(langSite === 'tr')
-        placeLocationInfo.innerHTML = currentHouse.disposition_tr
 
         //Описание
         const placeDescription = document.querySelector('.object__description-text')
-        if(langSite === 'ru')
         placeDescription.innerHTML = currentHouse.description
-
-        if(langSite === 'en')
-        placeDescription.innerHTML = currentHouse.description_en
-
-        if(langSite === 'tr')
-        placeDescription.innerHTML = currentHouse.description_tr
 
         setListenersToOpenCollage()
         addNewImagesToPlaceSwiper(currentHouse)
@@ -2327,7 +2332,7 @@ function P(e) {
                     </div>
                     <div class="balloon-city__img"> <img src="/uploads/${city.photo[0].photo}"></div>
                 </div>`,
-                city_id: city.id
+                city_id: city.id,
             });
         });
         locationsCity.forEach(function (location) {
@@ -2386,28 +2391,37 @@ function P(e) {
     changeLangMap(mapLang);
 
     async function init(ymaps) {
-
         let p = document.querySelectorAll(".city-col__btn");
         for (let t = 0; t < p.length; t++) p[t].addEventListener("click", ( async function (o) {
-            var is_secondary = p[t].getAttribute('data_id');
-            // e(p), p[t].classList.add("active");
-            if (is_secondary === "") {
-                var url = new URL(window.location.href);
-                url.searchParams.delete('is_secondary');
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
-            } else {
-                var url = new URL(window.location.href);
-                url.searchParams.set('is_secondary', is_secondary);
-                // Обновление URL в адресной строке
-                window.history.pushState(null, null, url.toString());
-            }
+            $('.city-col__btn').removeClass('active');
+            $(this).addClass('active');
+            var new_is_secondary = p[t].getAttribute('data_id');
+
+            var prev_is_secondary = $("input[name='is_secondary']").val();
+            $("input[name='is_secondary']").val(new_is_secondary);
+
+            var urlParams = handleUrlParams(prev_is_secondary.toLowerCase(), new_is_secondary.toLowerCase());
+            updateUrl(window.filter_params_data, urlParams);
 
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         }));
 
         $('.city-col__filter-item').on('click', async function() {
+            var new_order = $(this).attr('data_id');
+            var text = $(this).text();
+
+            var prev_order = $("input[name='order']").val();
+            $("input[name='order']").val(new_order);
+
+            $('.city-cil__filter-title').text(text);
+
+            $('.city-col__filter-item.active').removeClass('active');
+            $(this).addClass('active');
+
+            var urlParams = handleUrlParams(prev_order.toLowerCase(), new_order.toLowerCase());
+            updateUrl(window.filter_params_data, urlParams);
+
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         });
@@ -2424,128 +2438,7 @@ function P(e) {
 
         function changeCountryField() {
             // Получаем GET параметр country_id из url
-            var url = new URL(window.location.href);
-
-            var url_country_id = url.searchParams.get('country_id');
-            var url_city_id = url.searchParams.get('city_id');
-
-            $.ajax({
-                url: '/api/houses/filter_params',       /* Куда отправить запрос */
-                data: {
-                    locale: `{{ app()->getLocale() }}`,
-                    country_id: url_country_id
-                },
-                method: 'get',                                              /* Метод запроса (post или get) */
-                success: function(data) {
-                    const langSite = `{{ app()->getLocale() }}`
-
-                    const dictionary = {
-                        all_regions: {
-                            ru: 'Все регионы',
-                            en: 'All regions',
-                            tr: 'Tüm bölgeler',
-                            de: 'Alle Regionen',
-                        },
-                        all_types: {
-                            ru: 'Все типы',
-                            en: 'All types',
-                            tr: 'Tüm türler',
-                            de: 'Alle Typen',
-                        },
-                        real_estate: {
-                            ru: 'Недвижимость',
-                            en: 'Real estate',
-                            tr: 'Emlak',
-                            de: 'Immobilie',
-                        }
-                    }
-
-                    if (url_country_id !== null) {
-                        if (url_city_id !== null) {
-                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.cities.find(x => x.id == url_city_id).name);
-                        } else {
-                            $('.city-col__title.title').html(dictionary.real_estate[langSite]+" "+data.countries.find(x => x.id == url_country_id).name);
-                        }
-
-                    } else {
-                        $('.city-col__title.title').html(dictionary.real_estate[langSite]);
-                    }
-
-                    // если задан параметр country_id, то выводим регионы
-                    if (url_country_id !== null) {
-
-                        $('.search-nav__list-item[data_id="city"]').show();
-                        $('.search-nav__list-item[data_id="country"]').hide();
-                        // Выводим регионы при загрузке страницы
-                        $(".city_select").text((url_city_id !== null) ? data.cities.find(x => x.id == url_city_id).name : dictionary.all_regions[langSite]);
-                        // Выводим страны в dropdown
-                        $('.search-nav__cities-list').empty();
-
-                        $('.search-nav__cities-list').append('<div data_id="" class="search_city search-nav__types-item dropdown__selector other-element">' + dictionary.all_regions[langSite] + '</div>');
-                        $.each(data.cities, function (index, value) {
-                            $('.search-nav__cities-list').append('<div data_id="' + value.id + '" class="search_city search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
-                        });
-
-                        // Вешаем событие на добавленные элементы в dropdown
-                        $('.search_city').click(function (e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            var city_id = $(this).attr('data_id');
-
-                            if (city_id === "") {
-                                const url = new URL(document.location);
-                                url.searchParams.delete("city_id"); // удалить параметр "test"
-                                window.history.pushState({}, '', url.toString());
-                            } else {
-                                var url = new URL(window.location.href);
-                                url.searchParams.set('city_id', city_id);
-                                // Обновление URL в адресной строке
-                                window.history.pushState(null, null, url.toString());
-                            }
-
-                            var html = $(this).html();
-                            $('.city_select').html(html);
-
-                            const parentBlock = this.closest('.search-nav__list-item')
-                            const dropDown = this.closest('.search-nav__item-dropdown')
-
-                            parentBlock.classList.remove('active')
-                            dropDown.classList.remove('active')
-                        });
-                    } else {
-                        $('.search-nav__list-item[data_id="city"]').hide();
-                        $('.search-nav__list-item[data_id="country"]').show();
-                        // Выводим название страны при загрузке страницы
-                        $(".country_select").text(($.query.get('country_id').toString() && $.query.get('country_id').toString() != "true") ? data.countries.find(x => x.id == $.query.get('country_id')).name : "{{ __('Страны') }}");
-                        // Выводим страны в dropdown
-                        $('.search-nav__countries-list').empty();
-                        $.each(data.countries, function (index, value) {
-                            $('.search-nav__countries-list').append('<div data_id="' + value.id + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
-                        });
-
-                        // Вешаем событие на добавленные элементы в dropdown
-                        $('.search_country').click(function (e) {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            var country_id = $(this).attr('data_id');
-
-                            var url = new URL(window.location.href);
-                            url.searchParams.set('country_id', country_id);
-                            // Обновление URL в адресной строке
-                            window.history.pushState(null, null, url.toString());
-
-                            var html = $(this).html();
-                            $('.country_select').html(html);
-
-                            const parentBlock = this.closest('.search-nav__list-item')
-                            const dropDown = this.closest('.search-nav__item-dropdown')
-
-                            parentBlock.classList.remove('active')
-                            dropDown.classList.remove('active')
-                        });
-                    }
-                }
-            });
+            handleCountries(window.filter_params_data);
         }
 
         function getDataMarks() {
@@ -2557,7 +2450,6 @@ function P(e) {
                     dataType: 'json',
                     data: params,
                     success: function (data) {
-
                         resolve(data);
                     },
                     error: function (error) {
@@ -2568,24 +2460,25 @@ function P(e) {
         }
 
         function createParams() {
-            let urlParams = new URLSearchParams(window.location.search);
-            let params = {};
+            // let urlParams = new URLSearchParams(window.location.search);
+            // let params = {};
 
-            urlParams.forEach((value, key) => {
-                params[key] = value;
-            });
+            let params = createParamsForFilterFromUrl();
+            params.locale = window.locale;
+
+            // urlParams.forEach((value, key) => {
+            //     params[key] = value;
+            // });
 
             params.user_id = user_id;
-            if (!params.is_secondary) {
-                params.is_secondary = null;
-            } else {
-                params.is_secondary = (params.is_secondary.toLowerCase() === 'true') ? 1 : 0;
-            }
             if (params.country === true) params.country = null;
+            if (params.country_id === true) params.country_id = null;
+            if (params.city === true) params.city = null;
             if (params.city_id === true) params.city_id = null;
             if (params.type === true) params.type = null;
-            if (params.price && params.price.price_min === true) params.price.price_min = null;
-            if (params.price && params.price.price_max === true) params.price.price_max = null;
+            if (params.type_id === true) params.type_id = null;
+            if (params.price && params.price.min === true) params.price.min = null;
+            if (params.price && params.price.max === true) params.price.max = null;
             if (params.bedrooms === true) params.bedrooms = null;
             if (params.bathrooms === true) params.bathrooms = null;
             if (params.view === true) params.view = null;
@@ -2593,7 +2486,7 @@ function P(e) {
 
             if (params.size && params.size.min === true) params.size.min = null;
             if (params.size && params.size.max === true) params.size.max = null;
-            console.log(params.is_secondary);
+
             return params;
         }
 
@@ -2615,7 +2508,6 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
-                        console.log('data',data);
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }
@@ -2658,7 +2550,6 @@ function P(e) {
             const cityColTop = cityCol.getBoundingClientRect().top;
             const footerTop = cityColFooter.getBoundingClientRect().top;
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
-
             if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
                 if (canLoadData && !lustPageReached) {
                     currentPage++
@@ -2675,6 +2566,7 @@ function P(e) {
         cityCol.addEventListener('scroll', function() {
             onScrollToFooter()
         });
+
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
@@ -2682,8 +2574,9 @@ function P(e) {
                 mapCountry.destroy()
             }
             mapCountry = new ymaps.Map("map_city", {
-                center: [<?php echo $country->lat . ',' . $country->long ?>],
-                zoom: 6,
+                // По стандарту указаны координаты Турции (если не установлена страна)
+                center: {{ !is_null($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
+                zoom: 4,
                 controls: [],
                 behaviors: ["default", "scrollZoom"],
                 autoFitToViewport: 'always'
@@ -2696,7 +2589,15 @@ function P(e) {
             let minLon = Infinity;
             let maxLon = -Infinity;
 
+            // Фильтруем объекты по current_region
+            var currentmarks = [];
             allmarks.forEach(mark => {
+                if (mark.current_region === 1) {
+                    currentmarks.push(mark);
+                }
+            });
+
+            currentmarks.forEach(mark => {
                 if (mark.coordinate && mark.coordinate !== ',') {
                     const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
                     if (!isNaN(lat) && !isNaN(lon)) {
@@ -2717,7 +2618,6 @@ function P(e) {
                 nothing.classList.remove('active')
             }
             if(allmarks.length) {
-                console.log('test')
                 mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                     checkZoomRange: true,
                 }).then(function() {
@@ -2727,7 +2627,7 @@ function P(e) {
                 }, this);
             }
 
-            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
                 // Переопределяем методы макета, чтобы выполнять дополнительные действия
                 // при построении и очистке макета.
@@ -2859,21 +2759,29 @@ function P(e) {
                     balloonContent: `<div class="balloon-city-w">
                                         <div class="balloon-city" id="${mark.id}">
                                             <div class="balloon-city__text">
-                                                <div class="balloon-city__price">${mark.price.EUR}</div>
+                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>${mark.price.EUR}</div>
                                                 ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
                                                 <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
                                                 <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                                                 <div class="balloon-city__square">${mark.kv} ${kvm}</div>
                                             </div>
-                                            <div class="balloon-city__img"> <img src="${mark.image}"></div>
+                                            <div class="balloon-city__img"><img style="height: 54px;" src="/${mark.image}"></div>
                                         </div>
                                     </div>`,
-                    city_id: mark.id
+                    city_id: mark.id,
+                    current_region: mark.current_region
                 });
             });
             let areaForBallon = 250000
             if(window.innerWidth <= 768) areaForBallon = 1000000
             locationsCity.forEach(function (location) {
+                var placemarkClass;
+                if (location.current_region == 1) {
+                    placemarkClass = '';
+                } else {
+                    placemarkClass = 'placemark__white';
+                }
+                var balloonOffset = (window.locale == 'ar' || window.locale == 'fa') ? [120, -60] : [-120, -60];
                 var placemark = new ymaps.Placemark(location.coordinates, {
                     balloonContent: location.balloonContent,
                 }, {
@@ -2881,7 +2789,7 @@ function P(e) {
                     balloonShadow: false,
                     balloonLayout: t,
                     iconLayout: ymaps.templateLayoutFactory.createClass(
-                    `<div class="placemark" mark-id="${location.city_id}"></div>`, {
+                    `<div class="placemark ${placemarkClass}" mark-id="${location.city_id}"></div>`, {
                         build: function () {
                         o.superclass.build.call(this);
                         var e = this.getParentElement().getElementsByClassName("placemark")[0],
@@ -2943,13 +2851,11 @@ function P(e) {
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                             const balloonContentElement = document.querySelector('.balloon-city');
                             if(!balloonContentElement) {
-                                console.log('test1')    
                                 // const listenerClickBallon = balloonContentElement.addEventListener('click', function() {
                                 //     const id = balloonContentElement.getAttribute('id')
                                 //     getObjectById(id)
                                 // })
                             } else {
-                                console.log('test2')    
                             }
                             var o = document.querySelectorAll(".placemark");
                             if (e.classList.contains("active")) e.classList.remove("active");
@@ -2962,7 +2868,7 @@ function P(e) {
                     }),
                     balloonContentLayout: c,
                     hideIconOnBalloonOpen: false,
-                    balloonOffset: [-120, -60],
+                    balloonOffset: balloonOffset,
                 });
 
                 mapCountry.geoObjects.add(placemark);
@@ -3019,6 +2925,7 @@ function P(e) {
                 long: startBounds[1][1]
             };
 
+
             getData(top_left, bottom_right);
             currentCoordinateMapLeft = top_left
             currentCoordinateMapRight = bottom_right
@@ -3051,8 +2958,12 @@ function P(e) {
             mapCountry.events.add('balloonopen', function(e){
                 var balloonContentElement = document.querySelector('.balloon-city');
                 balloonContentElement.addEventListener('click', function(e) {
+                    console.log('test')
                     const id = balloonContentElement.getAttribute('id')
-                    getObjectById(id)
+                    replaceUrlWithObject(window.filter_params_data, "object-" + id);
+                    getObjectById("object-" + id)
+                    const cityCol = document.querySelector('.city-col')
+                    cityCol.style.display = 'block'
                 });
             })
             mapCountry.events.add('balloonclose', function(e){
@@ -3094,22 +3005,21 @@ function P(e) {
             const currentUrl = window.location.href;
             const url = new URL(currentUrl);
             $('.place__exit').click(function () {
-
                 $(this).closest('.place-w').removeClass('active');
+                const cityCol = document.querySelector('.city-col')
+                cityCol.style.display = '';
+                var urlParams = getValuesFromUrl();
+                var object = checkPosition(urlParams, 'object-');
+                if (object) {
+                    urlParams = deleteUrlParameter(object, urlParams);
+                }
+                updateUrl(window.filter_params_data, urlParams);
+
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
                 $('.header-w').removeClass('fixed');
-                var url = new URL(window.location.href);
-
-                url.searchParams.delete('object_id');
-
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
-
-                // Обновление URL в адресной строке
-                window.history.pushState({}, '', updatedUrl);
             });
         });
 

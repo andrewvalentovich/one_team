@@ -35,13 +35,8 @@ class StoreRequest extends FormRequest
             'size_home' => 'nullable|integer',
             'address' => 'nullable|string',
             'disposition' => 'nullable|string',
-            'disposition_en' => 'nullable|string',
-            'disposition_tr' => 'nullable|string',
-            'disposition_de' => 'nullable|string',
             'description' => 'nullable|string',
-            'description_en' => 'nullable|string',
-            'description_tr' => 'nullable|string',
-            'description_de' => 'nullable|string',
+            'deadline' => 'nullable|string',
             'parking' => 'nullable|string',
             'cryptocurrency' => 'nullable|string',
             'is_secondary' => 'nullable|boolean',
@@ -51,6 +46,8 @@ class StoreRequest extends FormRequest
             'lat' => 'nullable|string',
             'long' => 'nullable|string',
             'option_id' => 'nullable|numeric',
+            'layouts' => 'nullable|array',
+            'photo' => ['required'],
         ];
     }
 

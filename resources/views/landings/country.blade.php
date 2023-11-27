@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>Страна</title>
+    @if(!is_null($landing->metric_code)){!! $landing->metric_code !!}@endif
 </head>
 <body>
 	<div class="wrapper">
@@ -94,13 +95,13 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+							<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" name="phone" value="" placeholder="+7" >
+							<input type="number" name="phone" value="" required="true">
 						</label>
                         <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
@@ -164,7 +165,7 @@
                                 <div class="sort__list-item city" data-id="0">
                                     <span>Все регионы</span>
                                 </div>
-                                @foreach($filter->cities as $city)
+                                @foreach($cities as $city)
                                     <div class="sort__list-item city" data-id="{{ $city->id }}">
                                         <span>{{ $city->name }}</span>
                                     </div>
@@ -177,7 +178,7 @@
 					<div class="gallery__item building-select all" data-id="0">
 						Все
 					</div>
-                    @foreach($filter->cities as $city)
+                    @foreach($cities as $city)
                         <div class="gallery__item building-select" data-id="{{ $city->id }}">
                             {{ $city->name }}
                         </div>
@@ -331,16 +332,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" name="phone" value="" placeholder="+7" >
+					<input type="number" name="phone" value="" required="true">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow">
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -378,16 +379,16 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+						<input type="text" name="name" value="" required="true" onkeyup="validate(this);">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" name="phone" value="" placeholder="+7" >
+						<input type="number" name="phone" value="" required="true" >
 					</label>
                     <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>
@@ -426,7 +427,7 @@
     <script>
         window.domain = `{{ config('app.domain') }}`;
 
-        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://${window.domain}:8879/api/landings/with_filter?country_id={{ $filter->id }}` : `https://${window.domain}/api/landings/with_filter?country_id={{ $filter->id }}`;
     </script>
 	<script src="{{ asset('lands/js/objects-filter.js') }}"></script>
 	<script src="{{ asset('lands/js/forms-submit.js') }}"></script>

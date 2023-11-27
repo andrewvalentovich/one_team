@@ -58,19 +58,13 @@
                         </div>
 
                         <div class="col-md-6" bis_skin_checked="1">
-                            <div class="form-group row" bis_skin_checked="1">
-                                <label class="col-sm-3 col-form-label">Относительная</label>
-                                <div class="col-sm-3" bis_skin_checked="1">
-                                    <select class="form-control"  name="relative" style="color: #e2e8f0">
-                                        @foreach($exchange_names as $name)
-                                            <option value="{{$name}}">{{$name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('relative')
-                                <label class="text-danger font-weight-normal" for="relative">{{ $message }}</label>
-                                @enderror
+                            <div class="form-group" bis_skin_checked="1">
+                                <label for="relative">Относительная</label>
+                                <input name="relative" type="text" class="form-control" id="relative" placeholder="Относительная">
                             </div>
+                            @error('relative')
+                                <label class="text-danger font-weight-normal" for="relative">{{ $message }}</label>
+                            @enderror
                         </div>
 
                         <div class="col-md-6" bis_skin_checked="1">

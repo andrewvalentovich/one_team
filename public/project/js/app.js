@@ -1,25 +1,40 @@
 let locations = [];
-async function getData() {
-    await fetch('/city_from_map')
+
+async function getData(locale, idCountry) {
+    let url = ``;
+
+    if(idCountry) {
+        url = `/api/get_cities?locale=${locale}&country_id=${idCountry}`
+        // url = `/city_from_map/`
+    } else {
+        url = `/api/get_cities?locale=${locale}`
+    }
+
+    await fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.status) {
+                console.log(data.data);
+                console.log(data.data.length);
                 data.data.forEach(city => {
                     locations.push({
-                        coordinates: city.coordinate.split(',').map(parseFloat),
-                        balloonContent: `${city.name}, ${city.count} объектов`,
-                        city_id: city.id
+                        coordinates: city.coordinate,
+                        balloonContent: `${city.name}, ${city.count}`,
+                        city_id: city.id,
+                        link: city.link
                     });
                 });
+                console.log(locations);
+                console.log(locations.length);
+                renderMap();
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
-(async () => {
+async function renderMap() {
     "use strict";
-    await getData();
     if(window.innerWidth <=1003) {
         if(document.querySelectorAll("#map_city").length) {
             document.querySelector("#map_city").classList.add("map_city_active");
@@ -166,17 +181,12 @@ async function getData() {
     const exitBtn = document.querySelectorAll(".place__header-exit")
     exitBtn.forEach(btn => {
         btn.addEventListener('click', function() {
-            const currentUrl = window.location.href;
-
-            var url = new URL(window.location.href);
-
-            url.searchParams.delete('object_id');
-
-            // Получение обновленного URL
-            var updatedUrl = url.toString();
-
-            // Обновление URL в адресной строке
-            window.history.replaceState({}, '', updatedUrl);
+            var urlParams = getValuesFromUrl();
+            var object = checkPosition(urlParams, 'object-');
+            if (object) {
+                urlParams = deleteUrlParameter(object, urlParams);
+            }
+            updateUrl(window.filter_params_data, urlParams);
         })
     });
     document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
@@ -300,150 +310,6 @@ async function getData() {
 
 
     function P(e) {
-        document.querySelectorAll("#map_city1").length && ymaps.ready((function () {
-
-            C = new ymaps.Map("map_city1", {
-                center: [39.475851, 30.815585],
-                zoom: 6,
-                controls: [],
-                behaviors: ["default", "scrollZoom"]
-            }, {
-                searchControlProvider: "yandex#search"
-            });
-
-            var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
-                    build: function () {
-                        this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
-                    },
-
-                    clear: function () {
-                        this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
-                    },
-
-                    onSublayoutSizeChange: function () {
-                        t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
-                    },
-
-                    applyElementOffset: function () {
-                        this._$element.css({
-                            left: -this._$element[0].offsetWidth / 2,
-                            top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
-                        })
-                    },
-
-                    onCloseClick: function (e) {
-                        e.preventDefault(), this.events.fire("userclose")
-                    },
-
-                    getShape: function () {
-                        if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
-                        var e = this._$element.position();
-                        return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
-                            [e.left, e.top],
-                            [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
-                        ]))
-                    },
-
-                    _isElement: function (e) {
-                        return e && e[0] && e.find(".arrow")[0]
-                    }
-                }),
-
-                o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-                    build: function () {
-                        o.superclass.build.call(this);
-                        var e = this.getParentElement().getElementsByClassName("placemark")[0],
-                            t = this.isActive ? 60 : 34,
-                            c = {
-                                type: "Circle",
-                                coordinates: [0, 0],
-                                radius: t / 2
-                            },
-                            l = {
-                                type: "Circle",
-                                coordinates: [0, -30],
-                                radius: t / 2
-                            };
-                        this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-                            if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-                                var t = document.querySelectorAll(".placemark");
-                                for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-                            }
-                        })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-                            var o = document.querySelectorAll(".placemark");
-                            if (e.classList.contains("active")) e.classList.remove("active");
-                            else {
-                                for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-                                e.classList.add("active")
-                            }
-                        }), this))
-                    }
-                }),
-
-                c = ymaps.templateLayoutFactory.createClass('<div class="ballon-city__content">$[properties.balloonContent]</div>'),
-                l = window.myPlacemark = new ymaps.Placemark([40.93824, 29.26059], {
-                    balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                }, {
-                    balloonPanelMaxMapArea: e,
-                    balloonShadow: !1,
-                    balloonLayout: t,
-                    iconLayout: o,
-                    balloonContentLayout: c,
-                    hideIconOnBalloonOpen: !1,
-                    balloonOffset: [-100, -80]
-                }),
-
-                n = window.myPlacemark = new ymaps.Placemark([38.227547, 27.22873], {
-                    balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                }, {
-                    balloonPanelMaxMapArea: e,
-                    balloonShadow: !1,
-                    balloonLayout: t,
-                    iconLayout: o,
-                    balloonContentLayout: c,
-                    hideIconOnBalloonOpen: !1,
-                    balloonOffset: [-100, -80]
-                }),
-
-                i = window.myPlacemark = new ymaps.Placemark([37.256168, 28.286126], {
-                    balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                }, {
-                    balloonPanelMaxMapArea: e,
-                    balloonShadow: !1,
-                    balloonLayout: t,
-                    iconLayout: o,
-                    balloonContentLayout: c,
-                    hideIconOnBalloonOpen: !1,
-                    balloonOffset: [-100, -80]
-                }),
-
-                a = window.myPlacemark = new ymaps.Placemark([36.35589, 29.26059], {
-                    balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                }, {
-                    balloonPanelMaxMapArea: e,
-                    balloonShadow: !1,
-                    balloonLayout: t,
-                    iconLayout: o,
-                    balloonContentLayout: c,
-                    hideIconOnBalloonOpen: !1,
-                    balloonOffset: [-100, -80]
-                }),
-
-                s = window.myPlacemark = new ymaps.Placemark([36.923977, 30.711918], {
-                    balloonContent: ['<div class="balloon-city"><div class="balloon-city__text"><div class="balloon-city__price">$250 000</div><div class="balloon-city__rooms">2 спал, 1 ван</div><div class="balloon-city__rooms_m">2 010 кв.м  <span>|</span>  2 спальни  <span>|</span>  1 ванна</div><div class="balloon-city__address">Balbey, 431. Sk. No:4, 07040 Muratpaşa</div><div class="balloon-city__square">1 250 кв.м</div></div><div class="balloon-city__img"> <img src="./img/favorites-2.png"></div></div>'].join("")
-                }, {
-                    balloonPanelMaxMapArea: e,
-                    balloonShadow: !1,
-                    balloonLayout: t,
-                    iconLayout: o,
-                    balloonContentLayout: c,
-                    hideIconOnBalloonOpen: !1,
-                    balloonOffset: [-100, -80]
-                });
-
-            C.geoObjects.events, C.behaviors.disable("scrollZoom"), C.geoObjects.add(l).add(n).add(i).add(a).add(s)
-
-        }))
 
     }
 
@@ -480,23 +346,17 @@ async function getData() {
             }
         }
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
-
+        var country = (window.country === undefined) ? {lat: 38.475851, long: 30.815585} : window.country;
         var e = new ymaps.Map("map-country", {
+            center: [country.lat, country.long],
+            zoom: 6,
+            controls: [],
+            behaviors: ["default", "scrollZoom"]
+        }, {
+            searchControlProvider: "yandex#search"
+        }),
 
-                center: [38.475851, 30.815585],
-
-                zoom: 6,
-
-                controls: [],
-
-                behaviors: ["default", "scrollZoom"]
-
-            }, {
-
-                searchControlProvider: "yandex#search"
-
-            }),
-            ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button  type="button" class="button _view_air _size_medium  _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
+        ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button  type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button  type="button" class="button _view_air _size_medium  _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
 
             // Переопределяем методы макета, чтобы выполнять дополнительные действия
             // при построении и очистке макета.
@@ -532,131 +392,110 @@ async function getData() {
                 var map = this.getData().control.getMap();
                 map.setZoom(map.getZoom() - 1, {checkZoomRange: true});
             }
-            }),
-            zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
+        }),
+        zoomControl = new ymaps.control.ZoomControl({options: {layout: ZoomLayout}});
+        e.controls.add(zoomControl, {
+            position: {
+                right: 20,
+                bottom: 20
+            }
+        });
+        t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
 
-            e.controls.add(zoomControl, {
-                position: {
-                    right: 20,
-                    bottom: 20
-                }
-            });
-            t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
+            build: function () {
 
-                build: function () {
+                this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
 
-                    this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
+            },
 
-                },
+            clear: function () {
 
-                clear: function () {
+                this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
 
-                    this._$element.find(".close").off("click"), this.constructor.superclass.clear.call(this)
+            },
 
-                },
+            onSublayoutSizeChange: function () {
 
-                onSublayoutSizeChange: function () {
+                t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
 
-                    t.superclass.onSublayoutSizeChange.apply(this, arguments), this._isElement(this._$element) && (this.applyElementOffset(), this.events.fire("shapechange"))
+            },
 
-                },
+            applyElementOffset: function () {
 
-                applyElementOffset: function () {
+                this._$element.css({
 
-                    this._$element.css({
+                    left: -this._$element[0].offsetWidth / 2,
 
-                        left: -this._$element[0].offsetWidth / 2,
+                    top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
 
-                        top: -(this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight)
+                })
 
-                    })
+            },
 
-                },
+            onCloseClick: function (e) {
 
-                onCloseClick: function (e) {
+                e.preventDefault(), this.events.fire("userclose")
 
-                    e.preventDefault(), this.events.fire("userclose")
+            },
 
-                },
+            getShape: function () {
 
-                getShape: function () {
+                if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
 
-                    if (!this._isElement(this._$element)) return t.superclass.getShape.call(this);
+                var e = this._$element.position();
 
-                    var e = this._$element.position();
+                return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
 
-                    return new ymaps.shape.Rectangle(new ymaps.geometry.pixel.Rectangle([
+                    [e.left, e.top],
 
-                        [e.left, e.top],
+                    [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
 
-                        [e.left + this._$element[0].offsetWidth, e.top + this._$element[0].offsetHeight + this._$element.find(".arrow")[0].offsetHeight]
+                ]))
 
-                    ]))
+            },
 
-                },
+            _isElement: function (e) {
 
-                _isElement: function (e) {
+                return e && e[0] && e.find(".arrow")[0]
 
-                    return e && e[0] && e.find(".arrow")[0]
+            }
 
-                }
+        }),
 
-            }),
+        o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
+            build: function () {
+                o.superclass.build.call(this);
+                var e = this.getParentElement().getElementsByClassName("placemark")[0],
+                    t = this.isActive ? 60 : 34,
+                    c = {
+                        type: "Circle",
+                        coordinates: [0, 0],
+                        radius: t / 2
+                    },
+                    l = {
+                        type: "Circle",
+                        coordinates: [0, -30],
+                        radius: t / 2
+                    };
+                this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
+                    var o = document.querySelectorAll(".placemark");
+                    if (e.classList.contains("active")) e.classList.remove("active");
+                    else {
+                        for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
+                        e.classList.add("active")
+                    }
+                }), this))
+            }
+        }),
+        c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="$[properties.link]">$[properties.balloonContent]</a> </div>');
+        console.log(locations);
+        console.log(locations.length);
 
-            o = ymaps.templateLayoutFactory.createClass('<div class="placemark"></div>', {
-
-                build: function () {
-
-                    o.superclass.build.call(this);
-
-                    var e = this.getParentElement().getElementsByClassName("placemark")[0],
-
-                        t = this.isActive ? 60 : 34,
-
-                        c = {
-
-                            type: "Circle",
-
-                            coordinates: [0, 0],
-
-                            radius: t / 2
-
-                        },
-
-                        l = {
-
-                            type: "Circle",
-
-                            coordinates: [0, -30],
-
-                            radius: t / 2
-
-                        };
-
-                    this.getData().options.set("shape", this.isActive ? l : c), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
-
-                        var o = document.querySelectorAll(".placemark");
-
-                        if (e.classList.contains("active")) e.classList.remove("active");
-
-                        else {
-
-                            for (let e = 0; e < o.length; e++) o[e].classList.remove("active");
-
-                            e.classList.add("active")
-
-                        }
-
-                    }), this))
-
-                }
-
-            }),
-
-            c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="/houses?city_id=$[properties.city_id]">$[properties.balloonContent]</a> </div>'),
-        locations.forEach(function (Location) {
+        locations.forEach(Location => {
+            var balloonOffset = (window.locale === 'ar' || window.locale === 'fa') ? [125, -50] : [-110, -50];
             var placemark = new ymaps.Placemark(Location.coordinates, {
                 balloonContent: Location.balloonContent,
+                link: Location.link,
                 city_id: Location.city_id
             }, {
                 balloonPanelMaxMapArea: 431520,
@@ -665,15 +504,14 @@ async function getData() {
                 iconLayout: o,
                 balloonContentLayout: c,
                 hideIconOnBalloonOpen: !1,
-                balloonOffset: [-110, -50]
+                balloonOffset: balloonOffset
             });
             e.behaviors.disable("scrollZoom"),
             e.geoObjects.add(placemark);
-        })
-
+        });
         // e.behaviors.disable("scrollZoom"), e.geoObjects.add(l).add(n).add(i).add(a).add(s)
     }))
-})();
+};
 
 function changerActive(list) {
     for(let i = 0; i < list.length; i++) {
@@ -688,35 +526,17 @@ if(document.querySelectorAll('.field-phone').length) {
     let phonesBtn
     fieldPhone.forEach(element => {
         phonesBtn = element.querySelectorAll('.contact__form-phone-country')
-
     });
     phonesBtn.forEach(btn => {
         btn.addEventListener('click', function() {
             const paranetField = btn.closest('.field-phone')
             const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-
             this.classList.toggle('active')
             dropdownList.classList.toggle('active')
         })
     });
 }
-// if(document.querySelectorAll('.field-phone').length) {
-//     const fieldPhone = document.querySelectorAll('.field-phone')
-//     let phonesBtn
-//     fieldPhone.forEach(element => {
-//         phonesBtn = element.querySelectorAll('.contact__form-phone-country')
 
-//     });
-//     phonesBtn.forEach(btn => {
-//         btn.addEventListener('click', function() {
-//             const paranetField = btn.closest('.field-phone')
-//             const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-
-//             this.classList.toggle('active')
-//             dropdownList.classList.toggle('active')
-//         })
-//     });
-// }
 
 //Popup close
 document.addEventListener("click", function(event) {
@@ -753,7 +573,7 @@ document.addEventListener("click", function(event) {
       changerActive(test)
     }
 
-    //закрытие блоков close-out по клику вне 
+    //закрытие блоков close-out по клику вне
     if(!target.classList.contains('close-out') && !target.closest('.close-out')) {
         let closeOutBlock = document.querySelectorAll('.close-out')
         changerActive(closeOutBlock)
@@ -834,26 +654,9 @@ if(document.querySelectorAll('.contact__phone-list').length) {
         }
     });
 
-    if(document.querySelectorAll('.field-phone').length) {
-        const fieldPhone = document.querySelectorAll('.field-phone')
-        let phonesBtn
-        fieldPhone.forEach(element => {
-            phonesBtn = element.querySelectorAll('.contact__form-phone-country')
 
-        });
-        phonesBtn.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const paranetField = btn.closest('.field-phone')
-                const dropdownList = paranetField.querySelector('.contact__phone-dropdown')
-
-                this.classList.toggle('active')
-                dropdownList.classList.toggle('active')
-            })
-        });
-    }
 }
 
-getData();
 
 
 if(document.querySelectorAll('.place-w').length) {
@@ -865,22 +668,27 @@ if(document.querySelectorAll('.place-w').length) {
             const target = e.target
             if(target.classList.contains('place-w')) {
                 placeBlock.classList.remove('active')
+
                 var url = new URL(window.location.href);
-
                 url.searchParams.delete('object_id');
-
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
-
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
+
+                var urlParams = getValuesFromUrl();
+                var object = checkPosition(urlParams, 'object-');
+                if (object) {
+                    urlParams = deleteUrlParameter(object, urlParams);
+                }
+                updateUrl(window.filter_params_data, urlParams);
             }
             if(target.classList.contains('_country')) {
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''
                 placeTopImg.setAttribute('src', '')
-                
+
             }
 
         })
@@ -965,7 +773,7 @@ if(document.querySelectorAll('#map_city').length) {
     const safariExpression = /Safari/i;
 
     const isAppleSafari = () => {
-        return appleExpression.test(navigator.vendor) && 
+        return appleExpression.test(navigator.vendor) &&
             safariExpression.test(navigator.userAgent);
     };
     if (isAppleSafari()) {
@@ -1008,7 +816,7 @@ if(document.querySelectorAll('.kompleks__layout-content').length) {
                 if(sortItem.classList.contains('active')) {
                     sortItem.classList.remove('active')
                 } else {
-                    changerActive(sortItems)  
+                    changerActive(sortItems)
                     sortItem.classList.add('active')
                     kompleksLayoutItem.forEach(chemeItem => {
                         const dataCheme = chemeItem.getAttribute('data-cheme')
@@ -1028,7 +836,6 @@ if(document.querySelectorAll('.kompleks__layout-content').length) {
     const kompleksSort = document.querySelectorAll('.kompleks__layout-sort')
     kompleksSort.forEach(sortBlock => {
         const counterChemes = sortBlock.querySelectorAll('.kompleks__sort-item')
-        console.log(counterChemes.length)
         if(counterChemes.length <= 1) {
             sortBlock.style.display = 'none'
         } else {
@@ -1050,13 +857,13 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
         },
         breakpoints: {
             320: {
-    
+
             },
             480: {
-    
+
             },
             640: {
-    
+
             }
         }
     })
@@ -1079,6 +886,13 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
                 srsForPhotos.forEach(photo => {
                     const slide = document.createElement('div')
                     const slidePic = document.createElement('img')
+
+                    if(photo.name) {
+                        const floor = document.createElement('div')
+                        floor.classList.add('object__swiper-slide-floor')
+                        floor.innerHTML = photo.name
+                        slide.appendChild(floor)
+                    }
 
                     slide.classList.add('swiper-slide')
                     slide.classList.add('object__swiper-slide')
@@ -1107,6 +921,24 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
                 chemePopup.classList.add('active')
             })
         });
-        
+
     }
 }
+
+
+
+
+//слушатель события на нажатия клаваши
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+        const placeW = document.querySelector('.place__slider_p.active')
+        placeW.classList.remove('active')
+    }
+})
+
+
+// скрыть блок Общая площадь если больше 2 планировок
+
+// if(document.querySelectorAll('.object__rooms-content').length) {
+//     const
+// }

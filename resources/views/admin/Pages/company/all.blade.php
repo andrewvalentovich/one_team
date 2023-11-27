@@ -39,14 +39,15 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th> Название Страницы</th>
-
+                                    <th>Название Страницы</th>
+                                    <th>ЧПУ-название</th>
                                 </tr>
                                 </thead>
                                 @foreach($get as $item)
                                     <tbody>
                                     <tr>
-                                        <td> {{$item->name}}</td>
+                                        <td> {{ $item->name }}</td>
+                                        <td> {{ $item->slug ?? null }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{route('company_select_single', $item->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>

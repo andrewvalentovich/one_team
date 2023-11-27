@@ -38,10 +38,10 @@
                                 <thead>
                                 <tr>
                                     <th style="width:50px;">#</th>
-                                    <th style="">{{ __('Домен') }}</th>
-                                    <th style="">{{ __('Название (к чему относится)') }}</th>
-                                    <th style="">{{ __('Название шаблона') }}</th>
-                                    <th>{{ __('Действие') }}</th>
+                                    <th style="">{{ __('URL') }}</th>
+                                    <th style="">{{ __('Регион или Объект') }}</th>
+                                    <th style="">{{ __('Шаблон') }}</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 @foreach($landings as $landing)

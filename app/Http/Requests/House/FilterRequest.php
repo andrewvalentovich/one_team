@@ -24,7 +24,8 @@ class FilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'filled|numeric|min:1',
+            'locale' => 'nullable',
+            'user_id' => 'nullable|numeric|min:1',
             'top_left' => 'nullable|array',
             'bottom_right' => 'nullable|array',
             'page' => 'nullable|numeric',
@@ -32,14 +33,17 @@ class FilterRequest extends FormRequest
             'is_secondary' => 'nullable|string',
             'order_by' => 'nullable|string',
             'price' => 'nullable|array',
-            'bedrooms' => 'nullable|numeric|min:0',
-            'bathrooms' => 'nullable|numeric|min:0',
+            'bedrooms' => 'nullable',
+            'bathrooms' => 'nullable',
             'peculiarities' => 'nullable|array',
             'view' => 'nullable|string',
             'to_sea' => 'nullable|string',
             'size' => 'nullable|array',
-            'type' => 'nullable|numeric',
-            'country_id' => 'nullable|string',
+            'type' => 'nullable|string',
+            'country' => 'nullable|string',
+            'city' => 'nullable|string',
+            'type_id' => 'nullable|numeric',
+            'country_id' => 'nullable|numeric',
             'city_id' => 'nullable|numeric',
         ];
     }

@@ -82,8 +82,14 @@ class FavoriteController extends Controller
 
         // Меняем параметры (для фронта)
         foreach ($get_product as $key => $object) {
+            // Тэги
+            $object->getTags(app()->getLocale());
+
             $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
             $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
+            if(isset($object->country)) {
+                $object->price_credit = $this->currencyService->getPriceSize((int)$object->base_price, $object->country->inverse_credit_ratio);
+            }
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
@@ -91,7 +97,9 @@ class FavoriteController extends Controller
             // Цена за квартиру и за метр для планировок
             if (isset($object->layouts)) {
                 foreach ($object->layouts as $index => $layout) {
-                    $layout->price_credit = $this->currencyService->getPriceCreditFromDB((int)$layout->price);
+                    if(isset($object->country)) {
+                        $layout->price_credit = $this->currencyService->getPriceSize((int)$layout->base_price, $object->country->inverse_credit_ratio);
+                    }
                     $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->price, (int)$layout->total_size);
                     $layout->price = $this->currencyService->getPriceFromDB((int)$layout->price);
                 }

@@ -4,13 +4,15 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\HousesFilter;
-use App\Http\Requests\House\FilterRequest;
+use App\Http\Resources\FilterParams\CitiesResource;
+use App\Http\Resources\FilterParams\CountriesResource;
+use App\Http\Resources\FilterParams\LocalesResource;
+use App\Http\Resources\FilterParams\PeculiaritiesResource;
+use App\Http\Resources\FilterParams\RoomsResource;
 use App\Models\CountryAndCity;
+use App\Models\Locale;
 use App\Models\Peculiarities;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class SearchController extends Controller
 {
@@ -18,68 +20,88 @@ class SearchController extends Controller
     {
         // Валидация
         $data = $request->validate([
-            'locale' => 'nullable|string|max:5',
+            'locale' => 'nullable|string|max:2',
             'country_id' => 'nullable',
         ]);
 
-        $nameField = (isset($data['locale']) && $data['locale'] !== 'ru') ? 'name_'.$data['locale'] : 'name';
+        $locales = Locale::all();
+        $locale = $locales->where('code', $data['locale'])->first();
 
-        $countries = CountryAndCity::select('id', $nameField)
-            ->where('parent_id', null)
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row[$nameField],
-                ];
-            });
+        $countries = CountriesResource::collection(
+            CountryAndCity::whereNull('parent_id')
+                ->has('product_country')
+                ->get()
+        )->setLocale($locale->id);
 
-        $regions = CountryAndCity::select('id', $nameField, 'parent_id')
-            ->has('product_city')
-            ->whereNotNull('parent_id')
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'parent_id' => $row->parent_id,
-                    'name' => $row[$nameField],
-                ];
-            });
+        $cities = CitiesResource::collection(
+            CountryAndCity::whereNotNull('parent_id')
+                ->has('product_city')
+                ->get()
+        )->setLocale($locale->id);
 
-        $collections = Peculiarities::select('id', $nameField, 'type')
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row[$nameField],
-                    'type' => $row->type
-                ];
-            });
+        $peculiarities = Peculiarities::select('id', 'name', 'slug', 'type')
+            ->with('locale_fields.locale')
+            ->get();
 
-        $types = Peculiarities::select('id', $nameField, 'type')
-            ->where('type', "Типы")
-            ->has('product')
-            ->get()
-            ->transform(function ($row) use ($nameField) {
-                return [
-                    'id' => $row->id,
-                    'name' => $row[$nameField],
-                    'type' => $row->type
-                ];
-            });
+        $types = PeculiaritiesResource::collection(
+            Peculiarities::select('id', 'name', 'slug', 'type')
+                ->with('locale_fields.locale')
+                ->has('product')
+                ->where('type', 'Типы')
+                ->get()
+        )->setLocale($locale->code);
 
-        $currency = ["EUR" => "€", "USD" => "$", "RUB" => "₽", "TRY" => "₤"]; // ₺
+        $bedrooms = RoomsResource::collection(
+            $peculiarities->where('type', 'Спальни')
+        )->setLocale($locale->code);
+
+        $bathrooms = RoomsResource::collection(
+            $peculiarities->where('type', 'Ванные')
+        )->setLocale($locale->code);
+
+        $to_sea = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'До моря')
+        )->setLocale($locale->code);
+
+        $views = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'Вид')
+        )->setLocale($locale->code);
+
+        $peculiarities = PeculiaritiesResource::collection(
+            $peculiarities->where('type', 'Особенности')
+        )->setLocale($locale->code);
+
+        $locales_collection = LocalesResource::collection($locales);
+
+        $currency = [
+            0 => ["currency" => "EUR", "symbol" => "€"],
+            1 => ["currency" => "USD", "symbol" => "$"],
+            2 => ["currency" => "RUB", "symbol" => "₽"],
+            3 => ["currency" => "TRY", "symbol" => "₺"],
+            4 => ["currency" => "GBP", "symbol" => "₤"] // ₺
+        ];
 
         $data = [
             "countries" => $countries,
-            "cities" => (isset($data['country_id'])) ? $regions->where('parent_id', $data['country_id'])->all() : $regions,
+            "cities" => $cities,
             "types" => $types,
-            "bedrooms" => $collections->whereIn('type', "Спальни")->where('name', "!=", "Неважно")->all(),
-            "bathrooms" => $collections->whereIn('type', "Ванные")->where('name', "!=", "Неважно")->all(),
-            "peculiarities" => $collections->whereIn('type', "Особенности")->all(),
-            "views" => $collections->whereIn('type', "Вид")->all(),
-            "to_sea" => $collections->whereIn('type', "До моря")->all(),
+            "bedrooms" => $bedrooms,
+            "bathrooms" => $bathrooms,
+            "peculiarities" => $peculiarities,
+            "views" => $views,
+            "to_sea" => $to_sea,
             "currency" => $currency,
+            "locales" => $locales_collection,
+            "sale_or_rent" => ["sale", "rent"],
+            'dictionary' => [
+                'all_countries'     => __('Все страны', [], $locale->code),
+                'all_regions'       => __('Все регионы', [], $locale->code),
+                'all_types'         => __('Все типы', [], $locale->code),
+                'doesnt_matter'     => __('Неважно', [], $locale->code),
+                'cheap-first'       => __('Сначала дешёвые', [], $locale->code),
+                'expensive-first'   => __('Сначала дорогие', [], $locale->code),
+                'new-first'         => __('Сначала новые', [], $locale->code)
+            ]
         ];
 
         return response()->json($data);

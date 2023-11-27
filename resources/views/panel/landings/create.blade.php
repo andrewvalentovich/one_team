@@ -95,8 +95,17 @@
 
                             <div class="col-sm-12 col-md-6 form-group region country complex" style="display: none;">
                                 <label for="phone">{{ __('Номер телефона') }}</label>
-                                <input name="phone" type="text" class="form-control" id="phone" placeholder="{{ __('Номер телефона') }}">
+                                <input name="phone" type="text" class="form-control" value="8 800 700 55 55" id="phone" placeholder="{{ __('Номер телефона') }}">
                                 <label class="text-danger font-weight-normal" for="phone" id="phone_error"></label>
+                            </div>
+
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Метрика</h3>
+                            <div class="col-12 form-group pt-3 region country complex" style="display: none;">
+                                <label for="metric_code">{{ __('Скрипт метрики') }}</label>
+                                <div>
+                                    <textarea id="metric_code" class="form-control" name="metric_code" rows="5"></textarea>
+                                </div>
+                                <label class="text-danger font-weight-normal" for="metric_code" id="metric_code_error"></label>
                             </div>
 
                             <h3 class="col-12 pt-5 region country complex" style="display: none;">Главный экран</h3>
@@ -129,7 +138,6 @@
                             <div class="col-12 form-group region country complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none"></span>
                                         <img class="py-3" src="" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="main_photo">{{ __('Фотография фона главного блока') }}</label>
@@ -153,7 +161,7 @@
                             <h3 class="col-12 pt-5 region country" style="display: none;">Блок с объектами</h3>
                             <div class="col-12 form-group pt-3 region country" style="display: none;">
                                 <label for="objects_title">{{ __('Заголовок блока с объектами') }}</label>
-                                <input name="objects_title" type="text" class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
+                                <input name="objects_title" type="text" value="НОВОСТРОЙКИ В " class="form-control" id="objects_title" placeholder="{{ __('Новостройки в Турции') }}">
                                 <label class="text-danger font-weight-normal" for="objects_title" id="objects_title_error"></label>
                             </div>
 
@@ -186,7 +194,6 @@
                             <div class="col-12 form-group pt-3 complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none"></span>
                                         <img class="py-3" src="" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="territory">{{ __('Фотография-план территории ЖК') }}</label>
@@ -199,7 +206,7 @@
                             <div class="col-12 form-group pt-3 region country complex" style="display: none;">
                                 <label for="map">{{ __('Вставьте скрипт с картой') }}</label>
                                 <div>
-                                    <textarea class="form-control" rows="10" id="map" name="map"></textarea>
+                                    <textarea class="form-control" rows="10" id="map" name="map"><iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false" width="100%" height="500" frameborder="0"></iframe></textarea>
                                 </div>
                                 <label class="text-danger font-weight-normal" for="map" id="map_error"></label>
                             </div>
@@ -209,6 +216,68 @@
                                 <label for="card">{{ __('Карточки с условиями покупки') }}</label>
                                 <div class="card">
                                     <div class="card-header row" id="purchase_terms_field">
+                                        <div class='purchase_terms_accordion col-sm-12 col-md-6' data-identificator='0' id='purchase_terms_accordion0'>
+                                            <div class='card'>
+                                                <div class='card-header' id='purchase_terms_heading0'>
+                                                    <h5 class='mb-0'>
+                                                        <p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse0' aria-expanded='true' aria-controls='purchase_terms_collapse0'>
+                                                            Карточка #1
+                                                        </p>
+                                                        <input name='purchase_terms[0][id]' type='hidden' value='0'>
+                                                    </h5>
+                                                </div>
+                                                <div id='purchase_terms_collapse0' class='collapse show' aria-labelledby='purchase_terms_heading0' data-parent='#purchase_terms_accordion0'>
+                                                    <div class='card-body'>
+                                                        <div class='form-group region country complex' bis_skin_checked='1' style='display: block;'>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_title0'>Заголовок</label>
+                                                                <input name='purchase_terms[0][title]' value="Беспроцентная рассрочка" type='text' class='form-control' id='purchase_terms_title0' placeholder='310'>
+                                                            </div>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_content0'>Текст</label>
+                                                            <div>
+                                                                <textarea id='purchase_terms' class='textarea' name='purchase_terms[0][content]'>
+                                                                    <p>Рассрочка на период строительства</p><p>Первоначальный платеж 30% от стоимости квартиры</p><ul class="list_point"><li>Возможна удалённая сделка</li><li>Помощь по вариантам оплаты</li></ul><p>Вид на жительство можете получить после внесения последнего платежа</p>
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                            <p class='btn btn-outline-danger delete_purchase_terms_accordion' onclick='delete_accordion("purchase_terms", this);' data-identificator='0'>Удалить элемент списка</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='purchase_terms_accordion col-sm-12 col-md-6' data-identificator='1' id='purchase_terms_accordion1'>
+                                            <div class='card'>
+                                                <div class='card-header' id='purchase_terms_heading1'>
+                                                    <h5 class='mb-0'>
+                                                        <p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse1' aria-expanded='true' aria-controls='purchase_terms_collapse1'>
+                                                            Карточка #2
+                                                        </p>
+                                                        <input name='purchase_terms[1][id]' type='hidden' value='1'>
+                                                    </h5>
+                                                </div>
+                                                <div id='purchase_terms_collapse1' class='collapse show' aria-labelledby='purchase_terms_heading1' data-parent='#purchase_terms_accordion1'>
+                                                    <div class='card-body'>
+                                                        <div class='form-group region country complex' bis_skin_checked='1' style='display: block;'>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_title1'>Заголовок</label>
+                                                                <input name='purchase_terms[1][title]' value="Оплата 100%" type='text' class='form-control' id='purchase_terms_title1' placeholder='310'>
+                                                            </div>
+                                                            <div class='form-group region country complex' bis_skin_checked='1'>
+                                                                <label for='purchase_terms_content1'>Текст</label>
+                                                            <div>
+                                                                <textarea id='purchase_terms' class='textarea' name='purchase_terms[1][content]'>
+                                                                    <ul class="list_point"><li>Возможна удалённая сделка</li><li>Помощь по вариантам оплаты</li></ul>
+                                                                </textarea>
+                                                            </div>
+                                                        </div>
+                                                            <p class='btn btn-outline-danger delete_purchase_terms_accordion' onclick='delete_accordion("purchase_terms", this);' data-identificator='1'>Удалить элемент списка</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <p class="btn btn-outline-primary accordion_add" data-type="purchase_terms" id="purchase_terms_add">{{ __('Добавить карточку') }}</p>
@@ -240,7 +309,7 @@
                             <h3 class="col-12 pt-5 region country" style="display: none;">Блок с достопримечательностями</h3>
                             <div class="col-12 form-group pt-3 region country" bis_skin_checked="1" style="display: none;">
                                 <label for="sight_title">{{ __('Заголовок') }}</label>
-                                <input name="sight_title" type="text" class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
+                                <input name="sight_title" type="text" value="ДОСТОПРИЧАТЕЛЬНОСТИ " class="form-control" id="sight_title" placeholder="{{ __('Достопримечательности Анталии') }}">
                                 <label class="text-danger font-weight-normal" for="sight_title" id="sight_title_error"></label>
                             </div>
 
@@ -306,7 +375,6 @@
                     $(el).siblings('.preview_image').find('img').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(file);
-                $(el).siblings('.preview_image').find('span').fadeIn();
             }
         }
 
@@ -345,7 +413,7 @@
                 "<div class='card-header' id='main_lists_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#main_lists_collapse" + id + "' aria-expanded='true' aria-controls='main_lists_collapse" + id + "'>"+
-                "Список #" + id +
+                "Список #" + (id+1) +
                 "</p>"+
                 "<input name='main_lists["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -400,7 +468,7 @@
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+(i+1);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
@@ -440,7 +508,7 @@
                 "<div class='card-header' id='purchase_terms_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse" + id + "' aria-expanded='true' aria-controls='purchase_terms_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id+1) +
                 "</p>"+
                 "<input name='purchase_terms["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -497,7 +565,7 @@
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+(i+1);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
@@ -537,7 +605,7 @@
                 "<div class='card-header' id='about_description_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#about_description_collapse" + id + "' aria-expanded='true' aria-controls='about_description_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id+1) +
                 "</p>"+
                 "<input name='about_description["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -558,7 +626,6 @@
                 "<div class='form-group'>\n" +
                     "<div>\n" +
                         "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
-                            "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
                             "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
                         "</div>\n" +
                         "<label class='d-block' for='about_description_photo'>Фотография карточки блока о ЖК</label>\n" +
@@ -606,7 +673,7 @@
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+(i+1);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
                     console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
@@ -652,7 +719,7 @@
                 "<div class='card-header' id='sight_cards_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#sight_cards_collapse" + id + "' aria-expanded='true' aria-controls='sight_cards_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id+1) +
                 "</p>"+
                 "<input name='sight_cards["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -667,13 +734,12 @@
                 "<div class='form-group' bis_skin_checked='1'>"+
                     "<label for='sight_cards_content"+id+"'>Текст</label>"+
                     "<div>"+
-                        "<textarea id='main_content' class='textarea' name='sight_cards["+id+"][content]'></textarea>"+
+                        "<textarea class='textarea' name='sight_cards["+id+"][content]'></textarea>"+
                     "</div>"+
                 "</div>"+
                 "<div class='form-group'>\n" +
                     "<div>\n" +
                         "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
-                            "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; display: block; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
                             "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
                         "</div>\n" +
                         "<label class='d-block' for='sight_cards_photo'>Фотография достопримечательности</label>\n" +
@@ -721,7 +787,7 @@
                     // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
                     accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+(i+1);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
                     // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
@@ -786,8 +852,8 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    alert("Success");
                     console.log(data);
+                    alert("Лендинг создан!");
                     window.location.href = "{{ route('panel.landings.index') }}";
                 },
                 error: function (reject) {
@@ -798,9 +864,9 @@
                             $("#" + key + "_error").text(val[0]);
                         });
 
-                        alert("Error, correct specific fields!");
+                        alert("Ошибка! Заполните поля в соответствии с рекомендациями");
                     } else {
-                        alert("Error "+reject.status);
+                        alert("Ошибка при обновлении лендинга! Статус ошибки - "+reject.status);
                     }
                 }
             });

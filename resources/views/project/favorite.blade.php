@@ -1,5 +1,3 @@
-<script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
-
 @extends('project.includes.layouts')
 @section('header')
     @include('project.includes.header')
@@ -67,13 +65,13 @@
                         <img src="{{asset('uploads/'.$product->photo[0]->photo)}}" alt="place">
                     </div>
                     <div class="favorites__item-text">
-                        <div class="favorites__item-price">
-                            @if (!is_null(json_decode($product->objects)) && !empty(json_decode($product->objects)))
+                        <div class="favorites__item-price" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>
+                            @if (isset($product->layouts))
                                 @if (isset($product->price["EUR"]))
                                     @php
                                     $euroPrice = str_replace(' €', '', $product->price["EUR"]);
                                     @endphp
-                                    @if (count(json_decode($product->objects)) > 1)
+                                    @if (count($product->layouts) > 1)
                                         {{ "€ " . $euroPrice . " +" }}
                                     @else
                                         {{ "€ " . $euroPrice }}
@@ -103,6 +101,13 @@
                     </div>
                     <div class="favorites__item-exit" data_id="{{$product->id}}">
                         <img src="{{asset('project/img/svg/exit_w.svg')}}" alt="exit">
+                    </div>
+                    <div class="die__list">
+                        @foreach($product->tags as $tag)
+                        <div class="die__list-item">
+                                {{ $tag }}
+                        </div>
+                        @endforeach
                     </div>
                 </div>
                     @endif
@@ -366,19 +371,38 @@
                     <div class="place__right-mid">
                         <div class="place__info">
                             <div class="place__price place__price_country">
-                                    <div
-                                        class="place__price-value lira"
-                                        data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
-                                        data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
-                                        data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
-                                        data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
-                                    >
-                                    @if (isset($product->layouts))
-                                        {{ __("от") . " " . $product->price["EUR"] }}
+                                    @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')
+                                        <div
+                                            style="direction: ltr!important; text-align: right;"
+                                            class="place__price-value lira"
+                                            data-price-eur="{{ $product->price["EUR"] . " " . __('от') }}"
+                                            data-price-usd="{{ $product->price["USD"] . " " . __('от') }}"
+                                            data-price-gbp="{{ $product->price["GBP"] . " " . __('от') }}"
+                                            data-price-try="{{ $product->price["TRY"] . " " . __('от') }}"
+                                            data-price-rub="{{ $product->price["RUB"] . " " . __('от') }}"
+                                        >
+                                            @if (count($product->layouts) > 1)
+                                                {{ $product->price["EUR"] . " " . __("от") }}
+                                            @else
+                                                {{ $product->price["EUR"] }}
+                                            @endif
+                                        </div>
                                     @else
-                                        {{ $product->price["EUR"] }}
+                                        <div
+                                            class="place__price-value lira"
+                                            data-price-eur="{{ __("от") . " " . $product->price["EUR"] }}"
+                                            data-price-usd="{{ __("от") . " " . $product->price["USD"] }}"
+                                            data-price-gbp="{{ __("от") . " " . $product->price["GBP"] }}"
+                                            data-price-try="{{ __("от") . " " . $product->price["TRY"] }}"
+                                            data-price-rub="{{ __("от") . " " . $product->price["RUB"] }}"
+                                        >
+                                            @if (count($product->layouts) > 1)
+                                                {{ __("от") . " " . $product->price["EUR"] }}
+                                            @else
+                                                {{ $product->price["EUR"] }}
+                                            @endif
+                                        </div>
                                     @endif
-                                    </div>
                                         <div class="place__currency">
                                             <div class="place__currency-preview">
                                                 <div class="place__currency-preview-item">
@@ -399,19 +423,22 @@
                                                 </div>
                                             </div>
                                             <div class="place__currency-list">
-                                                <div class="place__currency-item" data-exchange="eur">
+                                                <div class="place__currency-item" data-exchange="EUR">
                                                     €
                                                 </div>
-                                                <div class="place__currency-item" data-exchange="usd">
+                                                <div class="place__currency-item" data-exchange="USD">
                                                     $
                                                 </div>
-                                                <div class="place__currency-item" data-exchange="rub">
-                                                    ₽
+                                                <div class="place__currency-item" data-exchange="GBP">
+                                                    ₤
                                                 </div>
-                                                <div class="place__currency-item" data-exchange="try">
+                                                <div class="place__currency-item" data-exchange="TRY">
                                                     <span class="lira">
                                                         ₺
                                                     </span>
+                                                </div>
+                                                <div class="place__currency-item" data-exchange="RUB">
+                                                    ₽
                                                 </div>
                                             </div>
                                         </div>
@@ -423,11 +450,14 @@
                                     {{$product->address}}
                                     {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                                 </div>
-                                <div class="place__square place__square_country lira"
-                                     data-price-rub="{{ $product->price_size["RUB"] }}"
+                                <div
+                                    @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif
+                                    class="place__square place__square_country lira"
                                      data-price-eur="{{ $product->price_size["EUR"] }}"
                                      data-price-usd="{{ $product->price_size["USD"] }}"
+                                     data-price-gbp="{{ $product->price_size["GBP"] }}"
                                      data-price-try="{{ $product->price_size["TRY"] }}"
+                                     data-price-rub="{{ $product->price_size["RUB"] }}"
                                 >
                                     {{ $product->price_size["EUR"] }}
                                 </div>
@@ -729,6 +759,18 @@
                                 </div>
 
                             </div>
+                            @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()))
+                                @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()->deadline))
+                                    <div class="place__deadline">
+                                        <div class="place__deadline-content">
+                                            <div class="place__deadline-subtitle place__title">
+                                                {{__('Срок сдачи')}}
+                                            </div>
+                                            <div class="place__deadline-title">{{ $product->locale_fields->where('locale.code', app()->getLocale())->first()->deadline }}</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endif
                             @if($product->complex_or_not == 'Нет' || $product->complex_or_not == null)
                             <div class="object__rooms">
                                 <div class="object__rooms-content">
@@ -836,29 +878,51 @@
                                                         <div class="kompleks__layout-option" bis_skin_checked="1">
                                                             {{ $layout->building }}
                                                         </div>
-                                                        <div class="kompleks__layout-price" bis_skin_checked="1">
-                                                            <span data-exchange="eur" class="valute active">{{ $layout->price['EUR'] }}</span>
-                                                            <span data-exchange="usd" class="valute">{{ $layout->price['USD'] }}</span>
-                                                            <span data-exchange="rub" class="valute">{{ $layout->price['RUB'] }}</span>
-                                                            <span data-exchange="try" class="valute lira">{{ $layout->price['TRY'] }}</span>
-                                                        </div>
-                                                        <div class="kompleks__layout-price-meter"bis_skin_checked="1">
-                                                            <span data-exchange="eur" class="valute active">{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="usd" class="valute">{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="rub" class="valute">{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
-                                                            <span data-exchange="try" class="valute lira">{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
-                                                        </div>
-                                                        <div class="kompleks__layout-square" bis_skin_checked="1">
-                                                            {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span> {{ $layout->number_rooms }}
+                                                        @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')
+                                                            <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                                <span data-exchange="eur" class="valute active" style="direction: ltr!important; text-align: right;">{{ $layout->price['EUR'] }}</span>
+                                                                <span data-exchange="usd" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['USD'] }}</span>
+                                                                <span data-exchange="gbp" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['GBP'] }}</span>
+                                                                <span data-exchange="try" class="valute lira" style="direction: ltr!important; text-align: right;">{{ $layout->price['TRY'] }}</span>
+                                                                <span data-exchange="rub" class="valute" style="direction: ltr!important; text-align: right;">{{ $layout->price['RUB'] }}</span>
+                                                            </div>
+                                                            <div class="kompleks__layout-price-meter"bis_skin_checked="1">
+                                                                <span data-exchange="eur" class="valute active" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['EUR'] }}</span>
+                                                                <span data-exchange="usd" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['USD'] }}</span>
+                                                                <span data-exchange="gbp" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['GBP'] }}</span>
+                                                                <span data-exchange="try" class="valute lira" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['TRY'] }}</span>
+                                                                <span data-exchange="rub" class="valute" style="direction: ltr!important; text-align: right;">{{ __('кв.м') }} / {{ $layout->price_size['RUB'] }}</span>
+                                                            </div>
+                                                            <div class="kompleks__layout-square" bis_skin_checked="1">
+                                                                {{ __('кв.м') }} {{ $layout->total_size }}  <span>|</span>  {{ $layout->number_rooms }}
 
-                                                        </div>
-                                                        <div class="kompleks__layout-price-month" bis_skin_checked="1">
-                                                            
-                                                            <span data-exchange="eur" class="valute active">{{ $layout->price_credit['EUR'] }} / {{ __('мес') }}</span>
-                                                            <span data-exchange="usd" class="valute">{{ $layout->price_credit['USD'] }} / {{ __('мес') }}</span>
-                                                            <span data-exchange="rub" class="valute">{{ $layout->price_credit['RUB'] }} / {{ __('мес') }}</span>
-                                                            <span data-exchange="try" class="valute lira">{{ $layout->price_credit['TRY'] }} / {{ __('мес') }}</span>
-                                                        </div>
+                                                            </div>
+                                                            <div class="kompleks__layout-price-month" bis_skin_checked="1" style="direction: ltr!important; text-align: right;">
+                                                                {{ __('мес') }} / {{ $layout->price_credit['EUR'] }}
+                                                            </div>
+                                                        @else
+                                                            <div class="kompleks__layout-price" bis_skin_checked="1">
+                                                                <span data-exchange="eur" class="valute active">{{ $layout->price['EUR'] }}</span>
+                                                                <span data-exchange="usd" class="valute">{{ $layout->price['USD'] }}</span>
+                                                                <span data-exchange="gbp" class="valute">{{ $layout->price['GBP'] }}</span>
+                                                                <span data-exchange="try" class="valute lira">{{ $layout->price['TRY'] }}</span>
+                                                                <span data-exchange="rub" class="valute">{{ $layout->price['RUB'] }}</span>
+                                                            </div>
+                                                            <div class="kompleks__layout-price-meter"bis_skin_checked="1">
+                                                                <span data-exchange="eur" class="valute active">{{ $layout->price_size['EUR'] }} / {{ __('кв.м') }}</span>
+                                                                <span data-exchange="usd" class="valute">{{ $layout->price_size['USD'] }} / {{ __('кв.м') }}</span>
+                                                                <span data-exchange="gbp" class="valute">{{ $layout->price_size['GBP'] }} / {{ __('кв.м') }}</span>
+                                                                <span data-exchange="try" class="valute lira">{{ $layout->price_size['TRY'] }} / {{ __('кв.м') }}</span>
+                                                                <span data-exchange="rub" class="valute">{{ $layout->price_size['RUB'] }} / {{ __('кв.м') }}</span>
+                                                            </div>
+                                                            <div class="kompleks__layout-square" bis_skin_checked="1">
+                                                                {{ $layout->total_size }} {{ __('кв.м') }} <span>|</span>  {{ $layout->number_rooms }}
+
+                                                            </div>
+                                                            <div class="kompleks__layout-price-month" bis_skin_checked="1">
+                                                                {{ $layout->price_credit['EUR'] }} / {{ __('мес') }}
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="kompleks__layout-scheme" bis_skin_checked="1">
                                                         <div class="kompleks__layout-img" data-productid="{{ $product->id }}" bis_skin_checked="1">
@@ -1117,7 +1181,7 @@
                                                 @foreach($get_footer_link as $link)
 
 
-                                                        <a href="{{route('company_page',$link->id)}}" class="footer__nav-item">
+                                                        <a href="{{route('about', $link->slug)}}" class="footer__nav-item">
                                                             {{__($link->name)}}
                                                         </a>
 
@@ -1300,7 +1364,7 @@
                             <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                                 <div class="contact__form-country-item" bis_skin_checked="1">
                                     <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                        <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                        <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                     </div>
                                 </div>
                             </div>
@@ -1308,7 +1372,7 @@
                                 <div class="contact__phone-list" bis_skin_checked="1">
                                     <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/ru.png" alt="ru">
+                                            <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             Россия (Russia) <span>+7</span>
@@ -1316,7 +1380,7 @@
                                     </div>
                                     <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/us.png" alt="us">
+                                            <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             США (United States)  <span>+1</span>
@@ -1324,7 +1388,7 @@
                                     </div>
                                     <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/gr.png" alt="gr">
+                                            <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             Германия (Germany) <span>+49</span>
@@ -1332,7 +1396,7 @@
                                     </div>
                                     <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/pl.png" alt="pl">
+                                            <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             Польша (Poland) <span>+48</span>
@@ -1340,7 +1404,7 @@
                                     </div>
                                     <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/sw.png" alt="sw">
+                                            <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             Швеция (Sweden) <span>+46</span>
@@ -1348,7 +1412,7 @@
                                     </div>
                                     <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
                                         <div class="contact__phone-img" bis_skin_checked="1">
-                                            <img src="https://dev.one-team.pro/project/img/countries/it.png" alt="it">
+                                            <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
                                         </div>
                                         <div class="contact__phone-title" bis_skin_checked="1">
                                             Италия (Italy) <span>+39</span>
@@ -1983,16 +2047,14 @@
         openPlacePopupBtn.forEach(blockBtn => {
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
+                var url = new URL(window.location.href);
                 url.searchParams.set('object_id', this.getAttribute('data_id'));
                 // Получение текущего URL
-                var url = new URL(window.location.href);
-
-                // Добавление нового параметра
-                url.searchParams.set('object_id', object.id);
 
                 // Получение обновленного URL
                 var updatedUrl = url.toString();
-
+                console.log(this.getAttribute('data_id'))
+                console.log(url.searchParams)
                 // Обновление URL в адресной строке
                 window.history.replaceState({}, '', updatedUrl);
                 if(window.innerWidth < 1023)

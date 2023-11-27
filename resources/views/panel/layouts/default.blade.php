@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_token" content="{{csrf_token()}}">
+    <meta name="robots" content="noindex">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <!-- plugins:css -->
@@ -21,8 +22,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
+    <link rel="canonical" href="{{ (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+    . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}" />
 
     <link rel="stylesheet" href="{{asset('admin/AdminSelect/css/style.css')}} ">
     <link rel="stylesheet" href="{{asset('admin/AdminSelect/css/materialdesignicons.min.css')}} ">
@@ -88,7 +89,7 @@
                             <span class="menu-icon">
                                 <i class="mdi mdi-table-large"></i>
                             </span>
-                            <span class="menu-title">{{ __('Шаблоны лендингов') }}</span>
+                            <span class="menu-title">{{ __('Токены') }}</span>
                         </a>
                     </li>
 
@@ -274,7 +275,6 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"
                 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{{asset('admin/dist/image-uploader.min.js')}} "></script>
-        <script src="{{asset('admin/js/Product.js')}}"></script>
         @yield('scripts')
 </body>
 </html>

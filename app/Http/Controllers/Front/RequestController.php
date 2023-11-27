@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Request as req;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendRequestFromAdmin;
+
 class RequestController extends Controller
 {
     public function all_requests_new(){
@@ -62,8 +63,9 @@ class RequestController extends Controller
                 $message = 'We have received your message, our staff will contact you shortly';
         }elseif ($app_lang == 'tr'){
             $message = 'Mesajınızı aldık, personelimiz kısa süre içinde sizinle iletişime geçecektir.';
+        }elseif ($app_lang == 'tr'){
+            $message = 'Wir haben Ihre Nachricht erhalten, unser Mitarbeiter wird sich in Kürze mit Ihnen in Verbindung setzen';
         }
-
 
         $data = array();
         if (isset($request->phone)){
@@ -85,10 +87,10 @@ class RequestController extends Controller
            'product_id' => $request->product_id,
            'fio' => $request->name,
            'country' => $request->country,
-           'messanger' => $request->messanger,
+           'message' => $request->message,
         ];
 
-        Mail::to('one.team.dev.1@gmail.com')->send(new SendRequestFromAdmin($details));
+//        Mail::to('one.team.dev.1@gmail.com')->send(new SendRequestFromAdmin($details));
 //        try{
 //        }catch (\Exception $e){
 //            return response()->json([
@@ -97,10 +99,9 @@ class RequestController extends Controller
 //            ],422);
 //        }
 
-
         req::create([
-           'phone' => $request->phone,
-           'messenger' => $request->messanger,
+            'phone' => $request->phone,
+            'message' => $request->message,
             'country' => $cleanString,
             'fio' => $request->name,
             'product_id' => $request->product_id

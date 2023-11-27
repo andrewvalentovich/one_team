@@ -40,26 +40,27 @@
                     <h4 class="card-title">Редактирование {{$string}}</h4>
                     <form class="forms-sample" action="{{route('update_peculiarities')}}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Названия</label>
-                            <input value="{{$get->name}}" name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Названия" required >
+
+                        <div class="form-group pt-5 pb-5" bis_skin_checked="1">
+                            <label for="exampleInputName1">Отображение в url (slug)</label>
+                            <input value="{{ $get->slug }}" name="slug" type="text" class="form-control" id="exampleInputName1" placeholder="name-type">
+                            @error('slug')
+                                <label class="text-danger font-weight-normal" for="slug">{{ $message }}</label>
+                            @enderror
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Английском</label>
-                            <input value="{{$get->name_en}}" name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Английском" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Турецком</label>
-                            <input value="{{$get->name_tr}}" name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Турецком" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название на Немецком</label>
-                            <input value="{{$get->name_de}}" name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название на Немецком" required >
-                        </div>
+
+                        @foreach($locales as $locale)
+                            <div class="form-group @if($loop->last) pb-5 @endif" bis_skin_checked="1">
+                                <label for="exampleInputName1">Название {{ '(' . $locale->code . ')' }}</label>
+                                <input value="{{ $get->getTranslatedName($locale->code) }}" name="name[{{ $locale->code }}]" type="text" class="form-control" id="exampleInputName1" placeholder="Название {{ '(' . $locale->code . ')' }}" >
+                            </div>
+                        @endforeach
+
                         <input type="hidden" name="id" value="{{$get->id}}">
+
                         <div style="display: flex; justify-content: space-between">
-                        <button type="submit" class="btn btn-inverse-success btn-fw">Сохранить</button>
-                        <a href="{{route('delete_peculiarities', $get->id)}}" class="btn btn-inverse-danger btn-fw">Удалить</a>
+                            <button type="submit" class="btn btn-inverse-success btn-fw">Сохранить</button>
+                            <a href="{{route('delete_peculiarities', $get->id)}}" class="btn btn-inverse-danger btn-fw">Удалить</a>
                         </div>
                     </form>
                 </div>

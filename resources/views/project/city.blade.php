@@ -2415,7 +2415,7 @@
 
 
         async function getData() {
-            await fetch(`{{ config('app.url') }}city_from_map/${ids}`)
+            await fetch(`{{ config('app.url') }}api/city_from_map/${ids}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status) {
@@ -3045,13 +3045,13 @@
 
                     mapCountry.events.add(['zoomchange', 'boundschange'], function (event) {
                         let newBounds = event.get('newBounds');
-                        
+
                         let topLeft = newBounds[0];
                         let bottomRight = newBounds[1];
-                        
+
                         console.log('Top left:', topLeft);
                         console.log('Bottom right:', bottomRight);
-                        
+
                         // Отправить данные на сервер для фильтрации меток
                         // Выполнить AJAX-запрос или использовать другие методы передачи данных
                     });

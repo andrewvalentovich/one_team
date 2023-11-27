@@ -3,69 +3,90 @@
         <div class="header-m__content">
             <div class="header-m__list">
                 <div class="header-m__item header-m__langs">
+                    @foreach($locales as $locale)
                     <div class="header-m__langs-item">
-                        <a style="display: flex;" href="{{route('setLocale','en')}}">
+                        <a style="display: flex;" href="{{route('setLocale', $locale->code)}}">
                         <div class="header-m__langs-title">
-                            EN
+                            {{ $locale->code }}
                         </div>
                         <div class="header-m__langs-img">
-                            <img src="{{asset('project/img/countries/usa.png')}}" alt="usa">
+                            <img style="width: 24px;height: 18px;" src="{{ asset(isset($locale->icon) ? $locale->icon_path : null)  }}" alt="{{ $locale->code }}">
                         </div>
                         </a>
                     </div>
-                    <div class="header-m__langs-item active">
-                        <a style="display: flex;" href="{{route('setLocale','ru')}}">
-                            <div class="header-m__langs-title">
-                                RU
-                            </div>
-                            <div class="header-m__langs-img">
-                                <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="header-m__langs-item">
-                        <a style="display: flex;" href="{{route('setLocale','tr')}}">
-                            <div class="header-m__langs-title">
-                                TR
-                            </div>
-                            <div class="header-m__langs-img">
-                                <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="header-m__langs-item">
-                        <a style="display: flex;" href="{{route('setLocale','de')}}">
-                            <div class="header-m__langs-title">
-                                DE
-                            </div>
-                            <div class="header-m__langs-img">
-                                <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">
-                            </div>
-                        </a>
-                    </div>
+                    @endforeach
+{{--                    <div class="header-m__langs-item">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','en')}}">--}}
+{{--                        <div class="header-m__langs-title">--}}
+{{--                            EN--}}
+{{--                        </div>--}}
+{{--                        <div class="header-m__langs-img">--}}
+{{--                            <img src="{{asset('project/img/countries/usa.png')}}" alt="usa">--}}
+{{--                        </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                    <div class="header-m__langs-item active">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','ru')}}">--}}
+{{--                            <div class="header-m__langs-title">--}}
+{{--                                RU--}}
+{{--                            </div>--}}
+{{--                            <div class="header-m__langs-img">--}}
+{{--                                <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                    <div class="header-m__langs-item">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','tr')}}">--}}
+{{--                            <div class="header-m__langs-title">--}}
+{{--                                TR--}}
+{{--                            </div>--}}
+{{--                            <div class="header-m__langs-img">--}}
+{{--                                <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                    <div class="header-m__langs-item">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','de')}}">--}}
+{{--                            <div class="header-m__langs-title">--}}
+{{--                                DE--}}
+{{--                            </div>--}}
+{{--                            <div class="header-m__langs-img">--}}
+{{--                                <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                    <div class="header-m__langs-item">--}}
+{{--                        <a style="display: flex;" href="{{route('setLocale','ar')}}">--}}
+{{--                            <div class="header-m__langs-title">--}}
+{{--                                AR--}}
+{{--                            </div>--}}
+{{--                            <div class="header-m__langs-img">--}}
+{{--                                <img src="{{asset('project/img/countries/ar.png')}}" alt="tr">--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="header-m__item header-m__buy header-m__item-btn">
                     <div class="header-m__item-text">
                         {{__('Купить') }}
-{{--                        Купить--}}
                     </div>
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
-                            <a href="{{ route('houses.index') }}">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index') }}">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
                     </div>
                 </div>
-                <a href="#" class="header-m__item">
+                <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header-m__item">
                     <div class="header-m__item-text">
                        {{__('Снять')}}
                     </div>
                 </a>
-                <a href="{{route('investments')}}" class="header-m__item">
+                <a href="{{ route('investments') }}" class="header-m__item">
                     <div class="header-m__item-text">
                         {{__('Инвестиции')}}
                     </div>
@@ -88,9 +109,10 @@
                     <div class="header-m__aboute-list">
                         <div class="header-m__aboute-content">
                             @foreach($company_pages  as $pages)
-                                <a href="{{route('company_page', $pages->id)}}"><div class="header-m__aboute-item">
-                             {{$pages->name}}
-                            </div>
+                                <a href="{{ route('about', $pages->slug) }}">
+                                    <div class="header-m__aboute-item">
+                                        {{__($pages->name)}}
+                                    </div>
                                 </a>
                             @endforeach
                         </div>
@@ -175,10 +197,10 @@
                     </a>
                     <div class="header__nav-item-dropdown header__buy-dropdown">
                         <div class="header__buy-list header__dropdown-list">
-                            <a href="{{ route('houses.index') }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index') }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
@@ -190,10 +212,10 @@
                     </a>
                     <div class="header__nav-item-dropdown header__rent-dropdown">
                         <div class="header__rent-list header__dropdown-list">
-                            <a href="{{ route('houses.index') }}" class="header__list-item header__rent-list-item">
+                            <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('houses.index') }}" class="header__list-item header__rent-list-item">
+                            <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
@@ -227,7 +249,7 @@
                         <div class="header__nav-item-dropdown header__about-dropdown">
                             <div class="header__about-list header__dropdown-list">
                                 @foreach($company_pages as $pages)
-                                    <a href="{{route('company_page',$pages->id)}}" class="header__list-item header__about-list-item">
+                                    <a href="{{ route('about', $pages->slug) }}" class="header__list-item header__about-list-item">
                                         {{__($pages->name)}}
                                     </a>
                                 @endforeach
@@ -249,47 +271,58 @@
                         </div>
                         <div class="header__lang-list-dropdown">
                             <div class="header__lang-list">
+                                @foreach($locales as $locale)
                                 <div class="header__lang-list-item">
-                                    <a style="display: flex;" href="{{route('setLocale','en')}}">
+                                    <a style="display: flex;" href="{{route('setLocale', $locale->code)}}">
                                         <div class="header__lang-text">
-                                        EN
-                                    </div>
-
-                                    <div class="header__lang-img">
-                                        <img src="{{asset('project/img/countries/us.png')}}" alt="us">
-                                    </div>
+                                            {{ $locale->code }}
+                                        </div>
+                                        <div class="header__lang-img">
+                                            <img style="width: 24px; height: 18px;" src="{{ asset(isset($locale->icon) ? $locale->icon_path : null) }}" alt="{{ $locale->code }}">
+                                        </div>
                                     </a>
                                 </div>
-                                <div class="header__lang-list-item">
-                                    <a style="display: flex;" href="{{route('setLocale','ru')}}">
-                                    <div class="header__lang-text">
-                                        RU
-                                    </div>
-                                    <div class="header__lang-img">
-                                        <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">
-                                    </div>
-                                    </a>
-                                </div>
-                                <div class="header__lang-list-item">
-                                    <a style="display: flex;" href="{{route('setLocale','tr')}}">
-                                    <div class="header__lang-text">
-                                        TR
-                                    </div>
-                                    <div class="header__lang-img">
-                                        <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">
-                                    </div>
-                                    </a>
-                                </div>
-                                <div class="header__lang-list-item">
-                                    <a style="display: flex;" href="{{route('setLocale','de')}}">
-                                    <div class="header__lang-text">
-                                        DE
-                                    </div>
-                                    <div class="header__lang-img">
-                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">
-                                    </div>
-                                    </a>
-                                </div>
+                                @endforeach
+{{--                                <div class="header__lang-list-item">--}}
+{{--                                    <a style="display: flex;" href="{{route('setLocale','en')}}">--}}
+{{--                                        <div class="header__lang-text">--}}
+{{--                                            EN--}}
+{{--                                        </div>--}}
+{{--                                        <div class="header__lang-img">--}}
+{{--                                            <img src="{{asset('project/img/countries/us.png')}}" alt="en">--}}
+{{--                                        </div>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <div class="header__lang-list-item">--}}
+{{--                                    <a style="display: flex;" href="{{route('setLocale','ru')}}">--}}
+{{--                                    <div class="header__lang-text">--}}
+{{--                                        RU--}}
+{{--                                    </div>--}}
+{{--                                    <div class="header__lang-img">--}}
+{{--                                        <img src="{{asset('project/img/countries/ru.png')}}" alt="ru">--}}
+{{--                                    </div>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <div class="header__lang-list-item">--}}
+{{--                                    <a style="display: flex;" href="{{route('setLocale','tr')}}">--}}
+{{--                                    <div class="header__lang-text">--}}
+{{--                                        TR--}}
+{{--                                    </div>--}}
+{{--                                    <div class="header__lang-img">--}}
+{{--                                        <img src="{{asset('project/img/countries/tr.png')}}" alt="tr">--}}
+{{--                                    </div>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <div class="header__lang-list-item">--}}
+{{--                                    <a style="display: flex;" href="{{route('setLocale','de')}}">--}}
+{{--                                    <div class="header__lang-text">--}}
+{{--                                        DE--}}
+{{--                                    </div>--}}
+{{--                                    <div class="header__lang-img">--}}
+{{--                                        <img src="{{asset('project/img/countries/gr.png')}}" alt="tr">--}}
+{{--                                    </div>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -306,4 +339,3 @@
             </div>
     </header>
 </div>
-

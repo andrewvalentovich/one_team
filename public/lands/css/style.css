@@ -1852,7 +1852,7 @@ ul.list_point li {
 }
 
 .about__pagination {
-  width: fit-content;
+  width: max-content;
   font-size: 18px;
   font-weight: 500;
 }
@@ -1883,7 +1883,7 @@ ul.list_point li {
   border-radius: 30px;
   background: #d3d3d3;
   padding: 15px 24px;
-  width: 150px;
+  min-width: 150px;
   display: flex;
   align-items: center;
   gap: 11px;
@@ -2199,7 +2199,7 @@ ul.list_point li {
 
 .gallery__overlap {
   position: absolute;
-  width: 19.5%;
+  width: 66px;
   height: 100%;
   top: 0;
 }
@@ -2214,6 +2214,7 @@ ul.list_point li {
   left: 0;
   width: 100%;
   height: 100%;
+  display: none;
 }
 
 .gallery__overlap_left {
@@ -4362,7 +4363,7 @@ ul.list_point li {
   position: relative;
   background: #fff;
   border-radius: 8px;
-  padding: 35px 15px 20px;
+  padding: 35px 15px;
   width: 95%;
   max-width: 450px;
   z-index: 105;
@@ -5259,35 +5260,50 @@ input[type='number'] {
 }
 
 .popup-house .popup__content{
-  max-width: 723px;
+  max-width: 1023px;
   background: #fff;
   display: flex;
   column-gap: 50px;
   row-gap: 10px;
-  justify-content: center;
   padding: 30px 15px;
 }
 
 
 .popup__house-price {
-  color: #000;
-  font-size: 20px;
-  margin-bottom: 4px;
+  color: #002850;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.popup__house-month {
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 24px;
+  border-radius: 5px;
+  background-color: #fa0064;
+  text-align: center;
+  width: fit-content;
+  padding: 0 7px;
+  margin-bottom: 20px;
 }
 
 .popup__house-lead {
-  color: #000;
+  color: #002850;
+  line-height: 24px;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .popup-house .preview__form {
   border-radius: 0px;
-  padding: 0px;
-  flex: 0 0 250px;
+  padding: 35px 25px;
+  flex: 1 0 250px;
 }
 .popup__house-info {
-  flex: 0 0 320px;
-  background: #f6f6f6;
-  padding: 10px;
+  display: flex;
+  width: 60%;
 }
 @media (max-width: 767px) {
   .popup-house .popup__content {
@@ -5295,16 +5311,16 @@ input[type='number'] {
   }
   .popup-house .preview__form {
     margin: 0 auto;
-    flex: 0 0 340px;
+    flex: 1 0 340px;
   }
-  
+
   .popup__house-pic  {
     margin: 0 auto 8px;
   }
 
   .popup__house-info {
     margin: 0 auto;
-    flex: 0 0 340px;
+    width: 100%;
   }
 }
 @media (max-width: 405px) {
@@ -5415,7 +5431,7 @@ input[type='number'] {
     padding: 0px;
     height: auto;
   }
-  
+
   .popup-gallery .popup__content {
     background: #fff;
     padding: 0px;
@@ -5492,7 +5508,7 @@ input[type='number'] {
     gap: 15px;
     justify-content: space-between;
   }
-  
+
   .popup-building .preview__form {
     flex: 0 0 100%;
     margin: 0 auto;
@@ -5621,3 +5637,108 @@ input[type='number'] {
 .gallery__text {
   color: #000;
 }
+
+
+.popup-thanks__body {
+  color: #000;
+}
+
+input:placeholder {
+  color: #000;
+}
+
+.object__swiper {
+    background: #fff;
+    width: 100%;
+    max-width: 100%;
+    max-width: 600px;
+}
+
+.object__swiper-slide {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 29px 55px;
+  display: flex;
+  height: auto;
+}
+
+.object__swiper-slide.swiper-slide img {
+  position: relative;
+  max-width: 1348px;
+  margin: 0 auto;
+  z-index: 202;
+  opacity: 1;
+  width: 100%;
+  object-fit: contain;
+}
+
+
+.object__swiper-prev {
+  left: 10px;
+}
+
+.object__swiper-nav {
+  position: absolute;
+  z-index: 163;
+  cursor: pointer;
+  top: 50%;
+  padding: 5px;
+  transform: translate(0, -50%);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #00A0E3;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.object__swiper-next {
+  right: 10px;
+  transform: translate(0, -50%) rotate(180deg);
+}
+
+.object__swiper-pagination {
+  bottom: 13px !important;
+}
+
+.object__swiper-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+}
+
+
+
+.object__swiper-slide-floor {
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  transform: translate(-50%,0);
+  background: #faeeee;
+  padding: 6px 15px;
+  border-radius: 15px;
+  z-index: 203;
+  color: #000;
+}
+
+@media (max-width: 767px) {
+  .object__swiper-slide-floor {
+    top: 1px;
+    padding: 4px 15px;
+  }
+}
+
+.popup-house .popup__content {
+  padding: 0px;
+}
+
+.popup-house .preview__form {
+  background: #f1f1f1;
+}
+
+.popup-house .popup__house-info{
+  padding: 30px 0 30px 0px;
+}
+

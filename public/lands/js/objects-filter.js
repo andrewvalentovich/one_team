@@ -22,17 +22,22 @@ $(document).ready(function () {
         $('.sort__title-type').text("Тип недвижимости");
     }
 
+    var data = {
+        type: (typeof url_type_id !== "boolean" && url_type_id !== "" && url_type_id !== " ") ? url_type_id : 0,
+        limit: Number($('.building__list').attr('data-count')),
+        offset: 0,
+    }
+
+    if (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ") {
+        data.city_id = url_city_id;
+    }
+
     // Подгрузка контента на странице
     $.ajax({
         url: window.landings_get_with_filter_url,
         method: 'GET',
         dataType: 'json',
-        data: {
-            city_id: (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ") ? url_city_id : 0,
-            type: (typeof url_type_id !== "boolean" && url_type_id !== "" && url_type_id !== " ") ? url_type_id : 0,
-            limit: Number($('.building__list').attr('data-count')),
-            offset: 0,
-        },
+        data: data,
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
@@ -80,16 +85,21 @@ function change_city(city_id) {
     // Кладём параметр в url
     window.history.pushState(null, null, $.query.SET('city_id', city_id));
 
+    var data = {
+        type: (typeof get_url_type_id !== "boolean" && get_url_type_id !== "" && get_url_type_id !== " ") ? Number(get_url_type_id) : 0,
+        limit: limit,
+        offset: offset,
+    }
+
+    if (city_id !== 0) {
+        data.city_id = city_id;
+    }
+
     $.ajax({
         url: window.landings_get_with_filter_url,
         method: 'GET',
         dataType: 'json',
-        data: {
-            city_id: city_id,
-            type: (typeof get_url_type_id !== "boolean" && get_url_type_id !== "" && get_url_type_id !== " ") ? Number(get_url_type_id) : 0,
-            limit: limit,
-            offset: offset,
-        },
+        data: data,
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
@@ -115,16 +125,21 @@ function change_type(type_id) {
     // Кладём параметр в url
     window.history.pushState(null, null, $.query.SET('type', type_id));
 
+    var data = {
+        type: type_id,
+        limit: limit,
+        offset: offset,
+    }
+
+    if (city_id !== 0) {
+        data.city_id = city_id;
+    }
+
     $.ajax({
         url: window.landings_get_with_filter_url,
         method: 'GET',
         dataType: 'json',
-        data: {
-            city_id: city_id,
-            type: type_id,
-            limit: limit,
-            offset: offset,
-        },
+        data: data,
         success: function (data) {
             $('.building__list').empty();
             append_objects(data);
@@ -212,16 +227,21 @@ function load_content() {
     var url_city_id = $.query.get('city_id');
     var url_type_id = $.query.get('type');
 
+    var data = {
+        type: (typeof url_type_id !== "boolean" && url_type_id !== "" && url_type_id !== " ") ? url_type_id : 0,
+        limit: Number($('.building__list').attr('data-count')),
+        offset: $('.building__list').children().length,
+    }
+
+    if (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ") {
+        data.city_id = url_city_id;
+    }
+
     $.ajax({
         url: window.landings_get_with_filter_url,
         method: 'GET',
         dataType: 'json',
-        data: {
-            city_id: (typeof url_city_id !== "boolean" && url_city_id !== "" && url_city_id !== " ") ? url_city_id : 0,
-            type: (typeof url_type_id !== "boolean" && url_type_id !== "" && url_type_id !== " ") ? url_type_id : 0,
-            limit: Number($('.building__list').attr('data-count')),
-            offset: $('.building__list').children().length,
-        },
+        data: data,
         success: function (data) {
             append_objects(data);
         },
@@ -238,7 +258,7 @@ function addClickBuildingItem() {
     //         const buildingPopup = document.querySelector('.popup-building')
     //         buildingPopup.classList.add('active')
     //         bodyScrollLock.disableBodyScroll(buildingPopup);
-      
+
     //         const houseBlock = this.closest('.building__item')
     //         addBuldingToPopup(houseBlock)
     //       })

@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>Регион</title>
+    @if(!is_null($landing->metric_code)){!! $landing->metric_code !!}@endif
 </head>
 <body>
 	<div class="wrapper">
@@ -94,13 +95,13 @@
 							<span class="text">
 							Имя
 							</span>
-							<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+							<input type="text" required="true" name="name" onkeyup="validate(this);">
 						</label>
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input type="number" name="phone" value="" placeholder="+7" >
+							<input type="number" required="true" name="phone" value="" placeholder="+7" >
 						</label>
                         <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
@@ -305,16 +306,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+					<input type="text" required="true" name="name" value="" onkeyup="validate(this);">
 				</label>
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input type="number" name="phone" value="" placeholder="+7" >
+					<input type="number" required="true" name="phone" value="" placeholder="+7" >
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -352,16 +353,16 @@
 						<span class="text">
 						Имя
 						</span>
-						<input type="text" name="name" value="" placeholder="Иванов Алексей Петрович">
+						<input type="text" required="true" name="name" value="" onkeyup="validate(this);">
 					</label>
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input type="number" name="phone" value="" placeholder="+7" >
+						<input type="number" required="true" name="phone" value="" >
 					</label>
                     <input type="hidden" name="landing_id" value="{{ $landing->id }}">
-                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>
@@ -400,7 +401,7 @@
     <script>
         window.domain = `{{ config('app.domain') }}`;
 
-        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://${window.domain}:8879/api/landings/with_filter?city_id={{ $filter->id }}` : `https://${window.domain}/api/landings/with_filter?city_id={{ $filter->id }}`;
     </script>
     <script src="{{ asset('lands/js/objects-filter.js') }}"></script>
     <script src="{{ asset('lands/js/forms-submit.js') }}"></script>

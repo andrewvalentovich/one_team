@@ -273,7 +273,7 @@
 
                         <div class="form-group col-md-6" bis_skin_checked="1" id="objects_module" style="display: none;">
                             <div class="card">
-                                <div class="card-header" id="objects_module_field">d
+                                <div class="card-header" id="objects_module_field">
                                     <!-- Начало аккардеона -->
 {{--                                    <div id="accordion1">--}}
 {{--                                        <div class="card">--}}
@@ -387,45 +387,19 @@
                         </div>
 
                         <div class="form-group pt-5" bis_skin_checked="1">
+                            <label for="deadline">Дата сдачи объекта (на Русском)</label>
+                            <input name="deadline" type="text" class="form-control" id="deadline" placeholder="2 квартал 2044 года">
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
                             <label for="">Расположение на Русском</label>
-                            <textarea name="disposition"  class="form-control" id="" placeholder="Расположение"></textarea>
+                            <textarea name="disposition" class="form-control" id="" placeholder="Расположение"></textarea>
                         </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Англиском</label>
-                            <textarea name="disposition_en"  class="form-control" id="" placeholder="Расположение на Англиском"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Турецком</label>
-                            <textarea name="disposition_tr"  class="form-control" id="" placeholder="Расположение на Турецком"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Расположение на Немецком</label>
-                            <textarea name="disposition_de"  class="form-control" id="" placeholder="Расположение на Немецком"></textarea>
-                        </div>
-
 
                         <div class="form-group" bis_skin_checked="1">
                             <label for="">Описание на Русском</label>
-                            <textarea name="description"  class="form-control" id="" placeholder="Описание"></textarea>
+                            <textarea name="description" class="form-control" id="" placeholder="Описание"></textarea>
                         </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Англиском</label>
-                            <textarea name="description_en"  class="form-control" id="" placeholder="Описание на Англиском"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Турецком</label>
-                            <textarea name="description_tr"  class="form-control" id="" placeholder="Описание на Турецком"></textarea>
-                        </div>
-
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="">Описание на Немецком</label>
-                            <textarea name="description_de"  class="form-control" id="" placeholder="Описание на Немецком"></textarea>
-                        </div>
-
 
                         <div class="form-group" bis_skin_checked="1">
                             <label class="btn btn-outline-warning" for="file">Выберете фотографии</label>

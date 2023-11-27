@@ -4,33 +4,57 @@ namespace App\Http\Controllers\Front;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Filters\RealEstateFilter;
-use App\Http\Requests\RealEstate\FilterRequest;
-use App\Models\ExchangeRate;
 use App\Models\Peculiarities;
 use App\Models\Product;
 use App\Models\CountryAndCity;
 use App\Models\ProductCategory;
+use Illuminate\Http\Request;
 
 class HousesController extends Controller
 {
-    public function index(FilterRequest $request)
+    public function index()
     {
-
-        $data = $request->validated();
-        $exchange_rates = ExchangeRate::where('direct', 'RUB')->get();
-        $exchanges = [];
-
-        foreach ($exchange_rates as $exchange_rate) {
-            $exchanges[$exchange_rate->relative] = $exchange_rate->value;
-        }
-        $exchanges[$exchange_rates[0]->direct] = 1;
-
-        $get_product = Product::orderby('price','desc')->paginate(10);
         $country = CountryAndCity::where('id', 17)->first();
         $countries = CountryAndCity::all();
-        $get_city = \App\Models\CountryAndCity::where('parent_id', 17)->get();
-        $count = $get_product->count();
-        return view('project.houses', compact('get_product', 'count', 'country', 'exchanges', 'countries'));
+        return view('project.houses', compact('country', 'countries'));
+    }
+
+    public function realty(Request $request, $categories)
+    {
+        $categories_array = explode('/', $categories);
+
+        $region = null;
+        foreach ($categories_array as $category) {
+            $country = CountryAndCity::whereRaw('`slug` LIKE ? ', ['%'.$category.'%'])->first();
+            unset($country_name);
+
+            if (!is_null($country)) {
+                break;
+            }
+        }
+
+        // Генерация заголовка
+        $title = $this->generateTitle($country);
+
+        $regions = CountryAndCity::with('locale_fields.locale')->with('country.locale_fields.locale')->get();
+        foreach ($regions as $index => $item) {
+            if (in_array(strtolower($item->slug), $categories_array)) {
+                $region = $item;
+            }
+        }
+
+        return view('project.houses', compact('region', 'title'));
+    }
+
+    private function generateTitle($country)
+    {
+        if (!is_null($country)) {
+            // Формируем заголовок
+            $title = __('Покупка недвижимости в регионе :name', ['name' => $country->locale_fields->where('locale.code', app()->getLocale())->first()->name]);
+        } else {
+            $title = null;
+        }
+
+        return $title;
     }
 }

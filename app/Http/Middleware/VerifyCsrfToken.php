@@ -14,6 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'admin/*',
         'login/',
+        'send_request',
+        'login/',
         'logined/',
         'add_or_delete_in_favorite/',
         'deleteFavorite/',

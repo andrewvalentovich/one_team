@@ -48,67 +48,80 @@
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select name="metric_id" class="form-control" style="color: white">
                                         @foreach($metric as $met)
-                                        <option value="{{$met->id}}">{{$met->name}}</option>
-                                            @endforeach
+                                            <option value="{{$met->id}}">{{$met->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название страны</label>
-                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название страны на Английском</label>
-                            <input name="name_en" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на английском" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название страны на Турецком</label>
-                            <input name="name_tr" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на Турецком" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Название страны на Немецком</label>
-                            <input name="name_de" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны на Немецком" required >
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Longitude</label>
-                            <input name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Longitude" required>
+                            <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название страны">
+                            @error('name')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                            @enderror
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Latitude</label>
-                            <input name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Latitude" required>
+                            <label for="exampleInputName1">Гражданство на русском</label>
+                            <textarea rows="5" class="form-control" name="div" placeholder="Гражданство на русском"></textarea>
+                            @error('div')
+                            <label class="text-danger font-weight-normal" for="div">{{ $message }}</label>
+                            @enderror
                         </div>
 
                         <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Гражданство на Русском</label>
-                            {{--                                <textarea style="color: white !important; height:  500px;" name="citizenship"  class="form-control" id="exampleInputName1" placeholder="Гражданство" >{{$get->div}}</textarea>--}}
-                            <textarea id="mytextarea" name="citizenship"></textarea>
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Гражданство на Английском</label>
-                            <textarea id="mytextarea_en" name="citizenship_en"></textarea>
-                        </div>
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Гражданство на Турецком</label>
-                            <textarea id="mytextarea_tr" name="citizenship_tr"></textarea>
+                            <label for="exampleInputName1">Обратный кредитный коэффициент (Например, 50% от цены на 24 мес = 48)</label>
+                            <input name="inverse_credit_ratio" type="text" class="form-control" id="exampleInputName1" placeholder="Обратный кредитный коэффициент (Например, 48)">
+                            @error('inverse_credit_ratio')
+                            <label class="text-danger font-weight-normal" for="inverse_credit_ratio">{{ $message }}</label>
+                            @enderror
                         </div>
 
-                        <div class="form-group" bis_skin_checked="1">
-                            <label for="exampleInputName1">Гражданство на Немецком</label>
-                            <textarea id="mytextarea_de" name="citizenship_de"></textarea>
+                        <div class="row">
+                            <div class="form-group col-md-6" bis_skin_checked="1">
+                                <label for="exampleInputName1">Широта</label>
+                                <input name="lat" type="text" class="form-control" id="exampleInputName1" placeholder="Широта">
+                                @error('lat')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                                @enderror
+                            </div>
+
+                            <div class="form-group col-md-6" bis_skin_checked="1">
+                                <label for="exampleInputName1">Долгота</label>
+                                <input name="long" type="text" class="form-control" id="exampleInputName1" placeholder="Долгота">
+                                @error('long')
+                                <label class="text-danger font-weight-normal" for="name">{{ $message }}</label>
+                                @enderror
+                            </div>
                         </div>
 
                         <div bis_skin_checked="1">
-                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%; display: none;" src="" alt="" id="blahas" >
+                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="" alt="">
                             <br>
-                            <input accept="image/*" style="display: none" name="photo" id="file-logos" class="btn btn-outline-success" type="file" required>
+                            <input name="photo" id="file-photo-city" type="file" style="opacity: 0">
                             <br>
-                            <label style="width: 200px" for="file-logos" class="custom-file-upload btn btn-outline-success">
-                                Выберети флаг
+                            <label style="width: 200px" for="file-photo-city" class="btn btn-outline-success">
+                                Выберите фото
                             </label>
+                            @error('photo')
+                            <label class="text-danger font-weight-normal" for="photo">{{ $message }}</label>
+                            @enderror
                         </div>
-                        <button type="submit" class="btn btn-inverse-success btn-fw">Сохранить</button>
+
+                        <div bis_skin_checked="1">
+                            <img style="object-fit: cover; object-position: center; max-height: 200px; max-width: 200px; width: 100%;" src="" alt="">
+                            <br>
+                            <input name="flag" id="file-logo-city" type="file" style="opacity: 0">
+                            <br>
+                            <label style="width: 200px" for="file-logo-city" class="btn btn-outline-success">
+                                Выберите флаг
+                            </label>
+                            @error('flag')
+                            <label class="text-danger font-weight-normal" for="flag">{{ $message }}</label>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-inverse-success btn-fw mt-5">Сохранить</button>
                     </form>
                 </div>
             </div>

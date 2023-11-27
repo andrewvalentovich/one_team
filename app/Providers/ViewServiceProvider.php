@@ -4,6 +4,8 @@ namespace App\Providers;
 
 
 use App\Http\ViewComposers\HeaderViewComposer;
+use App\Http\ViewComposers\LocaleViewComposer;
+use App\Models\Locale;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -18,5 +20,6 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(Request $request): void
     {
         View::composer('*', HeaderViewComposer::class);
+        View::composer('*', LocaleViewComposer::class);
     }
 }

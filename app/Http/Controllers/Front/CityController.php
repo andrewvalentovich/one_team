@@ -236,7 +236,6 @@ class CityController extends Controller
 
         $data =  array();
         foreach ($get_product as $city){
-
             foreach ($city->ProductCategory->where('type', 'Спальни') as $spalni ){
                 $spalni = $spalni->category->name;
             }

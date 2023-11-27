@@ -1,10 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="_token" content="{{csrf_token()}}">
+    <meta name="robots" content="noindex">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <!-- plugins:css -->
@@ -21,8 +22,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
+    <link rel="canonical" href="{{ (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+    . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}" />
 
     <link rel="stylesheet" href="{{asset('admin/AdminSelect/css/style.css')}} ">
     <link rel="stylesheet" href="{{asset('admin/AdminSelect/css/materialdesignicons.min.css')}} ">
@@ -94,7 +95,7 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
 
-                    <a class=" sidebar-brand brand-logo" style="color: white; text-decoration: none;" href="{{route('HomePage')}}">
+                    <a class=" sidebar-brand brand-logo" style="color: white; text-decoration: none;" href="{{ route('HomePage') }}">
                         <h3 style="color: #2f5687 !important">OneTime</h3>
                     </a>
 
@@ -125,10 +126,20 @@
 
                     <li class="nav-item menu-items">
                         <a class="nav-link" href="{{ route('admin.exchange_rates.index') }}">
-              <span class="menu-icon">
-                <i class="mdi mdi-table-large"></i>
-              </span>
+                              <span class="menu-icon">
+                                <i class="mdi mdi-table-large"></i>
+                              </span>
                             <span class="menu-title">Курс валют</span>
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item menu-items">
+                        <a class="nav-link" href="{{ route('admin.locales.index') }}">
+                              <span class="menu-icon">
+                                <i class="mdi mdi-table-large"></i>
+                              </span>
+                            <span class="menu-title">Языки</span>
                         </a>
                     </li>
 

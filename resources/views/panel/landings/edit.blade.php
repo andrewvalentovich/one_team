@@ -36,7 +36,7 @@
                     <h4 class="card-title">{{__("Редактирование параметров лендинга")}}</h4>
                     <form class="forms-sample" id="update_landings_form" action="{{ route('panel.landings.update', $landing->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        @method('patch')
+                        @method('put')
 
                         <div class="pl-0 py-3 row" bis_skin_checked="1">
                             <div class="col-sm-12 col-md-6">
@@ -108,6 +108,15 @@
                                 </div>
                             </div>
 
+                            <h3 class="col-12 pt-5 region country complex" style="display: none;">Метрика</h3>
+                            <div class="col-12 form-group pt-3 region country complex" style="display: none;">
+                                <label for="metric_code">{{ __('Скрипт метрики') }}</label>
+                                <div>
+                                    <textarea id="metric_code" class="form-control" name="metric_code" rows="5">{{ $landing->metric_code }}</textarea>
+                                </div>
+                                <label class="text-danger font-weight-normal" for="metric_code" id="metric_code_error"></label>
+                            </div>
+
                             <h3 class="col-12 pt-5 region country complex" style="display: none;">Главный экран</h3>
                             <div class="col-12 form-group pt-3 complex" bis_skin_checked="1" style="display: none;">
                                 <label for="main_location">{{ __('Локация/регион для главного блока') }}</label>
@@ -138,7 +147,7 @@
                             <div class="col-12 form-group region country complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; display: none; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->main_photo) ? "display: block" : "display: none" }}"></span>
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="{{ isset($landing->main_photo) ? "display: block" : "display: none" }}"></span>
                                         <img class="py-3" src="{{ asset($landing->main_photo ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="main_photo">{{ __('Фотография фона главного блока') }}</label>
@@ -153,28 +162,28 @@
                                     <div class="card-header row" style="gap: 30px 0;" id="main_lists_field">
                                         @if(!is_null(json_decode($landing->main_lists)))
                                             @foreach(json_decode($landing->main_lists) as $main_list)
-                                                <div class="main_lists_accordion col-sm-6 col-md-3" data-identificator="{{ $main_list->id }}" id="main_lists_accordion{{ $main_list->id }}">
+                                                <div class="main_lists_accordion col-sm-6 col-md-3" data-identificator="{{ $loop->index }}" id="main_lists_accordion{{ $loop->index }}">
                                                     <div class="card">
-                                                        <div class="card-header" id="main_lists_heading{{ $main_list->id }}">
+                                                        <div class="card-header" id="main_lists_heading{{ $loop->index }}">
                                                             <h5 class="mb-0">
-                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#main_lists_collapse{{ $main_list->id }}" aria-expanded="true" aria-controls="main_lists_collapse{{ $main_list->id }}">
-                                                                    Список #{{ $main_list->id }}
+                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#main_lists_collapse{{ $loop->index }}" aria-expanded="true" aria-controls="main_lists_collapse{{ $loop->index }}">
+                                                                    Список #{{ $loop->index + 1 }}
                                                                 </p>
-                                                                <input name="main_lists[{{ $main_list->id }}][id]" type="hidden" value="{{ $main_list->id }}">
+                                                                <input name="main_lists[{{ $loop->index }}][id]" type="hidden" value="{{ $main_list->id }}">
                                                             </h5>
                                                         </div>
-                                                        <div id="main_lists_collapse{{ $main_list->id }}" class="collapse show" aria-labelledby="main_lists_heading{{ $main_list->id }}" data-parent="#main_lists_accordion{{ $main_list->id }}">
+                                                        <div id="main_lists_collapse{{ $loop->index }}" class="collapse show" aria-labelledby="main_lists_heading{{ $loop->index }}" data-parent="#main_lists_accordion{{ $loop->index }}">
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="main_lists_title{{ $main_list->id }}">Заголовок</label>
-                                                                        <input name="main_lists[{{ $main_list->id }}][title]" type="text" class="form-control" value="{{ $main_list->title ?? null }}" id="main_lists_title{{ $main_list->id }}" placeholder="310">
+                                                                        <label for="main_lists_title{{ $loop->index }}">Заголовок</label>
+                                                                        <input name="main_lists[{{ $loop->index }}][title]" type="text" class="form-control" value="{{ $main_list->title ?? null }}" id="main_lists_title{{ $loop->index }}" placeholder="310">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="main_lists_content{{ $main_list->id }}">Контент</label>
-                                                                        <input name="main_lists[{{ $main_list->id }}][content]" type="text" class="form-control" value="{{ $main_list->content ?? null }}" id="main_lists_content{{ $main_list->id }}" placeholder="Солнечных дней в году">
+                                                                        <label for="main_lists_content{{ $loop->index }}">Контент</label>
+                                                                        <input name="main_lists[{{ $loop->index }}][content]" type="text" class="form-control" value="{{ $main_list->content ?? null }}" id="main_lists_content{{ $loop->index }}" placeholder="Солнечных дней в году">
                                                                     </div>
-                                                                    <p class="btn btn-outline-danger delete_main_lists_accordion" onclick="delete_accordion('main_lists', this);" data-identificator="{{ $main_list->id }}">Удалить элемент списка</p>
+                                                                    <p class="btn btn-outline-danger delete_main_lists_accordion" onclick="delete_accordion('main_lists', this);" data-identificator="{{ $loop->index }}">Удалить элемент списка</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -216,41 +225,41 @@
                                     <div class="card-header" id="about_description_field">
                                         @if(!is_null(json_decode($landing->about_description)))
                                             @foreach(json_decode($landing->about_description) as $about_description)
-                                                <div class="about_description_accordion" data-identificator="{{ $about_description->id }}" id="about_description_accordion{{ $about_description->id }}">
+                                                <div class="about_description_accordion" data-identificator="{{ $loop->index }}" id="about_description_accordion{{ $loop->index }}">
                                                     <div class="card">
-                                                        <div class="card-header" id="about_description_heading{{ $about_description->id }}">
+                                                        <div class="card-header" id="about_description_heading{{ $loop->index }}">
                                                             <h5 class="mb-0">
-                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#about_description_collapse{{ $about_description->id }}" aria-expanded="true" aria-controls="about_description_collapse{{ $about_description->id }}">
-                                                                    Карточка #{{ $about_description->id }}
+                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#about_description_collapse{{ $loop->index }}" aria-expanded="true" aria-controls="about_description_collapse{{ $loop->index }}">
+                                                                    Карточка #{{ $loop->index + 1 }}
                                                                 </p>
-                                                                <input name="about_description[{{ $about_description->id }}][id]" type="hidden" value="{{ $about_description->id }}">
+                                                                <input name="about_description[{{ $loop->index }}][id]" type="hidden" value="{{ $about_description->id }}">
                                                             </h5>
                                                         </div>
-                                                        <div id="about_description_collapse{{ $about_description->id }}" class="collapse show" aria-labelledby="about_description_heading{{ $about_description->id }}" data-parent="#about_description_accordion{{ $about_description->id }}">
+                                                        <div id="about_description_collapse{{ $loop->index }}" class="collapse show" aria-labelledby="about_description_heading{{ $loop->index }}" data-parent="#about_description_accordion{{ $loop->index }}">
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="about_description_title{{ $about_description->id }}">{{ __('Заголовок') }}</label>
-                                                                        <input name="about_description[{{ $about_description->id }}][title]" type="text" value="{{ $about_description->title ?? null }}" class="form-control" id="about_description_title{{ $about_description->id }}" placeholder="Большая закрытая территория с двумя бассейнами">
+                                                                        <label for="about_description_title{{ $loop->index }}">{{ __('Заголовок') }}</label>
+                                                                        <input name="about_description[{{ $loop->index }}][title]" type="text" value="{{ $about_description->title ?? null }}" class="form-control" id="about_description_title{{ $loop->index }}" placeholder="Большая закрытая территория с двумя бассейнами">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="about_description_content{{ $about_description->id }}">{{ __('Контент') }}</label>
+                                                                        <label for="about_description_content{{ $loop->index }}">{{ __('Контент') }}</label>
                                                                         <div>
-                                                                            <textarea class="textarea" name="about_description[{{ $about_description->id }}][content]">{!! $about_description->content ?? null !!}</textarea>
+                                                                            <textarea class="textarea" name="about_description[{{ $loop->index }}][content]">{!! $about_description->content ?? null !!}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group unfilterable">
                                                                         <div>
                                                                             <div class="preview_image" style="display: inline-block; position: relative;">
-                                                                                <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($about_description->photo) ? 'display:block' : 'display: none' }}"></span>
+                                                                                <span onclick="closeUploadedImage(this);" class="preview_image-close" style="{{ isset($about_description->photo) ? 'display:block' : 'display: none' }}"></span>
                                                                                 <img class="py-3" src="{{ asset($about_description->photo ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
                                                                             </div>
                                                                             <label class="d-block" for="about_description_photo">Фотография карточки блока о ЖК</label>
-                                                                            <input type="file" name="about_description[{{ $about_description->id }}][photo]" value="{{ $about_description->photo }}" onchange="displayUploadedImage(this);" class="form-control-file" id="about_description_photo">
+                                                                            <input type="file" name="about_description[{{ $loop->index }}][photo]" value="{{ $about_description->photo }}" onchange="displayUploadedImage(this);" class="form-control-file" id="about_description_photo">
                                                                         </div>
                                                                     </div>
 
-                                                                    <p class="btn btn-outline-danger delete_about_description_accordion" onclick="delete_accordion('about_description', this);" data-identificator="{{ $about_description->id }}">Удалить элемент списка</p>
+                                                                    <p class="btn btn-outline-danger delete_about_description_accordion" onclick="delete_accordion('about_description', this);" data-identificator="{{ $loop->index }}">Удалить элемент списка</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -270,7 +279,7 @@
                             <div class="col-12 form-group pt-3 complex" style="display: none;">
                                 <div>
                                     <div class="preview_image" style="display: inline-block; position: relative;">
-                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($landing->territory) ? 'display: block;' : 'display: none;' }}"></span>
+                                        <span onclick="closeUploadedImage(this);" class="preview_image-close" style="{{ isset($landing->territory) ? 'display: block;' : 'display: none;' }}"></span>
                                         <img class="py-3" src="{{ asset($landing->territory ?? null) }}" alt="" style="max-width: 300px; max-height: 300px;">
                                     </div>
                                     <label class="d-block" for="territory">{{ __('Фотография-план территории ЖК') }}</label>
@@ -295,30 +304,30 @@
                                     <div class="card-header row" id="purchase_terms_field">
                                         @if(!is_null(json_decode($landing->purchase_terms)))
                                             @foreach(json_decode($landing->purchase_terms) as $purchase_terms)
-                                                <div class="purchase_terms_accordion col-sm-12 col-md-6" data-identificator="{{ $purchase_terms->id }}" id="purchase_terms_accordion{{ $purchase_terms->id }}">
+                                                <div class="purchase_terms_accordion col-sm-12 col-md-6" data-identificator="{{ $loop->index }}" id="purchase_terms_accordion{{ $loop->index }}">
                                                     <div class="card">
-                                                        <div class="card-header" id="purchase_terms_heading{{ $purchase_terms->id }}">
+                                                        <div class="card-header" id="purchase_terms_heading{{ $loop->index }}">
                                                             <h5 class="mb-0">
-                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#purchase_terms_collapse{{ $purchase_terms->id }}" aria-expanded="true" aria-controls="purchase_terms_collapse{{ $purchase_terms->id }}">
-                                                                    Карточка #{{ $purchase_terms->id }}
+                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#purchase_terms_collapse{{ $loop->index }}" aria-expanded="true" aria-controls="purchase_terms_collapse{{ $loop->index }}">
+                                                                    Карточка #{{ $loop->index + 1 }}
                                                                 </p>
-                                                                <input name="purchase_terms[{{ $purchase_terms->id }}][id]" type="hidden" value="{{ $purchase_terms->id }}">
+                                                                <input name="purchase_terms[{{ $loop->index }}][id]" type="hidden" value="{{ $purchase_terms->id }}">
                                                             </h5>
                                                         </div>
-                                                        <div id="purchase_terms_collapse{{ $purchase_terms->id }}" class="collapse show" aria-labelledby="purchase_terms_heading{{ $purchase_terms->id }}" data-parent="#purchase_terms_accordion{{ $purchase_terms->id }}">
+                                                        <div id="purchase_terms_collapse{{ $loop->index }}" class="collapse show" aria-labelledby="purchase_terms_heading{{ $loop->index }}" data-parent="#purchase_terms_accordion{{ $loop->index }}">
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="purchase_terms_title{{ $purchase_terms->id }}">Заголовок</label>
-                                                                        <input name="purchase_terms[{{ $purchase_terms->id }}][title]" type="text" value="{{ $purchase_terms->title ?? null }}" class="form-control" id="purchase_terms_title{{ $purchase_terms->id }}" placeholder="310">
+                                                                        <label for="purchase_terms_title{{ $loop->index }}">Заголовок</label>
+                                                                        <input name="purchase_terms[{{ $loop->index }}][title]" type="text" value="{{ $purchase_terms->title ?? null }}" class="form-control" id="purchase_terms_title{{ $loop->index }}" placeholder="310">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="purchase_terms_content{{ $purchase_terms->id }}">Текст</label>
+                                                                        <label for="purchase_terms_content{{ $loop->index }}">Текст</label>
                                                                         <div>
-                                                                            <textarea class="textarea" name="purchase_terms[{{ $purchase_terms->id }}][content]">{{ $purchase_terms->content ?? null }}</textarea>
+                                                                            <textarea class="textarea" name="purchase_terms[{{ $loop->index }}][content]">{{ $purchase_terms->content ?? null }}</textarea>
                                                                         </div>
                                                                     </div>
-                                                                    <p class="btn btn-outline-danger delete_purchase_terms_accordion" onclick="delete_accordion('purchase_terms', this);" data-identificator="{{ $purchase_terms->id }}">Удалить элемент списка</p>
+                                                                    <p class="btn btn-outline-danger delete_purchase_terms_accordion" onclick="delete_accordion('purchase_terms', this);" data-identificator="{{ $loop->index }}">Удалить элемент списка</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -362,41 +371,41 @@
                                     <div class="card-header" id="sight_cards_field">
                                         @if(!is_null(json_decode($landing->sight_cards)))
                                             @foreach(json_decode($landing->sight_cards) as $sight_card)
-                                                <div class="sight_cards_accordion" data-identificator="{{ $sight_card->id }}" id="sight_cards_accordion{{ $sight_card->id }}">
+                                                <div class="sight_cards_accordion" data-identificator="{{ $loop->index }}" id="sight_cards_accordion{{ $loop->index }}">
                                                     <div class="card">
-                                                        <div class="card-header" id="sight_cards_heading{{ $sight_card->id }}">
+                                                        <div class="card-header" id="sight_cards_heading{{ $loop->index }}">
                                                             <h5 class="mb-0">
-                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#sight_cards_collapse{{ $sight_card->id }}" aria-expanded="true" aria-controls="sight_cards_collapse{{ $sight_card->id }}">
-                                                                    Карточка #{{ $sight_card->id }}
+                                                                <p class="btn btn-link" data-toggle="collapse" data-target="#sight_cards_collapse{{ $loop->index }}" aria-expanded="true" aria-controls="sight_cards_collapse{{ $loop->index }}">
+                                                                    Карточка #{{ $loop->index }}
                                                                 </p>
-                                                                <input name="sight_cards[{{ $sight_card->id }}][id]" type="hidden" value="{{ $sight_card->id }}">
+                                                                <input name="sight_cards[{{ $loop->index }}][id]" type="hidden" value="{{ $sight_card->id }}">
                                                             </h5>
                                                         </div>
-                                                        <div id="sight_cards_collapse{{ $sight_card->id }}" class="collapse show" aria-labelledby="sight_cards_heading{{ $sight_card->id }}" data-parent="#sight_cards_accordion{{ $sight_card->id }}">
+                                                        <div id="sight_cards_collapse{{ $loop->index }}" class="collapse show" aria-labelledby="sight_cards_heading{{ $loop->index }}" data-parent="#sight_cards_accordion{{ $loop->index }}">
                                                             <div class="card-body">
                                                                 <div class="form-group unfilterable" bis_skin_checked="1" style="display: block;">
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="sight_cards_title{{ $sight_card->id }}">Заголовок</label>
-                                                                        <input name="sight_cards[{{ $sight_card->id }}][title]" type="text" class="form-control" value="{{ $sight_card->title ?? null }}" id="sight_cards_title{{ $sight_card->id }}" placeholder="Большая закрытая территория с двумя бассейнами">
+                                                                        <label for="sight_cards_title{{ $loop->index }}">Заголовок</label>
+                                                                        <input name="sight_cards[{{ $loop->index }}][title]" type="text" class="form-control" value="{{ $sight_card->title ?? null }}" id="sight_cards_title{{ $loop->index }}" placeholder="Большая закрытая территория с двумя бассейнами">
                                                                     </div>
                                                                     <div class="form-group unfilterable" bis_skin_checked="1">
-                                                                        <label for="sight_cards_content{{ $sight_card->id }}">Текст</label>
+                                                                        <label for="sight_cards_content{{ $loop->index }}">Текст</label>
                                                                         <div>
-                                                                            <textarea class="textarea" name="sight_cards[{{ $sight_card->id }}][content]">{!! $sight_card->content !!}</textarea>
+                                                                            <textarea class="textarea" name="sight_cards[{{ $loop->index }}][content]">{!! $sight_card->content !!}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group unfilterable">
                                                                         <div>
                                                                             <div class="preview_image" style="display: inline-block; position: relative;">
-                                                                                <span onclick="closeUploadedImage(this);" class="preview_image-close" style="width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; {{ isset($sight_card->photo) ? 'display: block;' : 'display: none;' }}"></span>
+                                                                                <span onclick="closeUploadedImage(this);" class="preview_image-close" style="{{ isset($sight_card->photo) ? 'display: block;' : 'display: none;' }}"></span>
                                                                                 <img class="py-3" src="{{ asset($sight_card->photo) ?? null }}" alt="" style="max-width: 300px; max-height: 300px;">
                                                                             </div>
                                                                             <label class="d-block" for="sight_cards_photo">Фотография достопримечательности</label>
-                                                                            <input type="file" name="sight_cards[{{ $sight_card->id }}][photo]" value="{{ $sight_card->photo ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="sight_cards_photo">
+                                                                            <input type="file" name="sight_cards[{{ $loop->index }}][photo]" value="{{ $sight_card->photo ?? null }}" onchange="displayUploadedImage(this);" class="form-control-file" id="sight_cards_photo">
                                                                         </div>
                                                                     </div>
 
-                                                                    <p class="btn btn-outline-danger delete_sight_cards_accordion" onclick="delete_accordion('sight_cards', this);" data-identificator="{{ $sight_card->id }}">Удалить элемент списка</p>
+                                                                    <p class="btn btn-outline-danger delete_sight_cards_accordion" onclick="delete_accordion('sight_cards', this);" data-identificator="{{ $loop->index }}">Удалить элемент списка</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -429,6 +438,27 @@
     </div>
 @endsection
 @section('scripts')
+    <style>
+        /*.preview_image-close {*/
+        /*    width: 25px;*/
+        /*    height: 25px;*/
+        /*    position: absolute;*/
+        /*    top: 15px;*/
+        /*    right: -6px;*/
+        /*}*/
+        /*.preview_image-close:before {*/
+        /*    content: '\2715';*/
+        /*    position: absolute;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    top: 0;*/
+        /*    right: 0;*/
+        /*    color: #f30c0c;*/
+        /*    font-size: large;*/
+        /*    color: red;*/
+        /*    font-weight: bold;*/
+        /*}*/
+    </style>
     <script type="text/javascript">
         function initEditors() {
             tinymce.init({
@@ -503,6 +533,7 @@
             $('#'+prefix+'_field').append(window["get_"+prefix+"_accordion"](accordionCount));
             tinyMCE.remove();
             initEditors();
+            check_all_accordions();
         });
 
         // Удаление объекта по его порядковому номеру
@@ -518,7 +549,7 @@
                 "<div class='card-header' id='main_lists_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#main_lists_collapse" + id + "' aria-expanded='true' aria-controls='main_lists_collapse" + id + "'>"+
-                "Список #" + id +
+                "Список #" + (id + 1) +
                 "</p>"+
                 "<input name='main_lists["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -555,7 +586,7 @@
             for(let i = 0; i < accordionsCount; i++) {
                 // console.log('ident = '+accordions[i].dataset.identificator);
                 // console.log('i = '+i);
-                if (i != Number(accordions[i].dataset.identificator)) {
+                // if (i != Number(accordions[i].dataset.identificator)) {
                     // console.log('- Не совпало -');
 
                     // accordions[i] нашли .accordion
@@ -565,44 +596,44 @@
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
                     // console.log(accordions[i].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+                    accordions[i].children[0].children[0].id = prefix+"_heading"+i;
 
                     // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
 
                     // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Объект #"+i;
+                    console.log(accordions[i].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[0].children[0].children[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].children[0].children[0].children[0].children[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].children[0].children[0].children[0].children[0].textContent  = "Объект #"+(i+1);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+                    // accordions[i].children[0].children[0].children[0].children[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].children[0].children[0].children[0].children[1]);
+                    accordions[i].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][id]";
+                    accordions[i].children[0].children[0].children[0].children[1].value = i;
+                    accordions[i].children[0].children[0].children[0].children[1].id = prefix+"_add_id"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
-                    console.log(accordions[i].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
-                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+                    // accordions[i].children[0].children[1] нашли .collapse
+                    console.log(accordions[i].children[0].children[1]);
+                    accordions[i].children[0].children[1].id = prefix+"_collapse"+i;
+                    accordions[i].children[0].children[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].children[0].children[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+                    // accordions[i].children[0].children[1].children[0].children[0].children[6] нашли .delete_accordion
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[2]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].dataset.identificator = i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли add_building
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[0].children[1] нашли add_building
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].id = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][title]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли add_price
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
-                }
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли add_price
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[1].children[1]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].id = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].name = prefix+"["+i+"][content]";
+                // }
             }
         }
 
@@ -613,7 +644,7 @@
                 "<div class='card-header' id='purchase_terms_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#purchase_terms_collapse" + id + "' aria-expanded='true' aria-controls='purchase_terms_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id + 1) +
                 "</p>"+
                 "<input name='purchase_terms["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -652,7 +683,7 @@
             for(let i = 0; i < accordionsCount; i++) {
                 // console.log('ident = '+accordions[i].dataset.identificator);
                 // console.log('i = '+i);
-                if (i != Number(accordions[i].dataset.identificator)) {
+                // if (i != Number(accordions[i].dataset.identificator)) {
                     // console.log('- Не совпало -');
 
                     // accordions[i] нашли .accordion
@@ -662,44 +693,44 @@
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
                     // console.log(accordions[i].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+                    accordions[i].children[0].children[0].id = prefix+"_heading"+i;
 
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].children[0].children[0].children[0].children[0]);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    // accordions[i].children[0].children[0].children[0].children[0] нашли .card-header
+                    console.log(accordions[i].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[0].children[0].children[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].children[0].children[0].children[0].children[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].children[0].children[0].children[0].children[0].textContent  = "Карточка #"+(i + 1);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+                    // accordions[i].children[0].children[0].children[0].children[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].children[0].children[0].children[0].children[1]);
+                    accordions[i].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][id]";
+                    accordions[i].children[0].children[0].children[0].children[1].value = i;
+                    accordions[i].children[0].children[0].children[0].children[1].id = prefix+"_add_id"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
-                    console.log(accordions[i].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
-                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+                    // accordions[i].children[0].children[1] нашли .collapse
+                    console.log(accordions[i].children[0].children[1]);
+                    accordions[i].children[0].children[1].id = prefix+"_collapse"+i;
+                    accordions[i].children[0].children[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].children[0].children[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].dataset.identificator = i;
+                    // accordions[i].children[0].children[1].children[0].children[0].children[6] нашли .delete_accordion
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[2]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].dataset.identificator = i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].for = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[0].children[1] нашли title
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].id = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][title]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].for = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
-                }
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли content
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[1].children[1]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].children[0].id = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].children[0].name = prefix+"["+i+"][content]";
+                // }
             }
         }
 
@@ -710,7 +741,7 @@
                 "<div class='card-header' id='about_description_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#about_description_collapse" + id + "' aria-expanded='true' aria-controls='about_description_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id + 1) +
                 "</p>"+
                 "<input name='about_description["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -731,7 +762,7 @@
                 "<div class='form-group'>\n" +
                 "<div>\n" +
                 "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
-                "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
+                "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='display: none'></span>\n" +
                 "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
                 "</div>\n" +
                 "<label class='d-block' for='about_description_photo'>Фотография карточки блока о ЖК</label>\n" +
@@ -752,6 +783,7 @@
             console.log(prefix);
             let accordions = document.querySelectorAll('.'+prefix+'_accordion');
             let accordionsCount = accordions.length;
+            console.log(accordionsCount);
 
             // Проверяем id и имена классов, для "выравнивания" id и имён классов по порядку и корректной работы элементов
             // id 1 4 5 8 -> id 0 1 2 3, для передачи в JSON-объект в будущем
@@ -761,7 +793,7 @@
             for(let i = 0; i < accordionsCount; i++) {
                 // console.log('ident = '+accordions[i].dataset.identificator);
                 // console.log('i = '+i);
-                if (i != Number(accordions[i].dataset.identificator)) {
+                // if (i != Number(accordions[i].dataset.identificator)) {
                     // console.log('- Не совпало -');
 
                     // accordions[i] нашли .accordion
@@ -770,51 +802,51 @@
                     accordions[i].id = prefix+"_accordion"+i;
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+                    console.log(accordions[i].children[0].children[0]);
+                    accordions[i].children[0].children[0].id = prefix+"_heading"+i;
 
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].children[0].children[0].children[0].children[0]);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    // accordions[i].children[0].children[0].children[0].children[0] нашли .card-header
+                    console.log(accordions[i].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[0].children[0].children[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].children[0].children[0].children[0].children[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].children[0].children[0].children[0].children[0].textContent  = "Карточка #"+(i + 1);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
-                    console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+                    // accordions[i].children[0].children[0].children[0].children[1] нашли input[type='hidden'] add_id
+                    console.log(accordions[i].children[0].children[0].children[0].children[1]);
+                    accordions[i].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][id]";
+                    accordions[i].children[0].children[0].children[0].children[1].value = i;
+                    accordions[i].children[0].children[0].children[0].children[1].id = prefix+"_add_id"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
-                    console.log(accordions[i].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
-                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+                    // accordions[i].children[0].children[1] нашли .collapse
+                    console.log(accordions[i].children[0].children[1]);
+                    accordions[i].children[0].children[1].id = prefix+"_collapse"+i;
+                    accordions[i].children[0].children[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].children[0].children[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].dataset.identificator = i;
+                    // accordions[i].children[0].children[1].children[0].children[0].children[6] нашли .delete_accordion
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[3]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[3].dataset.identificator = i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[0].children[1] нашли title
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].id = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][title]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].htmlFor = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли content
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].children[0]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].children[0].id = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].children[0].name = prefix+"["+i+"][content]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли photo
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[3].htmlFor = prefix+"_photo"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].name = prefix+"["+i+"][photo]";
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].id = prefix+"_content"+i;
-                }
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли photo
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[2].children[0].children[2]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[0].children[1].htmlFor = prefix+"_photo"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[0].children[2].name = prefix+"["+i+"][photo]";
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[0].children[2].id = prefix+"_content"+i;
+                // }
             }
         }
 
@@ -825,7 +857,7 @@
                 "<div class='card-header' id='sight_cards_heading" + id + "'>"+
                 "<h5 class='mb-0'>"+
                 "<p class='btn btn-link' data-toggle='collapse' data-target='#sight_cards_collapse" + id + "' aria-expanded='true' aria-controls='sight_cards_collapse" + id + "'>"+
-                "Карточка #" + id +
+                "Карточка #" + (id + 1) +
                 "</p>"+
                 "<input name='sight_cards["+id+"][id]' type='hidden' value='"+id+"'>"+
                 "</h5>"+
@@ -846,7 +878,7 @@
                 "<div class='form-group'>\n" +
                 "<div>\n" +
                 "<div class='preview_image' style='display: inline-block; position: relative;'>\n" +
-                "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='width: 25px; height: 25px; background: #fff; position: absolute; top: 35px; right: 10px; display: none'></span>\n" +
+                "<span onclick='closeUploadedImage(this);' class='preview_image-close' style='display: none'></span>\n" +
                 "<img class='py-3' src='' alt='' style='max-width: 300px; max-height: 300px;'>\n" +
                 "</div>\n" +
                 "<label class='d-block' for='sight_cards_photo'>Фотография достопримечательности</label>\n" +
@@ -886,49 +918,49 @@
 
                     // accordions[i].childNodes[0].childNodes[0] нашли .card-header
                     // console.log(accordions[i].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].id = prefix+"_heading"+i;
+                    accordions[i].children[0].children[0].id = prefix+"_heading"+i;
 
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
+                    // console.log(accordions[i].children[0].children[0].children[0].children[0]);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0] нашли .card-header
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].dataset.target = "#"+prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].ariaControls = prefix+"_collapse"+i; // ?
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[0].textContent  = "Карточка #"+i;
+                    // accordions[i].children[0].children[0].children[0].children[0] нашли .card-header
+                    // console.log(accordions[i].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[0].children[0].children[0].dataset.target = "#"+prefix+"_collapse"+i;
+                    accordions[i].children[0].children[0].children[0].children[0].ariaControls = prefix+"_collapse"+i; // ?
+                    accordions[i].children[0].children[0].children[0].children[0].textContent  = "Карточка #"+(i + 1);
 
-                    // accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли input[type='hidden'] add_id
-                    // console.log(accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][id]";
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].value = i;
-                    accordions[i].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_add_id"+i;
+                    // accordions[i].children[0].children[0].children[0].children[1] нашли input[type='hidden'] add_id
+                    // console.log(accordions[i].children[0].children[0].children[0].children[1]);
+                    accordions[i].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][id]";
+                    accordions[i].children[0].children[0].children[0].children[1].value = i;
+                    accordions[i].children[0].children[0].children[0].children[1].id = prefix+"_add_id"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1] нашли .collapse
-                    // console.log(accordions[i].childNodes[0].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].id = prefix+"_collapse"+i;
-                    accordions[i].childNodes[0].childNodes[1].ariaLabelledby = prefix+"_heading"+i;
-                    accordions[i].childNodes[0].childNodes[1].dataset.parent = "#"+prefix+"_accordion"+i;
+                    // accordions[i].children[0].children[1] нашли .collapse
+                    // console.log(accordions[i].children[0].children[1]);
+                    accordions[i].children[0].children[1].id = prefix+"_collapse"+i;
+                    accordions[i].children[0].children[1].ariaLabelledby = prefix+"_heading"+i;
+                    accordions[i].children[0].children[1].dataset.parent = "#"+prefix+"_accordion"+i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[6] нашли .delete_accordion
-                    console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[3].dataset.identificator = i;
+                    // accordions[i].children[0].children[1].children[0].children[0].children[6] нашли .delete_accordion
+                    console.log(accordions[i].children[0].children[1].children[0].children[0].children[3]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[3].dataset.identificator = i;
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1] нашли title
-                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[0].htmlFor = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].id = prefix+"_title"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0].childNodes[1].name = prefix+"["+i+"][title]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[0].children[1] нашли title
+                    // console.log(accordions[i].children[0].children[1].children[0].children[0].children[0].children[0]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[0].htmlFor = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].id = prefix+"_title"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[0].children[1].name = prefix+"["+i+"][title]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли content
-                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[0].htmlFor = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].id = prefix+"_content"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1].name = prefix+"["+i+"][content]";
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли content
+                    // console.log(accordions[i].children[0].children[1].children[0].children[0].children[1].children[1]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[0].htmlFor = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].id = prefix+"_content"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[1].children[1].name = prefix+"["+i+"][content]";
 
-                    // accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[1].childNodes[1] нашли photo
-                    // console.log(accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1]);
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[3].htmlFor = prefix+"_photo"+i;
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].name = prefix+"["+i+"][photo]";
-                    accordions[i].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[2].childNodes[1].childNodes[5].id = prefix+"_content"+i;
+                    // accordions[i].children[0].children[1].children[0].children[0].children[1].children[1] нашли photo
+                    // console.log(accordions[i].children[0].children[1].children[0].children[0].children[2].children[1]);
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[1].children[3].htmlFor = prefix+"_photo"+i;
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[1].children[5].name = prefix+"["+i+"][photo]";
+                    accordions[i].children[0].children[1].children[0].children[0].children[2].children[1].children[5].id = prefix+"_content"+i;
                 }
             }
         }
@@ -943,6 +975,11 @@
 
             tinyMCE.remove();
             initEditors();
+
+            check_main_lists_accordions();
+            check_purchase_terms_accordions();
+            check_about_description_accordions();
+            check_sight_cards_accordions();
 
             $.ajaxSetup({
                 headers: {
@@ -963,8 +1000,8 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    alert("Success");
                     console.log(data);
+                    alert("Лендинг обновлён");
                     window.location.href = "{{ route('panel.landings.index') }}";
                 },
                 error: function (reject) {
@@ -975,9 +1012,9 @@
                             $("#" + key + "_error").text(val[0]);
                         });
 
-                        alert("Error, correct specific fields!");
+                        alert("Ошибка! Заполните поля в соответствии с рекомендациями");
                     } else {
-                        alert("Error "+reject.status);
+                        alert("Ошибка при обновлении лендинга! Статус ошибки - "+reject.status);
                     }
                 }
             });

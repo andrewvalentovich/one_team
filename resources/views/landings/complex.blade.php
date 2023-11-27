@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('lands/css/style.css') }}">
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 	<title>{{ $landing->main_title }}</title>
+    @if(!is_null($landing->metric_code)){!! $landing->metric_code !!}@endif
 </head>
 <body>
 	<div class="wrapper">
@@ -83,7 +84,7 @@
     </div>
 </div>
 			<div class="preview">
-				<img class="preview__pic" src="{{ asset('lands/img/pic/sky.jpg') }}" alt="">
+				<img class="preview__pic" src="{{ asset($landing->main_photo ?? null) }}" alt="Главная картинка">
 				<div class="preview__content container">
 					<div class="preview__place">
 						<div class="preview__place-address">
@@ -108,14 +109,14 @@
 							<span class="text">
 							Имя
 							</span>
-							<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+							<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 						</label>
                         <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 						<label class="field input-wrapper">
 							<span class="text">
 							Номер телефона
 							</span>
-							<input name="phone" type="number" value="" placeholder="+7" >
+							<input name="phone" type="number" value="" required="true">
 						</label>
 						<button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
 							Оставить заявку
@@ -201,14 +202,14 @@
                             @if(isset($filter->layouts))
                                 @foreach($filter->layouts as $layout)
                                     <div class="layouts__slide swiper-slide" btn-popup="popup-house">
-                                        <div class="layouts__slide-pic">
-                                            @if(isset($layout->photos))
-                                                <img src="{{ asset($layout->photos[0]->url ?? null) }}" alt="схема">
+                                        <div class="layouts__slide-pic" data-photos="{{ json_encode($layout->photos) }}">
+                                            @if($layout->photos->isNotEmpty())
+                                                <img src="{{ asset($layout->photos[0]->url) }}" alt="схема">
                                             @endif
                                         </div>
                                         <div class="layouts__slide-text">
-                                            <div class="layouts__slide-price">
-                                                {{ $layout->price ?? null }} €
+                                            <div class="layouts__slide-price" data-price="{{ $layout->price }} €">
+                                                {{ number_format($layout->price, 0, '', ' ') ?? null }} €
                                             </div>
                                             <div class="layouts__slide-info">
                                                 <div class="layouts__slide-lead">
@@ -307,11 +308,15 @@
 				</div>
 			</div>
 			<div class="map wrapMap" id="map">
-				<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
-					width="100%"
-					height="500"
-					frameborder="0">
-				</iframe>
+                @if(isset($landing->map))
+                    {!! $landing->map !!}
+                @else
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Afc64a3d223ff913723c16022e4266225030f99a540ffe10915e3499fe62a343b&amp;source=constructor&amp;scroll=false"
+                        width="100%"
+                        height="500"
+                        frameborder="0">
+                    </iframe>
+                @endif
 			</div>
             @if(!is_null($landing->purchase_terms))
                 <div class="conditions container">
@@ -415,16 +420,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input name="phone" type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" required="true">
 				</label>
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -462,16 +467,16 @@
 						<span class="text">
 						Имя
 						</span>
-						<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+						<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 					</label>
                     <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 					<label class="field input-wrapper">
 						<span class="text">
 						Номер телефона
 						</span>
-						<input name="phone" type="number" value="" placeholder="+7" >
+						<input name="phone" type="number" value="" required="true">
 					</label>
-                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                    <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                         Оставить заявку
                         <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                     </button>
@@ -502,17 +507,31 @@
     <div class="popup__body">
         <div class="popup__content">
 			<div class="popup__house-info">
-				<div class="popup__house-pic">
-					<img src="">
-				</div>
-				<div class="popup__house-price">
+                <div class="object__swiper swiper">
+                    <div class="object__swiper-wrapper swiper-wrapper">
+                        <div class="object__swiper-slide swiper-slide">
 
-				</div>
-				<div class="popup__house-lead">
-
-				</div>
+                        </div>
+                    </div>
+                    <div class="object__swiper-pagination swiper-pagination"></div>
+                    <div class="object__swiper-prev object__swiper-nav">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                    <div class="object__swiper-next object__swiper-nav">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                </div>
 			</div>
             <div class="preview__form">
+                <div class="popup__house-price">
+
+                </div>
+                <div class="popup__house-lead">
+
+                </div>
+                <div class="popup__house-month">
+
+                </div>
                 <div class="preview__form-title">
                     Оставить заявку эксперту
                 </div>
@@ -520,16 +539,16 @@
 					<span class="text">
 					Имя
 					</span>
-					<input name="name" type="text" value="" placeholder="Иванов Алексей Петрович">
+					<input name="name" type="text" value="" required="true" onkeyup="validate(this);">
 				</label>
                 <input type="hidden" name="landing_id" value="{{ $landing->id }}">
 				<label class="field input-wrapper">
 					<span class="text">
 					Номер телефона
 					</span>
-					<input name="phone" type="number" value="" placeholder="+7" >
+					<input name="phone" type="number" value="" required="true">
 				</label>
-                <button class="preview__form-submit-btn btn btn_blue btn_arrow" >
+                <button class="preview__form-submit-btn btn btn_blue btn_arrow" type="submit">
                     Оставить заявку
                     <img src="{{ asset('lands/img/icons/right-arrows.png') }}" alt="стрелочка">
                 </button>
@@ -590,7 +609,7 @@
     <script>
         window.domain = `{{ config('app.domain') }}`;
 
-        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://dev.${window.domain}:8879/api/landings/with_filter` : `https://dev.${window.domain}/api/landings/with_filter`;
+        window.landings_get_with_filter_url = window.domain === "localhost" ? `http://${window.domain}:8879/api/landings/with_filter` : `https://${window.domain}/api/landings/with_filter`;
     </script>
     <script src="{{ asset('lands/js/forms-submit.js') }}"></script>
 

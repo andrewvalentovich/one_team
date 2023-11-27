@@ -1,5 +1,6 @@
 @extends('project.includes.layouts')
 
+<?php $title = 'Oneteam / ' . __('Политика обработки персональных данных') ?>
 @section('header')
     @include('project.includes.header')
 @endsection
@@ -15,7 +16,9 @@
 </style>
 
 @section('content')
-    <?php echo json_decode($get->privice_content )  ?>
+    <div class="maxContainer police">
+        <?php echo json_decode($get->privice_content )  ?>
+    </div>
 
 @endsection
 

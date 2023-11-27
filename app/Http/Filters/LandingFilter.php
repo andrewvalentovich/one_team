@@ -44,6 +44,7 @@ class LandingFilter extends AbstractFilter
 
     protected function city_by_id(Builder $builder, $value)
     {
+
         if(isset($value) && (int) $value !== 0) {
             $builder->where('city_id', $value);
         }

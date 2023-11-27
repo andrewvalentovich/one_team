@@ -42,13 +42,13 @@ use Illuminate\Support\Facades\Session;
 //
 //});
 
-Route::get('/set', function(){
-    Session::put('session', 'working');
-});
+//Route::get('/set', function(){
+//    Session::put('session', 'working');
+//});
 
-Route::get('/get', function(){
-    return Session::get('session');
-});
+//Route::get('/get', function(){
+//    return Session::get('session');
+//});
 
 Route::domain('panel.'.config('app.domain'))->group(function () {
     Route::group(['as' => 'panel.'], function () {
@@ -71,7 +71,9 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
     });
 
     Route::middleware(['panel.auth'])->group(function () {
-        Route::get('/', [PanelLoginController::class, 'index'])->name('panel.index');
+        Route::get('/', function () {
+            return redirect()->route('panel.landings.index');
+        })->name('panel.index');
 
         Route::group(['as' => 'panel.'], function () {
             Route::resource('templates', \App\Http\Controllers\Panel\TemplateController::class); // CRUD model Template
@@ -83,45 +85,7 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 
 
 
-Route::domain('dev.'.config('app.domain'))->group(function () {
-    Route::view('test','test2');
-
-
-    Route::get('setLocale/{local}', [SetLocaleController::class,'setLocale'])->name('setLocale');
-
-
-    //Route::prefix(app()->getLocale())->group(function () {
-    Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
-    Route::get('city_from_map/{id?}',[HomePageController::class, 'city_from_map'])->name('city_from_map');
-    Route::get('products_from_map',[HomePageController::class, 'products_from_map'])->name('products_from_map');
-    Route::get('all_location',[AllLocationController::class, 'all_location'])->name('all_location');
-    Route::get('country/country_id={id}',[CounrtryController::class,'country'])->name('country');
-    Route::get('city/city_id={id}',[CityController::class,'city'])->name('city');
-
-    Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
-
-    Route::get('/houses', [HousesController::class, 'index'])->name('houses.index'); // Новая карта
-
-    Route::post('product_from_map/{id}',[CityController::class,'product_from_map'])->name('product_from_map');
-    Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
-    Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
-    Route::get('installment_plan',[RasrochkaController::class,'installment_plan'])->name('installment_plan');
-    Route::get('company_page/page_id={id}', [CompanySelectController::class, 'company_page'])->name('company_page');
-    Route::get('contacts', [ContactsController::class,'contacts'])->name('contacts');
-    Route::get('my_favorites', [FavoriteController::class,'my_favorites'])->name('my_favorites');
-    Route::get('delete_my_all_favorite', [FavoriteController::class,'delete_my_all_favorite'])->name('delete_my_all_favorite');
-    Route::post('deleteFavorite', [FavoriteController::class,'deleteFavorite'])->name('deleteFavorite');
-    Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
-    //});
-
-    Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
-
-    Route::post('send_request', [RequestController::class,'send_request'])->name('send_request');
-
-    Route::get('personal_data_processing_policy', [PolicyAndPrivice::class,'personal_data_processing_policy'])->name('personal_data_processing_policy');
-    Route::get('user_agreement_when_using_the_site', [PolicyAndPrivice::class,'user_agreement_when_using_the_site'])->name('user_agreement_when_using_the_site');
-
-
+Route::domain(config('app.domain'))->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
             Route::get('/login', [AdminLoginController::class, 'login'])->name('login');
@@ -163,6 +127,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
 
             Route::group(['as' => 'admin.'], function () {
                 Route::resource('exchange_rates', \App\Http\Controllers\Admin\ExchangeRateController::class); // CRUD model ExchangeRate
+                Route::resource('locales', \App\Http\Controllers\Admin\LocaleController::class); // CRUD model Locale
             });
 
 
@@ -178,7 +143,7 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::get('new_country_page', [CountryAndCityController::class, 'new_country_page'])->name('new_country_page');
             Route::post('create_country', [CountryAndCityController::class, 'create_country'])->name('create_country');
             Route::get('single_country/country_id={id}', [CountryAndCityController::class, 'single_country'])->name('single_country');
-            Route::post('update_country', [CountryAndCityController::class, 'update_country'])->name('update_country');
+            Route::patch('update_country', [CountryAndCityController::class, 'update_country'])->name('update_country');
             Route::get('delete_country/country_id={id}', [CountryAndCityController::class, 'delete_country'])->name('delete_country');
             Route::post('get_city', [CountryAndCityController::class, 'get_city'])->name('get_city');
 
@@ -209,5 +174,53 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
             Route::post('create_product', [ProductController::class, 'create_product'])->name('create_product');
             Route::post('update_product', [ProductController::class, 'update_product'])->name('update_product');
         });
+    });
+
+    Route::group([
+        'prefix' => \App\Services\Localization\LocalizationService::locale(),
+        'middleware' => 'locale',
+    ], function() {
+        Route::view('test', 'test2');
+
+        Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
+
+
+        //Route::prefix(app()->getLocale())->group(function () {
+        Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
+        Route::get('products_from_map', [HomePageController::class, 'products_from_map'])->name('products_from_map');
+        Route::get('locations/', [AllLocationController::class, 'all_location'])->name('all_location');
+        Route::get('locations/{slug}', [CounrtryController::class, 'countries'])->name('countries');
+        Route::get('city/city_id={id}', [CityController::class, 'city'])->name('city');
+
+        //    Route::get('/real_estate', [RealEstateController::class, 'index'])->name('real_estate.index'); // Отображаем недвижимость по фильтру
+
+        //    Route::get('/houses', [HousesController::class, 'index'])->name('houses.index'); // Новая карта
+
+        Route::post('product_from_map/{id}', [CityController::class, 'product_from_map'])->name('product_from_map');
+        Route::get('investments', [InvestPageController::class, 'investments'])->name('investments');
+        Route::get('residence_and_citizenship', [VngAndGrjController::class, 'residence_and_citizenship'])->name('residence_and_citizenship');
+        Route::get('installment_plan', [RasrochkaController::class, 'installment_plan'])->name('installment_plan');
+        Route::get('about/{slug}', [CompanySelectController::class, 'about'])->name('about');
+        Route::get('contacts', [ContactsController::class, 'contacts'])->name('contacts');
+        Route::get('my_favorites', [FavoriteController::class, 'my_favorites'])->name('my_favorites');
+        Route::get('delete_my_all_favorite', [FavoriteController::class, 'delete_my_all_favorite'])->name('delete_my_all_favorite');
+        Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
+        Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
+        //});
+
+        Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
+
+        Route::post('send_request', [RequestController::class, 'send_request'])->name('send_request');
+
+        Route::get('personal_data_processing_policy', [PolicyAndPrivice::class, 'personal_data_processing_policy'])->name('personal_data_processing_policy');
+        Route::get('user_agreement_when_using_the_site', [PolicyAndPrivice::class, 'user_agreement_when_using_the_site'])->name('user_agreement_when_using_the_site');
+
+
+        // Route to closure
+        Route::get('/{categories?}', function ($categories) {
+            return $categories;
+        })->where('categories', '(.*)');
+        // Route to controller method
+        Route::get('/{categories?}', [HousesController::class, 'realty'])->where('categories', '(.*)')->name('realty');
     });
 });

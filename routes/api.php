@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\MapCityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::domain('dev.'.config('app.domain'))->group(function () {
+Route::domain(config('app.domain'))->group(function () {
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
@@ -33,6 +34,9 @@ Route::domain('dev.'.config('app.domain'))->group(function () {
 
     // Отдаются (все) exchange_rates (с учётом базовой или прямой)
     Route::get('exchange_rates/all', [\App\Http\Controllers\API\ExchangeRatesController::class, 'getAll'])->name('api.exchange_rates.get.all');
+
+    // Получение стран
+    Route::get('get_cities', [MapCityController::class, 'getCities'])->name('city_from_map');
 
     // Отдаются объекты для лендингов по фильтру
     Route::get('/landings/with_filter', [\App\Http\Controllers\API\LandingsController::class, 'getWithFilter'])->name('api.landings.get.with_filter');

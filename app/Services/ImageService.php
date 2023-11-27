@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -14,7 +15,7 @@ class ImageService
         $thumbnailpath = null;
         $prefix = is_null($prefix) ? "" : $prefix;
 
-        if ($image){
+        if ($image) {
             $filenamewithextension = $image->getClientOriginalName();
 
             //get filename without extension
@@ -31,7 +32,7 @@ class ImageService
             $img->save($thumbnailpath);
         }
 
-        return "uploads/" . $prefix . $filenametostore;
+        return $prefix . $filenametostore;
     }
 
     public function saveFromRemoteString($image)

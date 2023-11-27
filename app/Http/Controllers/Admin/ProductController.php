@@ -8,10 +8,13 @@ use App\Http\Requests\Admin\Products\UpdateRequest;
 use App\Models\ExchangeRate;
 use App\Models\Layout;
 use App\Models\LayoutPhoto;
+use App\Models\Locale;
 use App\Models\Option;
+use App\Models\ProductLocale;
 use App\Services\CurrencyService;
 use App\Services\ImageService;
 use App\Services\PreviewImageService;
+use App\Services\SlugService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
@@ -22,18 +25,26 @@ use Illuminate\Support\Facades\File;
 use App\Models\CountryAndCity;
 use App\Models\ProductDrawing;
 use Illuminate\Support\Facades\Log;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class ProductController extends Controller
 {
     private $previewImageService;
     private $imageService;
     private $currencyService;
+    private $slugService;
 
-    public function __construct(PreviewImageService $previewImageService, CurrencyService $currencyService, ImageService $imageService)
+    public function __construct(
+        PreviewImageService $previewImageService,
+        CurrencyService $currencyService,
+        ImageService $imageService,
+        SlugService $slugService
+    )
     {
         $this->previewImageService = $previewImageService;
         $this->imageService = $imageService;
         $this->currencyService = $currencyService;
+        $this->slugService = $slugService;
     }
 
     public function all_product($id)
@@ -77,33 +88,46 @@ class ProductController extends Controller
     public function create_product(StoreRequest $request)
     {
         $data = $request->validated();
-        // Планировки
-        $layouts = $request->layouts;
 
-//        for($i = 0; $i < count($layouts); $i++) {
-//            // Добавление фотографий
-//            if (isset($layouts[$i]['photos'])) {
-//                if (is_array($layouts[$i]['photos'])) {
-//                    foreach ($layouts[$i]['photos'] as $image) {
-//                        // Перебор массива с картинками планировки
-//                    }
-//                } else {
-//                    // работа с 1 картинкой планировки
-//                }
-//            }
-//        }
+        // Получаем планировки
+        $layouts = isset($data['layouts']) ? $data['layouts'] : null;
+        unset($data['layouts']);
+
+        // Получаем фото для Product
+        $photos = isset($data['photo']) ? $data['photo'] : null;
+        unset($data['photo']);
 
         // Конвертируем цену
-        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         // Настраиваем option_id (для лендингов)
         $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
-        $create =  Product::create($data);
+        // Создаём переменные
+        $description = $data['description'];
+        $disposition = $data['disposition'];
+        $deadline = $data['deadline'];
+        unset($data['description'], $data['disposition'], $data['deadline']);
+
+        // Создание продукта
+        $create = Product::create($data);
+
+        // Создаём slug для объекта
+        if (is_null($create->slug)) {
+            $create->update([
+                'slug' => $this->slugService->make($create->id)
+            ]);
+        }
+
+        // Перевод и добавление полей описаний
+        $this->translateForNew($create->id, $description, $disposition, $deadline);
+
 
         // Создаём планировки для созданного объекта
-        $this->createLayouts($layouts, $create->id);
+        if(!is_null($layouts)) {
+            $this->createLayouts($layouts, $create->id);
+        }
 
         // Закрепляем особенности за созданным объектом
         if (isset($request->osobenosti)){
@@ -119,11 +143,9 @@ class ProductController extends Controller
 
         // Добавление фотографий
         $time = time();
-        if (isset($request->photo)){
-            foreach ($request->photo as $key => $photo){
-                $file =  $photo;
-                $fileName = $time++.'.'.$file->getClientOriginalExtension();
-                $filePath = $file->move('uploads', $fileName);
+        if (isset($photos)){
+            foreach ($photos as $key => $photo){
+                $fileName = $this->imageService->saveWebp($photo);
 
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',
@@ -145,24 +167,22 @@ class ProductController extends Controller
     public function single_page_product($id)
     {
         // Получаем элемент
-        $get = Product::with('layouts')->where('id', $id)->first();
+        $get = Product::with('layouts')->with('locale_fields.locale')->where('id', $id)->first();
 
-        // Выводим корректную цену в соответствии с указанной валютой
-        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
+//        // Выводим корректную цену в соответствии с указанной валютой
+//        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
+//
+//        // Выводим корректную цену в соответствии с указанной валютой в планировках
+//        if (isset($get->layouts)) {
+//            foreach ($get->layouts as $layout) {
+//                $layout->price = $this->currencyService->displayWithCurrency($layout->price, $layout->price_code);
+//            }
+//        }
 
-        // Выводим корректную цену в соответствии с указанной валютой в планировках
-        $objects = json_decode($get->objects);
-        if(!is_null($objects)) {
-            foreach ($objects as $key => $object) {
-                $objects[$key]->price = $this->currencyService->displayWithCurrency($object->price, $object->price_code);
-            }
-            $get->objects = json_encode($objects);
-            unset($objects);
-        }
-
-        if ($get == null){
+        if ($get == null) {
             return redirect()->back();
         }
+
         $country = CountryAndCity::orderbY('name','asc')->where('parent_id', null)->get();
         $city = CountryAndCity::orderBy('name','asc')->where('parent_id',$get->country_id)->get();
         $product_category = $get->ProductCategory->where('type', 'Типы');
@@ -206,22 +226,49 @@ class ProductController extends Controller
     public function update_product(UpdateRequest $request)
     {
         $data = $request->validated();
-        $layouts = $request->layouts;
+
+        // Получаем планировки
+        $layouts = isset($data['layouts']) ? $data['layouts'] : null;
+        unset($data['layouts']);
+
+        // Получаем фото для Product
+        $photos = isset($data['photo']) ? $data['photo'] : null;
+        unset($data['photo']);
 
         $product = Product::with('layouts')->find($request->product_id);
 
         // Конвертируем цену
-        $data['price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         // Настраиваем option_id (для лендингов)
         $data['option_id'] = (is_numeric($data['option_id']) && $data['option_id'] > 0) ? $data['option_id'] : null;
         $data['lat'] = preg_replace( '/[^0-9.]+$/',  '',  $data['lat']);
         $data['long'] = preg_replace( '/[^0-9.]+$/',  '',  $data['long']);
 
+        // Обновление текстовых полей description и disposition
+        $this->updateDescriptionAndDisposition($product, $data['description'], $data['disposition'], $data['deadline']);
+        unset($data['description'], $data['disposition'], $data['deadline']);
+
+        // Проверка поля slug на уникальность
+        if (isset($data['slug'])) {
+            $check = Product::where('slug', $data['slug'])->whereNot('id', $product->id)->first();
+            if (!is_null($check)) {
+                return Redirect::back()->withErrors(['slug' => ['Название продукта в url не уникально']]);
+            }
+            unset($check);
+        }
+
         // Обновляем данные
         $product->update($data);
 
         // Обновляем или удаляем планировки для созданного объекта
-        $this->updateLayouts($layouts, $product);
+        if(!is_null($layouts)) {
+            $this->updateLayouts($layouts, $product);
+        } else {
+            foreach ($product->layouts as $layout) {
+                $layout->delete();
+            }
+            $product->update(['complex_or_not' => "Нет"]);
+        }
 
         // Закрепление особенностей за обновлённым объектом
         if (isset($request->osobenosti)){
@@ -247,12 +294,10 @@ class ProductController extends Controller
         }
 
         // Создание фото для обновлённого объекта
-        if (isset($request->photo)) {
+        if (!is_null($photos)) {
             $time = time();
-            foreach ($request->photo as $key => $photo){
-                $file = $photo;
-                $fileName = $time++.'.'.$file->getClientOriginalExtension();
-                $filePath = $file->move('uploads', $fileName);
+            foreach ($photos as $key => $photo){
+                $fileName = $this->imageService->saveWebp($photo);
 
                 PhotoTable::create([
                     'parent_model'=> '\App\Models\Product',
@@ -270,18 +315,9 @@ class ProductController extends Controller
                 $data = [];
 
                 if (gettype($key) != "string") {
-                    Log::info("PhotoCategory $key is not string");
                     $data['category_id'] = $category > 0 ? $category : null;
-                    PhotoTable::whereId($key)->create($data);
+                    PhotoTable::whereId($key)->update($data);
                     unset($data);
-                } else {
-                    if (strripos($key, "new_") !== false) {
-                        Log::info($category);
-                        Log::info(strripos($key, "new_"));
-                        $data['category_id'] = $category > 0 ? $category : null;
-                        PhotoTable::whereId($key)->update($data);
-                        unset($data);
-                    }
                 }
             }
         }
@@ -293,6 +329,57 @@ class ProductController extends Controller
         ],200);
     }
 
+    private function translateForNew($product_id, $description, $disposition, $deadline)
+    {
+        $locales = Locale::all();
+
+        foreach ($locales as $locale) {
+            $tr = new GoogleTranslate(); // Translates to 'en' from auto-detected language by default
+
+            $tmp_description = !empty($description) ? $tr->trans($description, $locale->code, "ru") : null;
+            $tmp_disposition = !empty($disposition) ? $tr->trans($disposition, $locale->code, "ru") : null;
+            $tmp_deadline = !empty($deadline) ? $tr->trans($deadline, $locale->code, "ru") : null;
+
+            ProductLocale::create([
+                "product_id" => $product_id,
+                "locale_id" => $locale->id,
+                "description" => $tmp_description,
+                "disposition" => $tmp_disposition,
+                "deadline" => $tmp_deadline,
+            ]);
+
+            unset($tmp_description, $tmp_disposition, $tmp_deadline);
+        }
+    }
+
+    private function updateDescriptionAndDisposition($product, $description, $disposition, $deadline)
+    {
+        $locales = Locale::all();
+
+        foreach ($product->locale_fields as $key => $value) {
+            if (!is_null($locales->where('code', $value->locale->code)->first())) {
+                unset($locales[$locales->where('code', $value->locale->code)->first()->id - 1]);
+            }
+
+            $value->description = $description[$value->locale->code];
+            $value->disposition = $disposition[$value->locale->code];
+            $value->deadline = $deadline[$value->locale->code];
+            $value->save();
+        }
+
+        // Не заполненные поля
+        if (!empty($locales)) {
+            foreach ($locales as $key => $locale) {
+                ProductLocale::create([
+                    "product_id" => $product->id,
+                    "locale_id" => $locale->id,
+                    "description" => $description[$locale->code],
+                    "disposition" => $disposition[$locale->code],
+                    "deadline" => $deadline[$locale->code],
+                ]);
+            }
+        }
+    }
 
     public function delete_product($id){
         $get = Product::where('id', $id)->first();
@@ -311,7 +398,9 @@ class ProductController extends Controller
         $cat = ProductCategory::where('product_id', $id)->where('type', 'Типы')->first();
         $get->delete();
 
-        return redirect()->route('all_product',$cat->peculiarities_id)->with('true', "Удаления адреса $get->address завершено");
+        $category = !is_null($cat) ? $cat->peculiarities_id : 2;
+
+        return redirect()->route('all_product', $category)->with('true', "Удаления адреса $get->address завершено");
 
     }
 
@@ -329,7 +418,6 @@ class ProductController extends Controller
         $get->delete();
         return redirect()->back();
     }
-
 
     private function createLayouts($layouts, $product_id)
     {
@@ -373,17 +461,23 @@ class ProductController extends Controller
         unset($data['id']);
         unset($data['photos']);
 
-        $created_layout = Layout::create($data);
-
-        if (!is_null($photos)) {
-            // Создание фото планировок
-            foreach ($photos as $key => $photo) {
-                LayoutPhoto::create([
-                    'url' => $this->imageService->saveWebp($photo, 'layout_'),
-                    'layout_id' => $created_layout->id
-                ]);
-            }
+        // Обрабатываем цену
+        if (isset($data['price']) && isset($data['price_code'])) {
+            $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
         }
+
+        $created_layout = Layout::create($data);
+        $this->handleLayoutPhotos($photos, $created_layout);
+//        if (!is_null($photos)) {
+//            // Создание фотографий планировок
+//            foreach ($photos as $key => $photo) {
+//                LayoutPhoto::create([
+//                    'url' => $this->imageService->saveWebp($photo['file'], 'layout_'),
+//
+//                    'layout_id' => $created_layout->id
+//                ]);
+//            }
+//        }
 
         return $created_layout;
     }
@@ -391,6 +485,12 @@ class ProductController extends Controller
     private function updateLayout($data, $product_id)
     {
         $layout = Layout::find($data['id']);
+
+        // Обрабатываем цену
+        if (isset($data['price']) && isset($data['price_code'])) {
+            $data['base_price'] = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+        }
+
         $photos = isset($data['photos']) ? $data['photos'] : null;
         unset($data['photos']);
 
@@ -399,23 +499,76 @@ class ProductController extends Controller
             $data['complex_id'] = $product_id;
             unset($data['id']);
 
+            // Обновление планировки
             $layout->update($data);
 
-            if (!is_null($photos)) {
-                // Удаление фото планировок
-                $layout->photos()->delete();
-
-                // Создание фото планировок
-                foreach ($photos as $key => $photo) {
-                    LayoutPhoto::create([
-                        'url' => $this->imageService->saveWebp($photo, 'layout_'),
-                        'layout_id' => $layout->id
-                    ]);
-                }
-            }
+            // Обработка фотографий
+            $this->handleLayoutPhotos($photos, $layout);
+//            if (!is_null($photos)) {
+//                // Удаление фото планировок
+//                $layout->photos()->delete();
+//
+//                // Создание фото планировок
+//                foreach ($photos as $key => $photo) {
+//                    LayoutPhoto::create([
+//                        'url' => $this->imageService->saveWebp($photo, 'layout_'),
+//                        'layout_id' => $layout->id
+//                    ]);
+//                }
+//            }
 
         }
 
         return $layout;
+    }
+
+    private function handleLayoutPhotos($photos, $layout)
+    {
+        // Выбираем колонку id всех планировок, которые пришли
+        $columns = array_column($photos, 'id');
+
+        // Если фотографии находящиеся в layout не пришли - удалим их
+        foreach ($layout->photos as $photo) {
+            if (!in_array($photo->id, $columns)) {
+                $tmp = LayoutPhoto::find($photo->id);
+                $tmp->delete();
+                unset($tmp);
+
+                Log::info('Destroyed layout photo - ' . $photo->id);
+            }
+        }
+
+        // Создадим или обновим фотографии
+        foreach ($photos as $key => $photo) {
+            if (stripos($photo['id'], "new_") !== false) {
+                if (isset($photo['file'])) {
+                    Log::info($photo);
+                    Log::info(isset($photo['name']) ? $photo['name'] : null);
+                    LayoutPhoto::create([
+                        'url'       => 'uploads/' . $this->imageService->saveWebp($photo['file'], 'layout_'),
+                        'layout_id' => $layout->id,
+                        'name'      => isset($photo['name']) ? $photo['name'] : null,
+                    ]);
+                }
+            } else {
+                $layoutPhoto = LayoutPhoto::find($photo['id']);
+
+                // Обновляем только если существуют: $layoutPhoto и layout->id
+                if (!is_null($layoutPhoto) && isset($layout->id)) {
+                    $tmp = [];
+
+                    // Валидация массива
+                    if (isset($photo['file'])) {
+                        $tmp['url'] = 'uploads/' . $this->imageService->saveWebp($photo['file'], 'layout_');
+                    }
+                    $tmp['name'] = isset($photo['name']) ? $photo['name'] : null;
+                    $tmp['layout_id'] = isset($layout->id) ? $layout->id : null;
+
+                    // Обновление
+                    $layoutPhoto->update($tmp);
+                    unset($tmp);
+                }
+            }
+        }
     }
 }
