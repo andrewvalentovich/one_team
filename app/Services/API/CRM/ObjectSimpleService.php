@@ -54,42 +54,29 @@ class ObjectSimpleService
 
     public function handle($endpoint, $token, $complex_id)
     {
-        try {
-            $client = new \GuzzleHttp\Client(['headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Accept' => 'application/json',
-                'Content-type' => 'application/json'
-            ]]);
+        $client = new \GuzzleHttp\Client(['headers' => [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+            'Content-type' => 'application/json'
+        ]]);
 
-            $guzzleResponse = $client->get('https://crm.one-team.pro' . $endpoint . '?token=' . $token);
-            // Логирование статуса ответа
-            Log::info(Carbon::now()." Get complexes data from API " . $guzzleResponse->getStatusCode());
+        $guzzleResponse = $client->get('https://crm.one-team.pro' . $endpoint . '?token=' . $token);
+        // Логирование статуса ответа
+        Log::info(Carbon::now()." Get complexes data from API " . $guzzleResponse->getStatusCode());
 
-            if($guzzleResponse->getStatusCode() == 200) {
-                $response = json_decode($guzzleResponse->getBody(),true);
-                // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
-                foreach ($response as $index => $complex) {
-                    if ($complex['id'] == $complex_id) {
-                        dump($complex['id']);
-                        if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
-                            $this->updateOrDelete($complex);
-                        } else {
-                            $this->create($complex);
-                        }
+        if($guzzleResponse->getStatusCode() == 200) {
+            $response = json_decode($guzzleResponse->getBody(),true);
+            // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
+            foreach ($response as $index => $complex) {
+                if ($complex['id'] == $complex_id) {
+                    dump($complex['id']);
+                    if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
+                        $this->updateOrDelete($complex);
+                    } else {
+                        $this->create($complex);
                     }
                 }
             }
-        }
-        catch(\GuzzleHttp\Exception\RequestException $e) {
-            // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        } catch(Exception $e) {
-            // other errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
         }
     }
 
