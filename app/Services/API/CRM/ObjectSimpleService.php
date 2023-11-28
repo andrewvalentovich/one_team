@@ -69,8 +69,8 @@ class ObjectSimpleService
                 $response = json_decode($guzzleResponse->getBody(),true);
                 // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
                 foreach ($response as $index => $complex) {
-                    dump($complex['id']);
                     if ($complex['id'] == $complex_id) {
+                        dump($complex['id']);
                         if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
                             $this->updateOrDelete($complex);
                         } else {
