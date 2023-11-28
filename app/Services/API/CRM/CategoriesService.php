@@ -46,7 +46,7 @@ class CategoriesService
         return $types;
     }
 
-    public function getToSea($value) : int
+    public function getToSea($value) : mixed
     {
         $to_sea = Peculiarities::where('type', 'До моря')->get();
         $tmpCategoryId = null;
