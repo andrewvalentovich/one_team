@@ -42,6 +42,14 @@
                         @csrf
 
                         <div class="form-group" bis_skin_checked="1">
+                            <label for="exampleInputName1">Название в url (slug)</label>
+                            <input name="slug" type="text" class="form-control" id="exampleInputName1" placeholder="Название в url (slug)">
+                            @error('slug')
+                                <label class="text-danger font-weight-normal" for="slug">{{ $message }}</label>
+                            @enderror
+                        </div>
+
+                        <div class="form-group" bis_skin_checked="1">
                             <label for="exampleInputName1">Название</label>
                             <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Название">
                             @error('name')

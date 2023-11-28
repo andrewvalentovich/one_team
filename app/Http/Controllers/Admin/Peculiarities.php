@@ -30,7 +30,11 @@ class Peculiarities extends Controller
         $data = $request->validated();
 
         // Создание
-        $peculiarity = Peculiaritie::create($data);
+        $peculiarity = Peculiaritie::create([
+            'name' => $data['name'],
+            'slug' => $data['slug'],
+            'type' => 'До моря'
+        ]);
 
         // Перевод
         $this->translateForNew($peculiarity, $data['name']);
