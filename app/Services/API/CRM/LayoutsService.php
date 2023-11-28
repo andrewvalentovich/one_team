@@ -48,17 +48,22 @@ class LayoutsService
         $ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
-        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
-            return $row->id_in_crm;
-        })->toArray();
-        $this->ids_in_crm_all = array_merge($ids_in_crm_for_complexes, $ids_in_crm_for_layouts);
+//        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+//            return $row->id_in_crm;
+//        })->toArray();
+        $this->ids_in_crm_all = $ids_in_crm_for_complexes;
+//        $this->ids_in_crm_all = array_merge($ids_in_crm_for_complexes, $ids_in_crm_for_layouts);
         unset($ids_in_crm_for_layouts, $ids_in_crm_for_complexes);
     }
 
     public function handle($endpoint, $token)
     {
         try {
-            $client = new \GuzzleHttp\Client(['headers' => ['Authorization' => 'Bearer ' . $token]]);
+            $client = new \GuzzleHttp\Client(['headers' => [
+                'Authorization' => 'Bearer ' . $token,
+                'Accept' => 'application/json',
+                'Content-type' => 'application/json'
+            ]]);
 
             $guzzleResponse = $client->get('https://crm.one-team.pro' . $endpoint . '?token=' . $token);
 
@@ -88,12 +93,14 @@ class LayoutsService
         }
         catch(\GuzzleHttp\Exception\RequestException $e) {
             // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error with status code - " . $guzzleResponse->getStatusCode());
+            Log::info(Carbon::now() . "Complexes data. Catch API request error");
             Log::info(Carbon::now() . $e->getMessage());
+            dump(Carbon::now() . $e->getMessage());
         } catch(Exception $e) {
             // other errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error with status code - " . $guzzleResponse->getStatusCode());
+            Log::info(Carbon::now() . "Complexes data. Catch API request error");
             Log::info(Carbon::now() . $e->getMessage());
+            dump(Carbon::now() . $e->getMessage());
         }
     }
 
@@ -110,6 +117,7 @@ class LayoutsService
             }
         } else {
             $layout = Layout::where('id_in_crm', $data['id'])->firts();
+            dump('Delete layout - id: ' . $layout->id);
             $layout->delete();
         }
     }
@@ -123,6 +131,7 @@ class LayoutsService
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
             $layout = Layout::create($layoutParams);
+            dump('Create layout - id: ' . $layout->id);
 
             foreach ($layoutPhotos as $key => $category) {
                 foreach ($category as $index => $photo) {
@@ -149,6 +158,7 @@ class LayoutsService
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::where('id_in_crm', $data['id'])->first();
+        dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
         foreach ($layout->photo as $photo)
@@ -156,6 +166,7 @@ class LayoutsService
             $photo->delete();
         }
 
+//        Нужно добавить проверку по lastModified
         foreach ($layoutPhotos as $key => $category) {
             foreach ($category as $index => $photo) {
                 $filename = $this->imageService->saveFromRemote($photo);
@@ -184,11 +195,17 @@ class LayoutsService
             return $this->objectsService->create($data['complex']);
         });
 
+        $base_price = null;
+        if (isset($data['price']) && !is_null($data['price']) && isset($data['price_currency'])) {
+            $base_price = $this->currencyService->convertPriceToEur($data['price'], $data['price_currency']);
+        }
+
         return [
             'building'          => !is_null($data['block_id']) ? $data['block']['name'] : null,
             'name'              => $name,
             'type'              => $data['type'] ?? null,
-            'price'             => $this->currencyService->convertPriceToEur($data['price'], $data['price_currency']) ?? null,
+            'base_price'        => $base_price,
+            'price'             => $data['price'] ?? null,
             'price_code'        => $data['price_currency'] ?? null,
             'total_size'        => $data['total_size'] ?? null,
             'living_size'       => $data['living_size'] ?? null,

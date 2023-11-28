@@ -1646,6 +1646,7 @@ function P(e) {
 
     function setNewPopupHouseData(object) {
         replaceUrlWithObject(window.filter_params_data, object.slug);
+        console.log(object);
 
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
@@ -1702,19 +1703,21 @@ function P(e) {
         // цена площади
         let divSquare = document.querySelector('.place__square')
         divSquare.innerHTML = ''
-        Object.entries(currentHouse.size).forEach(function([currencyCode, currencyPrice]) {
-            let div = document.createElement('div')
-            div.classList.add('place__square-item')
-            div.setAttribute('data-exchange', currencyCode)
-            div.classList.add('valute')
-            div.innerHTML = `${((currencyPrice))} ${kvm}`
+        if (currentHouse.size) {
+            Object.entries(currentHouse.size).forEach(function ([currencyCode, currencyPrice]) {
+                let div = document.createElement('div')
+                div.classList.add('place__square-item')
+                div.setAttribute('data-exchange', currencyCode)
+                div.classList.add('valute')
+                div.innerHTML = `${((currencyPrice))} {{ __('кв.м') }}`
 
-            if(currencyCode === dataExchange) {
-                div.classList.add('active')
-            }
+                if (currencyCode === dataExchange) {
+                    div.classList.add('active')
+                }
 
-            divSquare.appendChild(div)
-        })
+                divSquare.appendChild(div)
+            })
+        }
 
         // цена в попапе
         if (currentHouse.layouts && currentHouse.layouts.length > 0) {

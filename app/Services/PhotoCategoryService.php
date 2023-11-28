@@ -19,12 +19,12 @@ class PhotoCategoryService
 
         return [
             "common"            => null,
-            "interior"          => $category->where('name', 'Интерьер')->values()->all()[0]['id'],
-            "exterior"          => $category->where('name', 'Экстерьер')->values()->all()[0]['id'],
-            "infrastructure"    => $category->where('name', 'Инфраструктура')->values()->all()[0]['id'],
-            "territory"         => $category->where('name', 'Территория')->values()->all()[0]['id'],
-            "lobby"             => $category->where('name', 'Лобби')->values()->all()[0]['id'],
-            "swimming_pool"     => $category->where('name', 'Бассейн')->values()->all()[0]['id'],
+            "interior"          => $category->where('name', 'Интерьер')->values()->first()['id'],
+            "exterior"          => $category->where('name', 'Экстерьер')->values()->first()['id'],
+            "infrastructure"    => $category->where('name', 'Инфраструктура')->values()->first()['id'],
+            "territory"         => $category->where('name', 'Территория')->values()->first()['id'],
+            "lobby"             => $category->where('name', 'Лобби')->values()->first()['id'],
+            "swimming_pool"     => $category->where('name', 'Бассейн')->values()->first()['id'],
         ];
     }
 }

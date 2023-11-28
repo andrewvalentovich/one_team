@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\CRM;
 
+use App\Models\Product;
 use App\Services\API\CRM\ComplexService;
 use App\Services\API\CRM\LayoutsService;
 use App\Services\API\CRM\ObjectsService;
@@ -80,6 +81,7 @@ class ImportData extends Command
      */
     public function handle()
     {
+        dd(Product::with('layouts')->find(404));
         $this->info('Start handle complexes');
         $this->objectsService->handle($this->endpoint_objects, $this->token);
         $this->info('Finish handle complexes');
