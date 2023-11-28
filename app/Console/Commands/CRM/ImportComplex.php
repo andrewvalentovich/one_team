@@ -22,7 +22,7 @@ class ImportComplex extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:import-complex {id}';
+    protected $signature = 'crm:import-complex {id} {--update}';
 
     /**
      * The console command description.
@@ -83,11 +83,11 @@ class ImportComplex extends Command
     public function handle()
     {
         $this->info('Start handle complexes');
-        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'));
+        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
         $this->info('Finish handle complexes');
 
         $this->info('Start handle object');
-        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'));
+        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
         $this->info('Finish handle object');
     }
 }

@@ -52,7 +52,7 @@ class ObjectSimpleService
         })->toArray();
     }
 
-    public function handle($endpoint, $token, $complex_id)
+    public function handle($endpoint, $token, $complex_id, $update)
     {
         $client = new \GuzzleHttp\Client(['headers' => [
             'Authorization' => 'Bearer ' . $token,
@@ -69,11 +69,14 @@ class ObjectSimpleService
             // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
             foreach ($response as $index => $complex) {
                 if ($complex['id'] == $complex_id) {
-                    dump($complex['id']);
-                    if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
-                        $this->updateOrDelete($complex);
+                    if (!is_null($update)) {
+                        $this->update($complex);
                     } else {
-                        $this->create($complex);
+                        if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
+                            $this->updateOrDelete($complex);
+                        } else {
+                            $this->create($complex);
+                        }
                     }
                 }
             }
@@ -331,7 +334,9 @@ class ObjectSimpleService
 
     private function addCategories($data, $complex_id)
     {
-        foreach ($this->getCategories($data) as $id => $type) {
+        $categories = $this->getCategories($data);
+        dump($categories);
+        foreach ($categories as $id => $type) {
             ProductCategory::create([
                 "product_id"        => $complex_id,
                 "peculiarities_id"  => $id,

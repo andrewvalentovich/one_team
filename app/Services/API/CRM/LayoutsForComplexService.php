@@ -56,27 +56,29 @@ class LayoutsForComplexService
         unset($ids_in_crm_for_layouts, $ids_in_crm_for_complexes);
     }
 
-    public function handle($endpoint, $token, $complex_id)
+    public function handle($endpoint, $token, $complex_id, $update = null)
     {
-        try {
-            $client = new \GuzzleHttp\Client(['headers' => [
-                'Authorization' => 'Bearer ' . $token,
-                'Accept' => 'application/json',
-                'Content-type' => 'application/json'
-            ]]);
+        $client = new \GuzzleHttp\Client(['headers' => [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/json',
+            'Content-type' => 'application/json'
+        ]]);
 
-            $guzzleResponse = $client->get('https://crm.one-team.pro' . $endpoint . '?token=' . $token);
+        $guzzleResponse = $client->get('https://crm.one-team.pro' . $endpoint . '?token=' . $token);
 
-            // Логирование статуса ответа
-            Log::info(Carbon::now()." Get complexes data from API " . $guzzleResponse->getStatusCode());
+        // Логирование статуса ответа
+        Log::info(Carbon::now()." Get complexes data from API " . $guzzleResponse->getStatusCode());
 
-            if($guzzleResponse->getStatusCode() == 200) {
-                $response = json_decode($guzzleResponse->getBody(),true);
+        if($guzzleResponse->getStatusCode() == 200) {
+            $response = json_decode($guzzleResponse->getBody(),true);
 
-                // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
-                foreach ($response as $index => $object) {
-                    if (!is_null($object['complex'])) {
-                        if ($object['complex']['id'] == $complex_id) {
+            // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
+            foreach ($response as $index => $object) {
+                if (!is_null($object['complex'])) {
+                    if ($object['complex']['id'] == $complex_id) {
+                        if (!is_null($update)) {
+                            $this->update($object);
+                        } else {
                             if (in_array($object['id'], $this->ids_in_crm_all)) {
                                 if (is_null($object['complex_id'])) {
                                     $this->objectsService->updateOrDelete($object);
@@ -94,17 +96,6 @@ class LayoutsForComplexService
                     }
                 }
             }
-        }
-        catch(\GuzzleHttp\Exception\RequestException $e) {
-            // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        } catch(Exception $e) {
-            // other errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
         }
     }
 
@@ -165,11 +156,13 @@ class LayoutsForComplexService
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
-        foreach ($layout->photo as $photo)
-        {
-            $photo->delete();
+        if (!is_null($layout->photo)) {
+            foreach ($layout->photo as $photo)
+            {
+                $photo->delete();
+            }
         }
-
+        
 //        Нужно добавить проверку по lastModified
         foreach ($layoutPhotos as $key => $category) {
             foreach ($category as $index => $photo) {
