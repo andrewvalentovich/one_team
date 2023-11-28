@@ -48,11 +48,11 @@ class LayoutsService
         $ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
-//        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
-//            return $row->id_in_crm;
-//        })->toArray();
+        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+            return $row->id_in_crm;
+        })->toArray();
         $this->ids_in_crm_all = $ids_in_crm_for_complexes;
-//        $this->ids_in_crm_all = array_merge($ids_in_crm_for_complexes, $ids_in_crm_for_layouts);
+        $this->ids_in_crm_all = array_merge($ids_in_crm_for_complexes, $ids_in_crm_for_layouts);
         unset($ids_in_crm_for_layouts, $ids_in_crm_for_complexes);
     }
 
