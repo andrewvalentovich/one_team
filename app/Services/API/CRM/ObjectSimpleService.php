@@ -163,7 +163,7 @@ class ObjectSimpleService
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
-            dump('Create product - id: ' . $complex['id']);
+            dump('Create product - id: ' . $complex->id);
 
             // Создаём slug для объекта
             if (is_null($complex->slug)) {
