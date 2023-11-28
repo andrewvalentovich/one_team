@@ -52,7 +52,7 @@ class ObjectSimpleService
         })->toArray();
     }
 
-    public function handle($endpoint, $token, $complex_id, $update)
+    public function handle($endpoint, $token, $complex_id, $update = null)
     {
         $client = new \GuzzleHttp\Client(['headers' => [
             'Authorization' => 'Bearer ' . $token,
@@ -69,7 +69,7 @@ class ObjectSimpleService
             // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
             foreach ($response as $index => $complex) {
                 if ($complex['id'] == $complex_id) {
-                    if (!is_null($update)) {
+                    if ($update) {
                         $this->update($complex);
                     } else {
                         if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {

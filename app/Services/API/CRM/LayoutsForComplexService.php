@@ -76,7 +76,7 @@ class LayoutsForComplexService
             foreach ($response as $index => $object) {
                 if (!is_null($object['complex'])) {
                     if ($object['complex']['id'] == $complex_id) {
-                        if (!is_null($update)) {
+                        if ($update) {
                             $this->update($object);
                         } else {
                             if (in_array($object['id'], $this->ids_in_crm_all)) {
@@ -153,7 +153,6 @@ class LayoutsForComplexService
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::where('id_in_crm', $data['id'])->first();
-        dump($layout);
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
