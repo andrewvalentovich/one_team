@@ -81,12 +81,12 @@ class ImportData extends Command
      */
     public function handle()
     {
-        $this->info('Start handle complexes');
-        $this->objectsService->handle($this->endpoint_objects, $this->token);
-        $this->info('Finish handle complexes');
-
-        $this->info('Start handle object');
-        $this->layoutsService->handle($this->endpoint_layouts, $this->token);
-        $this->info('Finish handle object');
+//        $this->info('Start handle complexes');
+//        $this->objectsService->handle($this->endpoint_objects, $this->token);
+//        $this->info('Finish handle complexes');
+//
+//        $this->info('Start handle object');
+//        $this->layoutsService->handle($this->endpoint_layouts, $this->token);
+//        $this->info('Finish handle object');
     }
 }
