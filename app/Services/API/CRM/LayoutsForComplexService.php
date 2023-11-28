@@ -162,7 +162,7 @@ class LayoutsForComplexService
                 $photo->delete();
             }
         }
-        
+
 //        Нужно добавить проверку по lastModified
         foreach ($layoutPhotos as $key => $category) {
             foreach ($category as $index => $photo) {
