@@ -68,12 +68,13 @@ class ImageService
      *
      * @return string
      */
-    public function saveFromRemote(string $image)
+    public function saveFromRemote($image)
     {
         $filenametostore = null;
 
         if ($image) {
-            // Отключаем вывод ошибки для данной функции
+            $image = 'https://crm.one-team.pro' . $image['url'];
+                // Отключаем вывод ошибки для данной функции
             $img = @file_get_contents($image);
 
             // Если удалось получить файл

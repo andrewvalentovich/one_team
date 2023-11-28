@@ -51,12 +51,12 @@ class ProductController extends Controller
     {
         $category = Peculiarities::where('id', $id)->first();
 
-        if ($category  == null){
+        if ($category == null){
             return redirect()->back();
         }
 
         $get = ProductCategory::where('peculiarities_id', $id)->get()->pluck('product_id')->toarray();
-        $product = Product::wherein('id', $get)->where('sale_or_rent','sale')->orderBy('id', 'desc')->paginate(10);
+        $product = Product::whereIn('id', $get)->where('sale_or_rent','sale')->orderBy('id', 'desc')->paginate(10);
         return view('admin.Product.all',compact('category','product'));
     }
 

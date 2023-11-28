@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\CRM;
 
+use App\Models\Product;
 use App\Services\API\CRM\ComplexService;
 use App\Services\API\CRM\LayoutsService;
 use App\Services\API\CRM\ObjectsService;

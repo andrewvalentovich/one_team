@@ -13,8 +13,8 @@ class CategoriesService
         $types = Peculiarities::where('type', 'Типы')->get();
 
         return [
-            "apartment"  => $types->where('name_en', "Apartments")->first()["id"],
-            "house"      => $types->where('name_en', "Villas, cottages")->first()["id"],
+            "apartment"  => $types->where('slug', 'apartments')->first()->id,
+            "house"      => $types->where('slug', 'houses')->first()->id,
             "land"       => null,
             "hotel"      => null,
             "commercial" => null
@@ -27,7 +27,7 @@ class CategoriesService
 
         $tmpArray = [];
         foreach ($types as $type) {
-            $tmpArray[strtolower($type->name_en)] = $type->id;
+            $tmpArray[strtolower($type->slug)] = $type->id;
         }
 
         return $tmpArray;
@@ -35,10 +35,10 @@ class CategoriesService
 
     public function getView(array $value)
     {
-        $types = Peculiarities::query()->select('id', 'name_en')->where('type', 'Вид');
+        $types = Peculiarities::query()->select('id', 'slug')->where('type', 'Вид');
 
         foreach($value as $view){
-            $types->orWhereRaw('LOWER(`name_en`) LIKE ? ',['%'.$view.'%']);
+            $types->orWhereRaw('LOWER(`slug`) LIKE ? ',['%'.$view.'%']);
         }
 
         $types->get()->toArray();
@@ -119,7 +119,7 @@ class CategoriesService
         $tmpCategoryId = null;
 
         foreach ($bedrooms as $item) {
-            if ($item->name_en === "Doesn't matter") {
+            if ($item->slug === "Doesn't matter") {
                 continue;
             }
 
