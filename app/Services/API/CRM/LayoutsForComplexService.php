@@ -153,6 +153,7 @@ class LayoutsForComplexService
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::where('id_in_crm', $data['id'])->first();
+        dump($layout);
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 

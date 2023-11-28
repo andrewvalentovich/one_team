@@ -335,7 +335,6 @@ class ObjectSimpleService
     private function addCategories($data, $complex_id)
     {
         $categories = $this->getCategories($data);
-        dump($categories);
         foreach ($categories as $id => $type) {
             ProductCategory::create([
                 "product_id"        => $complex_id,
@@ -345,6 +344,7 @@ class ObjectSimpleService
                 "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
             ]);
         }
+        unset($categories);
     }
 
     private function translateForNew($product_id, $description)

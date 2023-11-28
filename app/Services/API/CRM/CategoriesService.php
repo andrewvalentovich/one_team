@@ -60,7 +60,6 @@ class CategoriesService
             }
 
             $toPos = stripos($item->name, 'До');
-            dump($toPos);
             if ($toPos !== false) {
                 $tmpSubstr = explode(" ", mb_substr($item->name, $toPos + 3, iconv_strlen($item->name) - $toPos - 3));
 
@@ -76,7 +75,6 @@ class CategoriesService
             }
 
             $morePos = stripos($item->name, 'Более');
-            dump($morePos);
             if ($morePos !== false) {
                 $tmpSubstr = explode(" ", mb_substr($item->name, $morePos + 6, iconv_strlen($item->name) - $morePos - 6));
 
@@ -110,7 +108,7 @@ class CategoriesService
                 }
             }
         }
-        dump($tmpCategoryId);
+
         return $tmpCategoryId;
     }
 
