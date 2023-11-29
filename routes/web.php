@@ -86,6 +86,7 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 
 
 Route::domain(config('app.domain'))->group(function () {
+    Route::get('/.well-known/acme-challenge/Fb_393eDool6ZDAyXlWgJnWItHSZvJ_UOkpp-05ICwY', [HomePageController::class, 'certificate']);
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
             Route::get('/login', [AdminLoginController::class, 'login'])->name('login');

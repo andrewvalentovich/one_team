@@ -79,17 +79,20 @@ class LayoutsForComplexService
                         if ($update) {
                             $this->update($object);
                         } else {
+                            // Если объект с таким id существует
                             if (in_array($object['id'], $this->ids_in_crm_all)) {
+                                // Обновляем или удаляем
                                 if (is_null($object['complex_id'])) {
                                     $this->objectsService->updateOrDelete($object);
                                 } else {
                                     $this->updateOrDelete($object);
                                 }
                             } else {
+                                // Иначе создаём
                                 if (is_null($object['complex_id'])) {
                                     $this->objectsService->create($object);
                                 } else {
-                                    $this->create($object);
+                                    $this->create($object, $complex_id);
                                 }
                             }
                         }
@@ -117,14 +120,29 @@ class LayoutsForComplexService
         }
     }
 
-    private function create($data)
+    private function create($data, $complex_id)
     {
         // Получаем фотографии планировки
         $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $layout = Layout::where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
+        $layout = Layout::where('layout_id_in_crm', $data['layout']['id'])->first();
+
+        // Если существует планировка с таким же id_in_crm
+        if (!is_null($layout)) {
+            $new_base_price = $this->currencyService->convertPriceToEur($data['price'], $data['price_code']);
+            // Если старая цена больше новой, то:
+            if ($layout->base_price > $new_base_price) {
+                // Обновим цену
+                $layout->price = $data['price'];
+                $layout->price_code = $data['price_code'];
+                $layout->base_price = $new_base_price;
+
+                $layout->update();
+            }
+        } else {
+            // Если не существует, то создадим
             $layout = Layout::create($layoutParams);
             dump('Create layout - id: ' . $layout->id);
 
@@ -138,9 +156,7 @@ class LayoutsForComplexService
                     ]);
                 }
             }
-
-            return $layout;
-        });
+        }
     }
 
     private function update($data)
@@ -212,7 +228,8 @@ class LayoutsForComplexService
             'number_bathrooms'  => $data['number_bathrooms'] ?? null,
             'number_balconies'  => $data['number_balconies'] ?? null,
             'complex_id'        => $complex->id ?? null,
-            'id_in_crm'         => $data['id']
+            'id_in_crm'         => $data['id'],
+            'layout_id_in_crm'  => $data['layout']['id']
         ];
     }
 }

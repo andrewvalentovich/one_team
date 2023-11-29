@@ -275,7 +275,8 @@ class ObjectsService
             'complex_or_not'    => isset($data['complex_name']) ? "Нет" : "Да",
             'video'             => null,
             'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
-            'id_in_crm'         => $data['id']
+            'id_in_crm'         => $data['id'],
+            'layout_id_in_crm'  => $data['layout']['id']
         ];
     }
 
