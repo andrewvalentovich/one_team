@@ -409,7 +409,7 @@
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
                         <div class="realty__item realty__item_b" >
-                            <div class="realty__img_b">
+                            <div class="realty__img_b" style="padding-bottom: 65%">
                                 <a href="{{route('realty', ['categories' => $country->slug . '/' . $country->cities[0]->slug])}}"><img  src="{{asset("uploads/".$country->cities[0]->photo)}}" alt="antalya"></a>
                             </div>
                             <div class="realty__item-text">

@@ -6251,6 +6251,7 @@ body.scroll_fixed {
   .place-popup-collage__list {
     flex-direction: column;
     flex-wrap: nowrap;
+    padding-bottom: 5px;
   }
 
   .place-popup-collage__item {
