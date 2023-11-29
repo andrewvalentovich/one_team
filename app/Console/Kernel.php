@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('products:update-base-price')->daily();
         $schedule->command('layouts:update-base-price')->daily();
         $schedule->command('sitemap:generate')->daily();
+        $schedule->command('crm:import-complex 8')->everyFiveMinutes();
         Log::info(date('m/d/Y h:i:s a', time()) . " Schedule called");
     }
 

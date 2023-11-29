@@ -151,7 +151,7 @@ class LayoutsService
     private function update($data)
     {
         // Получаем фотографии планировки
-        $layoutPhotos = $data['photos'];
+        $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
 
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
