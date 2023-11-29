@@ -355,6 +355,8 @@
                                                     <div id='collapse{{ $loop->index }}' class='collapse show' aria-labelledby='heading{{ $loop->index }}' data-parent='#accordion{{ $loop->index }}'>
                                                         <div class='card-body'>
                                                             <div class='form-group' bis_skin_checked='1' style='display: block;'>
+                                                                <p>ID объекта в CRM: {{ $layout->id_in_crm }}</p>
+                                                                <p>ID планировки в CRM: {{ $layout->layout_id_in_crm }}</p>
                                                                 <div class='form-group' bis_skin_checked='1'>
                                                                     <label for='add_building{{ $loop->index }}'>Копрус</label>
                                                                     <input name='layouts[{{ $loop->index }}][building]' type='text' class='form-control' value="{{ $layout->building }}" id='add_building{{ $loop->index }}' placeholder='А'>
