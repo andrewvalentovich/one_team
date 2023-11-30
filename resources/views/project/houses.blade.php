@@ -1888,7 +1888,6 @@ function P(e) {
         kompleks__layout.style.display = 'none'
         if(currentHouse.layouts !== null && currentHouse.layouts !== '[]')
         if(currentHouse.layouts.length !== 0) {
-            console.log(currentHouse.layouts !== '[]','test2')
             kompleks__layout.style.display = 'block'
 
             objects.forEach((object, index) => {
@@ -2077,17 +2076,49 @@ function P(e) {
         addNewImagesToCollage(currentHouse)
     }
 
+    let swiperPlaces = new Swiper(".place__slider_p-swiper", {
+        slidesPerView: 1,
+        autoHeight: !0,
+        initialSlide: 0,
+        keyboard: {
+            enabled: true, // Включить поддержку клавиатуры
+        },
+        navigation: {
+            nextEl: ".place__slider_p-next",
+            prevEl: ".place__slider_p-prev"
+        },
+
+        pagination: {
+            el: ".place__slider_p-pagination",
+            type: "custom",
+            renderCustom: function (e, t, o) {
+                return t + " из " + o
+            }
+        }
+    })
+
+    let objectIDForSwiper = null
+
     function setListenersToOpenCollage() {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
-                addNewImagesToSwiper(e.target, i)
+                if(!objectIDForSwiper) {
+                    console.log('test1')
+                    objectIDForSwiper = currentHouse.id
+                    addNewImagesToSwiper(e.target, i)
+                } else if (objectIDForSwiper !== currentHouse.id) {
+                    console.log('test2')
+                    addNewImagesToSwiper(e.target, i)
+                } else if (objectIDForSwiper === currentHouse.id) {
+                    console.log('tes3',swiperPlaces)
+                    swiperPlaces.slideTo(i)
+                }
                 const placeSliderP = document.querySelector(".place__slider_p")
                 placeSliderP.classList.add('active')
             }
         }
     }
-
     function addNewImagesToSwiper(itemClick, index) {
         const imagesContainer = itemClick.closest('.place__content')
         const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
@@ -2115,7 +2146,7 @@ function P(e) {
             swiperWrapper.appendChild(slide);
         }
 
-        const swiperPlaces = new Swiper(".place__slider_p-swiper", {
+        swiperPlaces = new Swiper(".place__slider_p-swiper", {
             slidesPerView: 1,
             autoHeight: !0,
             initialSlide: index,
@@ -2135,6 +2166,7 @@ function P(e) {
                 }
             }
         })
+
     }
 
     function addNewImagesToCollage(house) {
