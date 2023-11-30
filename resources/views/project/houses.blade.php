@@ -1886,10 +1886,9 @@ function P(e) {
 
         const kompleks__layout = document.querySelector('.kompleks__layout')
         kompleks__layout.style.display = 'none'
-
         if(currentHouse.layouts !== null && currentHouse.layouts !== '[]')
-        if(objects.layouts !== 0) {
-
+        if(currentHouse.layouts.length !== 0) {
+            console.log(currentHouse.layouts !== '[]','test2')
             kompleks__layout.style.display = 'block'
 
             objects.forEach((object, index) => {

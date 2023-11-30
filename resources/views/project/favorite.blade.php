@@ -848,7 +848,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="kompleks__layout" bis_skin_checked="1">
+                            <div class="kompleks__layout" bis_skin_checked="1" @if(count($product->layouts) === 0) style="display: none" @endif>
                                 <div class="kompleks__layout-content" bis_skin_checked="1">
                                     <div class="kompleks__header">
                                         <div class="kompleks__layout-title place__title" bis_skin_checked="1">
