@@ -20,6 +20,14 @@ class LocalizationMiddleware
         $session_locale = !empty(session('locale')) ? session('locale') : null;
         $defaultLocale = 'ru';
 
+        if ($request->segment(1) == 'admin') {
+            return $next($request);
+        }
+
+        if (stripos($request->url(), '.')) {
+            return $next($request);
+        }
+
         if (is_null($session_locale)) {
             // Получаем предпочитаемый пользователем язык
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
@@ -44,7 +52,6 @@ class LocalizationMiddleware
         } else {
             // Получаем язык из url
             $locale = $request->segment(1);
-
             // Если язык есть в конфиге, то продолжаем маршрут
             if (in_array($locale, config('app.available_locales'))) {
                 app()->setLocale($locale);
