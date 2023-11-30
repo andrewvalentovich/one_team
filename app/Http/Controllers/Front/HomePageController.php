@@ -85,9 +85,4 @@ class HomePageController extends Controller
         ],200);
 
     }
-
-    public function certificate()
-    {
-        echo 'Fb_393eDool6ZDAyXlWgJnWItHSZvJ_UOkpp-05ICwY.tzgiVzCvr4LwsSc59ZdIJEfanJQ77B1i9pyA30-rEWM';
-    }
 }

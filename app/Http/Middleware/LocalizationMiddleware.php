@@ -18,21 +18,27 @@ class LocalizationMiddleware
     {
         // Если пользователь зашёл первый раз - будет null
         $session_locale = !empty(session('locale')) ? session('locale') : null;
+        $defaultLocale = 'ru';
+
         if (is_null($session_locale)) {
             // Получаем предпочитаемый пользователем язык
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
             $segment = $request->segment(1);
-            // Если язык в url совпадает с предпочитаемым языком пользователя, то устанавливаем язык и продолжаем маршрут
-            if ($locale === $segment) {
-                Session::put('locale', $locale);
-                app()->setLocale($locale);
-                return $next($request);
+
+            // Если предпочитаемого языка не существует - устанавливаем дефолтный
+            if (!in_array($locale, config('app.available_locales'))) {
+                $locale = $defaultLocale;
+            }
+
+            // Проверка имеется ли в урле язык
+            if (is_null($segment)) {
+                return redirect($this->addLocaleToUrl($request, $locale));
             } else {
-                if (stripos($request->url(), '.') === false) {
-                    $url = $this->changeUrl($request, $locale);
-                    return redirect($url);
+                // Проверка первого сегмента: язык или не язык
+                if (in_array($segment, config('app.available_locales'))) {
+                    return redirect($this->replaceLocaleInUrl($request, $locale));
                 } else {
-                    return $next($request);
+                    return redirect($this->insertLocaleIntoUrl($request, $locale));
                 }
             }
         } else {
@@ -44,31 +50,45 @@ class LocalizationMiddleware
                 app()->setLocale($locale);
                 return $next($request);
             } else {
-                // Иначе устанавливаем язык - ru
-                app()->setLocale("ru");
+                // Иначе устанавливаем дефольный язык
+                app()->setLocale($defaultLocale);
                 return $next($request);
             }
         }
+
+        return $next($request);
     }
 
-    private function changeUrl($request, $new_locale)
+    private function addLocaleToUrl($request, $new_locale)
+    {
+        $url = $request->url();
+
+        Session::put('locale', $new_locale);
+        $new_locale = '/' . $new_locale;
+
+        // Добавление $new_locale в $url
+        return substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
+    }
+
+    private function replaceLocaleInUrl($request, $new_locale)
     {
         $url = $request->url();
         $segment = $request->segment(1);
 
-        if (in_array($segment, config('app.available_locales'))) {
-            Session::put('locale', $segment);
-            $url = preg_replace("/$segment/", $new_locale, $url, 1);
-        } else {
-            // Устанавливаем русский если нет совпадений
-            $new_locale = 'ru';
-            Session::put('locale', $new_locale);
-            $new_locale = '/' . $new_locale;
-            $url = substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
-        }
+        Session::put('locale', $new_locale);
 
-        unset($segment);
+        // Замена текущего языка на новый $new_locale
+        return preg_replace("/$segment/", $new_locale, $url, 1);
+    }
 
-        return $url;
+    private function insertLocaleIntoUrl($request, $new_locale)
+    {
+        $url = $request->url();
+
+        Session::put('locale', $new_locale);
+        $new_locale = $new_locale . '/';
+
+        // Добавление $new_locale в $url
+        return substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
     }
 }
