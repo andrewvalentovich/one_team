@@ -2104,14 +2104,12 @@ function P(e) {
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
                 if(!objectIDForSwiper) {
-                    console.log('test1')
                     objectIDForSwiper = currentHouse.id
                     addNewImagesToSwiper(e.target, i)
                 } else if (objectIDForSwiper !== currentHouse.id) {
-                    console.log('test2')
+                    objectIDForSwiper = currentHouse.id
                     addNewImagesToSwiper(e.target, i)
                 } else if (objectIDForSwiper === currentHouse.id) {
-                    console.log('tes3',swiperPlaces)
                     swiperPlaces.slideTo(i)
                 }
                 const placeSliderP = document.querySelector(".place__slider_p")
