@@ -115,7 +115,7 @@ class HousesController extends Controller
                 $query->orderBy('base_price', 'asc');
             }])
             ->with('photo')
-            ->with('peculiarities')
+            ->with('peculiarities.locale_fields.locale')
             ->with('country.locale_fields.locale')
             ->with('city.locale_fields.locale')
             ->with('locale_fields.locale')

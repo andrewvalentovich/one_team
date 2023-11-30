@@ -1851,6 +1851,8 @@ function P(e) {
 
             // var localedName = 'name';
             var localedName;
+            console.log(window.locale);
+            console.log(element.locale_fields);
             if (window.locale) {
                 localedName = element.locale_fields.find(x => x.locale.code == window.locale);
             } else {
