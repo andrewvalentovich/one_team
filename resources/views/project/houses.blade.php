@@ -2071,7 +2071,7 @@ function P(e) {
         placeDescription.innerHTML = currentHouse.description
 
         setListenersToOpenCollage()
-        addNewImagesToSwiper(currentHouse.photo)
+        addNewImagesToSwiper()
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
@@ -2110,8 +2110,9 @@ function P(e) {
             }
         }
     }
-    function addNewImagesToSwiper(photos) {
-        console.log(photos)
+    function addNewImagesToSwiper(itemClick, index) {
+        const imagesContainer = document.querySelector('.place__content')
+        const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
         const swiper = document.querySelector('.place__slider_p-swiper')
         const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
 
@@ -2120,7 +2121,7 @@ function P(e) {
             swiperWrapper.removeChild(swiperWrapper.firstChild);
         }
 
-        for (let i = 0; i < photos.length; i++) {
+        for (let i = 0; i < images.length; i++) {
             const slide = document.createElement('div');
             slide.classList.add('place__slider_p-slide', 'swiper-slide');
 
@@ -2128,7 +2129,7 @@ function P(e) {
             imgContainer.classList.add('place__slider_p-img');
 
             const img = document.createElement('img');
-            img.src = `/${photos[i].preview}`
+            img.src = images[i].querySelector('img').getAttribute('src');
             img.alt = 'house';
 
             imgContainer.appendChild(img);
@@ -2139,7 +2140,7 @@ function P(e) {
         swiperPlaces = new Swiper(".place__slider_p-swiper", {
             slidesPerView: 1,
             autoHeight: !0,
-            initialSlide: 0,
+            initialSlide: index,
             keyboard: {
                 enabled: true, // Включить поддержку клавиатуры
             },
