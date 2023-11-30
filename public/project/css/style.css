@@ -686,6 +686,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: calc(100% - 30px);
 }
 
 .realty__item-text-title {
@@ -693,7 +694,7 @@ body {
   font-size: 33px;
   margin-bottom: 12px;
   text-align: center;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   cursor: pointer;
 }
 
