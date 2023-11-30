@@ -213,7 +213,7 @@ class HousesController extends Controller
             }])
             ->with('photo')
             ->with('country')
-            ->with('peculiarities')
+            ->with('peculiarities.locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
             }])

@@ -1849,13 +1849,15 @@ function P(e) {
             let div = document.createElement('div')
             div.classList.add('object__peculiarities-item')
 
-            var localedName = 'name';
-            if (window.locale) {
-                if (window.locale !== 'ru') {
-                    localedName += '_'+window.locale;
-                }
-            }
-            div.innerHTML = element[localedName];
+            // var localedName = 'name';
+            var localedName = element.locale_fields.find(x => x.locale.code == 'kk').name;
+            // if (window.locale) {
+            //     if (window.locale !== 'ru') {
+            //         localedName += '_'+window.locale;
+            //     }
+            // }
+            div.innerHTML = localedName;
+            console.log(localedName);
             objectPeculiarities.appendChild(div)
         });
 

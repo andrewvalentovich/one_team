@@ -40,7 +40,6 @@ class TranslateEmpty extends Command
         $locales = Locale::all();
         $this->gsheet->getData();
 
-
         $this->line("End command");
     }
 
