@@ -1850,14 +1850,19 @@ function P(e) {
             div.classList.add('object__peculiarities-item')
 
             // var localedName = 'name';
-            var localedName = element.locale_fields.find(x => x.locale.code == 'kk').name;
+            var localedName;
+            if (window.locale) {
+                localedName = element.locale_fields.find(x => x.locale.code == window.locale);
+            } else {
+                localedName = element.locale_fields.find(x => x.locale.code == "ru");
+            }
             // if (window.locale) {
             //     if (window.locale !== 'ru') {
             //         localedName += '_'+window.locale;
             //     }
             // }
-            div.innerHTML = localedName;
-            console.log(localedName);
+            console.log(localedName.name);
+            div.innerHTML = localedName.name;
             objectPeculiarities.appendChild(div)
         });
 
@@ -2099,7 +2104,7 @@ function P(e) {
             }
         }
     })
-    
+
 
     let objectIDForSwiper = null
 
