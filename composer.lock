@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36dbd8b44aaa84e5d94637beedf0ff75",
+    "content-hash": "bfe5eda3dace09ae5afea461e0371dfe",
     "packages": [
         {
             "name": "brick/math",
@@ -4142,6 +4142,69 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "revolution/laravel-google-sheets",
+            "version": "6.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kawax/laravel-google-sheets.git",
+                "reference": "11954289ec8b012129fb1bc747088746031a78b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kawax/laravel-google-sheets/zipball/11954289ec8b012129fb1bc747088746031a78b7",
+                "reference": "11954289ec8b012129fb1bc747088746031a78b7",
+                "shasum": ""
+            },
+            "require": {
+                "google/apiclient": "^2.12",
+                "illuminate/container": "^9.0||^10.0",
+                "illuminate/support": "^9.0||^10.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^7.0||^8.0",
+                "phpunit/phpunit": "^9.5|^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Revolution\\Google\\Sheets\\Providers\\SheetsServiceProvider",
+                        "Revolution\\Google\\Sheets\\Providers\\GoogleServiceProvider"
+                    ],
+                    "aliases": {
+                        "Sheets": "Revolution\\Google\\Sheets\\Facades\\Sheets"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Revolution\\Google\\Sheets\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "kawax",
+                    "email": "kawaxbiz@gmail.com"
+                }
+            ],
+            "description": "Google Sheets API v4",
+            "keywords": [
+                "google",
+                "laravel",
+                "sheets"
+            ],
+            "support": {
+                "source": "https://github.com/kawax/laravel-google-sheets/tree/6.2.1"
+            },
+            "time": "2023-03-04T10:50:43+00:00"
         },
         {
             "name": "spatie/browsershot",

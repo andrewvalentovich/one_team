@@ -14,6 +14,7 @@
         "laravel/tinker": "^2.8",
         "nikaia/translation-sheet": "^1.6",
         "predis/predis": "^2.2",
+        "revolution/laravel-google-sheets": "^6.2",
         "spatie/laravel-sitemap": "^6.4",
         "stichoza/google-translate-php": "^5.1"
     },

@@ -162,7 +162,7 @@ class LayoutsForComplexService
     private function update($data)
     {
         // Получаем фотографии планировки
-        $layoutPhotos = $data['photos'];
+        $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
 
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
@@ -172,8 +172,8 @@ class LayoutsForComplexService
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
-        if (!is_null($layout->photo)) {
-            foreach ($layout->photo as $photo)
+        if (!is_null($layout->photos)) {
+            foreach ($layout->photos as $photo)
             {
                 $photo->delete();
             }
