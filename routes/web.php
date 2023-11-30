@@ -88,7 +88,7 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 Route::domain(config('app.domain'))->group(function () {
     Route::get('http_accept_language', function (Illuminate\Http\Request $request) {
         $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-        dd($locale);
+        echo $locale;
     });
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
