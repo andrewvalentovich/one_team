@@ -3557,16 +3557,20 @@ body.scroll_fixed {
 
 .place__slider_p {
   position: fixed;
-  display: none;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
   z-index: 162;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -12312321;
 }
 
 .place__slider_p.active {
-  display: block;
+  opacity: 1;
+  pointer-events: all;
+  z-index: 162;
 }
 
 .place__slider_p::after {
