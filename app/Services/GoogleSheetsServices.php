@@ -5,7 +5,9 @@ namespace App\Services;
 
 
 use Google\Client;
+use Illuminate\Support\Facades\Log;
 use Revolution\Google\Sheets\Facades\Sheets;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class GoogleSheetsServices
 {
@@ -28,30 +30,32 @@ class GoogleSheetsServices
 
         foreach ($data as $key => $item) {
             $tmp = [];
+
+            // Проходимся по строкам
             foreach ($item as $index => $value) {
+                // Если ячейка - пустая
                 if (empty($value)) {
-                    $value = 1;
+                    // И не пустой ключ (на русском)
+                    if (!empty($item['Key'])) {
+                        try {
+                            // Выполняем перевод
+                            $tr = new GoogleTranslate();
+                            $tmp[] = $tr->trans($item['Key'], $index, "ru");
+                            unset($tr);
+
+                        } catch (\Exception $e) {
+                            dump('Row - ' . $key . ', col - ' . $index);
+                            dump('Translate google sheets with error - ' . $e->getMessage());
+                            Log::info('Row - ' . $key . ', col - ' . $index);
+                            Log::info('Translate google sheets with error - ' . $e->getMessage());
+                        }
+                    }
                 } else {
                     $tmp[] = $value;
                 }
-                $tmp[] = $value;
-                dump($index . " - " . $value);
             }
-            dd($tmp);
-//            Sheets::sheet('Sheet 1')->range('A4')->get();
+            Sheets::sheet('Translations')->range('A' . $key + 1)->update([$tmp]);
             unset($tmp);
-            dd($key + 1); // Номер строки
-        }
-        dd($data[3]);
-
-
-
-        if ($data) {
-            foreach ($data as $key => $value) {
-                dump($value);
-            }
-        }else{
-            dump('data not found');
         }
     }
 }
