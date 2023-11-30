@@ -2137,26 +2137,10 @@ function P(e) {
             swiperWrapper.appendChild(slide);
         }
 
-        swiperPlaces = new Swiper(".place__slider_p-swiper", {
-            slidesPerView: 1,
-            autoHeight: !0,
-            initialSlide: index,
-            keyboard: {
-                enabled: true, // Включить поддержку клавиатуры
-            },
-            navigation: {
-                nextEl: ".place__slider_p-next",
-                prevEl: ".place__slider_p-prev"
-            },
-
-            pagination: {
-                el: ".place__slider_p-pagination",
-                type: "custom",
-                renderCustom: function (e, t, o) {
-                    return t + " из " + o
-                }
-            }
-        })
+        swiperPlaces.slideTo(0)
+        swiperPlaces.updateSlides()
+        swiperPlaces.updateProgress()
+        swiperPlaces.update()
 
     }
 
