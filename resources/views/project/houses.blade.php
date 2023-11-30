@@ -2071,6 +2071,7 @@ function P(e) {
         placeDescription.innerHTML = currentHouse.description
 
         setListenersToOpenCollage()
+        addNewImagesToSwiper(currentHouse.photo)
         addNewImagesToPlaceSwiper(currentHouse)
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
@@ -2103,23 +2104,14 @@ function P(e) {
         const collageImg = document.querySelectorAll('.place__collage-item_clickable')
         for (let i = 0; i < collageImg.length; i++) {
             collageImg[i].onclick = function (e) {
-                if(!objectIDForSwiper) {
-                    objectIDForSwiper = currentHouse.id
-                    addNewImagesToSwiper(e.target, i)
-                } else if (objectIDForSwiper !== currentHouse.id) {
-                    objectIDForSwiper = currentHouse.id
-                    addNewImagesToSwiper(e.target, i)
-                } else if (objectIDForSwiper === currentHouse.id) {
-                    swiperPlaces.slideTo(i)
-                }
+                swiperPlaces.slideTo(i)
                 const placeSliderP = document.querySelector(".place__slider_p")
                 placeSliderP.classList.add('active')
             }
         }
     }
-    function addNewImagesToSwiper(itemClick, index) {
-        const imagesContainer = itemClick.closest('.place__content')
-        const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
+    function addNewImagesToSwiper(photos) {
+        console.log(photos)
         const swiper = document.querySelector('.place__slider_p-swiper')
         const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
 
@@ -2128,7 +2120,7 @@ function P(e) {
             swiperWrapper.removeChild(swiperWrapper.firstChild);
         }
 
-        for (let i = 0; i < images.length; i++) {
+        for (let i = 0; i < photos.length; i++) {
             const slide = document.createElement('div');
             slide.classList.add('place__slider_p-slide', 'swiper-slide');
 
@@ -2136,7 +2128,7 @@ function P(e) {
             imgContainer.classList.add('place__slider_p-img');
 
             const img = document.createElement('img');
-            img.src = images[i].querySelector('img').getAttribute('src');
+            img.src = `/${photos[i].preview}`
             img.alt = 'house';
 
             imgContainer.appendChild(img);
@@ -2147,7 +2139,7 @@ function P(e) {
         swiperPlaces = new Swiper(".place__slider_p-swiper", {
             slidesPerView: 1,
             autoHeight: !0,
-            initialSlide: index,
+            initialSlide: 0,
             keyboard: {
                 enabled: true, // Включить поддержку клавиатуры
             },
