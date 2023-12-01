@@ -800,6 +800,8 @@ if(document.querySelectorAll('.close-dropdown').length) {
         })
     });
 }
+
+
 //сортировка схем объектов
 if(document.querySelectorAll('.kompleks__layout-content').length) {
     const kompleksLayoutContent = document.querySelectorAll('.kompleks__layout-content')
@@ -926,8 +928,6 @@ if(document.querySelectorAll('.object__swiper._preload').length) {
 }
 
 
-
-
 //слушатель события на нажатия клаваши
 document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape') {
@@ -935,10 +935,3 @@ document.addEventListener('keydown', (e) => {
         placeW.classList.remove('active')
     }
 })
-
-
-// скрыть блок Общая площадь если больше 2 планировок
-
-// if(document.querySelectorAll('.object__rooms-content').length) {
-//     const
-// }

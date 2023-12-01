@@ -63,7 +63,7 @@
             {{ __('Приветствую вас, дорогой гость!') }}
         </div>
         <div class="hello__content">
-            <img class="hello__content-pic" src="{{asset('project/img/hellow-preview.png')}}" alt="Владелец компании oneteam">
+            <img class="hello__content-pic" src="{{asset('project/img/hellow-preview.webp')}}" alt="Владелец компании oneteam">
             <div class="hello__text">
                 <div class="hello__text-lead">
                     <p>
@@ -261,7 +261,7 @@
         </div>
         <div class="advantages__footer">
             <div class="advantages__pic">
-                <img src="{{asset('project/img/advantages-footer.png')}}" alt="Владелец компании oneteam">
+                <img src="{{asset('project/img/advantages-footer.webp')}}" alt="Владелец компании oneteam">
             </div>
             <div class="advantages__text">
                 <p class="advantages__lead">
