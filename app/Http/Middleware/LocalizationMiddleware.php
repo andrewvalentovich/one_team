@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
+use function Illuminate\Mail\Mailables\subject;
 
 class LocalizationMiddleware
 {
@@ -28,19 +29,17 @@ class LocalizationMiddleware
         // Если пользователь зашёл первый раз - будет null
         $session_locale = !empty($request->session()->get('locale')) ? $request->session()->get('locale') : null;
         $defaultLocale = 'ru';
-        Log::info(app()->getLocale());
-        Log::info($session_locale);
+
         if ($request->segment(1) == 'admin') {
             return $next($request);
         }
 
-        #if (stripos($request->url(), '.')) {
-        #    return $next($request);
-        #}
+        if (stripos(substr($request->url(), 0, stripos($request->url(), config('app.domain'))), '.')) {
+            return $next($request);
+        }
 
         if (is_null($session_locale)) {
-    	    Log::info('session_locale - null');
-	    // Получаем предпочитаемый пользователем язык
+    	    // Получаем предпочитаемый пользователем язык
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
             $segment = $request->segment(1);
 
@@ -68,7 +67,6 @@ class LocalizationMiddleware
                 }
             }
 	} else {
-	    Log::info('session_locale - is not null');	
             // Получаем язык из url
             $segment = $request->segment(1);
             app()->setLocale($session_locale);
