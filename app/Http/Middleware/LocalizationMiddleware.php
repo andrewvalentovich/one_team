@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Services\LocaleUrlService;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
 
@@ -27,6 +28,8 @@ class LocalizationMiddleware
         // Если пользователь зашёл первый раз - будет null
         $session_locale = !empty($request->session()->get('locale')) ? $request->session()->get('locale') : null;
         $defaultLocale = 'ru';
+        Log::info(app()->getLocale());
+        Log::info($session_locale);
         if ($request->segment(1) == 'admin') {
             return $next($request);
         }
@@ -87,17 +90,6 @@ class LocalizationMiddleware
                     }
                 }
             }
-//            // Если язык есть в конфиге, то продолжаем маршрут
-//            if (in_array($locale, config('app.available_locales'))) {
-//                app()->setLocale($locale);
-//                Session::put('locale', $locale);
-//                return $next($request);
-//            } else {
-//                // Иначе устанавливаем дефольный язык
-//                app()->setLocale($defaultLocale);
-//                Session::put('locale', $defaultLocale);
-//                return $next($request);
-//            }
         }
 
         return $next($request);
