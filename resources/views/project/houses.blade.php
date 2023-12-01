@@ -1864,7 +1864,7 @@ function P(e) {
             //     }
             // }
             console.log(localedName.name);
-            div.innerHTML = localedName.name;
+            div.innerHTML = localedName.name[0].toUpperCase() + localedName.name.substring(1);
             objectPeculiarities.appendChild(div)
         });
 
