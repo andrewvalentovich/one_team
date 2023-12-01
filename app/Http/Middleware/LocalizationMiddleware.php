@@ -34,12 +34,13 @@ class LocalizationMiddleware
             return $next($request);
         }
 
-        if (stripos($request->url(), '.')) {
-            return $next($request);
-        }
+        #if (stripos($request->url(), '.')) {
+        #    return $next($request);
+        #}
 
         if (is_null($session_locale)) {
-            // Получаем предпочитаемый пользователем язык
+    	    Log::info('session_locale - null');
+	    // Получаем предпочитаемый пользователем язык
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
             $segment = $request->segment(1);
 
@@ -66,7 +67,8 @@ class LocalizationMiddleware
                     return redirect($this->localeUrlService->insertLocaleIntoUrl($request, $locale));
                 }
             }
-        } else {
+	} else {
+	    Log::info('session_locale - is not null');	
             // Получаем язык из url
             $segment = $request->segment(1);
             app()->setLocale($session_locale);
