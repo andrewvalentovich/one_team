@@ -8418,3 +8418,16 @@ body.scroll_fixed {
 .contact__form-phone::before {
   display: none !important;
 }
+
+
+.iti.iti--container {
+  z-index: 2222 !important;
+  top: 11px !important;
+  bottom: 11px !important;
+  left: 19px !important;
+  right: 18px !important;
+  position: fixed;
+}
+.iti.iti--container .iti__country-list {
+  border-radius: 15px;
+}
