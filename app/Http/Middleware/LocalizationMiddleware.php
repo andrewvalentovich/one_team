@@ -70,6 +70,7 @@ class LocalizationMiddleware
             // Получаем язык из url
             $segment = $request->segment(1);
             app()->setLocale($session_locale);
+            Log::info(app()->getLocale());
 
             if ($session_locale == $segment) {
                 return $next($request);
