@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\LocaleUrlService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +10,13 @@ use Illuminate\Support\Facades\Session;
 
 class LocalizationMiddleware
 {
+    private $localeUrlService;
+
+    public function __construct(LocaleUrlService $localeUrlService)
+    {
+        $this->localeUrlService = $localeUrlService;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -17,9 +25,8 @@ class LocalizationMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Если пользователь зашёл первый раз - будет null
-        $session_locale = !empty(session('locale')) ? session('locale') : null;
+        $session_locale = !empty($request->session()->get('locale')) ? $request->session()->get('locale') : null;
         $defaultLocale = 'ru';
-
         if ($request->segment(1) == 'admin') {
             return $next($request);
         }
@@ -38,68 +45,61 @@ class LocalizationMiddleware
                 $locale = $defaultLocale;
             }
 
+            Session::put('locale', $locale);
+            app()->setLocale($locale);
+
             // Проверка имеется ли в урле язык
             if (is_null($segment)) {
-                return redirect($this->addLocaleToUrl($request, $locale));
+                return redirect($this->localeUrlService->addLocaleToUrl($request, $locale));
             } else {
                 // Проверка первого сегмента: язык или не язык
                 if (in_array($segment, config('app.available_locales'))) {
                     if ($segment !== $locale) {
-                        return redirect($this->replaceLocaleInUrl($request, $locale));
+                        return redirect($this->localeUrlService->replaceLocaleInUrl($request, $locale));
                     } else {
                         return $next($request);
                     }
                 } else {
-                    return redirect($this->insertLocaleIntoUrl($request, $locale));
+                    return redirect($this->localeUrlService->insertLocaleIntoUrl($request, $locale));
                 }
             }
         } else {
             // Получаем язык из url
-            $locale = $request->segment(1);
-            // Если язык есть в конфиге, то продолжаем маршрут
-            if (in_array($locale, config('app.available_locales'))) {
-                app()->setLocale($locale);
+            $segment = $request->segment(1);
+            app()->setLocale($session_locale);
+
+            if ($session_locale == $segment) {
                 return $next($request);
             } else {
-                // Иначе устанавливаем дефольный язык
-                app()->setLocale($defaultLocale);
-                return $next($request);
+                // Проверка имеется ли в урле язык
+                if (is_null($segment)) {
+                    return redirect($this->localeUrlService->addLocaleToUrl($request, $session_locale));
+                } else {
+                    // Проверка первого сегмента: язык или не язык
+                    if (in_array($segment, config('app.available_locales'))) {
+                        if ($segment !== $session_locale) {
+                            return redirect($this->localeUrlService->replaceLocaleInUrl($request, $session_locale));
+                        } else {
+                            return $next($request);
+                        }
+                    } else {
+                        return redirect($this->localeUrlService->insertLocaleIntoUrl($request, $session_locale));
+                    }
+                }
             }
+//            // Если язык есть в конфиге, то продолжаем маршрут
+//            if (in_array($locale, config('app.available_locales'))) {
+//                app()->setLocale($locale);
+//                Session::put('locale', $locale);
+//                return $next($request);
+//            } else {
+//                // Иначе устанавливаем дефольный язык
+//                app()->setLocale($defaultLocale);
+//                Session::put('locale', $defaultLocale);
+//                return $next($request);
+//            }
         }
 
         return $next($request);
-    }
-
-    private function addLocaleToUrl($request, $new_locale)
-    {
-        $url = $request->url();
-
-        Session::put('locale', $new_locale);
-        $new_locale = '/' . $new_locale;
-
-        // Добавление $new_locale в $url
-        return substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
-    }
-
-    private function replaceLocaleInUrl($request, $new_locale)
-    {
-        $url = $request->url();
-        $segment = $request->segment(1);
-
-        Session::put('locale', $new_locale);
-
-        // Замена текущего языка на новый $new_locale
-        return preg_replace("/$segment/", $new_locale, $url, 1);
-    }
-
-    private function insertLocaleIntoUrl($request, $new_locale)
-    {
-        $url = $request->url();
-
-        Session::put('locale', $new_locale);
-        $new_locale = $new_locale . '/';
-
-        // Добавление $new_locale в $url
-        return substr_replace($url, $new_locale, stripos($url, config('app.url')) + strlen(config('app.url')), 0);
     }
 }

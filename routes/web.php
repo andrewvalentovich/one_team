@@ -86,10 +86,6 @@ Route::domain('panel.'.config('app.domain'))->group(function () {
 
 
 Route::domain(config('app.domain'))->group(function () {
-    Route::get('http_accept_language', function (Illuminate\Http\Request $request) {
-        $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-        echo $locale;
-    });
     Route::group(['prefix' => 'admin'], function () {
         Route::middleware(['NoAuthUser'])->group(function () {
             Route::get('/login', [AdminLoginController::class, 'login'])->name('login');
@@ -184,6 +180,10 @@ Route::domain(config('app.domain'))->group(function () {
         'prefix' => \App\Services\Localization\LocalizationService::locale(),
         'middleware' => 'locale',
     ], function() {
+        Route::get('http_accept_language', function (Illuminate\Http\Request $request) {
+            $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
+            echo $locale;
+        });
         Route::view('test', 'test2');
 
         Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
