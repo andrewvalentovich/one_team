@@ -54,7 +54,6 @@ class LocalizationMiddleware
                 }
             }
         } else {
-            dd(2222222222);
             // Получаем язык из url
             $locale = $request->segment(1);
             // Если язык есть в конфиге, то продолжаем маршрут
