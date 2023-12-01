@@ -2233,4 +2233,6 @@ if(objectIdFromUrl) {
     }
 }
 </script>
+<script src="{{asset('project/js/tel-input.js')}}"></script>
+
 @endsection

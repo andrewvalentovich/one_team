@@ -5984,7 +5984,7 @@ body.scroll_fixed {
   }
 
   .contact__form-phone::before {
-    display: none;
+    display: none !important;
   }
 
   .contact__form-phone-country {
@@ -7041,11 +7041,11 @@ body.scroll_fixed {
 }
 
 .input-wrapper.border {
-  border: 1px solid red;
+  border: 2px solid red;
 }
 
 .input-wrapper.active {
-  border: 1px solid red;
+  border: 2px solid red;
 }
 
 .input-wrapper.active.confirm {
@@ -7084,7 +7084,7 @@ body.scroll_fixed {
 }
 
 .contact__form-phone.input-wrapper .text{
-  left: 90px;
+  left: 64px;
 }
 
 
@@ -8386,4 +8386,35 @@ body.scroll_fixed {
   .contacts__map {
     height: 300px;
   }
+}
+
+.contact__form-phone {
+  height: 55px;
+  position: relative;
+}
+
+.selector-list-phone {
+  height: 100%;
+  top: 0;
+  position: absolute !important; 
+  padding-left: 64px !important;
+}
+.contact__form-phone .iti__flag-container {
+  height: 100%;
+  width: 62px;
+  position: static;
+}
+.contact__form-phone .iti.iti--allow-dropdown.iti--show-flags {
+  width: 100%;
+}
+
+.contact__form-phone .iti__country-list{
+  width: 100%;
+}
+
+
+
+
+.contact__form-phone::before {
+  display: none !important;
 }

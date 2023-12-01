@@ -2973,7 +2973,6 @@ function P(e) {
             mapCountry.events.add('balloonopen', function(e){
                 var balloonContentElement = document.querySelector('.balloon-city');
                 balloonContentElement.addEventListener('click', function(e) {
-                    console.log('test')
                     const id = balloonContentElement.getAttribute('id')
                     replaceUrlWithObject(window.filter_params_data, "object-" + id);
                     getObjectById("object-" + id)
@@ -3039,4 +3038,5 @@ function P(e) {
         });
 
     </script>
+<script src="{{asset('project/js/tel-input.js')}}"></script>
 @endsection

@@ -3008,4 +3008,5 @@ window.country = {
 
 getData('{{ app()->getLocale() }}', ids);
 </script>
+<script src="{{asset('project/js/tel-input.js')}}"></script>
 @endsection

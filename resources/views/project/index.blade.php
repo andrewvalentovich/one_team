@@ -297,8 +297,14 @@
                 </div>
 
                 <input type="hidden" name="contact_type" value="WhatsApp">
-
                 <div class="contact__form-phone input-wrapper">
+                    <span class="text">
+                        {{__('Номер телефона')}}
+                    </span>
+                    <input class="selector-list-phone" id="phone" name="phone">
+                </div>
+
+                <!-- <div class="contact__form-phone input-wrapper">
                     <div class="contact__form-phone-country close-out">
                         <div class="contact__form-country-item">
                             <div class="contact__form-country-item-img">
@@ -364,7 +370,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <label class="contact__form-politic" for="contact__form_politic_on_index_page">
                     <input class="contact__form-politic-checkbox contact__form-checkbox" type="checkbox"
                            id="contact__form_politic_on_index_pagee" checked>
@@ -403,11 +409,25 @@
         $('#index_page_form').submit(function (event) {
             event.preventDefault()
             let phone = $("input[name='phone']").val();
-            let country = $("input[name='contact__phone-title']").val();
+            let country = $(this).find('.iti__selected-flag').attr('title')
             let message = $("input[name='contact_type']").val();
             let phone_val = false;
 
-            if (phone.length == 0) {
+            let countryCode = $(this).find('.iti__selected-flag').attr('title')
+            const regex = /(\+\d+)/;
+            const matches = countryCode.match(regex);
+
+            if (matches && matches.length > 0) {
+                countryCode =  matches[0];
+                phone = countryCode + phone
+                } else {
+                countryCode =  ''
+            }
+
+            const placeHolder = this.querySelector('.selector-list-phone').getAttribute('placeholder')
+
+            console.log(placeHolder)
+            if (phone.length <=5) {
                 $('.contact__form-phone').css('border', '2px solid red')
             } else {
                 phone_val = true;
@@ -453,7 +473,7 @@
                             showConfirmButton: false,
                             timer: 2500
                         })
-                        $("input[name='phone']").val(' ')
+                        $("input[name='phone']").val('')
                         $('.two_check').css('border', '2px solid #508cfa')
                         $('.one_check').css('border', '2px solid #508cfa')
                     },
@@ -476,7 +496,10 @@
                 <div class="popup__subtitle">
                     {{__('Номер телефона')}}
                 </div>
-                <div class="field field-phone selection-phone">
+                <div class="contact__form-phone input-wrapper">
+                    <input class="selector-list-phone" id="phone" name="phone">
+                </div>
+                <!-- <div class="field field-phone selection-phone">
                     <div class="contact__form-phone-country close-out">
                         <div class="contact__form-country-item">
                             <div class="contact__form-country-item-img">
@@ -537,7 +560,7 @@
                         </div>
                     </div>
                     <input data-phone-pattern class="contact__phone-input" type="text" value="" placeholder="">
-                </div>
+                </div> -->
                 <button class="btn">
                     {{ __('Отправить заявку') }}
                 </button>
@@ -685,4 +708,5 @@
 
         getData('{{ app()->getLocale() }}');
     </script>
+    <script src="{{asset('project/js/tel-input.js')}}"></script>
 @endsection

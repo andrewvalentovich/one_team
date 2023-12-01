@@ -935,3 +935,4 @@ document.addEventListener('keydown', (e) => {
         placeW.classList.remove('active')
     }
 })
+

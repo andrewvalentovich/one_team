@@ -25,6 +25,7 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <title>{{ isset($title) ? __($title) : "One-team" }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
     <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
     <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -47,7 +48,13 @@
                     </span>
                     <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
                 </label>
-                <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
+                <div class="contact__form-phone input-wrapper">
+                    <span class="text">
+                        {{__('Номер телефона')}}
+                    </span>
+                    <input class="selector-list-phone" id="phone" name="phone">
+                </div>
+                <!-- <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
                     <div class="contact__form-phone-country close-out" bis_skin_checked="1">
                         <div class="contact__form-country-item" bis_skin_checked="1">
                             <div class="contact__form-country-item-img" bis_skin_checked="1">
@@ -111,7 +118,7 @@
                         {{__('Номер телефона')}}
                     </span>
                     <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
-                </div>
+                </div> -->
                 <label class="contact__form-politic">
                     <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                     <div class="contact__form-custom-checkbox one_check"></div>
@@ -224,7 +231,6 @@
             });
 
             kompleksBlockPriceCredit.forEach(block => {
-                console.log('test')
                 changeExchange(block, exchange)
             });
 
@@ -248,8 +254,8 @@
 
     $('.popup-close').click(function () {
         $('.popup-modal').removeClass('active');
-        $("input[name='phone']").val(' ')
-        $("input[name='fio']").val(' ')
+        $("input[name='phone']").val('')
+        $("input[name='fio']").val('')
         $("input[name='contact__phone']").val('Россия (Russia)')
     });
 
@@ -258,8 +264,21 @@
         event.preventDefault()
         let product_id = $(this).find("input[name='product_id']").val();
         let name = $(this).find("input[name='fio']").val();
+        let country = $(this).find('.iti__selected-flag').attr('title')
         let phoneInput = $(this).find("input[name='phone']");
         let phone = phoneInput.val();
+
+        let countryCode = $(this).find('.iti__selected-flag').attr('title')
+        const regex = /(\+\d+)/;
+        const matches = countryCode.match(regex);
+
+        if (matches && matches.length > 0) {
+            countryCode =  matches[0];
+            phone = countryCode + phone
+        } else {
+            countryCode =  ''
+        }
+
 
         let name_valid = false;
         if (name.length == 0){
@@ -269,9 +288,15 @@
         }
 
         let phone_valid = false
-        const lengthPhone = phoneInput.data('phone-pattern').length;
-        if(lengthPhone !== phone.length) {
-            $('.field-phone').closest('.input-wrapper').addClass('border');
+        // const lengthPhone = phoneInput.data('phone-pattern').length;
+        // if(lengthPhone !== phone.length) {
+        //     $('.field-phone').closest('.input-wrapper').addClass('border');
+        // } else {
+        //     phone_valid = true;
+        // }
+
+        if (phone.length <=5) {
+            $('.contact__form-phone').css('border', '2px solid red')
         } else {
             phone_valid = true;
         }
@@ -293,6 +318,7 @@
         if (phone_valid == true && name_valid == true && check_one == true && check_two == true){
             let formData = new FormData();
             formData.append('product_id', product_id);
+            formData.append('country', country);
             formData.append('phone', phone);
             formData.append('name', name);
             formData.append('product_id', $("input[name='product_id']").val());
@@ -318,9 +344,10 @@
                         timer: 2500,
 
                     })
-                    $("input[name='phone']").val(' ')
-                    $("input[name='name']").val(' ')
-
+                    $("input[name='phone']").val('')
+                    $("input[name='name']").val('')
+                    $('.two_check').css('border', '2px solid #508cfa')
+                    $('.one_check').css('border', '2px solid #508cfa')
                 },
                 error: function(error) {
                     console.log(error);
@@ -387,14 +414,15 @@ inputWrappers.forEach(function(wrapper) {
 inputWrappers.forEach(function(wrapper) {
     const input = wrapper.querySelector('input');
     input.addEventListener('blur', function() {
-        if(input.value) {
-            if(input.getAttribute('name') === 'phone') {
-                const lengthPhone = input.getAttribute('data-phone-pattern').length
-                if(lengthPhone !== input.value.length) {
-                    wrapper.classList.remove('confirm');
-                    return
-                }
-            }
+        console.log(input.value)
+        if(input.value.length >= 5) {
+            // if(input.getAttribute('name') === 'phone') {
+            //     const lengthPhone = input.getAttribute('data-phone-pattern').length
+            //     if(lengthPhone !== input.value.length) {
+            //         wrapper.classList.remove('confirm');
+            //         return
+            //     }
+            // }
             wrapper.classList.add('confirm');
         } else {
             wrapper.classList.add('border');
