@@ -44,12 +44,17 @@ class LocalizationMiddleware
             } else {
                 // Проверка первого сегмента: язык или не язык
                 if (in_array($segment, config('app.available_locales'))) {
-                    return redirect($this->replaceLocaleInUrl($request, $locale));
+                    if ($segment !== $locale) {
+                        return redirect($this->replaceLocaleInUrl($request, $locale));
+                    } else {
+                        return $next($request);
+                    }
                 } else {
                     return redirect($this->insertLocaleIntoUrl($request, $locale));
                 }
             }
         } else {
+            dd(2222222222);
             // Получаем язык из url
             $locale = $request->segment(1);
             // Если язык есть в конфиге, то продолжаем маршрут
