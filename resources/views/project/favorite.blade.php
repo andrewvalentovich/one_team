@@ -2019,7 +2019,7 @@
                     }
                 }
                 let mapLang = "<?php echo app()->getLocale() ?>";
-                changeLangMap(mapLang)
+                // changeLangMap(mapLang)
 
             }))
 

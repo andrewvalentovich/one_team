@@ -2523,6 +2523,7 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
+                        console.log(data)
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }
@@ -2941,7 +2942,7 @@ function P(e) {
             };
 
 
-            getData(top_left, bottom_right);
+            // getData(top_left, bottom_right);
             currentCoordinateMapLeft = top_left
             currentCoordinateMapRight = bottom_right
             currentPage = 0
@@ -2958,7 +2959,6 @@ function P(e) {
                     lat: newBounds[1][0],
                     long: newBounds[1][1]
                 };
-
                 getData(top_left, bottom_right);
                 currentCoordinateMapLeft = top_left
                 currentCoordinateMapRight = bottom_right
