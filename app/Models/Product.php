@@ -154,7 +154,7 @@ class Product extends Model
         if ($this->grajandstvo === 'Да') {
             $tags[] = __('Гражданство', [], $locale);
         }
-        if ($this->commissions === 'Да') {
+        if ($this->commissions === 'Да' && $this->is_secondary == 0) {
             $tags[] = __('Рассрочка 0%', [], $locale);
         }
         $tags[] = $this->is_secondary === 0 ? __('Новостройка', [], $locale) : __('Вторичка', [], $locale);
