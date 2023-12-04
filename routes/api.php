@@ -44,4 +44,5 @@ Route::domain(config('app.domain'))->group(function () {
     // Отдаём заявки в зависимости от токена (у каждого типа лендинга свой токен, который задаётся в panel.one-team.pro)
     Route::post('/requests/lead', [\App\Http\Controllers\API\RequestsController::class, 'lead'])->name('api.requests.lead');
     Route::get('/requests/export', [\App\Http\Controllers\API\RequestsController::class, 'export'])->name('api.requests.export');
+    Route::get('/test', [\App\Http\Controllers\API\RequestsController::class, 'test'])->name('api.requests.test');
 });
