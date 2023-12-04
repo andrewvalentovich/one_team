@@ -7084,7 +7084,7 @@ body.scroll_fixed {
 }
 
 .contact__form-phone.input-wrapper .text{
-  left: 64px;
+  left: 77px;
 }
 
 
@@ -8397,11 +8397,11 @@ body.scroll_fixed {
   height: 100%;
   top: 0;
   position: absolute !important; 
-  padding-left: 64px !important;
+  padding-left: 77px;
 }
 .contact__form-phone .iti__flag-container {
   height: 100%;
-  width: 62px;
+  width: fit-content;
   position: static;
 }
 .contact__form-phone .iti.iti--allow-dropdown.iti--show-flags {

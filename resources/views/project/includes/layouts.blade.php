@@ -268,7 +268,8 @@
         let phoneInput = $(this).find("input[name='phone']");
         let phone = phoneInput.val();
 
-        let countryCode = $(this).find('.iti__selected-flag').attr('title')
+        let countryCode = $(this).find('.iti__selected-dial-code').html()
+
         const regex = /(\+\d+)/;
         const matches = countryCode.match(regex);
 
@@ -414,7 +415,6 @@ inputWrappers.forEach(function(wrapper) {
 inputWrappers.forEach(function(wrapper) {
     const input = wrapper.querySelector('input');
     input.addEventListener('blur', function() {
-        console.log(input.value)
         if(input.value.length >= 5) {
             // if(input.getAttribute('name') === 'phone') {
             //     const lengthPhone = input.getAttribute('data-phone-pattern').length

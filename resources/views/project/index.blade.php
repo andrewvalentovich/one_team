@@ -413,12 +413,13 @@
             let message = $("input[name='contact_type']").val();
             let phone_val = false;
 
-            let countryCode = $(this).find('.iti__selected-flag').attr('title')
+            let countryCode = $(this).find('.iti__selected-dial-code').html()
+
             const regex = /(\+\d+)/;
             const matches = countryCode.match(regex);
 
             if (matches && matches.length > 0) {
-                countryCode =  matches[0];
+                countryCode = matches[0];
                 phone = countryCode + phone
                 } else {
                 countryCode =  ''
@@ -426,7 +427,6 @@
 
             const placeHolder = this.querySelector('.selector-list-phone').getAttribute('placeholder')
 
-            console.log(placeHolder)
             if (phone.length <=5) {
                 $('.contact__form-phone').css('border', '2px solid red')
             } else {
@@ -463,8 +463,6 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        console.log("response");
-                        console.log(response);
                         // Handle the response from the server
                         Swal.fire({
                             position: 'center',
