@@ -50,4 +50,6 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('/new_site/index', [NewSiteController::class, 'index'])->name('api.new_site.index');
     // Отдаётся каталог объектов для нового сайта
     Route::get('/houses/catalog', [\App\Http\Controllers\API\NewSiteController::class, 'catalog'])->name('api.houses.get.catalog');
+    // Отдаётся объект для нового сайта
+    Route::get('/houses/detail', [\App\Http\Controllers\API\NewSiteController::class, 'detail'])->name('api.houses.get.detail');
 });

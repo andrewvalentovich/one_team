@@ -23,7 +23,7 @@ class ProductsResource extends JsonResource
             'country_id' => $this->country_id,
             'country' => $this->country->name,
             'city_id' => $this->city_id,
-            'city' => $this->city->name,
+            'city' => $this->city->name ?? null,
             'price_size' => $this->price_size,
             'size_min' => $this->size_min,
             'size_max' => $this->size_max,
