@@ -29,6 +29,8 @@ class CatalogRequest extends FormRequest
             'page' => 'nullable',
             'country_id' => 'nullable|numeric',
             'city_id' => 'nullable|numeric',
+            'country' => 'nullable|string',
+            'city' => 'nullable|string',
         ];
     }
 }

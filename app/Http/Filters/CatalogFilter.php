@@ -17,6 +17,8 @@ class CatalogFilter extends AbstractFilter
     const COUNTRY_ID = 'country_id';
     const PRICE = 'price';
     const CITY_ID = 'city_id';
+    const COUNTRY = 'country';
+    const CITY = 'city';
 
     protected $currencyService;
 
@@ -32,8 +34,10 @@ class CatalogFilter extends AbstractFilter
         return [
             self::ORDER_BY => [$this, 'order_by'],
             self::COUNTRY_ID => [$this, 'country_by_id'],
-            self::PRICE => [$this, 'price'],
             self::CITY_ID => [$this, 'city_by_id'],
+            self::PRICE => [$this, 'price'],
+            self::CITY => [$this, 'city_by_slug'],
+            self::COUNTRY => [$this, 'country_by_slug'],
         ];
     }
 
@@ -48,6 +52,24 @@ class CatalogFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->where('country_id', $value);
+        }
+    }
+
+    protected function country_by_slug(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->whereHas('country', function ($query) use ($value) {
+                $query->where('slug', $value);
+            });
+        }
+    }
+
+    protected function city_by_slug(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->whereHas('city', function ($query) use ($value) {
+                $query->where('slug', $value);
+            });
         }
     }
 
