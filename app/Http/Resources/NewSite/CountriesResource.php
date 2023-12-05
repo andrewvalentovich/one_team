@@ -26,6 +26,7 @@ class CountriesResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->locale_fields->where('locale_id', $this->locale_id)->first()->name,
+            'slug' => $this->slug,
             'photo' => $this->photo,
             'cities' => $this->cities
         ];
