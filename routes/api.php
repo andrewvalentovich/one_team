@@ -28,6 +28,8 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('/houses/filter_params', [\App\Http\Controllers\API\SearchController::class, 'getParams'])->name('api.search.get.params');
     // Отдаётся объект для popup-карточки (например, в houses)
     Route::get('/houses/simple', [\App\Http\Controllers\API\HousesController::class, 'getSimple'])->name('api.houses.get.simple');
+    // Отдаётся каталог объектов для нового сайта
+    Route::get('/houses/catalog', [\App\Http\Controllers\API\HousesController::class, 'catalog'])->name('api.houses.get.catalog');
 
     // Отдаются (все) параметры для фильтра
     Route::get('/photo_categories/filter_params', [\App\Http\Controllers\API\PhotoCategoriesController::class, 'getParams'])->name('api.photo_categories.get.params');
@@ -44,5 +46,4 @@ Route::domain(config('app.domain'))->group(function () {
     // Отдаём заявки в зависимости от токена (у каждого типа лендинга свой токен, который задаётся в panel.one-team.pro)
     Route::post('/requests/lead', [\App\Http\Controllers\API\RequestsController::class, 'lead'])->name('api.requests.lead');
     Route::get('/requests/export', [\App\Http\Controllers\API\RequestsController::class, 'export'])->name('api.requests.export');
-    Route::get('/test', [\App\Http\Controllers\API\RequestsController::class, 'test'])->name('api.requests.test');
 });

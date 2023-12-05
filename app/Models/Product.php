@@ -12,7 +12,6 @@ class Product extends Model
 {
     // У objects image может быть массивом или текстовым полем, аккуратно!
     use HasFactory, Filterable, SoftDeletes;
-    use HasFactory, Filterable, SoftDeletes;
 
     protected $guarded = [];
 
@@ -125,6 +124,14 @@ class Product extends Model
     {
         if (!empty($this->peculiarities->whereIn('type', "До моря")->first())) {
             return $this->peculiarities->whereIn('type', "До моря")->first()->name;
+        }
+        return null;
+    }
+
+    public function is_swimming()
+    {
+        if (!empty($this->peculiarities->where('name', 'Бассейн')->first())) {
+            return true;
         }
         return null;
     }

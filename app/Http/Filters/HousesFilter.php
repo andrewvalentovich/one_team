@@ -244,21 +244,17 @@ class HousesFilter extends AbstractFilter
         }
     }
 
-//    protected function order_by(Builder $builder, $value)
-//    {
-        // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
+    protected function order_by(Builder $builder, $value)
+    {
+//         Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
 //        $val_arr = explode('-', $value);
 //        if ($val_arr[0] == 'price') {
 //            $builder->orderBy('min_price', $val_arr[1]);
 //        } else {
 //            $builder->orderBy($val_arr[0], $val_arr[1]);
 //        }
-//        $builder->addSelect('products.*', DB::raw('(CASE WHEN complex_or_not = "Да" THEN layouts.price ELSE products.price END) as min_price'))
-//            ->join('layouts', function ($join) {
-//                $join->on('products.id', '=', 'layouts.complex_id')
-//                    ->where('products.complex_or_not', 'Да');
-//            })->orderBy('min_price');
+//        $builder->orderBy('min_price', 'asc');
 
-        // $builder->orderBy($val_arr[0], $val_arr[1]);
-//    }
+//        $builder->orderBy($val_arr[0], $val_arr[1]);
+    }
 }
