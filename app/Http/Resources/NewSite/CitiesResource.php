@@ -45,10 +45,10 @@ class CitiesResource extends JsonResource
                     $query->with('photos');
                 }])
                 ->with(['country' => function($query) {
-                    $query->select('id', 'name');
+                    $query->select('id', 'name', 'slug');
                 }])
                 ->with(['city' => function($query) {
-                    $query->select('id', 'name');
+                    $query->select('id', 'name', 'slug');
                 }])
                 ->with('photo')
                 ->with('locale_fields.locale')
@@ -72,10 +72,10 @@ class CitiesResource extends JsonResource
                         $query->with('photos');
                     }])
                     ->with(['country' => function($query) {
-                        $query->select('id', 'name');
+                        $query->select('id', 'name', 'slug');
                     }])
                     ->with(['city' => function($query) {
-                        $query->select('id', 'name');
+                        $query->select('id', 'name', 'slug');
                     }])
                     ->with('photo')
                     ->with('locale_fields.locale')
