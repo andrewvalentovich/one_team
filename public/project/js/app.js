@@ -936,3 +936,12 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
+const openPopupBtn = document.querySelectorAll('[popup-name]');
+openPopupBtn.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const popupName = btn.getAttribute('popup-name')
+        console.log(popupName)
+        const popup = document.querySelector(`.${popupName}`)
+        popup.classList.add('active')
+    })
+});

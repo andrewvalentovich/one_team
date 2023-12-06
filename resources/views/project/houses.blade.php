@@ -123,7 +123,7 @@
                                         <p class="catalog__info-title">
                                             Получить каталог, если нет времени на поиски
                                         </p>
-                                        <button class="catalog__btn-get">
+                                        <button class="catalog__btn-get" popup-name="main-form-popup">
                                             Получить каталог
                                         </button>
                                     </div>
@@ -169,7 +169,7 @@
                                         <p class="catalog__info-title">
                                             Не нашли что нужно - напишите
                                         </p>
-                                        <button class="catalog__btn-get">
+                                        <button class="catalog__btn-get" popup-name="main-form-popup">
                                             Получить каталог
                                         </button>
                                     </div>

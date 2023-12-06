@@ -45,7 +45,7 @@
     @include('project.includes.popup-catalog')
 
 
-    <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
+    <div class="popup popup-modal main-form-popup" style="z-index: 2005!important;" bis_skin_checked="1">
         <div class="popup__body" bis_skin_checked="1">
             <form class="popup__content default-form" id="city_form">
                 <label class="field name input-wrapper" bis_skin_checked="1">
@@ -186,7 +186,7 @@
 
 
     $('.place__buy-btn, .place__order-btn, .place__btns-item, .citizenship-investments__footer-button').click(function () {
-        $('.popup-modal').addClass('active');
+        $('.main-form-popup').addClass('active');
         $("input[name='product_id']").val($(this).attr('data_id'));
     });
     $('.contact__phone-title').click(function () {
@@ -194,7 +194,7 @@
     });
 
     $('.popup-close').click(function () {
-        $('.popup-modal').removeClass('active');
+        $('.main-form-popup').removeClass('active');
         $("input[name='phone']").val('')
         $("input[name='fio']").val('')
         $("input[name='contact__phone']").val('Россия (Russia)')
