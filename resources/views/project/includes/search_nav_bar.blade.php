@@ -22,7 +22,7 @@
 </style>
 
 <div class="search-nav-w">
-    <form action="{{ route('realty') }}" class="header_search" method="get">
+    <form action="{{ route('realty') }}" class="header_search test" method="get">
         <div class ="search-nav container">
             <div class="search-nav__list">
                 <div class="search-nav__list-item  search-nav__list-item_b search-nav__list-item_arrow dropdown other-element" data_id="country">

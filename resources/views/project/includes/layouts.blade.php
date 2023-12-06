@@ -39,6 +39,12 @@
 
     @yield('footer')
 
+    <!-- модалки -->
+    @include('project.includes.popup-questions')
+
+    @include('project.includes.popup-catalog')
+
+
     <div class="popup popup-modal" style="z-index: 2005!important;" bis_skin_checked="1">
         <div class="popup__body" bis_skin_checked="1">
             <form class="popup__content default-form" id="city_form">
@@ -54,71 +60,6 @@
                     </span>
                     <input class="selector-list-phone" id="phone" name="phone">
                 </div>
-                <!-- <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
-                    <div class="contact__form-phone-country close-out" bis_skin_checked="1">
-                        <div class="contact__form-country-item" bis_skin_checked="1">
-                            <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contact__phone-dropdown close-out" bis_skin_checked="1">
-                        <div class="contact__phone-list" bis_skin_checked="1">
-                            <div class="contact__phone-list-item" mask="+7 (___) ___-__-__" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Россия (Russia) <span>+7</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+1 (___) ___-__-__" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/us.png') }}" alt="us">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    США (United States)  <span>+1</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+49 (___) ____-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/gr.png') }}" alt="gr">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Германия (Germany) <span>+49</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+48 (___) ___-___" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/pl.png') }}" alt="pl">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Польша (Poland) <span>+48</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+46 (___) ___-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/sw.png') }}" alt="sw">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Швеция (Sweden) <span>+46</span>
-                                </div>
-                            </div>
-                            <div class="contact__phone-list-item" mask="+39 (___) ___-____" bis_skin_checked="1">
-                                <div class="contact__phone-img" bis_skin_checked="1">
-                                    <img src="{{ asset('project/img/countries/it.png') }}" alt="it">
-                                </div>
-                                <div class="contact__phone-title" bis_skin_checked="1">
-                                    Италия (Italy) <span>+39</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="text">
-                        {{__('Номер телефона')}}
-                    </span>
-                    <input data-phone-pattern="+7 (___) ___-__-__" class="contact__phone-input" type="text" value="" placeholder="" name="phone">
-                </div> -->
                 <label class="contact__form-politic">
                     <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                     <div class="contact__form-custom-checkbox one_check"></div>

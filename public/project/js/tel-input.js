@@ -3,15 +3,20 @@
   
     
 
-const input = document.querySelector("#phone");
-window.intlTelInput(input, {
-    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
-    preferredCountries: ['ru', 'tr'],
-    separateDialCode: true
-});
+// Get all elements with the id "phone"
+const phoneInputs = document.querySelectorAll("#phone");
 
-input.addEventListener("countrychange", function() {
-    const container = this.closest('.contact__form-phone')
-    const text = container.querySelector('.text')
-    text.style.left = this.style.paddingLeft
+// Loop through each phone input element
+phoneInputs.forEach(input => {
+    window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+        preferredCountries: ['ru', 'tr'],
+        separateDialCode: true
+    });
+
+    input.addEventListener("countrychange", function() {
+        const container = this.closest('.contact__form-phone');
+        const text = container.querySelector('.text');
+        text.style.left = this.style.paddingLeft;
+    });
 });
