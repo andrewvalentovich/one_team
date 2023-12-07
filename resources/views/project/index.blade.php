@@ -80,6 +80,10 @@
             </div>
         </section>
     </div>
+    <div class="container-w">
+        @include('project.includes.search_nav_bar')
+    </div>
+    <!-- лучшие -->
     <section class="popular-locations container">
         <div class="popular-locations__title title">
             {{__('Популярные локации')}}
@@ -117,9 +121,6 @@
             </div>
         </div>
     </section>
-    <div class="container-w">
-        @include('project.includes.search_nav_bar')
-    </div>
     <div class="catalog-w">
         <section class="catalog">
             <div class="catalog__content">

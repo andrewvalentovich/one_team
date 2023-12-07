@@ -8602,7 +8602,7 @@ body.scroll_fixed {
 .catalog {
   max-width: 1383px;
   margin: 0 auto;
-  border-radius: 45px;
+  border-radius: 15px;
   background: #4F8BF9;
   position: relative;
 }
