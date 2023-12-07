@@ -20,9 +20,9 @@ class HousesController extends Controller
         return view('project.houses', compact('country', 'countries'));
     }
 
-    public function realty(FilterRequest $request, $categories)
+    public function realty(Request $request, $categories)
     {
-        $data = $request->validated();
+//        $data = $request->validated();
         $categories_array = explode('/', $categories);
 
         $region = null;
