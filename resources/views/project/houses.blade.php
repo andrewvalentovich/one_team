@@ -5,7 +5,7 @@
 @section('content')
     @include('project.includes.search_nav_bar')
     <section class="city">
-        <div class="city__content">
+        <div class="_content">
             <div id="map_city" class="">
             </div>
             <div class="map_city__btn-changer">
@@ -3101,12 +3101,13 @@ function P(e) {
                     const target = e.target
                     if(target.classList.contains('place-w')) {
                         placeBlock.classList.remove('active')
-                        var urlParams = getValuesFromUrl();
-                        var object = checkPosition(urlParams, 'object-');
-                        if (object) {
-                            urlParams = deleteUrlParameter(object, urlParams);
-                        }
-                        updateUrl(window.filter_params_data, urlParams, false);
+                        // var urlParams = getValuesFromUrl();
+                        // var object = checkPosition(urlParams, 'object-');
+                        // if (object) {
+                        //     urlParams = deleteUrlParameter(object, urlParams);
+                        // }
+                        // updateUrl(window.filter_params_data, urlParams, false);
+                        history.back();
                     }
                     if(target.classList.contains('_country')) {
                         const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
@@ -3118,7 +3119,7 @@ function P(e) {
             });
         }
     </script>
-    
+
 <script src="{{asset('project/js/tel-input.js')}}"></script>
 <script src="{{asset('project/js/filter.js')}}"></script>
 @endsection

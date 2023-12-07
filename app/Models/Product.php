@@ -80,21 +80,21 @@ class Product extends Model
         return $this->hasMany(ProductDrawing::class,'product_id');
     }
 
-//    public function type_vid() {
-//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Вид');
-//    }
-//    public function do_more() {
-//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','До моря');
-//    }
-//    public function spalni() {
-//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Спальни');
-//    }
-//    public function vanie() {
-//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Ванные');
-//    }
-//    public function gostinnie() {
-//        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
-//    }
+    public function type_vid() {
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Вид');
+    }
+    public function do_more() {
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','До моря');
+    }
+    public function spalni() {
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Спальни');
+    }
+    public function vanie() {
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Ванные');
+    }
+    public function gostinnie() {
+        return $this->hasMany(ProductCategory::class,'product_id')->where('type','Гостиные');
+    }
 
     public function bedrooms()
     {

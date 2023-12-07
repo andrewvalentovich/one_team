@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\House\FilterRequest;
 use App\Models\Peculiarities;
 use App\Models\Product;
 use App\Models\CountryAndCity;
@@ -19,8 +20,10 @@ class HousesController extends Controller
         return view('project.houses', compact('country', 'countries'));
     }
 
-    public function realty(Request $request, $categories)
+    public function realty(FilterRequest $request, $categories)
     {
+        $data = $request->validated();
+        dd($categories);
         $categories_array = explode('/', $categories);
 
         $region = null;

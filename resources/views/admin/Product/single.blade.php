@@ -157,7 +157,7 @@
                                 <label class="col-sm-3 col-form-label">Гостиные</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="osobenosti[]" style="color: #e2e8f0">
-                                        @foreach($categorys->where('type', 'Гостиные')->where('name','!=','Неважно') as $osobenosti)
+                                    @foreach($categorys->where('type', 'Гостиные')->where('name','!=','Неважно') as $osobenosti)
                                             @if(isset($get->gostinnie[0]) && $get->gostinnie[0]->peculiarities_id == $osobenosti->id)
                                                 <option value="{{$osobenosti->id}}" selected>{{$osobenosti->name}}</option>
                                             @else
@@ -169,7 +169,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{--                        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////--}}
                         <div class="col-md-6" bis_skin_checked="1">
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">ВНЖ в подарок</label>

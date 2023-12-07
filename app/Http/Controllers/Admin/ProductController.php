@@ -167,7 +167,10 @@ class ProductController extends Controller
     public function single_page_product($id)
     {
         // Получаем элемент
-        $get = Product::with('layouts')->with('locale_fields.locale')->where('id', $id)->first();
+        $get = Product::with('layouts')
+            ->with('locale_fields.locale')
+            ->where('id', $id)
+            ->first();
 
 //        // Выводим корректную цену в соответствии с указанной валютой
 //        $get->price = $this->currencyService->displayWithCurrency($get->price, $get->price_code);
