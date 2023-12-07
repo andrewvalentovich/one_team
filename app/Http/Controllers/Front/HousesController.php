@@ -23,7 +23,6 @@ class HousesController extends Controller
     public function realty(FilterRequest $request, $categories)
     {
         $data = $request->validated();
-        dd($categories);
         $categories_array = explode('/', $categories);
 
         $region = null;
