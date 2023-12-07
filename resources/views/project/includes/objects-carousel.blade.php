@@ -202,17 +202,11 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="place__right-col">
-
                             <div class="place__right-top">
-
                                 <a href="{{route('home_page')}}" class="place__top-logo">
-
                                     <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
-
                                 </a>
                                 @php
                                     $user_id = isset($_COOKIE["user_id"]) ? $_COOKIE['user_id'] : null;
@@ -434,36 +428,20 @@
                                                 </div>
                                             </div>
                                         @endif
-
                                         @if($product->parking == 'Да')
-
                                             <div class="place__advantages-item">
-
                                                 <div class="place__advantages-img">
-
                                                     <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-
                                                         <path d="M23.0804 1H2.9598C1.87743 1 1 1.87743 1 2.9598V23.0804C1 24.1628 1.87743 25.0402 2.9598 25.0402H23.0804C24.1628 25.0402 25.0402 24.1628 25.0402 23.0804V2.9598C25.0402 1.87743 24.1628 1 23.0804 1Z" stroke="#508CFA" stroke-width="1.9598" stroke-miterlimit="22.9256"></path>
-
                                                         <path d="M8.05566 6.48743V20.4673" stroke="#508CFA" stroke-width="1.9598" stroke-miterlimit="22.9256"></path>
-
                                                         <path d="M8.05566 6.48743H14.1964C16.4175 6.48743 18.116 8.31657 18.116 10.5377C18.116 12.7588 16.4175 14.4573 14.1964 14.4573H8.05566" stroke="#508CFA" stroke-width="1.9598" stroke-miterlimit="22.9256" stroke-linecap="square"></path>
-
                                                     </svg>
-
                                                 </div>
-
                                                 <div class="place__advantages-text">
-
                                                     {{__('Паркинг в подарок')}}
-
-
                                                 </div>
-
                                             </div>
-
                                         @endif
-
                                     </div>
                                     <div class="remotely">
                                         <div class="remotely__content">
@@ -481,53 +459,27 @@
                                         </div>
                                     </div>
                                     <div class="place__order">
-
                                         <div class="place__order-content">
-
                                             <div class="place__order-text">
-
                                                 <div class="place__order-info">
-
                                                     <div class="place__order-title place__title">
-
                                                         {{__('Анастасия')}}
-
-
                                                     </div>
-
                                                     <div class="place__order-subtitle">
-
                                                         {{__('Консультант по продажам')}}
-
-
                                                     </div>
-
                                                 </div>
-
                                                 <div class="place__order-btn">
-
                                                     {{__('Заказать просмотр')}}
-
-
                                                 </div>
-
                                             </div>
-
                                             <div class="place__order-img">
-
                                                 <img src="{{asset('project/img/woman.png')}}" alt="woman">
-
                                             </div>
-
                                         </div>
-
                                         <div class="place__order-btn_m">
-
                                             {{__('Заказать просмотр')}}
-
-
                                         </div>
-
                                     </div>
                                     @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()))
                                         @if(!is_null($product->locale_fields->where('locale.code', app()->getLocale())->first()->deadline))
@@ -585,7 +537,6 @@
                                             </div>
                                         </div>
                                     @endif
-
                                     <div class="place__location">
                                         <div class="place__location-title place__title">
                                             {{__('Расположение и инфраструктура')}}
@@ -789,57 +740,30 @@
                                                         </svg>
                                                     </div>
                                                     <div class="place__btns-call-item">
-
                                                         <svg xmlns="http://www.w3.org/2000/svg"
-
                                                              viewBox="0 0 512 512" fill="#fff">
-
                                                             <rect width="512" height="512" rx="15%"
-
                                                                   fill="#665ca7"/>
-
                                                             <path fill="none" stroke="#fff"
-
                                                                   stroke-linecap="round"
-
                                                                   stroke-width="10"
-
                                                                   d="M269 186a30 30 0 0 1 31 31m-38-58a64 64 0 0 1 64 67m-73-93a97 97 0 0 1 99 104"/>
-
                                                             <path fill-rule="evenodd"
-
                                                                   d="M95 232c0-91 17-147 161-147s161 56 161 147-17 147-161 147l-26-1-53 63c-4 4-8 1-8-3v-69c-6 0-31-12-38-19-22-23-36-40-36-118zm-30 0c0-126 55-177 191-177s191 51 191 177-55 177-191 177c-10 0-18 0-32-2l-38 43c-7 8-28 11-28-13v-42c-6 0-20-6-39-18-19-13-54-44-54-145zm223 42q10-13 24-4l36 27q8 10-7 28t-28 15q-53-12-102-60t-61-104q0-20 25-34 13-9 22 5l25 35q6 12-7 22c-39 15 51 112 73 70z"/>
-
                                                         </svg>
-
                                                     </div>
-
                                                     <div class="place__btns-call-item">
-
                                                         <xml version="1.0">
-
                                                             <svg viewBox="0 0 64 64"
-
                                                                  xmlns="http://www.w3.org/2000/svg"
-
                                                                  xmlns:xlink="http://www.w3.org/1999/xlink">
-
                                                                 <defs>
-
                                                                     <style>.cls-1 {
-
                                                                             fill: url(#linear-gradient);
-
                                                                         }
-
-
-
                                                                         .cls-2 {
-
                                                                             fill: #fff;
-
                                                                         }</style>
-
                                                                     <linearGradient
                                                                         gradientUnits="userSpaceOnUse"
                                                                         id="linear-gradient" x1="32"
@@ -853,61 +777,33 @@
                                                                         <stop offset="1"
                                                                               stop-color="#00ba37"/>
                                                                     </linearGradient>
-
                                                                 </defs>
-
                                                                 <title/>
-
                                                                 <g data-name="23-whatsapp"
-
                                                                    id="_23-whatsapp">
-
                                                                     <rect class="cls-1" height="64"
-
                                                                           rx="11.2" ry="11.2"
-
                                                                           width="64"/>
-
                                                                     <path class="cls-2"
-
                                                                           d="M27.42,21.38l2,5.43a.76.76,0,0,1-.1.74,10.32,10.32,0,0,1-1.48,1.71.8.8,0,0,0-.16,1.09C28.91,32,32.1,36,36.25,37.43a.79.79,0,0,0,.89-.29l1.66-2.21a.8.8,0,0,1,1-.23L45,37.3a.79.79,0,0,1,.4,1c-.57,1.62-2.36,5.57-6.19,4.93A20.79,20.79,0,0,1,26.4,36c-3.14-3.92-9.34-14,.19-15.14A.8.8,0,0,1,27.42,21.38Z"/>
-
                                                                     <path class="cls-2"
-
                                                                           d="M33.6,54.8a24.21,24.21,0,0,1-11.94-3.13l-12,3.08,4.41-9.91A22,22,0,0,1,10,32C10,19.43,20.59,9.2,33.6,9.2S57.2,19.43,57.2,32,46.61,54.8,33.6,54.8ZM22.29,47.37l.73.45a20.13,20.13,0,0,0,10.58,3c10.81,0,19.6-8.43,19.6-18.8S44.41,13.2,33.6,13.2,14,21.63,14,32a18.13,18.13,0,0,0,4,11.34l.75.95-3.61,6.12Z"/>
-
                                                                 </g>
-
                                                             </svg>
-
                                                     </div>
-
                                                 </div>
-
                                             </div>
-
                                         </div>
-
                                     </div>
-
                                     <div class="place__footer">
-
                                         <div class="footer-w">
-
                                             <footer class="footer footer_place">
-
                                                 <div class="footer__top">
-
                                                     <a href="{{route('home_page')}}" class="footer__logo">
-
                                                         <img src="{{asset('project/img/svg/logo.svg')}}" alt="logo">
-
                                                     </a>
-
                                                 </div>
-
                                                 <div class="footer__nav">
-
                                                     <div class="footer__nav-list">
                                                         @foreach($get_footer_link as $link)
                                                             <a href="{{ route('about', $link->slug) }}" class="footer__nav-item">
@@ -950,7 +846,6 @@
             </svg>
                 </div>
             </div>
-
         </div>
     @endforeach
     <div class="place__slider_p">
@@ -991,7 +886,6 @@
             </div>
             <div class="place__slider_p-pagination"></div>
         </div>
-
         <div class="place__slider_p-exit">
             <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="26px"
                  height="26px" version="1.1"
@@ -1034,7 +928,85 @@
         </div>
     </div>
 </section>
+<section class="object__photo">
+    <div class="object__photo-popup">
+        <div class="object__photo-popup-block">
+            <div class="object__photo-content">
+                <div class="object__swiper swiper _preload">
+                    <div class="object__swiper-wrapper swiper-wrapper">
 
+                    </div>
+                    <div class="object__swiper-pagination swiper-pagination"></div>
+                    <div class="object__swiper-prev object__swiper-nav">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                    <div class="object__swiper-next object__swiper-nav">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"></path> </g></svg>
+                    </div>
+                </div>
+                <div class="object__photo-text">
+                    <div class="object__photo-info">
+                    </div>
+                    <form class="default-form" id="">
+                        <div class="title">{{ __('Заявка на бронь') }}</div>
+                        <label class="field name input-wrapper" bis_skin_checked="1">
+                            <span class="text">
+                                {{__('ФИО')}}
+                            </span>
+                            <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
+                        </label>
+                        <div class="contact__form-phone input-wrapper">
+                            <span class="text">
+                                {{__('Номер телефона')}}
+                            </span>
+                            <input class="selector-list-phone" id="phone" name="phone">
+                        </div>
+                        <label class="contact__form-politic">
+                            <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
+                            <div class="contact__form-custom-checkbox one_check"></div>
+                            <div class="contact__form-checkbox-text">
+                                {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}}</span>
+                            </div>
+                        </label>
+                        <label class="contact__form-data">
+                            <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
+                            <div class="contact__form-custom-checkbox two_check"></div>
+                            <div class="contact__form-checkbox-text">
+                                {{__('Согласен на обработку')}} <span>{{__('персональных данных')}}</span>
+                            </div>
+                        </label>
+                        <button type="submit" class="btn">
+                            {{ __('Отправить заявку') }}
+                        </button>
+                        <input type="hidden" name="product_id" value="">
+                        <input type="hidden" name="country" value="">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="object__photo-popup-close">
+            <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier"><title>close [#1511]</title>
+                <desc>Created with Sketch.</desc>
+                <defs></defs>
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill="#fff">
+                <g id="icons" transform="translate(56.000000, 160.000000)">
+                <polygon id="close-[#1511]"
+                points="375.0183 90 384 98.554 382.48065 100 373.5 91.446 364.5183 100 363 98.554 371.98065 90 363 81.446 364.5183 80 373.5 88.554 382.48065 80 384 81.446"></polygon>
+                </g>
+                </g>
+                </g>
+                </g>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<script src="{{ asset('project/js/url_functions.js') }}"></script>
 <script>
 const swiperObject = new Swiper(".objects__swiper", {
     slidesPerView: 4,
@@ -1625,7 +1597,6 @@ function setNewPopupHouseData(object) {
 
                 let divChemePic = document.createElement('div')
                 divChemePic.classList.add('kompleks__layout-img')
-                console.log("test",divChemePic)
                 divChemePic.addEventListener('click', function(e) {
                     const containerItem = this.closest('.kompleks__layout-item')
                     const chemePopup = document.querySelector(".object__photo");
@@ -1733,4 +1704,61 @@ if(document.querySelectorAll('.place-w').length) {
         })
     });
 }
+
+// if(document.querySelectorAll('.kompleks__layout-img').length) {
+//     const chemePic = document.querySelectorAll('.kompleks__layout-img')
+//     const chemePopup = document.querySelector(".object__photo");
+
+//     const text = document.querySelector(".object__photo-info")
+
+//     const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+//     const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
+
+//     chemePic.forEach(pic => {
+//         pic.addEventListener('click', function(e) {
+//             swiperWrapper.innerHTML = ''
+//             const container = this.closest('.kompleks__layout-item')
+//             let srsForPhotos = container.querySelector('.srs-for-photos').getAttribute('data-src-photos')
+//             srsForPhotos = JSON.parse(srsForPhotos)
+
+//             srsForPhotos.forEach(photo => {
+//                 const slide = document.createElement('div')
+//                 const slidePic = document.createElement('img')
+
+//                 if(photo.name) {
+//                     const floor = document.createElement('div')
+//                     floor.classList.add('object__swiper-slide-floor')
+//                     floor.innerHTML = photo.name
+//                     slide.appendChild(floor)
+//                 }
+
+//                 slide.classList.add('swiper-slide')
+//                 slide.classList.add('object__swiper-slide')
+//                 slide.appendChild(slidePic)
+//                 slidePic.setAttribute('src', photo)
+//                 swiperWrapper.appendChild(slide)
+
+//             });
+
+//             if(srsForPhotos.length <= 1) {
+//                 objectSwiperNav.forEach(btn => {
+//                     btn.style.display = 'none'
+//                 });
+//             } else {
+//                 objectSwiperNav.forEach(btn => {
+//                     btn.style.display = 'flex'
+//                 });
+//             }
+
+//             objectSwiper.update()
+//             objectSwiper.updateSlides()
+//             objectSwiper.slideTo(0)
+//             const text = document.querySelector(".object__photo-info")
+//             const infoForTextBlock = container.querySelector(".kompleks__layout-info")
+//             text.innerHTML = infoForTextBlock.innerHTML
+//             chemePopup.classList.add('active')
+//         })
+//     });
+
+// }
 </script>
