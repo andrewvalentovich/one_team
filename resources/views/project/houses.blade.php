@@ -5,7 +5,7 @@
 @section('content')
     @include('project.includes.search_nav_bar')
     <section class="city">
-        <div class="_content">
+        <div class="city__content">
             <div id="map_city" class="">
             </div>
             <div class="map_city__btn-changer">
@@ -151,7 +151,7 @@
                                                 <p class="catalog__subtitle">
                                                     Работаем без комиссии для покупателя по ценам напрямую от застройщика
                                                 </p>
-                                                <img class="catalog__pic" src="{{asset('project/img/catalog-index.png')}}" alt="">
+                                                <img class="catalog__pic" src="{{asset('project/img/questions-index.jpg')}}" alt="">
                                                 <div class="catalog__pdf">
                                                     <svg width="49" height="59" viewBox="0 0 49 59" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M11.8967 37.9589C11.8967 36.979 11.2168 36.3947 10.0172 36.3947C9.52737 36.3947 9.19562 36.4431 9.02209 36.4893L9.02209 39.633C9.22756 39.6793 9.48013 39.6947 9.82828 39.6947C11.1069 39.6947 11.8967 39.0487 11.8967 37.9589Z" fill="white"/>
@@ -170,7 +170,7 @@
                                             Не нашли что нужно - напишите
                                         </p>
                                         <button class="catalog__btn-get" popup-name="main-form-popup">
-                                            Получить каталог
+                                            Связаться
                                         </button>
                                     </div>
                                 </div>
