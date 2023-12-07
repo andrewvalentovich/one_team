@@ -842,6 +842,11 @@ body {
   border-radius: 5px;
   margin: 0 auto;
   cursor: pointer;
+  transition: .2s;
+}
+
+.citizenship-investments__footer-button:hover {
+  background: #ca9a0b;
 }
 
 .objects-slider {
@@ -8991,8 +8996,12 @@ body.scroll_fixed {
 .catalog-w_lite .catalog__btn-get {
   background: #4F8BF9;
   color: #fff;
+  transition: .2s;
 }
 
+.catalog-w_lite .catalog__btn-get:hover {
+  background: #366ed4;
+}
 
 
 
@@ -9269,5 +9278,111 @@ body.scroll_fixed {
   }
   .container-w .search-nav {
       margin-top: 20px;
+  }
+}
+
+
+.remotely {
+  padding: 20px;
+  border-bottom: 1px #e3e9f6 solid;
+}
+
+.remotely__content {
+  display: flex;
+  gap: 10px;
+}
+
+.remotely__pic {
+  border-radius: 10px;
+}
+
+.remotely__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.remotely__text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+
+
+.remotely__text p {
+  color: #002850;
+  font-family: Geometria;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.remotely__text button {
+  width: 100%;
+  white-space: nowrap;
+}
+
+
+.btn_white {
+    color: #002850;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 155%;
+    letter-spacing: 0.48px;
+    padding: 18px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    text-align: center;
+    border-radius: 5px;
+    background: #FFF;
+    transition: .2s;
+}
+
+.btn_white:hover {
+  background: #e7e7e7;
+}
+
+.btn_blue {
+  background: #4F8BF9;
+  color: #fff;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 155%;
+  letter-spacing: 0.48px;
+  padding: 18px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  text-align: center;
+  border-radius: 5px;
+  transition: .2s;
+}
+
+.btn_blue:hover {
+  background: #366ed4;
+}
+
+@media (max-width: 1023px) {
+  .remotely {
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 539px) {
+  .remotely__text button {
+    font-size: 12px;
+    padding: 10px 7px;
+  }
+  .remotely__text p {
+    font-size: 16px;
   }
 }

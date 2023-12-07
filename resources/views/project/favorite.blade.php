@@ -709,7 +709,21 @@
                                         @endif
 
                             </div>
-
+                            <div class="remotely">
+                                <div class="remotely__content">
+                                    <div class="remotely__pic">
+                                        <img src="{{asset('project/img/remotely.png')}}" alt="">
+                                    </div>
+                                    <div class="remotely__text">
+                                        <p>
+                                            Удаленная сделка и онлайн просмотр
+                                        </p>
+                                        <button class="btn_blue" popup-name="main-form-popup">
+                                            Получить каталог
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="place__order">
 
                                 <div class="place__order-content">

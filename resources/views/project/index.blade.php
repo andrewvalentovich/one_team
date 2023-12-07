@@ -194,7 +194,7 @@
                             </p>
                         </li>
                     </ul>
-                    <button class="catalog__btn-get" popup-name="main-form-popup">
+                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup">
                         Получить каталог
                     </button>
                 </div>
@@ -241,7 +241,7 @@
                                 Согласен на обработку <span>персональных данных</span>
                             </div>
                         </label>
-                        <button type="submit" class="btn">
+                        <button type="submit" class="btn btn_blue">
                             Отправить заявку
                         </button>
                     </form>

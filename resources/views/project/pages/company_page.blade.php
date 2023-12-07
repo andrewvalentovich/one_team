@@ -75,7 +75,7 @@
                                 Согласен на обработку <span>персональных данных</span>
                             </div>
                         </label>
-                        <button type="submit" class="btn">
+                        <button type="submit" class="btn btn_blue">
                             Отправить заявку
                         </button>
                     </form>
