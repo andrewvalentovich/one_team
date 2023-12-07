@@ -1034,3 +1034,699 @@
         </div>
     </div>
 </section>
+
+
+<script>
+const swiperObject = new Swiper(".objects__swiper", {
+    slidesPerView: 4,
+    spaceBetween: 20,
+    pagination: {
+        el: ".objects__pagination",
+        clickable: !0,
+    },
+    navigation: {
+        nextEl: ".objects__next",
+        prevEl: ".objects__prev"
+    },
+    on: {
+        init: function () {
+            // swiperObject.update()
+        },
+    },
+    breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20
+        },
+        640: {
+            slidesPerView: 2,
+            spaceBetween: 20
+        },
+        900: {
+            slidesPerView: 3,
+            spaceBetween: 20
+        },
+        1199: {
+            slidesPerView: 4,
+            spaceBetween: 20
+        }
+    }
+
+})
+</script>
+
+
+<script>
+    //открытие модалки объекта
+    if(document.querySelectorAll('.open-place-popup').length) {
+        const openPlacePopupBtn = document.querySelectorAll('.open-place-popup')
+        const header = document.querySelector('.header-w')
+        //открытие модалки
+        openPlacePopupBtn.forEach(blockBtn => {
+            blockBtn.addEventListener('click', function() {
+                openPlacePopup(this)
+                var url = new URL(window.location.href);
+                url.searchParams.set('object', this.getAttribute('data_id'));
+                // Получение текущего URL
+
+                // Получение обновленного URL
+                var updatedUrl = url.toString();
+                console.log(this.getAttribute('data_id'))
+                console.log(url.searchParams)
+                // Обновление URL в адресной строке
+                window.history.replaceState({}, '', updatedUrl);
+                if(window.innerWidth < 1023)
+                header.classList.add('fixed')
+            })
+        });
+        //функция для открытия модалки
+        function openPlacePopup(block) {
+            const id = block.getAttribute('data_id')
+            const placePopup = document.querySelector('.place-w[data_id="' + id + '"]');
+            placePopup.classList.add('active')
+
+            const placeLeftCol = placePopup.querySelector('.place__left-col')
+            const placeScrollContent = placePopup.querySelector('.place__scroll-content')
+
+            $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
+            $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
+        }
+        //закрытие модалки по крестику
+        $('.place__exit').click(function() {
+
+            $(this).closest('.place-w').removeClass('active');
+            url.searchParams.delete('object');
+            // Получение обновленного URL
+            var updatedUrl = url.toString();
+            // Обновление URL в адресной строке
+            window.history.replaceState({}, '', updatedUrl);
+        });
+    }
+    //открытие галереи обхекта со слайдером
+    if(document.querySelectorAll('.place__collage-item_clickable').length) {
+        let collageContainer = document.querySelectorAll('.place__content')
+        for(let i = 0; i < collageContainer.length; i++) {
+            getImagesFromCollage(collageContainer[i])
+        }
+        function getImagesFromCollage(container) {
+            let collageImg = container.querySelectorAll('.place__collage-item_clickable')
+            for(let i = 0; i < collageImg.length; i++) {
+                collageImg[i].onclick = function(e) {
+                    addNewImagesToSwiper(e.target, i)
+                    const placeSliderP = document.querySelector(".place__slider_p")
+                    placeSliderP.classList.add('active')
+                }
+            }
+        }
+
+        function addNewImagesToSwiper(itemClick, index) {
+            const imagesContainer = itemClick.closest('.place__content')
+            const images = imagesContainer.querySelectorAll('.place__collage-item_clickable')
+            const swiper = document.querySelector('.place__slider_p-swiper')
+            const swiperWrapper = swiper.querySelector('.place__slider_p-wrapper')
+
+            // Удаление всех дочерних элементов swiperWrapper
+            while (swiperWrapper.firstChild) {
+                swiperWrapper.removeChild(swiperWrapper.firstChild);
+            }
+
+
+            for (let i = 0; i < images.length; i++) {
+                const slide = document.createElement('div');
+                slide.classList.add('place__slider_p-slide', 'swiper-slide');
+
+                const imgContainer = document.createElement('div');
+                imgContainer.classList.add('place__slider_p-img');
+
+                const img = document.createElement('img');
+                img.src = images[i].querySelector('img').getAttribute('src');
+                img.alt = 'house';
+
+                imgContainer.appendChild(img);
+                slide.appendChild(imgContainer);
+                swiperWrapper.appendChild(slide);
+            }
+
+            const swiperPlaces = new Swiper(".place__slider_p-swiper", {
+                slidesPerView: 1,
+                autoHeight: !0,
+                initialSlide: index,
+                keyboard: {
+                    enabled: true, // Включить поддержку клавиатуры
+                },
+                navigation: {
+                    nextEl: ".place__slider_p-next",
+                    prevEl: ".place__slider_p-prev"
+                },
+
+                pagination: {
+                    el: ".place__slider_p-pagination",
+                    type: "custom",
+                    renderCustom: function(e, t, o) {
+                        return t + " из " + o
+                    }
+                }
+            })
+        }
+    }
+    //закрытие place-w в мобилке по клику на стрелочку
+    if(document.querySelectorAll(".place__header-exit").length) {
+        const placeExitBtn = document.querySelectorAll(".place__header-exit")
+        placeExitBtn.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const placeW = this.closest('.place-w')
+                placeW.classList.remove('active')
+            })
+        });
+    }
+    if(document.querySelectorAll(".open-collage").length) {
+    //слушатель клика на фотки
+    const openCollage = document.querySelectorAll('.open-collage')
+    openCollage.forEach(openCollageBtn => {
+        openCollageBtn.addEventListener('click', function() {
+            setCollageListImages(openCollageBtn)
+        })
+    });
+
+
+    function setCollageListImages(imageBtn) {
+        //сам блок коллаж
+        const collage = document.querySelector('.place-popup-collage')
+        //сюда добавляем фотки
+        const listImg = collage.querySelector('.place-popup-collage__list')
+
+        listImg.innerHTML = ''
+        //здесь берем фотки
+        const wrapperSlides = imageBtn.closest('.place__wrapper')
+        //сами фотки
+        const images = wrapperSlides.querySelectorAll('img')
+
+        images.forEach((image,index) => {
+            //создаем блок для фото
+            const collageItem = document.createElement('div')
+            collageItem.classList.add('place-popup-collage__item')
+
+            //создаем само фото
+            const img = document.createElement('img')
+            img.setAttribute('src', image.currentSrc)
+
+            if(index === 0) {
+                const topItem = collage.querySelector('.place-popup-collage__top')
+                topItem.innerHTML = ''
+                //создаем блок для фото
+                const collageItemTop = document.createElement('div')
+                collageItemTop.classList.add('place_popup__top-item')
+                //создаем само фото
+                const img = document.createElement('img')
+                img.setAttribute('src', image.currentSrc)
+                topItem.appendChild(img)
+                collageItemTop.appendChild(collageItem)
+                return
+            }
+            //добавляем блоки с фото в коллаж
+            collageItem.appendChild(img)
+            listImg.appendChild(collageItem)
+        });
+    }
+}
+</script>
+<script>
+// const currentUrl = window.location.href;
+
+// const url = new URL(currentUrl);
+
+// const searchParams = url.searchParams;
+
+// const objectIdFromUrl = searchParams.get('object_id');
+// if(objectIdFromUrl) {
+//     const popupObject = document.querySelector(`.place-w[data_id="${parseInt(objectIdFromUrl)}"]`)
+//     console.log(popupObject)
+//     if(popupObject) {
+//         popupObject.classList.add('active')
+//     }
+// }
+
+</script>
+
+<script>
+const currentUrl = window.location.href;
+const url = new URL(currentUrl);
+const searchParams = url.searchParams;
+const objectIdFromUrl = searchParams.get('object');
+if(objectIdFromUrl) getObjectById()
+
+async function getObjectById() {
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    const searchParams = url.searchParams;
+    const objectIdFromUrl = searchParams.get('object');
+    $.ajax({
+        url: `/api/houses/simple?id=${objectIdFromUrl}`,
+        method: 'get',
+        success: function (data) {
+            setNewPopupHouseData(data);
+        }
+    });
+}
+function setNewPopupHouseData(object) {
+        replaceUrlWithObject(window.filter_params_data, object.slug);
+        console.log(object);
+
+        const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
+        const placeW = document.querySelector('.place-w')
+        const placeLeftCol = document.querySelector('.place__left-col')
+        const placeScrollContent = document.querySelector('.place__scroll-content')
+
+        placeW.classList.add('active')
+        $(placeLeftCol).animate({ scrollTop: 0 }, "fast");
+        $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
+        currentHouse = {...object}
+        const topPic = placeW.querySelector('.place__left-top').querySelector('img')
+        topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
+
+        const leftCollage = placeW.querySelector('.place__left-collage')
+
+        leftCollage.innerHTML = ''
+        currentHouse.photo.forEach((photo, index) => {
+            if(index === 0) return
+
+            let div = document.createElement('div')
+            div.classList.add('place__collage-item', 'place__collage-item_clickable')
+
+            let img = document.createElement('img')
+            img.setAttribute('src', `/uploads/${photo.photo}`)
+
+            div.appendChild(img)
+            leftCollage.appendChild(div)
+        });
+
+
+        const placeTopFavorites = document.querySelector('.place__top-favorites')
+        const placeHeaderFavorites = document.querySelector('.place__header-favorite')
+
+        placeTopFavorites.setAttribute('data_id', currentHouse.id)
+        placeHeaderFavorites.setAttribute('data_id', currentHouse.id)
+
+        if(favotires_house_id.hasOwnProperty(currentHouse.id)) {
+            placeTopFavorites.classList.add('active')
+            placeHeaderFavorites.classList.add('active')
+        } else {
+            placeTopFavorites.classList.remove('active')
+            placeHeaderFavorites.classList.remove('active')
+        }
+
+        //айди в попапе
+        const objectId = document.querySelector('.object__id')
+        objectId.innerHTML = `ID: ${currentHouse.id}`
+
+        //адресс в попапе
+        const address = document.querySelector('.place__address')
+        address.innerHTML = `${currentHouse.address}`
+
+
+        // цена площади
+        let divSquare = document.querySelector('.place__square')
+        divSquare.innerHTML = ''
+        if (currentHouse.size) {
+            Object.entries(currentHouse.size).forEach(function ([currencyCode, currencyPrice]) {
+                let div = document.createElement('div')
+                div.classList.add('place__square-item')
+                div.setAttribute('data-exchange', currencyCode)
+                div.classList.add('valute')
+                div.innerHTML = `${((currencyPrice))} {{ __('кв.м') }}`
+
+                if (currencyCode === dataExchange) {
+                    div.classList.add('active')
+                }
+
+                divSquare.appendChild(div)
+            })
+        }
+
+        // цена в попапе
+        if (currentHouse.layouts && currentHouse.layouts.length > 0) {
+            Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
+                const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
+                const spanPriceBlock = currencyCodePrice.querySelector('span')
+                const bPriceBlock = currencyCodePrice.querySelector('b')
+                let currentPrice
+                const chemes = JSON.parse(currentHouse.objects)
+                if(currentHouse.layouts.length > 1) {
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        currentPrice = currentHouse.price[currencyCode] + ` {{ __('от') }}`;
+                    } else {
+                        currentPrice = `{{ __('от') }} ` + currentHouse.price[currencyCode];
+                    }
+                } else {
+                    currentPrice = currentHouse.price[currencyCode];
+                }
+                const valuteSymbol = currentPrice[currentPrice.length - 1];
+                currentPrice = currentPrice.slice(0, -1);
+
+
+                spanPriceBlock.innerHTML = currentPrice
+                bPriceBlock.innerHTML = valuteSymbol
+            })
+        } else {
+            Object.keys(currentHouse.price).forEach(function (currencyCode, price) {
+                const currencyCodePrice = document.querySelector(`.place__exchange-${currencyCode}`)
+                const spanPriceBlock = currencyCodePrice.querySelector('span')
+                const bPriceBlock = currencyCodePrice.querySelector('b')
+
+
+                let currentPrice = currentHouse.price[currencyCode];
+                const valuteSymbol = currentPrice[currentPrice.length - 1];
+                currentPrice = currentPrice.slice(0, -1);
+
+
+                spanPriceBlock.innerHTML = currentPrice
+                bPriceBlock.innerHTML = valuteSymbol
+            })
+        }
+
+
+
+        //плюсы
+        const properties = [
+            { property: 'vnj', selector: '.place__advantages-item.vnj' },
+            { property: 'cryptocurrency', selector: '.place__advantages-item.cryptocurrency' },
+            { property: 'commissions', selector: '.place__advantages-item.commissions' },
+            { property: 'parking', selector: '.place__advantages-item.parking' },
+        ];
+
+        properties.forEach(item => {
+            const element = document.querySelector(item.selector);
+            if (element && currentHouse[item.property] === 'Да') {
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+
+        // deadline - срок сдачи
+        const deadlineBlock = document.querySelector('.place__deadline');
+
+        if(currentHouse.deadline) {
+            const deadlineTitle = deadlineBlock.querySelector('.place__deadline-title')
+            deadlineTitle.innerHTML = currentHouse.deadline;
+        } else {
+            deadlineBlock.style.display = 'none';
+        }
+
+        //комнаты
+        const objectRooms = document.querySelector('.object__rooms')
+
+        objectRooms.style.display = 'none'
+        if(currentHouse.complex_or_not !== 'Нет' || currentHouse.complex_or_not !== null) {
+            objectRooms.style.display = 'block'
+
+            const mainSize = objectRooms.querySelector('.main-size').querySelector('span')
+            mainSize.innerHTML = currentHouse.size_home
+
+            if(currentHouse.spalni) {
+                const spalni = objectRooms.querySelector('.spalni')
+                spalni.innerHTML = currentHouse.spalni.replace('+', '')
+            }
+
+            if(currentHouse.gostinnie) {
+                const gostinnie = objectRooms.querySelector('.gostinnie')
+                gostinnie.innerHTML = currentHouse.gostinnie.replace('+', '')
+            }
+
+            if(currentHouse.vanie) {
+                const vanie = objectRooms.querySelector('.vanie')
+                vanie.innerHTML = currentHouse.vanie.replace('+', '')
+            }
+
+
+        }
+        const objects = [...currentHouse.layouts]
+
+        if(objects.length >= 2) {
+            objectRooms.style.display = 'none'
+        }
+
+        //карта
+        const currentMap = document.querySelector('.current-map')
+        const currentMapID = document.querySelector('#place-map')
+        const div_id = 'place-map'
+        ymaps.ready(function() {
+            currentMapID.innerHTML = ''
+            placeMap = new ymaps.Map(div_id, {
+                center: [currentHouse.lat, currentHouse.long],
+                zoom: 10,
+            });
+            placeMap.controls.remove('geolocationControl'); // удаляем геолокацию
+            placeMap.controls.remove('searchControl'); // удаляем поиск
+            let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
+            placeMap.geoObjects.add(placemark);
+        });
+
+        //особенности
+        const objectPeculiarities = document.querySelector('.object__peculiarities-content')
+        objectPeculiarities.innerHTML = ''
+
+        if(currentHouse.peculiarities)
+        currentHouse.peculiarities.forEach(element => {
+            if(element.type !== "Особенности") return
+
+            let div = document.createElement('div')
+            div.classList.add('object__peculiarities-item')
+
+            // var localedName = 'name';
+            var localedName;
+            console.log(window.locale);
+            console.log(element.locale_fields);
+            if (window.locale) {
+                localedName = element.locale_fields.find(x => x.locale.code == window.locale);
+            } else {
+                localedName = element.locale_fields.find(x => x.locale.code == "ru");
+            }
+            // if (window.locale) {
+            //     if (window.locale !== 'ru') {
+            //         localedName += '_'+window.locale;
+            //     }
+            // }
+            console.log(localedName.name);
+            div.innerHTML = localedName.name[0].toUpperCase() + localedName.name.substring(1);
+            objectPeculiarities.appendChild(div)
+        });
+
+        // сортиторвка квартир
+        const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')
+        kompleksLayoutSort.innerHTML = ''
+
+        let chemesSet = new Set()
+        objects.forEach(object => {
+            const div = document.createElement('div')
+            div.classList.add('kompleks__sort-item')
+            div.innerHTML = object.number_rooms
+            div.setAttribute('data-cheme',object.number_rooms)
+            if(!chemesSet.has(object.number_rooms)) {
+                chemesSet.add(object.number_rooms)
+                kompleksLayoutSort.appendChild(div)
+            }
+        });
+
+        if(chemesSet.size <=1) {
+            kompleksLayoutSort.style.display = 'none'
+        } else {
+            kompleksLayoutSort.style.display = 'flex'
+        }
+        // планировки квартир
+        const kompleksLayoutList = document.querySelector('.kompleks__layout-list')
+        kompleksLayoutList.innerHTML = ''
+
+        const kompleks__layout = document.querySelector('.kompleks__layout')
+        kompleks__layout.style.display = 'none'
+        if(currentHouse.layouts !== null && currentHouse.layouts !== '[]')
+        if(currentHouse.layouts.length !== 0) {
+            kompleks__layout.style.display = 'block'
+
+            objects.forEach((object, index) => {
+                let divItem = document.createElement('div')
+                divItem.classList.add('kompleks__layout-item')
+                divItem.setAttribute('data-cheme',object.number_rooms)
+
+                let divInfo = document.createElement('div')
+                divInfo.classList.add('kompleks__layout-info')
+
+                let divOption = document.createElement('div')
+                divOption.classList.add('kompleks__layout-option')
+                divOption.innerHTML = `${object.building}`
+                divInfo.appendChild(divOption)
+
+                let divPrice = document.createElement('div')
+
+                divPrice.classList.add('kompleks__layout-price')
+
+                Object.entries(object.price).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+
+                    if (window.locale === 'ar' || window.locale === 'fa') {
+                        span.style.direction = 'ltr';
+                        span.style.textAlign = 'right';
+                    }
+
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.classList.add('lira')
+                    span.innerHTML = `${((currencyPrice))}`
+
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divPrice.appendChild(span)
+
+                })
+                divInfo.appendChild(divPrice)
+
+
+                let divMeter = document.createElement('div')
+                divMeter.classList.add('kompleks__layout-price-meter')
+                Object.entries(object.price_size).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.classList.add('lira')
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('кв.м') }} ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} {{ __('кв.м') }}`
+                    }
+
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divMeter.appendChild(span)
+
+                })
+                divInfo.appendChild(divMeter)
+
+                let divSquare = document.createElement('div')
+                divSquare.classList.add('kompleks__layout-square')
+
+                if(window.locale === 'fa' || window.locale === 'ar') {
+                    divSquare.style.textAlign = 'right';
+                    divSquare.style.direction = 'ltr';
+                    divSquare.innerHTML = `{{ __('кв.м') }} ${object.total_size} <span>|</span> ${object.number_rooms}`
+                } else {
+                    divSquare.innerHTML = `${object.total_size} {{ __('кв.м') }} <span>|</span> ${object.number_rooms}`
+                }
+                divInfo.appendChild(divSquare)
+
+                let divMonth = document.createElement('div')
+                divMonth.classList.add('kompleks__layout-price-month')
+                Object.entries(object.price_credit).forEach(function([currencyCode, currencyPrice]) {
+                    let span = document.createElement('span')
+                    span.setAttribute('data-exchange', currencyCode)
+                    span.classList.add('valute')
+                    span.classList.add('lira')
+
+                    if(window.locale === 'fa' || window.locale === 'ar') {
+                        span.style.textAlign = 'right';
+                        span.style.direction = 'ltr';
+                        span.innerHTML = `{{ __('мес') }} / ${((currencyPrice))}`
+                    } else {
+                        span.innerHTML = `${((currencyPrice))} / {{ __('мес') }}`
+                    }
+
+                    if(currencyCode === dataExchange) {
+                        span.classList.add('active')
+                    }
+
+                    divMonth.appendChild(span)
+
+                })
+
+                divInfo.appendChild(divMonth)
+                let divCheme = document.createElement('div')
+                divCheme.classList.add('kompleks__layout-scheme')
+
+                let divChemePic = document.createElement('div')
+                divChemePic.classList.add('kompleks__layout-img')
+
+                divChemePic.addEventListener('click', function(e) {
+                    const containerItem = this.closest('.kompleks__layout-item')
+                    const chemePopup = document.querySelector(".object__photo");
+                    const swiperWrapper = document.querySelector(".object__swiper-wrapper");
+                    const objectSwiperNav = document.querySelectorAll(".object__swiper-nav");
+                    swiperWrapper.innerHTML = ''
+                    //если много фото
+                    object.photos.forEach(photo => {
+                        const slide = document.createElement('div')
+                        const slidePic = document.createElement('img')
+
+                        if(photo.name) {
+                            const floor = document.createElement('div')
+                            floor.classList.add('object__swiper-slide-floor')
+                            floor.innerHTML = photo.name
+                            slide.appendChild(floor)
+                        }
+
+
+                        slide.classList.add('swiper-slide')
+                        slide.classList.add('object__swiper-slide')
+                        slide.appendChild(slidePic)
+                        slidePic.setAttribute('src', `/${photo.url}`)
+                        swiperWrapper.appendChild(slide)
+
+                    });
+
+                    if(object.photos.length <= 1) {
+                        objectSwiperNav.forEach(btn => {
+                            btn.style.display = 'none'
+                        });
+                    } else {
+                        objectSwiperNav.forEach(btn => {
+                            btn.style.display = 'flex'
+                        });
+                    }
+
+                    objectSwiper.update()
+                    objectSwiper.updateSlides()
+                    objectSwiper.slideTo(0)
+                    objectSwiper.updateProgress()
+                    const text = document.querySelector(".object__photo-info")
+                    const infoForTextBlock = containerItem.querySelector(".kompleks__layout-info")
+                    text.innerHTML = infoForTextBlock.innerHTML
+                    chemePopup.classList.add('active')
+
+                })
+
+
+                let divChemeImg = document.createElement('img')
+                divChemeImg.setAttribute('src', `/${object.photos[0].url}`)
+
+                divChemePic.appendChild(divChemeImg)
+                divCheme.appendChild(divChemePic)
+
+                divInfo.appendChild(divMonth)
+
+                divItem.appendChild(divInfo)
+                divItem.appendChild(divCheme)
+                kompleksLayoutList.appendChild(divItem)
+            });
+        }
+
+
+        //Расположение и инфраструктура
+        const placeLocationInfo = document.querySelector('.place__location-info')
+        placeLocationInfo.innerHTML = currentHouse.disposition
+
+        //Описание
+        const placeDescription = document.querySelector('.object__description-text')
+        placeDescription.innerHTML = currentHouse.description
+
+        setListenersToOpenCollage()
+        addNewImagesToSwiper()
+        addNewImagesToPlaceSwiper(currentHouse)
+        setListenersToOpenCollageBySlide()
+        addNewImagesToCollage(currentHouse)
+    }
+</script>

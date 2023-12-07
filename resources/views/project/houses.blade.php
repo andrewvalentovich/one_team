@@ -1731,29 +1731,29 @@ function P(e) {
 
     let placeMap = null;
     async function getObjectById() {
-    $.ajax({
-        url: '/api/houses/filter_params',       /* Куда отправить запрос */
-        data: {
-            locale: window.locale,
-        },
-        method: 'get',                                              /* Метод запроса (post или get) */
-        success: function(data) {
-            window.filter_params_data = data;
-            var requestData = findObjectParams(data);
-            requestData.locale = window.locale;
+        $.ajax({
+            url: '/api/houses/filter_params',       /* Куда отправить запрос */
+            data: {
+                locale: window.locale,
+            },
+            method: 'get',                                              /* Метод запроса (post или get) */
+            success: function(data) {
+                window.filter_params_data = data;
+                var requestData = findObjectParams(data);
+                requestData.locale = window.locale;
 
-            // Выполнение AJAX-запроса с параметрами
-            $.ajax({
-                url: '/api/houses/simple',
-                data: requestData,
-                method: 'get',
-                success: function (data) {
-                    setNewPopupHouseData(data);
-                }
-            });
-        }
-    });
-}
+                // Выполнение AJAX-запроса с параметрами
+                $.ajax({
+                    url: '/api/houses/simple',
+                    data: requestData,
+                    method: 'get',
+                    success: function (data) {
+                        setNewPopupHouseData(data);
+                    }
+                });
+            }
+        });
+    }
 
 
 
@@ -2207,7 +2207,6 @@ function P(e) {
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
     }
-    console.log('wow')
     let swiperPlaces = new Swiper(".place__slider_p-swiper", {
         slidesPerView: 1,
         autoHeight: !0,
