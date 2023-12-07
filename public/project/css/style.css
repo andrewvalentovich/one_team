@@ -8596,7 +8596,8 @@ body.scroll_fixed {
 
 .container-w .search-nav {
   max-width: 1413px;
-  margin-top: 30px;
+  margin-top: 50px;
+  padding-bottom: 0px;
 }
 
 .catalog {
@@ -9257,4 +9258,16 @@ body.scroll_fixed {
 
 .catalog-w_mini .catalog {
   max-width: none;
+}
+
+
+
+@media (max-width: 539px) {
+  .popular-locations {
+      padding-top: 20px;
+      margin: 0 auto 20px;
+  }
+  .container-w .search-nav {
+      margin-top: 20px;
+  }
 }
