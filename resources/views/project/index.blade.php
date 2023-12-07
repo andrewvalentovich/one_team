@@ -26,7 +26,7 @@
                     Oneteam — лицензированное агентство недвижимости
                 </h1>
                 <p class="preview__subtitle">
-                    Мы помогаем клиентам купить, продать, арендовать или сдать в аренду коммерческие и жилые объекты 
+                    Мы помогаем клиентам купить, продать, арендовать или сдать в аренду коммерческие и жилые объекты
                 </p>
                 <ul class="preview__list">
                     <li>
@@ -80,8 +80,11 @@
             </div>
         </section>
     </div>
+     <div class="container-w">
+         @include('project.includes.search_nav_bar')
+     </div>
     <div class="container-w">
-        @include('project.includes.search_nav_bar')
+        @include('project.includes.objects-carousel', ['title' => __('Лучшие объекты'), 'products' => $products])
     </div>
     <!-- лучшие -->
     <section class="popular-locations container">
