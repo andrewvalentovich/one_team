@@ -201,7 +201,7 @@
     });
 
 
-    $('#city_form,#object_form').submit(function (event) {
+    $('#city_form,#object_form,.form-fio-phone').submit(function (event) {
         event.preventDefault()
         let product_id = $(this).find("input[name='product_id']").val();
         let name = $(this).find("input[name='fio']").val();
