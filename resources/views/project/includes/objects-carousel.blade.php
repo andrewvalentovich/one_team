@@ -1087,16 +1087,6 @@ const swiperObject = new Swiper(".objects__swiper", {
         openPlacePopupBtn.forEach(blockBtn => {
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
-                // var url = new URL(window.location.href);
-                // url.searchParams.set('object', this.getAttribute('data_id'));
-                // // Получение текущего URL
-                //
-                // // Получение обновленного URL
-                // var updatedUrl = url.toString();
-                // console.log(this.getAttribute('data_id'))
-                // console.log(url.searchParams)
-                // // Обновление URL в адресной строке
-                // window.history.replaceState({}, '', updatedUrl);
                 replaceUrlWithObject(window.filter_params_data, blockBtn.getAttribute('data_slug'));
                 if(window.innerWidth < 1023)
                 header.classList.add('fixed')
@@ -1118,11 +1108,6 @@ const swiperObject = new Swiper(".objects__swiper", {
         $('.place__exit').click(function() {
 
             $(this).closest('.place-w').removeClass('active');
-            // url.searchParams.delete('object');
-            // // Получение обновленного URL
-            // var updatedUrl = url.toString();
-            // // Обновление URL в адресной строке
-            // window.history.replaceState({}, '', updatedUrl);
 
             var urlParams = getValuesFromUrl();
             var object = checkPosition(urlParams, 'object-');
@@ -1260,24 +1245,6 @@ const swiperObject = new Swiper(".objects__swiper", {
     }
 }
 </script>
-<script>
-// const currentUrl = window.location.href;
-
-// const url = new URL(currentUrl);
-
-// const searchParams = url.searchParams;
-
-// const objectIdFromUrl = searchParams.get('object_id');
-// if(objectIdFromUrl) {
-//     const popupObject = document.querySelector(`.place-w[data_id="${parseInt(objectIdFromUrl)}"]`)
-//     console.log(popupObject)
-//     if(popupObject) {
-//         popupObject.classList.add('active')
-//     }
-// }
-
-</script>
-
 <script>
 const currentUrl = window.location.href;
 const url = new URL(currentUrl);
@@ -1660,7 +1627,7 @@ function setNewPopupHouseData(object) {
 
                 let divChemePic = document.createElement('div')
                 divChemePic.classList.add('kompleks__layout-img')
-
+                console.log("test",divChemePic)
                 divChemePic.addEventListener('click', function(e) {
                     const containerItem = this.closest('.kompleks__layout-item')
                     const chemePopup = document.querySelector(".object__photo");
@@ -1739,4 +1706,33 @@ function setNewPopupHouseData(object) {
         setListenersToOpenCollageBySlide()
         addNewImagesToCollage(currentHouse)
     }
+</script>
+
+<script>
+//закрытие на темную область
+if(document.querySelectorAll('.place-w').length) {
+    const placeW = document.querySelectorAll('.place-w')
+    const currentUrl = window.location.href;
+    const url = new URL(currentUrl);
+    placeW.forEach(placeBlock => {
+        placeBlock.addEventListener('click', function(e) {
+            const target = e.target
+            if(target.classList.contains('place-w')) {
+                placeBlock.classList.remove('active')
+                var urlParams = getValuesFromUrl();
+                var object = checkPosition(urlParams, 'object-');
+                if (object) {
+                    urlParams = deleteUrlParameter(object, urlParams);
+                }
+                updateUrl(window.filter_params_data, urlParams, false);
+            }
+            if(target.classList.contains('_country')) {
+                const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
+                const placeLeftCollage = document.querySelector('.place__left-collage')
+                placeLeftCollage.innerHtml = ''
+                placeTopImg.setAttribute('src', '')
+            }
+        })
+    });
+}
 </script>

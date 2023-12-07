@@ -659,41 +659,7 @@ if(document.querySelectorAll('.contact__phone-list').length) {
 
 
 
-if(document.querySelectorAll('.place-w').length) {
-    const placeW = document.querySelectorAll('.place-w')
-    const currentUrl = window.location.href;
-    const url = new URL(currentUrl);
-    placeW.forEach(placeBlock => {
-        placeBlock.addEventListener('click', function(e) {
-            const target = e.target
-            if(target.classList.contains('place-w')) {
-                placeBlock.classList.remove('active')
 
-                var url = new URL(window.location.href);
-                url.searchParams.delete('object_id');
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
-                // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
-
-                var urlParams = getValuesFromUrl();
-                var object = checkPosition(urlParams, 'object-');
-                if (object) {
-                    urlParams = deleteUrlParameter(object, urlParams);
-                }
-                updateUrl(window.filter_params_data, urlParams);
-            }
-            if(target.classList.contains('_country')) {
-                const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
-                const placeLeftCollage = document.querySelector('.place__left-collage')
-                placeLeftCollage.innerHtml = ''
-                placeTopImg.setAttribute('src', '')
-
-            }
-
-        })
-    });
-}
 if(document.querySelectorAll('.place__slider_p').length) {
     const placeSlider = document.querySelectorAll('.place__slider_p')
     placeSlider.forEach(placeSlider => {
