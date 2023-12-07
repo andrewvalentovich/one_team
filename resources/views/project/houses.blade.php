@@ -1491,13 +1491,7 @@ function P(e) {
             // Добавление элемента в контейнер
             const elementsInFirstList = cityListFirst.querySelectorAll('.city-col__item')
 
-            const middleCatalog = document.querySelector('.catalog-middle')
-            const quantityObjectsAll = document.querySelectorAll('.city-col__item')
-            if (quantityObjectsAll.length >= 6) {
-                middleCatalog.style.display = 'block'
-            } else {
-                middleCatalog.style.display = 'none'
-            }
+
 
             let quantityObjects
             if(window.innerWidth <= 1003 && window.innerWidth > 899) {
@@ -1547,6 +1541,14 @@ function P(e) {
                 previousSwiperInstance.slideTo(0, 400)
             })
         });
+
+        const middleCatalog = document.querySelector('.catalog-middle')
+        const quantityObjectsAll = document.querySelectorAll('.city-col__item')
+        if (quantityObjectsAll.length >= 6) {
+            middleCatalog.style.display = 'block'
+        } else {
+            middleCatalog.style.display = 'none'
+        }
 
         if(data.length !== 0) {
             addHoverMouseSwiper(previousSwiperInstance)
@@ -1659,7 +1661,7 @@ function P(e) {
         const objects = document.querySelectorAll('.city-col__item')
 
         if(objects.length == 0) {
-            nothing.classList.add('active')
+            // nothing.classList.add('active')
             pagination.classList.remove('active')
         } else {
             nothing.classList.remove('active')
@@ -2689,7 +2691,7 @@ function P(e) {
             span.setAttribute('quantity_objects',allmarks.length)
             const nothing = document.querySelector('.nothing')
             if(allmarks.length == 0) {
-                nothing.classList.add('active')
+                // nothing.classList.add('active')
             } else {
                 nothing.classList.remove('active')
             }
