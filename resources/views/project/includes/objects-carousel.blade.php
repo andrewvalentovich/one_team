@@ -947,7 +947,7 @@
                 <div class="object__photo-text">
                     <div class="object__photo-info">
                     </div>
-                    <form class="default-form" id="">
+                    <form class="default-form form-fio-phone" id="">
                         <div class="title">{{ __('Заявка на бронь') }}</div>
                         <label class="field name input-wrapper" bis_skin_checked="1">
                             <span class="text">
