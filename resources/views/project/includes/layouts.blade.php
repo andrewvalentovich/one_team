@@ -386,7 +386,7 @@ document.addEventListener('click', function(event) {
 <script>
 //добавление удаление из избранного
 <?php $user_id = isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time();  ?>
-let user_id = "<?php echo $user_id;  ?>";
+let user_id = "<?php echo $user_id; ?>";
 function setListenersToAddfavorites() {
     $('.check-favorites').off('click').click(function (e) {
         e.stopPropagation();
@@ -403,15 +403,15 @@ function setListenersToAddfavorites() {
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url:  '/add_or_delete_in_favorite',
+            url:  '/api/add_or_delete_in_favorite',
             type: 'POST',
             data: {
                 user_id: user_id,
                 product_id: data_id
             },
-            beforeSend: function (data){
-                console.log(data);
-            },
+            // beforeSend: function (data){
+            //     console.log(data);
+            // },
             success: function(response) {
                 if(response.message == 'created'){
                     $('.check-favorites[data_id="' + data_id + '"]').addClass('active');

@@ -1035,10 +1035,7 @@
     </div>
 </section>
 
-
-<script src="{{ asset('project/js/url_functions.js') }}"></script>
 <script>
-    searchBarGetParameters();
 const swiperObject = new Swiper(".objects__swiper", {
     slidesPerView: 4,
     spaceBetween: 20,
@@ -1109,12 +1106,13 @@ const swiperObject = new Swiper(".objects__swiper", {
 
             $(this).closest('.place-w').removeClass('active');
 
-            var urlParams = getValuesFromUrl();
-            var object = checkPosition(urlParams, 'object-');
-            if (object) {
-                urlParams = deleteUrlParameter(object, urlParams);
-            }
-            updateUrl(window.filter_params_data, urlParams, false);
+            // var urlParams = getValuesFromUrl();
+            // var object = checkPosition(urlParams, 'object-');
+            // if (object) {
+            //     urlParams = deleteUrlParameter(object, urlParams);
+            // }
+            // updateUrl(window.filter_params_data, urlParams, false);
+            history.back();
         });
     }
     //открытие галереи обхекта со слайдером

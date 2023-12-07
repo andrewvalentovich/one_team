@@ -1244,12 +1244,9 @@
                     btn.addEventListener('click', function () {
                         const placeW = this.closest('.place-w')
                         placeW.classList.remove('active')
-                        var urlParams = getValuesFromUrl();
-                        var object = checkPosition(urlParams, 'object-');
-                        if (object) {
-                            urlParams = deleteUrlParameter(object, urlParams);
-                        }
-                        updateUrl(window.filter_params_data, urlParams);
+
+                        history.back();
+
                         const cityCol = document.querySelector('.city-col')
                         cityCol.style.display = '';
                     })
@@ -3144,13 +3141,7 @@ function P(e) {
                 $(this).closest('.place-w').removeClass('active');
                 const cityCol = document.querySelector('.city-col')
                 cityCol.style.display = '';
-                var urlParams = getValuesFromUrl();
-                var object = checkPosition(urlParams, 'object-');
-                if (object) {
-                    urlParams = deleteUrlParameter(object, urlParams);
-                }
-                updateUrl(window.filter_params_data, urlParams);
-
+                history.back();
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''

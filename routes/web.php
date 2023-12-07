@@ -180,10 +180,6 @@ Route::domain(config('app.domain'))->group(function () {
         'prefix' => \App\Services\Localization\LocalizationService::locale(),
         'middleware' => 'locale',
     ], function() {
-        Route::get('http_accept_language', function (Illuminate\Http\Request $request) {
-            $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-            echo $locale;
-        });
         Route::view('test', 'test2');
 
         Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
@@ -211,8 +207,6 @@ Route::domain(config('app.domain'))->group(function () {
         Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
         Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
         //});
-
-        Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
 
         Route::post('send_request', [RequestController::class, 'send_request'])->name('send_request');
 

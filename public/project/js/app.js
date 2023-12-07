@@ -186,7 +186,9 @@ async function renderMap() {
             if (object) {
                 urlParams = deleteUrlParameter(object, urlParams);
             }
-            updateUrl(window.filter_params_data, urlParams);
+            // updateUrl(window.filter_params_data, urlParams);
+
+            history.back();
         })
     });
     document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
@@ -656,9 +658,6 @@ if(document.querySelectorAll('.contact__phone-list').length) {
 
 
 }
-
-
-
 
 if(document.querySelectorAll('.place__slider_p').length) {
     const placeSlider = document.querySelectorAll('.place__slider_p')

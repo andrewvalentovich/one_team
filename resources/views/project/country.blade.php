@@ -871,6 +871,12 @@
             </div>
         </div>
     </section>
+
+    <script src="{{ asset('project/js/url_functions.js') }}"></script>
+    <script>
+        searchBarGetParameters();
+    </script>
+
     @include('project.includes.objects-carousel', ['title' => $citizenship_for_invesment, 'products' => $citizenship_product, 'get_footer_link' => $get_footer_link])
 <section class="object__photo">
     <div class="object__photo-popup">
