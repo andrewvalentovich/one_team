@@ -98,6 +98,11 @@ function replaceUrlWithObject(data, object) {
         url += "/"+locale;
     }
 
+    var locations = checkPosition(urlValues, "locations");
+    if (locations) {
+        url += "/" + locations;
+    }
+
     var country = getMatchSlug(urlValues, data.countries);
     if (country) {
         url += "/"+country;
@@ -116,7 +121,7 @@ function checkObjectParamsInUrl() {
     return checkPosition(urlValues, "object-");
 }
 
-function updateUrl(data, urlValues) {
+function updateUrl(data, urlValues, page_with_filter = true) {
     // Шаблон - /country/buy/city/type/2bedroom/price/size/peculiarities/to_sea/ и пр.
     var url = "";
 
@@ -125,11 +130,18 @@ function updateUrl(data, urlValues) {
     if (urlValues.length == 1 && locale) {
         url += "/" + locale;
 
-        url += "/all";
+        if (page_with_filter) {
+            url += "/all";
+        }
         window.history.pushState(null, null, url);
     } else {
         if (locale) {
             url += "/" + locale;
+        }
+
+        var locations = checkPosition(urlValues, "locations");
+        if (locations) {
+            url += "/" + locations;
         }
 
         var country = getMatchSlug(urlValues, data.countries);

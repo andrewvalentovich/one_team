@@ -7,7 +7,7 @@
             <div class="objects__swiper swiper">
                 <div class="objects__wrapper swiper-wrapper">
                     @foreach($products as $product)
-                        <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}">
+                        <div class="objects__slide swiper-slide open-place-popup" data_id="{{$product->id}}" data_slug="{{$product->slug}}">
                             <div class="objects__slide-img">
                                 @if($product->photo[0]->preview)
                                     <img src="{{ asset($product->photo[0]->preview) }}" alt="place">
@@ -1036,7 +1036,9 @@
 </section>
 
 
+<script src="{{ asset('project/js/url_functions.js') }}"></script>
 <script>
+    searchBarGetParameters();
 const swiperObject = new Swiper(".objects__swiper", {
     slidesPerView: 4,
     spaceBetween: 20,
@@ -1085,16 +1087,17 @@ const swiperObject = new Swiper(".objects__swiper", {
         openPlacePopupBtn.forEach(blockBtn => {
             blockBtn.addEventListener('click', function() {
                 openPlacePopup(this)
-                var url = new URL(window.location.href);
-                url.searchParams.set('object', this.getAttribute('data_id'));
-                // Получение текущего URL
-
-                // Получение обновленного URL
-                var updatedUrl = url.toString();
-                console.log(this.getAttribute('data_id'))
-                console.log(url.searchParams)
-                // Обновление URL в адресной строке
-                window.history.replaceState({}, '', updatedUrl);
+                // var url = new URL(window.location.href);
+                // url.searchParams.set('object', this.getAttribute('data_id'));
+                // // Получение текущего URL
+                //
+                // // Получение обновленного URL
+                // var updatedUrl = url.toString();
+                // console.log(this.getAttribute('data_id'))
+                // console.log(url.searchParams)
+                // // Обновление URL в адресной строке
+                // window.history.replaceState({}, '', updatedUrl);
+                replaceUrlWithObject(window.filter_params_data, blockBtn.getAttribute('data_slug'));
                 if(window.innerWidth < 1023)
                 header.classList.add('fixed')
             })
@@ -1115,11 +1118,18 @@ const swiperObject = new Swiper(".objects__swiper", {
         $('.place__exit').click(function() {
 
             $(this).closest('.place-w').removeClass('active');
-            url.searchParams.delete('object');
-            // Получение обновленного URL
-            var updatedUrl = url.toString();
-            // Обновление URL в адресной строке
-            window.history.replaceState({}, '', updatedUrl);
+            // url.searchParams.delete('object');
+            // // Получение обновленного URL
+            // var updatedUrl = url.toString();
+            // // Обновление URL в адресной строке
+            // window.history.replaceState({}, '', updatedUrl);
+
+            var urlParams = getValuesFromUrl();
+            var object = checkPosition(urlParams, 'object-');
+            if (object) {
+                urlParams = deleteUrlParameter(object, urlParams);
+            }
+            updateUrl(window.filter_params_data, urlParams, false);
         });
     }
     //открытие галереи обхекта со слайдером

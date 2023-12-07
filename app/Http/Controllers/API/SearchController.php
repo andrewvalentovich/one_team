@@ -25,7 +25,12 @@ class SearchController extends Controller
         ]);
 
         $locales = Locale::all();
-        $locale = $locales->where('code', $data['locale'])->first();
+
+        if (isset($data['locale'])) {
+            $locale = $locales->where('code', $data['locale'])->first();
+        } else {
+            $locale = $locales->where('code', 'ru')->first();
+        }
 
         $countries = CountriesResource::collection(
             CountryAndCity::whereNull('parent_id')
