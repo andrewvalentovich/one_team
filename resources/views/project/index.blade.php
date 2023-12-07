@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <!-- <section class="index-map">
+     <!-- <section class="index-map">
         <div class="index-map__content">
             <div class="index-map__content-buttons">
                 <div class="index-map__button active">
@@ -16,7 +16,8 @@
             <div id="map-country">
             </div>
         </div>
-    </section> -->
+    </section>  -->
+
     <div class="container">
         <section class="preview">
             <img class="preview__bg" src="{{asset('project/img/preview-index.png')}}" alt="">
@@ -79,6 +80,43 @@
             </div>
         </section>
     </div>
+    <section class="popular-locations container">
+        <div class="popular-locations__title title">
+            {{__('Популярные локации')}}
+        </div>
+        <div class="popular-locations__content">
+            <div class="popular-locations__list">
+                @foreach($all_country as $country)
+                    @if(count($country->product_country) > 0)
+                        <a href="{{route('countries', $country->slug)}}" class="popular-locations__item">
+                            <div class="popular-locations__item-img">
+                                <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
+                            </div>
+                            <div class="popular-locations__item-text">
+                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
+                                <span>{{$country->product_country->count()}}</span>
+                            </div>
+                        </a>
+                    @else
+                        <div class="popular-locations__item _close-opening">
+                            <div class="popular-locations__item-img">
+                                <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
+                            </div>
+                            <div class="popular-locations__item-text _close-opening">
+                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
+                                <span>({{ __('скоро открытие') }})</span>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+        <div class="popular-locations__footer">
+            <div class="popular-locations__button">
+                <a href="{{route('all_location')}}">{{__('Все локации')}}</a>
+            </div>
+        </div>
+    </section>
     <div class="container-w">
         @include('project.includes.search_nav_bar')
     </div>
@@ -210,6 +248,7 @@
             </div>
         </section>
     </div>
+
     @if(!empty($citizenship_product))
     <section class="objects-slider container">
         <div class="objects-slider__title title">
@@ -305,44 +344,7 @@
         </div>
     </section>
     @endif
-    <!-- <section class="popular-locations container">
-        <div class="popular-locations__title title">
-            {{__('Популярные локации')}}
-        </div>
-        <div class="popular-locations__content">
-            <div class="popular-locations__list">
-                @foreach($all_country as $country)
-                    @if(count($country->product_country) > 0)
-                        <a href="{{route('countries', $country->slug)}}" class="popular-locations__item">
-                            <div class="popular-locations__item-img">
-                                <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
-                            </div>
-                            <div class="popular-locations__item-text">
-                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
-                                <span>{{$country->product_country->count()}}</span>
-                            </div>
-                        </a>
-                    @else
-                        <div class="popular-locations__item _close-opening">
-                            <div class="popular-locations__item-img">
-                                <img style="max-width: 50px" src="{{asset("uploads/$country->flag")}}" alt="gr">
-                            </div>
-                            <div class="popular-locations__item-text _close-opening">
-                                {{ $country->locale_fields->where('locale.code', app()->getLocale())->first()->name }}
-                                <span>({{ __('скоро открытие') }})</span>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-            </div>
-        </div>
-        <div class="popular-locations__footer">
-            <div class="popular-locations__button">
-                <a href="{{route('all_location')}}">{{__('Все локации')}}</a>
-            </div>
-        </div>
-    </section> -->
-    <!-- <section class="hello container">
+     <!-- <section class="hello container">
         <div class="hello__title title">
             {{ __('Приветствую вас, дорогой гость!') }}
         </div>
@@ -372,8 +374,8 @@
                 </div>
             </div>
         </div>
-    </section> -->
-    <!-- <section class="benefit container">
+    </section>  -->
+     <!-- <section class="benefit container">
         <div class="benefit__title title">
             {{ __('Чем мы будем вам полезны?') }}
         </div>
@@ -409,8 +411,8 @@
         <button class="benefit__btn">
             {{ __('Посмотреть каталог объектов') }}
         </button>
-    </section> -->
-    <!-- <section class="why container">
+    </section>  -->
+     <!-- <section class="why container">
         <div class="why__title title">
             {{ __('Почему клиенты выбирают именно нас?') }}
         </div>
@@ -437,10 +439,9 @@
         <button class="why__btn">
             {{ __('Тестовая версия программы') }}
         </button>
-    </section> -->
-    <!-- @include('project.includes.advantages') -->
-    <!-- {!! $citizenship_div !!}
-    <form action="" id="index_page_form" style="display: none;">
+    </section>  -->
+     <!-- {!! $citizenship_div !!} -->
+    <!-- <form action="" id="index_page_form" style="display: none;">
         <section class="contact">
             <div class="contact__title title">
                 {{__('Свяжитесь с нами')}}
@@ -493,8 +494,8 @@
             </div>
         </section>
         <input type="hidden" name="contact__phone-title" value="Россия (Russia)">
-    </form>
-    <script>
+    </form> -->
+    <!-- <script>
         $('.contact__top-item').click(function () {
             $("input[name='contact_type']").val($(this).html())
         })
@@ -579,8 +580,8 @@
                 });
             }
         })
-    </script>
-    <div class="popup popup-modal">
+    </script> -->
+    <!-- <div class="popup popup-modal">
         <div class="popup__body">
             <form class="popup__content">
                 <div class="popup__subtitle">
@@ -607,18 +608,17 @@
                 </div>
                 </а>
         </div>
-    </div>
+    </div> -->
 
 @endsection
 
 
 @section('footer')
     @include('project.includes.footer')
-
 @endsection
 
 
-@section('scripts')
+<!-- @section('scripts')
     <script>
         function changerActive(list) {
             for (let i = 0; i < list.length; i++) {
@@ -755,4 +755,4 @@
         })
     }
     </script>
-@endsection
+@endsection -->
