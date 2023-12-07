@@ -850,8 +850,8 @@ body {
 }
 
 .objects-slider {
-  padding-top: 96px;
-  padding-bottom: 148px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   max-width: 1484px;
   padding-left: 50px;
   padding-right: 50px;
@@ -2001,7 +2001,7 @@ body {
 .popular-locations {
   max-width: 1383px;
   margin: 0 auto 50px;
-  padding-top: 50px;
+  padding-top: 0px;
 }
 
 .popular-locations__title {
@@ -9273,8 +9273,12 @@ body.scroll_fixed {
 
 @media (max-width: 539px) {
   .popular-locations {
-      padding-top: 20px;
+      padding-top: 0;
       margin: 0 auto 20px;
+  }
+  .objects-slider {
+    padding-bottom: 20px;
+    padding-top: 20px;
   }
   .container-w .search-nav {
       margin-top: 20px;

@@ -1627,7 +1627,11 @@
             }))
         })();
     </script>
-let ids = {{ $country->id }};
+
+</script>
+
+<script>
+    let ids = {{ $country->id }};
 
 window.country = {
     lat: {{ $country->lat }},
