@@ -16,6 +16,7 @@
         "predis/predis": "^2.2",
         "revolution/laravel-google-sheets": "^6.2",
         "spatie/laravel-sitemap": "^6.4",
+        "staudenmeir/eloquent-eager-limit": "^1.8",
         "stichoza/google-translate-php": "^5.1"
     },
     "require-dev": {

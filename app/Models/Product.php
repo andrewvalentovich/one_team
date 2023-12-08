@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Product extends Model
 {
     // У objects image может быть массивом или текстовым полем, аккуратно!
-    use HasFactory, Filterable, SoftDeletes;
+    use HasFactory, Filterable, SoftDeletes, HasEagerLimit;
 
     protected $guarded = [];
 
@@ -24,6 +25,30 @@ class Product extends Model
     public function scopeForRent($query)
     {
         return $query->where('sale_or_rent', 'rent');
+    }
+
+    public function scopeCatalog($query)
+    {
+        return $query->leftJoin('layouts', function ($join) {
+            $join->on('products.id', '=', 'layouts.complex_id')
+                ->where('products.complex_or_not', 'Да')
+                ->addSelect(DB::raw('id, price, base_price, price_code, total_size'));
+            })
+            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long')
+            ->groupBy('products.id')
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->with(['layouts' => function($query) {
+                $query->with('photos');
+            }])
+            ->with(['country' => function($query) {
+                $query->select('id', 'name', 'slug');
+            }])
+            ->with(['city' => function($query) {
+                $query->select('id', 'name', 'slug');
+            }]);
     }
 
     // Привязка продукта к опции (много продуктов к одной опции)
@@ -40,6 +65,11 @@ class Product extends Model
     public function locale_fields()
     {
         return $this->hasMany(ProductLocale::class, 'product_id', 'id');
+    }
+
+    public function translated_fields($locale_id)
+    {
+        return $this->hasMany(ProductLocale::class, 'product_id', 'id')->where('locale_id', $locale_id)->latest()->limit(1);
     }
 
     public function descriptions() {
@@ -73,9 +103,8 @@ class Product extends Model
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
     }
 
-    public function limitPhoto()
-    {
-        return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product')->take(6);
+    public function limitPhoto() {
+        return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product')->limit(6);
     }
 
     public function favorite() {

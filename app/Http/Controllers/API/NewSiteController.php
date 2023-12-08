@@ -9,16 +9,15 @@ use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\House\CatalogRequest;
 use App\Http\Resources\NewSite\CitiesResource;
 use App\Http\Resources\NewSite\CountriesResource;
-use App\Http\Resources\NewSite\ProductsCollection;
 use App\Http\Resources\NewSite\ProductsResource;
 use App\Models\CountryAndCity;
 use App\Models\Locale;
 use App\Models\Peculiarities;
 use App\Models\Product;
-use App\Models\Request;
 use App\Services\CurrencyService;
 use App\Services\LayoutService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class NewSiteController extends Controller
 {
@@ -61,36 +60,27 @@ class NewSiteController extends Controller
     {
         $data = $request->validated();
 
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+
+        $locale = Locale::where('code', $data['locale'])->first();
+
         // Фильтр элементов
         $filter = app()->make(CatalogFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
-        $houses = Product::leftJoin('layouts', function ($join) {
-            $join->on('products.id', '=', 'layouts.complex_id')
-                ->where('products.complex_or_not', 'Да')
-                ->addSelect(DB::raw('id, price, base_price, price_code, total_size'));
-        })
-            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long')
-            ->groupBy('products.id')
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
-
-            ->with(['layouts' => function($query) use ($data) {
-                $query->with('photos');
+        $houses = Product::catalog()
+            ->with(['locale_fields' => function($query) use ($data) {
+                $query->whereHas('locale', function($query) use ($data) {
+                    $query->where('code', $data['locale']);
+                })->orderByDesc('id')->limit(1);
             }])
-            ->with(['country' => function($query) use ($data) {
-                $query->select('id', 'name', 'slug');
-            }])
-            ->with(['city' => function($query) use ($data) {
-                $query->select('id', 'name', 'slug');
-            }])
-            ->with('photo')
-            ->with('locale_fields.locale')
+            // получаем одно фото
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id desc limit 1) as photo'))
+//            ->with('photo')
             ->filter($filter)
             ->paginate(10);
 
         foreach ($houses as $house) {
-
             $house->to_sea = $house->to_sea();
             $house->is_swimming = $house->is_swimming();
         }
@@ -171,6 +161,29 @@ class NewSiteController extends Controller
             'the_best' => $this->getTheBest(),
             'commissioned' => $this->getCommissioned()
         ];
+    }
+
+    public function map(Request $request)
+    {
+        $data = $request->validate([
+            'country' => 'nullable|string|max:255',
+            'locale' => 'nullable|string|max:255',
+        ]);
+
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+
+        $products = Product::catalog()
+            ->with(['locale_fields' => function($query) use ($data) {
+                $query->whereHas('locale', function($query) use ($data) {
+                    $query->where('code', $data['locale']);
+                })->orderByDesc('id')->limit(1);
+            }])
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id desc limit 1) as photo'))
+            ->get();
+
+        return \App\Http\Resources\NewSite\Map\ProductsResource::collection($products)->setLocale($data['locale']);
     }
 
     public function getTheBest()

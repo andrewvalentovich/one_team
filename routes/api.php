@@ -22,6 +22,7 @@ Route::domain(config('app.domain'))->group(function () {
         return $request->user();
     });
 
+    // Favorite
     Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
     Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
 
@@ -56,4 +57,6 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('/houses/catalog', [\App\Http\Controllers\API\NewSiteController::class, 'catalog'])->name('api.houses.get.catalog');
     // Отдаётся объект для нового сайта
     Route::get('/houses/detail', [\App\Http\Controllers\API\NewSiteController::class, 'detail'])->name('api.houses.get.detail');
+    // Отдаются объекты для нового сайта для карты
+    Route::get('/houses/map', [\App\Http\Controllers\API\NewSiteController::class, 'map'])->name('api.houses.get.map');
 });
