@@ -50,6 +50,10 @@ Route::domain(config('app.domain'))->group(function () {
     // Отдаём заявки в зависимости от токена (у каждого типа лендинга свой токен, который задаётся в panel.one-team.pro)
     Route::post('/requests/lead', [\App\Http\Controllers\API\RequestsController::class, 'lead'])->name('api.requests.lead');
     Route::get('/requests/export', [\App\Http\Controllers\API\RequestsController::class, 'export'])->name('api.requests.export');
+    Route::get('/requests/test', function () {
+        dump(date('Y-m-d H:i:s', strtotime('now')));
+        dd(strtotime('now'));
+    })->name('api.requests.test');
 
     // API для нового сайта
     Route::get('/new_site/index', [NewSiteController::class, 'index'])->name('api.new_site.index');
