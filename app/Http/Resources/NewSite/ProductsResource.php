@@ -21,14 +21,14 @@ class ProductsResource extends JsonResource
             'min_price' => $this->min_price,
             'slug' => $this->slug,
             'country' => [
-                'id' => $this->country->id,
-                'slug' => $this->country->slug,
-                'name' => $this->country->name
+                'id' => !is_null($this->country) ? $this->country->id : null,
+                'slug' => !is_null($this->country) ? $this->country->slug : null,
+                'name' => !is_null($this->country) ? $this->country->name : null
             ],
             'city' => [
-                'id' => $this->city->id,
-                'slug' => $this->city->slug,
-                'name' => $this->city->name
+                'id' => !is_null($this->city) ? $this->city->id : null,
+                'slug' => !is_null($this->city) ? $this->city->slug : null,
+                'name' => !is_null($this->city) ? $this->city->name : null
             ],
             'price_size' => $this->price_size,
             'size_min' => $this->size_min,
