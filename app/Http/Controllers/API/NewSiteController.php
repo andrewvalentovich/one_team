@@ -175,7 +175,9 @@ class NewSiteController extends Controller
         }
 
         $products = Product::catalog()
-            ->with('country')
+            ->whereHas('country', function ($query) use ($data) {
+                $query->where('slug', $data['country']);
+            })
             ->with(['locale_fields' => function($query) use ($data) {
                 $query->whereHas('locale', function($query) use ($data) {
                     $query->where('code', $data['locale']);
