@@ -6935,7 +6935,7 @@ body.scroll_fixed {
 }
 
 .place__slider_p-img img {
-  width: 100%;
+  width: fit-content;
   max-width: calc(100% - 155px);
   height: calc(100% - 20px);
   object-fit: contain;
