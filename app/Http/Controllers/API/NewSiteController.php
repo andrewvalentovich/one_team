@@ -75,7 +75,7 @@ class NewSiteController extends Controller
                 })->orderByDesc('id')->limit(1);
             }])
             // получаем одно фото
-            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id desc limit 1) as photo'))
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
 //            ->with('photo')
             ->filter($filter)
             ->paginate(10);
