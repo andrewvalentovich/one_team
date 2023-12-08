@@ -23,6 +23,7 @@ Route::domain(config('app.domain'))->group(function () {
     });
 
     Route::post('add_or_delete_in_favorite', [FavoriteController::class, 'add_or_delete_in_favorite'])->name('add_or_delete_in_favorite');
+    Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
 
     // Отдаются объекты для карт по фильтру
     Route::get('/houses/by_coordinates/with_filter', [\App\Http\Controllers\API\HousesController::class, 'getByCoordinatesWithFilter'])->name('api.houses.get.by_coordinates.with_filter');

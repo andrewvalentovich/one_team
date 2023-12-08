@@ -85,9 +85,9 @@
                             {{__('Объявлений не найдено')}}
                         </div>
                         <div class="city-col__list first-list">
-
+                            @include('project.includes.object-template', ['products' => $products_first_list])
                         </div>
-                        <div class="catalog-w catalog-w_mini catalog-middle" style="display: none">
+                        <div class="catalog-w catalog-w_mini catalog-middle" style="display: @if(!isset($products_second_list)) none @else block @endif">
                             <section class="catalog">
                                 <div class="catalog__content">
                                     <div class="catalog__text-w">
@@ -131,7 +131,7 @@
                             </section>
                         </div>
                         <div class="city-col__list second-list">
-
+                            @include('project.includes.object-template', ['products' => $products_second_list])
                         </div>
                         <div class="catalog-w catalog-w_mini catalog-w_footer">
                             <section class="catalog">
@@ -1204,7 +1204,6 @@
                 });
             }
             var C, E;
-
 
 // динамический массив для заполнения точек на карте map_city
 let firstCall = 1

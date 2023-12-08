@@ -7,6 +7,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -70,6 +71,11 @@ class Product extends Model
 
     public function photo() {
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
+    }
+
+    public function limitPhoto()
+    {
+        return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product')->take(6);
     }
 
     public function favorite() {

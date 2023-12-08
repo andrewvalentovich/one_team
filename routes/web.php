@@ -204,7 +204,6 @@ Route::domain(config('app.domain'))->group(function () {
         Route::get('contacts', [ContactsController::class, 'contacts'])->name('contacts');
         Route::get('my_favorites', [FavoriteController::class, 'my_favorites'])->name('my_favorites');
         Route::get('delete_my_all_favorite', [FavoriteController::class, 'delete_my_all_favorite'])->name('delete_my_all_favorite');
-        Route::post('deleteFavorite', [FavoriteController::class, 'deleteFavorite'])->name('deleteFavorite');
         Route::get('order_by_filter', [FavoriteController::class, 'order_by_filter'])->name('order_by_filter');
         //});
 

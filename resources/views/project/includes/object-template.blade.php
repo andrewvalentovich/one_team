@@ -1,16 +1,19 @@
-<div class="city-col__item" id="card_object-89" data_id="89">
+@foreach($products as $product)
+<div class="city-col__item" id="card_object-{{ $product->id }}" data_id="{{ $product->id }}" data_slug="{{ $product->slug }}">
     <div class="city-col__slider">
         <div class="city__swiper swiper">
             <div class="city__wrapper swiper-wrapper">
-                <div class="city__slide swiper-slide">
-                    <div class="city-col__item-img"><img src="/uploads/preview_12_655e17fce281a.webp" alt="place"></div>
-                </div>
+                @foreach($product->limitPhoto as $photo)
+                    <div class="city__slide swiper-slide">
+                        <div class="city-col__item-img"><img src="{{ '/uploads/' . $photo->photo }}" alt="place"></div>
+                    </div>
+                @endforeach
             </div>
             <div class="city__scrollbar">
             </div>
         </div>
     </div>
-    <div class="objects__slide-favorites check-favorites" data_id="89">
+    <div class="objects__slide-favorites check-favorites @if(count($product->favorite) > 0) active @endif" data_id="{{ $product->id }}">
         <svg class="blue" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="73px" height="64px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.33 2.04" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g id="Слой_x0020_1">
                 <metadata id="CorelCorpID_0Corel-Layer"></metadata>
@@ -19,14 +22,51 @@
         </svg>
     </div>
     <div class="die__list">
-        <div class="die__list-item">Гражданство</div>
-        <div class="die__list-item">Рассрочка 0%</div>
-        <div class="die__list-item">Новостройка</div>
+        @foreach($product->tags as $tag)
+            <div class="die__list-item">{{ $tag }}</div>
+        @endforeach
     </div>
     <div class="city-col__item-text">
-        <div class="city-col__item-price">€ 125 000  +</div>
-        <div class="city-col__item-rooms">1+1, 2+1</div>
-        <div class="city-col__item-deadline">Срок сдачи: 2 квартал 2024 г</div>
-        <div class="city-col__item-address">Antalya/Finike</div>
+        @if(count($product->layouts) > 1)
+            <div class="city-col__item-price">€ {{ number_format($product->base_price, 0, '.', ' ') }}  +</div>
+        @else
+            <div class="city-col__item-price">€ {{ number_format($product->base_price, 0, '.', ' ') }}</div>
+        @endif
+        @if(isset($product->number_rooms_unique) && !empty($product->number_rooms_unique))
+            <div class="city-col__item-rooms">{{ $product->number_rooms_unique }}</div>
+        @else
+            <div class="city-col__item-rooms">{{ $product->size }} кв.м | {{ (int)$product->spalni }} спальни | {{ (int)$product->vanie }} ванные</div>
+        @endif
+        @if(!is_null($product->deadline))<div class="city-col__item-deadline">{{ $product->deadline }}</div>@endif
+        <div class="city-col__item-address">{{ $product->address }}</div>
     </div>
 </div>
+@endforeach
+<script>
+    const objectSwiper = document.querySelector('.city__swiper')
+    const previousSwiperInstance = new Swiper(objectSwiper, {
+        slidesPerView: 1,
+        scrollbar: {
+            el: ".city__scrollbar",
+            hide: true
+        }
+    });
+    addHoverMouseSwiper(previousSwiperInstance)
+    //свайп при ховере мышки
+    function addHoverMouseSwiper(swiper) {
+        if(!swiper) return
+        const slidesLength = swiper.slides.length
+        const width = 1 / slidesLength * 100
+        if(!swiper.el.querySelectorAll('i').length)
+            for(let i = 0; i < slidesLength; i++) {
+                let newDiv = document.createElement("i");
+                newDiv.classList.add('i')
+                swiper.el.append(newDiv)
+                newDiv.style.width = width + '%'
+                newDiv.style.left = width * i + '%'
+                newDiv.addEventListener('mouseover', function() {
+                    swiper.slideTo(i, 400)
+                })
+            }
+    }
+</script>

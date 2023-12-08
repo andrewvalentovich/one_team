@@ -1773,7 +1773,7 @@
                 t.stopPropagation();
                 _[e].style.display = "none";
 
-                fetch('/deleteFavorite', {
+                fetch('/api/deleteFavorite', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
