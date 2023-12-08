@@ -9044,7 +9044,14 @@ body.scroll_fixed {
 .questions__form-w {
   flex: 1;
   display: flex;
+  max-width: 450px;
   justify-content: center;
+}
+
+@media (max-width: 1023px) {
+  .questions__form-w {
+    max-width: none;
+  }
 }
 
 .questions__form-w .questions__form {
