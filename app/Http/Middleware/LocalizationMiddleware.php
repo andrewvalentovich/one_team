@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Services\LocaleUrlService;
+use App\Services\UtmGoalsService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +14,12 @@ use function Illuminate\Mail\Mailables\subject;
 class LocalizationMiddleware
 {
     private $localeUrlService;
+    private $utmGoalsService;
 
-    public function __construct(LocaleUrlService $localeUrlService)
+    public function __construct(LocaleUrlService $localeUrlService, UtmGoalsService $utmGoalsService)
     {
         $this->localeUrlService = $localeUrlService;
+        $this->utmGoalsService = $utmGoalsService;
     }
 
     /**
@@ -26,6 +29,9 @@ class LocalizationMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // UTM-метки
+        $this->utmGoalsService->handle();
+
         // Если пользователь зашёл первый раз - будет null
         $session_locale = !empty($request->session()->get('locale')) ? $request->session()->get('locale') : null;
         $defaultLocale = 'ru';

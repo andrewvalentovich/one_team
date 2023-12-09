@@ -14,31 +14,31 @@
                 <input class="selector-list-phone" id="phone" name="phone">
                 <input
                     type="hidden"
-                    value="{{ isset($_GET['utm_source']) ? $_GET['utm_source'] : null }}"
+                    value="{{ !is_null(Session::get('utm_source')) ? Session::get('utm_source') : null }}"
                     id="utm_source"
                     name="utm_source"
                 >
                 <input
                     type="hidden"
-                    value="{{ isset($_GET['utm_medium']) ? $_GET['utm_medium'] : null }}"
+                    value="{{ !is_null(Session::get('utm_medium')) ? Session::get('utm_medium') : null }}"
                     id="utm_medium"
                     name="utm_medium"
                 >
                 <input
                     type="hidden"
-                    value="{{ isset($_GET['utm_compaign']) ? $_GET['utm_compaign'] : null }}"
+                    value="{{ !is_null(Session::get('utm_compaign')) ? Session::get('utm_compaign') : null }}"
                     id="utm_compaign"
                     name="utm_compaign"
                 >
                 <input
                     type="hidden"
-                    value="{{ isset($_GET['utm_term']) ? $_GET['utm_term'] : null }}"
+                    value="{{ !is_null(Session::get('utm_term')) ? Session::get('utm_term') : null }}"
                     id="utm_term"
                     name="utm_term"
                 >
                 <input
                     type="hidden"
-                    value="{{ isset($_GET['utm_content']) ? $_GET['utm_content'] : null }}"
+                    value="{{ !is_null(Session::get('utm_content')) ? Session::get('utm_content') : null }}"
                     id="utm_content"
                     name="utm_content"
                 >
