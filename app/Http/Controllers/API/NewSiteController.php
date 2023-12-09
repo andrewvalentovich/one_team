@@ -64,6 +64,9 @@ class NewSiteController extends Controller
             $data['locale'] = 'ru';
         }
 
+        if (!isset($data['order_by'])) {
+            $data['order_by'] = 'created_at';
+        }
         $locale = Locale::where('code', $data['locale'])->first();
 
         // Фильтр элементов
@@ -75,13 +78,9 @@ class NewSiteController extends Controller
                 })->orderByDesc('id')->limit(1);
             }])
             // получаем одно фото
-            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'));
-
-        if (!isset($data['order_by'])) {
-            $houses->orderBy('products.created_at', 'desc');
-        }
-
-        $houses->filter($filter)->paginate(10);
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
+            ->filter($filter)
+            ->paginate(10);
 
         foreach ($houses as $house) {
             $house->to_sea = $house->to_sea();

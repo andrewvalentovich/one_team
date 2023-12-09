@@ -119,7 +119,7 @@ class CatalogFilter extends AbstractFilter
         } elseif ($value == 'price_size') {
             $builder->orderByDesc('price_size');
         } else {
-            $builder->orderByDesc('id');
+            $builder->orderByDesc($value);
         }
     }
 }

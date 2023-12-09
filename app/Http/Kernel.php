@@ -54,6 +54,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'utmGoals' =>   \App\Http\Middleware\UtmGoalsMiddleware::class,
         'locale' =>   \App\Http\Middleware\LocalizationMiddleware::class,
         'AuthUser' => \App\Http\Middleware\AuthUser::class,
         'cors' => \App\Http\Middleware\Cors::class,
