@@ -314,7 +314,7 @@ class HousesController extends Controller
                 if (!is_null($row->city)) {
                     $return['current_region'] = $row->city->slug === $filter_city ? 1 : 0;
                 } else {
-                    $return['current_region'] = 1;
+                    $return['current_region'] = 0;
                 }
             } else {
                 $return['current_region'] = 1;
