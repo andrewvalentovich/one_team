@@ -45,51 +45,7 @@
 
     @include('project.includes.popup-catalog')
 
-
-    <div class="popup popup-modal main-form-popup" style="z-index: 2005!important;" bis_skin_checked="1">
-        <div class="popup__body" bis_skin_checked="1">
-            <form class="popup__content default-form" id="city_form">
-                <label class="field name input-wrapper" bis_skin_checked="1">
-                    <span class="text">
-                        {{__('ФИО')}}
-                    </span>
-                    <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
-                </label>
-                <div class="contact__form-phone input-wrapper">
-                    <span class="text">
-                        {{__('Номер телефона')}}
-                    </span>
-                    <input class="selector-list-phone" id="phone" name="phone">
-                </div>
-                <label class="contact__form-politic">
-                    <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
-                    <div class="contact__form-custom-checkbox one_check"></div>
-                    <div class="contact__form-checkbox-text">
-                        {{__('Ознакомлен с')}} <span>{{__('политикой конфеденциальности')}}</span>
-                    </div>
-                </label>
-                <label class="contact__form-data">
-                    <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
-                    <div class="contact__form-custom-checkbox two_check"></div>
-                    <div class="contact__form-checkbox-text">
-                        {{__('Согласен на обработку')}} <span>{{__('персональных данных')}}</span>
-                    </div>
-                </label>
-                <button type="submit" class="btn">
-                    {{ __('Отправить заявку') }}
-                </button>
-                <div class="popup-close" bis_skin_checked="1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""></script>
-                        <path d="M1 1L13 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M13 1L1 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <input type="hidden" name="product_id" value="">
-                <input type="hidden" name="country" value="">
-                <!--а-->
-            </form>
-        </div>
-    </div>
+    @include('project.includes.form-popup')
 </div>
 
     <!-- Yandex.Metrika counter -->
@@ -204,7 +160,14 @@
     $('#city_form,#object_form,.form-fio-phone').submit(function (event) {
         event.preventDefault()
         let product_id = $(this).find("input[name='product_id']").val();
-        let name = $(this).find("input[name='fio']").val();
+        let fio = $(this).find("input[name='fio']").val();
+        let utm_source = $(this).find("input[name='utm_source']").val();
+        let utm_medium = $(this).find("input[name='utm_medium']").val();
+        let utm_compaign = $(this).find("input[name='utm_compaign']").val();
+        let utm_term = $(this).find("input[name='utm_term']").val();
+        let utm_content = $(this).find("input[name='utm_content']").val();
+        let referer = $(this).find("input[name='referer']").val();
+        let ip = $(this).find("input[name='ip']").val();
         let country = $(this).find('.iti__selected-flag').attr('title')
         let phoneInput = $(this).find("input[name='phone']");
         let phone = phoneInput.val();
@@ -223,9 +186,9 @@
 
 
         let name_valid = false;
-        if (name.length == 0){
+        if (fio.length == 0 || fio.length > 255){
             $('.name').closest('.input-wrapper').addClass('border');
-        } else{
+        } else {
             name_valid = true;
         }
 
@@ -237,7 +200,7 @@
         //     phone_valid = true;
         // }
 
-        if (phone.length <=5) {
+        if (phone.length <= 5 || fio.length > 255) {
             $('.contact__form-phone').css('border', '2px solid red')
         } else {
             phone_valid = true;
@@ -259,11 +222,36 @@
 
         if (phone_valid == true && name_valid == true && check_one == true && check_two == true){
             let formData = new FormData();
-            formData.append('product_id', product_id);
+            if (product_id !== undefined && product_id != '') {
+                formData.append('product_id', product_id);
+            }
             formData.append('country', country);
             formData.append('phone', phone);
-            formData.append('name', name);
-            formData.append('product_id', $("input[name='product_id']").val());
+            formData.append('fio', fio);
+            if (utm_source != '' && utm_source.length <= 255) {
+                formData.append('utm_source', utm_source);
+            }
+            if (utm_medium != '' && utm_medium.length <= 255) {
+                formData.append('utm_medium', utm_medium);
+            }
+            if (utm_compaign != '' && utm_compaign.length <= 255) {
+                formData.append('utm_compaign', utm_compaign);
+            }
+            if (utm_term != '' && utm_term.length <= 255) {
+                formData.append('utm_term', utm_term);
+            }
+            if (utm_content != '' && utm_content.length <= 255) {
+                formData.append('utm_content', utm_content);
+            }
+            if (referer != '' && referer.length <= 255) {
+                formData.append('referer', referer);
+            }
+            if (ip != '' && ip.length <= 20) {
+                formData.append('ip', ip);
+            }
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]);
+            }
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

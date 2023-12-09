@@ -128,6 +128,7 @@ class HousesController extends Controller
         unset($products);
 
         return view('project.houses', compact('region', 'title', 'products_first_list', 'products_second_list'));
+//        return view('project.houses', compact('region', 'title'));
     }
 
     private function generateTitle($country)

@@ -1458,6 +1458,48 @@
                         </button>
                         <input type="hidden" name="product_id" value="">
                         <input type="hidden" name="country" value="">
+                        <input
+                            type="hidden"
+                            value="{{ isset($_GET['utm_source']) ? $_GET['utm_source'] : null }}"
+                            id="utm_source"
+                            name="utm_source"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_GET['utm_medium']) ? $_GET['utm_medium'] : null }}"
+                            id="utm_medium"
+                            name="utm_medium"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_GET['utm_compaign']) ? $_GET['utm_compaign'] : null }}"
+                            id="utm_compaign"
+                            name="utm_compaign"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_GET['utm_term']) ? $_GET['utm_term'] : null }}"
+                            id="utm_term"
+                            name="utm_term"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_GET['utm_content']) ? $_GET['utm_content'] : null }}"
+                            id="utm_content"
+                            name="utm_content"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ request()->url() }}"
+                            id="referer"
+                            name="referer"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null }}"
+                            id="ip"
+                            name="ip"
+                        >
                         <!--а-->
                     </form>
                 </div>

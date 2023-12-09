@@ -11,7 +11,7 @@
             <div class="hello__title title">
                 О проекте
             </div>
-            <div class="about__preview">  
+            <div class="about__preview">
                 <p class="about__preview-text">
                     <b>Oneteam</b> — лицензированное агентство недвижимости, практикующее нестандартный подход к решению задач. Большинство наших коллег работает «по старинке», пользуясь для ведения баз данных облачными сервисами, из-за чего страдает актуальность предложений: например, вам могут случайно «продать» квартиру в Турции, которая уже забронирована кем-то другим.
                 </p>
@@ -20,7 +20,7 @@
                     Чтобы автоматизировать процесс продажи недвижимости, мы разработали собственный IT-продукт — цифровую платформу на основе искусственного интеллекта, которая определяет наиболее перспективные объекты на основе анализа рынков сбыта, предоставляя инвесторам возможность приобретать недвижимость, основываясь не на умозаключениях, а на аналитических выкладках алгоритма, обученного принимать непредвзятые решения.
                 </p>
             </div>
-            <div class="about__text">  
+            <div class="about__text">
                 <p>
                     Цифровая платформа ведет учет находящихся на рынке домов и квартир в Турции, а также подбирает объекты в соответствии с клиентскими запросами, анализирует ликвидность и потребительские параметры, и наглядно представляет информацию о районе расположения и его инфраструктуре. В ее состав также входит CRM со сквозной аналитикой.
                 </p>
@@ -35,54 +35,7 @@
         </div>
     </section>
     @include('project.includes.advantages')
-    <div class="questions-w">
-        <section class="questions">
-            <div class="questions__content">
-                <div class="questions__pic">
-                    <img src="{{asset('project/img/questions-index.png')}}" alt="">
-                </div>
-                <div class="questions__form-w">
-                    <form class="questions__form form-fio-phone">
-                        <p class="questions__title">
-                            Остались вопросы?
-                        </p>
-                        <p class="questions__subtitle">
-                            Оставьте заявку и мы Вам перезвоним
-                        </p>
-                        <label class="field name input-wrapper" bis_skin_checked="1">
-                            <span class="text">
-                                ФИО
-                            </span>
-                            <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
-                        </label>
-                        <div class="contact__form-phone input-wrapper">
-                            <span class="text">
-                                {{__('Номер телефона')}}
-                            </span>
-                            <input class="selector-list-phone" id="phone" name="phone">
-                        </div>
-                        <label class="contact__form-politic">
-                            <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
-                            <div class="contact__form-custom-checkbox one_check"></div>
-                            <div class="contact__form-checkbox-text">
-                                Ознакомлен с <span>политикой конфеденциальности</span>
-                            </div>
-                        </label>
-                        <label class="contact__form-data">
-                            <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
-                            <div class="contact__form-custom-checkbox two_check"></div>
-                            <div class="contact__form-checkbox-text">
-                                Согласен на обработку <span>персональных данных</span>
-                            </div>
-                        </label>
-                        <button type="submit" class="btn btn_blue">
-                            Отправить заявку
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </div>
+    @include('project.includes.form-main')
 @endsection
 
 

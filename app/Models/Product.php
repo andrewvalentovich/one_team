@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Filterable;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,7 +35,7 @@ class Product extends Model
                 ->where('products.complex_or_not', 'Да')
                 ->addSelect(DB::raw('id, price, base_price, price_code, total_size'));
             })
-            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long')
+            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long', 'products.created_at')
             ->groupBy('products.id')
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
@@ -49,6 +50,35 @@ class Product extends Model
             ->with(['city' => function($query) {
                 $query->select('id', 'name', 'slug');
             }]);
+    }
+
+    public function scopeRealty($query)
+    {
+        return $query->leftJoin('layouts', function ($join) {
+            $join->on('products.id', '=', 'layouts.complex_id')
+                    ->where('products.complex_or_not', 'Да')
+                    ->addSelect(DB::raw('id, price, base_price, price_code, total_size'));
+            })
+            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long')
+            ->groupBy('products.id')
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->with(['layouts' => function($query) {
+                $query->with('photos');
+            }]);
+    }
+
+    public function scopeWithCountryBySlug(Builder $query, $country = null)
+    {
+        if (!is_null($country)) {
+            return $query->whereHas('country', function ($query) use ($country) {
+                $query->where('slug', $country);
+            });
+        } else {
+            return $query;
+        }
     }
 
     // Привязка продукта к опции (много продуктов к одной опции)

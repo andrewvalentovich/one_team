@@ -104,7 +104,7 @@ class RequestsController extends Controller
                     'utm_campaign' => isset($row->utm_campaign) ? (string) $row->utm_campaign : null,
                     'utm_term' => isset($row->utm_term) ? (string) $row->utm_term : null,
                     'utm_content' => isset($row->utm_content) ? (string) $row->utm_content : null,
-                    'referer' => isset($row->domain) ? (string) $row->domain : null,
+                    'referer' => isset($row->referer) ? (string) $row->referer : null,
                     'token' => isset($row->token) ? (string) $row->token : null,
                 ];
             })

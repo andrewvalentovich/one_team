@@ -75,10 +75,13 @@ class NewSiteController extends Controller
                 })->orderByDesc('id')->limit(1);
             }])
             // получаем одно фото
-            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
-//            ->with('photo')
-            ->filter($filter)
-            ->paginate(10);
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'));
+
+        if (!isset($data['order_by'])) {
+            $houses->orderBy('products.created_at', 'desc');
+        }
+
+        $houses->filter($filter)->paginate(10);
 
         foreach ($houses as $house) {
             $house->to_sea = $house->to_sea();
@@ -175,15 +178,14 @@ class NewSiteController extends Controller
         }
 
         $products = Product::catalog()
-            ->whereHas('country', function ($query) use ($data) {
-                $query->where('slug', $data['country']);
-            })
+            ->withCountryBySlug($data['country'] ?? null)
             ->with(['locale_fields' => function($query) use ($data) {
                 $query->whereHas('locale', function($query) use ($data) {
                     $query->where('code', $data['locale']);
                 })->orderByDesc('id')->limit(1);
             }])
             ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id desc limit 1) as photo'))
+            ->orderBy('products.created_at', 'desc')
             ->get();
 
         return \App\Http\Resources\NewSite\Map\ProductsResource::collection($products)->setLocale($data['locale']);

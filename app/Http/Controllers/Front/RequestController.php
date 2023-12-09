@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Requests\SendRequestRequest;
 use Illuminate\Http\Request;
 use App\Models\Request as req;
 use Illuminate\Support\Facades\Mail;
@@ -46,49 +47,15 @@ class RequestController extends Controller
         return redirect()->back();
     }
 
-    public function send_request(Request $request){
-        $string = $request->country;
+    public function send_request(SendRequestRequest $request){
+        $data = $request->validated();
 
-        $cleanString = strip_tags($string);
-
-        $position = strrpos($cleanString, ')');
+        // Обработка страны
+        $data['country'] = strip_tags($data['country']);
+        $position = strrpos($data['country'], ')');
         if ($position !== false) {
-            $cleanString = substr($cleanString, 0, $position + 1);
+            $data['country'] = substr($data['country'], 0, $position + 1);
         }
-
-        $app_lang = app()->getLocale();
-        if ($app_lang == 'ru'){
-            $message = 'Мы получили ваше сообщение наш сотрудник скоро свяжется с вами';
-        }elseif ($app_lang == 'en'){
-                $message = 'We have received your message, our staff will contact you shortly';
-        }elseif ($app_lang == 'tr'){
-            $message = 'Mesajınızı aldık, personelimiz kısa süre içinde sizinle iletişime geçecektir.';
-        }elseif ($app_lang == 'tr'){
-            $message = 'Wir haben Ihre Nachricht erhalten, unser Mitarbeiter wird sich in Kürze mit Ihnen in Verbindung setzen';
-        }
-
-        $data = array();
-        if (isset($request->phone)){
-            $data['phone'] = $request->phone;
-        }
-        if (isset($cleanString)){
-            $data['country'] = $cleanString;
-        }
-
-        if (isset($request->fio)){
-            $data['fio'] = $request->fio;
-        }
-        if (isset($request->product_id)){
-            $data['product_id'] = $request->product_id;
-        }
-
-        $details = [
-           'phone' => $request->phone,
-           'product_id' => $request->product_id,
-           'fio' => $request->name,
-           'country' => $request->country,
-           'message' => $request->message,
-        ];
 
 //        Mail::to('one.team.dev.1@gmail.com')->send(new SendRequestFromAdmin($details));
 //        try{
@@ -99,14 +66,9 @@ class RequestController extends Controller
 //            ],422);
 //        }
 
-        req::create([
-            'phone' => $request->phone,
-            'message' => $request->message,
-            'country' => $cleanString,
-            'fio' => $request->name,
-            'product_id' => $request->product_id
-        ]);
+        req::create($data);
 
+        $message = __('Мы получили ваше сообщение наш сотрудник скоро свяжется с вами');
 
         return response()->json([
            'status' => true,
