@@ -25,12 +25,12 @@ class HousesFilter extends AbstractFilter
     const BEDROOMS = 'bedrooms';
     const BATHROOMS = 'bathrooms';
     const PECULIARITIES = 'peculiarities';
+    const IS_SECONDARY = 'is_secondary';
     const VIEW = 'view';
     const TO_SEA = 'to_sea';
     const SIZE = 'size';
     const CITY_ID = 'city_id';
     const CITY = 'city';
-    const IS_SECONDARY = 'is_secondary';
 
     protected $currencyService;
 
@@ -44,10 +44,10 @@ class HousesFilter extends AbstractFilter
     {
         // Прописываем переменные ($this) и методы в 'метод'
         return [
-            self::SALE_OR_RENT => [$this, 'sale_or_rent'],
 //            self::ORDER_BY => [$this, 'order_by'],
             self::TOP_LEFT => [$this, 'top_left'],
             self::BOTTOM_RIGHT => [$this, 'bottom_right'],
+            self::SALE_OR_RENT => [$this, 'sale_or_rent'],
             self::BEDROOMS => [$this, 'peculiarities_bedrooms'],
             self::BATHROOMS => [$this, 'peculiarities_bathrooms'],
             self::VIEW => [$this, 'peculiarity_by_slug'],
@@ -58,9 +58,9 @@ class HousesFilter extends AbstractFilter
             self::PECULIARITIES => [$this, 'peculiarities_by_slug'],
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
+            self::IS_SECONDARY => [$this, 'is_secondary'],
             self::CITY_ID => [$this, 'city_by_id'],
             self::CITY => [$this, 'city_by_slug'],
-            self::IS_SECONDARY => [$this, 'is_secondary'],
         ];
     }
 
@@ -223,7 +223,7 @@ class HousesFilter extends AbstractFilter
             if (isset($value['min'])) {
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null))
+                        ->where('products.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
                             $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
                         });
@@ -233,7 +233,7 @@ class HousesFilter extends AbstractFilter
             if (isset($value['max'])) {
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null))
+                        ->where('products.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
                             $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
                         });

@@ -128,6 +128,18 @@ class HousesController extends Controller
             ->filter($filter)
             ->get();
 
+//        $houses = Product::realty()
+//            ->with('photo')
+//            ->with('peculiarities.locale_fields.locale')
+//            ->with('country.locale_fields.locale')
+//            ->with('city.locale_fields.locale')
+//            ->with('locale_fields.locale')
+//            ->with(['favorite' => function ($query) use ($data) {
+//                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+//            }])
+//            ->filter($filter)
+//            ->get();
+
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         for ($i = 0; $i < count($houses); $i++) {
             if (isset($houses[$i]->layouts) && count($houses[$i]->layouts) > 0) {

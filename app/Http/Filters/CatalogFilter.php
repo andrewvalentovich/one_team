@@ -19,14 +19,15 @@ class CatalogFilter extends AbstractFilter
     const CITY_ID = 'city_id';
     const COUNTRY = 'country';
     const CITY = 'city';
-
-    protected $currencyService;
-
-    public function __construct(array $queryParams, CurrencyService $currencyService)
-    {
-        parent::__construct($queryParams, $currencyService);
-        $this->currencyService = $currencyService;
-    }
+    const SALE_OR_RENT = 'sale_or_rent';
+    const TYPE = 'type';
+    const BEDROOMS = 'bedrooms';
+    const BATHROOMS = 'bathrooms';
+    const PECULIARITIES = 'peculiarities';
+    const IS_SECONDARY = 'is_secondary';
+    const VIEW = 'view';
+    const TO_SEA = 'to_sea';
+    const SIZE = 'size';
 
     protected function getCallbacks(): array
     {
@@ -38,6 +39,15 @@ class CatalogFilter extends AbstractFilter
             self::PRICE => [$this, 'price'],
             self::CITY => [$this, 'city_by_slug'],
             self::COUNTRY => [$this, 'country_by_slug'],
+            self::SALE_OR_RENT => [$this, 'sale_or_rent'],
+            self::BEDROOMS => [$this, 'peculiarities_bedrooms'],
+            self::BATHROOMS => [$this, 'peculiarities_bathrooms'],
+            self::VIEW => [$this, 'peculiarity_by_slug'],
+            self::TO_SEA => [$this, 'peculiarity_by_slug'],
+            self::TYPE => [$this, 'peculiarity_by_slug'],
+            self::PECULIARITIES => [$this, 'peculiarities_by_slug'],
+            self::SIZE => [$this, 'size'],
+            self::IS_SECONDARY => [$this, 'is_secondary'],
         ];
     }
 
@@ -64,6 +74,46 @@ class CatalogFilter extends AbstractFilter
         }
     }
 
+    protected function peculiarity_by_slug(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->whereHas('peculiarities', function ($query) use ($value) {
+                $query->where('peculiarities.slug', "$value");
+            });
+        }
+    }
+
+    protected function peculiarities_by_slug(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->whereHas('peculiarities', function ($query) use ($value) {
+                $query->whereIn('peculiarities.slug', array_values($value));
+            });
+        }
+    }
+
+    protected function peculiarities_bedrooms(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $value = (int)$value . "+";
+            $builder->whereHas('peculiarities', function ($query) use ($value) {
+                $query->where('peculiarities.type', "Спальни");
+                $query->where('peculiarities.name', "$value");
+            });
+        }
+    }
+
+    protected function peculiarities_bathrooms(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $value = (int)$value . "+";
+            $builder->whereHas('peculiarities', function ($query) use ($value) {
+                $query->where('peculiarities.type', "Ванные");
+                $query->where('peculiarities.name', "$value");
+            });
+        }
+    }
+
     protected function city_by_slug(Builder $builder, $value)
     {
         if(isset($value)) {
@@ -73,27 +123,38 @@ class CatalogFilter extends AbstractFilter
         }
     }
 
+    protected function size(Builder $builder, $value)
+    {
+        if (isset($value['min'])) {
+            $builder->where('size', ">=", $value['min']);
+        }
+
+        if (isset($value['max'])) {
+            $builder->where('size', "<=", $value['max']);
+        }
+    }
+
     protected function price(Builder $builder, $value)
     {
         if (isset($value['min']) && isset($value['max'])) {
             $builder->where(function ($query) use ($value) {
                 $query->where('complex_or_not', 'Нет')
                     ->where(function ($query) use ($value) {
-                        $query->where('products.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
-                        $query->where('products.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                        $query->where('products.base_price', '>=', $value['min']);
+                        $query->where('products.base_price', '<=', $value['max']);
                     })
                     ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                        $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
-                        $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                        $query->where('layouts.base_price', '>=', $value['min']);
+                        $query->where('layouts.base_price', '<=', $value['max']);
                     });
             });
         } else {
             if (isset($value['min'])) {
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null))
+                        ->where('products.base_price', '>=', $value['min'])
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
+                            $query->where('layouts.base_price', '>=', $value['min']);
                         });
                 });
             }
@@ -101,9 +162,9 @@ class CatalogFilter extends AbstractFilter
             if (isset($value['max'])) {
                 $builder->where(function ($query) use ($value) {
                     $query->where('complex_or_not', 'Нет')
-                        ->where('products.price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null))
+                        ->where('products.base_price', '<=', $value['max'])
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
-                            $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
+                            $query->where('layouts.base_price', '<=', $value['max']);
                         });
                 });
             }

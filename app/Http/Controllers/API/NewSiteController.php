@@ -67,21 +67,25 @@ class NewSiteController extends Controller
         if (!isset($data['order_by'])) {
             $data['order_by'] = 'created_at';
         }
-        $locale = Locale::where('code', $data['locale'])->first();
+
+        if (isset($data['price'])) {
+            if (isset($data['price']['min'])) {
+                $data['price']['min'] = $this->currencyService->convertPriceToEur($data['price']['min'], $data['price']['currency'] ?? null);
+            }
+            if (isset($data['price']['max'])) {
+                $data['price']['max'] = $this->currencyService->convertPriceToEur($data['price']['max'], $data['price']['currency'] ?? null);
+            }
+        }
 
         // Фильтр элементов
-        $filter = app()->make(CatalogFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
-        $houses = Product::catalog()
-            ->with(['locale_fields' => function($query) use ($data) {
-                $query->whereHas('locale', function($query) use ($data) {
-                    $query->where('code', $data['locale']);
-                })->orderByDesc('id')->limit(1);
-            }])
+        $filter = app()->make(CatalogFilter::class, ['queryParams' => $data]);
+        $houses = Product::catalog($data['price'] ?? null)
             // получаем одно фото
             ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
             ->filter($filter)
             ->paginate(10);
 
+        // Добавляем свойства
         foreach ($houses as $house) {
             $house->to_sea = $house->to_sea();
             $house->is_swimming = $house->is_swimming();
