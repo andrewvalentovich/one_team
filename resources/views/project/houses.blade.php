@@ -1339,7 +1339,7 @@ function P(e) {
                 if (!houseCard) return
                 const id = houseCard.getAttribute('data_id')
                 let object = {...objectsListMap.get(parseInt(id))}
-                setNewPopupHouseData(object)
+                getObjectBySimpleRequest(object)
             })
         });
     }
@@ -1732,6 +1732,16 @@ function P(e) {
                         setNewPopupHouseData(data);
                     }
                 });
+            }
+        });
+    }
+
+    async function getObjectBySimpleRequest(object) {
+        $.ajax({
+            url: `/api/houses/simple?id=${object.id}`,
+            method: 'get',
+            success: function (data) {
+                setNewPopupHouseData(data);
             }
         });
     }
