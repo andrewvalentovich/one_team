@@ -9156,7 +9156,7 @@ body.scroll_fixed {
 }
 
 .catalog-w_mini .catalog__text-w {
-  width: 195px;
+  width: 150px;
   position: absolute;
   left: 33px;
   top: 50%;
@@ -9176,7 +9176,7 @@ body.scroll_fixed {
 
 .catalog-w_mini .catalog__content {
   gap: 25px;
-  padding-left: 266px;
+  padding-left: 235px;
   padding-bottom: 20px;
 }
 
@@ -9210,7 +9210,7 @@ body.scroll_fixed {
 }
 .catalog-w_mini .catalog__subtitle{
   font-size: 6.781px;
-  margin-bottom: 16px;
+  margin-bottom: 7px;
 }
 .catalog-w_mini .catalog__text-footer{
   font-size: 6.781px;
@@ -9220,7 +9220,8 @@ body.scroll_fixed {
   width: 62px;
 }
 .catalog-w_mini .catalog__pic{
-  height: 125px;
+  height: 87px;
+  margin-bottom: 10px;
 }
 .catalog-w_mini .catalog__btn-get {
   width: 100%;
