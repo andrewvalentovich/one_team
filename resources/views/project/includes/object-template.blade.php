@@ -27,7 +27,6 @@
         @endforeach
     </div>
     <div class="city-col__item-text">
-        test
         @if(count($product->layouts) > 1)
             <div class="city-col__item-price">€ {{ number_format($product->min_price, 0, '.', ' ') }}  +</div>
         @else
