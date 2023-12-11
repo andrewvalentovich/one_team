@@ -9468,14 +9468,21 @@ body.scroll_fixed {
   }
 
   .catalog-w_mini .catalog__text-w {
-    width: 96px;
+    width: 83px;
     left: 15px;
   }
 
   .catalog-w_mini .catalog__title {
-    font-size: 8px;
+    font-size: 6px;
   }
 
+  .catalog-w_mini .catalog__text-footer {
+    font-size: 4.781px;
+    padding: 7px 5px;
+  }
+  .catalog-w_mini .catalog__info-title {
+    max-width: 127px;
+  }
   .catalog-w_mini .catalog__subtitle {
     display: none;
   }
@@ -9498,8 +9505,25 @@ body.scroll_fixed {
     font-size: 10px;
   }
 
+  .catalog-w_mini .catalog__info {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .catalog-w_mini .catalog__btn-get {
     font-size: 10px;
     padding: 5px 5px;
+    max-width: 130px;
+    margin: 0 auto;
   }
+  .catalog-w_footer .catalog__info-title {
+    max-width: 103px;
+  }
+
+  .catalog-w_footer .catalog__btn-get {
+    max-width: 107px;
+  }
+  
 }

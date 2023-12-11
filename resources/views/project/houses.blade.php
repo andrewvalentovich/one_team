@@ -1381,6 +1381,7 @@ function P(e) {
 
     let firstClear = false
     function setCityItem(data, clearList) {
+        console.log('test')
         const cityListFirst = document.querySelector('.first-list')
         const cityListSecond = document.querySelector('.second-list')
         const catalogFooter = document.querySelector('.catalog-w_footer')
@@ -1601,7 +1602,9 @@ function P(e) {
                     const mark = document.querySelector(`[mark-id="${id}"]`);
                     mark.classList.add('active')
                 });
-                currentBallon.balloon.open();
+                if(window.innerWidth >= 1004) {
+                    currentBallon.balloon.open();
+                }
             })
             const objectSwiper = cityItem.querySelector('.city__swiper')
             const previousSwiperInstance = new Swiper(objectSwiper, {
@@ -3083,7 +3086,9 @@ function P(e) {
                         const mark = document.querySelector(`[mark-id="${id}"]`);
                         mark.classList.add('active')
                     });
-                    currentBallon.balloon.open();
+                    if(window.innerWidth >= 1004) {
+                        currentBallon.balloon.open();
+                    }
                 })
                 el.addEventListener('mouseleave', function() {
                     mapCountry.balloon.close()
