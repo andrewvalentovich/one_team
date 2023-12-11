@@ -16,7 +16,7 @@ class CitiesCollection extends ResourceCollection
 
     public function toArray(Request $request)
     {
-        return $this->collection->map(function (ProductsResource $resource) use ($request) {
+        return $this->collection->map(function (CitiesResource $resource) use ($request) {
             return $resource->setLocale($this->locale)->toArray($request);
         })->all();
     }

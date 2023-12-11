@@ -32,6 +32,6 @@ class CitiesResource extends JsonResource
 
     public static function collection($resource)
     {
-        return new ProductsCollection($resource);
+        return new CitiesResource($resource);
     }
 }
