@@ -9,14 +9,15 @@
                             <div class="city-col__item-img"><img src="{{ '/uploads/' . $photo->photo }}" alt="place"></div>
                         </div>
                     @endif
+                    @if($index === 4)
+                        <div class="city__slide swiper-slide last-slide">
+                            <div class="city-col__item-img"><img src="{{ '/uploads/' . $photo->photo }}" alt="place"></div>
+                            @if(count($product->limitPhoto) > 5)
+                                <span class="quantity">+ еще {{ count($product->limitPhoto) - 5 }} фото</span>
+                            @endif
+                        </div>
+                    @endif
                 @endforeach
-                @if($index === 4)
-                    <div class="city__slide swiper-slide last-slide">
-                        @if(count($product->limitPhoto) > 5)
-                            <span class="quantity">+ еще {{ count($product->limitPhoto) - 5 }} фото</span>
-                        @endif
-                    </div>
-                @endif
             </div>
             <div class="city__scrollbar">
             </div>
