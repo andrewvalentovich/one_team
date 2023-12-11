@@ -43,15 +43,20 @@
 </div>
 @endforeach
 <script>
-    const objectSwiper = document.querySelector('.city__swiper')
-    const previousSwiperInstance = new Swiper(objectSwiper, {
-        slidesPerView: 1,
-        scrollbar: {
-            el: ".city__scrollbar",
-            hide: true
-        }
+    const cityColItemPhp = document.querySelectorAll('.city-col__item')
+
+    cityColItemPhp.forEach(el => {
+        const objectSwiper = el.querySelector('.city__swiper')
+        const previousSwiperInstance = new Swiper(objectSwiper, {
+            slidesPerView: 1,
+            scrollbar: {
+                el: ".city__scrollbar",
+                hide: true
+            }
+        });
+        addHoverMouseSwiper(previousSwiperInstance)
     });
-    addHoverMouseSwiper(previousSwiperInstance)
+
     //свайп при ховере мышки
     function addHoverMouseSwiper(swiper) {
         if(!swiper) return
