@@ -3076,6 +3076,26 @@ function P(e) {
                 })
             });
 
+            const phpObjects = document.querySelectorAll('[php]')
+            phpObjects.forEach(el => {
+                el.addEventListener('mouseover', function() {
+                    const id = el.getAttribute('data_id')
+                    let currentBallon
+                    ballons.forEach(element => {
+                        if(element.house_id == id) currentBallon = element
+                        const marks = document.querySelectorAll(`[mark-id]`);
+                        marks.forEach(element => {
+                            element.classList.remove('active')
+                        });
+                        const mark = document.querySelector(`[mark-id="${id}"]`);
+                        mark.classList.add('active')
+                    });
+                    currentBallon.balloon.open();
+                })
+            });
+
+
+
             let startBounds = mapCountry.getBounds();
             let top_left = {
                 lat: startBounds[0][0],
