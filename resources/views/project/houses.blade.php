@@ -1439,12 +1439,13 @@ function P(e) {
 
                 slideDiv.appendChild(imgDiv);
 
+
                 // Проверяем, является ли текущий элемент последним
-                if (index === array.length - 1 && hasMoreThanFivePhotos) {
+                if (index === array.length - 1 && cityElement.photo_count > 5) {
                     slideDiv.classList.add('last-slide');
                     const span = document.createElement('span');
                     span.classList.add('quantity');
-                    span.innerHTML = `+ еще ${cityElement.photo.length - maxIterations} фото`;
+                    span.innerHTML = `+ еще ${cityElement.photo_count - maxIterations} фото`;
                     slideDiv.appendChild(span);
                 }
 
