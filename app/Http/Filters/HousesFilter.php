@@ -14,7 +14,7 @@ class HousesFilter extends AbstractFilter
 {
     // Имена переменных присваиваем константам
     const SALE_OR_RENT = 'sale_or_rent';
-//    const ORDER_BY = 'order_by';
+    const ORDER_BY = 'order_by';
     const TOP_LEFT = 'top_left';
     const BOTTOM_RIGHT = 'bottom_right';
     const COUNTRY_ID = 'country_id';
@@ -44,7 +44,7 @@ class HousesFilter extends AbstractFilter
     {
         // Прописываем переменные ($this) и методы в 'метод'
         return [
-//            self::ORDER_BY => [$this, 'order_by'],
+            self::ORDER_BY => [$this, 'order_by'],
             self::TOP_LEFT => [$this, 'top_left'],
             self::BOTTOM_RIGHT => [$this, 'bottom_right'],
             self::SALE_OR_RENT => [$this, 'sale_or_rent'],
@@ -255,15 +255,17 @@ class HousesFilter extends AbstractFilter
 
     protected function order_by(Builder $builder, $value)
     {
-//         Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
-//        $val_arr = explode('-', $value);
-//        if ($val_arr[0] == 'price') {
-//            $builder->orderBy('min_price', $val_arr[1]);
-//        } else {
-//            $builder->orderBy($val_arr[0], $val_arr[1]);
-//        }
-//        $builder->orderBy('min_price', 'asc');
+        // Получаем $value = 'price-asc' -> $val_arr[0] = 'price', $val_arr[1] = 'asc';
+        if (stripos($value, 'cheap-first') !== false) {
+            $builder->orderBy('min_price', 'asc');
+        }
 
-//        $builder->orderBy($val_arr[0], $val_arr[1]);
+        if (stripos($value, 'expensive-first') !== false) {
+            $builder->orderBy('min_price', 'desc');
+        }
+
+        if (stripos($value, 'new-first') !== false) {
+            $builder->orderBy('products.created_at', 'desc');
+        }
     }
 }

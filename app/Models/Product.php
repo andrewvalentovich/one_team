@@ -46,7 +46,22 @@ class Product extends Model
             $query->where('layouts.base_price', '<=', $price['max']);
         }
 
-        $query->select('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long', 'products.created_at')
+        $query->select(
+            'products.id',
+            'products.name',
+            'products.city_id',
+            'products.country_id',
+            'products.price',
+            'products.base_price',
+            'products.price_code',
+            'products.size',
+            'products.lat',
+            'products.long',
+            'products.is_secondary',
+            'products.commissions',
+            'products.grajandstvo',
+            'products.created_at'
+        )
             ->groupBy('products.id')
             ->with(['layouts' => function($query) use ($price) {
                 // Ограничиваем вывод, только те у которых цена соответствует
@@ -79,23 +94,54 @@ class Product extends Model
         return $query;
     }
 
-    public function scopeRealty($query)
+    public function scopeRealty($query, $price = null)
     {
-        return $query->leftJoin('layouts', function ($join) {
-            $join->on('products.id', '=', 'layouts.complex_id')
+        $query
+            ->leftJoin('layouts', function ($join) {
+                $join->on('products.id', '=', 'layouts.complex_id')
                     ->where('products.complex_or_not', 'Да')
                     ->addSelect(DB::raw('id, price, base_price, price_code, total_size'))
                     ->orderBy('layouts.base_price', 'asc');
-            })
-            ->addSelect('products.id', 'products.name', 'products.city_id', 'products.country_id', 'products.price', 'products.base_price', 'products.price_code', 'products.size', 'products.lat', 'products.long')
+            });
+
+        if (isset($price['min'])) {
+            $query->where('layouts.base_price', '>=', $price['min']);
+        }
+
+        if (isset($price['max'])) {
+            $query->where('layouts.base_price', '<=', $price['max']);
+        }
+
+        $query->select(
+            'products.id',
+            'products.name',
+            'products.city_id',
+            'products.country_id',
+            'products.price',
+            'products.base_price',
+            'products.price_code',
+            'products.size',
+            'products.lat',
+            'products.long',
+            'products.address',
+            'products.is_secondary',
+            'products.commissions',
+            'products.grajandstvo',
+            'products.created_at'
+        )
             ->groupBy('products.id')
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
-            ->with(['layouts' => function($query) {
-                $query->with('photos');
+            ->with(['country' => function($query) {
+                $query->select('id', 'name', 'slug');
+            }])
+            ->with(['city' => function($query) {
+                $query->select('id', 'name', 'slug');
             }]);
+
+        return $query;
     }
 
     public function scopeWithCountryBySlug(Builder $query, $country = null)

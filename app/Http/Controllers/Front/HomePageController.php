@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Front;
 
 
 use App\Http\Controllers\Admin\Peculiarities;
-use App\Http\Resources\Map\CitiesCollection;
-use App\Http\Resources\Map\CitiesResource;
+use App\Http\Resources\Map\ProductsCollection;
+use App\Http\Resources\Map\ProductsResource;
 use App\Models\CompanySelect;
 use App\Models\Product;
 use App\Services\CurrencyService;

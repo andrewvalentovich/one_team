@@ -35,26 +35,26 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-                        @if(!is_null($region))
-                            @if(!is_null($region->locale_fileds))
-                                @if(!is_null($region->locale_fields->where('locale.code', app()->getLocale())->first()))
-                                    @if(!is_null($region->parent_id))
-                                        {{ __('Недвижимость в регионе :name (:country)', [
-                                                'name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name,
-                                                'country' => $region->country->locale_fields->where('locale.code', app()->getLocale()->first()->name)
-                                            ]) }}
-                                    @else
-                                        {{ __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name]) }}
-                                    @endif
-                                @else
-                                    {{ __('Вся недвижимость') }}
-                                @endif
-                            @else
-                                {{ __('Вся недвижимость') }}
-                            @endif
-                        @else
+{{--                        @if(!is_null($region))--}}
+{{--                            @if(!is_null($region->locale_fileds))--}}
+{{--                                @if(!is_null($region->locale_fields->where('locale.code', app()->getLocale())->first()))--}}
+{{--                                    @if(!is_null($region->parent_id))--}}
+{{--                                        {{ __('Недвижимость в регионе :name (:country)', [--}}
+{{--                                                'name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name,--}}
+{{--                                                'country' => $region->country->locale_fields->where('locale.code', app()->getLocale()->first()->name)--}}
+{{--                                            ]) }}--}}
+{{--                                    @else--}}
+{{--                                        {{ __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', app()->getLocale())->first()->name]) }}--}}
+{{--                                    @endif--}}
+{{--                                @else--}}
+{{--                                    {{ __('Вся недвижимость') }}--}}
+{{--                                @endif--}}
+{{--                            @else--}}
+{{--                                {{ __('Вся недвижимость') }}--}}
+{{--                            @endif--}}
+{{--                        @else--}}
+{{--                        @endif--}}
                             {{ __('Вся недвижимость') }}
-                        @endif
                     </div>
                     <div class="city-col__filter">
                         <input type="hidden" name="order">
@@ -87,7 +87,7 @@
                         <div class="city-col__list first-list">
                             @include('project.includes.object-template', ['products' => $products_first_list])
                         </div>
-                        <div class="catalog-w catalog-w_mini catalog-middle" style="display: @if(!isset($products_second_list)) none @else block @endif">
+                        <div class="catalog-w catalog-w_mini catalog-middle" style="display: @if($products_second_list) block @else none @endif">
                             <section class="catalog">
                                 <div class="catalog__content">
                                     <div class="catalog__text-w">
@@ -1470,10 +1470,10 @@ function P(e) {
                 priceDiv.style.direction = "ltr";
             }
 
-            if (cityElement.layouts.length > 1) {
-                priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)} +`;
+            if (cityElement.layouts_count > 1) {
+                priceDiv.textContent = `€ ${cityElement.min_price} +`;
             } else {
-                priceDiv.textContent = `€ ${cityElement.price.EUR.slice(0, -1)}`;
+                priceDiv.textContent = `€ ${cityElement.min_price}`;
             }
 
             textDiv.appendChild(priceDiv);
@@ -1484,24 +1484,24 @@ function P(e) {
 
             const spalni = cityElement.spalni
             const vannie = cityElement.vanie
-            const layouts = cityElement.layouts
 
-            if (layouts && layouts.length > 0) {
-                let list = new Set();
-                layouts.forEach((layout, index) => {
-                    if (list.has(layout.number_rooms)) {
-
-                    } else {
-                        list.add(layout.number_rooms);
-                        if (index === 0 ) {
-                            roomsDiv.innerHTML += `${layout.number_rooms}`;
-                        } else if (index === layouts.length - 1) {
-                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
-                        } else {
-                            roomsDiv.innerHTML += `, ${layout.number_rooms}`;
-                        }
-                    }
-                });
+            if (cityElement.layouts_count > 0) {
+                roomsDiv.innerHTML = `${cityElement.number_rooms_unique}`
+                // let list = new Set();
+                // layouts.forEach((layout, index) => {
+                //     if (list.has(layout.number_rooms)) {
+                //
+                //     } else {
+                //         list.add(layout.number_rooms);
+                //         if (index === 0 ) {
+                //             roomsDiv.innerHTML += `${layout.number_rooms}`;
+                //         } else if (index === layouts.length - 1) {
+                //             roomsDiv.innerHTML += `, ${layout.number_rooms}`;
+                //         } else {
+                //             roomsDiv.innerHTML += `, ${layout.number_rooms}`;
+                //         }
+                //     }
+                // });
             } else {
                 roomsDiv.innerHTML = `${cityElement.size}` + ' {{ __('кв.м') }}'
 
@@ -2457,7 +2457,7 @@ function P(e) {
                         <div class="balloon-city__address">${city.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
                         <div class="balloon-city__square">${city.kv} ${kvm}</div>
                     </div>
-                    <div class="balloon-city__img"> <img src="/uploads/${city.photo[0].photo}"></div>
+                    <div class="balloon-city__img"> <img src="/uploads/${city.photo}"></div>
                 </div>`,
                 city_id: city.id,
             });
@@ -2577,7 +2577,8 @@ function P(e) {
                     dataType: 'json',
                     data: params,
                     success: function (data) {
-                        resolve(data);
+                        resolve(data.data);
+                        console.log(data.data);
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -2635,32 +2636,31 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
-                        console.log(data)
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }
-                        if(data.length !== 12 && paramsCustom) {
+                        if(data.data.length !== 12 && paramsCustom) {
                             lustPageReached = true
                         }
-                        data.forEach(object => {
+                        data.data.forEach(object => {
                             if (!objectsListSet.has(object.id)) {
                                 objectsListSet.add(object.id);
                                 objectsListMap.set(object.id, object);
                             }
                         });
-                        checkFavorites(data)
+                        checkFavorites(data.data)
                         let site_url = `{{config('app.url')}}`;
 
                         // setBallons(data.data);
                         if(!paramsCustom) {
-                            setCityItem(data, true);
+                            setCityItem(data.data, true);
                         } else {
-                            setCityItem(data, false);
+                            setCityItem(data.data, false);
                         }
                         setCountObjectsPerPage()
                         // setListenersToOpenPopup();
                         setListenersToAddfavorites();
-                        setPagination(data);
+                        setPagination(data.data);
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -2703,7 +2703,7 @@ function P(e) {
             }
             mapCountry = new ymaps.Map("map_city", {
                 // По стандарту указаны координаты Турции (если не установлена страна)
-                center: {{ !is_null($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
+                center: {{ isset($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
                 zoom: 4,
                 controls: [],
                 behaviors: ["default", "scrollZoom"],
@@ -2726,13 +2726,12 @@ function P(e) {
             });
 
             currentmarks.forEach(mark => {
-                if (mark.coordinate && mark.coordinate !== ',') {
-                    const [lat, lon] = mark.coordinate.split(',').map(coord => parseFloat(coord));
-                    if (!isNaN(lat) && !isNaN(lon)) {
-                        minLat = Math.min(minLat, lat);
-                        maxLat = Math.max(maxLat, lat);
-                        minLon = Math.min(minLon, lon);
-                        maxLon = Math.max(maxLon, lon);
+                if (mark.lat && mark.long) {
+                    if (!isNaN(mark.lat) && !isNaN(mark.long)) {
+                        minLat = Math.min(minLat, mark.lat);
+                        maxLat = Math.max(maxLat, mark.lat);
+                        minLon = Math.min(minLon, mark.long);
+                        maxLon = Math.max(maxLon, mark.long);
                     }
                 }
             });
@@ -2879,16 +2878,13 @@ function P(e) {
 
 
             allmarks.forEach(mark => {
-                const coordinate = {
-                    lat: mark.coordinate.split(',')[0],
-                    long: mark.coordinate.split(',')[1],
-                }
+                console.log(mark);
                 locationsCity.push({
-                    coordinates: [coordinate.lat, coordinate.long],
+                    coordinates: [mark.lat, mark.long],
                     balloonContent: `<div class="balloon-city-w">
                                         <div class="balloon-city" id="${mark.id}">
                                             <div class="balloon-city__text">
-                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>${mark.price.EUR}</div>
+                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>€ ${mark.price}</div>
                                                 ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
                                                 <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
                                                 <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>

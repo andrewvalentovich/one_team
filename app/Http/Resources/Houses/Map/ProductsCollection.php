@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Http\Resources\Map;
+namespace App\Http\Resources\Houses\Map;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CitiesCollection extends ResourceCollection
+class ProductsCollection extends ResourceCollection
 {
-    protected $locale;
+    protected $city;
 
-    public function setLocale($value){
-        $this->locale = $value;
+    public function setCity($value){
+        $this->city = $value;
         return $this;
     }
 
     public function toArray(Request $request)
     {
         return $this->collection->map(function (ProductsResource $resource) use ($request) {
-            return $resource->setLocale($this->locale)->toArray($request);
+            return $resource->setCity($this->city)->toArray($request);
         })->all();
     }
 }

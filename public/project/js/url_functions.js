@@ -901,14 +901,14 @@ function createParamsForFilterFromUrl() {
             params.is_secondary = 1;
         }
 
-        if (value === "new-first") {
-            params.order_by = "created_at-desc";
+        if (value === 'new-first') {
+            params.order_by = 'new-first';
         }
-        if (value === "cheap-first") {
-            params.order_by = "price-asc";
+        if (value === 'cheap-first') {
+            params.order_by = 'cheap-first';
         }
-        if (value === "expensive-first") {
-            params.order_by = "price-desc";
+        if (value === 'expensive-first') {
+            params.order_by = 'expensive-first';
         }
 
     })

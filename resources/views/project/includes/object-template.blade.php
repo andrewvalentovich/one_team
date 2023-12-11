@@ -28,9 +28,9 @@
     </div>
     <div class="city-col__item-text">
         @if(count($product->layouts) > 1)
-            <div class="city-col__item-price">€ {{ number_format($product->base_price, 0, '.', ' ') }}  +</div>
+            <div class="city-col__item-price">€ {{ number_format($product->min_price, 0, '.', ' ') }}  +</div>
         @else
-            <div class="city-col__item-price">€ {{ number_format($product->base_price, 0, '.', ' ') }}</div>
+            <div class="city-col__item-price">€ {{ number_format($product->min_price, 0, '.', ' ') }}</div>
         @endif
         @if(isset($product->number_rooms_unique) && !empty($product->number_rooms_unique))
             <div class="city-col__item-rooms">{{ $product->number_rooms_unique }}</div>

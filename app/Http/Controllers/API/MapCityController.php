@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Map\CitiesResource;
+use App\Http\Resources\Map\ProductsResource;
 use App\Models\CountryAndCity;
 use Illuminate\Http\Request;
 
@@ -26,7 +26,7 @@ class MapCityController extends Controller
 
         return response()->json([
             'status' => true,
-            'data' => CitiesResource::collection($cities)->setLocale($data['locale']),
+            'data' => ProductsResource::collection($cities)->setLocale($data['locale']),
         ],200);
     }
 }
