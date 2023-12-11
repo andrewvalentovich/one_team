@@ -31,7 +31,7 @@ class SendRequestRequest extends FormRequest
             'ip' => 'nullable|string|max:20',
             'utm_source' => 'nullable|string|max:255',
             'utm_medium' => 'nullable|string|max:255',
-            'utm_compaign' => 'nullable|string|max:255',
+            'utm_campaign' => 'nullable|string|max:255',
             'utm_term' => 'nullable|string|max:255',
             'utm_content' => 'nullable|string|max:255',
             'referer' => 'nullable|string|max:255',

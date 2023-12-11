@@ -37,9 +37,9 @@
                         >
                         <input
                             type="hidden"
-                            value="{{ !is_null(Session::get('utm_compaign')) ? Session::get('utm_compaign') : null }}"
-                            id="utm_compaign"
-                            name="utm_compaign"
+                            value="{{ !is_null(Session::get('utm_campaign')) ? Session::get('utm_campaign') : null }}"
+                            id="utm_campaign"
+                            name="utm_campaign"
                         >
                         <input
                             type="hidden"

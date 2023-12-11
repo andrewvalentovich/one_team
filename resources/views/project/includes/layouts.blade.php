@@ -163,7 +163,7 @@
         let fio = $(this).find("input[name='fio']").val();
         let utm_source = $(this).find("input[name='utm_source']").val();
         let utm_medium = $(this).find("input[name='utm_medium']").val();
-        let utm_compaign = $(this).find("input[name='utm_compaign']").val();
+        let utm_campaign = $(this).find("input[name='utm_campaign']").val();
         let utm_term = $(this).find("input[name='utm_term']").val();
         let utm_content = $(this).find("input[name='utm_content']").val();
         let referer = $(this).find("input[name='referer']").val();
@@ -234,8 +234,8 @@
             if (utm_medium != '' && utm_medium.length <= 255) {
                 formData.append('utm_medium', utm_medium);
             }
-            if (utm_compaign != '' && utm_compaign.length <= 255) {
-                formData.append('utm_compaign', utm_compaign);
+            if (utm_campaign != '' && utm_campaign.length <= 255) {
+                formData.append('utm_campaign', utm_campaign);
             }
             if (utm_term != '' && utm_term.length <= 255) {
                 formData.append('utm_term', utm_term);

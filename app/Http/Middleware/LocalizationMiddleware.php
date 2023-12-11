@@ -31,7 +31,6 @@ class LocalizationMiddleware
     {
         // UTM-метки
         $this->utmGoalsService->handle();
-
         // Если пользователь зашёл первый раз - будет null
         $session_locale = !empty($request->session()->get('locale')) ? $request->session()->get('locale') : null;
         $defaultLocale = 'ru';
