@@ -1346,14 +1346,19 @@ function P(e) {
 
     setListenersToOpenPopup()
 
+    let firstClear = false
     function setCityItem(data, clearList) {
         const cityListFirst = document.querySelector('.first-list')
         const cityListSecond = document.querySelector('.second-list')
         const catalogFooter = document.querySelector('.catalog-w_footer')
 
         if(clearList) {
-            cityListFirst.innerHTML = ''
-            cityListSecond.innerHTML = ''
+            if(firstClear === false) {
+                firstClear = true
+            } else {
+                cityListFirst.innerHTML = ''
+                cityListSecond.innerHTML = ''
+            }
         }
         // Удаление предыдущего экземпляра Swiper, если он есть
         if (previousSwiperInstance) {
@@ -1362,7 +1367,10 @@ function P(e) {
 
 
         data.forEach((cityElement, index) => {
-
+            const inListObject = document.querySelector(`[data_id="${parseInt(cityElement.id)}"]`)
+            if(inListObject) {
+                return
+            }
             const cityItem = document.createElement('div');
             cityItem.classList.add('city-col__item');
             cityItem.setAttribute('id', `card_object-${cityElement.id}`);
