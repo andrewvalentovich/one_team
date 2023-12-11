@@ -10,10 +10,11 @@
                         </div>
                     @endif
                 @endforeach
-
-                @if(count($product->limitPhoto) >= 5)
+                @if($index === 4)
                     <div class="city__slide swiper-slide last-slide">
+                        @if(count($product->limitPhoto) > 5)
                             <span class="quantity">+ еще {{ count($product->limitPhoto) - 5 }} фото</span>
+                        @endif
                     </div>
                 @endif
             </div>
