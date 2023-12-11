@@ -216,7 +216,10 @@ class HousesController extends Controller
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
         $products = Product::realty($data['price'] ?? null)
-            ->with('photo')
+            ->withCount('photo')
+            ->with(['photo' => function($query) {
+                $query->limit(5);
+            }])
             ->with('peculiarities.locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());

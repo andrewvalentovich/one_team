@@ -32,7 +32,8 @@ class ProductsResource extends JsonResource
             'tags' => $this->tags,
             'favorite' => $this->favorite,
             'layouts_count' => count($this->layouts),
-            'photo' => $this->photo
+            'photo' => $this->photo,
+            'photo_count' => $this->photo_count
         ];
     }
 

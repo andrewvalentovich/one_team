@@ -53,7 +53,10 @@ class HousesController extends Controller
 
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
         $products = Product::realty($data['price'] ?? null)
-            ->with('photo')
+            ->withCount('photo')
+            ->with(['photo' => function($query) {
+                $query->limit(5);
+            }])
             ->with('peculiarities.locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time());
