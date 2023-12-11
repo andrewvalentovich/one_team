@@ -133,6 +133,39 @@
                         <div class="city-col__list second-list">
                             @include('project.includes.object-template', ['products' => $products_second_list])
                         </div>
+                        <script>
+                            const cityColItemPhp = document.querySelectorAll('.city-col__item')
+                            console.log(cityColItemPhp,'tst')
+                            cityColItemPhp.forEach(el => {
+                                const objectSwiper = el.querySelector('.city__swiper')
+                                const previousSwiperInstance = new Swiper(objectSwiper, {
+                                    slidesPerView: 1,
+                                    scrollbar: {
+                                        el: ".city__scrollbar",
+                                        hide: true
+                                    }
+                                });
+                                addHoverMouseSwiper(previousSwiperInstance)
+                            });
+
+                            //свайп при ховере мышки
+                            function addHoverMouseSwiper(swiper) {
+                                if(!swiper) return
+                                const slidesLength = swiper.slides.length
+                                const width = 1 / slidesLength * 100
+                                if(!swiper.el.querySelectorAll('i').length)
+                                    for(let i = 0; i < slidesLength; i++) {
+                                        let newDiv = document.createElement("i");
+                                        newDiv.classList.add('i')
+                                        swiper.el.append(newDiv)
+                                        newDiv.style.width = width + '%'
+                                        newDiv.style.left = width * i + '%'
+                                        newDiv.addEventListener('mouseover', function() {
+                                            swiper.slideTo(i, 400)
+                                        })
+                                    }
+                            }
+                        </script>
                         <div class="catalog-w catalog-w_mini catalog-w_footer">
                             <section class="catalog">
                                 <div class="catalog__content">

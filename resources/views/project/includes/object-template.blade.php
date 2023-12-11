@@ -1,5 +1,5 @@
 @foreach($products as $product)
-<div class="city-col__item" id="card_object-{{ $product->id }}" data_id="{{ $product->id }}" data_slug="{{ $product->slug }}">
+<div class="city-col__item" id="card_object-{{ $product->id }}" data_id="{{ $product->id }}" data_slug="{{ $product->slug }}" php>
     <div class="city-col__slider">
         <div class="city__swiper swiper">
             <div class="city__wrapper swiper-wrapper">
@@ -27,6 +27,7 @@
         @endforeach
     </div>
     <div class="city-col__item-text">
+        test
         @if(count($product->layouts) > 1)
             <div class="city-col__item-price">€ {{ number_format($product->min_price, 0, '.', ' ') }}  +</div>
         @else
@@ -42,36 +43,4 @@
     </div>
 </div>
 @endforeach
-<script>
-    const cityColItemPhp = document.querySelectorAll('.city-col__item')
 
-    cityColItemPhp.forEach(el => {
-        const objectSwiper = el.querySelector('.city__swiper')
-        const previousSwiperInstance = new Swiper(objectSwiper, {
-            slidesPerView: 1,
-            scrollbar: {
-                el: ".city__scrollbar",
-                hide: true
-            }
-        });
-        addHoverMouseSwiper(previousSwiperInstance)
-    });
-
-    //свайп при ховере мышки
-    function addHoverMouseSwiper(swiper) {
-        if(!swiper) return
-        const slidesLength = swiper.slides.length
-        const width = 1 / slidesLength * 100
-        if(!swiper.el.querySelectorAll('i').length)
-            for(let i = 0; i < slidesLength; i++) {
-                let newDiv = document.createElement("i");
-                newDiv.classList.add('i')
-                swiper.el.append(newDiv)
-                newDiv.style.width = width + '%'
-                newDiv.style.left = width * i + '%'
-                newDiv.addEventListener('mouseover', function() {
-                    swiper.slideTo(i, 400)
-                })
-            }
-    }
-</script>
