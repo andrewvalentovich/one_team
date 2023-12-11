@@ -144,6 +144,9 @@
                                         hide: true
                                     }
                                 });
+                                el.addEventListener('mouseleave', function() {
+                                    previousSwiperInstance.slideTo(0, 400)
+                                })
                                 addHoverMouseSwiper(previousSwiperInstance)
                             });
 
@@ -1609,16 +1612,6 @@ function P(e) {
                 }
             });
             addHoverMouseSwiper(previousSwiperInstance)
-            cityItem.addEventListener('mouseleave', function() {
-                mapCountry.balloon.close()
-                const marks = document.querySelectorAll(`[mark-id]`);
-                const swiperWrapper = this.querySelector('.city__wrapper')
-                const idSwiper = swiperWrapper.getAttribute('id')
-                marks.forEach(element => {
-                    element.classList.remove('active')
-                });
-                previousSwiperInstance.slideTo(0, 400)
-            })
         });
 
         const middleCatalog = document.querySelector('.catalog-middle')
@@ -3092,7 +3085,18 @@ function P(e) {
                     });
                     currentBallon.balloon.open();
                 })
+                el.addEventListener('mouseleave', function() {
+                    mapCountry.balloon.close()
+                    const marks = document.querySelectorAll(`[mark-id]`);
+                    const swiperWrapper = this.querySelector('.city__wrapper')
+                    const idSwiper = swiperWrapper.getAttribute('id')
+                    marks.forEach(element => {
+                        element.classList.remove('active')
+                    });
+                })
             });
+
+
 
 
 

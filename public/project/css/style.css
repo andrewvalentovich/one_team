@@ -9240,12 +9240,12 @@ body.scroll_fixed {
   }
 
   .catalog-w_mini .catalog__text-w {
-    width: 96px;
+    width: 83px;
     left: 15px;
   }
 
   .catalog-w_mini .catalog__title {
-    font-size: 8px;
+    font-size: 6px;
   }
 
   .catalog-w_mini .catalog__subtitle {
@@ -9311,8 +9311,8 @@ body.scroll_fixed {
     padding: 10px 10px;
   }
   .catalog-w_mini {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
   }
   .catalog-w_mini .catalog {
     border-radius: 20px;
