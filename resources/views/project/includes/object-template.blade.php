@@ -3,11 +3,19 @@
     <div class="city-col__slider">
         <div class="city__swiper swiper">
             <div class="city__wrapper swiper-wrapper">
-                @foreach($product->limitPhoto as $photo)
-                    <div class="city__slide swiper-slide">
-                        <div class="city-col__item-img"><img src="{{ '/uploads/' . $photo->photo }}" alt="place"></div>
-                    </div>
+                @foreach($product->limitPhoto as $index => $photo)
+                    @if($index !== 4)
+                        <div class="city__slide swiper-slide">
+                            <div class="city-col__item-img"><img src="{{ '/uploads/' . $photo->photo }}" alt="place"></div>
+                        </div>
+                    @endif
                 @endforeach
+
+                @if(count($product->limitPhoto) >= 5)
+                    <div class="city__slide swiper-slide last-slide">
+                            <span class="quantity">+ еще {{ count($product->limitPhoto) - 5 }} фото</span>
+                    </div>
+                @endif
             </div>
             <div class="city__scrollbar">
             </div>

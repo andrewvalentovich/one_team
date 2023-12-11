@@ -135,7 +135,6 @@
                         </div>
                         <script>
                             const cityColItemPhp = document.querySelectorAll('.city-col__item')
-                            console.log(cityColItemPhp,'tst')
                             cityColItemPhp.forEach(el => {
                                 const objectSwiper = el.querySelector('.city__swiper')
                                 const previousSwiperInstance = new Swiper(objectSwiper, {
@@ -165,6 +164,7 @@
                                         })
                                     }
                             }
+                            
                         </script>
                         <div class="catalog-w catalog-w_mini catalog-w_footer">
                             <section class="catalog">
@@ -1101,9 +1101,7 @@
             window.addEventListener("resize", (function (e) {
             })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function (e) {
                 document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("show"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
-            })), document.querySelector(".header__top-lang").onclick = function () {
-                document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
-            },document.querySelector(".header__top-phone-menu").onclick = function () {
+            })),document.querySelector(".header__top-phone-menu").onclick = function () {
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
             }
             let t = document.querySelectorAll(".header-m__langs-item");
@@ -1365,7 +1363,6 @@ function P(e) {
 
     function setListenersToOpenPopup() {
         const cityColList = document.querySelectorAll('.city-col__list')
-        console.log(cityColList)
         cityColList.forEach(list => {
             list.addEventListener('click', function(e) {
                 const houseCard = e.target.closest('.city-col__item');
@@ -1583,7 +1580,6 @@ function P(e) {
             } else {
                 quantityObjects = 3
             }
-            console.log(quantityObjects)
             if(elementsInFirstList.length <= quantityObjects && index <= quantityObjects) {
                 cityListFirst.appendChild(cityItem);
             } else {
@@ -1795,12 +1791,15 @@ function P(e) {
     // }
     var objectById = checkObjectParamsInUrl();
     if (objectById) {
-        getObjectById(objectById);
+        // getObjectById(objectById);
+        const object = {
+            id: objectById.split('-')[1]
+        }
+        getObjectBySimpleRequest(object)
     }
 
     function setNewPopupHouseData(object) {
         replaceUrlWithObject(window.filter_params_data, object.slug);
-        console.log(object);
 
         const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
         const placeW = document.querySelector('.place-w')
@@ -2005,8 +2004,6 @@ function P(e) {
 
             // var localedName = 'name';
             var localedName;
-            console.log(window.locale);
-            console.log(element.locale_fields);
             if (window.locale) {
                 localedName = element.locale_fields.find(x => x.locale.code == window.locale);
             } else {
@@ -2017,7 +2014,6 @@ function P(e) {
             //         localedName += '_'+window.locale;
             //     }
             // }
-            console.log(localedName.name);
             div.innerHTML = localedName.name[0].toUpperCase() + localedName.name.substring(1);
             objectPeculiarities.appendChild(div)
         });
@@ -2919,7 +2915,6 @@ function P(e) {
 
 
             allmarks.forEach(mark => {
-                console.log(mark);
                 locationsCity.push({
                     coordinates: [mark.lat, mark.long],
                     balloonContent: `<div class="balloon-city-w">
@@ -3124,8 +3119,12 @@ function P(e) {
                 var balloonContentElement = document.querySelector('.balloon-city');
                 balloonContentElement.addEventListener('click', function(e) {
                     const id = balloonContentElement.getAttribute('id')
-                    replaceUrlWithObject(window.filter_params_data, "object-" + id);
-                    getObjectById("object-" + id)
+                    // replaceUrlWithObject(window.filter_params_data, "object-" + id);
+                    // getObjectById("object-" + id)
+                    const object = {
+                        id: id
+                    }
+                    getObjectBySimpleRequest(object)
                     const cityCol = document.querySelector('.city-col')
                     cityCol.style.display = 'block'
                 });
@@ -3173,6 +3172,7 @@ function P(e) {
                 const cityCol = document.querySelector('.city-col')
                 cityCol.style.display = '';
                 history.back();
+                // тут нужна альтернатива history.back();
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
                 const placeLeftCollage = document.querySelector('.place__left-collage')
                 placeLeftCollage.innerHtml = ''

@@ -426,6 +426,12 @@ function setListenersToAddfavorites() {
     });
 }
 setListenersToAddfavorites()
+
+document.querySelector(".header__top-lang").onclick = function () {
+    document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
+}
+
+
 </script>
 </body>
 </html>

@@ -66,9 +66,10 @@ async function renderMap() {
                 document.querySelector("#map_city").style.height = "100%";
             }
         }
-    })), document.querySelector(".header__top-lang").onclick = function () {
-        document.querySelector(".header__top-lang-item").classList.toggle("active"), document.querySelector(".header__lang-list-dropdown").classList.toggle("active")
-    }, document.querySelector(".header__top-phone-menu").onclick = function () {
+    }))
+
+    
+    document.querySelector(".header__top-phone-menu").onclick = function () {
         document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
     }
     let t = document.querySelectorAll(".header-m__langs-item");
