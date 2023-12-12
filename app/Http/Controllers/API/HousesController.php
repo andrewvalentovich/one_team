@@ -218,7 +218,7 @@ class HousesController extends Controller
         $products = Product::realty($data['price'] ?? null)
             ->withCount('photo')
             ->with(['photo' => function($query) {
-                $query->limit(5);
+                $query->orderBy('id', 'asc')->limit(5);
             }])
             ->with('peculiarities.locale_fields.locale')
             ->with(['favorite' => function ($query) use ($data) {
