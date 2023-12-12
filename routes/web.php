@@ -155,7 +155,9 @@ Route::domain(config('app.domain'))->group(function () {
 
             Route::get('peculiarities_peculiarities/{string}', [Peculiarities::class, 'peculiarities_peculiarities'])->name('peculiarities_peculiarities');
             Route::get('new_peculiarities/{string}', [Peculiarities::class, 'new_peculiarities'])->name('new_peculiarities');
+            Route::get('new_peculiarities_en/{string}', [Peculiarities::class, 'new_peculiarities_en'])->name('new_peculiarities_en');
             Route::post('create_peculiarities', [Peculiarities::class, 'create_peculiarities'])->name('create_peculiarities');
+            Route::post('create_peculiarities_en', [Peculiarities::class, 'create_peculiarities_en'])->name('create_peculiarities_en');
             Route::post('update_peculiarities', [Peculiarities::class, 'update_peculiarities'])->name('update_peculiarities');
             Route::get('single_peculiarities/peculiarities_id={id}', [Peculiarities::class, 'single_peculiarities'])->name('single_peculiarities');
             Route::get('delete_peculiarities/peculiarities_id={id}', [Peculiarities::class, 'delete_peculiarities'])->name('delete_peculiarities');

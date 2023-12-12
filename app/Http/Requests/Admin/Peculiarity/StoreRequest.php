@@ -25,6 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
+            'type'      => 'required|string|max:255',
             'slug'      => ['nullable', 'string', 'unique:peculiarities,slug'],
         ];
     }
@@ -37,6 +38,10 @@ class StoreRequest extends FormRequest
         return [
             'name.required' => 'Данное поле является обязательным для заполнения',
             'name.string' => 'Данное поле должно быть строкой',
+            'type.required' => 'Данное поле является обязательным для заполнения',
+            'type.string' => 'Данное поле должно быть строкой',
+            'slug.unique' => 'Данное поле должно уникальным',
+            'slug.string' => 'Данное поле должно быть строкой',
         ];
     }
 }

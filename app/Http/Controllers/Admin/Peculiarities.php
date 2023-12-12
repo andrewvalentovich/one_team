@@ -26,6 +26,10 @@ class Peculiarities extends Controller
         return view('admin.Peculiarities.new', compact('string'));
     }
 
+    public function new_peculiarities_en($string){
+        return view('admin.Peculiarities.new_en', compact('string'));
+    }
+
     public function create_peculiarities(StoreRequest $request){
         $data = $request->validated();
 
@@ -33,11 +37,35 @@ class Peculiarities extends Controller
         $peculiarity = Peculiaritie::create([
             'name' => $data['name'],
             'slug' => $data['slug'],
-            'type' => 'До моря'
+            'type' => $data['type']
         ]);
 
         // Перевод
         $this->translateForNew($peculiarity, $data['name']);
+
+        return redirect()->back()->with('true', 'Добавление успешно завершено');
+    }
+
+    public function create_peculiarities_en(StoreRequest $request) {
+        $data = $request->validated();
+        // Создание
+        $peculiarity = Peculiaritie::create([
+            'name' => $data['name'],
+            'slug' => $data['slug'],
+            'type' => $data['type']
+        ]);
+
+        // Перевод
+        $this->translateForNewEn($peculiarity, $data['name']);
+
+        $locale = Locale::where('code', 'ru')->first();
+        // Положим название на русском в поле name
+        $peculiarity_name_ru = $peculiarity->load(['locale_fields' => function($query) use ($locale) {
+            $query->where('locale_id', $locale->id)->first();
+        }]);
+
+        $peculiarity->name = $peculiarity_name_ru->locale_fields->first()->name;
+        $peculiarity->save();
 
         return redirect()->back()->with('true', 'Добавление успешно завершено');
     }
@@ -100,13 +128,30 @@ class Peculiarities extends Controller
 
         $tr = new GoogleTranslate(); // init GoogleTranslate
         foreach ($locales as $locale) {
-
             $tmp_name = !empty($name) ? $tr->trans($name, $locale->code, "ru") : null;
 
             PeculiarityLocale::create([
                 "peculiarity_id" => $peculiarity->id,
                 "locale_id" => $locale->id,
                 "name" => $tmp_name,
+            ]);
+
+            unset($tmp_name);
+        }
+    }
+
+    private function translateForNewEn($peculiarity, $name)
+    {
+        $locales = Locale::all();
+
+        $tr = new GoogleTranslate(); // init GoogleTranslate
+        foreach ($locales as $locale) {
+            $tmp_name = !empty($name) ? $tr->trans($name, $locale->code, 'en') : null;
+
+            PeculiarityLocale::create([
+                'peculiarity_id' => $peculiarity->id,
+                'locale_id' => $locale->id,
+                'name' => $tmp_name,
             ]);
 
             unset($tmp_name);

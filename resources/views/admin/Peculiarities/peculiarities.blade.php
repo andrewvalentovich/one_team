@@ -30,9 +30,11 @@
                             </div>
                         @endif
                         <div style="display: flex; justify-content: space-between">
-
                             <h4 class="card-title"> {{ $type }}</h4>
-                            <a href="{{route('new_peculiarities',$type)}}" class="btn btn-inverse-warning btn-fw" style="    display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>
+                            <div style="display: flex;">
+                                <a href="{{route('new_peculiarities',$type)}}" class="btn btn-inverse-warning btn-fw mr-2" style="    display: flex;  align-items: center !important;  justify-content: center;">Добавить</a>
+                                <a href="{{route('new_peculiarities_en',$type)}}" class="btn btn-inverse-warning btn-fw" style="display: flex;  align-items: center !important;  justify-content: center;">Добавить на английском</a>
+                            </div>
                         </div>
 
                         <div class="table-responsive" bis_skin_checked="1">
