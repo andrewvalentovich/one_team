@@ -1369,68 +1369,59 @@
                     <form class="default-form" id="">
                         <div class="title">Заявка на бронь</div>
                         <label class="field name input-wrapper" bis_skin_checked="1">
+                    <span class="text">
+                        {{__('ФИО')}}
+                    </span>
+                    <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
+                    </label>
+                    <div class="contact__form-phone input-wrapper">
                             <span class="text">
-                                {{__('ФИО')}}
+                                {{__('Номер телефона')}}
                             </span>
-                            <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
-                        </label>
-                        <div class="field field-phone selection-phone input-wrapper" bis_skin_checked="1">
-                            <div class="contact__form-phone-country close-out" bis_skin_checked="1">
-                                <div class="contact__form-country-item" bis_skin_checked="1">
-                                    <div class="contact__form-country-item-img" bis_skin_checked="1">
-                                        <img src="{{ asset('project/img/countries/ru.png') }}" alt="ru">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="contact__form-phone input-wrapper">
-                                <span class="text">
-                                    {{__('Номер телефона')}}
-                                </span>
-                                <input class="selector-list-phone" id="phone" name="phone" placeholder="(999) 999-99-99">
-                                <input
-                                    type="hidden"
-                                    value="{{ !is_null(Session::get('utm_source')) ? Session::get('utm_source') : null }}"
-                                    id="utm_source"
-                                    name="utm_source"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ !is_null(Session::get('utm_medium')) ? Session::get('utm_medium') : null }}"
-                                    id="utm_medium"
-                                    name="utm_medium"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ !is_null(Session::get('utm_campaign')) ? Session::get('utm_campaign') : null }}"
-                                    id="utm_campaign"
-                                    name="utm_campaign"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ !is_null(Session::get('utm_term')) ? Session::get('utm_term') : null }}"
-                                    id="utm_term"
-                                    name="utm_term"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ !is_null(Session::get('utm_content')) ? Session::get('utm_content') : null }}"
-                                    id="utm_content"
-                                    name="utm_content"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ request()->url() }}"
-                                    id="referer"
-                                    name="referer"
-                                >
-                                <input
-                                    type="hidden"
-                                    value="{{ isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null }}"
-                                    id="ip"
-                                    name="ip"
-                                >
-                            </div>
-                        </div>
+                        <input class="selector-list-phone" id="phone" name="phone" placeholder="(999) 999-99-99">
+                        <input
+                            type="hidden"
+                            value="{{ !is_null(Session::get('utm_source')) ? Session::get('utm_source') : null }}"
+                            id="utm_source"
+                            name="utm_source"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ !is_null(Session::get('utm_medium')) ? Session::get('utm_medium') : null }}"
+                            id="utm_medium"
+                            name="utm_medium"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ !is_null(Session::get('utm_campaign')) ? Session::get('utm_campaign') : null }}"
+                            id="utm_campaign"
+                            name="utm_campaign"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ !is_null(Session::get('utm_term')) ? Session::get('utm_term') : null }}"
+                            id="utm_term"
+                            name="utm_term"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ !is_null(Session::get('utm_content')) ? Session::get('utm_content') : null }}"
+                            id="utm_content"
+                            name="utm_content"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ request()->url() }}"
+                            id="referer"
+                            name="referer"
+                        >
+                        <input
+                            type="hidden"
+                            value="{{ isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null }}"
+                            id="ip"
+                            name="ip"
+                        >
+                    </div>
                         <label class="contact__form-politic">
                             <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                             <div class="contact__form-custom-checkbox one_check"></div>
