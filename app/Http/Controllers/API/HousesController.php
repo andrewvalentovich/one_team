@@ -343,6 +343,6 @@ class HousesController extends Controller
             ->filter($filter)
             ->get();
 
-        return ProductsResource::collection($houses);
+        return ProductsResource::collection($houses)->setCity($filter_city);
     }
 }

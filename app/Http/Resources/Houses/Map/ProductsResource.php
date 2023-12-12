@@ -7,10 +7,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductsResource extends JsonResource
 {
-    protected $city;
+    protected $filter_city;
 
-    public function setCity($value){
-        $this->city = $value;
+    public function setCity($value = null){
+        $this->filter_city = $value;
         return $this;
     }
 
@@ -23,9 +23,9 @@ class ProductsResource extends JsonResource
     {
         $current_region = 0;
 
-        if (!is_null($this->city)) {
+        if (!is_null($this->filter_city)) {
             if (!is_null($this->city)) {
-                $current_region = $this->city->slug === $this->city ? 1 : 0;
+                $current_region = $this->city->slug === $this->filter_city ? 1 : 0;
             } else {
                 $current_region = 0;
             }
