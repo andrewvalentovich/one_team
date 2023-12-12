@@ -453,7 +453,7 @@
                                                     Удаленная сделка и онлайн просмотр
                                                 </p>
                                                 <button class="btn_blue" popup-name="main-form-popup">
-                                                    Получить каталог
+                                                    Записаться
                                                 </button>
                                             </div>
                                         </div>

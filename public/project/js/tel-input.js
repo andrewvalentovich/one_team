@@ -232,5 +232,9 @@ phoneInputs.forEach(input => {
         // Установка placeholder
         input.setAttribute('placeholder', phoneMasks[selectedCountryIso2].m);
     });
+    input.addEventListener("input", function() {
+        let inputValue = this.value.replace(/\D/g, '');
+        this.value = inputValue;
+    })
 });
 

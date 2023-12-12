@@ -200,10 +200,13 @@
         //     phone_valid = true;
         // }
 
-        if (phone.length <= 5 || fio.length > 255) {
+        let mask = phoneInput.attr('placeholder').replace(/\D/g, '');
+        if (phoneInput.val().length !== mask.length || fio.length > 255) {
+            console.log('test')
             $('.contact__form-phone').css('border', '2px solid red')
         } else {
             phone_valid = true;
+            $('.contact__form-phone').css('border', '');
         }
 
         let check_one = false;
@@ -344,17 +347,22 @@ inputWrappers.forEach(function(wrapper) {
 inputWrappers.forEach(function(wrapper) {
     const input = wrapper.querySelector('input');
     input.addEventListener('blur', function() {
-        if(input.value.length >= 5) {
-            // if(input.getAttribute('name') === 'phone') {
-            //     const lengthPhone = input.getAttribute('data-phone-pattern').length
-            //     if(lengthPhone !== input.value.length) {
-            //         wrapper.classList.remove('confirm');
-            //         return
-            //     }
-            // }
-            wrapper.classList.add('confirm');
+        if(input.getAttribute('name') === 'phone') {
+            let mask = input.getAttribute('placeholder').replace(/\D/g, '');
+            if(input.value.length === mask.length) {
+                wrapper.classList.add('confirm');
+            } else {
+                wrapper.style.border = '';
+                wrapper.classList.remove('confirm');
+                wrapper.classList.add('border');
+            }
         } else {
-            wrapper.classList.add('border');
+            if(input.value.length >= 1) {
+                wrapper.classList.add('confirm');
+            } else {
+                wrapper.classList.remove('confirm');
+                wrapper.classList.add('border');
+            }
         }
     });
 });

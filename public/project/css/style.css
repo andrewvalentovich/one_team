@@ -9368,6 +9368,7 @@ body.scroll_fixed {
 .remotely__text {
   display: flex;
   flex-direction: column;
+  flex: 0 0 183px;
   gap: 20px;
 }
 
