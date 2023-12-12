@@ -30,7 +30,7 @@ class ProductsResource extends JsonResource
                 $current_region = 0;
             }
         } else {
-            $current_region = 0;
+            $current_region = 1;
         }
 
         return [
