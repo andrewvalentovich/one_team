@@ -959,7 +959,7 @@
                             <span class="text">
                                 {{__('Номер телефона')}}
                             </span>
-                            <input class="selector-list-phone" id="phone" name="phone">
+                            <input class="selector-list-phone" id="phone" name="phone" placeholder="(999) 999-99-99">
                         </div>
                         <label class="contact__form-politic">
                             <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">

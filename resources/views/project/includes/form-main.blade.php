@@ -22,7 +22,7 @@
                             <span class="text">
                                 {{__('Номер телефона')}}
                             </span>
-                        <input class="selector-list-phone" id="phone" name="phone">
+                        <input class="selector-list-phone" id="phone" name="phone" placeholder="(999) 999-99-99">
                         <input
                             type="hidden"
                             value="{{ !is_null(Session::get('utm_source')) ? Session::get('utm_source') : null }}"
