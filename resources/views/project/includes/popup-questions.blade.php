@@ -11,7 +11,7 @@
                 <section class="questions">
                     <div class="questions__content">
                         <div class="questions__pic">
-                            <img src="http://localhost:8879/project/img/questions-index.png" alt="">
+                            <img src="http://localhost:8879/project/img/questions-index.webp" alt="">
                         </div>
                         <div class="questions__form-w">
                             <div class="questions__form">

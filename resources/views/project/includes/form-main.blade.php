@@ -2,7 +2,7 @@
     <section class="questions">
         <div class="questions__content">
             <div class="questions__pic">
-                <img src="{{asset('project/img/questions-index.jpg')}}" alt="">
+                <img src="{{asset('project/img/questions-index.webp')}}" alt="">
             </div>
             <div class="questions__form-w">
                 <form class="questions__form form-fio-phone" bis_skin_checked="1">

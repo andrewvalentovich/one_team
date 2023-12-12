@@ -105,7 +105,7 @@
                                                 <p class="catalog__subtitle">
                                                     Работаем без комиссии для покупателя по ценам напрямую от застройщика
                                                 </p>
-                                                <img class="catalog__pic" src="{{asset('project/img/catalog-index.png')}}" alt="">
+                                                <img class="catalog__pic" src="{{asset('project/img/catalog-index.webp')}}" alt="">
                                                 <div class="catalog__pdf">
                                                     <svg width="49" height="59" viewBox="0 0 49 59" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M11.8967 37.9589C11.8967 36.979 11.2168 36.3947 10.0172 36.3947C9.52737 36.3947 9.19562 36.4431 9.02209 36.4893L9.02209 39.633C9.22756 39.6793 9.48013 39.6947 9.82828 39.6947C11.1069 39.6947 11.8967 39.0487 11.8967 37.9589Z" fill="white"/>
@@ -172,7 +172,7 @@
                         <div class="catalog-w catalog-w_mini catalog-w_footer">
                             <section class="catalog">
                                 <div class="catalog__content">
-                                    <img class="catalog__footer-pic" src="{{asset('project/img/questions-index.jpg')}}" alt="">
+                                    <img class="catalog__footer-pic" src="{{asset('project/img/questions-index.webp')}}" alt="">
                                     <div class="catalog__text-w">
                                         <div class="catalog__text-bg">
 
@@ -1616,14 +1616,30 @@ function P(e) {
                 }
             });
             addHoverMouseSwiper(previousSwiperInstance)
+            cityItem.addEventListener('mouseleave', function() {
+                mapCountry.balloon.close()
+                const marks = document.querySelectorAll(`[mark-id]`);
+                const swiperWrapper = this.querySelector('.city__wrapper')
+                const idSwiper = swiperWrapper.getAttribute('id')
+                marks.forEach(element => {
+                    element.classList.remove('active')
+                });
+                previousSwiperInstance.slideTo(0, 400)
+            })
         });
 
         const middleCatalog = document.querySelector('.catalog-middle')
+        const footerCatalog = document.querySelector('.catalog-w_footer')
         const quantityObjectsAll = document.querySelectorAll('.city-col__item')
         if (quantityObjectsAll.length >= 6) {
             middleCatalog.style.display = 'block'
         } else {
             middleCatalog.style.display = 'none'
+        }
+        if (quantityObjectsAll.length === 0) {
+            footerCatalog.style.display = 'none'
+        } else {
+            footerCatalog.style.display = 'block'
         }
 
         if(data.length !== 0) {
