@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductLocale;
 use App\Services\CurrencyService;
+use App\Services\GeocodingService;
 use App\Services\ImageService;
 use App\Services\PhotoCategoryService;
 use App\Services\PreviewImageService;
@@ -30,6 +31,7 @@ class ObjectSimpleService
     private $categoriesService;
     private $currencyService;
     private $slugService;
+    private $geocodingService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
@@ -37,7 +39,8 @@ class ObjectSimpleService
         ImageService $imageService,
         CategoriesService $categoriesService,
         CurrencyService $currencyService,
-        SlugService $slugService
+        SlugService $slugService,
+        GeocodingService $geocodingService
     )
     {
         $this->previewImageService = $previewImageService;
@@ -46,6 +49,7 @@ class ObjectSimpleService
         $this->categoriesService = $categoriesService;
         $this->currencyService = $currencyService;
         $this->slugService = $slugService;
+        $this->geocodingService = $geocodingService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
         $this->ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -68,8 +72,11 @@ class ObjectSimpleService
         if($guzzleResponse->getStatusCode() == 200) {
             $response = json_decode($guzzleResponse->getBody(),true);
             // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
+                dump((int)$complex_id);
             foreach ($response as $index => $complex) {
-                if ($complex['id'] == $complex_id) {
+                if ($complex['id'] == (int)$complex_id) {
+                dump($complex['complex']['id']);
+                dump($complex['complex']['id'] == (int)$complex_id);
                     if ($update) {
                         $this->update($complex);
                     } else {
@@ -216,6 +223,9 @@ class ObjectSimpleService
         $address .= !is_null($data['street_name']) ? ", " . $data['street_name'] : "";
         $address .= !is_null($data['house_number']) ? ", " . $data['house_number'] : "";
 
+        // Координаты
+        $coordinates = $this->geocodingService->getCoordinates($data);
+
         // Гражданство и ВНЖ
         $citizenship = "";
         $residence_permit = "";
@@ -257,8 +267,8 @@ class ObjectSimpleService
             'price'             => $price,
             'price_code'        => $price_currency,
             'description'       => $data['description'] ?? null,
-            'lat'               => $data['lat'] ?? null,
-            'long'              => $data['lon'] ?? null,
+            'lat'               => $coordinates['lat'] ?? null,
+            'long'              => $coordinates['long'] ?? null,
             'citizenship'       => $citizenship ?? null,
             'grajandstvo'       => $citizenship ?? null,
             'status'            => null,

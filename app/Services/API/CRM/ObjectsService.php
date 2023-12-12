@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductLocale;
 use App\Services\CurrencyService;
+use App\Services\GeocodingService;
 use App\Services\ImageService;
 use App\Services\PhotoCategoryService;
 use App\Services\PreviewImageService;
@@ -29,6 +30,7 @@ class ObjectsService
     private $categoriesService;
     private $currencyService;
     private $slugService;
+    private $geocodingService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
@@ -36,7 +38,8 @@ class ObjectsService
         ImageService $imageService,
         CategoriesService $categoriesService,
         CurrencyService $currencyService,
-        SlugService $slugService
+        SlugService $slugService,
+        GeocodingService $geocodingService
     )
     {
         $this->previewImageService = $previewImageService;
@@ -45,6 +48,7 @@ class ObjectsService
         $this->categoriesService = $categoriesService;
         $this->currencyService = $currencyService;
         $this->slugService = $slugService;
+        $this->geocodingService = $geocodingService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
         $this->ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -54,7 +58,7 @@ class ObjectsService
 
     public function handle($endpoint, $token)
     {
-        try {
+//        try {
             $client = new \GuzzleHttp\Client(['headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/json',
@@ -76,18 +80,18 @@ class ObjectsService
                     }
                 }
             }
-        }
-        catch(\GuzzleHttp\Exception\RequestException $e) {
-            // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        } catch(Exception $e) {
-            // other errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        }
+//        }
+//        catch(\GuzzleHttp\Exception\RequestException $e) {
+//            // you can catch here 40X response errors and 500 response errors
+//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+//            Log::info(Carbon::now() . $e->getMessage());
+//            dump(Carbon::now() . $e->getMessage());
+//        } catch(Exception $e) {
+//            // other errors
+//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+//            Log::info(Carbon::now() . $e->getMessage());
+//            dump(Carbon::now() . $e->getMessage());
+//        }
     }
 
     public function updateOrDelete($data)
@@ -96,10 +100,10 @@ class ObjectsService
 
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
-            // Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-            if (strtotime('now') - strtotime($updated_at) <= 86400) {
+//             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
+//            if (strtotime('now') - strtotime($updated_at) <= 86400) {
                 $this->update($data);
-            }
+//            }
         } else {
             $complex = Product::where('id_in_crm', $data['id'])->firts();
             dump('Delete product - id: ' . $complex->id);
@@ -145,7 +149,9 @@ class ObjectsService
                     'preview' => $this->previewImageService->update($filename),
                     'category_id' => $this->photoCategories[$key]
                 ]);
+                break;
             }
+            break;
         }
 
         return $complex;
@@ -187,7 +193,9 @@ class ObjectsService
                         'preview' => $this->previewImageService->update($filename),
                         'category_id' => $this->photoCategories[$key]
                     ]);
+                    break;
                 }
+                break;
             }
 
             return $complex;
@@ -222,6 +230,9 @@ class ObjectsService
         $address .= !is_null($data['street_name']) ? ", " . $data['street_name'] : "";
         $address .= !is_null($data['house_number']) ? ", " . $data['house_number'] : "";
 
+        // Координаты
+        $coordinates = $this->geocodingService->getCoordinates($data);
+
         // Гражданство и ВНЖ
         $citizenship = "";
         $residence_permit = "";
@@ -252,6 +263,14 @@ class ObjectsService
             $base_price = $this->currencyService->convertPriceToEur($price, $price_currency);
         }
 
+        // complex_or_not
+        $complex_or_not = 'Нет';
+        if (isset($data['complex_name'])) {
+            $complex_or_not = is_null($data['complex_name']) ? 'Нет' : 'Да';
+        } else {
+            $complex_or_not = $data['seller_type'] == 'builder' ? 'Да' : 'Нет';
+        }
+
         return [
             'country_id'        => $country_id ?? null,
             'city_id'           => $city_id ?? null,
@@ -263,8 +282,8 @@ class ObjectsService
             'price'             => $price,
             'price_code'        => $price_currency,
             'description'       => $data['description'] ?? null,
-            'lat'               => $data['lat'] ?? null,
-            'long'              => $data['lon'] ?? null,
+            'lat'               => $coordinates['lat'] ?? null,
+            'long'              => $coordinates['long'] ?? null,
             'citizenship'       => $citizenship ?? null,
             'grajandstvo'       => $citizenship ?? null,
             'status'            => null,
@@ -272,11 +291,10 @@ class ObjectsService
             'parking'           => $parking,
             'vnj'               => $residence_permit,
             'sale_or_rent'      => $deal_type,
-            'complex_or_not'    => isset($data['complex_name']) ? "Нет" : "Да",
+            'complex_or_not'    => $complex_or_not,
             'video'             => null,
             'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
-            'id_in_crm'         => $data['id'],
-            'layout_id_in_crm'  => $data['layout']['id']
+            'id_in_crm'         => $data['id']
         ];
     }
 
@@ -326,15 +344,19 @@ class ObjectsService
         }
 
         // Спальни
-        $bedrooms = "Спальни";
-        if (isset($data["number_bedrooms"])) {
-            $category_ids[$this->categoriesService->getRooms($bedrooms, $data["number_bedrooms"])] = $bedrooms;
+        $bedrooms = 'Спальни';
+        if (isset($data['number_bedrooms'])) {
+            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
+                $category_ids[$this->categoriesService->getRooms($bedrooms, $data["number_bedrooms"])] = $bedrooms;
+            }
         }
 
-        // Спальни
+        // Ванные
         $bathrooms = "Ванные";
-        if (isset($data["number_bathrooms"])) {
-            $category_ids[$this->categoriesService->getRooms($bathrooms, $data["number_bathrooms"])] = $bathrooms;
+        if (isset($data['number_bathrooms'])) {
+            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
+                $category_ids[$this->categoriesService->getRooms($bathrooms, $data["number_bathrooms"])] = $bathrooms;
+            }
         }
 
         return $category_ids;

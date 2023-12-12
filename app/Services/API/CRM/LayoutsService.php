@@ -58,7 +58,7 @@ class LayoutsService
 
     public function handle($endpoint, $token)
     {
-        try {
+//        try {
             $client = new \GuzzleHttp\Client(['headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/json',
@@ -90,18 +90,18 @@ class LayoutsService
                     }
                 }
             }
-        }
-        catch(\GuzzleHttp\Exception\RequestException $e) {
-            // you can catch here 40X response errors and 500 response errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        } catch(Exception $e) {
-            // other errors
-            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-            Log::info(Carbon::now() . $e->getMessage());
-            dump(Carbon::now() . $e->getMessage());
-        }
+//        }
+//        catch(\GuzzleHttp\Exception\RequestException $e) {
+//            // you can catch here 40X response errors and 500 response errors
+//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+//            Log::info(Carbon::now() . $e->getMessage());
+//            dump(Carbon::now() . $e->getMessage());
+//        } catch(Exception $e) {
+//            // other errors
+//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+//            Log::info(Carbon::now() . $e->getMessage());
+//            dump(Carbon::now() . $e->getMessage());
+//        }
     }
 
     private function updateOrDelete($data)
@@ -161,9 +161,11 @@ class LayoutsService
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
-        foreach ($layout->photo as $photo)
-        {
-            $photo->delete();
+        if (!is_null($layout->photo)) {
+            foreach ($layout->photo as $photo)
+            {
+                $photo->delete();
+            }
         }
 
 //        Нужно добавить проверку по lastModified
@@ -215,7 +217,8 @@ class LayoutsService
             'number_bathrooms'  => $data['number_bathrooms'] ?? null,
             'number_balconies'  => $data['number_balconies'] ?? null,
             'complex_id'        => $complex->id ?? null,
-            'id_in_crm'         => $data['id']
+            'id_in_crm'         => $data['id'],
+            'layout_id_in_crm'  => $data['layout']['id']
         ];
     }
 }

@@ -71,11 +71,10 @@ class LayoutsForComplexService
 
         if($guzzleResponse->getStatusCode() == 200) {
             $response = json_decode($guzzleResponse->getBody(),true);
-
             // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
             foreach ($response as $index => $object) {
                 if (!is_null($object['complex'])) {
-                    if ($object['complex']['id'] == $complex_id) {
+                    if ($object['complex']['id'] == (int)$complex_id) {
                         if ($update) {
                             $this->update($object);
                         } else {
