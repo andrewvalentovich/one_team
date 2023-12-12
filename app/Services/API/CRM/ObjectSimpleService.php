@@ -128,19 +128,19 @@ class ObjectSimpleService
         $this->addCategories($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
-//        foreach ($complexPhotos as $key => $category) {
-//            foreach ($category as $index => $photo) {
-//                $filename = $this->imageService->saveFromRemote($photo);
-//
-//                PhotoTable::create([
-//                    'parent_model'=> '\App\Models\Product',
-//                    'parent_id' => $complex->id,
-//                    'photo' => $filename,
-//                    'preview' => $this->previewImageService->update($filename),
-//                    'category_id' => $this->photoCategories[$key]
-//                ]);
-//            }
-//        }
+        foreach ($complexPhotos as $key => $category) {
+            foreach ($category as $index => $photo) {
+                $filename = $this->imageService->saveFromRemote($photo);
+
+                PhotoTable::create([
+                    'parent_model'=> '\App\Models\Product',
+                    'parent_id' => $complex->id,
+                    'photo' => $filename,
+                    'preview' => $this->previewImageService->update($filename),
+                    'category_id' => $this->photoCategories[$key]
+                ]);
+            }
+        }
 
         return $complex;
     }
