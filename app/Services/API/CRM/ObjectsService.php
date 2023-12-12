@@ -149,9 +149,7 @@ class ObjectsService
                     'preview' => $this->previewImageService->update($filename),
                     'category_id' => $this->photoCategories[$key]
                 ]);
-                break;
             }
-            break;
         }
 
         return $complex;
@@ -193,9 +191,7 @@ class ObjectsService
                         'preview' => $this->previewImageService->update($filename),
                         'category_id' => $this->photoCategories[$key]
                     ]);
-                    break;
                 }
-                break;
             }
 
             return $complex;
