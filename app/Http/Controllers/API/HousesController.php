@@ -337,7 +337,7 @@ class HousesController extends Controller
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
 
         $houses = Product::realty($data['price'] ?? null)
-            ->addSelect(DB::raw('(select preview from photo_tables where parent_id = products.id order by photo_tables.id desc limit 1) as photo'))
+            ->addSelect(DB::raw('(select preview from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
             ->with('city')
             ->with('peculiarities')
             ->filter($filter)
