@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use function Symfony\Component\String\Slugger\slug;
 
 class ObjectSimpleService
 {
@@ -127,19 +128,19 @@ class ObjectSimpleService
         $this->addCategories($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
-        foreach ($complexPhotos as $key => $category) {
-            foreach ($category as $index => $photo) {
-                $filename = $this->imageService->saveFromRemote($photo);
-
-                PhotoTable::create([
-                    'parent_model'=> '\App\Models\Product',
-                    'parent_id' => $complex->id,
-                    'photo' => $filename,
-                    'preview' => $this->previewImageService->update($filename),
-                    'category_id' => $this->photoCategories[$key]
-                ]);
-            }
-        }
+//        foreach ($complexPhotos as $key => $category) {
+//            foreach ($category as $index => $photo) {
+//                $filename = $this->imageService->saveFromRemote($photo);
+//
+//                PhotoTable::create([
+//                    'parent_model'=> '\App\Models\Product',
+//                    'parent_id' => $complex->id,
+//                    'photo' => $filename,
+//                    'preview' => $this->previewImageService->update($filename),
+//                    'category_id' => $this->photoCategories[$key]
+//                ]);
+//            }
+//        }
 
         return $complex;
     }
@@ -297,15 +298,15 @@ class ObjectSimpleService
 
         // id => type
         $getPeculiarities = $this->categoriesService->getPeculiarities();
-        foreach ($peculiarities as $i => $name) {
-            if (key_exists($name, $getPeculiarities)) {
-                $category_ids[$getPeculiarities[$name]] = $name;
+        foreach ($peculiarities as $i => $slug_underscore) {
+            if (isset($getPeculiarities[$slug_underscore])) {
+                $category_ids[$getPeculiarities[$slug_underscore]] = 'Особенности';
             }
         }
 
         // Тип недвижимости
         $type = $this->categoriesService->getTypes();
-        $category_ids[$type['apartment']] = "Типы";
+        $category_ids[$type['apartment']] = 'Типы';
 
         // Вид
         $tmpViews = isset($data['view']) ? $data['view'] : null;

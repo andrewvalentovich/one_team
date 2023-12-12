@@ -27,7 +27,7 @@ class CategoriesService
 
         $tmpArray = [];
         foreach ($types as $type) {
-            $tmpArray[strtolower($type->slug)] = $type->id;
+            $tmpArray[str_replace('-', '_', $type->slug)] = $type->id;
         }
 
         return $tmpArray;
