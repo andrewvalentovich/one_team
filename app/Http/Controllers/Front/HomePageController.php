@@ -65,7 +65,9 @@ class HomePageController extends Controller
         // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
         for ($i = 0; $i < count($products); $i++) {
             if (isset($products[$i]->layouts) && count($products[$i]->layouts) > 0) {
+                $products[$i]->base_price = $products[$i]->layouts[0]->base_price;
                 $products[$i]->price = $products[$i]->layouts[0]->price;
+                $products[$i]->price_code = $products[$i]->layouts[0]->price_code;
             }
         }
 
@@ -74,8 +76,8 @@ class HomePageController extends Controller
             // Тэги
             $object->getTags(app()->getLocale());
 
-            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
-            $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
+            $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
+            $object->price = $this->currencyService->getPriceFromDB((int)$object->base_price);
             if(isset($object->country)) {
                 $object->price_credit = $this->currencyService->getCreditPrice((int)$object->base_price, $object->country->inverse_credit_ratio);
             }

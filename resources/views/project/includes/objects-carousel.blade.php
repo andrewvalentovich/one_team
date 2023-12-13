@@ -17,10 +17,11 @@
                             </div>
                             <div class="objects__slide-text">
                                 <div class="objects__slide-price" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>
+                                    @dump($product->price)
                                     @if (isset($product->layouts))
                                         @if (isset($product->price["EUR"]))
                                             @php
-                                                $euroPrice = str_replace(' €', '', $product->price["EUR"]);
+                                                $euroPrice = str_replace(' €', '', $product->price['EUR']);
                                             @endphp
                                             @if (count($product->layouts) > 1)
                                                 {{ "€ " . $euroPrice . " +" }}
@@ -28,7 +29,7 @@
                                                 {{ "€ " . $euroPrice }}
                                             @endif
                                         @else
-                                            {{ "€ " . str_replace(' €', '', $product->price["EUR"]) }}
+                                            {{ "€ " . str_replace(' €', '', $product->price['EUR']) }}
                                         @endif
                                     @endif
                                 </div>
