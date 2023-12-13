@@ -167,7 +167,7 @@
                                         })
                                     }
                             }
-                            
+
                         </script>
                         <div class="catalog-w catalog-w_mini catalog-w_footer">
                             <section class="catalog">
@@ -1870,7 +1870,7 @@ function P(e) {
         // цена площади
         let divSquare = document.querySelector('.place__square')
         divSquare.innerHTML = ''
-        if (currentHouse.size) {
+        if (currentHouse.size && currentHouse.size != 0) {
             Object.entries(currentHouse.size).forEach(function ([currencyCode, currencyPrice]) {
                 let div = document.createElement('div')
                 div.classList.add('place__square-item')

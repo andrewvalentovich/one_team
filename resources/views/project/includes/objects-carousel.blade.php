@@ -313,17 +313,19 @@
                                         {{$product->address}}
                                         {{--                                                            Balbey, 431. Sk. No:4, 07040 Muratpaşa--}}
                                     </div>
-                                    <div
-                                        @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif
-                                    class="place__square place__square_country lira"
-                                        data-price-eur="{{ $product->price_size["EUR"] }}"
-                                        data-price-usd="{{ $product->price_size["USD"] }}"
-                                        data-price-gbp="{{ $product->price_size["GBP"] }}"
-                                        data-price-try="{{ $product->price_size["TRY"] }}"
-                                        data-price-rub="{{ $product->price_size["RUB"] }}"
-                                    >
-                                        {{ $product->price_size["EUR"] }}
-                                    </div>
+                                    @if($product->price_size['EUR'] != 0)
+                                        <div
+                                            @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif
+                                        class="place__square place__square_country lira"
+                                            data-price-eur="{{ $product->price_size["EUR"] }}"
+                                            data-price-usd="{{ $product->price_size["USD"] }}"
+                                            data-price-gbp="{{ $product->price_size["GBP"] }}"
+                                            data-price-try="{{ $product->price_size["TRY"] }}"
+                                            data-price-rub="{{ $product->price_size["RUB"] }}"
+                                        >
+                                            {{ $product->price_size["EUR"] }}
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="place__buy">
                                     <div class="place__buy-btn" data_id="{{$product->id}}">
