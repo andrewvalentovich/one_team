@@ -1870,7 +1870,8 @@ function P(e) {
         // цена площади
         let divSquare = document.querySelector('.place__square')
         divSquare.innerHTML = ''
-        if (currentHouse.size && currentHouse.size['EUR'] != 0) {
+        console.log('currentHouse.size', currentHouse.size['EUR'])
+        if (currentHouse.size && currentHouse.size['EUR'].replace(/\D/g, '') != '0') {
             Object.entries(currentHouse.size).forEach(function ([currencyCode, currencyPrice]) {
                 let div = document.createElement('div')
                 div.classList.add('place__square-item')
