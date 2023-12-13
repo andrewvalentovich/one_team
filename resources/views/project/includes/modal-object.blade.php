@@ -1512,5 +1512,12 @@ if(document.querySelectorAll('.place__slider_p').length) {
     })
 }
 
+if (document.querySelectorAll('.place-popup-collage__exit').length) {
+    const placeCollageExitBtn = document.querySelector('.place-popup-collage__exit')
+    placeCollageExitBtn.addEventListener('click', function () {
+        const placeCollage = this.closest('.place-popup-collage')
+        placeCollage.classList.remove('active')
+    })
+}
 </script>
 

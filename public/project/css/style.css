@@ -2935,6 +2935,9 @@ body.scroll_fixed {
   transition: 0.2s;
   font-family: Source Sans Pro;
 }
+.place__currency-item span {
+  font-size: 17px;
+}
 
 .place__currency-item:hover {
   color: #508cfa;

@@ -495,15 +495,7 @@
                 });
             }
 
-            if (document.querySelectorAll('.place-popup-collage__exit').length) {
-                const placeCollageExitBtn = document.querySelectorAll('.place-popup-collage__exit')
-                placeCollageExitBtn.forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const placeCollage = this.closest('.place-popup-collage')
-                        placeCollage.classList.remove('active')
-                    })
-                });
-            }
+
             var C, E;
 
 // динамический массив для заполнения точек на карте map_city
