@@ -78,15 +78,16 @@ class LayoutsService
                     if (in_array($object['id'], $this->ids_in_crm_all)) {
                         if (is_null($object['complex_id'])) {
                             $this->objectsService->updateOrDelete($object);
-                        } else {
-                            $this->updateOrDelete($object);
-                        }
+			}    
+			#} else {
+                        #    $this->updateOrDelete($object);
+                        #}
                     } else {
-                        if (is_null($object['complex_id'])) {
-                            $this->objectsService->create($object);
-                        } else {
-                            $this->create($object);
-                        }
+                        #if (is_null($object['complex_id'])) {
+                        #    $this->objectsService->create($object);
+                        #} else {
+                        #    $this->create($object);
+                        #}
                     }
                 }
             }
