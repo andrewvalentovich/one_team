@@ -101,43 +101,37 @@ class ObjectsService
         if (is_null($complex->city_id)) {
             if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
                 if (!is_null(Product::where('id_in_crm', $data['id'])->first())) {
-                    $complex->city_id = CountryAndCity::where('name', 'Махмутлар')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Махмутлар')->first()->id]);
                 }
             }
             elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
                 $complex = Product::where('id_in_crm', $data['id'])->first();
                 if (CountryAndCity::where('name', 'Серик')->first()) {
-                    $complex->city_id = CountryAndCity::where('name', 'Серик')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Серик')->first()->id]);
                 }
             }
             elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
                 $complex = Product::where('id_in_crm', $data['id'])->first();
                 if (CountryAndCity::where('name', 'Кемер')->first()) {
-                    $complex->city_id = CountryAndCity::where('name', 'Кемер')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Кемер')->first()->id]);
                 }
             }
             elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
                 $complex = Product::where('id_in_crm', $data['id'])->first();
                 if (CountryAndCity::where('name', 'Финике')->first()) {
-                    $complex->city_id = CountryAndCity::where('name', 'Финике')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Финике')->first()->id]);
                 }
             }
             elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
                 $complex = Product::where('id_in_crm', $data['id'])->first();
                 if (CountryAndCity::where('name', 'Алания')->first()) {
-                    $complex->city_id = CountryAndCity::where('name', 'Алания')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Алания')->first()->id]);
                 }
             }
             elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
                 $complex = Product::where('id_in_crm', $data['id'])->first();
                 if (CountryAndCity::where('name', 'Анталия')->first()) {
-                    $complex->city_id = CountryAndCity::where('name', 'Анталия')->first()->id;
-                    $complex->save();
+                    $complex->update(['city_id' => CountryAndCity::where('name', 'Анталия')->first()->id]);
                 }
             }
         }
