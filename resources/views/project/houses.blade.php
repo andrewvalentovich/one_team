@@ -793,18 +793,19 @@ function P(e) {
             } else {
                 cityListSecond.appendChild(cityItem);
             }
-            cityItem.addEventListener('mouseover', function() {
+            cityItem.addEventListener('mouseenter', function() {
+                console.log('test')
                 const id = cityItem.getAttribute('data_id')
                 let currentBallon
                 ballons.forEach(element => {
                     if(element.house_id == id) currentBallon = element
-                    const marks = document.querySelectorAll(`[mark-id]`);
-                    marks.forEach(element => {
-                        element.classList.remove('active')
-                    });
-                    const mark = document.querySelector(`[mark-id="${id}"]`);
-                    mark.classList.add('active')
                 });
+                // marks.forEach(element => {
+                //     element.classList.remove('active')
+                // });
+                const marks = document.querySelectorAll(`[mark-id]`);
+                const mark = document.querySelector(`[mark-id="${id}"]`);
+                mark.classList.add('active')
                 if(window.innerWidth >= 1004) {
                     currentBallon.balloon.open();
                 }
@@ -1681,18 +1682,18 @@ function P(e) {
 
             const phpObjects = document.querySelectorAll('[php]')
             phpObjects.forEach(el => {
-                el.addEventListener('mouseover', function() {
+                el.addEventListener('mouseenter', function() {
                     const id = el.getAttribute('data_id')
                     let currentBallon
                     ballons.forEach(element => {
                         if(element.house_id == id) currentBallon = element
-                        const marks = document.querySelectorAll(`[mark-id]`);
-                        marks.forEach(element => {
-                            element.classList.remove('active')
-                        });
-                        const mark = document.querySelector(`[mark-id="${id}"]`);
-                        mark.classList.add('active')
                     });
+                    const marks = document.querySelectorAll(`[mark-id]`);
+                    const mark = document.querySelector(`[mark-id="${id}"]`);
+                    // marks.forEach(element => {
+                    //     element.classList.remove('active')
+                    // });
+                    mark.classList.add('active')
                     if(window.innerWidth >= 1004) {
                         currentBallon.balloon.open();
                     }
