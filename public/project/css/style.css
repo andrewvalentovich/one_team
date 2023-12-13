@@ -4978,7 +4978,7 @@ body.scroll_fixed {
     display: block;
     flex: 1;
     width: 100%;
-    position: absolute;
+    position: fixed;
     /* opacity: 0; */
     pointer-events: none;
   }
