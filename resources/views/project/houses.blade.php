@@ -568,6 +568,7 @@ function P(e) {
                 if (!houseCard) return
                 const id = houseCard.getAttribute('data_id')
                 let object = {...objectsListMap.get(parseInt(id))}
+                object.id = id
                 cache.getObject(object)
             })
         });
