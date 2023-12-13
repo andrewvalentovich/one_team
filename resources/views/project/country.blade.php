@@ -878,21 +878,12 @@
     </script>
 
     @include('project.includes.objects-carousel', ['title' => $citizenship_for_invesment, 'products' => $citizenship_product, 'get_footer_link' => $get_footer_link])
+    @include('project.includes.modal-object')
 
 @endsection
-
-
-
 @section('footer')
-
     @include('project.includes.footer')
-
 @endsection
-
-
-
-
-
 @section('scripts')
     <script>
         // Валюта
@@ -1228,11 +1219,8 @@
 
                 document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
 
-            }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function() {
-
-                document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
-
-            }), new Swiper(".place__swiper", {
+            }),
+             new Swiper(".place__swiper", {
 
                 slidesPerView: 2,
 

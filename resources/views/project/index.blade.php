@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
      <!-- <section class="index-map">
         <div class="index-map__content">
             <div class="index-map__content-buttons">
@@ -17,8 +16,7 @@
             </div>
         </div>
     </section>  -->
-
-    <div class="container">
+    <div class="container with-filter">
         <section class="preview">
             <img class="preview__bg" src="{{asset('project/img/preview-index.webp')}}" alt="">
             <div class="preview__content">
@@ -567,9 +565,8 @@
                 </а>
         </div>
     </div> -->
-
+@include('project.includes.modal-object')
 @endsection
-
 
 @section('footer')
     @include('project.includes.footer')

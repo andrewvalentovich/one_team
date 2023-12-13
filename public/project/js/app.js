@@ -179,29 +179,8 @@ async function renderMap() {
         e.target.classList.contains("favorite-item-btn") || (document.body.classList.add("scroll_fixed"), document.querySelector(".header-w").classList.add("fixed"), b.classList.add("active"))
 
     }));
-    const exitBtn = document.querySelectorAll(".place__header-exit")
-    exitBtn.forEach(btn => {
-        btn.addEventListener('click', function() {
-            var urlParams = getValuesFromUrl();
-            var object = checkPosition(urlParams, 'object-');
-            if (object) {
-                urlParams = deleteUrlParameter(object, urlParams);
-            }
-            // updateUrl(window.filter_params_data, urlParams);
 
-            history.back();
-        })
-    });
-    document.querySelectorAll(".place__exit").length && (document.querySelector(".place__exit").onclick = function () {
-        document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"),                 $('.header-w').removeClass('fixed');
-
-
-    }), document.querySelectorAll(".place__header-exit").length && (document.querySelector(".place__header-exit").onclick = function () {
-
-
-        document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
-
-    }), new Swiper(".place__swiper", {
+ new Swiper(".place__swiper", {
 
         slidesPerView: 2,
 
@@ -694,19 +673,7 @@ headerMobileBtn.forEach(btn => {
     })
 });
 
-//закрытие модалки схемы объекта
-if(document.querySelectorAll('.object__photo-popup-close').length) {
-    const objectChemePopup = document.querySelector('.object__photo')
-    document.querySelector('.object__photo-popup-close').addEventListener('click', () => {
-        objectChemePopup.classList.remove("active");
-    })
 
-    objectChemePopup.addEventListener('click', function(e) {
-        const target = e.target
-        if(target.classList.contains('object__photo'))
-        objectChemePopup.classList.remove('active')
-    })
-}
 if(document.querySelectorAll('.search-nav__more').length) {
     const navMore = document.querySelector('.search-nav__more')
     const searchW = document.querySelector('.search-w')
@@ -767,38 +734,6 @@ if(document.querySelectorAll('.close-dropdown').length) {
     });
 }
 
-
-//сортировка схем объектов
-if(document.querySelectorAll('.kompleks__layout-content').length) {
-    const kompleksLayoutContent = document.querySelectorAll('.kompleks__layout-content')
-    kompleksLayoutContent.forEach(container => {
-        container.addEventListener('click', function(e) {
-            const target = e.target
-            if(target.classList.contains('kompleks__sort-item') || target.closest('.kompleks__sort-item')) {
-                const sortItem = target.closest('.kompleks__sort-item')
-                const sortItems = container.querySelectorAll('.kompleks__sort-item')
-                const kompleksLayoutItem = container.querySelectorAll('.kompleks__layout-item')
-                kompleksLayoutItem.forEach(chemeItem => {
-                    chemeItem.style.display = 'flex'
-                });
-                if(sortItem.classList.contains('active')) {
-                    sortItem.classList.remove('active')
-                } else {
-                    changerActive(sortItems)
-                    sortItem.classList.add('active')
-                    kompleksLayoutItem.forEach(chemeItem => {
-                        const dataCheme = chemeItem.getAttribute('data-cheme')
-                        if(dataCheme === sortItem.getAttribute('data-cheme')) {
-                            chemeItem.style.display = 'flex'
-                        } else {
-                            chemeItem.style.display = 'none'
-                        }
-                    });
-                }
-            }
-        })
-    });
-}
 
 if(document.querySelectorAll('.kompleks__layout-content').length) {
     const kompleksSort = document.querySelectorAll('.kompleks__layout-sort')
