@@ -1745,7 +1745,11 @@ function P(e) {
                 if (e.get('newZoom') !== e.get('oldZoom')) {
                 }
             })
+            const citychanger = document.querySelector('.map_city__btn-changer')
             mapCountry.events.add('balloonopen', function(e){
+                if(window.innerWidth < 540) {
+                    citychanger.style.display = 'none'
+                }
                 var balloonContentElement = document.querySelector('.balloon-city');
                 balloonContentElement.addEventListener('click', function(e) {
                     const id = balloonContentElement.getAttribute('id')
@@ -1760,7 +1764,9 @@ function P(e) {
                 });
             })
             mapCountry.events.add('balloonclose', function(e){
-
+                if(window.innerWidth < 540) {
+                    citychanger.style.display = 'flex'
+                }
             })
         }
         let moveWas = 0

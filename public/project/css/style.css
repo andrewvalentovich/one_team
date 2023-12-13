@@ -1513,8 +1513,13 @@ body {
   opacity: 1;
   width: 18px;
   height: 18px;
-  transform: translate(-20px, 20px);
+  /* transform: translate(-20px, 20px); */
   cursor: pointer;
+}
+@media (max-width: 539px) {
+  #map_city .ymaps-2-1-79-balloon__close-button {
+    margin: 3px 3px 0 0;
+  }
 }
 
 .header-w.fixed {
@@ -6332,14 +6337,19 @@ body.scroll_fixed {
   }
 
   .balloon-city__img img {
-    display: none;
+    /* display: none; */
   }
 
   #map_city .ymaps-2-1-79-balloon__content {
     max-height: 95px;
   }
 }
-
+@media (max-width: 539px) {
+  .balloon-city {
+    align-items: center;
+    gap: 5px;
+  }
+}
 @media (max-width: 480px) {
   .place__order-img {
     margin-top: -31px;
