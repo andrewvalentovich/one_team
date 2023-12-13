@@ -97,18 +97,64 @@ class ObjectsService
     public function updateOrDelete($data)
     {
         $updated_at = $data['updated_at'];
-
-        // Если не удалён объект
-        if ($data['deleted_at'] === null) {
-//             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-//            if (strtotime('now') - strtotime($updated_at) <= 86400) {
-                $this->update($data);
-//            }
-        } else {
-            $complex = Product::where('id_in_crm', $data['id'])->firts();
-            dump('Delete product - id: ' . $complex->id);
-            $complex->delete();
+        dump($data['id']);
+        dump($data['tr_geo_ilce_name']);
+        dump($data['tr_geo_semt_name']);
+        $complex = Product::where('id_in_crm', $data['id'])->first();
+        if (is_null($complex->city_id)) {
+            if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
+                if (!is_null(Product::where('id_in_crm', $data['id'])->first())) {
+                    $complex->city_id = CountryAndCity::where('name', 'Махмутлар')->first()->id;
+                    $complex->save();
+                }
+            }
+            elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
+                $complex = Product::where('id_in_crm', $data['id'])->first();
+                if (CountryAndCity::where('name', 'Серик')->first()) {
+                    $complex->city_id = CountryAndCity::where('name', 'Серик')->first()->id;
+                    $complex->save();
+                }
+            }
+            elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
+                $complex = Product::where('id_in_crm', $data['id'])->first();
+                if (CountryAndCity::where('name', 'Кемер')->first()) {
+                    $complex->city_id = CountryAndCity::where('name', 'Кемер')->first()->id;
+                    $complex->save();
+                }
+            }
+            elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
+                $complex = Product::where('id_in_crm', $data['id'])->first();
+                if (CountryAndCity::where('name', 'Финике')->first()) {
+                    $complex->city_id = CountryAndCity::where('name', 'Финике')->first()->id;
+                    $complex->save();
+                }
+            }
+            elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
+                $complex = Product::where('id_in_crm', $data['id'])->first();
+                if (CountryAndCity::where('name', 'Алания')->first()) {
+                    $complex->city_id = CountryAndCity::where('name', 'Алания')->first()->id;
+                    $complex->save();
+                }
+            }
+            elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
+                $complex = Product::where('id_in_crm', $data['id'])->first();
+                if (CountryAndCity::where('name', 'Анталия')->first()) {
+                    $complex->city_id = CountryAndCity::where('name', 'Анталия')->first()->id;
+                    $complex->save();
+                }
+            }
         }
+//        // Если не удалён объект
+//        if ($data['deleted_at'] === null) {
+////             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
+////            if (strtotime('now') - strtotime($updated_at) <= 86400) {
+//                $this->update($data);
+////            }
+//        } else {
+//            $complex = Product::where('id_in_crm', $data['id'])->firts();
+//            dump('Delete product - id: ' . $complex->id);
+//            $complex->delete();
+//        }
     }
 
     private function update($data)
