@@ -76,7 +76,7 @@ class ObjectsService
                     if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
                         $this->updateOrDelete($complex);
                     } else {
-                        $this->create($complex);
+//                        $this->create($complex);
                     }
                 }
             }
@@ -97,9 +97,6 @@ class ObjectsService
     public function updateOrDelete($data)
     {
         $updated_at = $data['updated_at'];
-        dump($data['id']);
-        dump($data['tr_geo_ilce_name']);
-        dump($data['tr_geo_semt_name']);
         $complex = Product::where('id_in_crm', $data['id'])->first();
         if (is_null($complex->city_id)) {
             if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
