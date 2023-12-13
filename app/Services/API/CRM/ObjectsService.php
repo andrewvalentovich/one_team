@@ -97,8 +97,8 @@ class ObjectsService
     public function updateOrDelete($data)
     {
         $updated_at = $data['updated_at'];
-        $complex = Product::where('id_in_crm', $data['id'])->first();
-        if ($data['id'] != 3) {
+        if ($data['id'] > 3) {
+            $complex = Product::where('id_in_crm', $data['id'])->first();
             if (is_null($complex->city_id)) {
                 if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
                     if (!is_null(Product::where('id_in_crm', $data['id'])->first())) {
