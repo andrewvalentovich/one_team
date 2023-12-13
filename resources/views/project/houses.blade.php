@@ -1053,14 +1053,14 @@ function P(e) {
                 };
 
                 this.getData().options.set("shape", this.isActive ? l : c);
-                document.addEventListener("click", function (e) {
-                    if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-                        var t = document.querySelectorAll(".placemark");
-                        for (var i = 0; i < t.length; i++) {
-                            t[i].classList.remove("active");
-                        }
-                    }
-                });
+                // document.addEventListener("click", function (e) {
+                //     if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                //         var t = document.querySelectorAll(".placemark");
+                //         for (var i = 0; i < t.length; i++) {
+                //             t[i].classList.remove("active");
+                //         }
+                //     }
+                // });
                 if (!this.inited) {
                     this.inited = true;
                     this.isActive = false;
@@ -1435,8 +1435,8 @@ function P(e) {
                 }
             });
             mapCountry.events.add('balloonclose', function (e) {
-                var t = document.querySelectorAll(".placemark");
-                for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                var t = document.querySelector(".placemark.active");
+                t.classList.remove("active")
             });
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {
@@ -1494,10 +1494,10 @@ function P(e) {
                         };
 
                     this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
-                        if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-                            var t = document.querySelectorAll(".placemark");
-                            for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-                        }
+                        // if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                        //     var t = document.querySelectorAll(".placemark");
+                        //     for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                        // }
                     })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                         var o = document.querySelectorAll(".placemark");
                         if (e.classList.contains("active")) e.classList.remove("active");
@@ -1601,11 +1601,11 @@ function P(e) {
                         //         }
                         //     }, 0);
                         // });
-                            if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
+                            // if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
 
-                                var t = document.querySelectorAll(".placemark");
-                                for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-                            }
+                            //     var t = document.querySelectorAll(".placemark");
+                            //     for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
+                            // }
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                             const balloonContentElement = document.querySelector('.balloon-city');
                             if(!balloonContentElement) {
@@ -1760,7 +1760,7 @@ function P(e) {
                     }
                     getObjectBySimpleRequest(object)
                     const cityCol = document.querySelector('.city-col')
-                    cityCol.style.display = 'block'
+                    // cityCol.style.display = 'block'
                 });
             })
             mapCountry.events.add('balloonclose', function(e){
