@@ -17,7 +17,6 @@
                             </div>
                             <div class="objects__slide-text">
                                 <div class="objects__slide-price" @if(app()->getLocale() == 'ar' || app()->getLocale() == 'fa')style="direction: ltr!important; text-align: right;"@endif>
-                                    @dump($product->price)
                                     @if (isset($product->layouts))
                                         @if (isset($product->price["EUR"]))
                                             @php
