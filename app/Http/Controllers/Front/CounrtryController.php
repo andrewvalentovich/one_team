@@ -74,7 +74,9 @@ class CounrtryController extends Controller
             // Для каждого объекта у которого есть планировки, выставляем цену минимальной планировки
             for ($i = 0; $i < count($citizenship_product); $i++) {
                 if (isset($citizenship_product[$i]->layouts) && count($citizenship_product[$i]->layouts) > 0) {
+                    $citizenship_product[$i]->base_price = $citizenship_product[$i]->layouts[0]->base_price;
                     $citizenship_product[$i]->price = $citizenship_product[$i]->layouts[0]->price;
+                    $citizenship_product[$i]->price_code = $citizenship_product[$i]->layouts[0]->price_code;
                 }
             }
 
@@ -83,8 +85,8 @@ class CounrtryController extends Controller
                 // Тэги
                 $object->getTags(app()->getLocale());
 
-                $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->price, (int)$object->size);
-                $object->price = $this->currencyService->getPriceFromDB((int)$object->price);
+                $object->price_size = $this->currencyService->getPriceSizeFromDB((int)$object->base_price, (int)$object->size);
+                $object->price = $this->currencyService->getPriceFromDB((int)$object->base_price);
                 if(isset($object->country)) {
                     $object->price_credit = $this->currencyService->getCreditPrice((int)$object->base_price, $object->country->inverse_credit_ratio);
                 }
