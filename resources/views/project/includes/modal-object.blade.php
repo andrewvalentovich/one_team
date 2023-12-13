@@ -1497,6 +1497,20 @@ openMainPopupForm.forEach(btn => {
     })
 });
 
+if(document.querySelectorAll('.place__slider_p').length) {
+    const placeSlider = document.querySelector('.place__slider_p')
+    placeSlider.addEventListener('click', function(e) {
+        const target = e.target
+        if(target.classList.contains('place__slider_p-img')) {
+            placeSlider.classList.remove('active')
+        }
+    })
+
+    const placeSliderExit = document.querySelector('.place__slider_p-exit')
+    placeSliderExit.addEventListener('click', function() {
+        placeSlider.classList.remove('active')
+    })
+}
 
 </script>
 

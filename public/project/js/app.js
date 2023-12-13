@@ -639,17 +639,7 @@ if(document.querySelectorAll('.contact__phone-list').length) {
 
 }
 
-if(document.querySelectorAll('.place__slider_p').length) {
-    const placeSlider = document.querySelectorAll('.place__slider_p')
-    placeSlider.forEach(placeSlider => {
-        placeSlider.addEventListener('click', function(e) {
-            const target = e.target
-            if(target.classList.contains('place__slider_p-img')) {
-                placeSlider.classList.remove('active')
-            }
-        })
-    });
-}
+
 
 
 ///////// для страницы houses
