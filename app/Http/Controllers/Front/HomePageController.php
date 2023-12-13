@@ -45,6 +45,13 @@ class HomePageController extends Controller
         $products = Product::with('favorite')
             ->with('photo')
             ->with('ProductCategory')
+            ->where(function ($query) {
+                $query->where('complex_or_not', 'Нет')
+                    ->where(function ($query)  {
+                        $query->where('products.base_price', '>', 0);
+                    })
+                    ->orWhereHas('layouts');
+            })
             ->with('peculiarities')
             ->with(['layouts' => function ($query) {
                 $query->with('photos');

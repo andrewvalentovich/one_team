@@ -50,6 +50,13 @@ class CounrtryController extends Controller
                 ->with('photo')
                 ->with('ProductCategory')
                 ->with('peculiarities')
+                ->where(function ($query) {
+                    $query->where('complex_or_not', 'Нет')
+                        ->where(function ($query)  {
+                            $query->where('products.base_price', '>', 0);
+                        })
+                        ->orWhereHas('layouts');
+                })
                 ->with(['layouts' => function ($query) use ($data) {
                     // Ограничиваем вывод, только те у которых цена соответствует
                     if (isset($data['price']['min'])) {
