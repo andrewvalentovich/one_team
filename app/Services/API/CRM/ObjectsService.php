@@ -99,39 +99,36 @@ class ObjectsService
         $updated_at = $data['updated_at'];
         if ($data['id'] > 3) {
             $complex = Product::where('id_in_crm', $data['id'])->first();
-	    if (!is_null($complex)) {
-		dump($complex->id);
-	    	if (is_null($complex->city_id)) {
-                if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
-                    if (isset(Product::where('id_in_crm', $data['id'])->first())) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Махмутлар')->first()->id]);
-                    }
-                } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
-                    $complex = Product::where('id_in_crm', $data['id'])->first();
-                    if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Серик')->first()->id]);
-                    }
-                } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
-                    $complex = Product::where('id_in_crm', $data['id'])->first();
-                    if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Кемер')->first()->id]);
-                    }
-                } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
-                    $complex = Product::where('id_in_crm', $data['id'])->first();
-                    if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Финике')->first()->id]);
-                    }
-                } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
-                    if (CountryAndCity::where('name', 'Алания')->first()) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Алания')->first()->id]);
-                    }
-                } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
-                    if (CountryAndCity::where('name', 'Анталия')->first()) {
-                        $complex->update(['city_id' => CountryAndCity::where('name', 'Анталия')->first()->id]);
+            if (!is_null($complex)) {
+                dump($complex->id);
+                if (is_null($complex->city_id)) {
+                    if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
+                        if (isset(CountryAndCity::where('name', 'Махмутлар')->first()->id)) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Махмутлар')->first()->id]);
+                        }
+                    } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
+                        if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Серик')->first()->id]);
+                        }
+                    } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
+                        if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Кемер')->first()->id]);
+                        }
+                    } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
+                        if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Финике')->first()->id]);
+                        }
+                    } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
+                        if (CountryAndCity::where('name', 'Алания')->first()) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Алания')->first()->id]);
+                        }
+                    } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
+                        if (CountryAndCity::where('name', 'Анталия')->first()) {
+                            $complex->update(['city_id' => CountryAndCity::where('name', 'Анталия')->first()->id]);
+                        }
                     }
                 }
-	    	}
-	    }
+	        }
         }
 //        // Если не удалён объект
 //        if ($data['deleted_at'] === null) {
