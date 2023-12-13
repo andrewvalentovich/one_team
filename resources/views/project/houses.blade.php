@@ -1566,46 +1566,6 @@ function P(e) {
 
                         this.getData().options.set("shape", this.isActive ? l : c), document.addEventListener("click", (function (e) {
 
-                        // placemark.events.add('mouseenter', function (e) {
-                        //     if (userAgent.match(/(android|iphone|ipad|ipod|blackberry|windows phone)/)) return
-                        //     placemark.balloon.open(); // Открываем балун при наведении мыши
-                        //     setTimeout(function () {
-                        //         var balloonContentElement = document.querySelector('.balloon-city');
-                        //         const id = balloonContentElement.getAttribute('id')
-                        //         const marks = document.querySelectorAll(`.placemark`);
-                        //         const mark = document.querySelector(`[mark-id="${id}"]`);
-                        //         if(mark.classList.contains('active')) {
-                        //             mark.classList.remove('active')
-                        //             placemark.balloon.close();
-                        //             return
-                        //         }
-                        //         marks.forEach(mark => {
-                        //             mark.classList.remove('active')
-                        //         });
-                        //         mark.classList.add('active')
-                        //         if (balloonContentElement) {
-                        //             var mouseLeaveListener = function () {
-                        //                 placemark.balloon.close();
-                        //                 mark.classList.remove('active')
-                        //                 balloonContentElement.removeEventListener('mouseleave', mouseLeaveListener);
-                        //                 balloonContentElement.removeEventListener('click', clickListener);
-                        //             };
-                        //             balloonContentElement.addEventListener('mouseleave', mouseLeaveListener);
-
-                        //             var clickListener = function (event) {
-                        //                 const id = balloonContentElement.getAttribute('id')
-                        //                 //запрос новый на объект
-                        //                 getObjectById(id)
-                        //             };
-                        //             balloonContentElement.addEventListener('click', clickListener);
-                        //         }
-                        //     }, 0);
-                        // });
-                            // if ((e.target.classList.contains("ymaps-2-1-79-balloon__close-button") || e.target.classList.contains("ymaps-2-1-79-user-selection-none")) && window.innerWidth <= 1003) {
-
-                            //     var t = document.querySelectorAll(".placemark");
-                            //     for (let e = 0; e < t.length; e++) t[e].classList.remove("active")
-                            // }
                         })), this.inited || (this.inited = !0, this.isActive = !1, this.getData().geoObject.events.add("click", (function (t) {
                             const balloonContentElement = document.querySelector('.balloon-city');
                             if(!balloonContentElement) {
@@ -1628,7 +1588,6 @@ function P(e) {
                     hideIconOnBalloonOpen: false,
                     balloonOffset: balloonOffset,
                 });
-
                 mapCountry.geoObjects.add(placemark);
                 placemark.house_id = location.city_id
                 ballons.push(placemark)
@@ -1671,7 +1630,7 @@ function P(e) {
                     }
                 })
             });
-
+            mapCountry.container.fitToViewport();
             const phpObjects = document.querySelectorAll('[php]')
             phpObjects.forEach(el => {
                 el.addEventListener('mouseenter', function() {
@@ -1769,6 +1728,7 @@ function P(e) {
                 }
             })
         }
+        mapCountry.container.fitToViewport();
         let moveWas = 0
         document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
             this.classList.remove("active");

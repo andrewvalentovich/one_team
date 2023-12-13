@@ -152,6 +152,10 @@ body {
   display: none;
 }
 
+.city-col {
+  background: #fff;
+}
+
 .city-col::-webkit-scrollbar {
   width: 15px;
 }
@@ -4975,7 +4979,7 @@ body.scroll_fixed {
     flex: 1;
     width: 100%;
     position: absolute;
-    opacity: 0;
+    /* opacity: 0; */
     pointer-events: none;
   }
 
@@ -6242,7 +6246,7 @@ body.scroll_fixed {
   }
 
   .balloon-city__img {
-    margin-right: 15px;
+    margin-right: 25px;
   }
 
   .balloon-city__img img {
@@ -6338,6 +6342,8 @@ body.scroll_fixed {
 
   .balloon-city__img img {
     /* display: none; */
+    width: 54px;
+    height: 54px;
   }
 
   #map_city .ymaps-2-1-79-balloon__content {
