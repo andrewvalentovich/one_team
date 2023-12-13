@@ -800,6 +800,57 @@ const objectSwiper = new Swiper('.object__swiper', {
         }
     }
 })
+class ObjectCache {
+    constructor() {
+        this.cache = new Map();
+    }
+
+    async getObject(object) {
+        let key = object.id
+        if (this.cache.has(key)) {
+            console.log("Object found in cache!")
+            setNewPopupHouseData(this.cache.get(key))
+        } else {
+            console.log("Object not found in cache. Fetching from the server...");
+            try {
+                const data = await this.getObjectBySimpleRequest(key)
+                console.log('data',data)
+                this.cache.set(key, data)
+                console.log('this.cache',this.cache)
+                return data
+            } catch (error) {
+                console.error("Error fetching object from the server:", error)
+                throw error
+            }
+        }
+    }
+
+    async getObjectBySimpleRequest(key) {
+        console.log('key',key)
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `/api/houses/simple?id=${key}`,
+                method: 'get',
+                success: function (data) {
+                    setNewPopupHouseData(data);
+                    resolve(data)
+                },
+            });
+        });
+    }
+}
+const cache = new ObjectCache();
+
+// async function getObjectBySimpleRequest(object) {
+//     $.ajax({
+//         url: `/api/houses/simple?id=${object.id}`,
+//         method: 'get',
+//         success: function (data) {
+//             setNewPopupHouseData(data);
+//         }
+//     });
+// }
+
 function getObjectFromUrl() {
     var objectById = checkObjectParamsInUrl();
     if (objectById) {
@@ -807,20 +858,10 @@ function getObjectFromUrl() {
         const object = {
             id: objectById.split('-')[1]
         }
-        getObjectBySimpleRequest(object)
+        cache.getObject(object)
     }
 }
 getObjectFromUrl()
-
-async function getObjectBySimpleRequest(object) {
-    $.ajax({
-        url: `/api/houses/simple?id=${object.id}`,
-        method: 'get',
-        success: function (data) {
-            setNewPopupHouseData(data);
-        }
-    });
-}
 
 
 function setNewPopupHouseData(object) {

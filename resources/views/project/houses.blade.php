@@ -568,7 +568,7 @@ function P(e) {
                 if (!houseCard) return
                 const id = houseCard.getAttribute('data_id')
                 let object = {...objectsListMap.get(parseInt(id))}
-                getObjectBySimpleRequest(object)
+                cache.getObject(object)
             })
         });
     }
@@ -1710,6 +1710,7 @@ function P(e) {
                     citychanger.style.display = 'none'
                 }
                 var balloonContentElement = document.querySelector('.balloon-city');
+                if(balloonContentElement)
                 balloonContentElement.addEventListener('click', function(e) {
                     const id = balloonContentElement.getAttribute('id')
                     // replaceUrlWithObject(window.filter_params_data, "object-" + id);
@@ -1717,7 +1718,7 @@ function P(e) {
                     const object = {
                         id: id
                     }
-                    getObjectBySimpleRequest(object)
+                    cache.getObject(object)
                     const cityCol = document.querySelector('.city-col')
                     // cityCol.style.display = 'block'
                 });

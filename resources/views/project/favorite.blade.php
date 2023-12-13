@@ -466,7 +466,7 @@ function setListenersToOpenPopup() {
         const object = {
             id: id
         }
-        getObjectBySimpleRequest(object)
+        cache.getObject(object)
     })
 
 }
