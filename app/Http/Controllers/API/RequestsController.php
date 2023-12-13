@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Requests\SendRequestRequest;
+use App\Models\Request as Req;
 use App\Models\Template;
 use http\Client\Response;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -168,6 +170,38 @@ class RequestsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Заявка получена!',
+        ],200);
+    }
+
+    public function getRequest(SendRequestRequest $request)
+    {
+        $data = $request->validated();
+
+        // Обработка страны
+        if (isset($data['country'])) {
+            $data['country'] = strip_tags($data['country']);
+            $position = strrpos($data['country'], ')');
+            if ($position !== false) {
+                $data['country'] = substr($data['country'], 0, $position + 1);
+            }
+        }
+
+//        Mail::to('one.team.dev.1@gmail.com')->send(new SendRequestFromAdmin($details));
+//        try{
+//        }catch (\Exception $e){
+//            return response()->json([
+//                'status' => false,
+//                'message' => 'email error'
+//            ],422);
+//        }
+
+        Req::create($data);
+
+        $message = __('Мы получили ваше сообщение наш сотрудник скоро свяжется с вами');
+
+        return response()->json([
+            'status' => true,
+            'message' => $message
         ],200);
     }
 

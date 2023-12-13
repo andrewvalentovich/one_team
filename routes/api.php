@@ -48,6 +48,7 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('/landings/with_filter', [\App\Http\Controllers\API\LandingsController::class, 'getWithFilter'])->name('api.landings.get.with_filter');
 
     // Отдаём заявки в зависимости от токена (у каждого типа лендинга свой токен, который задаётся в panel.one-team.pro)
+    Route::post('/requests/send', [\App\Http\Controllers\API\RequestsController::class, 'getRequest'])->name('api.requests.get');
     Route::post('/requests/lead', [\App\Http\Controllers\API\RequestsController::class, 'lead'])->name('api.requests.lead');
     Route::get('/requests/export', [\App\Http\Controllers\API\RequestsController::class, 'export'])->name('api.requests.export');
     Route::get('/requests/test', function () {
