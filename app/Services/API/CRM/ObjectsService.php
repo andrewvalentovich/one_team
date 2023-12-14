@@ -97,50 +97,17 @@ class ObjectsService
     public function updateOrDelete($data)
     {
         $updated_at = $data['updated_at'];
-        if ($data['id'] > 3) {
-            $complex = Product::where('id_in_crm', $data['id'])->first();
-            if (!is_null($complex)) {
-                dump($complex->id);
-                if (is_null($complex->city_id)) {
-                    if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
-                        if (isset(CountryAndCity::where('name', 'Махмутлар')->first()->id)) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Махмутлар')->first()->id]);
-                        }
-                    } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
-                        if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Серик')->first()->id]);
-                        }
-                    } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
-                        if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Кемер')->first()->id]);
-                        }
-                    } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
-                        if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Финике')->first()->id]);
-                        }
-                    } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
-                        if (CountryAndCity::where('name', 'Алания')->first()) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Алания')->first()->id]);
-                        }
-                    } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
-                        if (CountryAndCity::where('name', 'Анталия')->first()) {
-                            $complex->update(['city_id' => CountryAndCity::where('name', 'Анталия')->first()->id]);
-                        }
-                    }
-                }
-	        }
+        // Если не удалён объект
+        if ($data['deleted_at'] === null) {
+//             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
+            if (strtotime('now') - strtotime($updated_at) <= 86400) {
+                $this->update($data);
+            }
+        } else {
+            $complex = Product::where('id_in_crm', $data['id'])->firts();
+            dump('Delete product - id: ' . $complex->id);
+            $complex->delete();
         }
-//        // Если не удалён объект
-//        if ($data['deleted_at'] === null) {
-////             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-////            if (strtotime('now') - strtotime($updated_at) <= 86400) {
-//                $this->update($data);
-////            }
-//        } else {
-//            $complex = Product::where('id_in_crm', $data['id'])->firts();
-//            dump('Delete product - id: ' . $complex->id);
-//            $complex->delete();
-//        }
     }
 
     private function update($data)
@@ -170,19 +137,19 @@ class ObjectsService
         $this->addCategories($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
-        foreach ($complexPhotos as $key => $category) {
-            foreach ($category as $index => $photo) {
-                $filename = $this->imageService->saveFromRemote($photo);
-
-                PhotoTable::create([
-                    'parent_model'=> '\App\Models\Product',
-                    'parent_id' => $complex->id,
-                    'photo' => $filename,
-                    'preview' => $this->previewImageService->update($filename),
-                    'category_id' => $this->photoCategories[$key]
-                ]);
-            }
-        }
+//        foreach ($complexPhotos as $key => $category) {
+//            foreach ($category as $index => $photo) {
+//                $filename = $this->imageService->saveFromRemote($photo);
+//
+//                PhotoTable::create([
+//                    'parent_model'=> '\App\Models\Product',
+//                    'parent_id' => $complex->id,
+//                    'photo' => $filename,
+//                    'preview' => $this->previewImageService->update($filename),
+//                    'category_id' => $this->photoCategories[$key]
+//                ]);
+//            }
+//        }
 
         return $complex;
     }
@@ -250,20 +217,48 @@ class ObjectsService
         $city = CountryAndCity::select('id')->whereNotNull('parent_id')->where('name', $data['city_name'])->firstOr(function () {
             return null;
         });
-        $city_id = is_null($city) ? null : $city->id;
+        $city_id = null;
+
+        if (is_null($city)) {
+            if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
+                if (isset(CountryAndCity::where('name', 'Махмутлар')->first()->id)) {
+                    $city_id = CountryAndCity::where('name', 'Махмутлар')->first()->id;
+                }
+            } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
+                if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
+                    $city_id = CountryAndCity::where('name', 'Серик')->first()->id;
+                }
+            } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
+                if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
+                    $city_id = CountryAndCity::where('name', 'Кемер')->first()->id;
+                }
+            } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
+                if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
+                    $city_id = CountryAndCity::where('name', 'Финике')->first()->id;
+                }
+            } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
+                if (CountryAndCity::where('name', 'Алания')->first()) {
+                    $city_id = CountryAndCity::where('name', 'Алания')->first()->id;
+                }
+            } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
+                if (CountryAndCity::where('name', 'Анталия')->first()) {
+                    $city_id = CountryAndCity::where('name', 'Анталия')->first()->id;
+                }
+            }
+        } else {
+            $city_id = $city->id;
+        }
 
         // Адресс
-        $address = !is_null($data['country_name']) ? $data['country_name'] : "";
-        $address .= !is_null($data['city_name']) ? ", " . $data['city_name'] : "";
-        $address .= !is_null($data['street_name']) ? ", " . $data['street_name'] : "";
-        $address .= !is_null($data['house_number']) ? ", " . $data['house_number'] : "";
+        $address = !is_null($data['tr_geo_il_name']) ? $data['tr_geo_il_name'] : "";
+        $address .= !is_null($data['tr_geo_ilce_name']) ? ", " . $data['tr_geo_ilce_name'] : "";
 
         // Координаты
         $coordinates = $this->geocodingService->getCoordinates($data);
 
         // Гражданство и ВНЖ
-        $citizenship = "";
-        $residence_permit = "";
+        $citizenship = '';
+        $residence_permit = '';
         if (isset($data['suitable_for'])) {
             $citizenship = in_array('citizenship', $data['suitable_for']) ? 'Да' : 'Нет';
             $residence_permit = in_array('residence_permit', $data['suitable_for']) ? 'Да' : 'Нет';
@@ -332,7 +327,7 @@ class ObjectsService
         $category_ids = [];
 
         // Вид
-        $category_ids[$this->categoriesService->getToSea($data["to_sea"])] = 'До моря';
+        $category_ids[$this->categoriesService->getToSea($data['to_sea'])] = 'До моря';
 
         // Особенности
         $peculiarities = [];
@@ -359,7 +354,7 @@ class ObjectsService
 
         // Тип недвижимости
         $type = $this->categoriesService->getTypes();
-        $category_ids[$type['apartment']] = "Типы";
+        $category_ids[$data['type']] = 'Типы';
 
         // Вид
         $tmpViews = isset($data['view']) ? $data['view'] : null;
@@ -375,15 +370,15 @@ class ObjectsService
         $bedrooms = 'Спальни';
         if (isset($data['number_bedrooms'])) {
             if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
-                $category_ids[$this->categoriesService->getRooms($bedrooms, $data["number_bedrooms"])] = $bedrooms;
+                $category_ids[$this->categoriesService->getRooms($bedrooms, $data['number_bedrooms'])] = $bedrooms;
             }
         }
 
         // Ванные
-        $bathrooms = "Ванные";
+        $bathrooms = 'Ванные';
         if (isset($data['number_bathrooms'])) {
             if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
-                $category_ids[$this->categoriesService->getRooms($bathrooms, $data["number_bathrooms"])] = $bathrooms;
+                $category_ids[$this->categoriesService->getRooms($bathrooms, $data['number_bathrooms'])] = $bathrooms;
             }
         }
 
@@ -394,11 +389,11 @@ class ObjectsService
     {
         foreach ($this->getCategories($data) as $id => $type) {
             ProductCategory::create([
-                "product_id"        => $complex_id,
-                "peculiarities_id"  => $id,
-                "type"              => $type,
-                "created_at"        => date('Y-m-d H:i:s', strtotime("now")),
-                "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
+                'product_id'        => $complex_id,
+                'peculiarities_id'  => $id,
+                'type'              => $type,
+                'created_at'        => date('Y-m-d H:i:s', strtotime('now')),
+                'updated_at'        => date('Y-m-d H:i:s', strtotime('now'))
             ]);
         }
     }
@@ -413,9 +408,9 @@ class ObjectsService
                 $tmp_description = !empty($description) ? $tr->trans($description, $locale->code) : null;
 
                 ProductLocale::create([
-                    "product_id" => $product_id,
-                    "locale_id" => $locale->id,
-                    "description" => $tmp_description,
+                    'product_id' => $product_id,
+                    'locale_id' => $locale->id,
+                    'description' => $tmp_description,
                 ]);
 
                 unset($tmp_description);

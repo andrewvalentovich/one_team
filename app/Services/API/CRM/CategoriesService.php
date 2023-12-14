@@ -13,11 +13,11 @@ class CategoriesService
         $types = Peculiarities::where('type', 'Типы')->get();
 
         return [
-            "apartment"  => $types->where('slug', 'apartments')->first()->id,
-            "house"      => $types->where('slug', 'houses')->first()->id,
-            "land"       => null,
-            "hotel"      => null,
-            "commercial" => null
+            'apartment'  => $types->where('slug', 'apartments')->first()->id,
+            'house'      => $types->where('slug', 'houses')->first()->id,
+            'land'       => null,
+            'hotel'      => null,
+            'commercial' => null
         ];
     }
 
