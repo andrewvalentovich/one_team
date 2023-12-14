@@ -1229,8 +1229,6 @@ function P(e) {
         function createParams() {
             // let urlParams = new URLSearchParams(window.location.search);
             // let params = {};
-            console.log(1111);
-
             let params = createParamsForFilterFromUrl();
             params.locale = window.locale;
 
@@ -1365,6 +1363,10 @@ function P(e) {
                 }
             });
 
+            if (currentmarks.length < 1) {
+                currentmarks
+            }
+
             currentmarks.forEach(mark => {
                 if (mark.lat && mark.long) {
                     if (!isNaN(mark.lat) && !isNaN(mark.long)) {
@@ -1375,6 +1377,10 @@ function P(e) {
                     }
                 }
             });
+            console.log(minLat);
+            console.log(maxLat);
+            console.log(minLon);
+            console.log(maxLon);
             const subtitle = document.querySelector('.city-col__subtitle')
             const span = subtitle.querySelector('span')
             span.innerHTML = allmarks.length
@@ -1385,8 +1391,12 @@ function P(e) {
             } else {
                 nothing.classList.remove('active')
             }
-            console.log(allmarks);
-            if(allmarks.length) {
+
+            // const relevantObjectsCount = allmarks.filter(function (el) {
+            //     return el.current_region === 1;
+            // }).length;
+
+            if(allmarks.length > 0) {
                 mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                     checkZoomRange: true,
                 }).then(function() {

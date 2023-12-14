@@ -228,6 +228,10 @@ class ObjectsService
                 if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
                     $tmp_city = CountryAndCity::where('name', 'Серик')->first();
                 }
+            } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
+                if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
+                    $tmp_city = CountryAndCity::where('name', 'Серик')->first();
+                }
             } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
                 if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
                     $tmp_city = CountryAndCity::where('name', 'Кемер')->first();
@@ -258,8 +262,8 @@ class ObjectsService
         }
 
         // Адресс
-        $address = !is_null($data['tr_geo_il_name']) ? $data['tr_geo_il_name'] : "";
-        $address .= !is_null($data['tr_geo_ilce_name']) ? ", " . $data['tr_geo_ilce_name'] : "";
+        $address = !is_null($data['tr_geo_il_name']) ? $data['tr_geo_il_name'] : '';
+        $address .= !is_null($data['tr_geo_ilce_name']) ? '/' . $data['tr_geo_ilce_name'] : '';
 
         // Координаты
         $coordinates = $this->geocodingService->getCoordinates($data, $tmp_city);
