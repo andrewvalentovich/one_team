@@ -770,39 +770,48 @@ function handleSizeMax(data) {
 //
 // alert(url.host);
 
-function searchBarGetParameters() {
-    $.ajax({
-        url: '/api/houses/filter_params',       /* Куда отправить запрос */
-        data: {
-            locale: window.locale,
-        },
-        method: 'get',                                              /* Метод запроса (post или get) */
-        success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
-            window.filter_params_data = data;
-            window.sortedCategories = convertToCategoryValue(data);
-
-            var buy = "";
-            getValuesFromUrl().forEach(function (value, index) {
-                if (data.sale_or_rent.includes(value)) {
-                    buy = value;
-                }
-            })
-            $("input[name='sale_or_rent']").val(buy);
-
-            handleCountries(data);
-            handleCurrency(data);
-            handleTypes(data);
-            handleBedrooms(data);
-            handleBathrooms(data);
-            handlePeculiarities(data);
-            handleViews(data);
-            handleToSea(data);
-            handleMinPrice(data);
-            handleMaxPrice(data);
-            handleSizeMin(data);
-            handleSizeMax(data);
-        }
+async function get_filter_params() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: '/api/houses/filter_params',       /* Куда отправить запрос */
+            data: {
+                locale: window.locale,
+            },
+            method: 'get',                                              /* Метод запроса (post или get) */
+            success: function (data) {
+                console.log(data);
+                resolve(data);
+            }
+        })
     });
+}
+
+
+async function searchBarGetParameters() {
+    var data = await get_filter_params();
+    window.filter_params_data = data;
+    window.sortedCategories = convertToCategoryValue(window.filter_params_data);
+
+    var buy = "";
+    getValuesFromUrl().forEach(function (value, index) {
+        if (data.sale_or_rent.includes(value)) {
+            buy = value;
+        }
+    })
+    $("input[name='sale_or_rent']").val(buy);
+
+    handleCountries(data);
+    handleCurrency(data);
+    handleTypes(data);
+    handleBedrooms(data);
+    handleBathrooms(data);
+    handlePeculiarities(data);
+    handleViews(data);
+    handleToSea(data);
+    handleMinPrice(data);
+    handleMaxPrice(data);
+    handleSizeMin(data);
+    handleSizeMax(data);
 }
 
 function handleIsSecondary() {

@@ -1229,6 +1229,7 @@ function P(e) {
         function createParams() {
             // let urlParams = new URLSearchParams(window.location.search);
             // let params = {};
+            console.log(1111);
 
             let params = createParamsForFilterFromUrl();
             params.locale = window.locale;
@@ -1384,6 +1385,7 @@ function P(e) {
             } else {
                 nothing.classList.remove('active')
             }
+            console.log(allmarks);
             if(allmarks.length) {
                 mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
                     checkZoomRange: true,
