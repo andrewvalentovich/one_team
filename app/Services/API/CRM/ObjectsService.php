@@ -122,10 +122,10 @@ class ObjectsService
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update product - id: ' . $complex->id);
 //        $complex->update($complexParams);
-//        foreach ($complex->photo as $photo)
-//        {
-//            $photo->delete();
-//        }
+        foreach ($complex->photo as $photo)
+        {
+            $photo->delete();
+        }
         // Обновление текстовых полей description и disposition
 //        $this->updateDescription($complex, $data['description']);
 
