@@ -1299,8 +1299,8 @@ async function setNewPopupHouseData(object) {
 
 
             let divChemeImg = document.createElement('img')
-            if(object.photos) {
-                divChemeImg.setAttribute('src', `/${object.photos[0].photo}`)
+            if(object.photos.length > 0) {
+                divChemeImg.setAttribute('src', `/${object.photos[0].url}`)
             }
 
             divChemePic.appendChild(divChemeImg)
