@@ -83,13 +83,15 @@ class GeocodingService
                     } while (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 5);
                 }
             } else {
-                if (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first())) {
-                    $i = 0;
-                    while(!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 4) {
-                        dump($i);
-                        $coordinates['lat'] = $city->lat + (rand(0,2000) - 1000) / 1000000;
-                        $coordinates['long'] = $city->long + (rand(0,2000) - 1000) / 1000000;
-                        $i++;
+                if (!is_null($city)) {
+                    if (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first())) {
+                        $i = 0;
+                        while (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 4) {
+                            dump($i);
+                            $coordinates['lat'] = $city->lat + (rand(0, 2000) - 1000) / 1000000;
+                            $coordinates['long'] = $city->long + (rand(0, 2000) - 1000) / 1000000;
+                            $i++;
+                        }
                     }
                 }
             }
