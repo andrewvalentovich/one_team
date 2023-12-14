@@ -56,7 +56,7 @@ class LayoutsService
         unset($ids_in_crm_for_layouts, $ids_in_crm_for_complexes);
     }
 
-    public function handle($endpoint, $token)
+    public function handle($endpoint, $token, $offset, $count)
     {
 //        try {
             $client = new \GuzzleHttp\Client(['headers' => [
@@ -72,20 +72,44 @@ class LayoutsService
 
             if($guzzleResponse->getStatusCode() == 200) {
                 $response = json_decode($guzzleResponse->getBody(),true);
-
+                $i = 0;
                 // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
                 foreach ($response as $index => $object) {
-                    if (in_array($object['id'], $this->ids_in_crm_all)) {
+                    dump($object['id']);
+                    // Отсчитываем оступ
+                    if ($offset > 0) {
+                        // Если это не планировка - отступаем, иначе - нет
                         if (is_null($object['complex_id'])) {
-                            $this->objectsService->updateOrDelete($object);
-                        } else {
-                            $this->updateOrDelete($object);
+                            $offset--;
                         }
+                        continue;
                     } else {
-                        if (is_null($object['complex_id'])) {
-                            $this->objectsService->create($object);
+                        if ($i < $count) {
+                            if (in_array($object['id'], $this->ids_in_crm_all)) {
+                                // Если нет поля complex_id - обновляем или удаляем объект
+                                if (is_null($object['complex_id'])) {
+                                    $this->objectsService->updateOrDelete($object);
+
+                                    // Считаем только объекты а не планировки
+                                    $i++;
+                                } else {
+                                    // иначе - планировка
+                                    $this->updateOrDelete($object);
+                                }
+                            } else {
+                                // Если нет поля complex_id - создаём
+                                if (is_null($object['complex_id'])) {
+                                    $this->objectsService->create($object);
+
+                                    // Считаем только объекты а не планировки
+                                    $i++;
+                                } else {
+                                    // иначе - планировка
+                                    $this->create($object);
+                                }
+                            }
                         } else {
-                            $this->create($object);
+                            break;
                         }
                     }
                 }

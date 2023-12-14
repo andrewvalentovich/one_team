@@ -21,7 +21,7 @@ class ImportData extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:import-data';
+    protected $signature = 'crm:import-data {offset} {count} {--complexes} {--objects}';
 
     /**
      * The console command description.
@@ -81,12 +81,19 @@ class ImportData extends Command
      */
     public function handle()
     {
-        $this->info('Start handle complexes');
-        $this->objectsService->handle($this->endpoint_objects, $this->token);
-        $this->info('Finish handle complexes');
+        $offset = (int) $this->argument('offset');
+        $count = (int) $this->argument('count');
 
-        $this->info('Start handle object');
-        $this->layoutsService->handle($this->endpoint_layouts, $this->token);
-        $this->info('Finish handle object');
+        if ($this->option('complexes')) {
+            $this->info('Start handle complexes');
+            $this->objectsService->handle($this->endpoint_objects, $this->token);
+            $this->info('Finish handle complexes');
+        }
+
+        if ($this->option('objects')) {
+            $this->info('Start handle object');
+            $this->layoutsService->handle($this->endpoint_layouts, $this->token, $offset, $count);
+            $this->info('Finish handle object');
+        }
     }
 }

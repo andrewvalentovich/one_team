@@ -1356,18 +1356,12 @@ function P(e) {
             let maxLon = -Infinity;
 
             // Фильтруем объекты по current_region
-            var currentmarks = [];
+
+            // const relevantObjectsCount = allmarks.filter(function (el) {
+            //     return el.current_region === 1;
+            // }).length;
+
             allmarks.forEach(mark => {
-                if (mark.current_region === 1) {
-                    currentmarks.push(mark);
-                }
-            });
-
-            if (currentmarks.length < 1) {
-                currentmarks
-            }
-
-            currentmarks.forEach(mark => {
                 if (mark.lat && mark.long) {
                     if (!isNaN(mark.lat) && !isNaN(mark.long)) {
                         minLat = Math.min(minLat, mark.lat);
@@ -1391,10 +1385,6 @@ function P(e) {
             } else {
                 nothing.classList.remove('active')
             }
-
-            // const relevantObjectsCount = allmarks.filter(function (el) {
-            //     return el.current_region === 1;
-            // }).length;
 
             if(allmarks.length > 0) {
                 mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
