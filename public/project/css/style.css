@@ -4523,7 +4523,7 @@ body.scroll_fixed {
 .search-w__close .fil0 {
   fill: none;
 }
-@media (min-width: 767px) {
+@media (max-width: 767px) {
   .search__filter-more {
     max-height: 300px;
     overflow: auto;
