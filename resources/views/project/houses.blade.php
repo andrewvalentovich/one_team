@@ -1190,12 +1190,16 @@ function P(e) {
 
         //отправить запрос с фильтром по кнопке найти страница houses
         if(document.querySelectorAll('.btn-filter-houses').length) {
-            const btnFilterHouses = document.querySelector('.btn-filter-houses')
-            btnFilterHouses.addEventListener('click', async function() {
-                let allMarks = await getDataMarks()
-                createMapCity(allMarks)
-                changeCountryField()
-            })
+            const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')
+            const searchW = document.querySelector('.search-w')
+            btnFilterHouses.forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    let allMarks = await getDataMarks()
+                    createMapCity(allMarks)
+                    changeCountryField()
+                    searchW.classList.remove('active')
+                })
+            });
         }
 
         function changeCountryField() {
