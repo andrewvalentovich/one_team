@@ -4432,6 +4432,8 @@ body.scroll_fixed {
   /* max-width: 523px; */
 }
 
+
+
 .search__filter-square-title {
   color: #002850;
   font-weight: 700;
@@ -4521,7 +4523,12 @@ body.scroll_fixed {
 .search-w__close .fil0 {
   fill: none;
 }
-
+@media (min-width: 767px) {
+  .search__filter-more {
+    max-height: 300px;
+    overflow: auto;
+  }
+}
 @media (min-width: 660px) {
   .place__slide img {
     height: 290px;
