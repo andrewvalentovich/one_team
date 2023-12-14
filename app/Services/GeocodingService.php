@@ -69,6 +69,7 @@ class GeocodingService
         $coordinates = [];
         if ((is_null($data['lon']) || is_null($data['lat']))) {
             $tmp_address = $this->generateAddress($data);
+            dump($tmp_address);
             $coordinates = $this->coordinatesFromAddress($tmp_address);
             unset($tmp_address);
         } else {

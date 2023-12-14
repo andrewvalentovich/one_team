@@ -224,11 +224,7 @@ class ObjectsService
         $city_id = null;
 
         if (is_null($city)) {
-            if ($data['tr_geo_semt_name'] == 'MAHMUTLAR') {
-                if (isset(CountryAndCity::where('name', 'Махмутлар')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Махмутлар')->first()->id;
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
+            if ($data['tr_geo_ilce_name'] == 'SERİK') {
                 if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
                     $city_id = CountryAndCity::where('name', 'Серик')->first()->id;
                 }

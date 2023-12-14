@@ -23,7 +23,7 @@ class ImportComplex extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:import-complex {id} {--update}';
+    protected $signature = 'crm:import-complex {--update}';
 
     /**
      * The console command description.
@@ -85,7 +85,14 @@ class ImportComplex extends Command
      */
     public function handle()
     {
-        dd($this->geocodingService->coordinatesFromAddress('ANTALYA, ALANYA, ALANYA, Oba OBADA YENİ BİNADA 2+1 ORTA KATTA EŞYALI'));
+        $data['lat'] = null;
+        $data['lon'] = null;
+        $data['tr_geo_il_name'] = 'Санкт-Петербург';
+        $data['tr_geo_ilce_name'] = null;
+        $data['tr_geo_semt_name'] = null;
+        $data['tr_geo_mahalle_name'] = null;
+        $data['name'] = null;
+        dd($this->geocodingService->getCoordinates($data));
 //        $this->info('Start handle complexes');
 //        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
 //        $this->info('Finish handle complexes');
