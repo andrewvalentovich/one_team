@@ -560,6 +560,8 @@ function handleCountries(data) {
         $("input[name='country_id']").val(country_slug);
 
         // Выводим страны в dropdown
+        $('.search-nav__countries-list').html("");
+        // Выводим страны в dropdown
         $.each(data.countries, function (index, value) {
             $('.search-nav__countries-list').append('<div data_id="' + value.slug + '" class="search_country search-nav__types-item dropdown__selector other-element">' + value.name + '</div>');
         });

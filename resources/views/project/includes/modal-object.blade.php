@@ -835,6 +835,7 @@ class ObjectCache {
                 url: `/api/houses/simple?id=${key}`,
                 method: 'get',
                 success: function (data) {
+                    console.log(data);
                     setNewPopupHouseData(data);
                     resolve(data)
                 },
@@ -1023,16 +1024,25 @@ function setNewPopupHouseData(object) {
         if(currentHouse.spalni) {
             const spalni = objectRooms.querySelector('.spalni')
             spalni.innerHTML = currentHouse.spalni.replace('+', '')
+        } else {
+            const gostinnie = objectRooms.querySelector('.gostinnie')
+            gostinnie.innerHTML = '-';
         }
 
         if(currentHouse.gostinnie) {
             const gostinnie = objectRooms.querySelector('.gostinnie')
             gostinnie.innerHTML = currentHouse.gostinnie.replace('+', '')
+        } else {
+            const gostinnie = objectRooms.querySelector('.gostinnie')
+            gostinnie.innerHTML = '-';
         }
 
         if(currentHouse.vanie) {
             const vanie = objectRooms.querySelector('.vanie')
             vanie.innerHTML = currentHouse.vanie.replace('+', '')
+        } else {
+            const gostinnie = objectRooms.querySelector('.gostinnie')
+            gostinnie.innerHTML = '-';
         }
 
 
@@ -1060,31 +1070,44 @@ function setNewPopupHouseData(object) {
     });
 
     //особенности
+    const objectPeculiaritiesBlock = document.querySelector('.object__peculiarities')
     const objectPeculiarities = document.querySelector('.object__peculiarities-content')
     objectPeculiarities.innerHTML = ''
 
-    if(currentHouse.peculiarities)
-    currentHouse.peculiarities.forEach(element => {
-        if(element.type !== "Особенности") return
-
-        let div = document.createElement('div')
-        div.classList.add('object__peculiarities-item')
-
-        // var localedName = 'name';
-        var localedName;
-        if (window.locale) {
-            localedName = element.locale_fields.find(x => x.locale.code == window.locale);
-        } else {
-            localedName = element.locale_fields.find(x => x.locale.code == "ru");
-        }
-        // if (window.locale) {
-        //     if (window.locale !== 'ru') {
-        //         localedName += '_'+window.locale;
-        //     }
-        // }
-        div.innerHTML = localedName.name[0].toUpperCase() + localedName.name.substring(1);
-        objectPeculiarities.appendChild(div)
+    // Выбираем только Особенности
+    var peculiaritiesCount =currentHouse.peculiarities.filter(function (el) {
+        return el.type === 'Особенности';
     });
+
+    // Проверяем если есть
+    if (peculiaritiesCount !== undefined && peculiaritiesCount.length > 0) {
+        if(currentHouse.peculiarities)
+            objectPeculiaritiesBlock.style.display = 'block';
+            currentHouse.peculiarities.forEach(element => {
+                if(element.type !== "Особенности") return
+
+                let div = document.createElement('div')
+                div.classList.add('object__peculiarities-item')
+
+                // var localedName = 'name';
+                var localedName;
+                if (window.locale) {
+                    localedName = element.locale_fields.find(x => x.locale.code == window.locale);
+                } else {
+                    localedName = element.locale_fields.find(x => x.locale.code == "ru");
+                }
+                // if (window.locale) {
+                //     if (window.locale !== 'ru') {
+                //         localedName += '_'+window.locale;
+                //     }
+                // }
+                div.innerHTML = localedName.name[0].toUpperCase() + localedName.name.substring(1);
+                objectPeculiarities.appendChild(div)
+            });
+    } else {
+        objectPeculiaritiesBlock.style.display = 'none';
+    }
+
 
     // сортиторвка квартир
     const kompleksLayoutSort = document.querySelector('.kompleks__layout-sort')

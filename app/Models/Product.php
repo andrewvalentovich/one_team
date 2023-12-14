@@ -314,24 +314,24 @@ class Product extends Model
 
     public function bedrooms()
     {
-        if (!empty($this->peculiarities->whereIn('type', "Гостиные")->first())) {
-            return $this->peculiarities->whereIn('type', "Гостиные")->first()->name;
+        if (!empty($this->peculiarities->whereIn('type', 'Спальни')->first())) {
+            return $this->peculiarities->whereIn('type', 'Спальни')->first()->name;
         }
         return null;
     }
 
     public function bathrooms()
     {
-        if (!empty($this->peculiarities->whereIn('type', "Ванные")->first())) {
-            return $this->peculiarities->whereIn('type', "Ванные")->first()->name;
+        if (!empty($this->peculiarities->whereIn('type', 'Ванные')->first())) {
+            return $this->peculiarities->whereIn('type', 'Ванные')->first()->name;
         }
         return null;
     }
 
     public function living_rooms()
     {
-        if (!empty($this->peculiarities->whereIn('type', "Гостиные")->first())) {
-            return $this->peculiarities->whereIn('type', "Гостиные")->first()->name;
+        if (!empty($this->peculiarities->whereIn('type', 'Гостиные')->first())) {
+            return $this->peculiarities->whereIn('type', 'Гостиные')->first()->name;
         }
         return null;
     }
