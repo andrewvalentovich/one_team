@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\CRM;
 
+use App\Models\CountryAndCity;
 use App\Models\Product;
 use App\Services\API\CRM\LayoutsForComplexService;
 use App\Services\API\CRM\LayoutsService;
@@ -85,20 +86,12 @@ class ImportComplex extends Command
      */
     public function handle()
     {
-        $data['lat'] = null;
-        $data['lon'] = null;
-        $data['tr_geo_il_name'] = 'Санкт-Петербург';
-        $data['tr_geo_ilce_name'] = null;
-        $data['tr_geo_semt_name'] = null;
-        $data['tr_geo_mahalle_name'] = null;
-        $data['name'] = null;
-        dd($this->geocodingService->getCoordinates($data));
-//        $this->info('Start handle complexes');
-//        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
-//        $this->info('Finish handle complexes');
-//
-//        $this->info('Start handle object');
-//        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
-//        $this->info('Finish handle object');
+        $this->info('Start handle complexes');
+        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
+        $this->info('Finish handle complexes');
+
+        $this->info('Start handle object');
+        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
+        $this->info('Finish handle object');
     }
 }

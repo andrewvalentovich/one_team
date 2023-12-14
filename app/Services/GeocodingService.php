@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Models\ExchangeRate;
+use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 
 class GeocodingService
@@ -16,7 +17,7 @@ class GeocodingService
      */
     public function coordinatesFromAddress($address)
     {
-        $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3&format=json&geocode=' . urlencode($address));
+        $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=3337b512-9d91-4719-98bf-a2c8df5832ad&format=json&geocode=' . urlencode($address));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -64,13 +65,34 @@ class GeocodingService
         return $tmp_address;
     }
 
-    public function getCoordinates($data)
+    public function getCoordinates($data, $city = null)
     {
-        $coordinates = [];
+        $coordinates = ['lat' => null, 'long' => null];
         if ((is_null($data['lon']) || is_null($data['lat']))) {
             $tmp_address = $this->generateAddress($data);
-            dump($tmp_address);
             $coordinates = $this->coordinatesFromAddress($tmp_address);
+
+            if (is_null($coordinates['lat']) && is_null($coordinates['long'])) {
+                if (!is_null($city)) {
+                    $i = 0;
+                    do {
+                        dump($i);
+                        $coordinates['lat'] = $city->lat + (rand(0,2000) - 1000) / 1000000;
+                        $coordinates['long'] = $city->long + (rand(0,2000) - 1000) / 1000000;
+                        $i++;
+                    } while (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 5);
+                }
+            } else {
+                if (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first())) {
+                    $i = 0;
+                    while(!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 4) {
+                        dump($i);
+                        $coordinates['lat'] = $city->lat + (rand(0,2000) - 1000) / 1000000;
+                        $coordinates['long'] = $city->long + (rand(0,2000) - 1000) / 1000000;
+                        $i++;
+                    }
+                }
+            }
             unset($tmp_address);
         } else {
             $coordinates = [

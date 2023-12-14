@@ -51,7 +51,7 @@ class ObjectsService
         $this->geocodingService = $geocodingService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
-        $this->ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $this->ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
     }
@@ -104,7 +104,7 @@ class ObjectsService
                 $this->update($data);
 //            }
         } else {
-            $complex = Product::where('id_in_crm', $data['id'])->firts();
+            $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firts();
             dump('Delete product - id: ' . $complex->id);
             $complex->delete();
         }
@@ -119,7 +119,7 @@ class ObjectsService
         $complexParams = $this->validateData($data);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $complex = Product::where('id_in_crm', $data['id'])->first();
+        $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update product - id: ' . $complex->id);
         $complex->update($complexParams);
         foreach ($complex->photo as $photo)
@@ -163,7 +163,7 @@ class ObjectsService
         // Получаем параметры для создания комплекса
         $complexParams = $this->validateData($data);
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $complex = Product::where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
+        $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
             dump('Create product - id: ' . $complex['id']);
 
@@ -221,40 +221,40 @@ class ObjectsService
         $city = CountryAndCity::select('id')->whereNotNull('parent_id')->where('name', $data['city_name'])->firstOr(function () {
             return null;
         });
-        $city_id = null;
+        $tmp_city = null;
 
         if (is_null($city)) {
             if ($data['tr_geo_ilce_name'] == 'SERİK') {
                 if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Серик')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Серик')->first();
                 }
             } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
                 if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Кемер')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Кемер')->first();
                 }
             } elseif ($data['tr_geo_ilce_name'] == 'GAZIPAŞA') {
                 if (isset(CountryAndCity::where('name', 'Газипаша')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Газипаша')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Газипаша')->first();
                 }
             } elseif ($data['tr_geo_ilce_name'] == 'KAŞ') {
                 if (isset(CountryAndCity::where('name', 'Каш')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Каш')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Каш')->first();
                 }
             } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
                 if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
-                    $city_id = CountryAndCity::where('name', 'Финике')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Финике')->first();
                 }
             } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
                 if (CountryAndCity::where('name', 'Аланья')->first()) {
-                    $city_id = CountryAndCity::where('name', 'Аланья')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Аланья')->first();
                 }
             } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
                 if (CountryAndCity::where('name', 'Анталия')->first()) {
-                    $city_id = CountryAndCity::where('name', 'Анталия')->first()->id;
+                    $tmp_city = CountryAndCity::where('name', 'Анталия')->first();
                 }
             }
         } else {
-            $city_id = $city->id;
+            $tmp_city = $city;
         }
 
         // Адресс
@@ -262,7 +262,7 @@ class ObjectsService
         $address .= !is_null($data['tr_geo_ilce_name']) ? ", " . $data['tr_geo_ilce_name'] : "";
 
         // Координаты
-        $coordinates = $this->geocodingService->getCoordinates($data);
+        $coordinates = $this->geocodingService->getCoordinates($data, $tmp_city);
 
         // Гражданство и ВНЖ
         $citizenship = '';
@@ -304,7 +304,7 @@ class ObjectsService
 
         return [
             'country_id'        => $country_id ?? null,
-            'city_id'           => $city_id ?? null,
+            'city_id'           => $tmp_city->id ?? null,
             'name'              => $data['name'] ?? null,
             'address'           => $address ?? null,
             'size'              => $data['living_size'] ?? null,

@@ -45,10 +45,10 @@ class LayoutsService
         $this->currencyService = $currencyService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
-        $ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
-        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $ids_in_crm_for_layouts = Layout::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
         $this->ids_in_crm_all = $ids_in_crm_for_complexes;
@@ -128,7 +128,7 @@ class LayoutsService
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $layout = Layout::where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
+        $layout = Layout::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
             $layout = Layout::create($layoutParams);
             dump('Create layout - id: ' . $layout->id);
 
@@ -156,7 +156,7 @@ class LayoutsService
         $layoutParams = $this->validateData($data);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $layout = Layout::where('id_in_crm', $data['id'])->first();
+        $layout = Layout::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
@@ -192,7 +192,7 @@ class LayoutsService
     {
         $name = !is_null($data['layout_id']) ? $data['layout']['name'] : $data['name'];
 
-        $complex = Product::where('id_in_crm', $data['complex_id'])->firstOr(function ($data) {
+        $complex = Product::withTrashed()->where('id_in_crm', $data['complex_id'])->firstOr(function ($data) {
             return $this->objectsService->create($data['complex']);
         });
 
