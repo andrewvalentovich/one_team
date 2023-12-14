@@ -827,6 +827,9 @@ class ObjectCache {
 
     async getObjectBySimpleRequest(key) {
         console.log('key',key)
+        // if (window.locale === undefined) {
+        //     window.locale = 'ru';
+        // }
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: `/api/houses/simple?id=${key}`,

@@ -78,16 +78,15 @@ class LayoutsService
                     if (in_array($object['id'], $this->ids_in_crm_all)) {
                         if (is_null($object['complex_id'])) {
                             $this->objectsService->updateOrDelete($object);
-			}    
-			#} else {
-                        #    $this->updateOrDelete($object);
-                        #}
+                        } else {
+                            $this->updateOrDelete($object);
+                        }
                     } else {
-                        #if (is_null($object['complex_id'])) {
-                        #    $this->objectsService->create($object);
-                        #} else {
-                        #    $this->create($object);
-                        #}
+                        if (is_null($object['complex_id'])) {
+                            $this->objectsService->create($object);
+                        } else {
+                            $this->create($object);
+                        }
                     }
                 }
             }
@@ -111,7 +110,6 @@ class LayoutsService
 
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
-
             // Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
             if (strtotime('now') - strtotime($updated_at) <= 86400) {
                 $this->update($data);

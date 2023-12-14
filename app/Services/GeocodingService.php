@@ -14,7 +14,7 @@ class GeocodingService
      * [0] - long, [1] - lat
      * @return false|string[]
      */
-    private function coordinatesFromAddress($address)
+    public function coordinatesFromAddress($address)
     {
         $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3&format=json&geocode=' . urlencode($address));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -38,7 +38,7 @@ class GeocodingService
         ];
     }
 
-    private function generateAddress($data)
+    public function generateAddress($data)
     {
         $tmp_address = '';
         if ($data['tr_geo_il_name']) {

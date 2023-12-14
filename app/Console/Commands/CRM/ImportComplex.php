@@ -7,6 +7,7 @@ use App\Services\API\CRM\LayoutsForComplexService;
 use App\Services\API\CRM\LayoutsService;
 use App\Services\API\CRM\ObjectSimpleService;
 use App\Services\API\CRM\ObjectsService;
+use App\Services\GeocodingService;
 use App\Services\ImportCrmDataService;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -65,7 +66,8 @@ class ImportComplex extends Command
     public function __construct(
         ImportCrmDataService $importCrmDataService,
         ObjectSimpleService $objectSimpleService,
-        LayoutsForComplexService $layoutsService
+        LayoutsForComplexService $layoutsService,
+        GeocodingService $geocodingService
     )
     {
         parent::__construct();
@@ -75,6 +77,7 @@ class ImportComplex extends Command
         $this->importCrmDataService = $importCrmDataService;
         $this->objectSimpleService = $objectSimpleService;
         $this->layoutsService = $layoutsService;
+        $this->geocodingService = $geocodingService;
     }
 
     /**
@@ -82,12 +85,13 @@ class ImportComplex extends Command
      */
     public function handle()
     {
-        $this->info('Start handle complexes');
-        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
-        $this->info('Finish handle complexes');
-
-        $this->info('Start handle object');
-        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
-        $this->info('Finish handle object');
+        dd($this->geocodingService->coordinatesFromAddress('ANTALYA, ALANYA, ALANYA, Oba OBADA YENİ BİNADA 2+1 ORTA KATTA EŞYALI'));
+//        $this->info('Start handle complexes');
+//        $this->objectSimpleService->handle($this->endpoint_objects, $this->token, $this->argument('id'), $this->option('update') ?? null);
+//        $this->info('Finish handle complexes');
+//
+//        $this->info('Start handle object');
+//        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
+//        $this->info('Finish handle object');
     }
 }
