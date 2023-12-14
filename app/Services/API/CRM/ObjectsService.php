@@ -114,42 +114,45 @@ class ObjectsService
     {
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
+        dump(count($complexPhotos));
 
         // Получаем параметры для создания комплекса
-        $complexParams = $this->validateData($data);
+//        $complexParams = $this->validateData($data);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update product - id: ' . $complex->id);
-        $complex->update($complexParams);
-        foreach ($complex->photo as $photo)
-        {
-            $photo->delete();
-        }
+//        $complex->update($complexParams);
+//        foreach ($complex->photo as $photo)
+//        {
+//            $photo->delete();
+//        }
         // Обновление текстовых полей description и disposition
-        $this->updateDescription($complex, $data['description']);
+//        $this->updateDescription($complex, $data['description']);
 
         // Обновление категорий
-        $categories = ProductCategory::where('product_id', $complex->id)->get();
-        foreach ($categories as $key => $category) {
-            $category->delete();
-        }
-        $this->addCategories($data, $complex->id);
+//        $categories = ProductCategory::where('product_id', $complex->id)->get();
+//        foreach ($categories as $key => $category) {
+//            $category->delete();
+//        }
+//        $this->addCategories($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
-//        foreach ($complexPhotos as $key => $category) {
-//            foreach ($category as $index => $photo) {
-//                $filename = $this->imageService->saveFromRemote($photo);
-//
-//                PhotoTable::create([
-//                    'parent_model'=> '\App\Models\Product',
-//                    'parent_id' => $complex->id,
-//                    'photo' => $filename,
-//                    'preview' => $this->previewImageService->update($filename),
-//                    'category_id' => $this->photoCategories[$key]
-//                ]);
-//            }
-//        }
+        foreach ($complexPhotos as $key => $category) {
+            foreach ($category as $index => $photo) {
+                $filename = $this->imageService->saveFromRemote($photo);
+
+                PhotoTable::create([
+                    'parent_model'=> '\App\Models\Product',
+                    'parent_id' => $complex->id,
+                    'photo' => $filename,
+                    'preview' => $this->previewImageService->update($filename),
+                    'category_id' => $this->photoCategories[$key]
+                ]);
+                break;
+            }
+            break;
+        }
 
         return $complex;
     }
