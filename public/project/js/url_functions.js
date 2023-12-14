@@ -804,34 +804,6 @@ async function searchBarGetParameters() {
     });
 }
 
-
-async function searchBarGetParameters() {
-    var data = await get_filter_params();
-    window.filter_params_data = data;
-    window.sortedCategories = convertToCategoryValue(window.filter_params_data);
-
-    var buy = "";
-    getValuesFromUrl().forEach(function (value, index) {
-        if (data.sale_or_rent.includes(value)) {
-            buy = value;
-        }
-    })
-    $("input[name='sale_or_rent']").val(buy);
-
-    handleCountries(data);
-    handleCurrency(data);
-    handleTypes(data);
-    handleBedrooms(data);
-    handleBathrooms(data);
-    handlePeculiarities(data);
-    handleViews(data);
-    handleToSea(data);
-    handleMinPrice(data);
-    handleMaxPrice(data);
-    handleSizeMin(data);
-    handleSizeMax(data);
-}
-
 function handleIsSecondary() {
     var urlParams = getValuesFromUrl();
     if (urlParams.includes("secondary")) {

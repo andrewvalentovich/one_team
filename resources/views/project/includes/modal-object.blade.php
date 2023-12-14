@@ -868,7 +868,8 @@ function getObjectFromUrl() {
 getObjectFromUrl()
 
 
-function setNewPopupHouseData(object) {
+async function setNewPopupHouseData(object) {
+    await searchBarGetParameters()
     replaceUrlWithObject(window.filter_params_data, object.slug);
     const dataExchange = document.querySelector('.place-popup').getAttribute('data-exchange')
     const placeW = document.querySelector('.place-w')

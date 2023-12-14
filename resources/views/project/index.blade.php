@@ -300,6 +300,9 @@
         </div>
     </section>
     @endif
+    <script>
+    searchBarGetParameters()
+    </script>
      <!-- <section class="hello container">
         <div class="hello__title title">
             {{ __('Приветствую вас, дорогой гость!') }}

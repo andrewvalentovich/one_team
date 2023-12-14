@@ -1225,7 +1225,7 @@ function P(e) {
                 });
             })
         }
-
+        await searchBarGetParameters()
         function createParams() {
             // let urlParams = new URLSearchParams(window.location.search);
             // let params = {};
