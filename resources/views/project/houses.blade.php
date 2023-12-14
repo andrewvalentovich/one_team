@@ -1356,29 +1356,42 @@ function P(e) {
             let maxLon = -Infinity;
 
             // Фильтруем объекты по current_region
-
-            // const relevantObjectsCount = allmarks.filter(function (el) {
-            //     return el.current_region === 1;
-            // }).length;
-
-            allmarks.forEach(mark => {
-                if (mark.lat && mark.long) {
-                    if (!isNaN(mark.lat) && !isNaN(mark.long)) {
-                        minLat = Math.min(minLat, mark.lat);
-                        maxLat = Math.max(maxLat, mark.lat);
-                        minLon = Math.min(minLon, mark.long);
-                        maxLon = Math.max(maxLon, mark.long);
-                    }
-                }
+            const relevantMarks = allmarks.filter(function(el) {
+                return el.current_region === 1;
             });
+
+            if (relevantMarks.length > 2) {
+                relevantMarks.forEach(mark => {
+                    if (mark.lat && mark.long) {
+                        if (!isNaN(mark.lat) && !isNaN(mark.long)) {
+                            minLat = Math.min(minLat, mark.lat) - 0.005;
+                            maxLat = Math.max(maxLat, mark.lat) + 0.005;
+                            minLon = Math.min(minLon, mark.long) - 0.005;
+                            maxLon = Math.max(maxLon, mark.long) + 0.005;
+                        }
+                    }
+                });
+            } else {
+                allmarks.forEach(mark => {
+                    if (mark.lat && mark.long) {
+                        if (!isNaN(mark.lat) && !isNaN(mark.long)) {
+                            minLat = Math.min(minLat, mark.lat) - 0.005;
+                            maxLat = Math.max(maxLat, mark.lat) + 0.005;
+                            minLon = Math.min(minLon, mark.long) - 0.005;
+                            maxLon = Math.max(maxLon, mark.long) + 0.005;
+                        }
+                    }
+                });
+            }
             console.log(minLat);
             console.log(maxLat);
             console.log(minLon);
             console.log(maxLon);
+
             const subtitle = document.querySelector('.city-col__subtitle')
             const span = subtitle.querySelector('span')
-            span.innerHTML = allmarks.length
-            span.setAttribute('quantity_objects',allmarks.length)
+            span.innerHTML = relevantMarks.length
+            span.setAttribute('quantity_objects', relevantMarks.length)
             const nothing = document.querySelector('.nothing')
             if(allmarks.length == 0) {
                 // nothing.classList.add('active')

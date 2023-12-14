@@ -50,6 +50,9 @@ class HousesController extends Controller
         }
 
         // Генерация заголовка
+        if (isset($data['country'])) {
+            $title = $this->generateTitle(CountryAndCity::where('slug', $data['country'])->first());
+        }
 
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
         $products = Product::realty($data['price'] ?? null)
@@ -91,7 +94,7 @@ class HousesController extends Controller
 
         unset($products);
 
-        return view('project.houses', compact('products_first_list', 'products_second_list'));
+        return view('project.houses', compact('products_first_list', 'products_second_list', 'title'));
 //        return view('project.houses', compact('region', 'title'));
     }
 
