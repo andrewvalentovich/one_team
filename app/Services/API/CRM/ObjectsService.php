@@ -114,7 +114,6 @@ class ObjectsService
     {
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
-        dump(count($complexPhotos));
 
         // Получаем параметры для создания комплекса
 //        $complexParams = $this->validateData($data);
@@ -149,9 +148,7 @@ class ObjectsService
                     'preview' => $this->previewImageService->update($filename),
                     'category_id' => $this->photoCategories[$key]
                 ]);
-                break;
             }
-            break;
         }
 
         return $complex;
