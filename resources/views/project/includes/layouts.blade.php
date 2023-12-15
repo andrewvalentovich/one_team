@@ -24,7 +24,7 @@
     @endif
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <title>{{ isset($title) ? __($title) : "One-team" }}</title>
+    <title>{{ isset($title) ? __($title) : 'One-team' }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 {{--    <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>--}}
     <script src="https://api-maps.yandex.ru/2.1/?lang={{ app()->getLocale() }}_RU&amp;apikey=3337b512-9d91-4719-98bf-a2c8df5832ad" type="text/javascript"></script>

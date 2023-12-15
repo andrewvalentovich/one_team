@@ -1267,6 +1267,7 @@ function P(e) {
         createMapCity(marksFilter)
         async function getData(topLeft, bottomRight, paramsCustom) {
             let params = createParams()
+            console.log(params);
             if(paramsCustom) {
                 params.page = paramsCustom.page
             }
@@ -1280,6 +1281,13 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
+                        if (data.title) {
+                            document.querySelector('title').innerHTML = data.title;
+                        }
+                        if (data.catalog_title) {
+                            document.querySelector('.city-col__title').innerHTML = data.catalog_title;
+                        }
+
                         locationsCity.length = 0;
                         houseData.length = 0;
                         houseData = { ...data }

@@ -902,6 +902,16 @@ function createParamsForFilterFromUrl() {
             params.is_secondary = 1;
         }
 
+        if (value == "sale") {
+            params.sale_or_rent = "sale";
+        }
+        if (value == "buy") {
+            params.sale_or_rent = "sale";
+        }
+        if (value == "rent") {
+            params.sale_or_rent = "rent";
+        }
+
         if (value === 'new-first') {
             params.order_by = 'new-first';
         }

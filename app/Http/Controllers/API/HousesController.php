@@ -214,15 +214,6 @@ class HousesController extends Controller
             $data['order_by'] = 'new-first';
         }
 
-        $title = null;
-        $title_catalog = null;
-        // Генерация заголовков
-        if (isset($data['country'])) {
-            $title = $this->titleGenerateService->handle('Покупка недвижимости в регионе :name', CountryAndCity::where('slug', $data['city'])->first());
-            $title_catalog = $this->titleGenerateService->handle('Недвижимость в регионе :name', CountryAndCity::where('slug', $data['city'])->first());
-        }
-
-
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
         // Отступ для выборки записей
@@ -266,8 +257,8 @@ class HousesController extends Controller
         }
 
         return [
-            'title' => '',
-            'catalog_title' => '',
+            'title' => $this->titleGenerateService->titleForHouses($data),
+            'catalog_title' => $this->titleGenerateService->titleCatalogForHouses($data),
             'data' => \App\Http\Resources\Houses\Catalog\ProductsResource::collection($products)
         ];
     }

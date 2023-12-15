@@ -53,13 +53,10 @@ class HousesController extends Controller
             $data['order_by'] = 'new-first';
         }
 
-        $title = null;
-        $title_catalog = null;
-        // Генерация заголовка
-        if (isset($data['country'])) {
-            $title = $this->titleGenerateService->handle('Покупка недвижимости в регионе :name', CountryAndCity::where('slug', $data['country'])->first());
-            $title_catalog = $this->titleGenerateService->handle('Недвижимость в регионе :name', CountryAndCity::where('slug', $data['country'])->first());
-        }
+        // Генерация заголовков
+        $title = $this->titleGenerateService->titleForHouses($data);
+        $title_catalog = $this->titleGenerateService->titleCatalogForHouses($data);
+
 
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
         $products = Product::realty($data['price'] ?? null)

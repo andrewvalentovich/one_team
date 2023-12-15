@@ -17,7 +17,7 @@ class CompanySelectController extends Controller
             return redirect()->back();
         }
 
-        $title = 'Oneteam / ' . __('О проекте', [], app()->getLocale());
+        $title = 'Oneteam / ' . __($get->name, [], app()->getLocale());
 
         return view("project.pages.company.$slug", compact('get', 'title'));
      }
