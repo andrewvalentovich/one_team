@@ -1,5 +1,12 @@
 let locations = [];
-
+console.log('test1')
+document.querySelector(".header__top-phone-menu").onclick = function () {
+    console.log('test')
+    document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
+    if(document.querySelector(".place-w")) {
+        document.querySelector(".place-w").classList.contains("active") 
+    }
+}
 // Отправка запроса на количество посещённых пользователем страниц
 $.ajax({
     url:  '/api/cookies/page_count/increase',
@@ -75,9 +82,6 @@ async function renderMap() {
     }))
 
 
-    document.querySelector(".header__top-phone-menu").onclick = function () {
-        document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
-    }
     let t = document.querySelectorAll(".header-m__langs-item");
     for (let o = 0; o < t.length; o++) t[o].addEventListener("click", (function (c) {
         e(t), t[o].classList.add("active")

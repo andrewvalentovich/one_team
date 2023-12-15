@@ -134,8 +134,3 @@
 @section('footer')
     @include('project.includes.footer')
 @endsection
-
-
-@section('scripts')
-    <script src="{{asset('project/js/app.js')}} "></script>
-@endsection
