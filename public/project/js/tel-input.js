@@ -237,4 +237,3 @@ phoneInputs.forEach(input => {
         this.value = inputValue;
     })
 });
-

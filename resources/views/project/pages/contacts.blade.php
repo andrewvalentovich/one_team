@@ -73,4 +73,5 @@
 
 @section('scripts')
     <script src="{{asset('project/js/app.js')}} "></script>
+    <script src="{{asset('project/js/tel-input.js')}}"></script>
 @endsection

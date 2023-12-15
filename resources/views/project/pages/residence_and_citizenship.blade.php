@@ -134,3 +134,6 @@
 @section('footer')
     @include('project.includes.footer')
 @endsection
+@section('scripts')
+    <script src="{{asset('project/js/tel-input.js')}}"></script>
+@endsection
