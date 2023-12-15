@@ -944,6 +944,6 @@ function closeObjectModal() {
     var object = checkPosition(urlParams, 'object-');
     if (object) {
         urlParams = deleteUrlParameter(object, urlParams);
-        updateUrl(window.filter_params_data, urlParams);
     }
+    updateUrl(window.filter_params_data, urlParams);
 }

@@ -1401,7 +1401,7 @@ function P(e) {
             const span = subtitle.querySelector('span')
             span.innerHTML = relevantMarks.length
             span.setAttribute('quantity_objects', relevantMarks.length)
-            const nothing = document.querySelector('.nothing')  
+            const nothing = document.querySelector('.nothing')
             if(allmarks.length == 0) {
                 // nothing.classList.add('active')
             } else {
