@@ -53,6 +53,10 @@ class HousesController extends Controller
             $data['order_by'] = 'new-first';
         }
 
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+
         // Генерация заголовков
         $title = $this->titleGenerateService->titleForHouses($data);
         $title_catalog = $this->titleGenerateService->titleCatalogForHouses($data);

@@ -45,6 +45,10 @@
                     <form class="forms-sample" action="{{route('update_product')}}" enctype="multipart/form-data" id="update_product">
                         <br><br>
                         <input type="hidden" value="{{$get->id}}" name="product_id">
+                        <div class="col-md-6" bis_skin_checked="1">
+                            <p>ID объекта: {{ $get->id }}</p>
+                            <p>ID в CRM: {{ is_null($get->id_in_crm) ? '-' : $get->id_in_crm }}</p>
+                        </div>
                             @foreach($get_old_category as  $old_cat)
                         <input type="hidden" value="{{$old_cat->peculiarities_id}}" name="osobenosti[]">
                             @endforeach
