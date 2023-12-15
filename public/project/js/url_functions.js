@@ -868,11 +868,9 @@ function createParamsForFilterFromUrl() {
 
     var categories;
     (async() => {
-        console.log("waiting for variable");
         while(!window.sortedCategories) // define the condition as you like
             await new Promise(resolve => setTimeout(resolve, 1000));
         categories = window.sortedCategories;
-        console.log("variable is defined");
 
         var urlParams = getValuesFromUrl();
 
@@ -937,7 +935,15 @@ function createParamsForFilterFromUrl() {
             }
         })
     })();
-    console.log("above code doesn't block main function stack");
 
     return params;
+}
+
+function closeObjectModal() {
+    var urlParams = getValuesFromUrl();
+    var object = checkPosition(urlParams, 'object-');
+    if (object) {
+        urlParams = deleteUrlParameter(object, urlParams);
+        updateUrl(window.filter_params_data, urlParams);
+    }
 }

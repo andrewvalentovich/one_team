@@ -1465,7 +1465,7 @@ $(document).ready(function () {
         $(this).closest('.place-w').removeClass('active');
         const cityCol = document.querySelector('.city-col')
         // cityCol.style.display = '';
-        history.back();
+        closeObjectModal();
         // тут нужна альтернатива history.back();
         const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
         const placeLeftCollage = document.querySelector('.place__left-collage')
@@ -1490,7 +1490,8 @@ if(document.querySelectorAll('.place-w').length) {
                 //     urlParams = deleteUrlParameter(object, urlParams);
                 // }
                 // updateUrl(window.filter_params_data, urlParams, false);
-                history.back();
+                // history.back();
+                closeObjectModal();
             }
             if(target.classList.contains('_country')) {
                 const placeTopImg = document.querySelector('.place__top-img').querySelector('img')
@@ -1556,7 +1557,8 @@ exitBtn.forEach(btn => {
         }
         // updateUrl(window.filter_params_data, urlParams);
         document.querySelector(".place-w").classList.remove("active"), document.body.classList.remove("scroll_fixed"), document.querySelector(".header-w").classList.remove("fixed")
-        history.back();
+        // history.back();
+        closeObjectModal();
     })
 });
 const openMainPopupForm = document.querySelectorAll('.open-popup-main')

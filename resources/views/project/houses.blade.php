@@ -1267,7 +1267,6 @@ function P(e) {
         createMapCity(marksFilter)
         async function getData(topLeft, bottomRight, paramsCustom) {
             let params = createParams()
-            console.log(params);
             if(paramsCustom) {
                 params.page = paramsCustom.page
             }
@@ -1397,16 +1396,12 @@ function P(e) {
                     }
                 });
             }
-            console.log(minLat);
-            console.log(maxLat);
-            console.log(minLon);
-            console.log(maxLon);
 
             const subtitle = document.querySelector('.city-col__subtitle')
             const span = subtitle.querySelector('span')
             span.innerHTML = relevantMarks.length
             span.setAttribute('quantity_objects', relevantMarks.length)
-            const nothing = document.querySelector('.nothing')
+            const nothing = document.querySelector('.nothing')  
             if(allmarks.length == 0) {
                 // nothing.classList.add('active')
             } else {
