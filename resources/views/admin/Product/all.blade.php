@@ -39,16 +39,19 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th> ID</th>
-                                    <th> Адрес</th>
-
+                                    <th>ID</th>
+                                    <th>ID в CRM</th>
+                                    <th>Название</th>
+                                    <th>Адрес</th>
                                 </tr>
                                 </thead>
                                 @foreach($product as $item)
                                     <tbody>
                                     <tr>
-                                        <td> {{$item->id}}</td>
-                                        <td> {{$item->address}}</td>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->id_in_crm }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->address }}</td>
                                         <td style="display: flex; justify-content: flex-end;">
                                             <a href="{{route('single_page_product', $item->id)}}" class="btn btn-inverse-success btn-fw" bis_skin_checked="1">Просмотреть</a>
                                         </td>
