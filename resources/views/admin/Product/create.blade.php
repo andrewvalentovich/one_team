@@ -103,7 +103,6 @@
                                         @foreach($categorys->where('type', 'Спальни')->where('name','!=','Неважно') as $osobenosti)
                                             <option value="{{$osobenosti->id}}">{{$osobenosti->name}}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
                             </div>

@@ -391,6 +391,7 @@ function getValuesFromUrl() {
 
 function handleCurrency(data) {
     // Выводим валюту в dropdown
+    $('.search-nav__price-filter-currency').html("");
     $.each(data.currency, function (index, value) {
         if (getValuesFromUrl().includes(value.currency.toLowerCase())) {
             $("input[name='currency']").val(value.currency.toLowerCase());
@@ -464,6 +465,7 @@ function handleTypes(data) {
         $("input[name='type_id']").val(type_slug);
     }
 
+    $('.search-nav__types-list').html("");
     // Выводим пункт Все типы в dropdown с data_id=""
     $('.search-nav__types-list,.search__filter-types-list').append('<label data_id="" class="search-nav__types-item type closert_div checkbox _custom-radio"><input name="type_object" type="radio" checked> <span class="radio"></span>' + data.dictionary.all_types + '</label>');
 
@@ -592,6 +594,7 @@ function handleCountries(data) {
 function handleBedrooms(data) {
     var find_bedroom = false;
 
+    $('.search-nav__rooms-dropdown-bedrooms-buttons').html("");
     // Выводим спальни в dropdown
     $.each(data.bedrooms, function (index, value) {
         if (getValuesFromUrl().includes(value.slug)) {
@@ -620,6 +623,7 @@ function handleBedrooms(data) {
 function handleBathrooms(data) {
     var find_bathroom = false;
 
+    $('.search-nav__rooms-dropdown-bathrooms-buttons').html("");
     // Выводим ванные в dropdown
     $.each(data.bathrooms, function (index, value) {
         if (getValuesFromUrl().includes(value.slug)) {
@@ -645,6 +649,7 @@ function handleBathrooms(data) {
 
 function handlePeculiarities(data) {
     // Выводим особенности в dropdown
+    $('.more-dropdown__peculiarities-list').html("");
     $.each(data.peculiarities, function (index, value) {
         $('.more-dropdown__peculiarities-list').append('<div class="more-dropdown__peculiarities-item">'+
             '<label class="more-dropdown__peculiarities peculiarities">'+
@@ -672,6 +677,7 @@ function handlePeculiarities(data) {
 
 function handleViews(data) {
     // Выводим виды в dropdown
+    $('.more-dropdown__view-item').html("");
     $.each(data.views, function (index, value) {
         if (getValuesFromUrl().includes(value.slug)) {
             $("input[name='view']").val(value.slug);
@@ -702,6 +708,7 @@ function handleViews(data) {
 
 function handleToSea(data) {
     // Выводим до моря в dropdown
+    $('.more-dropdown__sea-item').html("");
     $.each(data.to_sea, function (index, value) {
         if (getValuesFromUrl().includes(value.slug)) {
             $("input[name='to_sea']").val(value.slug);
