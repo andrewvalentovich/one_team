@@ -13,6 +13,7 @@ use App\Models\CountryAndCity;
 use App\Models\ProductCategory;
 use App\Services\CurrencyService;
 use App\Services\LayoutService;
+use App\Services\TitleGenerateService;
 use App\Services\UrlParametersService;
 use Illuminate\Http\Request;
 
@@ -22,16 +23,19 @@ class HousesController extends Controller
     private $currencyService;
     private $layoutService;
     private $urlParametersService;
+    private $titleGenerateService;
 
     public function __construct(
         CurrencyService $currencyService,
         LayoutService $layoutService,
-        UrlParametersService $urlParametersService
+        UrlParametersService $urlParametersService,
+        TitleGenerateService $titleGenerateService
     ) {
         $this->peculiarities = Peculiarities::all();
         $this->currencyService = $currencyService;
         $this->layoutService = $layoutService;
         $this->urlParametersService = $urlParametersService;
+        $this->titleGenerateService = $titleGenerateService;
     }
 
     public function index()
@@ -49,9 +53,12 @@ class HousesController extends Controller
             $data['order_by'] = 'new-first';
         }
 
+        $title = null;
+        $title_catalog = null;
         // Генерация заголовка
         if (isset($data['country'])) {
-            $title = $this->generateTitle(CountryAndCity::where('slug', $data['country'])->first());
+            $title = $this->titleGenerateService->handle('Покупка недвижимости в регионе :name', CountryAndCity::where('slug', $data['country'])->first());
+            $title_catalog = $this->titleGenerateService->handle('Недвижимость в регионе :name', CountryAndCity::where('slug', $data['country'])->first());
         }
 
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data, 'currencyService' => $this->currencyService]);
@@ -72,6 +79,8 @@ class HousesController extends Controller
             ->limit(12)
             ->filter($filter)
             ->get();
+
+        $products_count = count($products);
 
         // Меняем параметры (для фронта)
         foreach ($products as $key => $object) {
@@ -94,19 +103,7 @@ class HousesController extends Controller
 
         unset($products);
 
-        return view('project.houses', compact('products_first_list', 'products_second_list'));
+        return view('project.houses', compact('products_first_list', 'products_second_list', 'title', 'title_catalog', 'products_count'));
 //        return view('project.houses', compact('region', 'title'));
-    }
-
-    private function generateTitle($country)
-    {
-        if (!is_null($country)) {
-            // Формируем заголовок
-            $title = __('Покупка недвижимости в регионе :name', ['name' => $country->locale_fields->where('locale.code', app()->getLocale())->first()->name]);
-        } else {
-            $title = null;
-        }
-
-        return $title;
     }
 }

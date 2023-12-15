@@ -35,8 +35,11 @@
             <div class="city-col active">
                 <div class="city-col__top">
                     <div class="city-col__title title">
-
+                        @if(isset($title_catalog) && $title_catalog)
+                            {{ $title_catalog }}
+                        @else
                             {{ __('Вся недвижимость') }}
+                        @endif
                     </div>
                     <div class="city-col__filter">
                         <input type="hidden" name="order">
@@ -45,6 +48,9 @@
                     </div>
                     <div class="city-col__subtitle">
                         <span>
+                            @if(isset($products_count) && $products_count)
+                                {{ $products_count }}
+                            @endif
                         </span>
                         {{__('объявлений')}}
                     </div>

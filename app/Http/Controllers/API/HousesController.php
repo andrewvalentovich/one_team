@@ -17,6 +17,7 @@ use App\Models\Peculiarities;
 use App\Models\Request;
 use App\Services\CurrencyService;
 use App\Services\LayoutService;
+use App\Services\TitleGenerateService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -25,12 +26,18 @@ class HousesController extends Controller
     private $peculiarities;
     private $currencyService;
     private $layoutService;
+    private $titleGenerateService;
 
-    public function __construct(CurrencyService $currencyService, LayoutService $layoutService)
+    public function __construct(
+        CurrencyService $currencyService,
+        LayoutService $layoutService,
+        TitleGenerateService $titleGenerateService
+    )
     {
         $this->peculiarities = Peculiarities::all();
         $this->currencyService = $currencyService;
         $this->layoutService = $layoutService;
+        $this->titleGenerateService = $titleGenerateService;
     }
 
 //    public function getByCoordinatesWithFilter(FilterRequest $request)
@@ -200,13 +207,21 @@ class HousesController extends Controller
 
     public function getByCoordinatesWithFilter(FilterRequest $request)
     {
-        $countries = CountryAndCity::all();
         $data = $request->validated();
 
+        // Если нет параметра для сортировки, создаём его
         if (!isset($data['order_by'])) {
             $data['order_by'] = 'new-first';
         }
-        $locale = Locale::where('code', isset($data['locale']) ? $data['locale'] : 'ru')->first();
+
+        $title = null;
+        $title_catalog = null;
+        // Генерация заголовков
+        if (isset($data['country'])) {
+            $title = $this->titleGenerateService->handle('Покупка недвижимости в регионе :name', CountryAndCity::where('slug', $data['city'])->first());
+            $title_catalog = $this->titleGenerateService->handle('Недвижимость в регионе :name', CountryAndCity::where('slug', $data['city'])->first());
+        }
+
 
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
@@ -251,6 +266,8 @@ class HousesController extends Controller
         }
 
         return [
+            'title' => '',
+            'catalog_title' => '',
             'data' => \App\Http\Resources\Houses\Catalog\ProductsResource::collection($products)
         ];
     }
