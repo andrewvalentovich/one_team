@@ -1684,6 +1684,27 @@ body {
   display: block;
 }
 
+.about h2 {
+  font-weight: bold;
+  font-size: 23px;
+  margin-bottom: 5px;
+}
+
+
+
+.about li {
+  margin-bottom: 15px;
+}
+
+.about b {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.about p {
+  line-height: 154%;
+}
+
 .header__about-dropdown {
   width: 242px;
   right: 0px;
@@ -7877,6 +7898,15 @@ body.scroll_fixed {
   border-radius: 20px;
 }
 
+.desc_transparent {
+  padding-left: 0px;
+}
+
+.desc_transparent::before {
+  display: none;
+}
+
+
 .desc_blue::before {
   background: #508CFA;
 }
@@ -7888,7 +7918,7 @@ body.scroll_fixed {
 .about__text {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 40px;
 }
 
