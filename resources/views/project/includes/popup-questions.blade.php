@@ -1,4 +1,4 @@
-<div class="popup popup-modal popup-questions" style="z-index: 2005!important;" bis_skin_checked="1">
+<div class="popup popup-modal popup-questions @if(!is_null(Cookie::get('visited_pages_count')) && Cookie::get('visited_pages_count') == 5) Second-modal-call @endif" style="z-index: 2005!important;" bis_skin_checked="1">
     <div class="popup__body" bis_skin_checked="1">
         <div class="popup__content default-form" id="city_form">
             <div class="popup-close" bis_skin_checked="1">

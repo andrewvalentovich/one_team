@@ -1,5 +1,11 @@
 let locations = [];
 
+// Отправка запроса на количество посещённых пользователем страниц
+$.ajax({
+    url:  '/api/cookies/page_count/increase',
+    type: 'GET',
+});
+
 async function getData(locale, idCountry) {
     let url = ``;
 
@@ -68,7 +74,7 @@ async function renderMap() {
         }
     }))
 
-    
+
     document.querySelector(".header__top-phone-menu").onclick = function () {
         document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
     }

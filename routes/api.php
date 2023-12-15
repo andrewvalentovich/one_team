@@ -64,4 +64,8 @@ Route::domain(config('app.domain'))->group(function () {
     Route::get('/houses/detail', [\App\Http\Controllers\API\NewSiteController::class, 'detail'])->name('api.houses.get.detail');
     // Отдаются объекты для нового сайта для карты
     Route::get('/houses/map', [\App\Http\Controllers\API\NewSiteController::class, 'map'])->name('api.houses.get.map');
+
+
+    // Отдаются объекты для нового сайта для карты
+    Route::get('/cookies/page_count/increase', [\App\Http\Controllers\API\PageCountController::class, 'increase'])->name('api.cookies.page_count.increase');
 });

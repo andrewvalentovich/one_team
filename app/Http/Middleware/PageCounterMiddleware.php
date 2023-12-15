@@ -6,6 +6,7 @@ use App\Services\LocaleUrlService;
 use App\Services\UtmGoalsService;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
@@ -28,6 +29,10 @@ class PageCounterMiddleware
 //        $request->session()->put('pages', $session_pages);
 //        $session_page_count++;
 //        $request->session()->put('page_count', $session_page_count);
+
+
+        $getPageCountCookie = Cookie::get('visited_pages_count');
+        dump($getPageCountCookie);
 
         return $next($request);
     }

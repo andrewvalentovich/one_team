@@ -16,6 +16,7 @@ class EncryptCookies extends Middleware
         'utm_medium',
         'utm_campaign',
         'utm_term',
-        'utm_content'
+        'utm_content',
+        'visited_pages_count'
     ];
 }
