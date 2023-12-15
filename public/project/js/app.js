@@ -851,38 +851,43 @@ popupCatalogClose.addEventListener('click', () => {
     sessionStorage.setItem("popupCatalog", "wasCloseByUser");
 })
 
+const popupQuestions = document.querySelector('.popup-questions.Second-modal-call')
 
-idleTimer = null;
-idleState = false;
-idleWait = 20000; // задаём время ожидания бездействия
-
-(function ($) {
-    $(document).ready(function () {
-        $('*').on('mousemove keydown scroll touchstart touchmove touchend', function () {
-            clearTimeout(idleTimer);
-            if (idleState == true) {
-                console.log("active")
-            }
-            idleState = false;
-            idleTimer = setTimeout(function () {
-                if (!sessionStorage.getItem("popupCatalog")) {
-                    popupCatalog.classList.add('active')
-                } else {
-                    // sessionStorage.setItem("popupCatalog", "wasCalled");
+if(popupQuestions) {
+    popupQuestions.classList.add('active')
+} else {
+    idleTimer = null;
+    idleState = false;
+    idleWait = 20000; // задаём время ожидания бездействия
+    
+    (function ($) {
+        $(document).ready(function () {
+            $('*').on('mousemove keydown scroll touchstart touchmove touchend', function () {
+                clearTimeout(idleTimer);
+                if (idleState == true) {
+                    console.log("active")
                 }
-                console.log("inactive")
-                idleState = true;
-            }, idleWait);
+                idleState = false;
+                idleTimer = setTimeout(function () {
+                    if (!sessionStorage.getItem("popupCatalog")) {
+                        popupCatalog.classList.add('active')
+                    } else {
+                        // sessionStorage.setItem("popupCatalog", "wasCalled");
+                    }
+                    console.log("inactive")
+                    idleState = true;
+                }, idleWait);
+            });
+    
+            // Инициализация
+            $("body").trigger("mousemove");
+    
         });
+    })(jQuery);
+    const popupCatalogGetBtn = document.querySelector('.popup-catalog-get-btn')
+    popupCatalogGetBtn.addEventListener('click', () => {
+        popupCatalog.classList.remove('active')
+        sessionStorage.setItem("popupCatalog", "wasCloseByUser");
+    })
+}
 
-        // Инициализация
-        $("body").trigger("mousemove");
-
-    });
-})(jQuery);
-
-const popupCatalogGetBtn = document.querySelector('.popup-catalog-get-btn')
-popupCatalogGetBtn.addEventListener('click', () => {
-    popupCatalog.classList.remove('active')
-    sessionStorage.setItem("popupCatalog", "wasCloseByUser");
-})
