@@ -301,7 +301,28 @@
     </section>
     @endif
     <script>
-    searchBarGetParameters()
+        searchBarGetParameters()
+        //отправить запрос с фильтром по кнопке найти страница houses
+        // if(document.querySelectorAll('.btn-filter-houses').length) {
+        //     const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')
+        //     btnFilterHouses.forEach(btn => {
+        //         btn.addEventListener('click', async function() {
+        //             console.log(window.filter_params_data)
+        //             handleCountries(window.filter_params_data);
+        //         })
+        //     });
+        // }
+        if(document.querySelectorAll('.btn-filter-houses').length) {
+            const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')
+            btnFilterHouses.forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const currentURL = window.location.href;
+                    window.location.href = currentURL;
+                    history.pushState(null, null, currentURL);
+                })
+            });
+
+        }
     </script>
      <!-- <section class="hello container">
         <div class="hello__title title">

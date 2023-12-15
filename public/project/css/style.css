@@ -2036,7 +2036,7 @@ body {
 }
 
 .popular-locations__item {
-  flex: 0 0 calc(25% - 15px);
+  flex: 0 0 calc(33.33% - 14px);
   display: flex !important;
   gap: 10px;
   box-sizing: border-box;
@@ -4892,6 +4892,11 @@ body.scroll_fixed {
     height: 67px;
     left: -191px;
     top: 192px;
+  }
+}
+@media (max-width: 1349px) {
+  .popular-locations__item {
+    flex: 0 0 calc(50% - 10px);
   }
 }
 

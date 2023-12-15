@@ -258,4 +258,5 @@
     // var set_query = $.query.SET('order_by', "created_at-desc"); // создание url
     // history.pushState(null,null, set_query); // подстановка параметров
     // searchBarGetParameters();
+    
 </script>
