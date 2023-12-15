@@ -4,6 +4,10 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+
+@endsection
+
 @section('content')
     <!-- {!! json_decode($get->content) !!} -->
     <section class="about">
