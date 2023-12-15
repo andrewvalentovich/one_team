@@ -12,30 +12,17 @@
                 Отзывы
             </div>
             <div class="about__preview">
-                <p class="about__preview-text">
-                    <b>Oneteam</b> — лицензированное агентство недвижимости, практикующее нестандартный подход к решению задач. Большинство наших коллег работает «по старинке», пользуясь для ведения баз данных облачными сервисами, из-за чего страдает актуальность предложений: например, вам могут случайно «продать» квартиру в Турции, которая уже забронирована кем-то другим.
-                </p>
-                <img class="about__preview-pic" src="{{asset('project/img/about-preview.png')}}" alt="о компании">
-                <p class="about__text-desc desc desc_blue">
-                    Чтобы автоматизировать процесс продажи недвижимости, мы разработали собственный IT-продукт — цифровую платформу на основе искусственного интеллекта, которая определяет наиболее перспективные объекты на основе анализа рынков сбыта, предоставляя инвесторам возможность приобретать недвижимость, основываясь не на умозаключениях, а на аналитических выкладках алгоритма, обученного принимать непредвзятые решения.
-                </p>
+                <div style="width:100%; max-width: 560px;height:800px;overflow:hidden;position:relative; margin: 0 auto 20px;">
+                    <iframe style="width:100%;height:100%;border:1px solid #e6e6e6;border-radius:8px;box-sizing:border-box" src="https://yandex.ru/maps-reviews-widget/63917211618?comments"></iframe>
+                    <a href="https://yandex.ru/maps/org/oneteam_in_aat/63917211618/" target="_blank" style="box-sizing:border-box;text-decoration:none;color:#b3b3b3;font-size:10px;font-family:YS Text,sans-serif;padding:0 20px;position:absolute;bottom:8px;width:100%;text-align:center;left:0;overflow:hidden;text-overflow:ellipsis;display:block;max-height:14px;white-space:nowrap;padding:0 16px;box-sizing:border-box">
+                        Oneteam İnşaat на карте Антальи — Яндекс Карты
+                    </a>
+                </div>
+                <review-lab data-widgetid="657c2d7290604f4f280fe74f"></review-lab>
             </div>
-            <div class="about__text">
-                <p>
-                    Цифровая платформа ведет учет находящихся на рынке домов и квартир в Турции, а также подбирает объекты в соответствии с клиентскими запросами, анализирует ликвидность и потребительские параметры, и наглядно представляет информацию о районе расположения и его инфраструктуре. В ее состав также входит CRM со сквозной аналитикой.
-                </p>
-                <img src="{{asset('project/img/man.svg')}}" alt="картинка с человеком">
-                <p>
-                    Используя возможности цифровой платформы, можно уточнить, сколько стоит недвижимость в Турции в пределах выбранного вами района, найти подходящую по метражу и характеристикам квартиру, проверить ее ликвидность и «чистоту», а также выяснить, находится ли она в сделке или на брони, и закрепить ее за собой… либо перейти к следующему варианту.
-                </p>
-            </div>
-            <p class="about__text-desc desc desc_red">
-                Чтобы автоматизировать процесс продажи недвижимости, мы разработали собственный IT-продукт — цифровую платформу на основе искусственного интеллекта, которая определяет наиболее перспективные объекты на основе анализа рынков сбыта, предоставляя инвесторам возможность приобретать недвижимость, основываясь не на умозаключениях, а на аналитических выкладках алгоритма, обученного принимать непредвзятые решения.
-            </p>
         </div>
     </section>
-    @include('project.includes.advantages')
-    @include('project.includes.form-main')
+
 @endsection
 
 
@@ -45,6 +32,19 @@
 
 
 @section('scripts')
+    <script src="https://app.reviewlab.ru/widget/index-es2015.js" defer></script>
     <script src="{{asset('project/js/app.js')}} "></script>
     <script src="{{asset('project/js/tel-input.js')}}"></script>
 @endsection
+
+<style>
+    .widget__src--logo {
+        display: none !important;
+    }
+    .ngucarousel {
+        height: fit-content !important;
+    }
+    .ngucarousel-items {
+        height: auto !important;
+    }
+</style>

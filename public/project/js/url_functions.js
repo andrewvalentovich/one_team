@@ -777,6 +777,7 @@ async function searchBarGetParameters() {
         },
         method: 'get',                                              /* Метод запроса (post или get) */
         success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
+            if(window.filter_params_data !== undefined) return
             window.filter_params_data = data;
             window.sortedCategories = convertToCategoryValue(data);
 
@@ -787,7 +788,6 @@ async function searchBarGetParameters() {
                 }
             })
             $("input[name='sale_or_rent']").val(buy);
-
             handleCountries(data);
             handleCurrency(data);
             handleTypes(data);
