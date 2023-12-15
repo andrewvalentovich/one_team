@@ -70,6 +70,18 @@ class UrlParametersService
                 continue;
             }
 
+            // Проверка на коммерческую
+            if (stripos($value, 'commercial') !== false) {
+                $validate_array['is_commercial'] = 1;
+                continue;
+            }
+
+            // Проверка на коммерческую
+            if (stripos($value, 'residential') !== false) {
+                $validate_array['is_commercial'] = 1;
+                continue;
+            }
+
             // Проверка на от застройщика
             if (stripos($value, 'new') !== false) {
                 $validate_array['is_secondary'] = 0;

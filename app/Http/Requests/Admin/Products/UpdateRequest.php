@@ -41,6 +41,7 @@ class UpdateRequest extends FormRequest
             'parking' => 'nullable|string',
             'cryptocurrency' => 'nullable|string',
             'is_secondary' => 'nullable|boolean',
+            'is_commercial' => 'nullable|boolean',
             'vnj' => 'nullable|string',
             'grajandstvo' => 'nullable|string',
             'commissions' => 'nullable|string',

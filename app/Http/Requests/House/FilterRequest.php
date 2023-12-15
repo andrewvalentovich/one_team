@@ -31,6 +31,7 @@ class FilterRequest extends FormRequest
             'page' => 'nullable|numeric',
             'sale_or_rent' => 'nullable|string',
             'is_secondary' => 'nullable|string',
+            'is_commercial' => 'nullable|string',
             'order_by' => 'nullable|string',
             'price' => 'nullable|array',
             'bedrooms' => 'nullable',

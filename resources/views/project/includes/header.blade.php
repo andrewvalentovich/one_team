@@ -75,17 +75,32 @@
                             <a href="{{ route('realty', ['categories' => 'buy']) }}">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('realty', ['categories' => 'buy']) }}">
+                            <a href="{{ route('realty', ['categories' => 'commercial/buy']) }}">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header-m__item">
+                <div class="header-m__item header-m__buy header-m__item-btn">
                     <div class="header-m__item-text">
-                       {{__('Снять')}}
+                        {{__('Снять') }}
                     </div>
-                </a>
+                    <div class="header-m__aboute-list">
+                        <div class="header-m__aboute-content">
+                            <a href="{{ route('realty', ['categories' => 'rent']) }}">
+                                {{__('Жилая')}}
+                            </a>
+                            <a href="{{ route('realty', ['categories' => 'commercial/rent']) }}">
+                                {{__('Коммерческая')}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+{{--                <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header-m__item">--}}
+{{--                    <div class="header-m__item-text">--}}
+{{--                       {{__('Снять')}}--}}
+{{--                    </div>--}}
+{{--                </a>--}}
                 <a href="{{ route('investments') }}" class="header-m__item">
                     <div class="header-m__item-text">
                         {{__('Инвестиции')}}
@@ -200,7 +215,7 @@
                             <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('realty', ['categories' => 'buy']) }}" class="header__list-item header__buy-list-item">
+                            <a href="{{ route('realty', ['categories' => 'commercial/buy']) }}" class="header__list-item header__buy-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>
@@ -215,7 +230,7 @@
                             <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Жилая')}}
                             </a>
-                            <a href="{{ route('realty', ['categories' => 'rent']) }}" class="header__list-item header__rent-list-item">
+                            <a href="{{ route('realty', ['categories' => 'commercial/rent']) }}" class="header__list-item header__rent-list-item">
                                 {{__('Коммерческая')}}
                             </a>
                         </div>

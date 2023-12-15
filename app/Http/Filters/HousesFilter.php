@@ -26,6 +26,7 @@ class HousesFilter extends AbstractFilter
     const BATHROOMS = 'bathrooms';
     const PECULIARITIES = 'peculiarities';
     const IS_SECONDARY = 'is_secondary';
+    const IS_COMMERCIAL = 'is_commercial';
     const VIEW = 'view';
     const TO_SEA = 'to_sea';
     const SIZE = 'size';
@@ -59,6 +60,7 @@ class HousesFilter extends AbstractFilter
             self::PRICE => [$this, 'price'],
             self::SIZE => [$this, 'size'],
             self::IS_SECONDARY => [$this, 'is_secondary'],
+            self::IS_COMMERCIAL => [$this, 'is_commercial'],
             self::CITY_ID => [$this, 'city_by_id'],
             self::CITY => [$this, 'city_by_slug'],
         ];
@@ -68,6 +70,13 @@ class HousesFilter extends AbstractFilter
     {
         if(isset($value)) {
             $builder->where('is_secondary', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+        }
+    }
+
+    protected function is_commercial(Builder $builder, $value)
+    {
+        if(isset($value)) {
+            $builder->where('is_commercial', filter_var($value, FILTER_VALIDATE_BOOLEAN));
         }
     }
 

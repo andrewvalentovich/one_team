@@ -205,8 +205,20 @@
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control" name="is_secondary" style="color: #e2e8f0">
-                                            <option value="0">От застройщика</option>
-                                            <option value="1">Вторичка</option>
+                                        <option value="0">От застройщика</option>
+                                        <option value="1">Вторичка</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" bis_skin_checked="1">
+                            <div class="form-group row" bis_skin_checked="1">
+                                <label class="col-sm-3 col-form-label">Жилая или коммерческая
+                                </label>
+                                <div class="col-sm-9" bis_skin_checked="1">
+                                    <select class="form-control" name="is_commercial" style="color: #e2e8f0">
+                                        <option value="0">Жилая</option>
+                                        <option value="1">Коммерческая</option>
                                     </select>
                                 </div>
                             </div>

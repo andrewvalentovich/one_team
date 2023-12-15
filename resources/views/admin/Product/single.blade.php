@@ -271,6 +271,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6" bis_skin_checked="1">
+                            <div class="form-group row" bis_skin_checked="1"> <label class="col-sm-3 col-form-label">Жилая или коммерческая
+                                </label>
+                                <div class="col-sm-9" bis_skin_checked="1">
+                                    <select class="form-control" name="is_commercial" style="color: #e2e8f0">
+                                        <option value="0" {{ $get->is_commercial == 0 ? 'selected' : ''}}>Жилая</option>
+                                        <option value="1" {{ $get->is_commercial == 1 ? 'selected' : ''}}>Коммерческая</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div class="col-md-6" bis_skin_checked="1">

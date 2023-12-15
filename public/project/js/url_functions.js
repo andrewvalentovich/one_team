@@ -144,6 +144,11 @@ function updateUrl(data, urlValues, page_with_filter = true) {
             url += "/" + locations;
         }
 
+        var commercial = checkPosition(urlValues, "commercial");
+        if (commercial) {
+            url += "/" + commercial;
+        }
+
         var country = getMatchSlug(urlValues, data.countries);
         if (country) {
             url += "/" + country;
@@ -912,6 +917,14 @@ function createParamsForFilterFromUrl() {
             }
             if (value === "secondary") {
                 params.is_secondary = 1;
+            }
+
+            if (value === "commercial") {
+                params.is_commercial = 1;
+            }
+
+            if (value === "residential") {
+                params.is_commercial = 0;
             }
 
             if (value == "sale") {
