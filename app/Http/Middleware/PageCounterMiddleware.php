@@ -31,8 +31,8 @@ class PageCounterMiddleware
 //        $request->session()->put('page_count', $session_page_count);
 
 
-        $getPageCountCookie = Cookie::get('visited_pages_count');
-        dump($getPageCountCookie);
+//        $getPageCountCookie = Cookie::get('visited_pages_count');
+//        dump($getPageCountCookie);
 
         return $next($request);
     }
