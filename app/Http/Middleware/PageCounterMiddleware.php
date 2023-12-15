@@ -20,14 +20,14 @@ class PageCounterMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        // Если пользователь зашёл первый раз - будет null
+        // Если пользователь зашёл первый раз - будет null
 //        $session_page_count = !empty($request->session()->get('page_count')) ? $request->session()->get('page_count') : 0;
 //        $session_pages = !empty($request->session()->get('pages')) ? $request->session()->get('pages') : [];
 //        $session_pages[] = request()->headers->get('referer');
 //        dump($session_pages);
+//        $request->session()->put('pages', $session_pages);
 //        $session_page_count++;
 //        $request->session()->put('page_count', $session_page_count);
-//        $request->session()->put('pages', $session_pages);
 
         return $next($request);
     }

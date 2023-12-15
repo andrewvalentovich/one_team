@@ -783,7 +783,7 @@ async function searchBarGetParameters() {
             locale: window.locale,
         },
         method: 'get',                                              /* Метод запроса (post или get) */
-        success: function(data) {                                    /* функция которая будет выполнена после успешного запроса.  */
+        success: function(data) {
             if(window.filter_params_data !== undefined) return
             window.filter_params_data = data;
             window.sortedCategories = convertToCategoryValue(data);
@@ -865,71 +865,79 @@ function createParamsForFilterFromUrl() {
         size: {},
         peculiarities: []
     };
-    var categories = window.sortedCategories;
 
-    var urlParams = getValuesFromUrl();
+    var categories;
+    (async() => {
+        console.log("waiting for variable");
+        while(!window.sortedCategories) // define the condition as you like
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        categories = window.sortedCategories;
+        console.log("variable is defined");
 
-    urlParams.forEach(function (value, index) {
-        var val = categories.find(x => x.value === value);
-        if (val) {
-            if (val.category == "peculiarities") {
-                params.peculiarities.push(val.value);
-            } else {
-                params[val.category] = val.value;
+        var urlParams = getValuesFromUrl();
+
+        urlParams.forEach(function (value, index) {
+            var val = categories.find(x => x.value === value);
+            if (val) {
+                if (val.category == "peculiarities") {
+                    params.peculiarities.push(val.value);
+                } else {
+                    params[val.category] = val.value;
+                }
             }
-        }
-        if (value.indexOf("minprice") !== -1) {
-            var minprice = value.split('-');
-            params.price["min"] = parseInt(minprice[1]);
-        }
-        if (value.indexOf("maxprice") !== -1) {
-            var maxprice = value.split('-');
-            params.price["max"] = parseInt(maxprice[1]);
-        }
+            if (value.indexOf("minprice") !== -1) {
+                var minprice = value.split('-');
+                params.price["min"] = parseInt(minprice[1]);
+            }
+            if (value.indexOf("maxprice") !== -1) {
+                var maxprice = value.split('-');
+                params.price["max"] = parseInt(maxprice[1]);
+            }
 
-        if (value.indexOf("minsize") !== -1) {
-            var minsize = value.split('-');
-            params.size.min = parseInt(minsize[1]);
-        }
-        if (value.indexOf("maxsize") !== -1) {
-            var maxsize = value.split('-');
-            params.size.max = parseInt(maxsize[1]);
-        }
+            if (value.indexOf("minsize") !== -1) {
+                var minsize = value.split('-');
+                params.size.min = parseInt(minsize[1]);
+            }
+            if (value.indexOf("maxsize") !== -1) {
+                var maxsize = value.split('-');
+                params.size.max = parseInt(maxsize[1]);
+            }
 
-        window.filter_params_data.currency.forEach(function (v, i) {
-            if (v.currency.toLowerCase() === value) {
-                params.price["currency"] = value.toUpperCase();
+            window.filter_params_data.currency.forEach(function (v, i) {
+                if (v.currency.toLowerCase() === value) {
+                    params.price["currency"] = value.toUpperCase();
+                }
+            })
+
+            if (value === "new") {
+                params.is_secondary = 0;
+            }
+            if (value === "secondary") {
+                params.is_secondary = 1;
+            }
+
+            if (value == "sale") {
+                params.sale_or_rent = "sale";
+            }
+            if (value == "buy") {
+                params.sale_or_rent = "sale";
+            }
+            if (value == "rent") {
+                params.sale_or_rent = "rent";
+            }
+
+            if (value === 'new-first') {
+                params.order_by = 'new-first';
+            }
+            if (value === 'cheap-first') {
+                params.order_by = 'cheap-first';
+            }
+            if (value === 'expensive-first') {
+                params.order_by = 'expensive-first';
             }
         })
-
-        if (value === "new") {
-            params.is_secondary = 0;
-        }
-        if (value === "secondary") {
-            params.is_secondary = 1;
-        }
-
-        if (value == "sale") {
-            params.sale_or_rent = "sale";
-        }
-        if (value == "buy") {
-            params.sale_or_rent = "sale";
-        }
-        if (value == "rent") {
-            params.sale_or_rent = "rent";
-        }
-
-        if (value === 'new-first') {
-            params.order_by = 'new-first';
-        }
-        if (value === 'cheap-first') {
-            params.order_by = 'cheap-first';
-        }
-        if (value === 'expensive-first') {
-            params.order_by = 'expensive-first';
-        }
-
-    })
+    })();
+    console.log("above code doesn't block main function stack");
 
     return params;
 }
