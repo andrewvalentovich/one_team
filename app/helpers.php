@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Cookie;
+
 function numbers_graduation($n) {
     $titles = array('объявление', 'объявления', 'объявлений');
     $cases = array(2, 0, 1, 1, 1, 2);
@@ -19,4 +21,8 @@ function get_exchange_rate_symbol($code) {
 
 function cdn_asset($path, $secure = null) {
     return app('url')->assetFrom(config('app.panel_subdomain'), $path, $secure);
+}
+
+function check_question_popup() {
+    return !is_null(Cookie::get('visited_pages_count')) && Cookie::get('visited_pages_count') == 5;
 }

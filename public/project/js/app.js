@@ -4,9 +4,10 @@ document.querySelector(".header__top-phone-menu").onclick = function () {
     console.log('test')
     document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
     if(document.querySelector(".place-w")) {
-        document.querySelector(".place-w").classList.contains("active") 
+        document.querySelector(".place-w").classList.contains("active")
     }
 }
+
 // Отправка запроса на количество посещённых пользователем страниц
 $.ajax({
     url:  '/api/cookies/page_count/increase',
@@ -863,7 +864,7 @@ if(popupQuestions) {
     idleTimer = null;
     idleState = false;
     idleWait = 20000; // задаём время ожидания бездействия
-    
+
     (function ($) {
         $(document).ready(function () {
             $('*').on('mousemove keydown scroll touchstart touchmove touchend', function () {
@@ -882,10 +883,10 @@ if(popupQuestions) {
                     idleState = true;
                 }, idleWait);
             });
-    
+
             // Инициализация
             $("body").trigger("mousemove");
-    
+
         });
     })(jQuery);
     const popupCatalogGetBtn = document.querySelector('.popup-catalog-get-btn')

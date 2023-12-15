@@ -17,7 +17,7 @@ class PageCountController extends Controller
         } else {
             $getPageCountcookie = 1;
         }
-        $cookie = Cookie::make('visited_pages_count', $getPageCountcookie, 1, '', config('app.domain'));
+        $cookie = Cookie::make('visited_pages_count', $getPageCountcookie, 1440, '', config('app.domain'));
 
         return response('Hello World')->cookie($cookie);
     }

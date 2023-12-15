@@ -21,6 +21,7 @@ class PageCounterMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+//        ob_start();
         // Если пользователь зашёл первый раз - будет null
 //        $session_page_count = !empty($request->session()->get('page_count')) ? $request->session()->get('page_count') : 0;
 //        $session_pages = !empty($request->session()->get('pages')) ? $request->session()->get('pages') : [];
@@ -30,10 +31,15 @@ class PageCounterMiddleware
 //        $session_page_count++;
 //        $request->session()->put('page_count', $session_page_count);
 
-
-//        $getPageCountCookie = Cookie::get('visited_pages_count');
-//        dump($getPageCountCookie);
-
+        $getPageCountCookie = Cookie::get('visited_pages_count');
+        dump($getPageCountCookie);
+//        if ($getPageCountCookie) {
+            $getPageCountCookie++;
+//        } else {
+//            $getPageCountCookie = 2;
+//        }
+//        Cookie::queue(Cookie::make('visited_pages_count', $getPageCountCookie, 1, '/', config('app.domain')));
+//        return $next($request)->cookie('visited_pages_count', $getPageCountCookie, 1, '/', config('app.domain'));
         return $next($request);
     }
 }
