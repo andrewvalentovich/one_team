@@ -94,7 +94,7 @@ class HousesController extends Controller
 
         unset($products);
 
-        return view('project.houses', compact('products_first_list', 'products_second_list', 'title'));
+        return view('project.houses', compact('products_first_list', 'products_second_list'));
 //        return view('project.houses', compact('region', 'title'));
     }
 
