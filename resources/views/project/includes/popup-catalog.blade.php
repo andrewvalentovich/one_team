@@ -1,7 +1,7 @@
 <div class="popup popup-modal popup-catalog" style="z-index: 2005!important;" bis_skin_checked="1">
     <div class="popup__body" bis_skin_checked="1">
         <div class="popup__content default-form" id="city_form">
-            <div class="popup-close" bis_skin_checked="1">
+            <div class="popup-close popup-catalog-close" bis_skin_checked="1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><script xmlns=""></script>
                     <path d="M1 1L13 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
                     <path d="M13 1L1 13" stroke="white" stroke-width="1.5" stroke-linecap="round"></path>
@@ -80,7 +80,7 @@
                                     </p>
                                 </li>
                             </ul>
-                            <button class="catalog__btn-get">
+                            <button class="catalog__btn-get popup-catalog-get-btn" popup-name="main-form-popup">
                                 Получить каталог
                             </button>
                         </div>

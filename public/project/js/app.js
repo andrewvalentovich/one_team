@@ -527,7 +527,9 @@ document.addEventListener("click", function(event) {
 
     if(target.classList.contains('popup')) {
       target.classList.remove('active')
-    //   bodyScrollLock.enableBodyScroll(target);
+        if(target.classList.contains('popup-catalog')) {
+            sessionStorage.setItem("popupCatalog", "wasCloseByUser");
+        }
     }
 
     //закрытие меню кликом по темной области
@@ -836,3 +838,45 @@ openPopupBtn.forEach(btn => {
         popup.classList.add('active')
     })
 });
+
+const popupCatalog = document.querySelector('.popup-catalog')
+const popupCatalogClose = document.querySelector('.popup-catalog-close')
+popupCatalogClose.addEventListener('click', () => {
+    sessionStorage.setItem("popupCatalog", "wasCloseByUser");
+})
+
+
+idleTimer = null;
+idleState = false;
+idleWait = 20000; // задаём время ожидания бездействия
+
+(function ($) {
+    $(document).ready(function () {
+        $('*').on('mousemove keydown scroll touchstart touchmove touchend', function () {
+            clearTimeout(idleTimer);
+            if (idleState == true) {
+                console.log("active")
+            }
+            idleState = false;
+            idleTimer = setTimeout(function () {
+                if (!sessionStorage.getItem("popupCatalog")) {
+                    popupCatalog.classList.add('active')
+                } else {
+                    // sessionStorage.setItem("popupCatalog", "wasCalled");
+                }
+                console.log("inactive")
+                idleState = true;
+            }, idleWait);
+        });
+
+        // Инициализация
+        $("body").trigger("mousemove");
+
+    });
+})(jQuery);
+
+const popupCatalogGetBtn = document.querySelector('.popup-catalog-get-btn')
+popupCatalogGetBtn.addEventListener('click', () => {
+    popupCatalog.classList.remove('active')
+    sessionStorage.setItem("popupCatalog", "wasCloseByUser");
+})
