@@ -4,6 +4,11 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+<title>Сайт поиска недвижимости в Турции, которому можно доверять</title>
+<meta name="description" content="Oneteam — сайт и цифровая платформа интеллектуального поиска и подбора недвижимости в Турции. Проверка юридической чистоты объектов и сопровождение сделок." />
+@endsection
+
 @section('content')
     <!-- {!! json_decode($get->content) !!} -->
     <section class="about">

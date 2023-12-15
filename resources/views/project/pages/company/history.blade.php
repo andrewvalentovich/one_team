@@ -4,6 +4,11 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+<title>Стоимость недорогой недвижимости у моря в Турции: цены в рублях </title>
+<meta name="description" content="Ищете недорогую недвижимость в Алании, Бурсе и других регионах у моря? На сайте Oneteam вы найдете актуальные цены на дома и квартиры в Турции. Торопитесь: стоимость будет только расти." />
+@endsection
+
 @section('content')
     <!-- {!! json_decode($get->content) !!} -->
     <section class="about">

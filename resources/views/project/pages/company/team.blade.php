@@ -9,7 +9,7 @@
     <section class="about">
         <div class="about__content maxContainer">
             <div class="hello__title title">
-                Комманда
+                Команда
             </div>
             <div class="about__preview">
                 <p class="about__preview-text">

@@ -4,6 +4,11 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+<title>Лучшие объекты недвижимости в Алании и Турции от агентства Oneteam </title>
+<meta name="description" content="Агентство Oneteam: большой выбор жилой и коммерческой недвижимости. Алания и другие регионы Турции. Рассрочка и ипотека. Помощь с оформлением." />
+@endsection
+
 @section('content')
     <!-- {!! json_decode($get->content) !!} -->
     <section class="about">

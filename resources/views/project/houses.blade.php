@@ -2,6 +2,10 @@
 @section('header')
     @include('project.includes.header')
 @endsection
+@section('seo')
+<title>Купить недвижимость в Турции: покупаем выгодно с Oneteam</title>
+<meta name="description" content="Поможем недорого купить недвижимость в Турции (новостройки и вторичку) по спец. ценам. Подбор объектов с лучшей стоимостью и оформление купли-продажи" />
+@endsection
 @section('content')
     @include('project.includes.search_nav_bar')
     <section class="city with-filter">

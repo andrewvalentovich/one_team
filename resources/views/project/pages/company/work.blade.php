@@ -4,6 +4,11 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+<title>Вакансии в сфере недвижимости в Турции: работа от агентства Oneteam</title>
+<meta name="description" content="Ищете работу в сфере недвижимости в Турции? В агентстве Oneteam есть вакансии, которые могут вас заинтересовать. " />
+@endsection
+
 @section('content')
     <!-- {!! json_decode($get->content) !!} -->
     <section class="about">

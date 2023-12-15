@@ -4,6 +4,11 @@
     @include('project.includes.header')
 @endsection
 
+@section('seo')
+<title>Сайт недвижимости в Турции от застройщика: покупка, продажа в Анталии и других регионах</title>
+<meta name="description" content="Продажа и покупка высоколиквидной недвижимости в Турции. Самые популярные регионы — Мерсин, Бодрум, Фетхие, Анталия (Манавгат, Кемер, Белек, Финике, Сиде, Алания, Махмутлар, Авсаллар, Каргыджак, Кестел)." />
+@endsection
+
 @section('content')
      <!-- <section class="index-map">
         <div class="index-map__content">
