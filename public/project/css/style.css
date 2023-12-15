@@ -9662,3 +9662,9 @@ body.scroll_fixed {
     margin-left: 0px;
   }
 }
+
+.popup-questions .questions {
+  @media (max-width: 539px) {
+    border: none;
+  }
+}
