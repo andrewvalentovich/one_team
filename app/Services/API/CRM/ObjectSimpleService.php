@@ -32,6 +32,7 @@ class ObjectSimpleService
     private $currencyService;
     private $slugService;
     private $geocodingService;
+    private $validateDataService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
@@ -40,7 +41,8 @@ class ObjectSimpleService
         CategoriesService $categoriesService,
         CurrencyService $currencyService,
         SlugService $slugService,
-        GeocodingService $geocodingService
+        GeocodingService $geocodingService,
+        ValidateDataService $validateDataService
     )
     {
         $this->previewImageService = $previewImageService;
@@ -50,9 +52,10 @@ class ObjectSimpleService
         $this->currencyService = $currencyService;
         $this->slugService = $slugService;
         $this->geocodingService = $geocodingService;
+        $this->validateDataService = $validateDataService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
-        $this->ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $this->ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
     }
@@ -75,9 +78,7 @@ class ObjectSimpleService
                 dump((int)$complex_id);
             foreach ($response as $index => $complex) {
                 if ($complex['id'] == (int)$complex_id) {
-                dump($complex['complex']['id']);
-                dump($complex['complex']['id'] == (int)$complex_id);
-                    if ($update) {
+                        if ($update) {
                         $this->update($complex);
                     } else {
                         if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
@@ -108,46 +109,42 @@ class ObjectSimpleService
         }
     }
 
-    private function update($data)
+    public function update($data)
     {
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
 
-        // Получаем параметры для создания комплекса
-        $complexParams = $this->validateData($data);
+        // Получаем параметры для обновления комплекса
+        $complexParams = $this->validateDataService->handleComplex($data, __FUNCTION__);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $complex = Product::where('id_in_crm', $data['id'])->first();
+        $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update product - id: ' . $complex->id);
         $complex->update($complexParams);
-        foreach ($complex->photo as $photo)
-        {
-            $photo->delete();
-        }
         // Обновление текстовых полей description и disposition
         $this->updateDescription($complex, $data['description']);
 
         // Обновление категорий
-        $categories = ProductCategory::where('product_id', $complex->id)->get();
-        foreach ($categories as $key => $category) {
-            $category->delete();
-        }
-        $this->addCategories($data, $complex->id);
+        $this->categoriesService->update($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
-        foreach ($complexPhotos as $key => $category) {
-            foreach ($category as $index => $photo) {
-                $filename = $this->imageService->saveFromRemote($photo);
-
-                PhotoTable::create([
-                    'parent_model'=> '\App\Models\Product',
-                    'parent_id' => $complex->id,
-                    'photo' => $filename,
-                    'preview' => $this->previewImageService->update($filename),
-                    'category_id' => $this->photoCategories[$key]
-                ]);
-            }
-        }
+//        foreach ($complex->photo as $photo)
+//        {
+//            $photo->delete();
+//        }
+//        foreach ($complexPhotos as $key => $category) {
+//            foreach ($category as $index => $photo) {
+//                $filename = $this->imageService->saveFromRemote($photo);
+//
+//                PhotoTable::create([
+//                    'parent_model'=> '\App\Models\Product',
+//                    'parent_id' => $complex->id,
+//                    'photo' => $filename,
+//                    'preview' => $this->previewImageService->update($filename),
+//                    'category_id' => $this->photoCategories[$key]
+//                ]);
+//            }
+//        }
 
         return $complex;
     }
@@ -157,9 +154,10 @@ class ObjectSimpleService
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
         // Получаем параметры для создания комплекса
-        $complexParams = $this->validateData($data);
+        $complexParams = $this->validateDataService->handleComplex($data, __FUNCTION__);
+
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
-        $complex = Product::where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
+        $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
             dump('Create product - id: ' . $complex->id);
 
@@ -175,7 +173,8 @@ class ObjectSimpleService
                 $this->translateForNew($complex->id, $complex->description);
             }
 
-            $this->addCategories($data, $complex->id);
+            // Добавление категорий
+            $this->categoriesService->add($data, $complex->id);
 
             foreach ($complexPhotos as $key => $category) {
                 foreach ($category as $index => $photo) {
@@ -195,167 +194,6 @@ class ObjectSimpleService
         });
 
         return $complex;
-    }
-
-    /**
-     * Validate all parameters for complex and return array with it (params)
-     *
-     * @param $data
-     * @return array
-     */
-    private function validateData($data) : array
-    {
-        // Id страны
-        $country = CountryAndCity::select('id')->whereNull('parent_id')->where('name', $data['country_name'])->firstOr(function () {
-            return null;
-        });
-        $country_id = is_null($country) ? null : $country->id;
-
-        // Id города
-        $city = CountryAndCity::select('id')->whereNotNull('parent_id')->where('name', $data['city_name'])->firstOr(function () {
-            return null;
-        });
-        $city_id = is_null($city) ? null : $city->id;
-
-        // Адресс
-        $address = !is_null($data['country_name']) ? $data['country_name'] : "";
-        $address .= !is_null($data['city_name']) ? ", " . $data['city_name'] : "";
-        $address .= !is_null($data['street_name']) ? ", " . $data['street_name'] : "";
-        $address .= !is_null($data['house_number']) ? ", " . $data['house_number'] : "";
-
-        // Координаты
-        $coordinates = $this->geocodingService->getCoordinates($data);
-
-        // Гражданство и ВНЖ
-        $citizenship = "";
-        $residence_permit = "";
-        if (isset($data['suitable_for'])) {
-            $citizenship = in_array('citizenship', $data['suitable_for']) ? 'Да' : 'Нет';
-            $residence_permit = in_array('residence_permit', $data['suitable_for']) ? 'Да' : 'Нет';
-        }
-
-        // Паркинг
-        $parking = "";
-        if (isset($data['accessible_housing'])) {
-            $parking = in_array('parking_place', $data['accessible_housing']) ? 'Да' : 'Нет';
-        }
-
-        // Тип сделки
-        $deal_type = null;
-        if (isset($data['deal_type'])) {
-            $deal_type = ($data['deal_type'] === 'sell') ? 'sale' : 'rent';
-        } else {
-            $deal_type = 'sale';
-        }
-
-        // Цена и код валюты
-        $base_price = null;
-        $price = isset($data['price']) ? $data['price'] : null;
-        $price_currency = isset($data['price_currency']) ? $data['price_currency'] : null;
-        if (isset($data['price']) && !is_null($data['price'])) {
-            $base_price = $this->currencyService->convertPriceToEur($price, $price_currency);
-        }
-
-        return [
-            'country_id'        => $country_id ?? null,
-            'city_id'           => $city_id ?? null,
-            'name'              => $data['name'] ?? null,
-            'address'           => $address ?? null,
-            'size'              => $data['living_size'] ?? null,
-            'size_home'         => $data['total_size'] ?? null,
-            'base_price'        => $base_price,
-            'price'             => $price,
-            'price_code'        => $price_currency,
-            'description'       => $data['description'] ?? null,
-            'lat'               => $coordinates['lat'] ?? null,
-            'long'              => $coordinates['long'] ?? null,
-            'citizenship'       => $citizenship ?? null,
-            'grajandstvo'       => $citizenship ?? null,
-            'status'            => null,
-            'disposition'       => $data['disposition'] ?? null,
-            'parking'           => $parking,
-            'vnj'               => $residence_permit,
-            'sale_or_rent'      => $deal_type,
-            'complex_or_not'    => isset($data['complex_name']) ? "Нет" : "Да",
-            'video'             => null,
-            'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
-            'id_in_crm'         => $data['id']
-        ];
-    }
-
-
-    private function getCategories($data)
-    {
-        $category_ids = [];
-
-        // Вид
-        $category_ids[$this->categoriesService->getToSea($data["to_sea"])] = 'До моря';
-
-        // Особенности
-        $peculiarities = [];
-        foreach ($data['internal_features'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['external_features'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['nearliness'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['transportation'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-
-        // id => type
-        $getPeculiarities = $this->categoriesService->getPeculiarities();
-        foreach ($peculiarities as $i => $slug_underscore) {
-            if (isset($getPeculiarities[$slug_underscore])) {
-                $category_ids[$getPeculiarities[$slug_underscore]] = 'Особенности';
-            }
-        }
-
-        // Тип недвижимости
-        $type = $this->categoriesService->getTypes();
-        $category_ids[$type['apartment']] = 'Типы';
-
-        // Вид
-        $tmpViews = isset($data['view']) ? $data['view'] : null;
-        $views = !is_null($tmpViews) ? $this->categoriesService->getView($tmpViews) : null;
-        unset($tmpViews);
-        if (!is_null($views)) {
-            foreach ($views as $i => $view) {
-                $category_ids[$view['id']] = $view['type'];
-            }
-        }
-
-        // Спальни
-        $bedrooms = "Спальни";
-        if (isset($data["number_bedrooms"])) {
-            $category_ids[$this->categoriesService->getRooms($bedrooms, $data["number_bedrooms"])] = $bedrooms;
-        }
-
-        // Спальни
-        $bathrooms = "Ванные";
-        if (isset($data["number_bathrooms"])) {
-            $category_ids[$this->categoriesService->getRooms($bathrooms, $data["number_bathrooms"])] = $bathrooms;
-        }
-
-        return $category_ids;
-    }
-
-    private function addCategories($data, $complex_id)
-    {
-        $categories = $this->getCategories($data);
-        foreach ($categories as $id => $type) {
-            ProductCategory::create([
-                "product_id"        => $complex_id,
-                "peculiarities_id"  => $id,
-                "type"              => $type,
-                "created_at"        => date('Y-m-d H:i:s', strtotime("now")),
-                "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
-            ]);
-        }
-        unset($categories);
     }
 
     private function translateForNew($product_id, $description)

@@ -433,7 +433,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=3337b512-9d91-4719-98bf-a2c8df5832ad" type="text/javascript"></script>
     <script src="{{ asset('admin/js/ymapSetPlaceMark.js') }}"></script>
     <style>
         .input-file {

@@ -65,12 +65,19 @@ class GeocodingService
         return $tmp_address;
     }
 
-    public function getCoordinates($data, $city = null)
+    public function getCoordinates($data, bool $use_geocoder, $city = null)
     {
         $coordinates = ['lat' => null, 'long' => null];
+
+        // Если переданные координаты null
         if ((is_null($data['lon']) || is_null($data['lat']))) {
-//            $tmp_address = $this->generateAddress($data);
-//            $coordinates = $this->coordinatesFromAddress($tmp_address);
+            // Найдём нужный объект
+
+            if ($use_geocoder) {
+                dump('use geocoder');
+                $tmp_address = $this->generateAddress($data);
+                $coordinates = $this->coordinatesFromAddress($tmp_address);
+            }
 
             if (is_null($coordinates['lat']) && is_null($coordinates['long'])) {
                 if (!is_null($city)) {
@@ -81,6 +88,7 @@ class GeocodingService
                         $coordinates['long'] = $city->long + (rand(0,4000) - 2000) / 1000000;
                         $i++;
                     } while (!is_null(Product::withTrashed()->where('lat', $coordinates['lat'])->where('long', $coordinates['long'])->first()) || $i > 5);
+                    unset($i);
                 }
             } else {
                 if (!is_null($city)) {
@@ -92,6 +100,7 @@ class GeocodingService
                             $coordinates['long'] = $city->long + (rand(0, 4000) - 2000) / 1000000;
                             $i++;
                         }
+                        unset($i);
                     }
                 }
             }

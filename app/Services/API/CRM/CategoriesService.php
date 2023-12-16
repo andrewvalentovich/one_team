@@ -5,9 +5,131 @@ namespace App\Services\API\CRM;
 
 
 use App\Models\Peculiarities;
+use App\Models\ProductCategory;
 
 class CategoriesService
 {
+    /**
+     * Get categories
+     *
+     * @param $data
+     * @return array
+     */
+    public function get($data)
+    {
+        $category_ids = [];
+
+        // Вид
+        $category_ids[$this->getToSea($data['to_sea'])] = 'До моря';
+
+        // Особенности
+        $peculiarities = [];
+        foreach ($data['internal_features'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['external_features'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['nearliness'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+        foreach ($data['transportation'] as $feature) {
+            $peculiarities[] = $feature;
+        }
+
+        // id => type
+        $getPeculiarities = $this->getPeculiarities();
+        foreach ($peculiarities as $i => $name) {
+            if (key_exists($name, $getPeculiarities)) {
+                $category_ids[$getPeculiarities[$name]] = 'Особенности';
+            }
+        }
+
+        // Тип недвижимости
+        $type = $this->getTypes();
+        if (isset($data['type'])) {
+            $category_ids[$type[$data['type']]] = 'Типы';
+        } else {
+            $category_ids[$type['apartment']] = 'Типы';
+        }
+
+        // Вид
+        $tmpViews = isset($data['view']) ? $data['view'] : null;
+        $views = !is_null($tmpViews) ? $this->getView($tmpViews) : null;
+        unset($tmpViews);
+        if (!is_null($views)) {
+            foreach ($views as $i => $view) {
+                $category_ids[$view['id']] = $view['type'];
+            }
+        }
+
+        // Спальни
+        $bedrooms = 'Спальни';
+        if (isset($data['number_bedrooms'])) {
+            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
+                $category_ids[$this->getRooms($bedrooms, $data['number_bedrooms'])] = $bedrooms;
+            }
+        }
+
+        // Ванные
+        $bathrooms = 'Ванные';
+        if (isset($data['number_bathrooms'])) {
+            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
+                $category_ids[$this->getRooms($bathrooms, $data['number_bathrooms'])] = $bathrooms;
+            }
+        }
+
+        return $category_ids;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param $data
+     * @param $complex_id
+     */
+    public function add($data, $complex_id)
+    {
+        $categories = $this->get($data);
+        foreach ($categories as $id => $type) {
+            ProductCategory::create([
+                "product_id"        => $complex_id,
+                "peculiarities_id"  => $id,
+                "type"              => $type,
+                "created_at"        => date('Y-m-d H:i:s', strtotime("now")),
+                "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
+            ]);
+        }
+        unset($categories);
+    }
+
+    /**
+     * Update categories - remove old, add new
+     *
+     * @param $data
+     * @param $complex_id
+     */
+    public function update($data, $complex_id)
+    {
+        // Обновление категорий
+        $categories = ProductCategory::where('product_id', $complex_id)->get();
+        foreach ($categories as $key => $category) {
+            $category->delete();
+        }
+
+        $categories = $this->get($data);
+        foreach ($categories as $id => $type) {
+            ProductCategory::create([
+                "product_id"        => $complex_id,
+                "peculiarities_id"  => $id,
+                "type"              => $type,
+                "created_at"        => date('Y-m-d H:i:s', strtotime("now")),
+                "updated_at"        => date('Y-m-d H:i:s', strtotime("now"))
+            ]);
+        }
+        unset($categories);
+    }
+
     public function getTypes()
     {
         $types = Peculiarities::where('type', 'Типы')->get();

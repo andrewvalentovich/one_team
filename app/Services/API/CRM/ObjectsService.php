@@ -31,6 +31,7 @@ class ObjectsService
     private $currencyService;
     private $slugService;
     private $geocodingService;
+    private $validateDataService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
@@ -39,7 +40,8 @@ class ObjectsService
         CategoriesService $categoriesService,
         CurrencyService $currencyService,
         SlugService $slugService,
-        GeocodingService $geocodingService
+        GeocodingService $geocodingService,
+        ValidateDataService $validateDataService
     )
     {
         $this->previewImageService = $previewImageService;
@@ -49,6 +51,7 @@ class ObjectsService
         $this->currencyService = $currencyService;
         $this->slugService = $slugService;
         $this->geocodingService = $geocodingService;
+        $this->validateDataService = $validateDataService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
         $this->ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -100,9 +103,9 @@ class ObjectsService
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
 //             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-//            if (strtotime('now') - strtotime($updated_at) <= 86400) {
+            if (strtotime('now') - strtotime($updated_at) <= 86400) {
                 $this->update($data);
-//            }
+            }
         } else {
             $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firts();
             dump('Delete product - id: ' . $complex->id);
@@ -115,8 +118,8 @@ class ObjectsService
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
 
-        // Получаем параметры для создания комплекса
-        $complexParams = $this->validateData($data);
+        // Получаем параметры для обновления комплекса
+        $complexParams = $this->validateDataService->handleComplex($data, __FUNCTION__);
 
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
@@ -127,11 +130,7 @@ class ObjectsService
         $this->updateDescription($complex, $data['description']);
 
         // Обновление категорий
-        $categories = ProductCategory::where('product_id', $complex->id)->get();
-        foreach ($categories as $key => $category) {
-            $category->delete();
-        }
-        $this->addCategories($data, $complex->id);
+        $this->categoriesService->update($data, $complex->id);
 
 //        Нужно добавить проверку по lastModified
         // Обновление фото
@@ -160,8 +159,10 @@ class ObjectsService
     {
         // Получаем фотографии комплекса
         $complexPhotos = $data['photos'];
+
         // Получаем параметры для создания комплекса
-        $complexParams = $this->validateData($data);
+        $complexParams = $this->validateDataService->handleComplex($data, __FUNCTION__);
+
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
@@ -179,7 +180,7 @@ class ObjectsService
                 $this->translateForNew($complex->id, $complex->description);
             }
 
-            $this->addCategories($data, $complex->id);
+            $this->categoriesService->add($data, $complex->id);
 
             foreach ($complexPhotos as $key => $category) {
                 foreach ($category as $index => $photo) {
@@ -199,223 +200,6 @@ class ObjectsService
         });
 
         return $complex;
-    }
-
-    /**
-     * Validate all parameters for complex and return array with it (params)
-     *
-     * @param $data
-     * @return array
-     */
-    private function validateData($data) : array
-    {
-        // Id страны
-        $country = CountryAndCity::select('id')->whereNull('parent_id')->where('name', $data['country_name'])->firstOr(function () {
-            return null;
-        });
-        $country_id = is_null($country) ? null : $country->id;
-
-        // Id города
-        $city = CountryAndCity::select('id')->whereNotNull('parent_id')->where('name', $data['city_name'])->firstOr(function () {
-            return null;
-        });
-        $tmp_city = null;
-
-        if (is_null($city)) {
-            if ($data['tr_geo_ilce_name'] == 'SERİK') {
-                if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Серик')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'SERIK') {
-                if (isset(CountryAndCity::where('name', 'Серик')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Серик')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'KEMER') {
-                if (isset(CountryAndCity::where('name', 'Кемер')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Кемер')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'GAZIPAŞA') {
-                if (isset(CountryAndCity::where('name', 'Газипаша')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Газипаша')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'KAŞ') {
-                if (isset(CountryAndCity::where('name', 'Каш')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Каш')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'FINIKE') {
-                if (isset(CountryAndCity::where('name', 'Финике')->first()->id)) {
-                    $tmp_city = CountryAndCity::where('name', 'Финике')->first();
-                }
-            } elseif ($data['tr_geo_ilce_name'] == 'ALANYA') {
-                if (CountryAndCity::where('name', 'Аланья')->first()) {
-                    $tmp_city = CountryAndCity::where('name', 'Аланья')->first();
-                }
-            } elseif ($data['tr_geo_il_name'] == 'ANTALYA') {
-                if (CountryAndCity::where('name', 'Анталия')->first()) {
-                    $tmp_city = CountryAndCity::where('name', 'Анталия')->first();
-                }
-            }
-        } else {
-            $tmp_city = $city;
-        }
-
-        // Адресс
-        $address = !is_null($data['tr_geo_il_name']) ? $data['tr_geo_il_name'] : '';
-        $address .= !is_null($data['tr_geo_ilce_name']) ? '/' . $data['tr_geo_ilce_name'] : '';
-
-        // Координаты
-        $coordinates = $this->geocodingService->getCoordinates($data, $tmp_city);
-
-        // Гражданство и ВНЖ
-        $citizenship = '';
-        $residence_permit = '';
-        if (isset($data['suitable_for'])) {
-            $citizenship = in_array('citizenship', $data['suitable_for']) ? 'Да' : 'Нет';
-            $residence_permit = in_array('residence_permit', $data['suitable_for']) ? 'Да' : 'Нет';
-        }
-
-        // Паркинг
-        $parking = "";
-        if (isset($data['accessible_housing'])) {
-            $parking = in_array('parking_place', $data['accessible_housing']) ? 'Да' : 'Нет';
-        }
-
-        // Тип сделки
-        $deal_type = null;
-        if (isset($data['deal_type'])) {
-            $deal_type = ($data['deal_type'] === 'sell') ? 'sale' : 'rent';
-        } else {
-            $deal_type = 'sale';
-        }
-
-        // Цена и код валюты
-        $base_price = null;
-        $price = isset($data['price']) ? $data['price'] : null;
-        $price_currency = isset($data['price_currency']) ? $data['price_currency'] : null;
-        if (isset($data['price']) && !is_null($data['price'])) {
-            $base_price = $this->currencyService->convertPriceToEur($price, $price_currency);
-        }
-
-        // complex_or_not
-        $complex_or_not = 'Нет';
-        if (isset($data['complex_name'])) {
-            $complex_or_not = is_null($data['complex_name']) ? 'Нет' : 'Да';
-        } else {
-            $complex_or_not = $data['seller_type'] == 'builder' ? 'Да' : 'Нет';
-        }
-
-        $is_commercial = 0;
-        if (isset($data['type'])) {
-            $is_commercial = $data['type'] == 'commercial' ? 1 : 0;
-        }
-
-        return [
-            'country_id'        => $country_id ?? null,
-            'city_id'           => $tmp_city->id ?? null,
-            'name'              => $data['name'] ?? null,
-            'address'           => $address ?? null,
-            'size'              => $data['living_size'] ?? null,
-            'size_home'         => $data['total_size'] ?? null,
-            'base_price'        => $base_price,
-            'price'             => $price,
-            'price_code'        => $price_currency,
-            'description'       => $data['description'] ?? null,
-            'lat'               => $coordinates['lat'] ?? null,
-            'long'              => $coordinates['long'] ?? null,
-            'citizenship'       => $citizenship ?? null,
-            'grajandstvo'       => $citizenship ?? null,
-            'status'            => null,
-            'disposition'       => $data['disposition'] ?? null,
-            'parking'           => $parking,
-            'vnj'               => $residence_permit,
-            'sale_or_rent'      => $deal_type,
-            'complex_or_not'    => $complex_or_not,
-            'video'             => null,
-            'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
-            'is_commercial'     => $is_commercial,
-            'id_in_crm'         => $data['id']
-        ];
-    }
-
-
-    private function getCategories($data)
-    {
-        $category_ids = [];
-
-        // Вид
-        $category_ids[$this->categoriesService->getToSea($data['to_sea'])] = 'До моря';
-
-        // Особенности
-        $peculiarities = [];
-        foreach ($data['internal_features'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['external_features'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['nearliness'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-        foreach ($data['transportation'] as $feature) {
-            $peculiarities[] = $feature;
-        }
-
-        // id => type
-        $getPeculiarities = $this->categoriesService->getPeculiarities();
-        foreach ($peculiarities as $i => $name) {
-            if (key_exists($name, $getPeculiarities)) {
-                $category_ids[$getPeculiarities[$name]] = $name;
-            }
-        }
-
-        // Тип недвижимости
-        $type = $this->categoriesService->getTypes();
-        if (isset($data['type'])) {
-            $category_ids[$type[$data['type']]] = 'Типы';
-        } else {
-            $category_ids[$type['apartment']] = 'Типы';
-        }
-
-        // Вид
-        $tmpViews = isset($data['view']) ? $data['view'] : null;
-        $views = !is_null($tmpViews) ? $this->categoriesService->getView($tmpViews) : null;
-        unset($tmpViews);
-        if (!is_null($views)) {
-            foreach ($views as $i => $view) {
-                $category_ids[$view['id']] = $view['type'];
-            }
-        }
-
-        // Спальни
-        $bedrooms = 'Спальни';
-        if (isset($data['number_bedrooms'])) {
-            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
-                $category_ids[$this->categoriesService->getRooms($bedrooms, $data['number_bedrooms'])] = $bedrooms;
-            }
-        }
-
-        // Ванные
-        $bathrooms = 'Ванные';
-        if (isset($data['number_bathrooms'])) {
-            if (!is_null($data['number_bedrooms']) && $data['number_bedrooms'] != 0) {
-                $category_ids[$this->categoriesService->getRooms($bathrooms, $data['number_bathrooms'])] = $bathrooms;
-            }
-        }
-
-        return $category_ids;
-    }
-
-    private function addCategories($data, $complex_id)
-    {
-        foreach ($this->getCategories($data) as $id => $type) {
-            ProductCategory::create([
-                'product_id'        => $complex_id,
-                'peculiarities_id'  => $id,
-                'type'              => $type,
-                'created_at'        => date('Y-m-d H:i:s', strtotime('now')),
-                'updated_at'        => date('Y-m-d H:i:s', strtotime('now'))
-            ]);
-        }
     }
 
     private function translateForNew($product_id, $description)

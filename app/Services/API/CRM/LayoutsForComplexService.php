@@ -25,7 +25,7 @@ class LayoutsForComplexService
     private $imageService;
     private $ids_in_crm_all;
     private $categoriesService;
-    private $objectsService;
+    private $objectSimpleService;
     private $currencyService;
 
     public function __construct(
@@ -33,7 +33,7 @@ class LayoutsForComplexService
         PreviewImageService $previewImageService,
         ImageService $imageService,
         CategoriesService $categoriesService,
-        ObjectsService $objectsService,
+        ObjectSimpleService $objectSimpleService,
         CurrencyService $currencyService
     )
     {
@@ -41,14 +41,14 @@ class LayoutsForComplexService
         $this->imageService = $imageService;
         $this->photoCategories = $photoCategoryService->getArray();
         $this->categoriesService = $categoriesService;
-        $this->objectsService = $objectsService;
+        $this->objectSimpleService = $objectSimpleService;
         $this->currencyService = $currencyService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
-        $ids_in_crm_for_complexes = Product::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
-        $ids_in_crm_for_layouts = Layout::select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
+        $ids_in_crm_for_layouts = Layout::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
             return $row->id_in_crm;
         })->toArray();
         $this->ids_in_crm_all = $ids_in_crm_for_complexes;
@@ -73,27 +73,31 @@ class LayoutsForComplexService
             $response = json_decode($guzzleResponse->getBody(),true);
             // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
             foreach ($response as $index => $object) {
-                if (!is_null($object['complex'])) {
-                    if ($object['complex']['id'] == (int)$complex_id) {
-                        if ($update) {
-                            $this->update($object);
-                        } else {
-                            // Если объект с таким id существует
-                            if (in_array($object['id'], $this->ids_in_crm_all)) {
-                                // Обновляем или удаляем
-                                if (is_null($object['complex_id'])) {
-                                    $this->objectsService->updateOrDelete($object);
-                                } else {
-                                    $this->updateOrDelete($object);
-                                }
+                // Если объекта существует id компекса - это планировка
+                if (isset($object['complex']['id'])) {
+                    if ($object['complex']['id'] == $complex_id) {
+                        // Проверка планировок
+                        if (in_array($complex_id, $this->ids_in_crm_all)) {
+                            if ($update) {
+                                $this->update($object);
                             } else {
-                                // Иначе создаём
-                                if (is_null($object['complex_id'])) {
-                                    $this->objectsService->create($object);
-                                } else {
-                                    $this->create($object, $complex_id);
-                                }
+                                $this->updateOrDelete($object);
                             }
+                        } else {
+                            $this->create($object);
+                        }
+                    }
+                } else {
+                    // Проверка объектов
+                    if ($object['id'] == $complex_id) {
+                        if (in_array($complex_id, $this->ids_in_crm_all)) {
+                            if ($update) {
+                                $this->objectSimpleService->update($object);
+                            } else {
+                                $this->objectSimpleService->updateOrDelete($object);
+                            }
+                        } else {
+                            $this->objectSimpleService->create($object);
                         }
                     }
                 }
@@ -162,7 +166,6 @@ class LayoutsForComplexService
     {
         // Получаем фотографии планировки
         $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
-
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
 
@@ -203,8 +206,9 @@ class LayoutsForComplexService
     {
         $name = !is_null($data['layout_id']) ? $data['layout']['name'] : $data['name'];
 
+        // Если у планировки есть, комплекс но его нет в базе - создаём
         $complex = Product::where('id_in_crm', $data['complex_id'])->firstOr(function ($data) {
-            return $this->objectsService->create($data['complex']);
+            return $this->objectSimpleService->create($data['complex']);
         });
 
         $base_price = null;

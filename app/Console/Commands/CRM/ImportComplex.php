@@ -2,20 +2,11 @@
 
 namespace App\Console\Commands\CRM;
 
-use App\Models\CountryAndCity;
-use App\Models\Product;
 use App\Services\API\CRM\LayoutsForComplexService;
-use App\Services\API\CRM\LayoutsService;
 use App\Services\API\CRM\ObjectSimpleService;
-use App\Services\API\CRM\ObjectsService;
 use App\Services\GeocodingService;
 use App\Services\ImportCrmDataService;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class ImportComplex extends Command
 {
@@ -24,7 +15,7 @@ class ImportComplex extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:import-complex {--update}';
+    protected $signature = 'crm:import-complex {id} {--update}';
 
     /**
      * The console command description.
@@ -62,12 +53,12 @@ class ImportComplex extends Command
     private $importCrmDataService;
 
     private $objectSimpleService;
-    private $layoutsService;
+    private $layoutsForComplexService;
 
     public function __construct(
         ImportCrmDataService $importCrmDataService,
         ObjectSimpleService $objectSimpleService,
-        LayoutsForComplexService $layoutsService,
+        LayoutsForComplexService $layoutsForComplexService,
         GeocodingService $geocodingService
     )
     {
@@ -77,7 +68,7 @@ class ImportComplex extends Command
         $this->token = config('app.api_crm_token');
         $this->importCrmDataService = $importCrmDataService;
         $this->objectSimpleService = $objectSimpleService;
-        $this->layoutsService = $layoutsService;
+        $this->layoutsForComplexService = $layoutsForComplexService;
         $this->geocodingService = $geocodingService;
     }
 
@@ -91,7 +82,7 @@ class ImportComplex extends Command
         $this->info('Finish handle complexes');
 
         $this->info('Start handle object');
-        $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
+        $this->layoutsForComplexService->handle($this->endpoint_layouts, $this->token, $this->argument('id'), $this->option('update') ?? null);
         $this->info('Finish handle object');
     }
 }

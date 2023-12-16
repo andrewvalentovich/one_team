@@ -49,9 +49,9 @@
                             <p>ID объекта: {{ $get->id }}</p>
                             <p>ID в CRM: {{ is_null($get->id_in_crm) ? '-' : $get->id_in_crm }}</p>
                         </div>
-                            @foreach($get_old_category as  $old_cat)
-                        <input type="hidden" value="{{$old_cat->peculiarities_id}}" name="osobenosti[]">
-                            @endforeach
+                        @foreach($get_old_category as  $old_cat)
+                            <input type="hidden" value="{{$old_cat->peculiarities_id}}" name="osobenosti[]">
+                        @endforeach
                         <div class="col-md-6" bis_skin_checked="1">
                             @foreach($get_old_category as  $old)
                                 <p>{{$old->category->name}} <a style="color: red" href="{{route('delete_osobenosti', $old->id)}}">Удалить</a></p>
@@ -622,7 +622,7 @@
 
 @endsection
 @section('scripts')
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=2a0f0e9d-44f3-4f13-8628-12588d752fc3" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=3337b512-9d91-4719-98bf-a2c8df5832ad" type="text/javascript"></script>
     <script src="{{ asset('admin/js/ymapGetSetPlaceMark.js') }}"></script>
     <style>
         .input-file {
