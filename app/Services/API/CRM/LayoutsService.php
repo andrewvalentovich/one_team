@@ -134,7 +134,7 @@ class LayoutsService
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
             // Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-            if (strtotime('now') - strtotime($updated_at) <= 3600) {
+            if (strtotime('now') - strtotime($updated_at) <= 86400) {
                 $this->update($data);
             }
         } else {
@@ -185,8 +185,8 @@ class LayoutsService
         Log::info('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
-        if (!is_null($layout->photo)) {
-            foreach ($layout->photo as $photo)
+        if (!is_null($layout->photos)) {
+            foreach ($layout->photos as $photo)
             {
                 $photo->delete();
             }

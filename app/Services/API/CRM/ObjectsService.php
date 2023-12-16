@@ -103,7 +103,7 @@ class ObjectsService
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
 //             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-            if (strtotime('now') - strtotime($updated_at) <= 3600) {
+            if (strtotime('now') - strtotime($updated_at) <= 86400) {
                 $this->update($data);
             }
         } else {
