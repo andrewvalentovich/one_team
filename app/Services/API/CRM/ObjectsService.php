@@ -124,6 +124,7 @@ class ObjectsService
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update product - id: ' . $complex->id);
+        Log::info('Update product - id: ' . $complex->id);
         $complex->update($complexParams);
 
         // Обновление текстовых полей description и disposition
@@ -167,6 +168,7 @@ class ObjectsService
         $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($complexParams, $complexPhotos, $data) {
             $complex = Product::create($complexParams);
             dump('Create product - id: ' . $complex['id']);
+            Log::info('Create product - id: ' . $complex['id']);
 
             // Создаём slug для объекта
             if (is_null($complex->slug)) {

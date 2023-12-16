@@ -154,6 +154,7 @@ class LayoutsService
         $layout = Layout::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
             $layout = Layout::create($layoutParams);
             dump('Create layout - id: ' . $layout->id);
+            Log::info('Create layout - id: ' . $layout->id);
 
             foreach ($layoutPhotos as $key => $category) {
                 foreach ($category as $index => $photo) {
@@ -181,6 +182,7 @@ class LayoutsService
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::withTrashed()->where('id_in_crm', $data['id'])->first();
         dump('Update layout - id: ' . $layout->id);
+        Log::info('Update layout - id: ' . $layout->id);
         $layout->update($layoutParams);
 
         if (!is_null($layout->photo)) {
