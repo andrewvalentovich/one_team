@@ -1174,7 +1174,6 @@ function P(e) {
 
             var urlParams = handleUrlParams(prev_is_secondary.toLowerCase(), new_is_secondary.toLowerCase());
             updateUrl(window.filter_params_data, urlParams);
-
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         }));
@@ -1193,7 +1192,6 @@ function P(e) {
 
             var urlParams = handleUrlParams(prev_order.toLowerCase(), new_order.toLowerCase());
             updateUrl(window.filter_params_data, urlParams);
-
             let allMarks = await getDataMarks()
             createMapCity(allMarks)
         });
@@ -1202,10 +1200,13 @@ function P(e) {
         if(document.querySelectorAll('.btn-filter-houses').length) {
             const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')
             const searchW = document.querySelector('.search-w')
+            console.log(btnFilterHouses);
             btnFilterHouses.forEach(btn => {
                 btn.addEventListener('click', async function() {
                     let allMarks = await getDataMarks()
                     createMapCity(allMarks)
+                    // currentCoordinateMapLeft = top_left
+                    getData(currentCoordinateMapLeft, currentCoordinateMapRight);
                     changeCountryField()
                     searchW.classList.remove('active')
                 })
@@ -1265,7 +1266,6 @@ function P(e) {
 
             return params;
         }
-
         let marksFilter = await getDataMarks()
 
         createMapCity(marksFilter)
@@ -1353,19 +1353,19 @@ function P(e) {
         async function createMapCity(allmarks) {
             const mapCity = document.querySelector('#map_city')
             mapCity.innerHTML = ''
-            if(mapCountry) {
-                mapCountry.destroy()
-            }
-            mapCountry = new ymaps.Map("map_city", {
-                // По стандарту указаны координаты Турции (если не установлена страна)
-                center: {{ isset($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
-                zoom: 4,
-                controls: [],
-                behaviors: ["default", "scrollZoom"],
-                autoFitToViewport: 'always'
-            }, {
-                searchControlProvider: "yandex#search"
-            });
+            {{--if(mapCountry) {--}}
+            {{--    mapCountry.destroy()--}}
+            {{--}--}}
+            {{--mapCountry = new ymaps.Map("map_city", {--}}
+            {{--    // По стандарту указаны координаты Турции (если не установлена страна)--}}
+            {{--    center: {{ isset($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},--}}
+            {{--    zoom: 4,--}}
+            {{--    controls: [],--}}
+            {{--    behaviors: ["default", "scrollZoom"],--}}
+            {{--    autoFitToViewport: 'always'--}}
+            {{--}, {--}}
+            {{--    searchControlProvider: "yandex#search"--}}
+            {{--});--}}
 
             let minLat = Infinity;
             let maxLat = -Infinity;
@@ -1377,14 +1377,14 @@ function P(e) {
                 return el.current_region === 1;
             });
 
-            if (relevantMarks.length > 2) {
+            if (relevantMarks.length > 0) {
                 relevantMarks.forEach(mark => {
                     if (mark.lat && mark.long) {
                         if (!isNaN(mark.lat) && !isNaN(mark.long)) {
-                            minLat = Math.min(minLat, mark.lat) - 0.005;
-                            maxLat = Math.max(maxLat, mark.lat) + 0.005;
-                            minLon = Math.min(minLon, mark.long) - 0.005;
-                            maxLon = Math.max(maxLon, mark.long) + 0.005;
+                            minLat = Math.min(minLat, mark.lat) - 0.000005;
+                            maxLat = Math.max(maxLat, mark.lat) + 0.000005;
+                            minLon = Math.min(minLon, mark.long) - 0.000005;
+                            maxLon = Math.max(maxLon, mark.long) + 0.000005;
                         }
                     }
                 });
@@ -1392,10 +1392,10 @@ function P(e) {
                 allmarks.forEach(mark => {
                     if (mark.lat && mark.long) {
                         if (!isNaN(mark.lat) && !isNaN(mark.long)) {
-                            minLat = Math.min(minLat, mark.lat) - 0.005;
-                            maxLat = Math.max(maxLat, mark.lat) + 0.005;
-                            minLon = Math.min(minLon, mark.long) - 0.005;
-                            maxLon = Math.max(maxLon, mark.long) + 0.005;
+                            minLat = Math.min(minLat, mark.lat) - 0.000005;
+                            maxLat = Math.max(maxLat, mark.lat) + 0.000005;
+                            minLon = Math.min(minLon, mark.long) - 0.000005;
+                            maxLon = Math.max(maxLon, mark.long) + 0.000005;
                         }
                     }
                 });
@@ -1412,14 +1412,46 @@ function P(e) {
                 nothing.classList.remove('active')
             }
 
+            // if(allmarks.length > 0) {
+            //     mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+            //         checkZoomRange: true,
+            //     }).then(function() {
+            //         mapCountry.container.fitToViewport()
+            //     }, function(err) {
+            //         // Обработка ошибок
+            //     }, this);
+            // }
+            if(mapCountry) {
+                mapCountry.destroy()
+            }
             if(allmarks.length > 0) {
-                mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
-                    checkZoomRange: true,
-                }).then(function() {
-                    mapCountry.container.fitToViewport()
-                }, function(err) {
-                    // Обработка ошибок
-                }, this);
+                mapCountry = new ymaps.Map("map_city", {
+                    // По стандарту указаны координаты Турции (если не установлена страна)
+                    bounds: [[minLat, minLon], [maxLat, maxLon]],
+                    controls: [],
+                    behaviors: ["default", "scrollZoom"],
+                    autoFitToViewport: 'always'
+                }, {
+                    searchControlProvider: "yandex#search"
+                });
+                // mapCountry.setBounds([[minLat, minLon], [maxLat, maxLon]], {
+                //     checkZoomRange: true,
+                // }).then(function() {
+                //     mapCountry.container.fitToViewport()
+                // }, function(err) {
+                //     // Обработка ошибок
+                // }, this);
+            } else {
+                mapCountry = new ymaps.Map("map_city", {
+                    // По стандарту указаны координаты Турции (если не установлена страна)
+                    center: {{ isset($region) ? "[" . $region->lat . ", " . $region->long . "]" : "[39, 32]" }},
+                    zoom: 4,
+                    controls: [],
+                    behaviors: ["default", "scrollZoom"],
+                    autoFitToViewport: 'always'
+                }, {
+                    searchControlProvider: "yandex#search"
+                });
             }
 
             ZoomLayout = ymaps.templateLayoutFactory.createClass('<div class="zoom-control"><div class="zoom-control__group"><div class="zoom-control__zoom-in"><button type="button" class="button _view_air _size_medium  _pin-bottom" aria-haspopup="false" aria-label="Приблизить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M11 5.992c0-.537.448-.992 1-.992.556 0 1 .444 1 .992V11h5.008c.537 0 .992.448.992 1 0 .556-.444 1-.992 1H13v5.008c0 .537-.448.992-1 .992-.556 0-1-.444-1-.992V13H5.992C5.455 13 5 12.552 5 12c0-.556.444-1 .992-1H11V5.992z" fill="currentColor"/></svg></div></span></button></div><div class="zoom-control__zoom-out"><button type="button" class="button _view_air _size_medium _pin-top" aria-haspopup="false" aria-label="Отдалить"><span class="button__icon" aria-hidden="true"><div class="zoom-control__icon"><svg width="30" height="30" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5 12a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z" fill="currentColor"/></svg></div></span></button></div></div></div></div></div>', {
