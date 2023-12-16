@@ -86,14 +86,18 @@ class ImportData extends Command
 
         if (!$this->option('no-complexes')) {
             $this->info('Start handle complexes');
+            Log::info('Start handle complexes');
             $this->objectsService->handle($this->endpoint_objects, $this->token);
             $this->info('Finish handle complexes');
+            Log::info('Finish handle complexes');
         }
 
         if (!$this->option('no-objects')) {
             $this->info('Start handle object');
+            Log::info('Start handle object');
             $this->layoutsService->handle($this->endpoint_layouts, $this->token, $offset, $count);
             $this->info('Finish handle object');
+            Log::info('Finish handle object');
         }
     }
 }

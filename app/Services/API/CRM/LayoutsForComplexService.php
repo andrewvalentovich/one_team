@@ -166,6 +166,7 @@ class LayoutsForComplexService
     {
         // Получаем фотографии планировки
         $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
+
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
 
