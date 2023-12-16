@@ -61,7 +61,7 @@ class ObjectsService
 
     public function handle($endpoint, $token)
     {
-//        try {
+        try {
             $client = new \GuzzleHttp\Client(['headers' => [
                 'Authorization' => 'Bearer ' . $token,
                 'Accept' => 'application/json',
@@ -83,18 +83,18 @@ class ObjectsService
                     }
                 }
             }
-//        }
-//        catch(\GuzzleHttp\Exception\RequestException $e) {
-//            // you can catch here 40X response errors and 500 response errors
-//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-//            Log::info(Carbon::now() . $e->getMessage());
-//            dump(Carbon::now() . $e->getMessage());
-//        } catch(Exception $e) {
-//            // other errors
-//            Log::info(Carbon::now() . "Complexes data. Catch API request error");
-//            Log::info(Carbon::now() . $e->getMessage());
-//            dump(Carbon::now() . $e->getMessage());
-//        }
+        }
+        catch(\GuzzleHttp\Exception\RequestException $e) {
+            // you can catch here 40X response errors and 500 response errors
+            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+            Log::info(Carbon::now() . $e->getMessage());
+            dump(Carbon::now() . $e->getMessage());
+        } catch(Exception $e) {
+            // other errors
+            Log::info(Carbon::now() . "Complexes data. Catch API request error");
+            Log::info(Carbon::now() . $e->getMessage());
+            dump(Carbon::now() . $e->getMessage());
+        }
     }
 
     public function updateOrDelete($data)
