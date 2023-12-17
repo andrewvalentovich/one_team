@@ -206,9 +206,10 @@
                             </section>
                         </div>
                     </div>
+                    <span class="loader houses-loader"></span>
                     <div class="city-col__bottom">
                         <div class="city-col__bottom-btns">
-                            <style>
+                            <!-- <style>
                                 .page-item {
                                     margin: 0 5px;
                                 }
@@ -234,7 +235,7 @@
                                     border: none;
                                     background: #508cfa;
                                 }
-                            </style>
+                            </style> -->
                             <div class="city-col__bottom-pages" style="display:none">
 
                             </div>
@@ -536,7 +537,7 @@ function P(e) {
 
     let previousSwiperInstance = null;
     let ballons = []
-
+    const loader = document.querySelector('.houses-loader')
     const dictionary = {
         rooms_bedroom: {
             ru: 'спальни',
@@ -797,7 +798,6 @@ function P(e) {
                 cityListSecond.appendChild(cityItem);
             }
             cityItem.addEventListener('mouseenter', function() {
-                console.log('test')
                 const id = cityItem.getAttribute('data_id')
                 let currentBallon
                 ballons.forEach(element => {
@@ -1270,6 +1270,7 @@ function P(e) {
 
         createMapCity(marksFilter)
         async function getData(topLeft, bottomRight, paramsCustom) {
+            loader.classList.add('active')
             let params = createParams()
             if(paramsCustom) {
                 params.page = paramsCustom.page
@@ -1284,6 +1285,7 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
+                        loader.classList.remove('active')
                         if (data.title) {
                             document.querySelector('title').innerHTML = data.title;
                         }
@@ -1318,6 +1320,7 @@ function P(e) {
                         setPagination(data.data);
                     },
                     error: function (error) {
+                        loader.classList.remove('active')
                         console.error('Error:', error);
                     }
                 });
