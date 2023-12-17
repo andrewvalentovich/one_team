@@ -537,6 +537,7 @@ function P(e) {
 
     let previousSwiperInstance = null;
     let ballons = []
+    let quantityObjectsInTitle = null
     const loader = document.querySelector('.houses-loader')
     const dictionary = {
         rooms_bedroom: {
@@ -1270,7 +1271,9 @@ function P(e) {
 
         createMapCity(marksFilter)
         async function getData(topLeft, bottomRight, paramsCustom) {
-            loader.classList.add('active')
+            if(quantityObjectsInTitle >= 12) {
+                loader.classList.add('active')
+            }
             let params = createParams()
             if(paramsCustom) {
                 params.page = paramsCustom.page
@@ -1379,7 +1382,8 @@ function P(e) {
             const relevantMarks = allmarks.filter(function(el) {
                 return el.current_region === 1;
             });
-
+            quantityObjectsInTitle = relevantMarks.length
+            console.log('testic', quantityObjectsInTitle)
             if (relevantMarks.length > 0) {
                 relevantMarks.forEach(mark => {
                     if (mark.lat && mark.long) {

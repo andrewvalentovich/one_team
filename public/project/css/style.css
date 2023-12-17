@@ -9640,10 +9640,14 @@ body.scroll_fixed {
 }
 .catalog__footer-pic {
   width: 38%;
-  border-radius: 14px;
+  border-radius: 4px;
   object-fit: cover;
 }
-
+@media (max-width: 1279px) {
+  .catalog__footer-pic {
+    border-radius: 4px;
+  }
+}
 @media (max-width: 1086px) {
   .catalog-w_footer .catalog__info {
     flex: 1;
