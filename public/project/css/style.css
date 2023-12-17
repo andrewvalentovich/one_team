@@ -6287,7 +6287,7 @@ body.scroll_fixed {
 
 @media (max-width: 604px) {
   .place__order-text {
-    flex: 0 0 59%;
+    flex: 1 0 59%;
     margin-right: 0px;
   }
 
@@ -7891,6 +7891,7 @@ body.scroll_fixed {
   margin: 0 auto 40px;
   max-width: 1138px;
   border-radius: 15px;
+  max-height: 350px;
 }
 
 .desc {

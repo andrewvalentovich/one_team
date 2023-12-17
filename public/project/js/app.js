@@ -1,7 +1,5 @@
 let locations = [];
-console.log('test1')
 document.querySelector(".header__top-phone-menu").onclick = function () {
-    console.log('test')
     document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
     if(document.querySelector(".place-w")) {
         document.querySelector(".place-w").classList.contains("active")
@@ -28,8 +26,6 @@ async function getData(locale, idCountry) {
         .then(response => response.json())
         .then(data => {
             if (data.status) {
-                console.log(data.data);
-                console.log(data.data.length);
                 data.data.forEach(city => {
                     locations.push({
                         coordinates: city.coordinate,
@@ -38,8 +34,6 @@ async function getData(locale, idCountry) {
                         link: city.link
                     });
                 });
-                console.log(locations);
-                console.log(locations.length);
                 renderMap();
             }
         })
@@ -340,9 +334,13 @@ async function renderMap() {
         }
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
         var country = (window.country === undefined) ? {lat: 38.475851, long: 30.815585} : window.country;
+        let zoom = 4
+        if(window.innerWidth <= 539) {
+            zoom = 5
+        }
         var e = new ymaps.Map("map-country", {
             center: [country.lat, country.long],
-            zoom: 6,
+            zoom: zoom,
             controls: [],
             behaviors: ["default", "scrollZoom"]
         }, {
@@ -844,7 +842,6 @@ const openPopupBtn = document.querySelectorAll('[popup-name]');
 openPopupBtn.forEach(btn => {
     btn.addEventListener('click', function() {
         const popupName = btn.getAttribute('popup-name')
-        console.log(popupName)
         const popup = document.querySelector(`.${popupName}`)
         popup.classList.add('active')
     })
@@ -870,7 +867,6 @@ if(popupQuestions) {
             $('*').on('mousemove keydown scroll touchstart touchmove touchend', function () {
                 clearTimeout(idleTimer);
                 if (idleState == true) {
-                    console.log("active")
                 }
                 idleState = false;
                 idleTimer = setTimeout(function () {
@@ -879,7 +875,6 @@ if(popupQuestions) {
                     } else {
                         // sessionStorage.setItem("popupCatalog", "wasCalled");
                     }
-                    console.log("inactive")
                     idleState = true;
                 }, idleWait);
             });
