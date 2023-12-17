@@ -92,7 +92,7 @@
                                                     <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                                 </a>
                                                 <p class="catalog__title">
-                                                    Каталог строящихся прокетов на побережье средиземного моря
+                                                    Каталог строящихся проектов на побережье средиземного моря
                                                 </p>
                                                 <p class="catalog__subtitle">
                                                     Работаем без комиссии для покупателя по ценам напрямую от застройщика
@@ -175,7 +175,7 @@
                                                     <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                                 </a>
                                                 <p class="catalog__title">
-                                                    Каталог строящихся прокетов на побережье средиземного моря
+                                                    Каталог строящихся проектов на побережье средиземного моря
                                                 </p>
                                                 <p class="catalog__subtitle">
                                                     Работаем без комиссии для покупателя по ценам напрямую от застройщика
@@ -1341,6 +1341,7 @@ function P(e) {
             const footerBottom = cityColFooter.getBoundingClientRect().bottom;
             if (footerTop - 800 <= cityColTop && footerBottom >= cityColTop) {
                 if (canLoadData && !lustPageReached) {
+                    console.log('test1231231')
                     currentPage++
                     canLoadData = false;
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
@@ -1510,6 +1511,7 @@ function P(e) {
                 var t = document.querySelector(".placemark.active");
                 t.classList.remove("active")
             });
+
             var t = ymaps.templateLayoutFactory.createClass('<div class="popover top"><a class="close" href="#">&times;</a><div class="arrow"></div><div class="popover-inner">$[[options.contentLayout observeSize minWidth=235 maxWidth=235 maxHeight=350]]</div></div>', {
                 build: function () {
                     this.constructor.superclass.build.call(this), this._$element = $(".popover", this.getParentElement()), this.applyElementOffset(), this._$element.find(".close").on("click", $.proxy(this.onCloseClick, this))
@@ -1802,6 +1804,7 @@ function P(e) {
             })
         }
         mapCountry.container.fitToViewport();
+        onScrollToFooter()
         let moveWas = 0
         document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {
             this.classList.remove("active");

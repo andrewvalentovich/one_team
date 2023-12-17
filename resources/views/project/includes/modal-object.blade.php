@@ -299,7 +299,15 @@
                                     <div class="place__order-text">
                                         <div class="place__order-info">
                                             <div class="place__order-title place__title">
-                                                {{__('Анастасия')}}
+                                                <span>
+                                                    {{__('Марина')}}
+                                                </span>
+                                                <span>
+                                                    {{__('Анастасия')}}
+                                                </span>
+                                                <span>
+                                                    {{__('Елена')}}
+                                                </span>
                                             </div>
                                             <div class="place__order-subtitle">
                                                 {{__('Консультант по продажам')}}
@@ -310,7 +318,9 @@
                                         </div>
                                     </div>
                                     <div class="place__order-img">
-                                        <img src="{{asset('project/img/woman.png')}}" alt="woman">
+                                        <img src="{{asset('project/img/woman1.webp')}}" alt="woman">
+                                        <img src="{{asset('project/img/woman2.webp')}}" alt="woman">
+                                        <img src="{{asset('project/img/woman3.webp')}}" alt="woman">
                                     </div>
                                 </div>
                                 <div class="place__order-btn_m open-popup-main">
@@ -1069,6 +1079,30 @@ async function setNewPopupHouseData(object) {
         let placemark = new ymaps.Placemark([currentHouse.lat, currentHouse.long]);
         placeMap.geoObjects.add(placemark);
     });
+
+
+    // консультация (девушки)
+    const placeOrder = document.querySelector('.place__order-img')
+    const placeOrderName = document.querySelector('.place__order-title')
+    var randomValue = Math.random();
+    var randomNumber = Math.floor(randomValue * 3);
+
+    const placeOrederImgs = placeOrder.querySelectorAll('img')
+    const placeOrederNames= placeOrderName.querySelectorAll('span')
+    
+    const placeOrederImgActive = placeOrder.querySelector('.active')
+    const placeOrederNameActive= placeOrderName.querySelector('.active')
+
+    if(placeOrederImgActive) {
+        placeOrederImgActive.classList.remove('active')
+    }
+
+    if(placeOrederNameActive) {
+        placeOrederNameActive.classList.remove('active')
+    }
+
+    placeOrederImgs[randomNumber].classList.add('active')
+    placeOrederNames[randomNumber].classList.add('active')
 
     //особенности
     const objectPeculiaritiesBlock = document.querySelector('.object__peculiarities')
