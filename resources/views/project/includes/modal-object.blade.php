@@ -816,6 +816,7 @@ class ObjectCache {
     }
 
     async getObject(object) {
+        console.log('key', object)
         let key = object.id
         if (this.cache.has(key)) {
             console.log("Object found in cache!")
@@ -824,9 +825,7 @@ class ObjectCache {
             console.log("Object not found in cache. Fetching from the server...");
             try {
                 const data = await this.getObjectBySimpleRequest(key)
-                console.log('data',data)
                 this.cache.set(key, data)
-                console.log('this.cache',this.cache)
                 return data
             } catch (error) {
                 console.error("Error fetching object from the server:", error)
@@ -891,7 +890,9 @@ async function setNewPopupHouseData(object) {
     $(placeScrollContent).animate({ scrollTop: 0 }, "fast");
     currentHouse = {...object}
     const topPic = placeW.querySelector('.place__left-top').querySelector('img')
-    topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
+    if(currentHouse.photo[0]) {
+        topPic.setAttribute('src',`/uploads/${currentHouse.photo[0].photo}`)
+    }
 
     const leftCollage = placeW.querySelector('.place__left-collage')
 
@@ -1469,7 +1470,9 @@ function addNewImagesToCollage(house) {
     const topPic = collage.querySelector('.place_popup__top-item')
     topPic.innerHTML = ''
     const img = document.createElement('img')
-    img.setAttribute('src', `/uploads/${house.photo[0].photo}`)
+    if(currentHouse.photo[0]) {
+        img.setAttribute('src', `/uploads/${house.photo[0].photo}`)
+    }
 
     topPic.appendChild(img)
 

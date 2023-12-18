@@ -1792,27 +1792,36 @@ function P(e) {
             })
             const citychanger = document.querySelector('.map_city__btn-changer')
             mapCountry.events.add('balloonopen', function(e){
+                console.log('ballonopeennn')
                 if(window.innerWidth < 540) {
                     citychanger.style.display = 'none'
                 }
-                var balloonContentElement = document.querySelector('.balloon-city');
-                if(balloonContentElement)
-                balloonContentElement.addEventListener('click', function(e) {
-                    const id = balloonContentElement.getAttribute('id')
-                    // replaceUrlWithObject(window.filter_params_data, "object-" + id);
-                    // getObjectById("object-" + id)
-                    const object = {
-                        id: id
-                    }
-                    cache.getObject(object)
-                    const cityCol = document.querySelector('.city-col')
-                    // cityCol.style.display = 'block'
-                });
+                // var balloonContentElement = document.querySelector('.balloon-city');
+                // if(balloonContentElement)
+                // balloonContentElement.addEventListener('click', function(e) {
+                //     const id = balloonContentElement.getAttribute('id')
+                //     const object = {
+                //         id: id
+                //     }
+                //     cache.getObject(object)
+                //     const cityCol = document.querySelector('.city-col')
+                // });
             })
             mapCountry.events.add('balloonclose', function(e){
                 if(window.innerWidth < 540) {
                     citychanger.style.display = 'flex'
                 }
+                var balloonContentElement = document.querySelector('.balloon-city');
+                console.log('ballonocloseeee', balloonContentElement)
+                if(balloonContentElement)
+                balloonContentElement.addEventListener('click', function(e) {
+                    const id = balloonContentElement.getAttribute('id')
+                    const object = {
+                        id: id
+                    }
+                    cache.getObject(object)
+                    const cityCol = document.querySelector('.city-col')
+                });
             })
         }
         mapCountry.container.fitToViewport();

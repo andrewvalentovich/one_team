@@ -533,6 +533,18 @@ if(document.querySelectorAll('.field-phone').length) {
 document.addEventListener("click", function(event) {
     event = event || window.event;
     let target = event.target
+    if(target.closest('.balloon-city-w')) {
+        console.log(document.querySelector('.place-w.active'))
+        if(!document.querySelector('.place-w.active')) {
+            const objectID = target.closest('.balloon-city').getAttribute('id')
+            const object = {
+                id: objectID
+            }
+            cache.getObject(object)
+        }
+    }
+
+
 
     if(target.classList.contains('popup')) {
       target.classList.remove('active')
