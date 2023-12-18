@@ -334,7 +334,7 @@ async function renderMap() {
         }
     })), document.querySelectorAll("#map-country").length && ymaps.ready((function () {
         var country = (window.country === undefined) ? {lat: 38.475851, long: 30.815585} : window.country;
-        let zoom = 4
+        let zoom = 6
         if(window.innerWidth <= 539) {
             zoom = 5
         }
