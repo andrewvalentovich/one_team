@@ -6807,6 +6807,10 @@ body.scroll_fixed {
   gap: 20px;
 }
 
+.realty__left-col_1-footer .realty__img_s {
+  padding-bottom: 68.6%;
+}
+
 .realty__left-col_2-top {
   display: flex;
   flex-direction: column;
