@@ -240,6 +240,9 @@ body {
   flex: 0 0 100%;
   margin-top: 5px;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .city-col__filter {
@@ -9714,6 +9717,7 @@ body.scroll_fixed {
   border-right: 3px solid transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+  display: none;
 }
 
 @keyframes rotation {
@@ -9725,11 +9729,15 @@ body.scroll_fixed {
   }
 } 
 
-.houses-loader {
-  margin: 28px auto 0;
-  display: none;
+.houses-loader-subtitle {
+  width: 16px;
+  height: 16px;
 }
 
-.houses-loader.active {
+.houses-loader {
+  margin: 28px auto 0;
+}
+
+.loader.active {
   display: block;
 }

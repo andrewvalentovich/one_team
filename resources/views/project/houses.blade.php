@@ -51,6 +51,7 @@
                         <div class="city-col__filter-list"></div>
                     </div>
                     <div class="city-col__subtitle">
+                        <div class="loader houses-loader-subtitle active"></div>
                         <span>
 {{--                            @if(isset($products_count) && $products_count)--}}
 {{--                                {{ $products_count }}--}}
@@ -539,6 +540,7 @@ function P(e) {
     let ballons = []
     let quantityObjectsInTitle = null
     const loader = document.querySelector('.houses-loader')
+    const loaderSubtitle = document.querySelector('.houses-loader-subtitle')
     const dictionary = {
         rooms_bedroom: {
             ru: 'спальни',
@@ -1411,6 +1413,7 @@ function P(e) {
             const span = subtitle.querySelector('span')
             span.innerHTML = relevantMarks.length
             span.setAttribute('quantity_objects', relevantMarks.length)
+            loaderSubtitle.classList.remove('active')
             const nothing = document.querySelector('.nothing')
             if(allmarks.length == 0) {
                 // nothing.classList.add('active')
