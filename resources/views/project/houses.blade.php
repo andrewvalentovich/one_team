@@ -1355,9 +1355,10 @@ function P(e) {
                     currentPage++
                     canLoadData = false;
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
+                    console.log('test123')
                     setTimeout(() => {
                         canLoadData = true;
-                    }, 500);
+                    }, 1500);
                 }
             }
         }
