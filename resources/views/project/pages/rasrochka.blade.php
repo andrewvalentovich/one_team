@@ -12,6 +12,9 @@
 
 @section('content')
 <section class="about">
+    <div class="hello__title title">
+        Рассрочка
+    </div>
     <div class="about__content maxContainer">
         <p class="about__text-desc desc desc_transparent">
             Несмотря на рост цен, недвижимость в Турции сегодня пользуется повышенным спросом. И во многом тому способствует наличие рассрочки, которая действует и на готовые объекты, и на находящиеся в процессе строительства.
