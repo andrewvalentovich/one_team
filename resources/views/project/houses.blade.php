@@ -541,6 +541,8 @@ function P(e) {
     let quantityObjectsInTitle = null
     const loader = document.querySelector('.houses-loader')
     const loaderSubtitle = document.querySelector('.houses-loader-subtitle')
+    const subtitle = document.querySelector('.city-col__subtitle')
+    const span = subtitle.querySelector('span')
     const dictionary = {
         rooms_bedroom: {
             ru: 'спальни',
@@ -1222,6 +1224,9 @@ function P(e) {
         }
 
         function getDataMarks() {
+            console.log('test2')
+            loaderSubtitle.classList.add('active')
+            span.style.display = 'none'
             let params = createParams()
             return new Promise((resolve, reject) => {
                 $.ajax({
@@ -1232,9 +1237,13 @@ function P(e) {
                     success: function (data) {
                         resolve(data.data);
                         console.log(data.data);
+                        loaderSubtitle.classList.remove('active')
+                        span.style.display = 'block'
                     },
                     error: function (error) {
                         console.error('Error:', error);
+                        loaderSubtitle.classList.remove('active')
+                        span.style.display = 'block'
                     }
                 });
             })
@@ -1409,11 +1418,10 @@ function P(e) {
                 });
             }
 
-            const subtitle = document.querySelector('.city-col__subtitle')
-            const span = subtitle.querySelector('span')
+
             span.innerHTML = relevantMarks.length
             span.setAttribute('quantity_objects', relevantMarks.length)
-            loaderSubtitle.classList.remove('active')
+            // loaderSubtitle.classList.remove('active')
             const nothing = document.querySelector('.nothing')
             if(allmarks.length == 0) {
                 // nothing.classList.add('active')
