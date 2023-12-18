@@ -19,10 +19,10 @@ class TitleGenerateService
         $region = null;
         $title = 'One-team';
         if (isset($data['city'])) {
-            $region = CountryAndCity::where('slug', $data['city'])->first();
+            $region = CountryAndCity::with('locale_fields.locale')->where('slug', $data['city'])->first();
         } else {
             if (isset($data['country'])) {
-                $region = CountryAndCity::where('slug', $data['country'])->first();
+                $region = CountryAndCity::with('locale_fields.locale')->where('slug', $data['country'])->first();
             }
         }
 
@@ -59,10 +59,10 @@ class TitleGenerateService
         $region = null;
         $title = null;
         if (isset($data['city'])) {
-            $region = CountryAndCity::where('slug', $data['city'])->first();
+            $region = CountryAndCity::with('locale_fields.locale')->where('slug', $data['city'])->first();
         } else {
             if (isset($data['country'])) {
-                $region = CountryAndCity::where('slug', $data['country'])->first();
+                $region = CountryAndCity::with('locale_fields.locale')->where('slug', $data['country'])->first();
             }
         }
 

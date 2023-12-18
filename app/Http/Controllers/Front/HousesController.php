@@ -72,11 +72,11 @@ class HousesController extends Controller
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($_COOKIE['user_id']) ? $_COOKIE['user_id'] : time());
             }])
-            ->with(['locale_fields' => function($query) use ($data) {
-                $query->whereHas('locale', function($query) use ($data) {
-                    $query->where('code', $data['locale']);
-                })->orderByDesc('id')->limit(1);
-            }])
+//            ->with(['locale_fields' => function($query) use ($data) {
+//                $query->whereHas('locale', function($query) use ($data) {
+//                    $query->where('code', $data['locale']);
+//                })->orderByDesc('id')->limit(1);
+//            }])
             ->limit(12)
             ->filter($filter)
             ->get();

@@ -30,8 +30,16 @@ class HomePageController extends Controller
 
     public function home_page(){
         $all_country = CountryAndCity::where('parent_id', null)
+            ->with(['product_country' => function($query) {
+                $query->where(function ($query) {
+                    $query->where('complex_or_not', 'Нет')
+                        ->where(function ($query)  {
+                            $query->where('products.base_price', '>', 0);
+                        })
+                        ->orWhereHas('layouts');
+                });
+            }])
             ->withCount('product_country')
-            ->with('product_country')
             ->with('locale_fields.locale')
             ->orderBy('product_country_count', 'desc')
             ->limit(15)
