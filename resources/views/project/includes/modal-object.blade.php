@@ -816,7 +816,6 @@ class ObjectCache {
     }
 
     async getObject(object) {
-        console.log('key', object)
         let key = object.id
         if (this.cache.has(key)) {
             console.log("Object found in cache!")

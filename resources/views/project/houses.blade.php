@@ -340,7 +340,7 @@
 
             window.addEventListener("resize", (function (e) {
             })), document.querySelectorAll(".place-w").length && window.innerWidth <= 540 && window.addEventListener("resize", (function (e) {
-                document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("show"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
+                document.querySelectorAll("#map_city").length && (window.innerWidth > 1003 && document.querySelector(".city__content").classList.remove("city_map"), window.innerWidth <= 1003 && (document.querySelector("#map_city").style.height = "100%"), window.innerWidth > 1003 && (document.querySelector(".city-col").classList.add("active"), document.querySelector(".map_city__btn-changer").classList.remove("active"), document.querySelector(".city-col__btn-changer").classList.add("active"), document.querySelector("#map_city").classList.remove("map_city_active"), document.querySelector(".city__content").classList.remove("city_map")), window.innerWidth > 1199 && (document.querySelector("#map_city").style.height = window.innerHeight - 18 - 161 + "px"), window.innerWidth <= 1199 && window.innerWidth > 1003 && (document.querySelector("#map_city").style.height = window.innerHeight - 88 - 60 + "px"))
             })),document.querySelector(".header__top-phone-menu").onclick = function () {
                 document.querySelector(".header-m").classList.toggle("active"), document.querySelector("#nav-icon").classList.toggle("open"), document.querySelector(".header-w").classList.add("fixed"), document.querySelector(".header-m").classList.contains("active") || document.querySelector(".place-w").classList.contains("active") || document.querySelector(".header-w").classList.remove("fixed")
             }
@@ -1205,7 +1205,6 @@ function P(e) {
         if(document.querySelectorAll('.btn-filter-houses').length) {
             const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')
             const searchW = document.querySelector('.search-w')
-            console.log(btnFilterHouses);
             btnFilterHouses.forEach(btn => {
                 btn.addEventListener('click', async function() {
                     let allMarks = await getDataMarks()
@@ -1224,7 +1223,6 @@ function P(e) {
         }
 
         function getDataMarks() {
-            console.log('test2')
             loaderSubtitle.classList.add('active')
             span.style.display = 'none'
             let params = createParams()
@@ -1355,7 +1353,6 @@ function P(e) {
                     currentPage++
                     canLoadData = false;
                     getData(currentCoordinateMapLeft, currentCoordinateMapRight, { page: currentPage });
-                    console.log('test123')
                     setTimeout(() => {
                         canLoadData = true;
                     }, 1500);
@@ -1792,7 +1789,6 @@ function P(e) {
             })
             const citychanger = document.querySelector('.map_city__btn-changer')
             mapCountry.events.add('balloonopen', function(e){
-                console.log('ballonopeennn')
                 if(window.innerWidth < 540) {
                     citychanger.style.display = 'none'
                 }
@@ -1814,6 +1810,10 @@ function P(e) {
             })
         }
         mapCountry.container.fitToViewport();
+        const mapActive = document.querySelector('.map_city_active')
+        if(mapActive) {
+            mapActive.classList.add('show')
+        }
         onScrollToFooter()
         let moveWas = 0
         document.querySelector(".city-col__btn-changer") && (document.querySelector(".city-col__btn-changer").onclick = function () {

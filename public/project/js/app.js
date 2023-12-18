@@ -479,8 +479,6 @@ async function renderMap() {
             }
         }),
         c = ymaps.templateLayoutFactory.createClass('<h3 class="popover-title">$[properties.balloonHeader]</h3><div class="popover-content"><a href="$[properties.link]">$[properties.balloonContent]</a> </div>');
-        console.log(locations);
-        console.log(locations.length);
 
         locations.forEach(Location => {
             var balloonOffset = (window.locale === 'ar' || window.locale === 'fa') ? [125, -50] : [-110, -50];
@@ -534,7 +532,6 @@ document.addEventListener("click", function(event) {
     event = event || window.event;
     let target = event.target
     if(target.closest('.balloon-city-w')) {
-        console.log(document.querySelector('.place-w.active'))
         if(!document.querySelector('.place-w.active')) {
             const objectID = target.closest('.balloon-city').getAttribute('id')
             const object = {
