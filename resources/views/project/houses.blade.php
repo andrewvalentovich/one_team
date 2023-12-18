@@ -1603,13 +1603,13 @@ function P(e) {
                     balloonContent: `<div class="balloon-city-w">
                                         <div class="balloon-city" id="${mark.id}">
                                             <div class="balloon-city__text">
-                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>€ ${mark.price}</div>
+                                                <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>€ ${mark.price ? mark.price : ''}</div>
                                                 ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
-                                                <div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span> ${mark.spalni} спальни <span>|</span> ${mark.vanie} ванна</div>
-                                                <div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>
-                                                <div class="balloon-city__square">${mark.kv} ${kvm}</div>
+                                                ${mark.kv ? `<div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span>${mark.spalni ? ' ' + mark.spalni + ' спальни' : ''} <span>|</span>${mark.vanie ? ' ' + mark.vannie + ' ванна' : ''}</div>` : ''}
+                                                ${mark.address ? `<div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>` : ''}
+                                                ${mark.kv ? `<div class="balloon-city__square">${mark.kv} ${kvm}</div>` : ''}
                                             </div>
-                                            <div class="balloon-city__img"><img style="height: 54px;" src="/${mark.image}"></div>
+                                            ${mark.image ? `<div class="balloon-city__img"><img style="height: 54px;" src="/${mark.image}"></div>` : ''}
                                         </div>
                                     </div>`,
                     city_id: mark.id,
@@ -1811,17 +1811,6 @@ function P(e) {
                 if(window.innerWidth < 540) {
                     citychanger.style.display = 'flex'
                 }
-                var balloonContentElement = document.querySelector('.balloon-city');
-                console.log('ballonocloseeee', balloonContentElement)
-                if(balloonContentElement)
-                balloonContentElement.addEventListener('click', function(e) {
-                    const id = balloonContentElement.getAttribute('id')
-                    const object = {
-                        id: id
-                    }
-                    cache.getObject(object)
-                    const cityCol = document.querySelector('.city-col')
-                });
             })
         }
         mapCountry.container.fitToViewport();
