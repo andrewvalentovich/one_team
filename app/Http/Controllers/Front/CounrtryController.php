@@ -29,13 +29,35 @@ class CounrtryController extends Controller
 
     public function countries($slug)
     {
-        $get = CountryAndCity::where('slug', $slug)->withCount('product_city')->orderby('product_city_count','DESC')->get();
-        $country = CountryAndCity::where('slug', $slug)->with('product_country')->with('locale_fields.locale')->with('cities.product_city')->first();
+//        $get = CountryAndCity::where('slug', $slug)->withCount('product_city')->orderby('product_city_count','DESC')->get();
+        $country = CountryAndCity::where('slug', $slug)->with(['product_country' => function($query) {
+                $query->where(function ($query) {
+                    $query->where('complex_or_not', 'Нет')
+                        ->where(function ($query)  {
+                            $query->where('products.base_price', '>', 0);
+                        })
+                        ->orWhereHas('layouts');
+                });
+            }])
+            ->with('locale_fields.locale')
+            ->with(['cities' => function($query) {
+                $query
+                    ->with('locale_fields.locale')
+                    ->with(['product_city' => function($query) {
+                        $query->where(function ($query) {
+                            $query->where('complex_or_not', 'Нет')
+                                ->where(function ($query)  {
+                                    $query->where('products.base_price', '>', 0);
+                                })
+                                ->orWhereHas('layouts');
+                        });
+                    }]);
+            }])
+            ->first();
 
         $title = $this->generateTitle($country);
         $citizenship_for_invesment = $this->citizenship_for_invesment($country);
 
-        $count = CountryAndCity::where('parent_id', $country->id)->has('product_city')->get()->count();
         $get_footer_link =  CompanySelect::orderby('status' , 'asc')->orderby('updated_at', 'desc')->get();
 
         // Для гражданства от 400тыс
@@ -48,6 +70,7 @@ class CounrtryController extends Controller
                 ->where('grajandstvo', 'Да')
                 ->with('favorite')
                 ->with('photo')
+                ->with('country')
                 ->with('ProductCategory')
                 ->with('peculiarities')
                 ->where(function ($query) {
@@ -116,7 +139,7 @@ class CounrtryController extends Controller
             }
         }
 
-        return view('project.country', compact('get','country', 'citizenship_product', 'count', 'get_footer_link', 'title', 'citizenship_for_invesment'));
+        return view('project.country', compact('country', 'citizenship_product', 'get_footer_link', 'title', 'citizenship_for_invesment'));
     }
 
     private function generateTitle($country)

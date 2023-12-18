@@ -24,7 +24,7 @@
         </div>
         @if(isset($country->cities[0]))
             <!-- 9 блоков -->
-            @if($count >= 8)
+            @if(count($country->cities) >= 8)
             <div class="realty__content" style="display:flex !important">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -163,7 +163,7 @@
             </div>
             @endif
             <!-- 8 блоков -->
-            @if($count == 7)
+            @if(count($country->cities) == 7)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -290,7 +290,7 @@
             @endif
 
             <!-- 7 блоков -->
-            @if($count == 6)
+            @if(count($country->cities) == 6)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -404,7 +404,7 @@
             @endif
 
             <!-- 6 блоков -->
-            @if($count == 5)
+            @if(count($country->cities) == 5)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -505,7 +505,7 @@
             @endif
 
             <!-- 5 блоков -->
-            @if($count == 4)
+            @if(count($country->cities) == 4)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -591,7 +591,7 @@
             @endif
 
             <!-- 4 блоков -->
-            @if($count == 3)
+            @if(count($country->cities) == 3)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -663,7 +663,7 @@
             </div>
             @endif
             <!-- 3 блоков -->
-            @if($count == 2)
+            @if(count($country->cities) == 2)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
@@ -720,7 +720,7 @@
             @endif
 
             <!-- 2 блоков -->
-            @if($count == 1)
+            @if(count($country->cities) == 1)
             <div class="realty__content">
                 <div class="realty__left-col" style="flex: 1 0 calc(50% - 10px)">
                     <div class="realty__left-col_1">
@@ -758,7 +758,7 @@
             @endif
         @else
             <!-- 1 блоков -->
-            @if($count < 1)
+            @if(count($country->cities) < 1)
             <div class="realty__content">
                 <div class="realty__left-col">
                     <div class="realty__left-col_1">
