@@ -902,25 +902,25 @@
         }
         var current_locale = `{{ app()->getLocale() }}`;
 
-        $(".place__currency-item").on("click", function() {
-            var rate = $(this).attr('data-exchange');
-            var place_price_el = $('.place-w.active').find('.place__price-value');
-            var place_square_el = $('.place-w.active').find('.place__square');
-            var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
-            kompleks_layout_price_el.children('span').removeClass('active');
-            kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('active');
-            kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('lira');
+        // $(".place__currency-item").on("click", function() {
+        //     var rate = $(this).attr('data-exchange');
+        //     var place_price_el = $('.place-w.active').find('.place__price-value');
+        //     var place_square_el = $('.place-w.active').find('.place__square');
+        //     var kompleks_layout_price_el = $('.place-w.active').find('.kompleks__layout-price');
+        //     kompleks_layout_price_el.children('span').removeClass('active');
+        //     kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('active');
+        //     kompleks_layout_price_el.find(`span[data-exchange="${rate}"]`).addClass('lira');
 
-            var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
-            kompleks_layout_price_meter_el.children('span').removeClass('active');
-            kompleks_layout_price_meter_el.find(`span[data-exchange="${rate}"]`).addClass('active');
+        //     var kompleks_layout_price_meter_el = $('.place-w.active').find('.kompleks__layout-price-meter');
+        //     kompleks_layout_price_meter_el.children('span').removeClass('active');
+        //     kompleks_layout_price_meter_el.find(`span[data-exchange="${rate}"]`).addClass('active');
 
 
-            place_price_el.html(place_price_el.attr('data-price-'+rate) + currency[rate]);
-            place_square_el.html(place_square_el.attr('data-price-'+rate) + currency[rate]);
-            // kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
-            // kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
-        });
+        //     place_price_el.html(place_price_el.attr('data-price-'+rate) + currency[rate]);
+        //     place_square_el.html(place_square_el.attr('data-price-'+rate) + currency[rate]);
+        //     // kompleks_layout_price_el.html(kompleks_layout_price_el.attr('data-price-'+rate) + currency[rate]);
+        //     // kompleks_layout_price_meter_el.html(kompleks_layout_price_meter_el.attr('data-price-'+rate) + currency[rate] + " / " + square_m[current_locale]);
+        // });
 
 
 
