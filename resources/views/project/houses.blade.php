@@ -52,9 +52,9 @@
                     </div>
                     <div class="city-col__subtitle">
                         <span>
-                            @if(isset($products_count) && $products_count)
-                                {{ $products_count }}
-                            @endif
+{{--                            @if(isset($products_count) && $products_count)--}}
+{{--                                {{ $products_count }}--}}
+{{--                            @endif--}}
                         </span>
                         {{__('объявлений')}}
                     </div>

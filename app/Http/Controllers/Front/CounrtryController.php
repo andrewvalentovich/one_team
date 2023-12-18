@@ -42,6 +42,7 @@ class CounrtryController extends Controller
             ->with('locale_fields.locale')
             ->with(['cities' => function($query) {
                 $query
+                    ->has('product_city')
                     ->with('locale_fields.locale')
                     ->with(['product_city' => function($query) {
                         $query->where(function ($query) {
