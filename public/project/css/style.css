@@ -1698,11 +1698,13 @@ body {
 
 .about li {
   margin-bottom: 15px;
+  line-height: 140%;
 }
 
 .about b {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   font-size: 18px;
+  display: block;
 }
 
 .about p {
@@ -8960,6 +8962,7 @@ body.scroll_fixed {
 }
 
 .questions__content {
+  justify-content: center;
   display: flex;
   gap: 40px;
   align-items: center;
@@ -9822,4 +9825,33 @@ body.scroll_fixed {
 
 .loader.active {
   display: block;
+}
+
+
+.about__pic-text {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  align-items: center;
+  padding: 10px 0px;
+}
+.about__pic-text img {
+  width: 300px;
+  height: 150px;
+  margin-bottom: 0px;
+  object-fit: cover;
+}
+
+.about__pic-text p {
+  margin-bottom: 0px;
+}
+
+@media (max-width: 767px) {
+  .about__pic-text {
+    flex-wrap: wrap;
+  }
+  .about__pic-text img {
+    width: 100%;
+    height: 180px;
+  }
 }

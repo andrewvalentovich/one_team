@@ -39,8 +39,8 @@
             </p>
         </div>
     </section>
-    @include('project.includes.advantages')
-    @include('project.includes.form-main')
+@include('project.includes.advantages')
+@include('project.includes.form-main')
 @endsection
 
 
