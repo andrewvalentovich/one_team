@@ -1690,7 +1690,7 @@ body {
 .about h2 {
   font-weight: bold;
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   margin-top: 20px;
 }
 
@@ -1698,11 +1698,17 @@ body {
 
 .about li {
   margin-bottom: 15px;
-  line-height: 140%;
+  font-size: 16px;
+  line-height: 154%;
+}
+
+.about .no-margin li {
+  margin-bottom: 0px;
 }
 
 .about b {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding-top: 10px;
   font-size: 18px;
   display: block;
 }
@@ -7877,7 +7883,7 @@ body.scroll_fixed {
 
 .about {
   padding-top: 70px;
-  padding-bottom: 100px;
+  padding-bottom: 10px;
 }
 
 
@@ -7951,7 +7957,7 @@ body.scroll_fixed {
   display: flex;
   justify-content: space-between;
   /* align-items: center; */
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .about__text p {
@@ -7975,7 +7981,7 @@ body.scroll_fixed {
 @media (max-width: 1023px) {
   .about {
     padding-top: 40px;
-    padding-bottom: 50px;
+    padding-bottom: 10px;
   }
   .about__text {
     flex-wrap: wrap;
@@ -7996,7 +8002,7 @@ body.scroll_fixed {
 @media (max-width: 539px) {
   .about {
     padding-top: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 10px;
   }
   .about__preview-pic {
     height: 250px;
@@ -8221,7 +8227,7 @@ body.scroll_fixed {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  margin-bottom: 70px;
+  margin-bottom: 10px;
 }
 
 .advantages__item {
@@ -9191,7 +9197,7 @@ body.scroll_fixed {
 .questions__form-w {
   flex: 1;
   display: flex;
-  max-width: 450px;
+  max-width: 473px;
   justify-content: center;
 }
 
