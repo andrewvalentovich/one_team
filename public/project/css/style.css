@@ -3220,6 +3220,8 @@ body.scroll_fixed {
 .place__order-img {
   margin-top: -12px;
   flex: 0 0 36%;
+  display: flex;
+  align-items: flex-end;
 }
 
 .place__order-img img {

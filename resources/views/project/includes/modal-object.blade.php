@@ -308,6 +308,12 @@
                                                 <span>
                                                     {{__('Елена')}}
                                                 </span>
+                                                <span>
+                                                    {{__('Дамир')}}
+                                                </span>
+                                                <span>
+                                                    {{__('Никита')}}
+                                                </span>
                                             </div>
                                             <div class="place__order-subtitle">
                                                 {{__('Консультант по продажам')}}
@@ -318,9 +324,11 @@
                                         </div>
                                     </div>
                                     <div class="place__order-img">
-                                        <img src="{{asset('project/img/woman1.webp')}}" alt="woman">
-                                        <img src="{{asset('project/img/woman2.webp')}}" alt="woman">
-                                        <img src="{{asset('project/img/woman3.webp')}}" alt="woman">
+                                        <img src="{{asset('project/img/woman1.webp')}}" alt="консультант">
+                                        <img src="{{asset('project/img/woman2.webp')}}" alt="консультант">
+                                        <img src="{{asset('project/img/woman3.webp')}}" alt="консультант">
+                                        <img src="{{asset('project/img/man1.jpg')}}" alt="консультант">
+                                        <img src="{{asset('project/img/man2.jpg')}}" alt="консультант">
                                     </div>
                                 </div>
                                 <div class="place__order-btn_m open-popup-main">
@@ -1085,7 +1093,7 @@ async function setNewPopupHouseData(object) {
     const placeOrder = document.querySelector('.place__order-img')
     const placeOrderName = document.querySelector('.place__order-title')
     var randomValue = Math.random();
-    var randomNumber = Math.floor(randomValue * 3);
+    var randomNumber = Math.floor(randomValue * 5);
 
     const placeOrederImgs = placeOrder.querySelectorAll('img')
     const placeOrederNames= placeOrderName.querySelectorAll('span')
