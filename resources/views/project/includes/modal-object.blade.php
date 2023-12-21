@@ -327,8 +327,8 @@
                                         <img src="{{asset('project/img/woman1.webp')}}" alt="консультант">
                                         <img src="{{asset('project/img/woman2.webp')}}" alt="консультант">
                                         <img src="{{asset('project/img/woman3.webp')}}" alt="консультант">
-                                        <img src="{{asset('project/img/man1.jpg')}}" alt="консультант">
-                                        <img src="{{asset('project/img/man2.jpg')}}" alt="консультант">
+                                        <img src="{{asset('project/img/1.png')}}" alt="консультант">
+                                        <img src="{{asset('project/img/2.png')}}" alt="консультант">
                                     </div>
                                 </div>
                                 <div class="place__order-btn_m open-popup-main">

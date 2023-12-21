@@ -207,8 +207,9 @@
             </div>
         </section>
     </div>
-
-    @include('project.includes.form-main')
+    <div class="index-questions">
+        @include('project.includes.form-main')
+    </div>
 
     @if(!empty($citizenship_product))
     <section class="objects-slider container">

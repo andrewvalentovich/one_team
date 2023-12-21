@@ -8229,8 +8229,10 @@ body.scroll_fixed {
 }
 
 .advantages {
-  max-width: 1138px;
+  max-width: 1170px;
   margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .advantages__title {
@@ -8980,6 +8982,9 @@ body.scroll_fixed {
   margin: 0 auto;
   padding-top: 50px;
   padding-bottom: 50px;
+}
+.index-questions .questions__content  {
+  justify-content: flex-start;
 }
 
 .questions__content {

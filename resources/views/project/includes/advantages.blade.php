@@ -1,4 +1,4 @@
-<section class="advantages container">
+<section class="advantages ">
         <div class="advantages__title title">
             {{ __('Наши преимущества') }}
         </div>

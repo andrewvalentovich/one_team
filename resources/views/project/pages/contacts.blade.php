@@ -63,7 +63,10 @@
             <iframe class="contacts__map" src="https://yandex.ru/map-widget/v1/?um=constructor%3A2e01e76fb81817ab7abc5adae305c6ccc877665e78da5ea6ab8abbedc7d5cae0&amp;source=constructor" frameborder="0"></iframe>
         </div>
     </div>
+@include('project.includes.advantages')
+@include('project.includes.form-main')
 @endsection
+
 
 
 @section('footer')
