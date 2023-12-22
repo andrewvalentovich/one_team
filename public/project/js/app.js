@@ -545,6 +545,8 @@ document.addEventListener("click", function(event) {
 
     if(target.classList.contains('popup')) {
       target.classList.remove('active')
+      let email = target.querySelector('.email')
+      if(email) email.classList.add('hidden')
         if(target.classList.contains('popup-catalog')) {
             sessionStorage.setItem("popupCatalog", "wasCloseByUser");
         }
@@ -590,10 +592,12 @@ for(let i=0 ; i < popupClose.length ; i++) {
     popupClose[i].addEventListener("click",
     function() {
       let popup = popupClose[i].closest('.popup')
+      let email = popup.querySelector('.email')
       if(popup.classList.contains('filter')) {
         popup.classList.remove('popup')
       } else {
         popup.classList.remove('active')
+        if(email) email.classList.add('hidden')
       }
         // bodyScrollLock.enableBodyScroll(popup);
     })
@@ -852,6 +856,12 @@ openPopupBtn.forEach(btn => {
     btn.addEventListener('click', function() {
         const popupName = btn.getAttribute('popup-name')
         const popup = document.querySelector(`.${popupName}`)
+        let email = popup.querySelector('.email')
+        if(btn.getAttribute('withEmail') === '') {
+            if(email) email.classList.remove('hidden')
+        } else {
+            if(email) email.classList.add('hidden')
+        }
         popup.classList.add('active')
     })
 });

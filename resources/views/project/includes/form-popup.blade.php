@@ -1,6 +1,12 @@
 <div class="popup popup-modal main-form-popup" style="z-index: 2005!important;" bis_skin_checked="1">
     <div class="popup__body" bis_skin_checked="1">
         <form class="popup__content default-form" id="city_form">
+            <label class="field email input-wrapper hidden" bis_skin_checked="1">
+                    <span class="text">
+                        {{__('Email')}}
+                    </span>
+                <input type="text" value="" placeholder="{{ __('example@mail.ru') }}" name="email">
+            </label>
             <label class="field name input-wrapper" bis_skin_checked="1">
                     <span class="text">
                         {{__('ФИО')}}

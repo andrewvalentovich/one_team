@@ -160,6 +160,9 @@
 
 
     $('#city_form,#object_form,.form-fio-phone').submit(function (event) {
+        let hasEmail = this.querySelector("input[name='email']")
+
+
         event.preventDefault()
         let product_id = $(this).find("input[name='product_id']").val();
         let fio = $(this).find("input[name='fio']").val();
@@ -172,6 +175,7 @@
         let ip = $(this).find("input[name='ip']").val();
         let country = $(this).find('.iti__selected-flag').attr('title')
         let phoneInput = $(this).find("input[name='phone']");
+        let emailInput = $(this).find("input[name='email']");
         let phone = phoneInput.val();
 
         let countryCode = $(this).find('.iti__selected-dial-code').html()
@@ -185,6 +189,27 @@
         } else {
             countryCode =  ''
         }
+
+        let email_valid = true
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(hasEmail) {
+            if ($(emailInput).closest('.input-wrapper').hasClass('hidden')) {
+                email_valid = true;
+            } else {
+                if(!emailRegex.test(emailInput.val())) {
+                    $(emailInput).closest('.input-wrapper').addClass('border');
+                    email_valid = false;
+                } else {
+                    email_valid = true;
+                    $(emailInput).closest('.input-wrapper').css('border', '');
+                    $(emailInput).closest('.input-wrapper').removeClass('border');
+                }
+            }
+        }
+
+
+
 
 
         let name_valid = false;
@@ -204,7 +229,6 @@
 
         let mask = phoneInput.attr('placeholder').replace(/\D/g, '');
         if (phoneInput.val().length !== mask.length || fio.length > 255) {
-            console.log('test')
             $('.contact__form-phone').css('border', '2px solid red')
         } else {
             phone_valid = true;
@@ -225,7 +249,7 @@
             check_two = true;
         }
 
-        if (phone_valid == true && name_valid == true && check_one == true && check_two == true){
+        if (phone_valid == true && name_valid == true && check_one == true && check_two == true && email_valid == true){
             let formData = new FormData();
             if (product_id !== undefined && product_id != '') {
                 formData.append('product_id', product_id);
@@ -281,6 +305,7 @@
                     })
                     $("input[name='phone']").val('')
                     $("input[name='name']").val('')
+                    $("input[name='email']").val('')
                     $('.two_check').css('border', '2px solid #508cfa')
                     $('.one_check').css('border', '2px solid #508cfa')
                 },
@@ -349,7 +374,17 @@ inputWrappers.forEach(function(wrapper) {
 inputWrappers.forEach(function(wrapper) {
     const input = wrapper.querySelector('input');
     input.addEventListener('blur', function() {
-        if(input.getAttribute('name') === 'phone') {
+        if(input.getAttribute('name') === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+            if(emailRegex.test(input.value)) {
+                wrapper.classList.add('confirm');
+            } else {
+                wrapper.style.border = '';
+                wrapper.classList.remove('confirm');
+                wrapper.classList.add('border');
+            }
+        } else if(input.getAttribute('name') === 'phone') {
             let mask = input.getAttribute('placeholder').replace(/\D/g, '');
             if(input.value.length === mask.length) {
                 wrapper.classList.add('confirm');
