@@ -2146,12 +2146,15 @@ body {
 
 .citizenship {
   max-width: 1383px;
-  margin: 0 auto 95px;
+  margin: 20px auto 95px;
+  border: 1px solid #969696;
+  padding: 40px;
+  border-radius: 12px;
 }
 
 .citizenship__title {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 10px;
 }
 
 .citizenship__subtitle {
@@ -2262,7 +2265,14 @@ body {
   color: #002850;
   font-size: 18px;
 }
+.citizenship__footer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.citizenship__pink-btn {
 
+}
 .citizenship__footer-button {
   text-align: center;
   color: #000;
@@ -9661,6 +9671,7 @@ body.scroll_fixed {
   text-align: center;
   border-radius: 5px;
   transition: .2s;
+  cursor: pointer;
 }
 
 .btn_blue:hover {
@@ -9908,10 +9919,11 @@ body.scroll_fixed {
   justify-content: space-between;
   max-width: 500px;
   gap: 10px;
+  flex: 0 0 500px;
 }
 
 .vnj__form-consul {
-  flex: 0 0 136px;
+  flex: 0 0 108px;
   display: flex;
   align-items: flex-end;
   padding-top: 10px;
@@ -10042,4 +10054,18 @@ body.scroll_fixed {
   .vnj {
     gap: 0px;
   }
+}
+
+.citizenship__btn-pink {
+  background: #e249c1;
+}
+
+
+.citizenship__btn-pink:hover {
+  background: #ca3fac;
+}
+
+.citizenship__btn {
+  width: 100%;
+  max-width: 320px;
 }

@@ -861,17 +861,102 @@
             </div>
         </section>
     </div>
-    <section class="citizenship-investments ">
-        @if(!is_null($country->locale_fields->where('locale.code', app()->getLocale())->first()))
+        <!-- @if(!is_null($country->locale_fields->where('locale.code', app()->getLocale())->first()))
             {!! $country->locale_fields->where('locale.code', app()->getLocale())->first()->div !!}
-        @endif
-        <div class="citizenship-investments__footer">
-            <div class="citizenship-investments__footer-button">
-                {{__('Запросить актуальные проекты')}}
+        @endif -->
+<section class="citizenship container">
+    <div class="citizenship__title title">Гражданство</div>
+    <div class="citizenship__subtitle">Мы предлагаем готовые стратегии инвестирования в зарубежную недвижимость</div>
+    <div class="citizenship__content">
+        <div class="citizenship__content-items">
+            <div class="citizenship__content-item">
+                <div class="citizenship__item-img citizenship__item-dollar">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="79px" height="51px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.93 1.89" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Слой_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                        <polygon class="fil0 str0" points="2.3,0.63 2.3,1.82 0.07,1.82 0.07,0.63 "></polygon>
+                        <polyline class="fil0 str1" points="0.3,0.41 2.53,0.41 2.53,1.52 "></polyline>
+                        <polyline class="fil0 str1" points="0.48,0.22 2.71,0.22 2.71,1.34 "></polyline>
+                        <polyline class="fil0 str1" points="0.67,0.04 2.9,0.04 2.9,1.15 "></polyline>
+                        <g id="_2529166579488">
+                        <path class="fil0 str2" d="M1.01 1.35l0 0.1 0.25 0c0.07,0 0.13,-0.05 0.13,-0.11 0,-0.06 -0.06,-0.11 -0.13,-0.11l-0.14 0c-0.08,0 -0.14,-0.05 -0.14,-0.12 0,-0.06 0.06,-0.11 0.14,-0.11l0.25 0 0 0.1"></path>
+                        <line class="fil0 str2" x1="1.2" y1="1" x2="1.2" y2="0.82"></line>
+                        <line class="fil0 str2" x1="1.2" y1="1.63" x2="1.2" y2="1.45"></line>
+                        </g>
+                        </g>
+                    </svg>
+                </div>
+                <div class="citizenship__item-text">
+                    <div class="citizenship__item-title">400 000$</div>
+                    <div class="citizenship__item-subtitle">Минимальные инвестиции</div>
+                </div>
+            </div>
+            <div class="citizenship__content-item">
+                <div class="citizenship__item-img citizenship__item-limitation">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="74px" height="58px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2.96 2.32" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Слой_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                        <polygon class="fil0 str0" points="2.48,0.64 2.48,2.24 0.08,2.24 0.08,0.64 "></polygon>
+                        <polyline class="fil0 str1" points="0.32,0.4 2.72,0.4 2.72,2 "></polyline>
+                        <path class="fil0 str1" d="M1.84 0.84l0 -0.84m-1.12 0.84l0 -0.84"></path>
+                        <line class="fil0 str1" x1="2" y1="1.19" x2="0.56" y2="1.19"></line>
+                        <line class="fil0 str1" x1="0.72" y1="1.43" x2="0.56" y2="1.43"></line>
+                        <line class="fil0 str1" x1="1.04" y1="1.43" x2="0.88" y2="1.43"></line>
+                        <line class="fil0 str1" x1="1.36" y1="1.43" x2="1.2" y2="1.43"></line>
+                        <line class="fil0 str1" x1="1.68" y1="1.43" x2="1.52" y2="1.43"></line>
+                        <line class="fil0 str1" x1="2" y1="1.43" x2="1.84" y2="1.43"></line>
+                        <line class="fil0 str1" x1="0.72" y1="1.63" x2="0.56" y2="1.63"></line>
+                        <line class="fil0 str1" x1="1.04" y1="1.63" x2="0.88" y2="1.63"></line>
+                        <line class="fil0 str1" x1="1.36" y1="1.63" x2="1.2" y2="1.63"></line>
+                        <line class="fil0 str1" x1="1.68" y1="1.63" x2="1.52" y2="1.63"></line>
+                        <line class="fil0 str1" x1="2" y1="1.63" x2="1.84" y2="1.63"></line>
+                        <line class="fil0 str1" x1="0.72" y1="1.83" x2="0.56" y2="1.83"></line>
+                        <line class="fil0 str1" x1="1.04" y1="1.83" x2="0.88" y2="1.83"></line>
+                        <line class="fil0 str1" x1="1.36" y1="1.83" x2="1.2" y2="1.83"></line>
+                        <line class="fil0 str1" x1="1.68" y1="1.83" x2="1.52" y2="1.83"></line>
+                        <line class="fil0 str1" x1="2" y1="1.83" x2="1.84" y2="1.83"></line>
+                        <polyline class="fil0 str1" points="0.52,0.2 2.92,0.2 2.92,1.8 "></polyline>
+                        </g>
+                    </svg>
+                </div>
+                <div class="citizenship__item-text">
+                    <div class="citizenship__item-title">3-6 мес.</div>
+                    <div class="citizenship__item-subtitle">Срок оформления</div>
+                </div>
+            </div>
+            <div class="citizenship__content-item">
+                <div class="citizenship__item-img citizenship__item-return">
+                    <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="79px" height="59px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 4.79 3.61" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="Слой_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                        <g id="_1267802140304">
+                        <path class="fil0 str0" d="M1.7 2.21l0 0.16 0.41 0c0.12,0 0.22,-0.08 0.22,-0.18 0,-0.1 -0.1,-0.19 -0.22,-0.19l-0.24 0c-0.11,0 -0.21,-0.08 -0.21,-0.18 0,-0.1 0.1,-0.18 0.21,-0.18l0.42 0 0 0.16"></path>
+                        <line class="fil0 str0" x1="2.02" y1="1.64" x2="2.02" y2="1.34"></line>
+                        <line class="fil0 str0" x1="2.02" y1="2.67" x2="2.02" y2="2.37"></line>
+                        </g>
+                        <line class="fil0 str1" x1="0.17" y1="1.03" x2="3.82" y2="1.03"></line>
+                        <polyline class="fil0 str1" points="0.72,0.49 0.17,1.03 0.72,1.58 "></polyline>
+                        <line class="fil0 str1" x1="3.82" y1="2.98" x2="0.17" y2="2.98"></line>
+                        <polyline class="fil0 str1" points="3.27,3.52 3.82,2.98 3.27,2.43 "></polyline>
+                        <polyline class="fil0 str2" points="0.96,0.67 4.12,0.67 4.12,2.49 "></polyline>
+                        <polyline class="fil0 str2" points="0.9,0.36 4.42,0.36 4.42,2.19 "></polyline>
+                        <polyline class="fil0 str2" points="1.08,0.06 4.73,0.06 4.73,1.88 "></polyline>
+                        </g>
+                    </svg>
+                </div>
+                <div class="citizenship__item-text">
+                    <div class="citizenship__item-title">3 года</div>
+                    <div class="citizenship__item-subtitle">Срок возврата инвестиций</div>
+                </div>
             </div>
         </div>
-    </section>
-
+    </div>
+    <div class="citizenship__footer">
+        <a href="{{route('residence_and_citizenship')}}" class="citizenship__btn citizenship__btn-pink btn_blue">
+            Узнать больше
+        </a>
+    </div>
+</section>
     <script src="{{ asset('project/js/url_functions.js') }}"></script>
     <script>
         searchBarGetParameters();
