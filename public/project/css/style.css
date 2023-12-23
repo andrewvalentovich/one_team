@@ -10011,6 +10011,9 @@ body.scroll_fixed {
     max-width: 500px;
     gap: 2px;
   }
+  .vnj__form {
+    flex: 1;
+  }
 }
 
 @media (max-width: 539px) {
