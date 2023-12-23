@@ -200,7 +200,7 @@
                             </p>
                         </li>
                     </ul>
-                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup">
+                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup" withEmail>
                         Получить каталог
                     </button>
                 </div>

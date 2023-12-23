@@ -2152,6 +2152,12 @@ body {
   border-radius: 12px;
 }
 
+@media (max-width: 1418px) {
+  .citizenship {
+    margin: 20px 15px 95px;
+  }
+}
+
 .citizenship__title {
   text-align: center;
   margin-bottom: 10px;
@@ -10063,15 +10069,15 @@ body.scroll_fixed {
 }
 
 .citizenship__btn-pink {
-  background: #e249c1;
+  background: #fa0064;
 }
 
 
 .citizenship__btn-pink:hover {
-  background: #ca3fac;
+  background: #e4035d;
 }
 
 .citizenship__btn {
   width: 100%;
   max-width: 320px;
-}
+} 

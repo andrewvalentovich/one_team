@@ -854,7 +854,7 @@
                             </p>
                         </li>
                     </ul>
-                    <button class="catalog__btn-get btn_blue" popup-name="main-form-popup">
+                    <button class="catalog__btn-get btn_blue" popup-name="main-form-popup" withEmail>
                         Получить каталог
                     </button>
                 </div>
