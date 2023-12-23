@@ -9891,3 +9891,155 @@ body.scroll_fixed {
 .field.email.hidden {
   display: none;
 }
+
+.vnj {
+  display: flex;
+  gap: 20px;
+}
+
+.vnj h2 {
+  margin-top: 0px;
+}
+
+.vnj__form {
+  display: flex;
+  border: 1px solid #969696;
+  border-radius: 8px;
+  justify-content: space-between;
+  max-width: 500px;
+  gap: 10px;
+}
+
+.vnj__form-consul {
+  flex: 0 0 136px;
+  display: flex;
+  align-items: flex-end;
+  padding-top: 10px;
+}
+
+.vnj__form-consul img {
+  width: 100%;
+}
+
+.vnj__form-text {
+  padding: 20px 0px 20px 20px;  
+}
+
+.vnj__form-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.vnj__form-btn {
+  padding: 18px 33px;
+}
+
+.residence__form {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid #969696;
+  border-radius: 8px;
+  justify-content: space-between;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+.residence__form-text {
+  padding: 20px 0px 20px 20px;  
+}
+.residence__form-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.residence__form-consul {
+  flex: 0 0 216px;
+}
+.residence__form-consul img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0 8px 8px 0px;
+}
+.residence__form-btn {
+  padding: 18px 33px;
+}
+
+.residence {
+  display: flex;
+  gap: 20px;
+}
+
+.residence__form {
+  flex: 0 0 500px;
+  height: fit-content;
+}
+
+@media (max-width: 1023px) {
+  .vnj {
+    flex-wrap: wrap;
+  }
+  .residence {
+    flex-wrap: wrap;
+  }
+  .residence__text {
+    flex: 0 0 100%;
+  }
+  .vnj__text {
+    flex: 0 0 100%;
+  }
+  .vnj__form {
+    margin: 0 auto 30px;
+  }
+  .residence__form {
+    margin: 0 auto 30px;
+    flex: 1;
+    max-width: 500px;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 539px) {
+  .vnj__form-btn {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .vnj__form-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+  }
+  .vnj__form-consul {
+    flex: 0 0 100px;
+  }
+  .vnj__form-text {
+    padding: 10px 0px 10px 10px;
+  }
+  .residence__form-consul {
+    flex: 0 0 70px;
+  }
+  .residence__form-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  .residence__form-btn {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  .residence__form-text {
+    padding: 10px 0px 10px 10px;
+  }
+  .vnj__form {
+    margin: 0 auto 10px;
+  }
+  .residence__form {
+    margin: 0 auto 10px;
+  }
+  .residence {
+    gap: 0px;
+  }
+  .vnj {
+    gap: 0px;
+  }
+}

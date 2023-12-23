@@ -199,7 +199,7 @@
                                         <p class="catalog__info-title">
                                             Не нашли что нужно - напишите
                                         </p>
-                                        <button class="catalog__btn-get" popup-name="main-form-popup" withEmail>
+                                        <button class="catalog__btn-get" popup-name="main-form-popup">
                                             Связаться
                                         </button>
                                     </div>

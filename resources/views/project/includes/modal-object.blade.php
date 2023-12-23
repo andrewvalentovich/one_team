@@ -171,7 +171,7 @@
                         </div>
                         <div class="place__buy">
                             <div class="place__buy-btn" data_id="">
-                                <div class="place__buy-text popup-name="main-form-popup"">
+                                <div class="place__buy-text" popup-name="main-form-popup">
                                     {{__('Купить в рассрочку')}}
                                 </div>
                                 <div class="place__buy-img">
