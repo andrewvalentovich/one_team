@@ -286,10 +286,10 @@
                                     </div>
                                     <div class="remotely__text">
                                         <p>
-                                            Удаленная сделка и онлайн просмотр
+                                            {{ __('Удаленная сделка и онлайн просмотр') }}
                                         </p>
                                         <button class="btn_blue open-popup-main">
-                                            Записаться
+                                            {{ __('Записаться') }}
                                         </button>
                                     </div>
                                 </div>
@@ -848,7 +848,7 @@ class ObjectCache {
         // }
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `/api/houses/simple?id=${key}`,
+                url: `/api/houses/simple?id=${key}&locale={{app()->getLocale()}}`,
                 method: 'get',
                 success: function (data) {
                     console.log(data);
@@ -1097,7 +1097,7 @@ async function setNewPopupHouseData(object) {
 
     const placeOrederImgs = placeOrder.querySelectorAll('img')
     const placeOrederNames= placeOrderName.querySelectorAll('span')
-    
+
     const placeOrederImgActive = placeOrder.querySelector('.active')
     const placeOrederNameActive= placeOrderName.querySelector('.active')
 

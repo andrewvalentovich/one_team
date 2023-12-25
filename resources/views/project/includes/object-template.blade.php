@@ -31,7 +31,7 @@
     </div>
     <div class="die__list">
         @foreach($product->tags as $tag)
-            <div class="die__list-item">{{ $tag }}</div>
+            <div class="die__list-item">{{ __($tag) }}</div>
         @endforeach
     </div>
     <div class="city-col__item-text">
@@ -43,7 +43,7 @@
         @if(isset($product->number_rooms_unique) && !empty($product->number_rooms_unique))
             <div class="city-col__item-rooms">{{ $product->number_rooms_unique }}</div>
         @else
-            <div class="city-col__item-rooms">{{ $product->size }} кв.м | {{ (int)$product->spalni }} спальни | {{ (int)$product->vanie }} ванные</div>
+            <div class="city-col__item-rooms">{{ $product->size }} {{ __('кв.м') }} | {{ (int)$product->spalni }} {{ __('спальни') }} | {{ (int)$product->vanie }} {{ __('ванные') }}</div>
         @endif
         @if(!is_null($product->deadline))<div class="city-col__item-deadline">{{ $product->deadline }}</div>@endif
         <div class="city-col__item-address">{{ $product->address }}</div>

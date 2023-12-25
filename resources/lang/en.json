@@ -143,7 +143,21 @@
     "За счет внедрения новых технологий меняется сфера недвижимости, а вместе с ней развиваемся мы, и интенсивный рост обуславливает потребность Oneteam в энергичных и амбициозных людях, тех, кто хочет расти, кто готов не только улучшать имеющиеся навыки, но и приобретать новые." : "Due to the introduction of new technologies, the real estate industry is changing, and we are developing along with it, and intensive growth determines Oneteam’s need for energetic and ambitious people, those who want to grow, who are ready not only to improve existing skills, but also to acquire new ones.",
     "Работа в агентстве недвижимости в Турции крайне перспективна, ведь этот рынок значительно расширился за последние годы и тяготеет к дальнейшему расширению в будущем. Oneteam приглашает стать вас частью команды, нацеленной на то, чтобы улучшать коммуникацию между участниками сделок с недвижимостью — риелторами, застройщиками, клиентами, — и облегчать для всех заинтересованных сторон протекание процесса купли-продажи жилых и коммерческих объектов." : "Working for a real estate agency in Turkey is extremely promising, as the market has expanded significantly in recent years and is poised for further expansion in the future. Oneteam invites you to become part of a team aimed at improving communication between participants in real estate transactions - realtors, developers, clients - and making it easier for all interested parties to complete the process of buying and selling residential and commercial properties.",
     "В нашей компании открыты вакансии в сфере недвижимости в Турции, которые дают соискателям возможность работать в организации с хорошей репутацией, приобретать полезный профессиональный опыт и строить карьеру в одном из лучших агентств страны. Чтобы получить информацию о вакансиях агентства Oneteam и узнать больше о работе с недвижимостью в Турции, отправьте нам сообщение по форме обратной связи." : "Our company has open vacancies in the real estate sector in Turkey, which give applicants the opportunity to work in an organization with a good reputation, gain useful professional experience and build a career in one of the best agencies in the country. To receive information about Oneteam agency vacancies and learn more about working with real estate in Turkey, send us a message using the feedback form.",
-
+    "Все страны" : "All countries",
+    "Новостройка" : "New building",
+    "Удаленная сделка и онлайн просмотр" : "Remote transaction and online viewing",
+    "Записаться" : "Request",
+    "Марина" : "Marina",
+    "Елена" : "Elena",
+    "Дамир" : "Damir",
+    "Никита" : "Nikita",
+    "Вся недвижимость" : "All properties",
+    "Аренда недвижимости в регионе :name" : "Real estate for rent in the region :name",
+    "Покупка недвижимости в регионе :name" : "Buying real estate in the region :name",
+    "Недвижимость в регионе :name" : "Real estate in the region :name",
+    "Аренда недвижимости" : "Rental Property",
+    "Купить недвижимость в Турции: покупаем выгодно с Oneteam" : "Buy real estate in Turkey: buy profitably with Oneteam",
+    "Поможем недорого купить недвижимость в Турции (новостройки и вторичку) по спец. ценам. Подбор объектов с лучшей стоимостью и оформление купли-продажи" : "We will help you buy inexpensive real estate in Turkey (new buildings and resales) on a special basis. prices. Selection of objects with the best value and registration of purchase and sale",
 
 
 
@@ -342,5 +356,6 @@
     "персональных данных": "personal data",
     "политикой конфеденциальности": "privacy policy",
     "спал": "room",
-    "спальни": "Bedrooms"
+    "спальни": "bedrooms",
+    "ванные": "bathrooms"
 }

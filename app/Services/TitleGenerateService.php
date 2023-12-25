@@ -15,7 +15,7 @@ class TitleGenerateService
      */
     public function titleForHouses($data)
     {
-        $locale = isset($data['locale']) ? $data['locale'] : 'ru';
+        $locale = $data['locale'];
         $region = null;
         $title = 'One-team';
         if (isset($data['city'])) {
@@ -30,22 +30,22 @@ class TitleGenerateService
             // Формируем заголовок
             if (isset($data['sale_or_rent'])) {
                 if ($data['sale_or_rent'] == 'rent') {
-                    $title .= ' / ' . __('Аренда недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                    $title .= ' / ' . __('Аренда недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
                 } else {
-                    $title .= ' / ' . __('Покупка недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                    $title .= ' / ' . __('Покупка недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
                 }
             } else {
-                $title .= ' / ' . __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                $title .= ' / ' . __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
             }
         } else {
             if (isset($data['sale_or_rent'])) {
                 if ($data['sale_or_rent'] == 'rent') {
-                    $title .= ' / ' . __('Аренда недвижимости');
+                    $title .= ' / ' . __('Аренда недвижимости', [], $locale);
                 } else {
-                    $title .= ' / ' . __('Покупка недвижимости');
+                    $title .= ' / ' . __('Покупка недвижимости', [], $locale);
                 }
             } else {
-                $title .= ' / ' . __('Вся недвижимость');
+                $title .= ' / ' . __('Вся недвижимость', [], $locale);
             }
         }
         unset($region);
@@ -70,22 +70,22 @@ class TitleGenerateService
             // Формируем заголовок
             if (isset($data['sale_or_rent'])) {
                 if ($data['sale_or_rent'] == 'rent') {
-                    $title .= __('Аренда недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                    $title .= __('Аренда недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
                 } else {
-                    $title .= __('Покупка недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                    $title .= __('Покупка недвижимости в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
                 }
             } else {
-                $title .= __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name]);
+                $title .= __('Недвижимость в регионе :name', ['name' => $region->locale_fields->where('locale.code', $locale)->first()->name], $locale);
             }
         } else {
             if (isset($data['sale_or_rent'])) {
                 if ($data['sale_or_rent'] == 'rent') {
-                    $title .= __('Аренда недвижимости');
+                    $title .= __('Аренда недвижимости', [], $locale);
                 } else {
-                    $title .= __('Покупка недвижимости');
+                    $title .= __('Покупка недвижимости', [], $locale);
                 }
             } else {
-                $title .= __('Вся недвижимость');
+                $title .= __('Вся недвижимость', [], $locale);
             }
         }
         unset($region);

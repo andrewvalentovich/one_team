@@ -214,6 +214,10 @@ class HousesController extends Controller
             $data['order_by'] = 'new-first';
         }
 
+        if (!$data['locale']) {
+            $data['locale'] = 'ru';
+        }
+
         // Число отображаемых записей (пока что магическое число)
         $limit = 12;
         // Отступ для выборки записей
@@ -243,7 +247,7 @@ class HousesController extends Controller
         // Меняем параметры (для фронта)
         foreach ($products as $key => $object) {
             // Тэги
-            $object->getTags('ru');
+            $object->getTags($data['locale']);
 
             // Получаем уникальные планировки
             $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
@@ -266,6 +270,7 @@ class HousesController extends Controller
     public function getSimple(GetSimpleRequest $request)
     {
         $data = $request->validated();
+
         // Фильтр элементов
         // Выбор объектов, запрос к базе через Eloquent
         $product = Product::whereId($data['id'])
@@ -317,10 +322,10 @@ class HousesController extends Controller
         }
 
         $data['locale'] = isset($data['locale']) ? $data['locale'] : 'ru';
-        if (!is_null($product->locale_fields->where('locale.code', $data['locale'])->first())) {
-            $product->description = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->description) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->description : null;
-            $product->disposition = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->diposition) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->disposition : null;
-            $product->deadline = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->deadline) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->deadline : null;
+        if ($product->locale_fields->where('locale.code', $data['locale'])->first()) {
+            $product->description = $product->locale_fields->where('locale.code', $data['locale'])->first()->description ? $product->locale_fields->where('locale.code', $data['locale'])->first()->description : null;
+            $product->disposition = $product->locale_fields->where('locale.code', $data['locale'])->first()->diposition ? $product->locale_fields->where('locale.code', $data['locale'])->first()->disposition : null;
+            $product->deadline = $product->locale_fields->where('locale.code', $data['locale'])->first()->deadline ? $product->locale_fields->where('locale.code', $data['locale'])->first()->deadline : null;
         }
 
         // Особенности

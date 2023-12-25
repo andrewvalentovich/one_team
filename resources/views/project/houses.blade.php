@@ -3,8 +3,8 @@
     @include('project.includes.header')
 @endsection
 @section('seo')
-<title>Купить недвижимость в Турции: покупаем выгодно с Oneteam</title>
-<meta name="description" content="Поможем недорого купить недвижимость в Турции (новостройки и вторичку) по спец. ценам. Подбор объектов с лучшей стоимостью и оформление купли-продажи" />
+<title>{{ __('Купить недвижимость в Турции: покупаем выгодно с Oneteam') }}</title>
+<meta name="description" content="{{ __('Поможем недорого купить недвижимость в Турции (новостройки и вторичку) по спец. ценам. Подбор объектов с лучшей стоимостью и оформление купли-продажи') }}" />
 @endsection
 @section('content')
     @include('project.includes.search_nav_bar')
@@ -93,10 +93,10 @@
                                                     <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                                                 </a>
                                                 <p class="catalog__title">
-                                                    Каталог строящихся проектов на побережье средиземного моря
+                                                    {{ __('Каталог строящихся проектов на побережье средиземного моря') }}
                                                 </p>
                                                 <p class="catalog__subtitle">
-                                                    Работаем без комиссии для покупателя по ценам напрямую от застройщика
+                                                    {{ __('Работаем без комиссии для покупателя по ценам напрямую от застройщика') }}
                                                 </p>
                                                 <img class="catalog__pic" src="{{asset('project/img/catalog-index.webp')}}" alt="">
                                                 <div class="catalog__pdf">
@@ -108,16 +108,16 @@
                                                 </div>
                                             </div>
                                             <div class="catalog__text-footer">
-                                                Все актуальные предложения от застройщиков
+                                                {{ __('Все актуальные предложения от застройщиков') }}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="catalog__info">
                                         <p class="catalog__info-title">
-                                            Получить каталог, если нет времени на поиски
+                                            {{ __('Получить каталог, если нет времени на поиски') }}
                                         </p>
                                         <button class="catalog__btn-get" popup-name="main-form-popup" withEmail>
-                                            Получить каталог
+                                            {{ __('Получить каталог') }}
                                         </button>
                                     </div>
                                 </div>
@@ -1297,6 +1297,7 @@ function P(e) {
                         bottom_right: bottomRight,
                     },
                     success: function (data) {
+                        console.log(data);
                         loader.classList.remove('active')
                         if (data.title) {
                             document.querySelector('title').innerHTML = data.title;
