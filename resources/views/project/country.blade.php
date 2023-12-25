@@ -782,7 +782,7 @@
         @endif
     </section>
     <div class="catalog-w catalog-w_lite">
-        <section class="catalog ">
+        <section class="catalog">
             <div class="catalog__content">
                 <div class="catalog__text-w">
                     <div class="catalog__text-bg">
@@ -794,12 +794,12 @@
                                 <img src="{{asset('project/img/svg/new_logo.svg')}}" alt="logo">
                             </a>
                             <p class="catalog__title">
-                                Каталог строящихся проектов на побережье средиземного моря
+                                {{ __('Каталог строящихся проектов на побережье средиземного моря') }}
                             </p>
                             <p class="catalog__subtitle">
-                                Работаем без комиссии для покупателя по ценам напрямую от застройщика
+                                {{ __('Работаем без комиссии для покупателя по ценам напрямую от застройщика') }}
                             </p>
-                            <img class="catalog__pic" src="{{asset('project/img/catalog-index.png')}}" alt="">
+                            <img class="catalog__pic" src="{{asset('project/img/catalog-index.webp')}}" alt="">
                             <div class="catalog__pdf">
                                 <svg width="49" height="59" viewBox="0 0 49 59" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.8967 37.9589C11.8967 36.979 11.2168 36.3947 10.0172 36.3947C9.52737 36.3947 9.19562 36.4431 9.02209 36.4893L9.02209 39.633C9.22756 39.6793 9.48013 39.6947 9.82828 39.6947C11.1069 39.6947 11.8967 39.0487 11.8967 37.9589Z" fill="white"/>
@@ -809,16 +809,16 @@
                             </div>
                         </div>
                         <div class="catalog__text-footer">
-                            Все актуальные предложения от застройщиков
+                            {{ __('Все актуальные предложения от застройщиков') }}
                         </div>
                     </div>
                 </div>
                 <div class="catalog__info">
                     <p class="catalog__info-title">
-                        Получить каталог, если нет времени на поиски
+                        {{ __('Получить каталог, если нет времени на поиски') }}
                     </p>
                     <p class="catalog__info-subtitle">
-                        Вы получите:
+                        {{ __('Вы получите') }}:
                     </p>
                     <ul class="catalog__info-list">
                         <li>
@@ -826,7 +826,7 @@
                                 1
                             </div>
                             <p>
-                                Проекты от <span>надежных застройщиков</span>
+                                {{ __('Проекты от') }} <span>{{ __('надежных застройщиков') }}</span>
                             </p>
                         </li>
                         <li>
@@ -834,7 +834,7 @@
                                 2
                             </div>
                             <p>
-                                Цены и сроки сдачи <span> жилищных комплексов</span>
+                                {{ __('Цены и сроки сдачи') }} <span>{{ __('жилищных комплексов') }}</span>
                             </p>
                         </li>
                         <li>
@@ -842,7 +842,7 @@
                                 3
                             </div>
                             <p>
-                                <span>Площади и планировки</span>
+                                <span>{{ __('Площади и планировки') }}</span>
                             </p>
                         </li>
                         <li>
@@ -850,12 +850,12 @@
                                 4
                             </div>
                             <p>
-                                <span>Инфраструктура и месторасположение</span>
+                                <span>{{ __('Инфраструктура и месторасположение') }}</span>
                             </p>
                         </li>
                     </ul>
-                    <button class="catalog__btn-get btn_blue" popup-name="main-form-popup" withEmail>
-                        Получить каталог
+                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup">
+                        {{ __('Получить каталог') }}
                     </button>
                 </div>
             </div>

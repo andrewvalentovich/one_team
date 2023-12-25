@@ -7,16 +7,16 @@
             <div class="questions__form-w">
                 <form class="questions__form form-fio-phone" bis_skin_checked="1">
                     <p class="questions__title">
-                        Остались вопросы?
+                        {{ __('Остались вопросы?') }}
                     </p>
                     <p class="questions__subtitle">
-                        Оставьте заявку и мы Вам перезвоним
+                        {{ __('Оставьте заявку и мы Вам перезвоним') }}
                     </p>
                     <label class="field name input-wrapper" bis_skin_checked="1">
                             <span class="text">
-                                ФИО
+                                {{ __('ФИО') }}
                             </span>
-                        <input type="text" value="" placeholder="Иванов Алексей Петрович" name="fio">
+                        <input type="text" value="" placeholder="{{ __('Иванов Алексей Петрович') }}" name="fio">
                     </label>
                     <div class="contact__form-phone input-wrapper">
                             <span class="text">
@@ -70,18 +70,18 @@
                         <input class="contact__form-politic-checkbox contact__form-checkbox " type="checkbox" id="contact__form-politic" checked="">
                         <div class="contact__form-custom-checkbox one_check"></div>
                         <div class="contact__form-checkbox-text">
-                            Ознакомлен с <span>политикой конфеденциальности</span>
+                            {{ __('Ознакомлен с') }} <span>{{ __('политикой конфеденциальности') }}</span>
                         </div>
                     </label>
                     <label class="contact__form-data">
                         <input class="contact__form-data-checkbox contact__form-checkbox" type="checkbox" id="contact__form-data">
                         <div class="contact__form-custom-checkbox two_check"></div>
                         <div class="contact__form-checkbox-text">
-                            Согласен на обработку <span>персональных данных</span>
+                            {{ __('Согласен на обработку') }} <span>{{ __('персональных данных') }}</span>
                         </div>
                     </label>
                     <button type="submit" class="btn btn_blue">
-                        Отправить заявку
+                        {{ __('Отправить заявку') }}
                     </button>
                 </form>
             </div>
