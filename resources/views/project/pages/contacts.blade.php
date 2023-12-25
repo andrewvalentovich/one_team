@@ -18,45 +18,45 @@
     <!-- <?php echo json_decode($get->content )  ?> -->
     <div class="about">
         <div class="hello__title title">
-            Контакты
+            {{ __('Контакты') }}
         </div>
         <div class="contacts maxContainer">
             <ul class="contacts__list">
                 <div class="contacts__subtitle">
-                    Контакты:
+                    {{ __('Контакты') }}:
                 </div>
                 <li>
                     <a href="tel:+74951067579">+74951067579</a>
                     <span>
-                        Москва
+                        {{ __('Москва') }}
                     </span>
                 </li>
                 <li>
                     <a href="tel:+998712051677">+998712051677</a>
                     <span>
-                        Узбекистан
+                        {{ __('Узбекистан') }}
                     </span>
                 </li>
                 <li>
                     <a href="tel:+77172727498">+77172727498</a>
                     <span>
-                        Казахстан
+                        {{ __('Казахстан') }}
                     </span>
                 </li>
                 <li>
                     <a href="tel:+447478215412">+447478215412</a>
                     <span>
-                        Лондон
+                        {{ __('Лондон') }}
                     </span>
                 </li>
             </ul>
             <ul class="contacts__list">
                 <div class="contacts__subtitle">
-                    Адрес:
+                    {{ __('Адрес') }}:
                 </div>
                 <li>
                     <span>
-                    Анталья, Коньяалты, Торос, улица 815, 1
+                        {{ __('Анталья, Коньяалты, Торос, улица 815, 1') }}
                     </span>
                 </li>
             </ul>

@@ -9,7 +9,7 @@
     <section class="about" style="">
         <div class="about__content maxContainer">
             <div class="hello__title title">
-                Отзывы
+                {{ __('Отзывы') }}
             </div>
             <div class="about__preview" style="margin-bottom: 0px;">
                 <div style="width:100%; max-width: 560px;height:800px;overflow:hidden;position:relative; margin: 0 auto 20px;">
