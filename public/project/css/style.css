@@ -10015,7 +10015,7 @@ body.scroll_fixed {
     margin: 0 auto 30px;
     flex: 1;
     max-width: 500px;
-    gap: 2px;
+    gap: 10px;
   }
   .vnj__form {
     flex: 1;
@@ -10041,7 +10041,7 @@ body.scroll_fixed {
     padding: 10px 0px 10px 10px;
   }
   .residence__form-consul {
-    flex: 0 0 70px;
+    flex: 0 0 133px;
   }
   .residence__form-title {
     font-size: 18px;
