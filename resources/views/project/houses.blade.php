@@ -197,10 +197,10 @@
                                     </div>
                                     <div class="catalog__info">
                                         <p class="catalog__info-title">
-                                            Не нашли что нужно - напишите
+                                            {{ __('Не нашли что нужно - напишите') }}
                                         </p>
                                         <button class="catalog__btn-get" popup-name="main-form-popup">
-                                            Связаться
+                                            {{ __('Связаться') }}
                                         </button>
                                     </div>
                                 </div>

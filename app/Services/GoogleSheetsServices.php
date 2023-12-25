@@ -31,6 +31,10 @@ class GoogleSheetsServices
         foreach ($data as $key => $item) {
             $tmp = [];
 
+            dump('Колонка - ' . $key);
+            dump("Sleep 2");
+            sleep(2);
+            dump("continue");
             // Проходимся по строкам
             foreach ($item as $index => $value) {
                 // Если ячейка - пустая
@@ -38,11 +42,12 @@ class GoogleSheetsServices
                     // И не пустой ключ (на русском)
                     if (!empty($item['Key'])) {
                         try {
+                            dump('Row - ' . $key . ', col - ' . $index);
                             // Выполняем перевод
                             $tr = new GoogleTranslate();
                             $tmp[] = $tr->trans($item['Key'], $index, "ru");
                             unset($tr);
-
+                            dump("updated");
                         } catch (\Exception $e) {
                             dump('Row - ' . $key . ', col - ' . $index);
                             dump('Translate google sheets with error - ' . $e->getMessage());
@@ -54,6 +59,7 @@ class GoogleSheetsServices
                     $tmp[] = $value;
                 }
             }
+
             Sheets::sheet('Translations')->range('A' . $key + 1)->update([$tmp]);
             unset($tmp);
         }

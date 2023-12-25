@@ -16,10 +16,10 @@
                         <div class="questions__form-w">
                             <div class="questions__form">
                                 <p class="questions__title">
-                                    Остались вопросы?
+                                    {{ __('Остались вопросы?') }}
                                 </p>
                                 <p class="questions__subtitle">
-                                    Оставьте заявку и мы Вам перезвоним
+                                    {{ __('Оставьте заявку и мы Вам перезвоним') }}
                                 </p>
                                 <label class="field name input-wrapper" bis_skin_checked="1">
                                     <span class="text">
