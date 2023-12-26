@@ -2147,9 +2147,9 @@ body {
 .citizenship {
   max-width: 1383px;
   margin: 20px auto 95px;
-  border: 1px solid #969696;
   padding: 40px;
   border-radius: 12px;
+  background: #F6F8FC;
 }
 
 @media (max-width: 1418px) {
@@ -2183,7 +2183,7 @@ body {
   padding-top: 54px;
   padding-bottom: 55px;
   text-align: center;
-  background: #f6f8fc;
+  background: #fff;
   border-radius: 15px;
   flex: 0 0 32.5%;
 }
@@ -10025,6 +10025,8 @@ body.scroll_fixed {
 @media (max-width: 539px) {
   .citizenship {
     border-radius: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
   .vnj__form-btn {
     padding: 10px 12px;
