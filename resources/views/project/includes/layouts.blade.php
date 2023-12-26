@@ -309,8 +309,8 @@
                     $('.one_check').css('border', '2px solid #508cfa')
 
                     if(reachGoal) {
-                        console.log(reachGoal)
-                        // ym(94888113,'reachGoal',reachGoal)
+                        // console.log(reachGoal)
+                        ym(94888113,'reachGoal',reachGoal)
                     }
                 },
                 error: function(error) {
