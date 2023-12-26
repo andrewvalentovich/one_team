@@ -116,7 +116,7 @@
                                         <p class="catalog__info-title">
                                             {{ __('Получить каталог, если нет времени на поиски') }}
                                         </p>
-                                        <button class="catalog__btn-get" popup-name="main-form-popup" withEmail>
+                                        <button class="catalog__btn-get" popup-name="main-form-popup" withEmail reachGoal="catalog">
                                             {{ __('Получить каталог') }}
                                         </button>
                                     </div>
@@ -199,7 +199,7 @@
                                         <p class="catalog__info-title">
                                             {{ __('Не нашли что нужно - напишите') }}
                                         </p>
-                                        <button class="catalog__btn-get" popup-name="main-form-popup">
+                                        <button class="catalog__btn-get" popup-name="main-form-popup" reachGoal="contact">
                                             {{ __('Связаться') }}
                                         </button>
                                     </div>
@@ -301,6 +301,7 @@
     <style>
     .zoom-control{padding:4px}.zoom-control__group{border-radius:12px;box-shadow:0 var(--shadow-y) var(--shadow-blur) 0 var(--shadow-color)}.zoom-control__group:hover{box-shadow:0 var(--shadow-y) 10px 0 var(--shadow-color)}.zoom-control__icon{width:100%;height:100%;pointer-events:none;background-position:50%;background-repeat:no-repeat}._mobile .zoom-control{padding:0}._mobile .zoom-control__group{border-radius:0;box-shadow:none}._mobile .zoom-control__zoom-in{margin-bottom:12px}
     </style>
+@include('project.includes.modal-object')
 @endsection
 @section('scripts')
     <script>
@@ -1873,7 +1874,6 @@ function P(e) {
             });
         }
     </script>
-@include('project.includes.modal-object')
 <script src="{{asset('project/js/tel-input.js')}}"></script>
 <script src="{{asset('project/js/filter.js')}}"></script>
 @endsection

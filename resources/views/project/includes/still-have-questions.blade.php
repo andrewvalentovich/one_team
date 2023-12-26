@@ -71,7 +71,7 @@
                         </p>
                     </li>
                 </ul>
-                <button class="catalog__btn-get btn_white" popup-name="main-form-popup">
+                <button class="catalog__btn-get btn_white" popup-name="main-form-popup" reachGoal="questions">
                     {{ __('Получить каталог') }}
                 </button>
             </div>

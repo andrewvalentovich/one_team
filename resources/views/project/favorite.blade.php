@@ -275,11 +275,7 @@
                 this.classList.toggle("active"), document.querySelector(".city-col__filter-list").classList.toggle("active")
             }), document.querySelector(".favorites__top-filter") && (document.querySelector(".favorites__top-filter").onclick = function() {
                 this.classList.toggle("active"), document.querySelector(".favorites__top-filter-list").classList.toggle("active")
-            }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place__btns-call-preview").onclick = function() {
-                document.querySelector(".place__btns-call-list").classList.toggle("active")
-            }), document.querySelector(".place__btns-call-preview") && (document.querySelector(".place-w").onscroll = function() {
-                window.innerWidth < 640 && (document.querySelector(".place-w").scrollTop > 620 ? document.querySelector(".place__btns").style.position = "fixed" : document.querySelector(".place__btns").style.position = "static")
-            }, window.addEventListener("resize", (function(e) {
+            }), window.addEventListener("resize", (function(e) {
                 window.innerWidth >= 640 && (document.querySelector(".place__btns").style.position = "static")
             })));
             let _ = document.querySelectorAll(".favorites__list-item"),

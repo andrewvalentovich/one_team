@@ -3879,7 +3879,7 @@ body.scroll_fixed {
 }
 
 .place__btns-call-list.active {
-  display: block;
+  /* display: block; */
 }
 
 .place__btns-call-preview {

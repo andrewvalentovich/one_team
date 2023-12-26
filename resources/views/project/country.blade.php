@@ -854,7 +854,7 @@
                             </p>
                         </li>
                     </ul>
-                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup">
+                    <button class="catalog__btn-get btn_white" popup-name="main-form-popup" reachgoal="catalog">
                         {{ __('Получить каталог') }}
                     </button>
                 </div>

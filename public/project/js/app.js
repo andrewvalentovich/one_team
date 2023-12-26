@@ -852,6 +852,7 @@ document.addEventListener('keydown', (e) => {
 })
 
 const openPopupBtn = document.querySelectorAll('[popup-name]');
+console.log('openPopupBtn',openPopupBtn)
 openPopupBtn.forEach(btn => {
     btn.addEventListener('click', function() {
         const popupName = btn.getAttribute('popup-name')
@@ -863,6 +864,10 @@ openPopupBtn.forEach(btn => {
             if(email) email.classList.add('hidden')
         }
         popup.classList.add('active')
+
+        const form = popup.querySelector(`form`)
+        const reachGoal = btn.getAttribute('reachGoal')
+        form.setAttribute('reachGoal', reachGoal)
     })
 });
 

@@ -27,7 +27,7 @@
                             <div class="vnj__form-title">
                                 {{ __('Получите консультацию специалиста') }}
                             </div>
-                            <button class="vnj__form-btn btn btn_blue" popup-name="main-form-popup">
+                            <button class="vnj__form-btn btn btn_blue" popup-name="main-form-popup" reachGoal="consultation">
                                 {{ __('Заполнить форму') }}
                             </button>
                         </div>

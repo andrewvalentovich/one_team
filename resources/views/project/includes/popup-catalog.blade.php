@@ -80,7 +80,7 @@
                                     </p>
                                 </li>
                             </ul>
-                            <button class="catalog__btn-get popup-catalog-get-btn" popup-name="main-form-popup">
+                            <button class="catalog__btn-get popup-catalog-get-btn" popup-name="main-form-popup" reachGoal="catalog">
                                 {{ __('Получить каталог') }}
                             </button>
                         </div>

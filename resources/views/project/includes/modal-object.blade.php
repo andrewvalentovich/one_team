@@ -170,8 +170,8 @@
                             </div>
                         </div>
                         <div class="place__buy">
-                            <div class="place__buy-btn" data_id="">
-                                <div class="place__buy-text" popup-name="main-form-popup">
+                            <div class="place__buy-btn" data_id="" popup-name="main-form-popup" reachGoal="installment_plan">
+                                <div class="place__buy-text">
                                     {{__('Купить в рассрочку')}}
                                 </div>
                                 <div class="place__buy-img">
@@ -288,7 +288,7 @@
                                         <p>
                                             {{ __('Удаленная сделка и онлайн просмотр') }}
                                         </p>
-                                        <button class="btn_blue open-popup-main">
+                                        <button class="btn_blue" popup-name="main-form-popup" reachGoal="deal_online">
                                             {{ __('Записаться') }}
                                         </button>
                                     </div>
@@ -319,7 +319,7 @@
                                                 {{__('Консультант по продажам')}}
                                             </div>
                                         </div>
-                                        <div class="place__order-btn btn_m open-popup-main">
+                                        <div class="place__order-btn btn_m" popup-name="main-form-popup"  reachGoal="viewing">
                                             {{__('Заказать просмотр')}}
                                         </div>
                                     </div>
@@ -331,7 +331,7 @@
                                         <img src="{{asset('project/img/2.png')}}" alt="консультант">
                                     </div>
                                 </div>
-                                <div class="place__order-btn_m open-popup-main">
+                                <div class="place__order-btn_m" popup-name="main-form-popup"  reachGoal="viewing">
                                     {{__('Заказать просмотр')}}
                                 </div>
                             </div>
@@ -424,10 +424,10 @@
                             </div>
                             <div class="place__btns">
                                 <div class="place__btns-content">
-                                    <div class="place__btns-item place__btns-send">
+                                    <div class="place__btns-item place__btns-send" popup-name="main-form-popup" reachGoal="send_request">
                                         {{__('Отправить заявку')}}
                                     </div>
-                                    <div class="place__btns-item place__btns-call">
+                                    <div class="place__btns-item place__btns-call" popup-name="main-form-popup" reachGoal="send_request">
                                         <div class="place__btns-call-preview">
                                             <svg version="1.1" id="Capa_1"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -673,7 +673,7 @@
                 <div class="object__photo-text">
                     <div class="object__photo-info">
                     </div>
-                    <form class="default-form" id="object_form">
+                    <form class="default-form" id="object_form" reachGoal="send_request">
                         <div class="title">{{ __('Заявка на бронь') }}</div>
                         <label class="field name input-wrapper" bis_skin_checked="1">
                             <span class="text">
@@ -1605,13 +1605,13 @@ exitBtn.forEach(btn => {
         closeObjectModal();
     })
 });
-const openMainPopupForm = document.querySelectorAll('.open-popup-main')
-openMainPopupForm.forEach(btn => {
-    btn.addEventListener('click', function() {
-        const popup = document.querySelector(`.main-form-popup`)
-        popup.classList.add('active')
-    })
-});
+// const openMainPopupForm = document.querySelectorAll('.open-popup-main')
+// openMainPopupForm.forEach(btn => {
+//     btn.addEventListener('click', function() {
+//         const popup = document.querySelector(`.main-form-popup`)
+//         popup.classList.add('active')
+//     })
+// });
 
 if(document.querySelectorAll('.place__slider_p').length) {
     const placeSlider = document.querySelector('.place__slider_p')

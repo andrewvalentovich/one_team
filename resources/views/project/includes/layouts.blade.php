@@ -143,7 +143,7 @@
 
 
 
-    $('.place__buy-btn, .place__order-btn, .place__btns-item, .citizenship-investments__footer-button').click(function () {
+    $('.citizenship-investments__footer-button').click(function () {
         $('.main-form-popup').addClass('active');
         $("input[name='product_id']").val($(this).attr('data_id'));
     });
@@ -208,8 +208,7 @@
             }
         }
 
-
-
+        const reachGoal = this.getAttribute('reachGoal')
 
 
         let name_valid = false;
@@ -263,7 +262,7 @@
             if (utm_medium != '' && utm_medium.length <= 255) {
                 formData.append('utm_medium', utm_medium);
             }
-            if (utm_campaign != '' && utm_campaign.length <= 255) {
+            if (utm_campaign && utm_campaign != '' && utm_campaign.length <= 255) {
                 formData.append('utm_campaign', utm_campaign);
             }
             if (utm_term != '' && utm_term.length <= 255) {
@@ -308,6 +307,11 @@
                     $("input[name='email']").val('')
                     $('.two_check').css('border', '2px solid #508cfa')
                     $('.one_check').css('border', '2px solid #508cfa')
+
+                    if(reachGoal) {
+                        console.log(reachGoal)
+                        // ym(94888113,'reachGoal',reachGoal)
+                    }
                 },
                 error: function(error) {
                     console.log(error);

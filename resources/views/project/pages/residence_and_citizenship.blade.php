@@ -59,7 +59,7 @@
                     <div class="vnj__form-title">
                         {{ __('Получите консультацию специалиста') }}
                     </div>
-                    <button class="vnj__form-btn btn btn_blue" popup-name="main-form-popup">
+                    <button class="vnj__form-btn btn btn_blue" popup-name="main-form-popup" reachGoal="consultation">
                         {{ __('Заполнить форму') }}
                     </button>
                 </div>
@@ -125,7 +125,7 @@
                     <div class="residence__form-title">
                         {{ __('Подбор объекта для получения ВНЖ') }}
                     </div>
-                    <button class="residence__form-btn btn btn_blue" popup-name="main-form-popup">
+                    <button class="residence__form-btn btn btn_blue" popup-name="main-form-popup" reachGoal="consultation">
                         {{ __('Заполнить форму') }}
                     </button>
                 </div>

@@ -129,8 +129,8 @@
         </div>
     </section>
 
-     @include('project.includes.still-have-questions')
-     <div class="index-questions">
+    @include('project.includes.still-have-questions')
+    <div class="index-questions">
         @include('project.includes.form-main')
     </div>
 
