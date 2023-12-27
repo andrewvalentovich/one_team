@@ -120,6 +120,10 @@ class NewSiteController extends Controller
             $data['locale'] = 'ru';
         }
 
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = null;
+        }
+
         // Фильтр элементов
         $product = Product::whereId($data['id'])
             ->with(['layouts' => function($query) use ($data) {
@@ -148,7 +152,7 @@ class NewSiteController extends Controller
                 })->orderByDesc('id');
             }])
             ->with(['favorite' => function ($query) use ($data) {
-                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+                $query->where('user_id', $data['user_id']);
             }])
             ->get()
             ->first();
@@ -314,7 +318,6 @@ class NewSiteController extends Controller
             $data['user_id'] = null;
         }
 
-        $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
         $houses = Product::catalog($data['price'] ?? null)
             // получаем одно фото
             ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
@@ -331,7 +334,6 @@ class NewSiteController extends Controller
             ->whereHas('favorite', function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
             })
-            ->filter($filter)
             ->get();
 
         return ProductsResource::collection($houses);
