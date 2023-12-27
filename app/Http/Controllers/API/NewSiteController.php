@@ -6,6 +6,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Filters\CatalogFilter;
 use App\Http\Requests\API\Houses\GetSimpleRequest;
+use App\Http\Requests\API\NewSite\IndexRequest;
 use App\Http\Requests\House\CatalogRequest;
 use App\Http\Resources\NewSite\CitiesResource;
 use App\Http\Resources\NewSite\CountriesResource;
@@ -32,8 +33,14 @@ class NewSiteController extends Controller
         $this->layoutService = $layoutService;
     }
 
-    public function index(Request $request)
+    public function index(IndexRequest $request)
     {
+        $data = $request->validated();
+
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+
         $locale = Locale::where('code', 'ru')->first();
 
         $countries = CountriesResource::collection(
