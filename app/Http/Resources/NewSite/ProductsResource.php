@@ -34,7 +34,8 @@ class ProductsResource extends JsonResource
             'size_min' => $this->size_min,
             'size_max' => $this->size_max,
             'photos' => $this->photo,
-            'layouts' => $this->layouts
+            'layouts' => $this->layouts,
+            'favorite' => count($this->favorite) > 0 ? true : false,
         ];
     }
 

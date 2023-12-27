@@ -25,6 +25,7 @@ class GetSimpleRequest extends FormRequest
     {
         return [
             'locale' => 'nullable|string',
+            'user_id' => 'nullable|numeric|min:1',
             'id' => 'required|numeric|min:1',
             'price' => 'nullable|array',
         ];

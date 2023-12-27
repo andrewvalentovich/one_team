@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Filters\CatalogFilter;
+use App\Http\Filters\HousesFilter;
 use App\Http\Requests\API\Houses\GetSimpleRequest;
 use App\Http\Requests\API\NewSite\IndexRequest;
 use App\Http\Requests\House\CatalogRequest;
@@ -40,6 +41,9 @@ class NewSiteController extends Controller
         if (!isset($data['locale'])) {
             $data['locale'] = 'ru';
         }
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = null;
+        }
 
         $locale = Locale::where('code', 'ru')->first();
 
@@ -49,11 +53,12 @@ class NewSiteController extends Controller
                 ->get()
         )->setLocale($locale->id);
 
+
         $cities = CitiesResource::collection(
             CountryAndCity::whereNotNull('parent_id')
                 ->has('product_city')
                 ->get()
-        )->setLocale($locale->id);
+        )->setLocale($locale->id)->setUserId($data['user_id']);
 
         $data = [
             'countries' => $countries,
@@ -70,9 +75,11 @@ class NewSiteController extends Controller
         if (!isset($data['locale'])) {
             $data['locale'] = 'ru';
         }
-
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = null;
+        }
         if (!isset($data['order_by'])) {
-            $data['order_by'] = 'created_at';
+            $data['order_by'] = 'new-first';
         }
 
         if (isset($data['price'])) {
@@ -85,27 +92,35 @@ class NewSiteController extends Controller
         }
 
         // Фильтр элементов
-        $filter = app()->make(CatalogFilter::class, ['queryParams' => $data]);
+        $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
         $houses = Product::catalog($data['price'] ?? null)
             // получаем одно фото
             ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
+            ->with(['peculiarities' => function($query) use ($data) {
+                $query->with(['locale_fields' => function($query) use ($data) {
+                    $query->whereHas('locale', function($query) use ($data) {
+                        $query->where('code', $data['locale']);
+                    })->orderByDesc('id');
+                }]);
+            }])
+            ->with(['favorite' => function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            }])
             ->filter($filter)
             ->paginate(10);
 
-        // Добавляем свойства
-        foreach ($houses as $house) {
-            $house->to_sea = $house->to_sea();
-            $house->is_swimming = $house->is_swimming();
-        }
-
-        return response()->json($houses);
+        return ProductsResource::collection($houses);
     }
 
     public function detail(GetSimpleRequest $request)
     {
         $data = $request->validated();
+
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+
         // Фильтр элементов
-        // Выбор объектов, запрос к базе через Eloquent
         $product = Product::whereId($data['id'])
             ->with(['layouts' => function($query) use ($data) {
                 // Ограничиваем вывод, только те у которых цена соответствует
@@ -120,7 +135,18 @@ class NewSiteController extends Controller
             }])
             ->with('photo')
             ->with('country')
-            ->with('peculiarities.locale_fields.locale')
+            ->with(['peculiarities' => function($query) use ($data) {
+                $query->with(['locale_fields' => function($query) use ($data) {
+                    $query->whereHas('locale', function($query) use ($data) {
+                        $query->where('code', $data['locale']);
+                    })->orderByDesc('id');
+                }]);
+            }])
+            ->with(['locale_fields' => function($query) use ($data) {
+                $query->whereHas('locale', function($query) use ($data) {
+                    $query->where('code', $data['locale']);
+                })->orderByDesc('id');
+            }])
             ->with(['favorite' => function ($query) use ($data) {
                 $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
             }])
@@ -154,7 +180,7 @@ class NewSiteController extends Controller
             }
         }
 
-        $data['locale'] = isset($data['locale']) ? $data['locale'] : 'en';
+        $data['locale'] = isset($data['locale']) ? $data['locale'] : 'ru';
         if (!is_null($product->locale_fields->where('locale.code', $data['locale'])->first())) {
             $product->description = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->description) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->description : null;
             $product->disposition = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->diposition) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->disposition : null;
@@ -171,8 +197,8 @@ class NewSiteController extends Controller
 
         return [
             'detail' => $product,
-            'the_best' => $this->getTheBest(),
-            'commissioned' => $this->getCommissioned()
+            'the_best' => $this->getTheBest($data['locale']),
+            'commissioned' => $this->getCommissioned($data['locale'])
         ];
     }
 
@@ -201,7 +227,7 @@ class NewSiteController extends Controller
         return \App\Http\Resources\NewSite\Map\ProductsResource::collection($products)->setLocale($data['locale']);
     }
 
-    public function getTheBest()
+    public function getTheBest($data)
     {
         $houses = Product::leftJoin('layouts', function ($join) {
             $join->on('products.id', '=', 'layouts.complex_id')
@@ -223,6 +249,9 @@ class NewSiteController extends Controller
             ->with(['city' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
+            ->with(['favorite' => function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            }])
             ->with('photo')
             ->with('locale_fields.locale')
             ->inRandomOrder()
@@ -232,7 +261,7 @@ class NewSiteController extends Controller
         return ProductsResource::collection($houses);
     }
 
-    public function getCommissioned()
+    public function getCommissioned($data)
     {
         $locale = Locale::where('code', 'ru')->first();
 
@@ -256,6 +285,9 @@ class NewSiteController extends Controller
             ->with(['city' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
+            ->with(['favorite' => function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            }])
             ->with('photo')
             ->with('locale_fields.locale')
             ->whereHas('locale_fields', function($query) use ($locale) {
@@ -263,6 +295,43 @@ class NewSiteController extends Controller
                     ->whereNotNull('deadline');
             })
             ->limit(6)
+            ->get();
+
+        return ProductsResource::collection($houses);
+    }
+
+    public function favorite(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'nullable|numeric|min:1',
+            'locale' => 'nullable|string|max:255',
+        ]);
+
+        if (!isset($data['locale'])) {
+            $data['locale'] = 'ru';
+        }
+        if (!isset($data['user_id'])) {
+            $data['user_id'] = null;
+        }
+
+        $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
+        $houses = Product::catalog($data['price'] ?? null)
+            // получаем одно фото
+            ->addSelect(DB::raw('(select photo from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
+            ->with(['peculiarities' => function($query) use ($data) {
+                $query->with(['locale_fields' => function($query) use ($data) {
+                    $query->whereHas('locale', function($query) use ($data) {
+                        $query->where('code', $data['locale']);
+                    })->orderByDesc('id');
+                }]);
+            }])
+            ->with(['favorite' => function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            }])
+            ->whereHas('favorite', function ($query) use ($data) {
+                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
+            })
+            ->filter($filter)
             ->get();
 
         return ProductsResource::collection($houses);

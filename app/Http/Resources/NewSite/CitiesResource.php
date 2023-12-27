@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\DB;
 class CitiesResource extends JsonResource
 {
     protected $locale_id;
+    protected $user_id;
 
-    public function setLocale($value){
+    public function setLocale($value)
+    {
         $this->locale_id = $value;
+        return $this;
+    }
+
+    public function setUserId($value)
+    {
+        $this->user_id = $value;
         return $this;
     }
 
@@ -50,6 +58,9 @@ class CitiesResource extends JsonResource
                 ->with(['city' => function($query) {
                     $query->select('id', 'name', 'slug');
                 }])
+                ->with(['favorite' => function($query) {
+                    $query->where('user_id', $this->user_id);
+                }])
                 ->with('photo')
                 ->with('locale_fields.locale')
                 ->limit(rand(4, 20))
@@ -76,6 +87,9 @@ class CitiesResource extends JsonResource
                     }])
                     ->with(['city' => function($query) {
                         $query->select('id', 'name', 'slug');
+                    }])
+                    ->with(['favorite' => function($query) {
+                        $query->where('user_id', $this->user_id);
                     }])
                     ->with('photo')
                     ->with('locale_fields.locale')

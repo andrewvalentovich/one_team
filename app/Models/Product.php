@@ -55,6 +55,7 @@ class Product extends Model
             'products.base_price',
             'products.price_code',
             'products.size',
+            'products.slug',
             'products.lat',
             'products.long',
             'products.is_secondary',
@@ -86,9 +87,6 @@ class Product extends Model
             }])
             ->with(['city' => function($query) {
                 $query->select('id', 'name', 'slug');
-            }])
-            ->with(['peculiarities' => function($query) {
-                $query->with('locale_fields');
             }]);
 
         return $query;
@@ -345,6 +343,14 @@ class Product extends Model
     }
 
     public function is_swimming()
+    {
+        if (!empty($this->peculiarities->where('name', 'Бассейн')->first())) {
+            return true;
+        }
+        return null;
+    }
+
+    public function getIsSwimmingAttribute()
     {
         if (!empty($this->peculiarities->where('name', 'Бассейн')->first())) {
             return true;
