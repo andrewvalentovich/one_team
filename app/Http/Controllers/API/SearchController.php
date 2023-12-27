@@ -41,6 +41,7 @@ class SearchController extends Controller
         $cities = CitiesResource::collection(
             CountryAndCity::whereNotNull('parent_id')
                 ->has('product_city')
+                ->with('locale_fields')
                 ->get()
         )->setLocale($locale->id);
 

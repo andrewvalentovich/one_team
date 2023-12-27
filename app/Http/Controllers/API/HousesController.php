@@ -339,58 +339,6 @@ class HousesController extends Controller
         return response()->json($product);
     }
 
-//    public function getSimple(GetSimpleRequest $request)
-//    {
-//        $data = $request->validated();
-//        // Фильтр элементов
-//        // Выбор объектов, запрос к базе через Eloquent
-//        $product = Product::simple($data['id'])
-//            ->with('peculiarities.locale_fields.locale')
-//            ->with(['favorite' => function ($query) use ($data) {
-//                $query->where('user_id', isset($data['user_id']) ? $data['user_id'] : time());
-//            }])
-//            ->get()
-//            ->first();
-//
-//        // Меняем параметры (для фронта)
-//        $product->size = $this->currencyService->getPriceSizeFromDB((int)$product->base_price, (int)$product->size);
-//        $product->price = $this->currencyService->exchangeGetAll((int)$product->price, $product->price_code);
-//        if(isset($product->country)) {
-//            $product->price_credit = $this->currencyService->getCreditPrice((int)$product->base_price, $product->country->inverse_credit_ratio);
-//        }
-//
-//        // Получаем уникальные планировки
-//        $product->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($product->layouts);
-//
-//        // Цена за квартиру и за метр для планировок
-//        if (isset($product->layouts)) {
-//            foreach ($product->layouts as $index => $layout) {
-//                $layout->price_size = $this->currencyService->getPriceSizeFromDB((int)$layout->base_price, (int)$layout->total_size);
-//                $layout->price = $this->currencyService->exchangeGetAll($layout->price, $layout->price_code);
-//                if(isset($product->country)) {
-//                    $layout->price_credit = $this->currencyService->getCreditPrice((int)$layout->base_price, $product->country->inverse_credit_ratio);
-//                }
-//            }
-//        }
-//
-//        $data['locale'] = isset($data['locale']) ? $data['locale'] : 'ru';
-//        if (!is_null($product->locale_fields->where('locale.code', $data['locale'])->first())) {
-//            $product->description = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->description) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->description : null;
-//            $product->disposition = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->diposition) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->disposition : null;
-//            $product->deadline = !is_null($product->locale_fields->where('locale.code', $data['locale'])->first()->deadline) ? $product->locale_fields->where('locale.code', $data['locale'])->first()->deadline : null;
-//        }
-//
-//        // Особенности
-//        $product->gostinnie = $product->living_rooms();
-//        $product->vanie = $product->bathrooms();
-//        $product->spalni = $product->bedrooms();
-//        $product->do_more = $product->to_sea();
-//        $product->type_vid = $product->view();
-//        $product->peculiarities = $product->peculiarities->whereIn('type', "Особенности")->all();
-//
-//        return response()->json($product);
-//    }
-
     public function getAll(FilterRequest $request)
     {
         $data = $request->validated();

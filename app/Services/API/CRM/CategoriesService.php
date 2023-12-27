@@ -6,6 +6,9 @@ namespace App\Services\API\CRM;
 
 use App\Models\Peculiarities;
 use App\Models\ProductCategory;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class CategoriesService
 {
@@ -50,7 +53,16 @@ class CategoriesService
         if (isset($data['type'])) {
             $category_ids[$type[$data['type']]] = 'Типы';
         } else {
-            $category_ids[$type['apartment']] = 'Типы';
+            // Получим тип первой планировки данного комплекса
+            $tmp_type = $this->getComplexObjectType($data['id']);
+
+            if ($tmp_type) {
+                $category_ids[$type[$tmp_type]] = 'Типы';
+            } else {
+                $category_ids[$type['apartment']] = 'Типы';
+            }
+
+            unset($tmp_type);
         }
 
         // Вид
@@ -81,6 +93,8 @@ class CategoriesService
 
         return $category_ids;
     }
+
+
 
     /**
      * Add categories
@@ -261,6 +275,36 @@ class CategoriesService
 
         unset($tmpArr);
         return $tmpCategoryId;
+    }
+
+    public function getComplexObjectType($complex_id)
+    {
+        $type = null;
+
+        try {
+            $client = new \GuzzleHttp\Client(['headers' => [
+                'Authorization' => 'Bearer wjP0OxkzUPx0KG9wIkyQrS15BT3FvoVt',
+                'Accept' => 'application/json',
+                'Content-type' => 'application/json'
+            ]]);
+
+            $guzzleResponse = $client->get('https://crm.one-team.pro/api/external/properties?token=wjP0OxkzUPx0KG9wIkyQrS15BT3FvoVt&complex_id=' . $complex_id);
+
+            // Логирование статуса ответа
+            Log::info(Carbon::now()." Get complexes data from API " . $guzzleResponse->getStatusCode());
+
+            if($guzzleResponse->getStatusCode() == 200) {
+                $response = json_decode($guzzleResponse->getBody(), true);
+
+                if (!empty($response)) {
+                    $type = $response[0]['type'];
+                }
+            }
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+        }
+
+        return $type;
     }
 }
 
