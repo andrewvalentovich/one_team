@@ -31,6 +31,8 @@ class UrlParametersService
         $locale = Locale::where('code', request()->segment(1))->first();
         if ($locale) {
             $validate_array['locale'] = $locale->code;
+        } else {
+            $validate_array['locale'] = 'ru';
         }
 
         // Собираем валюту
