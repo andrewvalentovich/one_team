@@ -125,7 +125,7 @@
                     <div class="residence__form-title">
                         {{ __('Подбор объекта для получения ВНЖ') }}
                     </div>
-                    <button class="residence__form-btn btn btn_blue" popup-name="main-form-popup" reachGoal="consultation">
+                    <button class="residence__form-btn btn btn_blue" popup-name="main-form-popup" reachGoal="residence_permit">
                         {{ __('Заполнить форму') }}
                     </button>
                 </div>
