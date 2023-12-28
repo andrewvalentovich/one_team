@@ -1034,7 +1034,7 @@ async function setNewPopupHouseData(object) {
     const objectRooms = document.querySelector('.object__rooms')
 
     objectRooms.style.display = 'none'
-    if(currentHouse.complex_or_not !== 'Нет' || currentHouse.complex_or_not !== null) {
+    if(currentHouse.complex_or_not !== 0 || currentHouse.complex_or_not !== null) {
         objectRooms.style.display = 'block'
 
         const mainSize = objectRooms.querySelector('.main-size').querySelector('span')

@@ -210,7 +210,7 @@
                         </div>
                         <div class="place__scroll-content">
                             <div class="place__advantages">
-                                @if($product->vnj == 'Да')
+                                @if($product->vnj == 1)
                                 <div class="place__advantages-item">
                                     <div class="place__advantages-img">
                                         <svg width="71" height="57" viewBox="0 0 71 57" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -237,7 +237,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                @if($product->cryptocurrency == 'Да')
+                                @if($product->cryptocurrency == 1)
                                 <div class="place__advantages-item">
                                     <div class="place__advantages-img">
                                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -263,7 +263,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                @if($product->commissions == 'Да')
+                                @if($product->commissions == 1)
                                 <div class="place__advantages-item">
                                     <div class="place__advantages-img place__advantages-commission">
                                         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -280,7 +280,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                @if($product->parking == 'Да')
+                                @if($product->parking == 1)
                                 <div class="place__advantages-item">
                                     <div class="place__advantages-img">
                                         <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -318,7 +318,7 @@
                                     {{__('Заказать просмотр')}}
                                 </div>
                             </div>
-                            @if($product->complex_or_not == 'Нет' || !is_null($product->complex_or_not))
+                            @if($product->complex_or_not == 0 || !is_null($product->complex_or_not))
                             <div class="object__rooms">
                                 <div class="object__rooms-content">
                                     <div class="object__rooms-item">
