@@ -327,10 +327,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group" bis_skin_checked="1" id="objects_module" style="display:{{ ($get->complex_or_not == "Да") ? "block" : "none"}};">
+                        <div class="form-group" bis_skin_checked="1" id="objects_module" style="display:{{ ($get->complex_or_not == 1) ? "block" : "none"}};">
                             <div class="card">
                                 <div class="card-header" id="objects_module_field">
-                                    <!-- Начало аккардеона -->
+                                <!-- Начало аккардеона -->
                                     @if(isset($get->layouts))
                                         @foreach($get->layouts as $layout)
                                             @php

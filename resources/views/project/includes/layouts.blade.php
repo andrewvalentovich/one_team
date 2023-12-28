@@ -380,7 +380,7 @@ inputWrappers.forEach(function(wrapper) {
     input.addEventListener('blur', function() {
         if(input.getAttribute('name') === 'email') {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
+
             if(emailRegex.test(input.value)) {
                 wrapper.classList.add('confirm');
             } else {

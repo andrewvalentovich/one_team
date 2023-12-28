@@ -79,25 +79,23 @@ class HousesController extends Controller
             }])
             ->limit(12)
             ->filter($filter)
-            ->get();
+            ->get()
+            ->each(function ($object, $key) use ($data) {
+                // Тэги
+                $object->getTags($data['locale']);
+
+                // Получаем уникальные планировки
+                $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
+
+                // Особенности
+                $object->gostinnie = $object->living_rooms();
+                $object->vanie = $object->bathrooms();
+                $object->spalni = $object->bedrooms();
+                $object->do_more = $object->to_sea();
+                $object->type_vid = $object->view();
+            });
 
         $products_count = count($products);
-
-        // Меняем параметры (для фронта)
-        foreach ($products as $key => $object) {
-            // Тэги
-            $object->getTags('ru');
-
-            // Получаем уникальные планировки
-            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
-
-            // Особенности
-            $object->gostinnie = $object->living_rooms();
-            $object->vanie = $object->bathrooms();
-            $object->spalni = $object->bedrooms();
-            $object->do_more = $object->to_sea();
-            $object->type_vid = $object->view();
-        }
 
         $products_first_list = $products->splice(0, 4)->all();
         $products_second_list = $products->all();

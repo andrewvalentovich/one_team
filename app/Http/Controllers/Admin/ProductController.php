@@ -270,7 +270,7 @@ class ProductController extends Controller
             foreach ($product->layouts as $layout) {
                 $layout->delete();
             }
-            $product->update(['complex_or_not' => "Нет"]);
+            $product->update(['complex_or_not' => 0]);
         }
 
         // Закрепление особенностей за обновлённым объектом

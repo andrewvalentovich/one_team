@@ -185,7 +185,7 @@ Route::domain(config('app.domain'))->group(function () {
         Route::view('test', 'test2');
 
         Route::get('setLocale/{local}', [SetLocaleController::class, 'setLocale'])->name('setLocale');
-
+        
         //Route::prefix(app()->getLocale())->group(function () {
         Route::get('/', [HomePageController::class, 'home_page'])->name('home_page');
         Route::get('products_from_map', [HomePageController::class, 'products_from_map'])->name('products_from_map');

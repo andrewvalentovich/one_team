@@ -242,17 +242,12 @@ class Product extends Model
             'products.name',
             'products.city_id',
             'products.country_id',
-            'products.price',
             'products.base_price',
-            'products.price_code',
             'products.size',
             'products.lat',
             'products.long',
             'products.address',
-            'products.is_secondary',
-            'products.commissions',
-            'products.grajandstvo',
-            'products.created_at'
+            'products.complex_or_not'
         )
             ->groupBy('products.id')
             ->where(function ($query) {
@@ -262,24 +257,7 @@ class Product extends Model
                     })
                     ->orWhereHas('layouts');
             })
-            ->with(['layouts' => function($query) use ($price) {
-                // Ограничиваем вывод, только те у которых цена соответствует
-                $query
-//                    ->select('id', 'price', 'base_price', 'price_code', 'total_size')
-                    ->with('photos')
-                    ->orderBy('layouts.base_price', 'asc');
-
-                if (isset($price['min'])) {
-                    $query->where('layouts.base_price', '>=', $price['min']);
-                }
-                if (isset($price['max'])) {
-                    $query->where('layouts.base_price', '<=', $price['max']);
-                }
-            }])
             ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
             ->with(['country' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
@@ -351,6 +329,10 @@ class Product extends Model
 
     public function photo() {
         return $this->hasMany(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product');
+    }
+
+    public function preview() {
+        return $this->hasOne(PhotoTable::class,'parent_id')->where('parent_model','\App\Models\Product')->orderBy('id', 'asc');
     }
 
     public function limitPhoto() {

@@ -250,14 +250,10 @@
         </div>
     </form>
 </div>
-<script>
-    window.locale = '{{ app()->getLocale() }}';
-</script>
 <script src="{{ asset('project/js/url_functions.js') }}"></script>
 <script>
     // var set_query = $.query.SET('order_by', "created_at-desc"); // создание url
     // history.pushState(null,null, set_query); // подстановка параметров
     // searchBarGetParameters();
-
     searchBarGetParameters();
 </script>

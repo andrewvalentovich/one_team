@@ -19,7 +19,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(Request $request): void
     {
-        View::composer('*', HeaderViewComposer::class);
-        View::composer('*', LocaleViewComposer::class);
+        View::composer(['project.includes.header', 'admin.Product.single'], HeaderViewComposer::class);
+        View::composer(['project.includes.header', 'admin.Product.single'], LocaleViewComposer::class);
     }
 }

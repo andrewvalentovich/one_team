@@ -242,23 +242,22 @@ class HousesController extends Controller
             ->offset($offset)
             ->limit($limit)
             ->filter($filter)
-            ->get();
+            ->get()
+            ->each(function ($object, $key) use ($data) {
+                // Меняем параметры (для фронта)
+                // Тэги
+                $object->getTags($data['locale']);
 
-        // Меняем параметры (для фронта)
-        foreach ($products as $key => $object) {
-            // Тэги
-            $object->getTags($data['locale']);
+                // Получаем уникальные планировки
+                $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
 
-            // Получаем уникальные планировки
-            $object->number_rooms_unique = $this->layoutService->getUniqueNumberRooms($object->layouts);
-
-            // Особенности
-            $object->gostinnie = $object->living_rooms();
-            $object->vanie = $object->bathrooms();
-            $object->spalni = $object->bedrooms();
-            $object->do_more = $object->to_sea();
-            $object->type_vid = $object->view();
-        }
+                // Особенности
+                $object->gostinnie = $object->living_rooms();
+                $object->vanie = $object->bathrooms();
+                $object->spalni = $object->bedrooms();
+                $object->do_more = $object->to_sea();
+                $object->type_vid = $object->view();
+            });
 
         return [
             'title' => $this->titleGenerateService->titleForHouses($data),
@@ -349,8 +348,8 @@ class HousesController extends Controller
         // Фильтр элементов
         $filter = app()->make(HousesFilter::class, ['queryParams' => $data]);
 
-        $houses = Product::realty($data['price'] ?? null)
-            ->addSelect(DB::raw('(select preview from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
+        $houses = Product::map($data['price'] ?? null)
+            ->with('preview')
             ->with('peculiarities')
             ->filter($filter)
             ->get();

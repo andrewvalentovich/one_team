@@ -37,13 +37,13 @@ class ProductsResource extends JsonResource
             'id' => $this->id,
             'lat' => $this->lat,
             'long' => $this->long,
-            'price' => (count($this->layouts) > 0) ? number_format($this->min_price, 0, '.', ' ') . ' +' : number_format($this->min_price, 0, '.', ' '),
+            'price' => $this->complex_or_not == 1 ? number_format($this->min_price, 0, '.', ' ') . ' +' : number_format($this->min_price, 0, '.', ' '),
             'vanie' => !empty($this->peculiarities->whereIn('type', "Ванные")->first()) ? $this->peculiarities->whereIn('type', "Ванные")->first()->name : null,
             'spalni' => !empty($this->peculiarities->whereIn('type', "Спальни")->first()) ? $this->peculiarities->whereIn('type', "Спальни")->first()->name : null,
             'kv' => $this->size,
             'name' => $this->name,
             'address' => $this->address,
-            'image' => $this->photo,
+            'image' => $this->preview ? $this->preview->preview : '',
             'current_region' => $current_region
         ];
     }
