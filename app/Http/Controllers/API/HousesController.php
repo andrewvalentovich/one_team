@@ -351,11 +351,11 @@ class HousesController extends Controller
 
         $houses = Product::realty($data['price'] ?? null)
             ->addSelect(DB::raw('(select preview from photo_tables where parent_id = products.id order by photo_tables.id asc limit 1) as photo'))
-            ->with('city')
             ->with('peculiarities')
             ->filter($filter)
             ->get();
 
         return ProductsResource::collection($houses)->setCity($filter_city);
+//        return view('welcome', ['data' => ProductsResource::collection($houses)->setCity($filter_city)]);
     }
 }

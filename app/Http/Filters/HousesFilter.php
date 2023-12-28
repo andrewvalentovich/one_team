@@ -218,7 +218,7 @@ class HousesFilter extends AbstractFilter
     {
         if (isset($value['min']) && isset($value['max'])) {
             $builder->where(function ($query) use ($value) {
-                $query->where('complex_or_not', 'Нет')
+                $query->where('complex_or_not', 0)
                     ->where(function ($query) use ($value) {
                         $query->where('products.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
                         $query->where('products.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));
@@ -231,7 +231,7 @@ class HousesFilter extends AbstractFilter
         } else {
             if (isset($value['min'])) {
                 $builder->where(function ($query) use ($value) {
-                    $query->where('complex_or_not', 'Нет')
+                    $query->where('complex_or_not', 0)
                         ->where('products.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
                             $query->where('layouts.base_price', '>=', $this->currencyService->convertPriceToEur($value['min'], $value['currency'] ?? null));
@@ -241,7 +241,7 @@ class HousesFilter extends AbstractFilter
 
             if (isset($value['max'])) {
                 $builder->where(function ($query) use ($value) {
-                    $query->where('complex_or_not', 'Нет')
+                    $query->where('complex_or_not', 0)
                         ->where('products.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null))
                         ->orWhereHas('layouts', function (Builder $query) use ($value) {
                             $query->where('layouts.base_price', '<=', $this->currencyService->convertPriceToEur($value['max'], $value['currency'] ?? null));

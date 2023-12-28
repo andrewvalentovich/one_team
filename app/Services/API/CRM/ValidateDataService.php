@@ -101,17 +101,17 @@ class ValidateDataService
         }
 
         // Гражданство и ВНЖ
-        $citizenship = '';
-        $residence_permit = '';
+        $citizenship = 0;
+        $residence_permit = 0;
         if (isset($data['suitable_for'])) {
-            $citizenship = in_array('citizenship', $data['suitable_for']) ? 'Да' : 'Нет';
-            $residence_permit = in_array('residence_permit', $data['suitable_for']) ? 'Да' : 'Нет';
+            $citizenship = in_array('citizenship', $data['suitable_for']) ? 1 : 0;
+            $residence_permit = in_array('residence_permit', $data['suitable_for']) ? 1 : 0;
         }
 
         // Паркинг
-        $parking = "";
+        $parking = 0;
         if (isset($data['accessible_housing'])) {
-            $parking = in_array('parking_place', $data['accessible_housing']) ? 'Да' : 'Нет';
+            $parking = in_array('parking_place', $data['accessible_housing']) ? 1 : 0;
         }
 
         // Тип сделки
@@ -131,11 +131,11 @@ class ValidateDataService
         }
 
         // complex_or_not
-        $complex_or_not = 'Нет';
+        $complex_or_not = 0;
         if (isset($data['complex']['name'])) {
-            $complex_or_not = is_null($data['complex']['name']) ? 'Нет' : 'Да';
+            $complex_or_not = is_null($data['complex']['name']) ? 0 : 1;
         } else {
-            $complex_or_not = $data['seller_type'] == 'builder' ? 'Да' : 'Нет';
+            $complex_or_not = $data['seller_type'] == 'builder' ? 1 : 0;
         }
 
         $is_commercial = 0;

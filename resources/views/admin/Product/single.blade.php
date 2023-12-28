@@ -178,13 +178,8 @@
                                 <label class="col-sm-3 col-form-label">ВНЖ в подарок</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="vnj" style="color: #e2e8f0">
-                                        @if($get->vnj == 'Да')
-                                        <option value="Да">Да</option>
-                                        <option value="Нет">Нет</option>
-                                        @else
-                                            <option value="Нет">Нет</option>
-                                            <option value="Да">Да</option>
-                                        @endif
+                                        <option value="1" {{ $get->vnj == 1 ? 'selected' : ''}}>Да</option>
+                                        <option value="0" {{ $get->vnj == 0 ? 'selected' : ''}}>Нет</option>
                                     </select>
                                 </div>
                             </div>
@@ -198,13 +193,8 @@
                                 <label class="col-sm-3 col-form-label">Без комиссии</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="commissions" style="color: #e2e8f0">
-                                        @if($get->commissions == 'Да')
-                                        <option value="Да">Да</option>
-                                        <option value="Нет">Нет</option>
-                                            @else
-                                            <option value="Нет">Нет</option>
-                                            <option value="Да">Да</option>
-                                        @endif
+                                        <option value="1" {{ $get->commissions == 1 ? 'selected' : ''}}>Да</option>
+                                        <option value="0" {{ $get->commissions == 0 ? 'selected' : ''}}>Нет</option>
                                     </select>
                                 </div>
                             </div>
@@ -217,13 +207,8 @@
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="parking" style="color: #e2e8f0">
-                                        @if($get->parking == 'Да')
-                                        <option value="Да">Да</option>
-                                        <option value="Нет">Нет</option>
-                                            @else
-                                            <option value="Нет">Нет</option>
-                                            <option value="Да">Да</option>
-                                        @endif
+                                        <option value="1" {{ $get->parking == 1 ? 'selected' : ''}}>Да</option>
+                                        <option value="0" {{ $get->parking == 0 ? 'selected' : ''}}>Нет</option>
                                     </select>
                                 </div>
                             </div>
@@ -237,13 +222,8 @@
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
                                     <select class="form-control"  name="cryptocurrency" style="color: #e2e8f0">
-                                        @if($get->cryptocurrency == 'Да')
-                                        <option value="Да">Да</option>
-                                        <option value="Нет">Нет</option>
-                                            @else
-                                            <option value="Нет">Нет</option>
-                                            <option value="Да">Да</option>
-                                        @endif
+                                        <option value="1" {{ $get->cryptocurrency == 1 ? 'selected' : ''}}>Да</option>
+                                        <option value="0" {{ $get->cryptocurrency == 0 ? 'selected' : ''}}>Нет</option>
                                     </select>
                                 </div>
                             </div>
@@ -253,9 +233,9 @@
                                 <label class="col-sm-3 col-form-label">Гражданства за инвестиции
                                 </label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    <select class="form-control" name="grajandstvo" style="color: #e2e8f0">
-                                        <option value="Да">Да</option>
-                                        <option value="Нет">Нет</option>
+                                    <select class="form-control" name="citizenship" style="color: #e2e8f0">
+                                        <option value="1"{{ $get->citizenship == 1 ? 'selected' : ''}}>Да</option>
+                                        <option value="0"{{ $get->citizenship == 0 ? 'selected' : ''}}>Нет</option>
                                     </select>
                                 </div>
                             </div>
@@ -332,15 +312,15 @@
                             <div class="form-group row" bis_skin_checked="1">
                                 <label class="col-sm-3 col-form-label">Комплекс</label>
                                 <div class="col-sm-9" bis_skin_checked="1">
-                                    @if($get->complex_or_not == 'Нет' || is_null($get->complex_or_not))
+                                    @if($get->complex_or_not == 0 || is_null($get->complex_or_not))
                                     <select class="form-control objects_module_select" name="complex_or_not" style="color: #e2e8f0">
-                                        <option class="close_other_photo_button" value="Нет">Нет</option>
-                                        <option class="open_other_photo_button" value="Да">Да</option>
+                                        <option class="close_other_photo_button" value="0">Нет</option>
+                                        <option class="open_other_photo_button" value="1">Да</option>
                                     </select>
                                         @else
                                         <select class="form-control objects_module_select" name="complex_or_not" style="color: #e2e8f0">
-                                            <option class="open_other_photo_button" value="Да">Да</option>
-                                            <option class="close_other_photo_button" value="Нет">Нет</option>
+                                            <option class="open_other_photo_button" value="1">Да</option>
+                                            <option class="close_other_photo_button" value="0">Нет</option>
                                         </select>
                                     @endif
                                 </div>

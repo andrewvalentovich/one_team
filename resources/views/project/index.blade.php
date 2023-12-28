@@ -230,7 +230,6 @@
     </section>
     @endif
     <script>
-        searchBarGetParameters()
         //отправить запрос с фильтром по кнопке найти страница houses
         // if(document.querySelectorAll('.btn-filter-houses').length) {
         //     const btnFilterHouses = document.querySelectorAll('.btn-filter-houses')

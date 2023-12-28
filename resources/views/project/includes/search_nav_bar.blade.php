@@ -259,4 +259,5 @@
     // history.pushState(null,null, set_query); // подстановка параметров
     // searchBarGetParameters();
 
+    searchBarGetParameters();
 </script>

@@ -1013,7 +1013,7 @@ async function setNewPopupHouseData(object) {
 
     properties.forEach(item => {
         const element = document.querySelector(item.selector);
-        if (element && currentHouse[item.property] === 'Да') {
+        if (element && currentHouse[item.property] === 1) {
             element.style.display = 'flex';
         } else {
             element.style.display = 'none';

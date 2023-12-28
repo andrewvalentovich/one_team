@@ -33,7 +33,7 @@ class Product extends Model
         $query
             ->leftJoin('layouts', function ($join) {
                 $join->on('products.id', '=', 'layouts.complex_id')
-                    ->where('products.complex_or_not', 'Да')
+                    ->where('products.complex_or_not', 1)
                     ->addSelect(DB::raw('id, price, base_price, price_code, total_size'))
                     ->orderBy('layouts.base_price', 'asc');
             });
@@ -78,10 +78,10 @@ class Product extends Model
                     $query->where('layouts.base_price', '<=', $price['max']);
                 }
             }])
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
             ->with(['country' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
@@ -97,7 +97,7 @@ class Product extends Model
         $query
             ->leftJoin('layouts', function ($join) {
                 $join->on('products.id', '=', 'layouts.complex_id')
-                    ->where('products.complex_or_not', 'Да')
+                    ->where('products.complex_or_not', 1)
                     ->addSelect(DB::raw('id, price, base_price, price_code, total_size'))
                     ->orderBy('layouts.base_price', 'asc');
             });
@@ -129,7 +129,7 @@ class Product extends Model
         )
             ->groupBy('products.id')
             ->where(function ($query) {
-                $query->where('complex_or_not', 'Нет')
+                $query->where('complex_or_not', 0)
                     ->where(function ($query)  {
                         $query->where('products.base_price', '>', 0);
                     })
@@ -149,10 +149,10 @@ class Product extends Model
                     $query->where('layouts.base_price', '<=', $price['max']);
                 }
             }])
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
             ->with(['country' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
@@ -169,7 +169,7 @@ class Product extends Model
             ->whereId($id)
             ->leftJoin('layouts', function ($join) {
                 $join->on('products.id', '=', 'layouts.complex_id')
-                    ->where('products.complex_or_not', 'Да')
+                    ->where('products.complex_or_not', 1)
                     ->addSelect(DB::raw('id, price, base_price, price_code, total_size'))
                     ->orderBy('layouts.base_price', 'asc');
             });
@@ -185,7 +185,7 @@ class Product extends Model
         $query->select('products.*')
             ->groupBy('products.id')
             ->where(function ($query) {
-                $query->where('complex_or_not', 'Нет')
+                $query->where('complex_or_not', 0)
                     ->where(function ($query)  {
                         $query->where('products.base_price', '>', 0);
                     })
@@ -205,10 +205,81 @@ class Product extends Model
                     $query->where('layouts.base_price', '<=', $price['max']);
                 }
             }])
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
-            ->addSelect(DB::raw('(CASE WHEN complex_or_not = "Да" THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
+            ->with(['country' => function($query) {
+                $query->select('id', 'name', 'slug');
+            }])
+            ->with(['city' => function($query) {
+                $query->select('id', 'name', 'slug');
+            }]);
+
+        return $query;
+    }
+
+    public function scopeMap($query, $id, $price = null)
+    {
+        $query
+            ->leftJoin('layouts', function ($join) {
+                $join->on('products.id', '=', 'layouts.complex_id')
+                    ->where('products.complex_or_not', 1)
+                    ->addSelect(DB::raw('id, price, base_price, price_code, total_size'))
+                    ->orderBy('layouts.base_price', 'asc');
+            });
+
+        if (isset($price['min'])) {
+            $query->where('layouts.base_price', '>=', $price['min']);
+        }
+
+        if (isset($price['max'])) {
+            $query->where('layouts.base_price', '<=', $price['max']);
+        }
+
+        $query->select(
+            'products.id',
+            'products.name',
+            'products.city_id',
+            'products.country_id',
+            'products.price',
+            'products.base_price',
+            'products.price_code',
+            'products.size',
+            'products.lat',
+            'products.long',
+            'products.address',
+            'products.is_secondary',
+            'products.commissions',
+            'products.grajandstvo',
+            'products.created_at'
+        )
+            ->groupBy('products.id')
+            ->where(function ($query) {
+                $query->where('complex_or_not', 0)
+                    ->where(function ($query)  {
+                        $query->where('products.base_price', '>', 0);
+                    })
+                    ->orWhereHas('layouts');
+            })
+            ->with(['layouts' => function($query) use ($price) {
+                // Ограничиваем вывод, только те у которых цена соответствует
+                $query
+//                    ->select('id', 'price', 'base_price', 'price_code', 'total_size')
+                    ->with('photos')
+                    ->orderBy('layouts.base_price', 'asc');
+
+                if (isset($price['min'])) {
+                    $query->where('layouts.base_price', '>=', $price['min']);
+                }
+                if (isset($price['max'])) {
+                    $query->where('layouts.base_price', '<=', $price['max']);
+                }
+            }])
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.base_price)) ELSE products.base_price END) as min_price'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(layouts.total_size)) ELSE products.size END) as min_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(max(layouts.total_size)) ELSE products.size END) as max_size'))
+            ->addSelect(DB::raw('(CASE WHEN complex_or_not = 1 THEN any_value(min(products.base_price) / min(products.size)) ELSE products.base_price / products.size END) as price_size'))
             ->with(['country' => function($query) {
                 $query->select('id', 'name', 'slug');
             }])
