@@ -1602,8 +1602,8 @@ function P(e) {
                                         <div class="balloon-city" id="${mark.id}">
                                             <div class="balloon-city__text">
                                                 <div class="balloon-city__price" ${(window.locale == 'ar' || window.locale == 'fa') ? `style="text-align:right;direction: ltr"` : ``}>€ ${mark.price ? mark.price : ''}</div>
-                                                ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} ${spal}, ${mark.vanie} ${van}</div>` : ''}
-                                                ${mark.kv ? `<div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span>${mark.spalni ? ' ' + mark.spalni + ' спальни' : ''} <span>|</span>${mark.vanie ? ' ' + mark.vannie + ' ванна' : ''}</div>` : ''}
+                                                ${mark.spalni !== null && mark.vannie !== null ? `<div class="balloon-city__rooms">${mark.spalni} {{ __('спальни') }}, ${mark.vanie} {{ __('ванные') }}</div>` : ''}
+                                                ${mark.kv ? `<div class="balloon-city__rooms_m">${mark.kv} ${kvm} <span>|</span>${mark.spalni ? ' ' + mark.spalni + ' {{ __("спальни") }}' : ''} <span>|</span>${mark.vanie ? ' ' + mark.vanie + ' {{ __("ванные") }}' : ''}</div>` : ''}
                                                 ${mark.address ? `<div class="balloon-city__address">${mark.address} Balbey, 431. Sk. No:4, 07040 Muratpaşa</div>` : ''}
                                                 ${mark.kv ? `<div class="balloon-city__square">${mark.kv} ${kvm}</div>` : ''}
                                             </div>
