@@ -32,6 +32,9 @@
     <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        window.locale = '{{ app()->getLocale() }}';
+    </script>
 </head>
 <body>
 <div class="wrapper">
