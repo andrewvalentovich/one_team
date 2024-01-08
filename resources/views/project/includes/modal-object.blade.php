@@ -1160,10 +1160,10 @@ async function setNewPopupHouseData(object) {
     objects.forEach(object => {
         const div = document.createElement('div')
         div.classList.add('kompleks__sort-item')
-        div.innerHTML = object.number_rooms
-        div.setAttribute('data-cheme',object.number_rooms)
-        if(!chemesSet.has(object.number_rooms)) {
-            chemesSet.add(object.number_rooms)
+        div.innerHTML = object.name
+        div.setAttribute('data-cheme',object.name)
+        if(!chemesSet.has(object.name)) {
+            chemesSet.add(object.name)
             kompleksLayoutSort.appendChild(div)
         }
     });
@@ -1186,7 +1186,7 @@ async function setNewPopupHouseData(object) {
         objects.forEach((object, index) => {
             let divItem = document.createElement('div')
             divItem.classList.add('kompleks__layout-item')
-            divItem.setAttribute('data-cheme',object.number_rooms)
+            divItem.setAttribute('data-cheme',object.name)
 
             let divInfo = document.createElement('div')
             divInfo.classList.add('kompleks__layout-info')
@@ -1254,9 +1254,9 @@ async function setNewPopupHouseData(object) {
             if(window.locale === 'fa' || window.locale === 'ar') {
                 divSquare.style.textAlign = 'right';
                 divSquare.style.direction = 'ltr';
-                divSquare.innerHTML = `{{ __('кв.м') }} ${object.total_size} <span>|</span> ${object.number_rooms}`
+                divSquare.innerHTML = `{{ __('кв.м') }} ${object.total_size} <span>|</span> ${object.name}`
             } else {
-                divSquare.innerHTML = `${object.total_size} {{ __('кв.м') }} <span>|</span> ${object.number_rooms}`
+                divSquare.innerHTML = `${object.total_size} {{ __('кв.м') }} <span>|</span> ${object.name}`
             }
             divInfo.appendChild(divSquare)
 

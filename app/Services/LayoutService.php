@@ -23,7 +23,7 @@ class LayoutService
         // Получаем из массива коллекций только поле с типом планировки
         $layouts = [];
         foreach ($array as $key => $item) {
-            $layouts[] = $item->number_rooms;
+            $layouts[] = $item->name;
         }
 
         // Оставляем только уникальные планировки (1+2, 2+2 и т.д.)

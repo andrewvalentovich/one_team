@@ -8,11 +8,14 @@ use App\Models\CountryAndCity;
 use App\Models\Product;
 use App\Services\CurrencyService;
 use App\Services\GeocodingService;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class ValidateDataService
 {
     private $geocodingService;
     private $currencyService;
+    private $housingType;
 
     public function __construct(
         CurrencyService $currencyService,
@@ -21,14 +24,9 @@ class ValidateDataService
     {
         $this->currencyService = $currencyService;
         $this->geocodingService = $geocodingService;
+        $this->housingType = ['duplex', 'triplex', 'loft'];
     }
 
-    /**
-     * Validate all parameters for complex and return array with it (params)
-     *
-     * @param $data
-     * @return array
-     */
     public function handleComplex($data, $method_name = null) : array
     {
         // Id страны
@@ -168,6 +166,50 @@ class ValidateDataService
             'is_secondary'      => $data['seller_type'] == "builder" ? 0 : 1,
             'is_commercial'     => $is_commercial,
             'id_in_crm'         => $data['id']
+        ];
+    }
+
+    public function handleLayout($data, $complex_id) : array
+    {
+        $name = !is_null($data['layout_id']) ? $data['layout']['name'] : $data['name'];
+
+        // Проверка массива на наличие необходимых типов
+        $housing_type = null;
+        if (!empty($data['layout']['housing_type'])) {
+            foreach ($data['layout']['housing_type'] as $key => $value) {
+                foreach ($this->housingType as $type) {
+                    if (mb_stripos($value, $type) !== false) {
+                        $housing_type = $type;
+                        $name .= ' ' . $type;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        $base_price = null;
+        if (isset($data['price']) && !is_null($data['price']) && isset($data['price_currency'])) {
+            $base_price = $this->currencyService->convertPriceToEur($data['price'], $data['price_currency']);
+        }
+
+        return [
+            'building'          => !is_null($data['block_id']) ? $data['block']['name'] : null,
+            'name'              => $name,
+            'type'              => $data['type'] ?? null,
+            'base_price'        => $base_price,
+            'price'             => $data['price'] ?? null,
+            'price_code'        => $data['price_currency'] ?? null,
+            'total_size'        => $data['total_size'] ?? null,
+            'living_size'       => $data['living_size'] ?? null,
+            'number_rooms'      => $data['number_rooms'] ?? null,
+            'housing_type'      => $housing_type,
+            'floor'             => $data['floor_number'] ?? null,
+            'number_bedrooms'   => $data['number_bedrooms'] ?? null,
+            'number_bathrooms'  => $data['number_bathrooms'] ?? null,
+            'number_balconies'  => $data['number_balconies'] ?? null,
+            'complex_id'        => $complex_id ?? null,
+            'id_in_crm'         => $data['id'],
+            'layout_id_in_crm'  => $data['layout']['id']
         ];
     }
 }

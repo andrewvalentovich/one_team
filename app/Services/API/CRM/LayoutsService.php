@@ -27,6 +27,7 @@ class LayoutsService
     private $categoriesService;
     private $objectsService;
     private $currencyService;
+    private $validateDataService;
 
     public function __construct(
         PhotoCategoryService $photoCategoryService,
@@ -34,7 +35,8 @@ class LayoutsService
         ImageService $imageService,
         CategoriesService $categoriesService,
         ObjectsService $objectsService,
-        CurrencyService $currencyService
+        CurrencyService $currencyService,
+        ValidateDataService $validateDataService
     )
     {
         $this->previewImageService = $previewImageService;
@@ -43,6 +45,7 @@ class LayoutsService
         $this->categoriesService = $categoriesService;
         $this->objectsService = $objectsService;
         $this->currencyService = $currencyService;
+        $this->validateDataService = $validateDataService;
 
         // Получаем все id_in_crm, чтобы сравнить с id полученными из запроса
         $ids_in_crm_for_complexes = Product::withTrashed()->select('id_in_crm')->whereNotNull('id_in_crm')->get()->transform(function ($row) {
@@ -72,45 +75,26 @@ class LayoutsService
 
             if($guzzleResponse->getStatusCode() == 200) {
                 $response = json_decode($guzzleResponse->getBody(),true);
-//                $i = 0;
                 // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
                 foreach ($response as $index => $object) {
                     // Отсчитываем оступ
-//                    if ($offset > 0) {
-//                        // Если это не планировка - отступаем, иначе - нет
-//                        if (is_null($object['complex_id'])) {
-//                            $offset--;
-//                        }
-//                        continue;
-//                    } else {
-//                        if ($i < $count) {
-                            if (in_array($object['id'], $this->ids_in_crm_all)) {
-                                // Если нет поля complex_id - обновляем или удаляем объект
-                                if (is_null($object['complex_id'])) {
-                                    $this->objectsService->updateOrDelete($object);
-
-                                    // Считаем только объекты а не планировки
-//                                    $i++;
-                                } else {
-                                    // иначе - планировка
-                                    $this->updateOrDelete($object);
-                                }
-                            } else {
-                                // Если нет поля complex_id - создаём
-                                if (is_null($object['complex_id'])) {
-                                    $this->objectsService->create($object);
-
-                                    // Считаем только объекты а не планировки
-//                                    $i++;
-                                } else {
-                                    // иначе - планировка
-                                    $this->create($object);
-                                }
-                            }
-//                        } else {
-//                            break;
-//                        }
-//                    }
+                    if (in_array($object['id'], $this->ids_in_crm_all)) {
+                        // Если нет поля complex_id - обновляем или удаляем объект
+                        if (is_null($object['complex_id'])) {
+                            $this->objectsService->updateOrDelete($object);
+                        } else {
+                            // иначе - планировка
+                            $this->updateOrDelete($object);
+                        }
+                    } else {
+                        // Если нет поля complex_id - создаём
+                        if (is_null($object['complex_id'])) {
+                            $this->objectsService->create($object);
+                        } else {
+                            // иначе - планировка
+                            $this->create($object);
+                        }
+                    }
                 }
             }
         }
@@ -150,6 +134,7 @@ class LayoutsService
         $layoutPhotos = is_null($data['layout_id']) ? $data['photos'] : $data['layout']['photos'];
         // Получаем параметры для создания планировки
         $layoutParams = $this->validateData($data);
+
         // Если найден то возвращаем, иначе создаём, вместе с фотографиями
         $layout = Layout::withTrashed()->where('id_in_crm', $data['id'])->firstOr(function () use ($layoutParams, $layoutPhotos, $data) {
             $layout = Layout::create($layoutParams);
@@ -207,42 +192,12 @@ class LayoutsService
         return $layout;
     }
 
-    /**
-     * Validate all parameters for complex and return array with it (params)
-     *
-     * @param $data
-     * @return array
-     */
     private function validateData($data) : array
     {
-        $name = !is_null($data['layout_id']) ? $data['layout']['name'] : $data['name'];
-
         $complex = Product::withTrashed()->where('id_in_crm', $data['complex_id'])->firstOr(function ($data) {
             return $this->objectsService->create($data['complex']);
         });
 
-        $base_price = null;
-        if (isset($data['price']) && !is_null($data['price']) && isset($data['price_currency'])) {
-            $base_price = $this->currencyService->convertPriceToEur($data['price'], $data['price_currency']);
-        }
-
-        return [
-            'building'          => !is_null($data['block_id']) ? $data['block']['name'] : null,
-            'name'              => $name,
-            'type'              => $data['type'] ?? null,
-            'base_price'        => $base_price,
-            'price'             => $data['price'] ?? null,
-            'price_code'        => $data['price_currency'] ?? null,
-            'total_size'        => $data['total_size'] ?? null,
-            'living_size'       => $data['living_size'] ?? null,
-            'number_rooms'      => $data['number_rooms'] ?? null,
-            'floor'             => $data['floor_number'] ?? null,
-            'number_bedrooms'   => $data['number_bedrooms'] ?? null,
-            'number_bathrooms'  => $data['number_bathrooms'] ?? null,
-            'number_balconies'  => $data['number_balconies'] ?? null,
-            'complex_id'        => $complex->id ?? null,
-            'id_in_crm'         => $data['id'],
-            'layout_id_in_crm'  => $data['layout']['id']
-        ];
+        return $this->validateDataService->handleLayout($data, $complex->id);
     }
 }
