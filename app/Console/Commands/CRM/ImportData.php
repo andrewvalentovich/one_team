@@ -21,7 +21,7 @@ class ImportData extends Command
      *
      * @var string
      */
-    protected $signature = 'crm:import-data {offset?} {count?} {--no-complexes} {--no-objects}';
+    protected $signature = 'crm:import-data {--no-complexes} {--no-objects} {--update} {--layouts-only}';
 
     /**
      * The console command description.
@@ -81,13 +81,10 @@ class ImportData extends Command
      */
     public function handle()
     {
-        $offset = (int) $this->argument('offset');
-        $count = (int) $this->argument('count');
-
-        if (!$this->option('no-complexes')) {
+        if (!$this->option('no-complexes') && !$this->option('layouts-only')) {
             $this->info('Start handle complexes');
             Log::info('Start handle complexes');
-            $this->objectsService->handle($this->endpoint_objects, $this->token);
+            $this->objectsService->handle($this->endpoint_objects, $this->token, $this->option('update'));
             $this->info('Finish handle complexes');
             Log::info('Finish handle complexes');
         }
@@ -95,7 +92,7 @@ class ImportData extends Command
         if (!$this->option('no-objects')) {
             $this->info('Start handle object');
             Log::info('Start handle object');
-            $this->layoutsService->handle($this->endpoint_layouts, $this->token, $offset, $count);
+            $this->layoutsService->handle($this->endpoint_layouts, $this->token, $this->option('update'), $this->option('layouts-only'));
             $this->info('Finish handle object');
             Log::info('Finish handle object');
         }

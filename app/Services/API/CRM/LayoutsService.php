@@ -59,7 +59,7 @@ class LayoutsService
         unset($ids_in_crm_for_layouts, $ids_in_crm_for_complexes);
     }
 
-    public function handle($endpoint, $token, $offset, $count)
+    public function handle($endpoint, $token, $update, $only_layouts)
     {
         try {
             $client = new \GuzzleHttp\Client(['headers' => [
@@ -81,15 +81,19 @@ class LayoutsService
                     if (in_array($object['id'], $this->ids_in_crm_all)) {
                         // Если нет поля complex_id - обновляем или удаляем объект
                         if (is_null($object['complex_id'])) {
-                            $this->objectsService->updateOrDelete($object);
+                            if (!$only_layouts) {
+                                $this->objectsService->updateOrDelete($object, $update);
+                            }
                         } else {
                             // иначе - планировка
-                            $this->updateOrDelete($object);
+                            $this->updateOrDelete($object, $update);
                         }
                     } else {
                         // Если нет поля complex_id - создаём
                         if (is_null($object['complex_id'])) {
-                            $this->objectsService->create($object);
+                            if (!$only_layouts) {
+                                $this->objectsService->create($object);
+                            }
                         } else {
                             // иначе - планировка
                             $this->create($object);
@@ -111,15 +115,19 @@ class LayoutsService
         }
     }
 
-    private function updateOrDelete($data)
+    private function updateOrDelete($data, $update)
     {
         $updated_at = $data['updated_at'];
 
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
             // Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-            if (strtotime('now') - strtotime($updated_at) <= 7200) {
+            if ($update) {
                 $this->update($data);
+            } else {
+                if (strtotime('now') - strtotime($updated_at) <= 7200) {
+                    $this->update($data);
+                }
             }
         } else {
             $layout = Layout::where('id_in_crm', $data['id'])->firts();

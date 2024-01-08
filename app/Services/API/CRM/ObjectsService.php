@@ -59,7 +59,7 @@ class ObjectsService
         })->toArray();
     }
 
-    public function handle($endpoint, $token)
+    public function handle($endpoint, $token, $update)
     {
         try {
             $client = new \GuzzleHttp\Client(['headers' => [
@@ -77,7 +77,7 @@ class ObjectsService
                 // Если комплекс с текущим id существует в бд, обновляем или удаляем, иначе создаём
                 foreach ($response as $index => $complex) {
                     if (in_array($complex['id'], $this->ids_in_crm_for_complexes)) {
-                        $this->updateOrDelete($complex);
+                        $this->updateOrDelete($complex, $update);
                     } else {
                         $this->create($complex);
                     }
@@ -97,15 +97,20 @@ class ObjectsService
         }
     }
 
-    public function updateOrDelete($data)
+    public function updateOrDelete($data, $update)
     {
         $updated_at = $data['updated_at'];
         // Если не удалён объект
         if ($data['deleted_at'] === null) {
 //             Если время с момента обновления прошло больше чем 86400 секунд, т.е. 1 день
-            if (strtotime('now') - strtotime($updated_at) <= 7200) {
+            if ($update) {
                 $this->update($data);
+            } else {
+                if (strtotime('now') - strtotime($updated_at) <= 7200) {
+                    $this->update($data);
+                }
             }
+
         } else {
             $complex = Product::withTrashed()->where('id_in_crm', $data['id'])->firts();
             dump('Delete product - id: ' . $complex->id);

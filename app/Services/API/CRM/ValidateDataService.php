@@ -171,7 +171,7 @@ class ValidateDataService
 
     public function handleLayout($data, $complex_id) : array
     {
-        $name = !is_null($data['layout_id']) ? $data['layout']['name'] : $data['name'];
+        $name = $data['number_rooms'] ? $data['number_rooms'] : $data['name'];
 
         // Проверка массива на наличие необходимых типов
         $housing_type = null;
